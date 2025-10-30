@@ -2,7 +2,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
-import { listerPorteursRecipients } from '../../../../helpers';
+import { listerPorteursRecipients } from '../../../../_helpers';
 import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceAccordéNotificationProps = {

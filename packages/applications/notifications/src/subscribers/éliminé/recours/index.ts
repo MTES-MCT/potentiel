@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getBaseUrl, getCandidature } from '../../../helpers';
+import { getBaseUrl, getCandidature } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { recoursAccordéNotification } from './recoursAccordé.notifications';

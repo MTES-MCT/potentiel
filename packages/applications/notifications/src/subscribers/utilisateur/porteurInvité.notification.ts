@@ -3,7 +3,7 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature } from '../../helpers';
+import { getBaseUrl, getCandidature } from '../../_helpers';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },

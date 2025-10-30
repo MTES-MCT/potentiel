@@ -10,7 +10,7 @@ import {
   getLauréat,
   listerDrealsRecipients,
   listerPorteursRecipients,
-} from '../../helpers';
+} from '../../_helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event;

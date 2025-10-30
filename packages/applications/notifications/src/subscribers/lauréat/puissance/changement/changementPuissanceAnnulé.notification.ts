@@ -2,7 +2,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
-import { listerDgecRecipients, listerDrealsRecipients } from '../../../../helpers';
+import { listerDgecRecipients, listerDrealsRecipients } from '../../../../_helpers';
 import { Recipient } from '../../../../sendEmail';
 import { puissanceNotificationTemplateId } from '../constant';
 

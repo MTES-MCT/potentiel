@@ -1,8 +1,8 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../helpers';
-import { listerRecipientsAutoritéInstructrice } from '../../../helpers/listerRecipientsAutoritéInstructrice';
+import { getBaseUrl, listerPorteursRecipients } from '../../../_helpers';
+import { listerRecipientsAutoritéInstructrice } from '../../../_helpers/listerRecipientsAutoritéInstructrice';
 
 import { abandonNotificationTemplateId } from './constant';
 import { AbandonNotificationsProps } from './type';

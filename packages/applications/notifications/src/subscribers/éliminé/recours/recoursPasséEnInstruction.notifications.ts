@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../helpers';
+import { getBaseUrl, listerPorteursRecipients } from '../../../_helpers';
 
 import { recoursNotificationTemplateId } from './constant';
 import { RecoursNotificationsProps } from './type';

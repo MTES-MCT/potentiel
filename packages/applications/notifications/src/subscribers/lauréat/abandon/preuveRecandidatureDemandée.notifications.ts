@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, getBaseUrl } from '../../../helpers';
+import { listerPorteursRecipients, getBaseUrl } from '../../../_helpers';
 
 import { AbandonNotificationsProps } from './type';
 import { abandonNotificationTemplateId } from './constant';

@@ -2,7 +2,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '../../../helpers';
+import { listerPorteursRecipients } from '../../../_helpers';
 
 import { RegisterDélaiNotificationDependencies } from '.';
 
