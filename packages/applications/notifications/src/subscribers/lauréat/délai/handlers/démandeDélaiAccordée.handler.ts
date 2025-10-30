@@ -1,23 +1,15 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../_helpers';
+import { listerPorteursRecipients } from '../../../../_helpers';
+import { délaiNotificationTemplateId } from '../constant';
+import { DélaiNotificationsProps } from '../type';
 
-import { RegisterDélaiNotificationDependencies } from '.';
-
-import { délaiNotificationTemplateId } from './constant';
-
-type DemandeDélaiAccordéeNotificationProps = {
-  sendEmail: RegisterDélaiNotificationDependencies['sendEmail'];
-  event: Lauréat.Délai.DélaiAccordéEvent;
-  projet: { nom: string; département: string; url: string };
-};
-
-export const demandeDélaiAccordéeNotification = async ({
+export const handleDemandeDélaiAccordée = async ({
   sendEmail,
   event,
   projet,
-}: DemandeDélaiAccordéeNotificationProps) => {
+}: DélaiNotificationsProps<Lauréat.Délai.DélaiAccordéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 

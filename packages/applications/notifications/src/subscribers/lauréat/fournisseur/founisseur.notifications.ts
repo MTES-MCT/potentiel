@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -7,9 +7,11 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../_helpers';
 
-import { changementFournisseurEnregistréNotifications } from './changementFournisseurEnregistré.notifications';
-import { évaluationCarboneSimplifiéeModifiéeNotifications } from './évaluationCarboneSimplifiéeModifiée.notifications';
-import { fournisseurModifiéNotifications } from './fournisseurModifié.notifications';
+import {
+  handleChangementFournisseurEnregistré,
+  handleFournisseurModifié,
+  handleÉvaluationCarboneSimplifiéeModifiée,
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
@@ -28,15 +30,21 @@ export const register = ({ sendEmail }: RegisterFournisseurNotificationDependenc
 
     return match(event)
       .with({ type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' }, async (event) =>
-        évaluationCarboneSimplifiéeModifiéeNotifications({ sendEmail, event, projet }),
+        handleÉvaluationCarboneSimplifiéeModifiée({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementFournisseurEnregistré-V1' }, async (event) =>
-        changementFournisseurEnregistréNotifications({ sendEmail, event, projet }),
+        handleChangementFournisseurEnregistré({ sendEmail, event, projet }),
       )
       .with({ type: 'FournisseurModifié-V1' }, async (event) =>
-        fournisseurModifiéNotifications({ sendEmail, event, projet }),
+        handleFournisseurModifié({ sendEmail, event, projet }),
       )
-      .otherwise(() => Promise.resolve());
+      .with(
+        {
+          type: P.union('FournisseurImporté-V1'),
+        },
+        () => Promise.resolve(),
+      )
+      .exhaustive();
   };
 
   mediator.register('System.Notification.Lauréat.Fournisseur', handler);

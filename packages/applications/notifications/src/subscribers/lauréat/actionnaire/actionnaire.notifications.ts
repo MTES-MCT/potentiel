@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getLauréat } from '../../../_helpers';
+import { getBaseUrl, getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import {
@@ -44,6 +44,7 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
           sendEmail,
           event,
           projet,
+          baseUrl: getBaseUrl(),
         }),
       )
       .with({ type: 'ChangementActionnaireAccordé-V1' }, async (event) =>

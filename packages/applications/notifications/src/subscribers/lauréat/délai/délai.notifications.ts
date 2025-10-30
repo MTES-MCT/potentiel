@@ -9,12 +9,14 @@ import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../_helpers';
 import { getBaseUrl } from '../../../_helpers';
 
-import { demandeDélaiRejetéeNotification } from './demandeDélaiRejetée.notification';
-import { délaiDemandéNotification } from './délaiDemandé.notification';
-import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
-import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
-import { demandeDélaiAccordéeNotification } from './démandeDélaiAccordée.notification';
-import { demandeDélaiCorrigéeNotification } from './demandeDélaiCorrigée.notification';
+import {
+  handleDemandeDélaiAccordée,
+  handleDemandeDélaiAnnulée,
+  handleDemandeDélaiCorrigée,
+  handleDemandeDélaiPasséeEnInstruction,
+  handleDemandeDélaiRejetée,
+  handleDélaiDemandé,
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 
@@ -35,16 +37,16 @@ export const registerDélaiNotifications = ({
 
     return match(event)
       .with({ type: 'DélaiDemandé-V1' }, async (event) =>
-        délaiDemandéNotification({ sendEmail, event, projet, baseUrl }),
+        handleDélaiDemandé({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'DemandeDélaiAnnulée-V1' }, async (event) =>
-        demandeDélaiAnnuléeNotification({ sendEmail, event, projet }),
+        handleDemandeDélaiAnnulée({ sendEmail, event, projet }),
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, async (event) =>
-        demandeDélaiRejetéeNotification({ sendEmail, event, projet }),
+        handleDemandeDélaiRejetée({ sendEmail, event, projet }),
       )
       .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, async (event) =>
-        demandeDélaiPasséeEnInstructionNotification({
+        handleDemandeDélaiPasséeEnInstruction({
           sendEmail,
           event,
           projet,
@@ -52,10 +54,10 @@ export const registerDélaiNotifications = ({
         }),
       )
       .with({ type: 'DélaiAccordé-V1' }, async (event) =>
-        demandeDélaiAccordéeNotification({ sendEmail, event, projet }),
+        handleDemandeDélaiAccordée({ sendEmail, event, projet }),
       )
       .with({ type: 'DemandeDélaiCorrigée-V1' }, async (event) =>
-        demandeDélaiCorrigéeNotification({ sendEmail, event, projet, baseUrl }),
+        handleDemandeDélaiCorrigée({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
       .exhaustive();
