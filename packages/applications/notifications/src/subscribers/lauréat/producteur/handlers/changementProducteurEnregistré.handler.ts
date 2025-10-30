@@ -2,29 +2,16 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../_helpers';
+import { listerDrealsRecipients } from '../../../../_helpers';
+import { producteurNotificationTemplateId } from '../constant';
+import { ProducteurNotificationsProps } from '../type';
 
-import { RegisterProducteurNotificationDependencies } from '.';
-
-import { producteurNotificationTemplateId } from './constant';
-
-type ChangementProducteurEnregistréNotificationProps = {
-  sendEmail: RegisterProducteurNotificationDependencies['sendEmail'];
-  event: Lauréat.Producteur.ChangementProducteurEnregistréEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
-
-export const changementProducteurEnregistréNotification = async ({
+export const handleChangementProducteurEnregistré = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementProducteurEnregistréNotificationProps) => {
+}: ProducteurNotificationsProps<Lauréat.Producteur.ChangementProducteurEnregistréEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 

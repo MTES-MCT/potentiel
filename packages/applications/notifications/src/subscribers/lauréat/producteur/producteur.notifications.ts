@@ -7,8 +7,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getBaseUrl, getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { changementProducteurEnregistréNotification } from './changementProducteurEnregistré.notification';
-import { producteurModifiéNotification } from './producteurModifié.notification';
+import { handleChangementProducteurEnregistré, handleProducteurModifié } from './handlers';
 
 export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent & Event;
 
@@ -30,14 +29,14 @@ export const register = ({ sendEmail }: RegisterProducteurNotificationDependenci
 
     return match(event)
       .with({ type: 'ProducteurModifié-V1' }, async (event) =>
-        producteurModifiéNotification({
+        handleProducteurModifié({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'ChangementProducteurEnregistré-V1' }, async (event) =>
-        changementProducteurEnregistréNotification({
+        handleChangementProducteurEnregistré({
           sendEmail,
           event,
           projet,

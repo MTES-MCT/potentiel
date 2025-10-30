@@ -9,12 +9,14 @@ import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../_helpers';
 import { getBaseUrl } from '../../../_helpers';
 
-import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
-import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
-import { changementPuissanceAnnuléNotification } from './changement/changementPuissanceAnnulé.notification';
-import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
-import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
-import { changementPuissanceEnregistréNotification } from './changement/changementPuissanceEnregistré.notification';
+import {
+  handleChangementPuissanceAccordé,
+  handleChangementPuissanceAnnulé,
+  handleChangementPuissanceDemandé,
+  handleChangementPuissanceEnregistré,
+  handleChangementPuissanceRejeté,
+  handlePuissanceModifiée,
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
 
@@ -35,21 +37,21 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
 
     return match(event)
       .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
-        puissanceModifiéeNotification({
+        handlePuissanceModifiée({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
-        changementPuissanceEnregistréNotification({
+        handleChangementPuissanceEnregistré({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
-        changementPuissanceDemandéNotification({
+        handleChangementPuissanceDemandé({
           sendEmail,
           event,
           projet,
@@ -57,21 +59,21 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         }),
       )
       .with({ type: 'ChangementPuissanceAnnulé-V1' }, async (event) =>
-        changementPuissanceAnnuléNotification({
+        handleChangementPuissanceAnnulé({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
-        changementPuissanceAccordéNotification({
+        handleChangementPuissanceAccordé({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
-        changementPuissanceRejetéNotification({
+        handleChangementPuissanceRejeté({
           sendEmail,
           event,
           projet,

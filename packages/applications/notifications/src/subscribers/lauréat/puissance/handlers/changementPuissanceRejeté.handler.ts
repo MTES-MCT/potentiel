@@ -1,25 +1,15 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { RegisterPuissanceNotificationDependencies } from '..';
 import { listerPorteursRecipients } from '../../../../_helpers';
 import { puissanceNotificationTemplateId } from '../constant';
+import { PuissanceNotificationsProps } from '../type';
 
-type ChangementPuissanceRejetéNotificationProps = {
-  sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Lauréat.Puissance.ChangementPuissanceRejetéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    url: string;
-  };
-};
-
-export const changementPuissanceRejetéNotification = async ({
+export const handleChangementPuissanceRejeté = async ({
   sendEmail,
   event,
   projet,
-}: ChangementPuissanceRejetéNotificationProps) => {
+}: PuissanceNotificationsProps<Lauréat.Puissance.ChangementPuissanceRejetéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
