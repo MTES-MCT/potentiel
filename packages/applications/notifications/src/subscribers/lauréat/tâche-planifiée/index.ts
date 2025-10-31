@@ -8,10 +8,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { getBaseUrl, getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières';
-import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal';
-import { tâchePlanifiéeRaccordementNotifications } from './raccordement';
-import { relanceÉchéanceAchèvementNotification } from './achèvement/relanceÉchéanceAchèvement.notification';
+import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications';
+import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal/tâche-planifiée.représentantLégal.notifications';
+import { tâchePlanifiéeRaccordementNotifications } from './raccordement/tâche-planifiée.raccordement.notifications';
+import { relanceÉchéanceAchèvementNotification } from './achèvement/handlers/relanceÉchéanceAchèvement.handler';
 
 type TypeTâchePlanifiée =
   | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType

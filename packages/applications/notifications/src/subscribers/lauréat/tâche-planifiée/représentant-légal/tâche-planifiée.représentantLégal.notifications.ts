@@ -4,7 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../../sendEmail';
 
-import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
+import { handleReprésentantLégalRappelInstructionÀDeuxMois } from './handlers';
 
 type TâchePlanifiéeExecutéeReprésentantLégalEventPayload = {
   typeTâchePlanifiée: Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
@@ -27,7 +27,7 @@ export const tâchePlanifiéeReprésentantLégalNotifications = (
 ) => {
   return match(props.payload)
     .with({ typeTâchePlanifiée: 'représentant-légal.rappel-instruction-à-deux-mois' }, () =>
-      représentantLégalRappelInstructionÀDeuxMoisNotification(props),
+      handleReprésentantLégalRappelInstructionÀDeuxMois(props),
     )
     .with({ typeTâchePlanifiée: 'représentant-légal.gestion-automatique-demande-changement' }, () =>
       Promise.resolve(),

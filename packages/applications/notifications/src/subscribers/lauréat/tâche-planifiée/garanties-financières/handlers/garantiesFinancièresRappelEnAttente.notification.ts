@@ -1,11 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../../_helpers';
+import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications';
 
-import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '.';
-
-export const garantiesFinancièresRappelEnAttenteNotification = async ({
+export const handleGarantiesFinancièresRappelEnAttente = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, région, département },
@@ -19,7 +18,7 @@ export const garantiesFinancièresRappelEnAttenteNotification = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'garantiesFinancièresRappelEnAttenteNotification',
+      fonction: 'handleGarantiesFinancièresRappelEnAttente',
     });
   } else {
     await sendEmail({
@@ -38,7 +37,7 @@ export const garantiesFinancièresRappelEnAttenteNotification = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'garantiesFinancièresRappelEnAttenteNotification',
+      fonction: 'handleGarantiesFinancièresRappelEnAttente',
     });
   } else {
     await sendEmail({

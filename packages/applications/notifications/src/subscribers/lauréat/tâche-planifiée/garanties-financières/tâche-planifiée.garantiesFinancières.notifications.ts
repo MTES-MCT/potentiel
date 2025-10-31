@@ -4,8 +4,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../../sendEmail';
 
-import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
-import { garantiesFinancièresRappelEnAttenteNotification } from './garantiesFinancièresRappelEnAttente.notification';
+import {
+  handleGarantiesFinancièresRappelEnAttente,
+  handleGarantiesFinancièresRappelÉchéance,
+} from './handlers';
 
 type TâchePlanifiéeExecutéeGarantiesFinancièresEventPayload = {
   typeTâchePlanifiée: Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType;
@@ -25,20 +27,19 @@ export type TâchePlanifiéeGarantiesFinancièresNotificationProps = {
 
 export const tâchePlanifiéeGarantiesFinancièresNotifications = (
   props: TâchePlanifiéeGarantiesFinancièresNotificationProps,
-) => {
-  return match(props.payload)
+) =>
+  match(props.payload)
     .with({ typeTâchePlanifiée: 'garanties-financières.rappel-échéance-un-mois' }, () =>
-      garantiesFinancièresRappelÉchéanceNotification({ ...props, nombreDeMois: 1 }),
+      handleGarantiesFinancièresRappelÉchéance({ ...props, nombreDeMois: 1 }),
     )
     .with({ typeTâchePlanifiée: 'garanties-financières.rappel-échéance-deux-mois' }, () =>
-      garantiesFinancièresRappelÉchéanceNotification({ ...props, nombreDeMois: 2 }),
+      handleGarantiesFinancièresRappelÉchéance({ ...props, nombreDeMois: 2 }),
     )
     .with({ typeTâchePlanifiée: 'garanties-financières.rappel-échéance-trois-mois' }, () =>
-      garantiesFinancièresRappelÉchéanceNotification({ ...props, nombreDeMois: 3 }),
+      handleGarantiesFinancièresRappelÉchéance({ ...props, nombreDeMois: 3 }),
     )
     .with({ typeTâchePlanifiée: 'garanties-financières.rappel-en-attente' }, () =>
-      garantiesFinancièresRappelEnAttenteNotification(props),
+      handleGarantiesFinancièresRappelEnAttente(props),
     )
     .with({ typeTâchePlanifiée: 'garanties-financières.échoir' }, () => Promise.resolve())
     .exhaustive();
-};
