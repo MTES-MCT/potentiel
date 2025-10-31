@@ -5,12 +5,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../../_helpers';
-import { getCahierDesChargesLauréat } from '../../../../_helpers/getCahierDesChargesLauréat';
+import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications';
+import { listerDrealsRecipients, getCahierDesChargesLauréat } from '../../../../../_helpers';
 
-import { TâchePlanifiéeReprésentantLégalNotificationProps } from '.';
-
-export const représentantLégalRappelInstructionÀDeuxMoisNotification = async ({
+export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, région, département },
@@ -38,7 +36,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'représentantLégalRappelInstructionÀDeuxMoisNotification',
+      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
     });
     return;
   }

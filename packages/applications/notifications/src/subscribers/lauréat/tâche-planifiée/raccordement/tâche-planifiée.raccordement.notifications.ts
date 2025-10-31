@@ -4,7 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../../sendEmail';
 
-import { demandeComplèteRaccordementAttendueRelanceNotification } from './demandeComplèteRaccordementAttendueRelance.notification';
+import { handleDemandeComplèteRaccordementAttendueRelance } from './handlers';
 
 type TâchePlanifiéeExecutéeRaccordementEventPayload = {
   typeTâchePlanifiée: Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.RawType;
@@ -30,7 +30,7 @@ export const tâchePlanifiéeRaccordementNotifications = (
       {
         typeTâchePlanifiée: 'demande-complète-raccordement.relance',
       },
-      () => demandeComplèteRaccordementAttendueRelanceNotification(props),
+      () => handleDemandeComplèteRaccordementAttendueRelance(props),
     )
     .exhaustive();
 };

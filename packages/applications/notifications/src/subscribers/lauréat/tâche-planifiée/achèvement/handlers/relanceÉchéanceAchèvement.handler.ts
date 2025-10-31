@@ -2,11 +2,10 @@ import { match } from 'ts-pattern';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../../_helpers';
+import { TâchePlanifiéeAchèvementNotificationProps } from '../tâche-planifiée.achèvement.notifications';
 
-import { TâchePlanifiéeAchèvementNotificationProps } from '.';
-
-export const relanceÉchéanceAchèvementNotification = async ({
+export const handleRelanceÉchéanceAchèvement = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, département, région, url },

@@ -4,7 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../../sendEmail';
 
-import { relanceÉchéanceAchèvementNotification } from './relanceÉchéanceAchèvement.notification';
+import { handleRelanceÉchéanceAchèvement } from './handlers/';
 
 type TâchePlanifiéeExecutéeAchèvementEventPayload = {
   typeTâchePlanifiée: Lauréat.Achèvement.TypeTâchePlanifiéeAchèvement.RawType;
@@ -24,8 +24,8 @@ export type TâchePlanifiéeAchèvementNotificationProps = {
 
 export const tâchePlanifiéeAchèvementNotifications = (
   props: TâchePlanifiéeAchèvementNotificationProps,
-) => {
-  return match(props.payload)
+) =>
+  match(props.payload)
     .with(
       {
         typeTâchePlanifiée: P.union(
@@ -34,7 +34,6 @@ export const tâchePlanifiéeAchèvementNotifications = (
           'achèvement.rappel-échéance-un-mois',
         ),
       },
-      () => relanceÉchéanceAchèvementNotification(props),
+      () => handleRelanceÉchéanceAchèvement(props),
     )
     .exhaustive();
-};
