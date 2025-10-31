@@ -21,6 +21,19 @@ export class PuissanceWorld {
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
+  mapExempleToFixtureValues(exemple: Record<string, string>, candidatureValue: number) {
+    return {
+      ratioPuissance:
+        exemple['puissance'] !== undefined
+          ? Number(exemple['puissance']) / candidatureValue
+          : Number(exemple['ratio puissance']),
+      puissanceDeSite:
+        Number(exemple['puissance de site']) || exemple['puissance de site']
+          ? Number(exemple['puissance de site'])
+          : undefined,
+    };
+  }
+
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     puissanceInitiale: number,
@@ -30,14 +43,16 @@ export class PuissanceWorld {
     const expected: Lauréat.Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
       puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
-        ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.ratio *
+        ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.ratioPuissance *
           puissanceInitiale
         : this.#modifierPuissanceFixture.aÉtéCréé
           ? this.#modifierPuissanceFixture.puissance
           : puissanceInitiale,
-      puissanceDeSite: this.#modifierPuissanceFixture.aÉtéCréé
-        ? this.#modifierPuissanceFixture.puissanceDeSite
-        : puissanceDeSiteInitiale,
+      puissanceDeSite: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
+        ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.puissanceDeSite
+        : this.#modifierPuissanceFixture.aÉtéCréé
+          ? this.#modifierPuissanceFixture.puissanceDeSite
+          : puissanceDeSiteInitiale,
       puissanceInitiale,
       unitéPuissance,
     };

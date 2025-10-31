@@ -8,6 +8,7 @@ export type ChangementPuissanceDemandéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     puissance: number;
+    puissanceDeSite?: number;
     autoritéCompétente: AutoritéCompétente.RawType;
     raison: string;
     demandéLe: DateTime.RawType;

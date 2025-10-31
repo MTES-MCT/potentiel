@@ -10,7 +10,8 @@ export type DemanderChangementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    nouvellePuissance: number;
+    puissance: number;
+    puissanceDeSite?: number;
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
@@ -24,14 +25,16 @@ export const registerDemanderChangementPuissanceCommand = (
     identifiantProjet,
     pièceJustificative,
     raison,
-    nouvellePuissance,
+    puissance,
+    puissanceDeSite,
     identifiantUtilisateur,
     dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.puissance.demanderChangement({
-      nouvellePuissance,
+      puissance,
+      puissanceDeSite,
       pièceJustificative,
       raison,
       identifiantUtilisateur,

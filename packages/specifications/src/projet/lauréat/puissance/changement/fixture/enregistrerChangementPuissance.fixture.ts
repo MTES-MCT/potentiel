@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
@@ -8,7 +10,8 @@ interface EnregistrerChangementPuissance {
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
-  readonly ratio: number;
+  readonly ratioPuissance: number;
+  readonly puissanceDeSite: number | undefined;
 }
 
 export class EnregistrerChangementPuissanceFixture
@@ -43,15 +46,23 @@ export class EnregistrerChangementPuissanceFixture
     return this.#raison;
   }
 
-  #ratio!: number;
+  #ratioPuissance!: number;
 
-  get ratio(): number {
-    return this.#ratio;
+  get ratioPuissance(): number {
+    return this.#ratioPuissance;
+  }
+
+  #puissanceDeSite?: number;
+
+  get puissanceDeSite(): number | undefined {
+    return this.#puissanceDeSite;
   }
 
   créer(
-    partialData?: Partial<EnregistrerChangementPuissance>,
+    partialData?: Partial<EnregistrerChangementPuissance> & { appelOffres?: string },
   ): Readonly<EnregistrerChangementPuissance> {
+    const aoData = appelsOffreData.find((x) => x.id === partialData?.appelOffres);
+
     const content = faker.word.words();
 
     const fixture: EnregistrerChangementPuissance = {
@@ -62,7 +73,11 @@ export class EnregistrerChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      ratio: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
+      ratioPuissance: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
+      puissanceDeSite:
+        aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+          ? faker.number.int({ min: 1, max: 100 })
+          : undefined,
       ...partialData,
     };
 
@@ -71,7 +86,8 @@ export class EnregistrerChangementPuissanceFixture
     this.#raison = fixture.raison;
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
-    this.#ratio = fixture.ratio;
+    this.#ratioPuissance = fixture.ratioPuissance;
+    this.#puissanceDeSite = fixture.puissanceDeSite;
 
     this.aÉtéCréé = true;
     return fixture;

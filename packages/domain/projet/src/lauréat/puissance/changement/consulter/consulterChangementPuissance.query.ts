@@ -15,6 +15,7 @@ export type ConsulterChangementPuissanceReadModel = {
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
     nouvellePuissance: number;
+    nouvellePuissanceDeSite?: number;
     statut: StatutChangementPuissance.ValueType;
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
@@ -75,6 +76,7 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
       demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
       demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
       nouvellePuissance: result.demande.nouvellePuissance,
+      nouvellePuissanceDeSite: result.demande.nouvellePuissanceDeSite,
       statut,
       raison: result.demande.raison,
       pièceJustificative: result.demande.pièceJustificative

@@ -8,6 +8,7 @@ export type ChangementPuissanceAccordéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     nouvellePuissance: number;
+    nouvellePuissanceDeSite?: number;
     accordéLe: DateTime.RawType;
     accordéPar: Email.RawType;
     réponseSignée?: {

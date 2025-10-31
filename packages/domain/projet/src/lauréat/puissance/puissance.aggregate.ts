@@ -49,6 +49,7 @@ export class PuissanceAggregate extends AbstractAggregate<
   #demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
+    nouvellePuissanceDeSite?: number;
     autoritéCompétente?: AutoritéCompétente.RawType;
   };
 
@@ -94,39 +95,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     raison,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-
-    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
-      if (puissanceDeSite !== undefined) {
-        throw new PuissanceDeSiteNonAttendueError();
-      }
-      if (this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
-      }
-    }
-
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
-      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
-      }
-    }
-
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
-      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
-      }
-
-      if (puissanceDeSite === undefined && this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
-      }
-    }
-
-    if (puissance !== undefined && puissance <= 0) {
-      throw new PuissanceNulleOuNégativeError();
-    }
-
-    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
-      throw new PuissanceDeSiteNulleOuNégativeError();
-    }
+    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
@@ -148,29 +117,22 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   async enregistrerChangement({
-    nouvellePuissance,
+    puissance,
+    puissanceDeSite,
     dateChangement,
     identifiantUtilisateur,
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
-
-    if (this.#puissance === nouvellePuissance) {
-      throw new PuissanceIdentiqueError();
-    }
-
-    if (this.#demande) {
-      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutChangementPuissance.informationEnregistrée,
-      );
-    }
+    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
+    this.vérifierChangementPossible('information-enregistrée', puissance);
 
     const event: ChangementPuissanceEnregistréEvent = {
       type: 'ChangementPuissanceEnregistré-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        puissance: nouvellePuissance,
+        puissance,
+        puissanceDeSite,
         enregistréLe: dateChangement.formatter(),
         enregistréPar: identifiantUtilisateur.formatter(),
         raison,
@@ -183,32 +145,21 @@ export class PuissanceAggregate extends AbstractAggregate<
 
   async demanderChangement({
     identifiantUtilisateur,
-    nouvellePuissance,
+    puissance,
+    puissanceDeSite,
     dateDemande,
     pièceJustificative,
     raison,
   }: DemanderOptions) {
-    this.vérifierChangementPossible('demande', nouvellePuissance);
-
-    if (this.#puissance === nouvellePuissance) {
-      throw new PuissanceIdentiqueError();
-    }
-
-    if (nouvellePuissance <= 0) {
-      throw new PuissanceNulleOuNégativeError();
-    }
-
-    if (this.#demande) {
-      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutChangementPuissance.demandé,
-      );
-    }
+    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
+    this.vérifierChangementPossible('demande', puissance);
 
     const event: ChangementPuissanceDemandéEvent = {
       type: 'ChangementPuissanceDemandé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        puissance: nouvellePuissance,
+        puissance,
+        puissanceDeSite,
         autoritéCompétente: AutoritéCompétente.déterminer().autoritéCompétente,
         pièceJustificative: {
           format: pièceJustificative.format,
@@ -272,6 +223,7 @@ export class PuissanceAggregate extends AbstractAggregate<
           format: réponseSignée.format,
         },
         nouvellePuissance: this.#demande.nouvellePuissance,
+        nouvellePuissanceDeSite: this.#demande.nouvellePuissanceDeSite,
         estUneDécisionDEtat: estUneDécisionDEtat ? true : undefined,
       },
     };
@@ -342,6 +294,14 @@ export class PuissanceAggregate extends AbstractAggregate<
       nouvellePuissance,
       volumeRéservé: this.lauréat.projet.candidature.volumeRéservé,
     }).vérifierQueLaDemandeEstPossible(type);
+
+    if (this.#demande) {
+      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+        type === 'demande'
+          ? StatutChangementPuissance.demandé
+          : StatutChangementPuissance.informationEnregistrée,
+      );
+    }
   }
 
   apply(event: PuissanceEvent) {
@@ -392,16 +352,17 @@ export class PuissanceAggregate extends AbstractAggregate<
   private applyPuissanceModifiée({
     payload: { puissance, puissanceDeSite },
   }: PuissanceModifiéeEvent) {
-    this.#puissance = puissance ? puissance : this.#puissance;
-    this.#puissanceDeSite = puissanceDeSite ? puissanceDeSite : this.#puissanceDeSite;
+    this.#puissance = puissance;
+    this.#puissanceDeSite = puissanceDeSite;
   }
 
   private applyChangementPuissanceDemandé({
-    payload: { puissance, autoritéCompétente },
+    payload: { puissance, autoritéCompétente, puissanceDeSite },
   }: ChangementPuissanceDemandéEvent) {
     this.#demande = {
       statut: StatutChangementPuissance.demandé,
       nouvellePuissance: puissance,
+      nouvellePuissanceDeSite: puissanceDeSite,
       autoritéCompétente,
     };
   }
@@ -411,9 +372,10 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   private applyChangementPuissanceAccordé({
-    payload: { nouvellePuissance },
+    payload: { nouvellePuissance, nouvellePuissanceDeSite },
   }: ChangementPuissanceAccordéEvent) {
     this.#puissance = nouvellePuissance;
+    this.#puissanceDeSite = nouvellePuissanceDeSite;
     this.#demande = undefined;
   }
 
@@ -423,5 +385,47 @@ export class PuissanceAggregate extends AbstractAggregate<
 
   private applyChangementPuissanceSupprimé(_: ChangementPuissanceSuppriméEvent) {
     this.#demande = undefined;
+  }
+
+  private vérifierLaCohérenceDesDonnées(puissance?: number, puissanceDeSite?: number) {
+    // a vérifier
+    // console.log('viovio');
+    // console.log(puissance);
+    // console.log(puissanceDeSite);
+    // // pas mise à jour
+    // console.log(this.#puissanceDeSite);
+
+    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
+      if (puissanceDeSite !== undefined) {
+        throw new PuissanceDeSiteNonAttendueError();
+      }
+      if (this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
+      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
+      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+
+      if (puissanceDeSite === undefined && this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (puissance !== undefined && puissance <= 0) {
+      throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
+    }
   }
 }

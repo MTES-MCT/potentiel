@@ -3,7 +3,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 export type EnregistrerChangementOptions = {
   identifiantUtilisateur: Email.ValueType;
-  nouvellePuissance: number;
+  puissance: number;
+  puissanceDeSite?: number;
   dateChangement: DateTime.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
   raison?: string;

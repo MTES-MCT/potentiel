@@ -6,6 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -16,7 +17,9 @@ export type ModifierPuissanceFormProps = PlainType<
   Pick<
     Lauréat.Puissance.ConsulterPuissanceReadModel,
     'identifiantProjet' | 'puissance' | 'unitéPuissance' | 'puissanceDeSite'
-  > & { infosCahierDesChargesPuissanceDeSite: 'requis' | 'optionnel' | undefined }
+  > & {
+    infosCahierDesChargesPuissanceDeSite: AppelOffre.ChampsSupplémentairesCandidature['puissanceDeSite'];
+  }
 >;
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
@@ -49,23 +52,23 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
       />
 
       <div className="flex flex-col gap-6">
-        {infosCahierDesChargesPuissanceDeSite ? (
-          <>
-            <Input
-              state={validationErrors['puissance'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['puissance']}
-              label={`Puissance (en ${unitéPuissance})`}
-              nativeInputProps={{
-                name: 'puissance',
-                defaultValue: puissance,
-                'aria-required': true,
-                required: true,
-                type: 'number',
-                inputMode: 'decimal',
-                pattern: '[0-9]+([.][0-9]+)?',
-                step: 'any',
-              }}
-            />
+        <>
+          <Input
+            state={validationErrors['puissance'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissance']}
+            label={`Puissance (en ${unitéPuissance})`}
+            nativeInputProps={{
+              name: 'puissance',
+              defaultValue: puissance,
+              'aria-required': true,
+              required: true,
+              type: 'number',
+              inputMode: 'decimal',
+              pattern: '[0-9]+([.][0-9]+)?',
+              step: 'any',
+            }}
+          />
+          {infosCahierDesChargesPuissanceDeSite && (
             <Input
               state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['puissanceDeSite']}
@@ -81,24 +84,9 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
                 step: 'any',
               }}
             />
-          </>
-        ) : (
-          <Input
-            state={validationErrors['puissance'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['puissance']}
-            label={`Puissance (en ${unitéPuissance})`}
-            nativeInputProps={{
-              name: 'puissance',
-              defaultValue: puissance,
-              required: true,
-              'aria-required': true,
-              type: 'number',
-              inputMode: 'decimal',
-              pattern: '[0-9]+([.][0-9]+)?',
-              step: 'any',
-            }}
-          />
-        )}
+          )}
+        </>
+
         <Input
           textArea
           label={`Raison (optionnel)`}

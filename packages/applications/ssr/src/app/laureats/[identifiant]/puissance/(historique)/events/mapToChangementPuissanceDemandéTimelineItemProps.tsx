@@ -9,7 +9,14 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
   event: Lauréat.Puissance.ChangementPuissanceDemandéEvent,
   unitéPuissance: string,
 ): TimelineItemProps => {
-  const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, puissance } = event.payload;
+  const {
+    identifiantProjet,
+    demandéLe,
+    demandéPar,
+    pièceJustificative,
+    puissance,
+    puissanceDeSite,
+  } = event.payload;
 
   return {
     date: demandéLe,
@@ -23,6 +30,14 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
             {puissance} {unitéPuissance}
           </span>
         </div>
+        {puissanceDeSite !== undefined ? (
+          <div>
+            Nouvelle puissance de site :{' '}
+            <span className="font-semibold">
+              {puissanceDeSite} {unitéPuissance}
+            </span>
+          </div>
+        ) : null}
         {pièceJustificative && (
           <DownloadDocument
             className="mb-0"

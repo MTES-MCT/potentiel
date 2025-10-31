@@ -1,11 +1,21 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
 export const changementPuissanceAccordéProjector = async ({
-  payload: { identifiantProjet, accordéLe, accordéPar, nouvellePuissance, réponseSignée },
+  payload: {
+    identifiantProjet,
+    accordéLe,
+    accordéPar,
+    nouvellePuissance,
+    nouvellePuissanceDeSite,
+    réponseSignée,
+  },
 }: Lauréat.Puissance.ChangementPuissanceAccordéEvent) => {
   const projectionPuissance = await findProjection<Lauréat.Puissance.PuissanceEntity>(
     `puissance|${identifiantProjet}`,
@@ -68,10 +78,11 @@ export const changementPuissanceAccordéProjector = async ({
     },
   );
 
-  await upsertProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
+  await updateOneProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     ...projectionPuissance,
     miseÀJourLe: accordéLe,
     puissance: nouvellePuissance,
+    puissanceDeSite: nouvellePuissanceDeSite,
     dateDemandeEnCours: undefined,
   });
 };

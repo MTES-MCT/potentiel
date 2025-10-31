@@ -14,6 +14,7 @@ export type ChangementPuissanceEntity = Entity<
       demandéePar: string;
       demandéeLe: DateTime.RawType;
       nouvellePuissance: number;
+      nouvellePuissanceDeSite?: number;
       statut: StatutChangementPuissance.RawType;
       raison?: string;
       pièceJustificative?: {
