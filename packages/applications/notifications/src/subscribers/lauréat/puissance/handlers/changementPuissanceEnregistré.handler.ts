@@ -18,7 +18,6 @@ export const handleChangementPuissanceEnregistré = async ({
     getLogger().info('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceEnregistréNotifications',
     });
     return;
   }

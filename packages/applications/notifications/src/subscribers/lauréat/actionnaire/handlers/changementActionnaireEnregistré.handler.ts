@@ -29,7 +29,6 @@ export const handleChangementActionnaireEnregistré = async ({
     getLogger().info('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementActionnaireEnregistréNotifications',
     });
     return;
   }

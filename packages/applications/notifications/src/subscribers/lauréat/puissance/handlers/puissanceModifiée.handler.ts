@@ -17,7 +17,6 @@ export const handlePuissanceModifiée = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'puissanceModifiéeNotification',
     });
     return;
   }

@@ -18,7 +18,6 @@ export const handleDispositifDeStockageModifié = async ({
     getLogger().error('Aucun porteur ou dreal trouvé(e)', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'dispositifDeStockage.notifications.ts',
     });
     return;
   }

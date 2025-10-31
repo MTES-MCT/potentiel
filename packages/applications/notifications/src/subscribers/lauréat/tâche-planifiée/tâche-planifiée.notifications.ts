@@ -11,7 +11,7 @@ import { SendEmail } from '../../../sendEmail';
 import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications';
 import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal/tâche-planifiée.représentantLégal.notifications';
 import { tâchePlanifiéeRaccordementNotifications } from './raccordement/tâche-planifiée.raccordement.notifications';
-import { relanceÉchéanceAchèvementNotification } from './achèvement/handlers/relanceÉchéanceAchèvement.handler';
+import { tâchePlanifiéeAchèvementNotifications } from './achèvement/tâche-planifiée.achèvement.notifications';
 
 type TypeTâchePlanifiée =
   | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
@@ -87,7 +87,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
           typeTâchePlanifiée: P.union(...Lauréat.Achèvement.TypeTâchePlanifiéeAchèvement.types),
         },
         (payload) =>
-          relanceÉchéanceAchèvementNotification({
+          tâchePlanifiéeAchèvementNotifications({
             sendEmail,
             identifiantProjet,
             projet,

@@ -18,7 +18,6 @@ export const handleActionnaireModifié = async ({
     getLogger().error('Aucun porteur ou dreal trouvé(e)', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'actionnaireModifié.notifications.ts',
     });
     return;
   }

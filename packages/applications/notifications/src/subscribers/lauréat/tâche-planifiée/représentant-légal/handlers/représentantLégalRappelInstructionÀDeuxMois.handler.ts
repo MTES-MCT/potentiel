@@ -36,7 +36,6 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
     });
     return;
   }

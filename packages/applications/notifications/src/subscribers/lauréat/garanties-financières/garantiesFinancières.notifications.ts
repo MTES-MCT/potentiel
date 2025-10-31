@@ -1,18 +1,21 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { getBaseUrl, getLauréat } from '../../../_helpers';
+import { SendEmail } from '../../..';
+
 import {
-  formatDateForEmail,
-  getBaseUrl,
-  getLauréat,
-  listerDrealsRecipients,
-  listerPorteursRecipients,
-} from '../../_helpers';
-import { EmailPayload, SendEmail } from '../../sendEmail';
+  handleAttestationGarantiesFinancièresEnregistrée,
+  handleDemandeMainlevéeMiseÀJour,
+  handleDépôtGarantiesFinancièresSoumis,
+  handleDépôtGarantiesFinancièresValidé,
+  handleGarantiesFinancièresMiseÀJour,
+  handleGarantiesFinancièresÉchues,
+  handleMainlevéeDemandée,
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -20,195 +23,6 @@ export type Execute = Message<
   'System.Notification.Lauréat.GarantiesFinancières',
   SubscriptionEvent
 >;
-
-type FormatGarantiesFinancièresEmailPayload = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  subject: string;
-  templateId: number;
-  recipients: EmailPayload['recipients'];
-
-  nomProjet: string;
-  départementProjet: string;
-  régionProjet: string;
-  statut?: 'validées' | 'en attente de validation';
-  dateÉchéance?: string;
-};
-
-const formatGarantiesFinancièresEmailPayload = ({
-  identifiantProjet,
-  templateId,
-  recipients,
-  nomProjet,
-  départementProjet,
-  régionProjet,
-  subject,
-  statut,
-  dateÉchéance,
-}: FormatGarantiesFinancièresEmailPayload): EmailPayload | undefined => {
-  if (recipients.length === 0) {
-    return;
-  }
-
-  return {
-    templateId,
-    messageSubject: subject,
-    recipients,
-    variables: {
-      nom_projet: nomProjet,
-      departement_projet: départementProjet,
-      region_projet: régionProjet,
-      nouveau_statut: statut ?? '',
-      date_echeance: dateÉchéance ?? '',
-      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
-    },
-  };
-};
-
-async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload | undefined)[]> {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await getLauréat(identifiantProjet.formatter());
-
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
-
-  const nomProjet = projet.nom;
-  const départementProjet = projet.département;
-  const régionProjet = projet.région;
-
-  switch (event.type) {
-    case 'DépôtGarantiesFinancièresSoumis-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          statut: 'en attente de validation',
-          subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.dépôtSoumisPourDreal,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-
-        formatGarantiesFinancièresEmailPayload({
-          statut: 'en attente de validation',
-          subject: `Potentiel - Des garanties financières sont en attente de validation pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.dépôtSoumisPourPorteur,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-
-    case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
-    case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          statut: 'validées',
-          subject: `Potentiel - Des garanties financières sont validées pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.dépôtValidéPourPorteur,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-
-    case 'AttestationGarantiesFinancièresEnregistrée-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Attestation de constitution des garanties financières enregistrée pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.attestationGFActuellesEnregistréePourDreal,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-      break;
-
-    case 'GarantiesFinancièresModifiées-V1':
-    case 'GarantiesFinancièresEnregistrées-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.GFActuellesModifiéesPourDreal,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Garanties financières mises à jour pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.GFActuellesModifiéesPourPorteur,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-
-    case 'MainlevéeGarantiesFinancièresDemandée-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Demande de mainlevée des garanties financières pour le projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.mainlevéeGFDemandéePourDreal,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-
-    case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
-    case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
-    case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
-          templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-        }),
-      ];
-
-    case 'GarantiesFinancièresÉchues-V1':
-      return [
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.GFÉchuesPourPorteur,
-          recipients: porteurs,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-          dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
-        }),
-        formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${nomProjet} dans le département ${départementProjet}`,
-          templateId: templateId.GFÉchuesPourDreal,
-          recipients: dreals,
-          identifiantProjet,
-          nomProjet,
-          départementProjet,
-          régionProjet,
-          dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
-        }),
-      ];
-    default:
-      return [];
-  }
-}
 
 export type RegisterGarantiesFinancièresNotificationDependencies = {
   sendEmail: SendEmail;
@@ -220,39 +34,108 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
       event.payload.identifiantProjet,
     );
     const projet = await getLauréat(identifiantProjet.formatter());
-
-    return match(event)
-      .with(
-        {
-          type: 'DépôtGarantiesFinancièresSoumis-V1',
-        },
-        (event) =>
-          handleDépôtGarantiesFinancièresSoumis({
+    const baseUrl = getBaseUrl();
+    return (
+      match(event)
+        //#region Dépôt
+        .with(
+          {
+            type: 'DépôtGarantiesFinancièresSoumis-V1',
+          },
+          (event) =>
+            handleDépôtGarantiesFinancièresSoumis({
+              event,
+              sendEmail,
+              projet,
+              baseUrl,
+            }),
+        )
+        .with(
+          {
+            type: P.union(
+              'DépôtGarantiesFinancièresEnCoursValidé-V1',
+              'DépôtGarantiesFinancièresEnCoursValidé-V2',
+            ),
+          },
+          (event) => handleDépôtGarantiesFinancièresValidé({ event, sendEmail, projet, baseUrl }),
+        )
+        //#endregion Dépôt
+        //#region Actuelles
+        .with({ type: 'AttestationGarantiesFinancièresEnregistrée-V1' }, (event) =>
+          handleAttestationGarantiesFinancièresEnregistrée({
             event,
             sendEmail,
             projet,
+            baseUrl,
           }),
-      )
-      .with(
-        {
-          type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
-        },
-        (event) =>
-          handleDépôtGarantiesFinancièresEnCoursModifié({
+        )
+        .with(
+          {
+            type: P.union(
+              'GarantiesFinancièresEnregistrées-V1',
+              'GarantiesFinancièresModifiées-V1',
+            ),
+          },
+          (event) =>
+            handleGarantiesFinancièresMiseÀJour({
+              event,
+              sendEmail,
+              projet,
+              baseUrl,
+            }),
+        )
+
+        //#endregion Actuelles
+        //#region Mainlevée
+        .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, (event) =>
+          handleMainlevéeDemandée({
             event,
             sendEmail,
             projet,
+            baseUrl,
           }),
-      )
-
-      .exhaustive();
-
-    const payloads = await getEmailPayloads(event);
-    for (const payload of payloads) {
-      if (payload) {
-        await sendEmail(payload);
-      }
-    }
+        )
+        .with(
+          {
+            type: P.union(
+              'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+              'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
+              'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+            ),
+          },
+          (event) =>
+            handleDemandeMainlevéeMiseÀJour({
+              event,
+              sendEmail,
+              projet,
+              baseUrl,
+            }),
+        )
+        //#endregion Mainlevée
+        //#region Échues
+        .with({ type: 'GarantiesFinancièresÉchues-V1' }, (event) =>
+          handleGarantiesFinancièresÉchues({ event, sendEmail, projet, baseUrl }),
+        )
+        //#endregion Échues
+        //#region Évènements ignorés
+        .with(
+          {
+            type: P.union(
+              'DépôtGarantiesFinancièresEnCoursModifié-V1',
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+              'GarantiesFinancièresDemandées-V1',
+              'GarantiesFinancièresImportées-V1',
+              'HistoriqueGarantiesFinancièresEffacé-V1',
+              'TypeGarantiesFinancièresImporté-V1',
+              'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
+            ),
+          },
+          () => Promise.resolve(),
+        )
+        //#endregion Évènements ignorés
+        .exhaustive()
+    );
   };
 
   mediator.register('System.Notification.Lauréat.GarantiesFinancières', handler);

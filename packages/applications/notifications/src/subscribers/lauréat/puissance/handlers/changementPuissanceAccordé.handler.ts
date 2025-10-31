@@ -17,7 +17,6 @@ export const handleChangementPuissanceAccordé = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceAccordéNotification',
     });
     return;
   }
