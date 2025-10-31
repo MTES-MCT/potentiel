@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -19,6 +20,49 @@ export type Execute = Message<
   'System.Notification.Lauréat.GarantiesFinancières',
   SubscriptionEvent
 >;
+
+type FormatGarantiesFinancièresEmailPayload = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  subject: string;
+  templateId: number;
+  recipients: EmailPayload['recipients'];
+
+  nomProjet: string;
+  départementProjet: string;
+  régionProjet: string;
+  statut?: 'validées' | 'en attente de validation';
+  dateÉchéance?: string;
+};
+
+const formatGarantiesFinancièresEmailPayload = ({
+  identifiantProjet,
+  templateId,
+  recipients,
+  nomProjet,
+  départementProjet,
+  régionProjet,
+  subject,
+  statut,
+  dateÉchéance,
+}: FormatGarantiesFinancièresEmailPayload): EmailPayload | undefined => {
+  if (recipients.length === 0) {
+    return;
+  }
+
+  return {
+    templateId,
+    messageSubject: subject,
+    recipients,
+    variables: {
+      nom_projet: nomProjet,
+      departement_projet: départementProjet,
+      region_projet: régionProjet,
+      nouveau_statut: statut ?? '',
+      date_echeance: dateÉchéance ?? '',
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+    },
+  };
+};
 
 async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload | undefined)[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
@@ -128,7 +172,7 @@ async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload
     case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
       return [
         formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet ${nomProjet}`,
+          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
           templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
           recipients: porteurs,
           identifiantProjet,
@@ -172,6 +216,37 @@ export type RegisterGarantiesFinancièresNotificationDependencies = {
 
 export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      event.payload.identifiantProjet,
+    );
+    const projet = await getLauréat(identifiantProjet.formatter());
+
+    return match(event)
+      .with(
+        {
+          type: 'DépôtGarantiesFinancièresSoumis-V1',
+        },
+        (event) =>
+          handleDépôtGarantiesFinancièresSoumis({
+            event,
+            sendEmail,
+            projet,
+          }),
+      )
+      .with(
+        {
+          type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+        },
+        (event) =>
+          handleDépôtGarantiesFinancièresEnCoursModifié({
+            event,
+            sendEmail,
+            projet,
+          }),
+      )
+
+      .exhaustive();
+
     const payloads = await getEmailPayloads(event);
     for (const payload of payloads) {
       if (payload) {
