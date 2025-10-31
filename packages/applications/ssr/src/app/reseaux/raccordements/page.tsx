@@ -2,11 +2,9 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -46,14 +44,11 @@ export default async function Page({ searchParams }: PageProps) {
         statutProjet,
       } = paramsSchema.parse(searchParams);
 
-      const identifiantGestionnaireRéseauUtilisateur =
-        récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
-          identifiantGestionnaireRéseau:
-            identifiantGestionnaireRéseauUtilisateur ?? identifiantGestionnaireReseau,
+          identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           appelOffre,
           avecDateMiseEnService,
           range: mapToRangeOptions({
@@ -69,7 +64,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const listeGestionnaireRéseau = identifiantGestionnaireRéseauUtilisateur
+      const listeGestionnaireRéseau = utilisateur.role.estGrd()
         ? []
         : (
             await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -129,16 +124,6 @@ export default async function Page({ searchParams }: PageProps) {
       );
     }),
   );
-}
-
-function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.ValueType) {
-  if (!utilisateur.role.estÉgaleÀ(Role.grd)) {
-    return;
-  }
-  if (Option.isNone(utilisateur.identifiantGestionnaireRéseau)) {
-    return '!!GESTIONNAIRE INCONNU!!';
-  }
-  return utilisateur.identifiantGestionnaireRéseau;
 }
 
 const mapToProps = (dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel) => {

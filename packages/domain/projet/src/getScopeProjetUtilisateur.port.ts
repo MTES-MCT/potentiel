@@ -16,6 +16,11 @@ type ProjetScope = {
   identifiantProjets: Array<IdentifiantProjet.RawType>;
 };
 
-export type ProjetUtilisateurScope = AllScope | RégionScope | ProjetScope;
+type GestionnaireRéseauScope = {
+  type: 'gestionnaire-réseau';
+  identifiantGestionnaireRéseau: string;
+};
+
+export type ProjetUtilisateurScope = AllScope | RégionScope | ProjetScope | GestionnaireRéseauScope;
 
 export type GetProjetUtilisateurScope = (email: Email.ValueType) => Promise<ProjetUtilisateurScope>;
