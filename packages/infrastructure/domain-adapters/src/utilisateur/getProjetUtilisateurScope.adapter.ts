@@ -23,7 +23,10 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
 
   return match(utilisateur)
     .returnType<Promise<ProjetUtilisateurScope>>()
-    .with({ rôle: 'dreal' }, async (value) => ({ type: 'région', régions: [value.région] }))
+    .with({ rôle: 'dreal' }, async (value) => ({
+      type: 'région',
+      régions: value.région ? [value.région] : [],
+    }))
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
@@ -40,7 +43,7 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
     })
     .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => ({
       type: 'gestionnaire-réseau',
-      identifiantGestionnaireRéseau,
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
     }))
     .with({ rôle: 'cocontractant' }, async (value) => ({
       type: 'région',
