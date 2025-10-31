@@ -41,7 +41,8 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
 
     return {
       ...utilisateur,
-      accountUrl: getProviderAccountUrl(provider ?? ''),
+      accountUrl: provider ? getProviderAccountUrl(provider) : undefined,
+      nom: session.utilisateur.nom,
     };
   }
 }
