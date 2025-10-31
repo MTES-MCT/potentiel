@@ -3,7 +3,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { UtilisateurPotentiel } from '@potentiel-applications/request-context';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
@@ -17,7 +17,7 @@ type CommonProps = {
   appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
   période: PlainType<AppelOffre.Periode>;
   famille: PlainType<AppelOffre.Famille> | undefined;
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: UtilisateurPotentiel;
 };
 
 type MapToModèlePayloadProps = CommonProps & {
@@ -70,7 +70,7 @@ const mapToModèleRéponsePayload = ({
       nomRepresentantLegal: nomReprésentantLégal,
       puissance: puissance.toString(),
       refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
-      suiviPar: utilisateur.nom, // TODO
+      suiviPar: utilisateur.nom ?? '',
       suiviParEmail: appelOffres.dossierSuiviPar,
       titreAppelOffre: appelOffres.title,
       titreFamille: famille?.id ?? '',
