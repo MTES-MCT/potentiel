@@ -10,15 +10,14 @@ export const computeNombreDeProjetLauréatParAppelOffre = async () => {
       domain_public_statistic.camembert_statistic
     select 
       $1 as "type",
-      "appelOffreId" AS "category", 
+      laur.value->>'appelOffre' AS "category", 
       count(*) AS "value"
     from 
-      "projects"
+      domain_views.projection laur
     where 
-      "classe" = 'Classé' and 
-      "notifiedOn"!='0' 
-    group by "appelOffreId"
-    order by "appelOffreId" asc
+      laur.key  like 'lauréat|%'
+    group by 1,2
+    order by 1,2;
     `,
     statisticType,
   );
