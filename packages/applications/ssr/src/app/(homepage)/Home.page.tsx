@@ -6,7 +6,7 @@ import { InscriptionConnexion } from './InscriptionConnexion';
 import { PropositionDeValeur } from './PropositionDeValeur';
 
 export type HomePageProps = {
-  utilisateur?: Utilisateur.ValueType;
+  utilisateur?: Utilisateur.ValueType & { nom?: string };
 };
 export function HomePage({ utilisateur }: HomePageProps) {
   return (

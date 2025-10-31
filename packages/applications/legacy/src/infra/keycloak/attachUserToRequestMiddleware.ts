@@ -3,13 +3,12 @@ import { logger, ResultAsync } from '../../core/utils';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
 import { getPermissions, Permission } from '../../modules/authN';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { getContext } from '@potentiel-applications/request-context';
-import { Option } from '@potentiel-libraries/monads';
+import { getContext, UtilisateurPotentiel } from '@potentiel-applications/request-context';
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
   createUser: CreateUser;
-  getUtilisateur?: () => Promise<(Utilisateur.ValueType & { accountUrl: string }) | undefined>;
+  getUtilisateur?: () => Promise<(UtilisateurPotentiel & { accountUrl: string }) | undefined>;
 };
 
 declare module 'express-serve-static-core' {
@@ -21,7 +20,7 @@ declare module 'express-serve-static-core' {
       id: string;
       accountUrl: string;
       permissions: Permission[];
-      région: Option.Type<string>;
+      région?: string;
       features: Array<string>;
     };
     errorFileSizeLimit?: string;
@@ -89,9 +88,10 @@ const makeAttachUserToRequestMiddleware =
 
       request.user = {
         ...user,
+        fullName: user.fullName ?? '',
         accountUrl,
         permissions: getPermissions(user),
-        région,
+        région: région?.formatter(),
         features: getContext()?.features || [],
       };
     } catch (e) {

@@ -1,12 +1,12 @@
 import { AsyncLocalStorage } from 'async_hooks';
 
-import { type Utilisateur } from '@potentiel-domain/utilisateur';
+import { UtilisateurPotentiel } from './types';
 
 export type RequestContext = {
   correlationId: string;
   app?: 'web' | 'legacy' | 'subscribers' | 'cli';
   features: Array<string>;
-  utilisateur?: Utilisateur.ValueType & { accountUrl: string };
+  utilisateur?: UtilisateurPotentiel & { accountUrl: string };
   url?: string;
 };
 

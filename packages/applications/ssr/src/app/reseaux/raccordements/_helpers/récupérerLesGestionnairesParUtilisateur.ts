@@ -8,7 +8,7 @@ export const récupérerLesGestionnairesParUtilisateur = async (
   utilisateur: Utilisateur.ValueType,
 ) => {
   if (utilisateur.role.estÉgaleÀ(Role.grd)) {
-    if (Option.isSome(utilisateur.identifiantGestionnaireRéseau)) {
+    if (utilisateur.identifiantGestionnaireRéseau) {
       const gestionnaireRéseau =
         await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',

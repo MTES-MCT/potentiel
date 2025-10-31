@@ -21,48 +21,43 @@ type Utilisateur = PlainType<
 
 const porteurDeProjet: Utilisateur = {
   role: { nom: 'porteur-projet' },
-  nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  identifiantGestionnaireRéseau: undefined,
+  région: undefined,
+  zone: undefined,
 };
 
 const porteurDeProjetDésactivé: Utilisateur = {
   role: { nom: 'porteur-projet' },
-  nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  identifiantGestionnaireRéseau: undefined,
+  région: undefined,
+  zone: undefined,
   désactivé: true,
 };
 
 const dgecValidateur: Utilisateur = {
   role: { nom: 'dgec-validateur' },
-  nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  identifiantGestionnaireRéseau: undefined,
+  région: undefined,
+  zone: undefined,
 };
 
 const adminDGEC: Utilisateur = {
   role: { nom: 'admin' },
-  nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  identifiantGestionnaireRéseau: undefined,
+  région: undefined,
+  zone: undefined,
 };
 
 const dreal: Utilisateur = {
   role: { nom: 'dreal' },
-  nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  identifiantGestionnaireRéseau: undefined,
+  région: undefined,
+  zone: undefined,
 };
 
 const utilisateursExistants: ReadonlyArray<Utilisateur> = [
@@ -82,7 +77,7 @@ const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
     return Option.none;
   }
 
-  return utilisateur;
+  return { ...Utilisateur.bind(utilisateur), désactivé: utilisateur.désactivé };
 };
 
 const buildSendVerificationRequestParams = (

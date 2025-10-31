@@ -8,7 +8,7 @@ import { InviterUtilisateurForm, InviterUtilisateurFormProps } from './InviterUt
 export type InviterUtilisateurPageProps = InviterUtilisateurFormProps;
 
 export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
-  role,
+  rôle,
   gestionnairesRéseau,
   régions,
   zones,
@@ -18,7 +18,7 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
     leftColumn={{
       children: (
         <InviterUtilisateurForm
-          role={role}
+          rôle={rôle}
           gestionnairesRéseau={gestionnairesRéseau}
           régions={régions}
           zones={zones}

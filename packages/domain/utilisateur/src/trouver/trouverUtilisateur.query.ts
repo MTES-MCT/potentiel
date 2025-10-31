@@ -5,15 +5,15 @@ import { Find } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
-import { Role } from '..';
+import { Role, Région, Zone } from '..';
 
 export type TrouverUtilisateurReadModel = {
   identifiantUtilisateur: Email.ValueType;
   rôle: Role.ValueType;
-  fonction: Option.Type<string>;
-  région: Option.Type<string>;
-  zone: Option.Type<string>;
-  identifiantGestionnaireRéseau: Option.Type<string>;
+  fonction: string | undefined;
+  région: Région.ValueType | undefined;
+  zone: Zone.ValueType | undefined;
+  identifiantGestionnaireRéseau: string | undefined;
   désactivé?: true;
 };
 
@@ -47,10 +47,12 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
   identifiantUtilisateur: Email.convertirEnValueType(utilisateur.identifiantUtilisateur),
   rôle: Role.convertirEnValueType(utilisateur.rôle),
-  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
-  région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
-  zone: utilisateur.rôle === 'cocontractant' ? utilisateur.zone : Option.none,
+  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : undefined,
+  région:
+    utilisateur.rôle === 'dreal' ? Région.convertirEnValueType(utilisateur.région) : undefined,
+  zone:
+    utilisateur.rôle === 'cocontractant' ? Zone.convertirEnValueType(utilisateur.zone) : undefined,
   identifiantGestionnaireRéseau:
-    utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
+    utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : undefined,
   désactivé: utilisateur.désactivé,
 });
