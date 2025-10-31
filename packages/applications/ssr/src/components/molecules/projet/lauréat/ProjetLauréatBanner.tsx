@@ -22,7 +22,7 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = async ({
   identifiantProjet,
   noLink,
 }) =>
-  withUtilisateur(async ({ role }) => {
+  withUtilisateur(async ({ rôle }) => {
     const projet = await getLauréatInfos({ identifiantProjet });
 
     const { nomProjet, localité, notifiéLe, statut } = projet;
@@ -35,9 +35,9 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = async ({
           .some((date) => date.formatter())
           .none()}
         /***
-         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
+         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
          */
-        href={noLink || role.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
+        href={noLink || rôle.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />

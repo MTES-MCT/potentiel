@@ -83,7 +83,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 }
 
 const mapToActions = (
-  { role }: Utilisateur.ValueType,
+  { rôle }: Utilisateur.ValueType,
   raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel,
 ): DétailsRaccordementPageProps['actions'] => {
   const isGestionnaireInconnu =
@@ -111,26 +111,26 @@ const mapToActions = (
     };
   }
   return {
-    supprimer: role.aLaPermission('raccordement.dossier.supprimer'),
+    supprimer: rôle.aLaPermission('raccordement.dossier.supprimer'),
     demandeComplèteRaccordement: {
       modifierRéférence:
-        role.aLaPermission('raccordement.référence-dossier.modifier') &&
-        !role.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
-      transmettre: role.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-      modifier: role.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+        rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
+        !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+      transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
+      modifier: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
     },
     propositionTechniqueEtFinancière: {
-      transmettre: role.aLaPermission(
+      transmettre: rôle.aLaPermission(
         'raccordement.proposition-technique-et-financière.transmettre',
       ),
-      modifier: role.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
+      modifier: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
     },
     miseEnService: {
-      transmettre: role.aLaPermission('raccordement.date-mise-en-service.transmettre'),
-      modifier: role.aLaPermission('raccordement.date-mise-en-service.modifier'),
+      transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
+      modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
     },
     gestionnaireRéseau: {
-      modifier: role.aLaPermission('raccordement.gestionnaire.modifier'),
+      modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
     },
   };
 };
