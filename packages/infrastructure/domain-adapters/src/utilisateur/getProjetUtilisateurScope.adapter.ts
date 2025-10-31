@@ -38,7 +38,10 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
         ),
       };
     })
-    .with({ rôle: 'grd' }, async () => ({ type: 'projet', identifiantProjets: [] }))
+    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => ({
+      type: 'gestionnaire-réseau',
+      identifiantGestionnaireRéseau,
+    }))
     .with({ rôle: 'cocontractant' }, async (value) => ({
       type: 'région',
       régions: Région.régions.filter((région) =>

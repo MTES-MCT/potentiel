@@ -87,7 +87,11 @@ export const registerListerDossierRaccordementQuery = ({
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         référence: Where.like(référenceDossier),
-        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+        identifiantGestionnaireRéseau: Where.equal(
+          scope.type === 'gestionnaire-réseau'
+            ? scope.identifiantGestionnaireRéseau
+            : identifiantGestionnaireRéseau,
+        ),
         miseEnService: {
           dateMiseEnService:
             avecDateMiseEnService === undefined

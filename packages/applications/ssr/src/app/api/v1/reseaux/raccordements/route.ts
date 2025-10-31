@@ -2,9 +2,7 @@ import { mediator } from 'mediateur';
 import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/entity';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -53,7 +51,6 @@ export const GET = (request: NextRequest) =>
       const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
-          identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
           utilisateur: utilisateur.identifiantUtilisateur.email,
           avecDateMiseEnService,
           range: page
@@ -67,17 +64,6 @@ export const GET = (request: NextRequest) =>
       return NextResponse.json(mapToApiResponse(result));
     }),
   );
-
-const récupérerIdentifiantGestionnaireUtilisateur = (utilisateur: Utilisateur.ValueType) => {
-  if (!utilisateur.role.estÉgaleÀ(Role.grd)) {
-    return;
-  }
-  if (Option.isNone(utilisateur.identifiantGestionnaireRéseau)) {
-    return '!!GESTIONNAIRE INCONNU!!';
-  }
-
-  return utilisateur.identifiantGestionnaireRéseau;
-};
 
 type MapToApiResponse = (
   dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel,
