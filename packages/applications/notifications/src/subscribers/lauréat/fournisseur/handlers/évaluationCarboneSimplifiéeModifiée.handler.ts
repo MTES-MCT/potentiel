@@ -18,7 +18,6 @@ export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
     getLogger().info('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'évaluationCarboneSimplifiéeModifiéeNotifications',
     });
     return;
   }

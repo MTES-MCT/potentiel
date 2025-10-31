@@ -24,7 +24,6 @@ export const handleRelanceÉchéanceAchèvement = async ({
     getLogger().error('Aucun porteur ou dreal trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'relanceÉchéanceAchèvementNotification',
     });
   } else {
     await sendEmail({

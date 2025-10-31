@@ -16,7 +16,6 @@ export const handleDemandeComplèteRaccordementAttendueRelance = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleDemandeComplèteRaccordementAttendueRelance',
     });
   } else {
     await sendEmail({

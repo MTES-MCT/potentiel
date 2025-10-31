@@ -21,7 +21,6 @@ export const handleDemandeDélaiAnnulée = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'DemandeDélaiAnnuléeNotification',
     });
     return;
   }

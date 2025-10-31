@@ -23,7 +23,6 @@ export const handleDélaiDemandé = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'délaiDemandéNotification',
     });
     return;
   }

@@ -26,7 +26,6 @@ export const handleChangementPuissanceAnnulé = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'demandeChangementPuissanceAnnuléeNotification',
     });
     return;
   }

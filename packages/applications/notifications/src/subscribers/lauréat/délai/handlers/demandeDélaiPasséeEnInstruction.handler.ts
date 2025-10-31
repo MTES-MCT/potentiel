@@ -20,7 +20,6 @@ export const handleDemandeDélaiPasséeEnInstruction = async ({
     getLogger().error('Aucune porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'demandeDélaiPasséeEnInstructionNotification',
     });
     return;
   }

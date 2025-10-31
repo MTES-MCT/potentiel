@@ -24,7 +24,6 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'garantiesFinancièresRappelÉchéanceNotification',
     });
     return;
   }
@@ -35,7 +34,6 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'garantiesFinancièresRappelÉchéanceNotification',
     });
     return;
   }
