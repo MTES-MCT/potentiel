@@ -11,36 +11,18 @@ export const computePourcentageAttestationTéléchargée = async () => {
     values(
       $1, 
       (
-        SELECT
-          (
-            SELECT
-              (
-                count(
-                  DISTINCT (
-                    concat(
-                      (c.données -> 'projet') ->> 'appelOffreId',
-                      '|',
-                      (c.données -> 'projet') ->> 'periodeId',
-                      '|',
-                      (c.données -> 'projet') ->> 'numeroCRE',
-                      '|',
-                      (c.données -> 'projet') ->> 'familleId'
-                    )
-                  )
-                )::decimal
-              )
-            FROM
-              "statistiquesUtilisation" c
-            WHERE
-              type = 'attestationTéléchargée'
-          ) * 100 / (
-            SELECT
-              count("id")::decimal
-            FROM
-              "projects"
-            WHERE
-              DATE (TO_TIMESTAMP("notifiedOn" / 1000)) >= DATE ('2020-04-15')
-          )
+        SELECT 100 * COUNT(distinct stat.données->>'projet')::decimal / COUNT(distinct cand.value->>'identifiantProjet')
+        FROM domain_views.projection cand
+          LEFT join "statistiquesUtilisation" stat on stat.type = 'attestationTéléchargée'
+          and format(
+            '%s#%s#%s#%s',
+            stat.données->'projet'->>'appelOffreId',
+            stat.données->'projet'->>'periodeId',
+            stat.données->'projet'->>'familleId',
+            stat.données->'projet'->>'numeroCRE'
+          ) = cand.value->>'identifiantProjet'
+        WHERE key like 'candidature|%'
+          AND DATE((value->>'notification.notifiéeLe')::timestamp) >= DATE ('2020-04-15')
       )
     )
     `,
