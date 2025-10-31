@@ -22,14 +22,14 @@ const action: FormAction<FormState, typeof schema> = (
   _,
   { identifiantProjet, referenceDossier, referenceDossierCorrigee },
 ) =>
-  withUtilisateur(async ({ role, identifiantUtilisateur }) => {
+  withUtilisateur(async ({ rôle, identifiantUtilisateur }) => {
     await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
         référenceDossierRaccordementActuelleValue: referenceDossier,
-        rôleValue: role.nom,
+        rôleValue: rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: identifiantUtilisateur.formatter(),
       },
@@ -38,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = (
     return {
       status: 'success',
       redirection: {
-        url: role.aLaPermission('raccordement.consulter')
+        url: rôle.aLaPermission('raccordement.consulter')
           ? Routes.Raccordement.détail(identifiantProjet)
           : Routes.Raccordement.lister,
         message: 'La référence du dossier de raccordement a été modifiée',

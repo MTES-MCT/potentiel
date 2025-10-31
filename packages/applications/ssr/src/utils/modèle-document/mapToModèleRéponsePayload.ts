@@ -3,11 +3,10 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
@@ -18,7 +17,7 @@ type CommonProps = {
   appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
   période: PlainType<AppelOffre.Periode>;
   famille: PlainType<AppelOffre.Famille> | undefined;
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: PotentielUtilisateur;
 };
 
 type MapToModèlePayloadProps = CommonProps & {
@@ -47,7 +46,7 @@ const mapToModèleRéponsePayload = ({
   utilisateur,
   unitéPuissance,
 }: MapToModèlePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
-  const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
+  const régionDreal = utilisateur.estDreal() ? utilisateur.région.formatter() : undefined;
 
   return {
     logo: régionDreal,
@@ -71,7 +70,7 @@ const mapToModèleRéponsePayload = ({
       nomRepresentantLegal: nomReprésentantLégal,
       puissance: puissance.toString(),
       refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
-      suiviPar: utilisateur.nom,
+      suiviPar: utilisateur.nom ?? '',
       suiviParEmail: appelOffres.dossierSuiviPar,
       titreAppelOffre: appelOffres.title,
       titreFamille: famille?.id ?? '',

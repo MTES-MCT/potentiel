@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -69,5 +69,5 @@ const mapToProps: MapToProps = ({ utilisateur, dépôt, cahierDesCharges }) => (
   identifiantProjet: dépôt.identifiantProjet.formatter(),
   typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
   dépôt: mapToPlainObject(dépôt),
-  showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
+  showWarning: utilisateur.estPorteur() ? true : undefined,
 });

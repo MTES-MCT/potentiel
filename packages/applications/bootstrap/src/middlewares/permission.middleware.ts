@@ -25,7 +25,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     throw new AuthenticationError();
   }
 
-  utilisateur.role.peutExécuterMessage(message.type);
+  utilisateur.rôle.peutExécuterMessage(message.type);
 
   // Le cas de RéclamerProjet est une exception,
   // car l'utilisateur n'a pas encore accès au projet.

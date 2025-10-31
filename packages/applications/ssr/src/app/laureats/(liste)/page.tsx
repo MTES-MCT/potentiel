@@ -132,7 +132,7 @@ export default async function Page({ searchParams }: PageProps) {
             symbols: projectListLegendSymbols,
           }}
           actions={mapToActions({
-            rôle: utilisateur.role,
+            rôle: utilisateur.rôle,
             searchParams: { appelOffre, nomProjet, statut },
           })}
         />

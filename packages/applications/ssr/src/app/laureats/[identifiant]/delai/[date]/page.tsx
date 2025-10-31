@@ -90,32 +90,32 @@ type MapToActionsProps = {
 };
 
 const mapToActions = ({
-  utilisateur: { identifiantUtilisateur, role },
+  utilisateur: { identifiantUtilisateur, rôle },
   demandeDélai: { statut, instruction },
   autoritéCompétente,
 }: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
   const estAutoritéCompétente = autoritéCompétente
-    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).estCompétent(role)
+    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).estCompétent(rôle)
     : false;
 
   return match(statut.statut)
     .with('demandé', () => {
-      if (role.aLaPermission('délai.annulerDemande')) {
+      if (rôle.aLaPermission('délai.annulerDemande')) {
         actions.push('annuler');
       }
-      if (role.aLaPermission('délai.passerEnInstructionDemande') && estAutoritéCompétente) {
+      if (rôle.aLaPermission('délai.passerEnInstructionDemande') && estAutoritéCompétente) {
         actions.push('passer-en-instruction');
       }
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
+      if (rôle.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
+      if (rôle.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
         actions.push('accorder');
       }
 
-      if (role.aLaPermission('délai.corrigerDemande')) {
+      if (rôle.aLaPermission('délai.corrigerDemande')) {
         actions.push('corriger');
       }
 
@@ -126,21 +126,21 @@ const mapToActions = ({
         return actions;
       }
 
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
+      if (rôle.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
+      if (rôle.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
         actions.push('accorder');
       }
 
-      if (role.aLaPermission('délai.corrigerDemande')) {
+      if (rôle.aLaPermission('délai.corrigerDemande')) {
         actions.push('corriger');
       }
 
       if (
         !identifiantUtilisateur.estÉgaleÀ(instruction.passéeEnInstructionPar) &&
-        role.aLaPermission('délai.reprendreInstructionDemande') &&
+        rôle.aLaPermission('délai.reprendreInstructionDemande') &&
         estAutoritéCompétente
       ) {
         actions.push('reprendre-instruction');

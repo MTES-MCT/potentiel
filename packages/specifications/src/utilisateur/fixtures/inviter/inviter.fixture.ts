@@ -1,8 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
+import { Role, Région, Zone } from '@potentiel-domain/utilisateur';
 
 import { Fixture } from '../../../fixture';
 
@@ -82,10 +81,11 @@ export class InviterUtilisateurFixture implements InviterUtilisateur, Fixture<In
     return {
       identifiantUtilisateur: email,
       rôle: Role.convertirEnValueType(this.rôle),
-      région: this.région ?? Option.none,
-      zone: this.zone ?? Option.none,
-      identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau ?? Option.none,
-      fonction: this.fonction ?? Option.none,
+      région: this.région ? Région.convertirEnValueType(this.région) : undefined,
+      zone: this.zone ? Zone.convertirEnValueType(this.zone) : undefined,
+      identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau,
+      fonction: this.fonction,
+      nomComplet: this.nomComplet,
     };
   }
 }

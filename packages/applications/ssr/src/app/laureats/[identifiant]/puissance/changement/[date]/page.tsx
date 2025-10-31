@@ -70,7 +70,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           historique={historique.items.map((item) =>
             mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
           )}
-          actions={mapToActions(changement.demande.statut, utilisateur.role)}
+          actions={mapToActions(changement.demande.statut, utilisateur.rôle)}
           dateDemandeEnCours={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }

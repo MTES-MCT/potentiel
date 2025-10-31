@@ -24,7 +24,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return (
         <ModifierSiteDeProductionPage
           lauréat={mapToPlainObject(lauréat)}
-          rôle={mapToPlainObject(utilisateur.role)}
+          rôle={mapToPlainObject(utilisateur.rôle)}
         />
       );
     }),

@@ -1,4 +1,4 @@
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
@@ -18,17 +18,12 @@ import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateu
 import { UtilisateurEvent } from './utilisateur.event';
 import {
   DésactivationPropreCompteError,
-  FonctionManquanteError,
-  IdentifiantGestionnaireRéseauManquantError,
-  NomCompletManquantError,
   PorteurInvitéSansProjetError,
-  RégionManquanteError,
   UtilisateurDéjàActifError,
   UtilisateurDéjàExistantError,
   UtilisateurInconnuError,
   UtilisateurNonActifError,
   UtilisateurNonPorteurError,
-  ZoneManquanteError,
 } from './utilisateur.error';
 import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options';
 
@@ -45,85 +40,22 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     return this.#projets.has(identifiantProjet);
   }
 
-  async inviter({
-    rôle,
-    invitéLe,
-    invitéPar,
-    fonction,
-    nomComplet,
-    région,
-    identifiantGestionnaireRéseau,
-    zone,
-  }: InviterOptions) {
+  async inviter({ invitéLe, invitéPar, utilisateur }: InviterOptions) {
     if (this.exists) {
       throw new UtilisateurDéjàExistantError();
     }
 
-    const basePayload = {
-      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
-      invitéLe: invitéLe.formatter(),
-      invitéPar: invitéPar.formatter(),
-    };
-
-    const payload = match(rôle.nom)
-      .returnType<UtilisateurInvitéEvent['payload']>()
-      .with('dgec-validateur', (rôle) => {
-        if (!fonction) {
-          throw new FonctionManquanteError();
-        }
-        if (!nomComplet) {
-          throw new NomCompletManquantError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          fonction,
-          nomComplet,
-        };
-      })
-      .with('dreal', (rôle) => {
-        if (!région) {
-          throw new RégionManquanteError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          région: région.formatter(),
-        };
-      })
-      .with('grd', (rôle) => {
-        if (!identifiantGestionnaireRéseau) {
-          throw new IdentifiantGestionnaireRéseauManquantError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          identifiantGestionnaireRéseau,
-        };
-      })
-      .with('porteur-projet', () => {
-        // voir `inviterPorteur` behavior
-        throw new PorteurInvitéSansProjetError();
-      })
-      .with('cocontractant', (rôle) => {
-        if (!zone) {
-          throw new ZoneManquanteError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          zone: zone.formatter(),
-        };
-      })
-      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts'), (rôle) => ({
-        ...basePayload,
-        rôle,
-      }))
-      .exhaustive();
-
+    const payload = utilisateur.formatter();
+    if (payload.rôle === 'porteur-projet') {
+      throw new PorteurInvitéSansProjetError();
+    }
     const event: UtilisateurInvitéEvent = {
       type: 'UtilisateurInvité-V2',
-      payload,
+      payload: {
+        invitéLe: invitéLe.formatter(),
+        invitéPar: invitéPar.formatter(),
+        ...payload,
+      },
     };
     await this.publish(event);
   }

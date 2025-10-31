@@ -128,7 +128,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       return (
         <HistoriqueLauréatPage
           identifiantProjet={identifiantProjet}
-          actions={mapToActions(utilisateur.role)}
+          actions={mapToActions(utilisateur.rôle)}
           filters={[
             {
               label: 'Catégorie',

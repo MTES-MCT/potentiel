@@ -11,7 +11,7 @@ import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnService.pag
 export default async function Page() {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(
         'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       );
       const listeGestionnaireRéseau = await récupérerLesGestionnairesParUtilisateur(utilisateur);

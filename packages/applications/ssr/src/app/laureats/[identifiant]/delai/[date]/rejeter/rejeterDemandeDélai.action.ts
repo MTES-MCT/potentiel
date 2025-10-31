@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateRejetValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
-        rôleUtilisateurValue: utilisateur.role.nom,
+        rôleUtilisateurValue: utilisateur.rôle.nom,
       },
     });
 

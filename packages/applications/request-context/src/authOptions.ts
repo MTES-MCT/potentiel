@@ -113,7 +113,7 @@ export const authOptions: AuthOptions = {
         );
       }
 
-      if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
+      if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.rôle.nom)) {
         getLogger('Auth').info(
           `User tries to connect with '${account.provider}' but is not authorized`,
           { utilisateur },

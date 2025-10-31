@@ -1,15 +1,9 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Role, Région, Zone } from '..';
+import { Utilisateur } from '..';
 
 export type InviterOptions = {
-  rôle: Role.ValueType;
+  utilisateur: Utilisateur.ValueType;
   invitéLe: DateTime.ValueType;
   invitéPar: Email.ValueType;
-
-  fonction?: string;
-  nomComplet?: string;
-  région?: Région.ValueType;
-  identifiantGestionnaireRéseau?: string;
-  zone?: Zone.ValueType;
 };

@@ -40,7 +40,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
-      const peutAccéderAuxArchivesDesGfs = utilisateur.role.aLaPermission(
+      const peutAccéderAuxArchivesDesGfs = utilisateur.rôle.aLaPermission(
         'garantiesFinancières.archives.lister',
       );
 
@@ -184,7 +184,7 @@ const mapToActionsAndInfos = ({
       }
 
       if (actuelles.statut.estÉchu()) {
-        if (utilisateur.role.estDreal()) {
+        if (utilisateur.rôle.estDreal()) {
           infos.push('échues');
         }
       } else if (Option.isNone(mainlevée) && !actuelles.garantiesFinancières.estExemption()) {
@@ -194,7 +194,7 @@ const mapToActionsAndInfos = ({
           actuelles.garantiesFinancières.estConstitué()
         ) {
           actions.push('garantiesFinancières.mainlevée.demander');
-        } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
+        } else if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
         if (!estAbandonné && actuelles.garantiesFinancières.estConstitué()) {
@@ -224,7 +224,7 @@ const mapToActionsAndInfos = ({
     }
   }
 
-  return { actions: actions.filter((action) => utilisateur.role.aLaPermission(action)), infos };
+  return { actions: actions.filter((action) => utilisateur.rôle.aLaPermission(action)), infos };
 };
 
 const mapToProps = ({

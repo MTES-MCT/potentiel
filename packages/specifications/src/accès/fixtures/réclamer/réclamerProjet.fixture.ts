@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 
 import { Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 
 import { Fixture } from '../../../fixture';
 
@@ -63,10 +62,10 @@ export class RéclamerProjetFixture implements RéclamerProjet, Fixture<Réclame
     return {
       identifiantUtilisateur: email,
       rôle: Role.porteur,
-      région: Option.none,
-      identifiantGestionnaireRéseau: Option.none,
-      fonction: Option.none,
-      zone: Option.none,
+      région: undefined,
+      identifiantGestionnaireRéseau: undefined,
+      fonction: undefined,
+      zone: undefined,
     };
   }
 }

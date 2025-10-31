@@ -6,63 +6,42 @@ import { SendVerificationRequestParams } from 'next-auth/providers';
 import { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import { buildSendVerificationRequest } from './sendVerificationRequest';
 import { GetUtilisateurFromEmail } from './getUtilisateur';
 
-type Utilisateur = PlainType<
-  Utilisateur.ValueType & {
-    désactivé?: true;
-  }
->;
+type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 
 const porteurDeProjet: Utilisateur = {
-  role: { nom: 'porteur-projet' },
-  nom: '',
+  rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
 };
 
 const porteurDeProjetDésactivé: Utilisateur = {
-  role: { nom: 'porteur-projet' },
-  nom: '',
+  rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
   désactivé: true,
 };
 
 const dgecValidateur: Utilisateur = {
-  role: { nom: 'dgec-validateur' },
-  nom: '',
+  rôle: { nom: 'dgec-validateur' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  nomComplet: '',
+  fonction: '',
 };
 
 const adminDGEC: Utilisateur = {
-  role: { nom: 'admin' },
-  nom: '',
+  rôle: { nom: 'admin' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
 };
 
 const dreal: Utilisateur = {
-  role: { nom: 'dreal' },
-  nom: '',
+  rôle: { nom: 'dreal' },
   identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
-  identifiantGestionnaireRéseau: Option.none,
-  région: Option.none,
-  zone: Option.none,
+  région: { nom: 'Corse' },
 };
 
 const utilisateursExistants: ReadonlyArray<Utilisateur> = [
@@ -82,7 +61,7 @@ const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
     return Option.none;
   }
 
-  return utilisateur;
+  return { ...Utilisateur.bind(utilisateur), désactivé: utilisateur.désactivé };
 };
 
 const buildSendVerificationRequestParams = (

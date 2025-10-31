@@ -5,15 +5,9 @@ import { Find } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
-import { Role } from '..';
+import { Utilisateur } from '..';
 
-export type TrouverUtilisateurReadModel = {
-  identifiantUtilisateur: Email.ValueType;
-  rôle: Role.ValueType;
-  fonction: Option.Type<string>;
-  région: Option.Type<string>;
-  zone: Option.Type<string>;
-  identifiantGestionnaireRéseau: Option.Type<string>;
+export type TrouverUtilisateurReadModel = Utilisateur.ValueType & {
   désactivé?: true;
 };
 
@@ -45,12 +39,6 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 };
 
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
-  identifiantUtilisateur: Email.convertirEnValueType(utilisateur.identifiantUtilisateur),
-  rôle: Role.convertirEnValueType(utilisateur.rôle),
-  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
-  région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
-  zone: utilisateur.rôle === 'cocontractant' ? utilisateur.zone : Option.none,
-  identifiantGestionnaireRéseau:
-    utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
+  ...Utilisateur.convertirEnValueType(utilisateur),
   désactivé: utilisateur.désactivé,
 });

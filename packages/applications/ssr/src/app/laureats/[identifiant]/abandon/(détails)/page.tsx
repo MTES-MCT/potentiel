@@ -5,7 +5,7 @@ import { match, P } from 'ts-pattern';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
@@ -117,10 +117,10 @@ const mapToActions = ({
   const statutRecandidature = demande.recandidature?.statut;
   const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
 
-  return match(utilisateur.role.nom)
+  return match(utilisateur.rôle.nom)
     .with(P.union('admin', 'dreal'), () => {
       if (demande.recandidature) return actions;
-      if (!demande.autoritéCompétente.estCompétent(utilisateur.role)) return actions;
+      if (!demande.autoritéCompétente.estCompétent(utilisateur.rôle)) return actions;
 
       if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
@@ -245,7 +245,7 @@ type MapToInformationsProps = {
 const mapToInformations = ({ statut, utilisateur, recandidature }: MapToInformationsProps) => {
   const informations: AvailableInformations = [];
 
-  if (utilisateur.role.estÉgaleÀ(Role.porteur) && statut.estAccordé()) {
+  if (utilisateur.estPorteur() && statut.estAccordé()) {
     informations.push('demande-de-mainlevée');
   }
 

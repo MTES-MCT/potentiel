@@ -1,4 +1,4 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { Benefices } from './Benefices';
 import { Bienvenue } from './Bienvenue';
@@ -6,7 +6,7 @@ import { InscriptionConnexion } from './InscriptionConnexion';
 import { PropositionDeValeur } from './PropositionDeValeur';
 
 export type HomePageProps = {
-  utilisateur?: Utilisateur.ValueType;
+  utilisateur?: PotentielUtilisateur;
 };
 export function HomePage({ utilisateur }: HomePageProps) {
   return (

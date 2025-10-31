@@ -21,7 +21,7 @@ type PageProps = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<Candidature.ImporterCandidatureUseCase>(
+      utilisateur.rôle.peutExécuterMessage<Candidature.ImporterCandidatureUseCase>(
         'Candidature.UseCase.ImporterCandidature',
       );
 
