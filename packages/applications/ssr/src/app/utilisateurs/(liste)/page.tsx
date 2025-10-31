@@ -233,13 +233,13 @@ const mapToActions = (
   }
 
   if (utilisateur.désactivé) {
-    if (!utilisateurConnecté.role.aLaPermission('utilisateur.réactiver')) {
+    if (!utilisateurConnecté.rôle.aLaPermission('utilisateur.réactiver')) {
       return [];
     }
     return ['réactiver'];
   }
 
-  if (!utilisateurConnecté.role.aLaPermission('utilisateur.désactiver')) {
+  if (!utilisateurConnecté.rôle.aLaPermission('utilisateur.désactiver')) {
     return [];
   }
 

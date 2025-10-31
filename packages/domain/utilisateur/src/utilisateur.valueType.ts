@@ -10,6 +10,7 @@ import {
   FonctionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
   NomCompletManquantError,
+  RégionManquanteError,
   ZoneManquanteError,
 } from './utilisateur.error';
 
@@ -17,25 +18,25 @@ type CommonValueType = {
   identifiantUtilisateur: Email.ValueType;
 };
 type DgecValidateurValueType = CommonValueType & {
-  role: typeof Role.dgecValidateur;
+  rôle: typeof Role.dgecValidateur;
   nomComplet: string;
   fonction: string;
 };
 type DrealValueType = CommonValueType & {
-  role: typeof Role.dreal;
+  rôle: typeof Role.dreal;
   région: Région.ValueType;
 };
 type GrdValueType = CommonValueType & {
-  role: typeof Role.grd;
+  rôle: typeof Role.grd;
   identifiantGestionnaireRéseau: string;
 };
 type CocontractantValueType = CommonValueType & {
-  role: typeof Role.cocontractant;
+  rôle: typeof Role.cocontractant;
   zone: Zone.ValueType;
 };
 
 type AutresRolesValueType = CommonValueType & {
-  role:
+  rôle:
     | typeof Role.ademe
     | typeof Role.admin
     | typeof Role.caisseDesDépôts
@@ -86,11 +87,11 @@ export type RawType =
 
 export type ValueType<TRole extends Role.RawType = Role.RawType> = ReadonlyValueType<
   (
-    | (TRole extends DgecValidateurValueType['role']['nom'] ? DgecValidateurValueType : never)
-    | (TRole extends DrealValueType['role']['nom'] ? DrealValueType : never)
-    | (TRole extends GrdValueType['role']['nom'] ? GrdValueType : never)
-    | (TRole extends CocontractantValueType['role']['nom'] ? CocontractantValueType : never)
-    | (TRole extends AutresRolesValueType['role']['nom'] ? AutresRolesValueType : never)
+    | (TRole extends DgecValidateurValueType['rôle']['nom'] ? DgecValidateurValueType : never)
+    | (TRole extends DrealValueType['rôle']['nom'] ? DrealValueType : never)
+    | (TRole extends GrdValueType['rôle']['nom'] ? GrdValueType : never)
+    | (TRole extends CocontractantValueType['rôle']['nom'] ? CocontractantValueType : never)
+    | (TRole extends AutresRolesValueType['rôle']['nom'] ? AutresRolesValueType : never)
   ) & {
     estÉgaleÀ(valueType: ValueType): boolean;
     estDGEC(): this is ValueType<'admin' | 'dgec-validateur'>;
@@ -109,56 +110,56 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
   const estÉgaleÀ = (value1: ValueType, value2: ValueType): boolean => {
     return (
       value1.identifiantUtilisateur.estÉgaleÀ(value2.identifiantUtilisateur) &&
-      value1.role.estÉgaleÀ(value2.role)
+      value1.rôle.estÉgaleÀ(value2.rôle)
     );
   };
 
-  const common = <TRole extends Role.RawType>(role: Role.ValueType<TRole>) => ({
-    role,
+  const common = <TRole extends Role.RawType>(rôle: Role.ValueType<TRole>) => ({
+    rôle,
     identifiantUtilisateur,
     estDGEC(): this is ValueType<'admin' | 'dgec-validateur'> {
-      return this.role.estDGEC();
+      return this.rôle.estDGEC();
     },
     estDreal(): this is ValueType<'dreal'> {
-      return this.role.estDreal();
+      return this.rôle.estDreal();
     },
     estPorteur(): this is ValueType<'porteur-projet'> {
-      return this.role.estPorteur();
+      return this.rôle.estPorteur();
     },
     estGrd(): this is ValueType<'grd'> {
-      return this.role.estGrd();
+      return this.rôle.estGrd();
     },
     estCocontractant(): this is ValueType<'cocontractant'> {
-      return this.role.estCocontractant();
+      return this.rôle.estCocontractant();
     },
     estValidateur(): this is ValueType<'dgec-validateur'> {
-      return this.role.estValidateur();
+      return this.rôle.estValidateur();
     },
     estÉgaleÀ(other: ValueType<TRole>) {
       return estÉgaleÀ(this as ValueType, other);
     },
     formatter() {
       return {
-        rôle: role.nom,
+        rôle: rôle.nom,
         identifiantUtilisateur: identifiantUtilisateur.formatter(),
       };
     },
   });
   return match(plain)
     .returnType<ValueType>()
-    .with({ role: { nom: 'ademe' } }, (): ValueType<'ademe'> => common(Role.ademe))
-    .with({ role: { nom: 'admin' } }, (): ValueType<'admin'> => common(Role.admin))
+    .with({ rôle: { nom: 'ademe' } }, (): ValueType<'ademe'> => common(Role.ademe))
+    .with({ rôle: { nom: 'admin' } }, (): ValueType<'admin'> => common(Role.admin))
     .with(
-      { role: { nom: 'caisse-des-dépôts' } },
+      { rôle: { nom: 'caisse-des-dépôts' } },
       (): ValueType<'caisse-des-dépôts'> => common(Role.caisseDesDépôts),
     )
-    .with({ role: { nom: 'cre' } }, (): ValueType<'cre'> => common(Role.cre))
+    .with({ rôle: { nom: 'cre' } }, (): ValueType<'cre'> => common(Role.cre))
     .with(
-      { role: { nom: 'porteur-projet' } },
+      { rôle: { nom: 'porteur-projet' } },
       (): ValueType<'porteur-projet'> => common(Role.porteur),
     )
     .with(
-      { role: { nom: 'grd' } },
+      { rôle: { nom: 'grd' } },
       ({ identifiantGestionnaireRéseau }): ValueType<'grd'> => ({
         ...common(Role.grd),
         identifiantGestionnaireRéseau,
@@ -179,7 +180,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       }),
     )
     .with(
-      { role: { nom: 'dreal' } },
+      { rôle: { nom: 'dreal' } },
       ({ région }): ValueType<'dreal'> => ({
         ...common(Role.dreal),
         région: Région.bind(région),
@@ -196,7 +197,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       }),
     )
     .with(
-      { role: { nom: 'cocontractant' } },
+      { rôle: { nom: 'cocontractant' } },
       ({ zone }): ValueType<'cocontractant'> => ({
         ...common(Role.cocontractant),
         zone: Zone.bind(zone),
@@ -213,7 +214,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       }),
     )
     .with(
-      { role: { nom: 'dgec-validateur' } },
+      { rôle: { nom: 'dgec-validateur' } },
       ({ nomComplet, fonction }): ValueType<'dgec-validateur'> => ({
         ...common(Role.dgecValidateur),
         nomComplet,
@@ -241,7 +242,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 
 type ConvertirEnValueTypeProps = {
   identifiantUtilisateur: string;
-  role: string;
+  rôle: string;
   région?: string;
   identifiantGestionnaireRéseau?: string;
   zone?: string;
@@ -251,7 +252,7 @@ type ConvertirEnValueTypeProps = {
 
 export const convertirEnValueType = ({
   identifiantUtilisateur: identifiantUtilisateurValue,
-  role: roleValue,
+  rôle: roleValue,
   région,
   identifiantGestionnaireRéseau,
   zone,
@@ -262,14 +263,14 @@ export const convertirEnValueType = ({
   const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
   return match(rôle)
     .returnType<ValueType>()
-    .with({ nom: 'ademe' }, () => bind({ role: Role.ademe, identifiantUtilisateur }))
-    .with({ nom: 'admin' }, () => bind({ role: Role.admin, identifiantUtilisateur }))
+    .with({ nom: 'ademe' }, () => bind({ rôle: Role.ademe, identifiantUtilisateur }))
+    .with({ nom: 'admin' }, () => bind({ rôle: Role.admin, identifiantUtilisateur }))
     .with({ nom: 'caisse-des-dépôts' }, () =>
-      bind({ role: Role.caisseDesDépôts, identifiantUtilisateur }),
+      bind({ rôle: Role.caisseDesDépôts, identifiantUtilisateur }),
     )
-    .with({ nom: 'cre' }, () => bind({ role: Role.cre, identifiantUtilisateur }))
-    .with({ nom: 'porteur-projet' }, () => bind({ role: Role.porteur, identifiantUtilisateur }))
-    .with({ nom: 'dgec-validateur' }, (role) => {
+    .with({ nom: 'cre' }, () => bind({ rôle: Role.cre, identifiantUtilisateur }))
+    .with({ nom: 'porteur-projet' }, () => bind({ rôle: Role.porteur, identifiantUtilisateur }))
+    .with({ nom: 'dgec-validateur' }, (rôle) => {
       if (!fonction) {
         throw new FonctionManquanteError();
       }
@@ -278,28 +279,28 @@ export const convertirEnValueType = ({
       }
       return bind({
         identifiantUtilisateur,
-        role,
+        rôle,
         nomComplet,
         fonction,
       });
     })
-    .with({ nom: 'grd' }, (role) => {
+    .with({ nom: 'grd' }, (rôle) => {
       if (!identifiantGestionnaireRéseau) {
         throw new IdentifiantGestionnaireRéseauManquantError();
       }
-      return bind({ identifiantUtilisateur, role, identifiantGestionnaireRéseau });
+      return bind({ identifiantUtilisateur, rôle, identifiantGestionnaireRéseau });
     })
-    .with({ nom: 'dreal' }, (role) => {
+    .with({ nom: 'dreal' }, (rôle) => {
       if (!région) {
-        throw new IdentifiantGestionnaireRéseauManquantError();
+        throw new RégionManquanteError();
       }
-      return bind({ identifiantUtilisateur, role, région: Région.convertirEnValueType(région) });
+      return bind({ identifiantUtilisateur, rôle, région: Région.convertirEnValueType(région) });
     })
-    .with({ nom: 'cocontractant' }, (role) => {
+    .with({ nom: 'cocontractant' }, (rôle) => {
       if (!zone) {
         throw new ZoneManquanteError();
       }
-      return bind({ identifiantUtilisateur, role, zone: Zone.convertirEnValueType(zone) });
+      return bind({ identifiantUtilisateur, rôle, zone: Zone.convertirEnValueType(zone) });
     })
     .exhaustive();
 };

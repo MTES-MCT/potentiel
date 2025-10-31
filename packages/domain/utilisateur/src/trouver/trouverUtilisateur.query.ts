@@ -39,9 +39,6 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 };
 
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
-  ...Utilisateur.convertirEnValueType({
-    role: utilisateur.rôle,
-    ...utilisateur,
-  }),
+  ...Utilisateur.convertirEnValueType(utilisateur),
   désactivé: utilisateur.désactivé,
 });

@@ -39,7 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
           nouvelleRéférenceDossierRaccordementValue: referenceDossierRaccordement,
-          rôleValue: utilisateur.role.nom,
+          rôleValue: utilisateur.rôle.nom,
           modifiéeLeValue: DateTime.now().formatter(),
           modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         },
@@ -53,7 +53,7 @@ const action: FormAction<FormState, typeof schema> = async (
         accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
-        rôleValue: utilisateur.role.nom,
+        rôleValue: utilisateur.rôle.nom,
       },
     });
 

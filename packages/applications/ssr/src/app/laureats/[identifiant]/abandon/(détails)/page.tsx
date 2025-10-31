@@ -117,10 +117,10 @@ const mapToActions = ({
   const statutRecandidature = demande.recandidature?.statut;
   const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
 
-  return match(utilisateur.role.nom)
+  return match(utilisateur.rôle.nom)
     .with(P.union('admin', 'dreal'), () => {
       if (demande.recandidature) return actions;
-      if (!demande.autoritéCompétente.estCompétent(utilisateur.role)) return actions;
+      if (!demande.autoritéCompétente.estCompétent(utilisateur.rôle)) return actions;
 
       if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');

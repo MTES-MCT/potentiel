@@ -68,7 +68,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       }
 
       const props = mapToProps({
-        role: utilisateur.role,
+        role: utilisateur.rôle,
         période,
         gestionnaireRéseau,
         identifiantProjet,

@@ -8,7 +8,7 @@ type BienvenueProps = {
   utilisateur: PotentielUtilisateur;
 };
 export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
-  const { lien, texte } = match(utilisateur.role.nom)
+  const { lien, texte } = match(utilisateur.rôle.nom)
     .with('porteur-projet', () => ({
       texte: 'Voir mes projets lauréats',
       lien: Routes.Lauréat.lister(),

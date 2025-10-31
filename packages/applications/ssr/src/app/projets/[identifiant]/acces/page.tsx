@@ -92,7 +92,7 @@ const mapToProps: MapToProps = ({
   });
 
 const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
-  if (!utilisateur.role.estPorteur()) {
+  if (!utilisateur.rôle.estPorteur()) {
     return undefined;
   }
   const accès = await mediator.send<Accès.ListerAccèsQuery>({

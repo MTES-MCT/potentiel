@@ -8,7 +8,7 @@ import { CorrigerRéférencesDossierPage } from './CorrigerRéférencesDossier.p
 export default async function Page() {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>(
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>(
         'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       );
       return <CorrigerRéférencesDossierPage />;

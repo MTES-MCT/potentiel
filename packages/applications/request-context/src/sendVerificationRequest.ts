@@ -51,11 +51,11 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest = (
       return envoyerMagicLink(identifier, url);
     }
 
-    if (canConnectWithProvider('email', utilisateur.role.nom)) {
+    if (canConnectWithProvider('email', utilisateur.rôle.nom)) {
       return envoyerMagicLink(identifier, url);
     }
 
-    if (canConnectWithProvider('proconnect', utilisateur.role.nom)) {
+    if (canConnectWithProvider('proconnect', utilisateur.rôle.nom)) {
       return envoyerEmailConnexionProConnectObligatoire(identifier);
     }
 

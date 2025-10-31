@@ -90,9 +90,9 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       linkProps: {
         href: Routes.Délai.lister({
           statut: ['demandé', 'en-instruction'],
-          autoriteCompetente: utilisateur.role.estDGEC()
+          autoriteCompetente: utilisateur.rôle.estDGEC()
             ? 'dgec'
-            : utilisateur.role.estDreal()
+            : utilisateur.rôle.estDreal()
               ? 'dreal'
               : undefined,
         }),
@@ -127,7 +127,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     },
   ];
 
-  return match(utilisateur.role.nom)
+  return match(utilisateur.rôle.nom)
     .returnType<MainNavigationProps['items']>()
     .with(P.union('admin', 'dgec-validateur'), () => [
       {

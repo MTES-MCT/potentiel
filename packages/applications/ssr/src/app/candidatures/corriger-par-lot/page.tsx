@@ -8,7 +8,7 @@ import { CorrigerCandidaturesParLotPage } from './CorrigerCandidaturesParLot.pag
 export default async function Page() {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(
+      utilisateur.rôle.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(
         'Candidature.UseCase.CorrigerCandidature',
       );
       return <CorrigerCandidaturesParLotPage />;

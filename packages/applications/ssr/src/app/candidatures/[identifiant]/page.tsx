@@ -53,7 +53,7 @@ export default async function Page({ params }: PageProps) {
               aUneAttestation: !!candidature.notification?.attestation,
               estLauréat: Option.isSome(lauréat),
             },
-            utilisateur.role,
+            utilisateur.rôle,
           )}
         />
       );

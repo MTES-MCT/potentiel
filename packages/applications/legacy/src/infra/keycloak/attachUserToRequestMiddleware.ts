@@ -65,7 +65,7 @@ const makeAttachUserToRequestMiddleware =
 
       const {
         identifiantUtilisateur: { email },
-        role: { nom: role },
+        rôle: { nom: role },
         nom: fullName = '',
         accountUrl,
       } = utilisateur;

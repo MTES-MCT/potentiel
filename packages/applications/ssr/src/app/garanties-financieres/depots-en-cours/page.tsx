@@ -92,7 +92,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListDépôtsGarantiesFinancièresPage
           list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
           filters={filters}
-          role={mapToPlainObject(utilisateur.role)}
+          role={mapToPlainObject(utilisateur.rôle)}
         />
       );
     }),

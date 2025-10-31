@@ -16,30 +16,30 @@ import { GetUtilisateurFromEmail } from './getUtilisateur';
 type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 
 const porteurDeProjet: Utilisateur = {
-  role: { nom: 'porteur-projet' },
+  rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
 };
 
 const porteurDeProjetDésactivé: Utilisateur = {
-  role: { nom: 'porteur-projet' },
+  rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
   désactivé: true,
 };
 
 const dgecValidateur: Utilisateur = {
-  role: { nom: 'dgec-validateur' },
+  rôle: { nom: 'dgec-validateur' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
   nomComplet: '',
   fonction: '',
 };
 
 const adminDGEC: Utilisateur = {
-  role: { nom: 'admin' },
+  rôle: { nom: 'admin' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
 };
 
 const dreal: Utilisateur = {
-  role: { nom: 'dreal' },
+  rôle: { nom: 'dreal' },
   identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
   région: { nom: 'Corse' },
 };

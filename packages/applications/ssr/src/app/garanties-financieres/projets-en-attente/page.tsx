@@ -116,7 +116,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
           list={mapToListProps({
             list: projetsAvecGarantiesFinancièresEnAttente,
-            role: utilisateur.role,
+            role: utilisateur.rôle,
           })}
           filters={filters}
         />

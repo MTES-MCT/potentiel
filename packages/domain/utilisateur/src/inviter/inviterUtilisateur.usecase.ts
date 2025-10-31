@@ -36,7 +36,7 @@ export const registerInviterUseCase = () => {
   }) => {
     const utilisateur = Utilisateur.convertirEnValueType({
       identifiantUtilisateur: identifiantUtilisateurValue,
-      role: rôleValue,
+      rôle: rôleValue,
       fonction: fonctionValue,
       nomComplet: nomCompletValue,
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseauValue,

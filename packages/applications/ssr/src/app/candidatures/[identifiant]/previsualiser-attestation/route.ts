@@ -23,7 +23,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
       const identifiantProjet = decodeParameter(identifiant);
 
-      const rôleUtilisateur = utilisateur.role;
+      const rôleUtilisateur = utilisateur.rôle;
 
       const canPreviewAttestation = rôleUtilisateur.aLaPermission(
         'candidature.attestation.prévisualiser',

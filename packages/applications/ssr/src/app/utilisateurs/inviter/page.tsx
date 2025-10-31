@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: { searchParams: { role?: string } }) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<InviterUtilisateurUseCase>(
+      utilisateur.rôle.peutExécuterMessage<InviterUtilisateurUseCase>(
         'Utilisateur.UseCase.InviterUtilisateur',
       );
       const role = searchParams?.role ? Role.convertirEnValueType(searchParams.role) : undefined;
