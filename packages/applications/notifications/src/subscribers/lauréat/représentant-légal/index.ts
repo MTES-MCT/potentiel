@@ -4,16 +4,16 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getBaseUrl, getLauréat } from '../../../helpers';
+import { getBaseUrl, getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { changementReprésentantLégalAccordéNotification } from './changementReprésentantLégalAccordé.notification';
-import { changementReprésentantLégalAnnuléNotification } from './changementReprésentantLégalAnnulé.notification';
-import { changementReprésentantLégalCorrigéNotification } from './changementReprésentantLégalCorrigé.notification';
-import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
-import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
+import { changementReprésentantLégalAccordéNotification } from './handlers/changementReprésentantLégalAccordé.notification';
+import { changementReprésentantLégalAnnuléNotification } from './handlers/changementReprésentantLégalAnnulé.notification';
+import { changementReprésentantLégalCorrigéNotification } from './handlers/changementReprésentantLégalCorrigé.notification';
+import { changementReprésentantLégalDemandéNotification } from './handlers/changementReprésentantLégalDemandé.notification';
+import { changementReprésentantLégalRejetéNotification } from './handlers/changementReprésentantLégalRejeté.notification';
 import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
-import { changementReprésentantLégalEnregistréNotification } from './changementReprésentantLégalEnregistré.notification';
+import { changementReprésentantLégalEnregistréNotification } from './handlers/changementReprésentantLégalEnregistré.notification';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent & Event;
 
