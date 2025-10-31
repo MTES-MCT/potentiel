@@ -20,7 +20,6 @@ declare module 'express-serve-static-core' {
       id: string;
       accountUrl?: string;
       permissions: Permission[];
-      // région: Option.Type<string>;
       features: Array<string>;
     };
     errorFileSizeLimit?: string;
