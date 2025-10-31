@@ -8,7 +8,7 @@ export const computeProjetLauréatParDépartement = async () => {
       domain_public_statistic.carto_projet_statistic
     select laur.value->>'identifiantProjet' as "identifiant",
       laur.value->>'appelOffre' as "appelOffre",
-      SUBSTRING(laur.value->>'notifiéLe', 0, 11) as "dateNotification",
+      DATE((laur.value->>'notifiéLe')::timestamp) as "dateNotification",
       laur.value->>'localité.département' as "departementProjet",
       (
         case
