@@ -8,11 +8,12 @@ import { ListFiltersProps } from '@/components/molecules/ListFilters';
 
 export type FiltersTagListProps = {
   filters: ListFiltersProps['filters'];
+  searchBarParams?: string;
 };
 
 type TagFilter = { searchParamKey: string; label: string; value: string; affects?: string[] };
 
-export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
+export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarParams }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -55,6 +56,19 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
       return router.push(url);
     }
   };
+  const onDelete = () => {
+    const newSearchParams = new URLSearchParams();
+
+    if (searchBarParams) {
+      const existingBarSearchValue = searchParams.get(searchBarParams);
+      if (existingBarSearchValue) {
+        newSearchParams.set(searchBarParams, existingBarSearchValue);
+      }
+    }
+
+    const url = `${pathname}?${newSearchParams.toString()}`;
+    router.push(url);
+  };
 
   return (
     <>
@@ -74,7 +88,7 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
           ))}
           {tagFilters?.length > 1 && (
             <li key="tagFilter-delete">
-              <DeleteEveryFilterButton onDelete={() => router.push(pathname)} />
+              <DeleteEveryFilterButton onDelete={onDelete} />
             </li>
           )}
         </ul>

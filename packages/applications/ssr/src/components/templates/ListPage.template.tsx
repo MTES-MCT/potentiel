@@ -57,7 +57,7 @@ export const ListPageTemplate = <TItem,>({
         </div>
 
         <div className="flex flex-col gap-3 flex-grow md:w-3/4">
-          <ListHeader filters={filters} totalCount={totalItems} />
+          <ListHeader searchBarParams={search?.params} filters={filters} totalCount={totalItems} />
           {items.length ? (
             <List
               items={items}
