@@ -10,20 +10,20 @@ export const computePuissanceTotaleMiseEnService = async () => {
             domain_public_statistic.scalar_statistic
           values(
             $1, 
-            (
+            (             
               select 
-                  sum( proj.puissance)
+                  sum((puiss.value->>'puissance')::float)
               from
-                  domain_views.projection p
-                  join projects proj on format('%s#%s#%s#%s', proj."appelOffreId", proj."periodeId", proj."familleId", proj."numeroCRE")=p.value->>'identifiantProjet'
+                  domain_views.projection racc
+                  join domain_views.projection puiss on puiss.key=format('puissance|%s',racc.value->>'identifiantProjet')
               where 
-                    p.key like 'raccordement|%'
+                    racc.key like 'raccordement|%'
                     and NOT EXISTS ( 
                         SELECT 1
-                        FROM jsonb_array_elements(value->'dossiers') AS dossier
+                        FROM jsonb_array_elements(racc.value->'dossiers') AS dossier
                         WHERE dossier->'miseEnService'->>'dateMiseEnService' is null
                     )
-                    AND jsonb_array_length(value->'dossiers') > 0
+                    AND jsonb_array_length(racc.value->'dossiers') > 0
             )
           )
           `,

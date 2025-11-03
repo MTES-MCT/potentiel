@@ -12,12 +12,14 @@ export const computeTotalPuissanceProjetAvecMainlevéeAccordée = async () => {
       $1, 
       (
         select 
-            sum(p."puissance") as "value" 
-        from projects p
-        where p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" in (
-          select distinct(payload->>'identifiantProjet') from event_store.event_stream es where es.type like 'DemandeMainlevéeGarantiesFinancièresAccordée-V%'
+            sum( (puiss.value->>'puissance')::float) as "value"
+        from
+            domain_views.projection ml
+            join domain_views.projection puiss on puiss.key=format('puissance|%s',ml.value->>'identifiantProjet')
+        where 
+            ml.key like 'mainlevee-garanties-financieres|%'
+            and ml.value->>'statut'='accordé'
         )
-      )
     )
     `,
     statisticType,
