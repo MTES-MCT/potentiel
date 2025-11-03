@@ -181,6 +181,8 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
       région: payload.rôle === 'dreal' ? payload.région : undefined,
       zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
+      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
+      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
     });
   }
 
@@ -193,6 +195,8 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
       région: payload.rôle === 'dreal' ? payload.région : undefined,
       zone: payload.rôle === 'acheteur-obligé' ? 'métropole' : undefined,
+      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
+      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
     });
   }
 
@@ -218,6 +222,8 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
       région: payload.rôle === 'dreal' ? payload.région : undefined,
       zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
+      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
+      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
     });
   }
 
