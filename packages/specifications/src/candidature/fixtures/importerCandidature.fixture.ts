@@ -184,7 +184,7 @@ const créerDépôt = (
     obligationDeSolarisation: undefined,
     puissanceDeSite:
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
-        ? faker.number.int({ min: 1 })
+        ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
       {

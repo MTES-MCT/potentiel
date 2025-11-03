@@ -117,6 +117,6 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
 
     Scénario: Impossible de modifier la puissance de site pour un AO qui interdit ce champ
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
-            | ratio puissance   | 1.2   |
-            | puissance de site | 100.2 |
+            | ratio puissance   | 1.2 |
+            | puissance de site | 101 |
         Alors l'utilisateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"

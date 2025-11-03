@@ -95,7 +95,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     raison,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
+    this.vérifierLaCohérenceDesDonnéesDeLaModification(puissance, puissanceDeSite);
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
@@ -124,7 +124,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
+    this.vérifierLaCohérenceDesDonnéesDeLaModification(puissance, puissanceDeSite);
     this.vérifierChangementPossible('information-enregistrée', puissance);
 
     const event: ChangementPuissanceEnregistréEvent = {
@@ -151,7 +151,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: DemanderOptions) {
-    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
+    this.vérifierLaCohérenceDesDonnéesDeLaModification(puissance, puissanceDeSite);
     this.vérifierChangementPossible('demande', puissance);
 
     const event: ChangementPuissanceDemandéEvent = {
@@ -337,9 +337,10 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   private applyChangementPuissanceEnregistré({
-    payload: { puissance },
+    payload: { puissance, puissanceDeSite },
   }: ChangementPuissanceEnregistréEvent) {
     this.#puissance = puissance;
+    this.#puissanceDeSite = puissanceDeSite;
   }
 
   private applyPuissanceImportée({
@@ -387,14 +388,10 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#demande = undefined;
   }
 
-  private vérifierLaCohérenceDesDonnées(puissance?: number, puissanceDeSite?: number) {
-    // a vérifier
-    // console.log('viovio');
-    // console.log(puissance);
-    // console.log(puissanceDeSite);
-    // // pas mise à jour
-    // console.log(this.#puissanceDeSite);
-
+  private vérifierLaCohérenceDesDonnéesDeLaModification(
+    puissance?: number,
+    puissanceDeSite?: number,
+  ) {
     if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
       if (puissanceDeSite !== undefined) {
         throw new PuissanceDeSiteNonAttendueError();

@@ -48,7 +48,7 @@ export class ModifierPuissanceFixture
       puissance: faker.number.int({ min: 1 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
-          ? faker.number.int({ min: 1 })
+          ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       dateModification: faker.date.recent().toISOString(),
       raison: faker.company.catchPhrase(),
