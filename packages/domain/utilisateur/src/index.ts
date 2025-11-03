@@ -23,7 +23,7 @@ import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisat
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
-import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateurusecase';
+import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
 import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';

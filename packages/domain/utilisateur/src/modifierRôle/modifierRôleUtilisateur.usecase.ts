@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, DateTime } from '@potentiel-domain/common';
 
-import { Role, Région, Zone } from '..';
+import { Utilisateur } from '..';
 
 import { ModifierRôleUtilisateurCommand } from './modifierRôleUtilisateur.command';
 
@@ -34,25 +34,24 @@ export const registerModifierRôleUseCase = () => {
     identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
     zoneValue,
   }) => {
-    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const nouveauRôle = Role.convertirEnValueType(nouveauRôleValue);
+    const nouvelUtilisateur = Utilisateur.convertirEnValueType({
+      identifiantUtilisateur: identifiantUtilisateurValue,
+      rôle: nouveauRôleValue,
+      fonction,
+      nomComplet,
+      région: régionValue,
+      identifiantGestionnaireRéseau,
+      zone: zoneValue,
+    });
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const modifiéPar = Email.convertirEnValueType(modifiéParValue);
-    const région = régionValue ? Région.convertirEnValueType(régionValue) : undefined;
-    const zone = zoneValue ? Zone.convertirEnValueType(zoneValue) : undefined;
 
     await mediator.send<ModifierRôleUtilisateurCommand>({
       type: 'Utilisateur.Command.ModifierRôleUtilisateur',
       data: {
-        identifiantUtilisateur,
-        nouveauRôle,
+        nouvelUtilisateur,
         modifiéLe,
         modifiéPar,
-        fonction,
-        nomComplet,
-        région,
-        identifiantGestionnaireRéseau,
-        zone,
       },
     });
   };

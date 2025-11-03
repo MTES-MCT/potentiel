@@ -20,7 +20,7 @@ import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
-import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateurusecase';
+import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
 import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command';
 import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
