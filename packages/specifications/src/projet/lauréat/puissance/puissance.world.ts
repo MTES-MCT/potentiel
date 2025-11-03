@@ -24,10 +24,9 @@ export class PuissanceWorld {
   mapExempleToFixtureValues(exemple: Record<string, string>) {
     return {
       ratioPuissance: Number(exemple['ratio puissance']),
-      puissanceDeSite:
-        Number(exemple['puissance de site']) || exemple['puissance de site']
-          ? Number(exemple['puissance de site'])
-          : undefined,
+      puissanceDeSite: exemple['puissance de site']
+        ? Number(exemple['puissance de site'])
+        : undefined,
     };
   }
 

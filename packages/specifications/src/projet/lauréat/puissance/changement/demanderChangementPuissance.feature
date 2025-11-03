@@ -94,14 +94,14 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | puissance de site | <Ratio> |
-            | ratio puissance   | 1       |
+            | puissance de site | <Puissance de site> |
+            | ratio puissance   | 1                   |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
         Exemples:
-            | Ratio |
-            | 0     |
-            | -1    |
+            | Puissance de site |
+            | 0                 |
+            | -1                |
 
     Scénario: Impossible pour le porteur de demander le changement de puissance si elle dépasse la puissance max par famille
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -141,10 +141,11 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Scénario: Impossible de demander le changement de puissance si la puissance de site n'est pas également modifiée pour un AO qui requiert la puissance de site
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | appel d'offres    | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 20                       |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1.2 |
-            | ratio puissance de site | 1   |
+            | ratio puissance   | 1.2 |
+            | puissance de site | 20  |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de demander le changement de puissance de site sans valeur pour un AO qui requiert ce champ

@@ -64,14 +64,14 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | puissance de site | <Ratio> |
-            | ratio puissance   | 1       |
+            | puissance de site | <Puissance de site> |
+            | ratio puissance   | 1                   |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
         Exemples:
-            | Ratio |
-            | 0     |
-            | -1    |
+            | Puissance de site |
+            | 0                 |
+            | -1                |
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
@@ -165,18 +165,19 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans modification pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | appel d'offres    | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 100                      |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1.2 |
-            | ratio puissance de site | 1   |
+            | ratio puissance   | 1.2 |
+            | puissance de site | 100 |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans valeur pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1.2 |
-            | ratio puissance de site |     |
+            | ratio puissance   | 1.2 |
+            | puissance de site |     |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site pour un AO qui interdit ce champ
