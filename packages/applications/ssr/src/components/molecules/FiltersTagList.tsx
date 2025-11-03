@@ -56,8 +56,6 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
     }
   };
 
-  const onDelete = () => router.push(pathname);
-
   return (
     <>
       {tagFilters?.length > 0 && (
@@ -76,14 +74,7 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
           ))}
           {tagFilters?.length > 1 && (
             <li key="tagFilter-delete">
-              <Tag
-                iconId="fr-icon-delete-bin-line"
-                nativeButtonProps={{
-                  onClick: () => onDelete(),
-                }}
-              >
-                Effacer les filtres
-              </Tag>
+              <DeleteEveryFilterButton onDelete={() => router.push(pathname)} />
             </li>
           )}
         </ul>
@@ -91,3 +82,14 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
     </>
   );
 };
+
+const DeleteEveryFilterButton = ({ onDelete }: { onDelete: () => void }) => (
+  <Tag
+    iconId="fr-icon-delete-bin-line"
+    nativeButtonProps={{
+      onClick: () => onDelete(),
+    }}
+  >
+    Effacer les filtres
+  </Tag>
+);
