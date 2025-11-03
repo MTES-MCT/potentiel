@@ -26,7 +26,7 @@ export const handleGarantiesFinancièresÉchues = async ({
     departement_projet: projet.département,
     region_projet: projet.région,
     nouveau_statut: 'en attente de validation',
-    dateÉchéance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
+    date_echeance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
     url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
   };
 

@@ -29,9 +29,9 @@ Fonctionnalité: Corriger une candidature
             | nom candidat               | abcd |
             | doit régénérer attestation | oui  |
         Alors la candidature devrait être consultable
-        Et le porteur a été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être régénérée
+        Et le porteur a été prévenu que son attestation a été modifiée
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
@@ -39,9 +39,9 @@ Fonctionnalité: Corriger une candidature
             | nom candidat               | abcd |
             | doit régénérer attestation | non  |
         Alors la candidature devrait être consultable
-        Et le porteur n'a pas été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
+        Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :

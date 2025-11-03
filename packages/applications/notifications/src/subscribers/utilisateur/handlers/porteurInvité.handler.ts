@@ -24,17 +24,19 @@ export const handlePorteurInvité = async ({
   // car cela correspond à l'invitation liée à la candidature,
   // pour laquelle le porteur est déjà notifié
   if (Email.convertirEnValueType(invitéPar).estSystème()) {
-    await sendEmail({
-      templateId: utilisateurNotificationTemplateId.inviter.porteur,
-      messageSubject: `Invitation à suivre les projets sur Potentiel`,
-      recipients: [{ email: identifiantUtilisateur }],
-      variables: {
-        nomProjet: projets
-          .filter(Boolean)
-          .map(({ nom }) => nom)
-          .join(', '),
-        invitation_link: urlPageProjets,
-      },
-    });
+    return;
   }
+
+  await sendEmail({
+    templateId: utilisateurNotificationTemplateId.inviter.porteur,
+    messageSubject: `Invitation à suivre les projets sur Potentiel`,
+    recipients: [{ email: identifiantUtilisateur }],
+    variables: {
+      nomProjet: projets
+        .filter(Boolean)
+        .map(({ nom }) => nom)
+        .join(', '),
+      invitation_link: urlPageProjets,
+    },
+  });
 };
