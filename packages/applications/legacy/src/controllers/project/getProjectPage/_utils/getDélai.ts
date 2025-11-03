@@ -43,7 +43,7 @@ export const getDélai: GetDélai = async ({
       })
     ).items[0];
 
-    if (demandeEnCours && role.aLaPermission('délai.consulterDemande')) {
+    if (demandeEnCours && role.aLaPermission('délai.consulterChangement')) {
       return {
         affichage: {
           label: 'Voir la demande de délai',

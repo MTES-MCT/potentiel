@@ -447,25 +447,25 @@ const référencielPermissions = {
     délai: {
       query: {
         consulter: 'Lauréat.Délai.Query.ConsulterDélai',
-        consulterDemande: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-        listerDemandes: 'Lauréat.Délai.Query.ListerDemandeDélai',
+        consulterChangement: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+        listerChangement: 'Lauréat.Délai.Query.ListerDemandeDélai',
         listerHistorique: 'Lauréat.Délai.Query.ListerHistoriqueDélaiProjet',
       },
       usecase: {
-        demander: 'Lauréat.Délai.UseCase.DemanderDélai',
-        annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
+        demanderChangement: 'Lauréat.Délai.UseCase.DemanderDélai',
+        annulerChangement: 'Lauréat.Délai.UseCase.AnnulerDemande',
         passerEnInstruction: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
-        rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
-        accorder: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
-        corriger: 'Lauréat.Délai.UseCase.CorrigerDemandeDélai',
+        rejeterChangement: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
+        accorderChangement: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
+        corrigerChangement: 'Lauréat.Délai.UseCase.CorrigerDemandeDélai',
       },
       command: {
-        demander: 'Lauréat.Délai.Command.DemanderDélai',
-        annuler: 'Lauréat.Délai.Command.AnnulerDemande',
+        demanderChangement: 'Lauréat.Délai.Command.DemanderDélai',
+        annulerChangement: 'Lauréat.Délai.Command.AnnulerDemande',
         passerEnInstruction: 'Lauréat.Délai.Command.PasserEnInstructionDemande',
-        rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
-        accorder: 'Lauréat.Délai.Command.AccorderDemandeDélai',
-        corriger: 'Lauréat.Délai.Command.CorrigerDemandeDélai',
+        rejeterChangement: 'Lauréat.Délai.Command.RejeterDemandeDélai',
+        accorderChangement: 'Lauréat.Délai.Command.AccorderDemandeDélai',
+        corrigerChangement: 'Lauréat.Délai.Command.CorrigerDemandeDélai',
       },
     },
     usecase: {
@@ -1380,21 +1380,21 @@ const policies = {
     ],
   },
   délai: {
-    consulterDemande: [
-      référencielPermissions.lauréat.délai.query.consulterDemande,
+    consulterChangement: [
+      référencielPermissions.lauréat.délai.query.consulterChangement,
       référencielPermissions.lauréat.délai.query.listerHistorique,
     ],
-    listerDemande: [référencielPermissions.lauréat.délai.query.listerDemandes],
-    demander: [
-      référencielPermissions.lauréat.délai.command.demander,
-      référencielPermissions.lauréat.délai.usecase.demander,
-      référencielPermissions.lauréat.délai.query.consulterDemande,
+    listerChangement: [référencielPermissions.lauréat.délai.query.listerChangement],
+    demanderChangement: [
+      référencielPermissions.lauréat.délai.command.demanderChangement,
+      référencielPermissions.lauréat.délai.usecase.demanderChangement,
+      référencielPermissions.lauréat.délai.query.consulterChangement,
     ],
-    annulerDemande: [
-      référencielPermissions.lauréat.délai.command.annuler,
-      référencielPermissions.lauréat.délai.usecase.annuler,
+    annulerChangement: [
+      référencielPermissions.lauréat.délai.command.annulerChangement,
+      référencielPermissions.lauréat.délai.usecase.annulerChangement,
     ],
-    passerEnInstructionDemande: [
+    passerDemandeEnInstruction: [
       référencielPermissions.lauréat.délai.command.passerEnInstruction,
       référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
     ],
@@ -1402,17 +1402,17 @@ const policies = {
       référencielPermissions.lauréat.délai.command.passerEnInstruction,
       référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
     ],
-    rejeterDemande: [
-      référencielPermissions.lauréat.délai.command.rejeter,
-      référencielPermissions.lauréat.délai.usecase.rejeter,
+    rejeterChangement: [
+      référencielPermissions.lauréat.délai.command.rejeterChangement,
+      référencielPermissions.lauréat.délai.usecase.rejeterChangement,
     ],
-    accorderDemande: [
-      référencielPermissions.lauréat.délai.command.accorder,
-      référencielPermissions.lauréat.délai.usecase.accorder,
+    accorderChangement: [
+      référencielPermissions.lauréat.délai.command.accorderChangement,
+      référencielPermissions.lauréat.délai.usecase.accorderChangement,
     ],
-    corrigerDemande: [
-      référencielPermissions.lauréat.délai.command.corriger,
-      référencielPermissions.lauréat.délai.usecase.corriger,
+    corrigerChangement: [
+      référencielPermissions.lauréat.délai.command.corrigerChangement,
+      référencielPermissions.lauréat.délai.usecase.corrigerChangement,
     ],
   },
   api: {
@@ -1643,12 +1643,12 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'fournisseur.modifier',
 
   // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
-  'délai.passerEnInstructionDemande',
+  'délai.consulterChangement',
+  'délai.listerChangement',
+  'délai.passerDemandeEnInstruction',
   'délai.reprendreInstructionDemande',
-  'délai.rejeterDemande',
-  'délai.accorderDemande',
+  'délai.rejeterChangement',
+  'délai.accorderChangement',
 
   // installation
   'installation.installateur.modifier',
@@ -1717,8 +1717,8 @@ const crePolicies: ReadonlyArray<Policy> = [
   'fournisseur.listerChangement',
 
   // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
+  'délai.consulterChangement',
+  'délai.listerChangement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
@@ -1828,12 +1828,12 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'fournisseur.modifier',
 
   // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
-  'délai.passerEnInstructionDemande',
+  'délai.consulterChangement',
+  'délai.listerChangement',
+  'délai.passerDemandeEnInstruction',
   'délai.reprendreInstructionDemande',
-  'délai.rejeterDemande',
-  'délai.accorderDemande',
+  'délai.rejeterChangement',
+  'délai.accorderChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1943,11 +1943,11 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'fournisseur.consulter',
 
   // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
-  'délai.demander',
-  'délai.annulerDemande',
-  'délai.corrigerDemande',
+  'délai.consulterChangement',
+  'délai.listerChangement',
+  'délai.demanderChangement',
+  'délai.annulerChangement',
+  'délai.corrigerChangement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
@@ -1986,8 +1986,8 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   'fournisseur.listerChangement',
 
   // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
+  'délai.consulterChangement',
+  'délai.listerChangement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
