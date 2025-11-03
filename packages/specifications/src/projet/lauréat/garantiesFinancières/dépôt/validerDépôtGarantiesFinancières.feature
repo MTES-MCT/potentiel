@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@dépôt-garanties-financières
 Fonctionnalité: Valider un dépôt de garanties financières
 
     Contexte:

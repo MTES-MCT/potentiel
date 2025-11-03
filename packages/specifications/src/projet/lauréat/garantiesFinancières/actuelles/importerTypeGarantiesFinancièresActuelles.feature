@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@garanties-financières-actuelles
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet lors de la notification
 
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet

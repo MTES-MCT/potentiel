@@ -184,7 +184,7 @@ async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload
     case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
       return [
         formatGarantiesFinancièresEmailPayload({
-          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${nomProjet}`,
+          subject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet ${nomProjet}`,
           templateId: templateId.mainlevéeGFStatutModifiéPourPorteur,
           recipients: porteurs,
           identifiantProjet,

@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@garanties-financières-en-attente
 Fonctionnalité: Demande des garanties financières
 
     Contexte:
