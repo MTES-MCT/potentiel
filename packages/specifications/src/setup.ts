@@ -24,6 +24,7 @@ import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
+import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { startSubscribers } from '@potentiel-applications/subscribers';
 
 import { PotentielWorld } from './potentiel.world';
@@ -105,7 +106,12 @@ BeforeAll(async () => {
   );
 });
 
-Before<PotentielWorld>(async function (this: PotentielWorld) {
+Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
+  resetLogger();
+  const logger = createLogger({
+    defaultMeta: { test: pickle.name },
+  });
+  initLogger(logger);
   await executeQuery(`delete from "projects"`);
   await executeQuery(`delete from event_store.pending_acknowledgement`);
   await executeQuery(`delete from event_store.event_stream`);
