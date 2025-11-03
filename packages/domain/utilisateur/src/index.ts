@@ -16,7 +16,6 @@ import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
 import {
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
-  SpécificitésRoleEventPayload,
 } from './inviter/inviterUtilisateur.event';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
 import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
@@ -67,7 +66,6 @@ export {
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
   RoleUtilisateurModifiéEvent,
-  SpécificitésRoleEventPayload,
 };
 export * from './utilisateur.event';
 

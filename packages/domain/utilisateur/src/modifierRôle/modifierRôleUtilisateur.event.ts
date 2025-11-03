@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { SpécificitésRoleEventPayload } from '../inviter/inviterUtilisateur.event';
+import { SpécificitésRolePayload } from '../utilisateur.valueType';
 
 export type RoleUtilisateurModifiéEvent = DomainEvent<
   'RoleUtilisateurModifié-V1',
@@ -9,5 +9,5 @@ export type RoleUtilisateurModifiéEvent = DomainEvent<
     identifiantUtilisateur: Email.RawType;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
-  } & SpécificitésRoleEventPayload
+  } & SpécificitésRolePayload
 >;
