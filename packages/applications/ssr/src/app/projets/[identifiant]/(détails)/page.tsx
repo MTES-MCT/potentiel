@@ -73,14 +73,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet.formatter()}
-          éliminé={mapToProps({ éliminé, role: utilisateur.role })}
+          éliminé={mapToProps({ éliminé, role: utilisateur.rôle })}
           utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
             .some((accèsProjet) =>
               accèsProjet.utilisateursAyantAccès.map((utilisateur) => utilisateur.formatter()),
             )
             .none(() => [])}
           actions={mapToActions({
-            role: utilisateur.role,
+            role: utilisateur.rôle,
             demandeRecoursEnCours,
             cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
               'demande',

@@ -1,5 +1,4 @@
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
 
 // This is the content of the cookie stored by next-auth
 export interface PotentielJWT {
@@ -10,10 +9,15 @@ export interface PotentielJWT {
   job?: string;
 }
 
+export type PotentielUtilisateur = Utilisateur.ValueType & {
+  nom?: string;
+  accountUrl?: string;
+};
+
 // This is the content of the session, as returned by getServerSession or useSession
 export interface PotentielSession {
   idToken?: string;
-  utilisateur?: PlainType<Utilisateur.ValueType>;
+  utilisateur?: PotentielUtilisateur;
   provider?: string;
 }
 

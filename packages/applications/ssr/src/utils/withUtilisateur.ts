@@ -1,8 +1,11 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { getContext, NoAuthenticatedUserError } from '@potentiel-applications/request-context';
+import {
+  getContext,
+  NoAuthenticatedUserError,
+  PotentielUtilisateur,
+} from '@potentiel-applications/request-context';
 
 export async function withUtilisateur<TResult>(
-  action: (Utilisateur: Utilisateur.ValueType) => Promise<TResult>,
+  action: (Utilisateur: PotentielUtilisateur) => Promise<TResult>,
 ): Promise<TResult> {
   const utilisateur = getContext()?.utilisateur;
   if (!utilisateur) {

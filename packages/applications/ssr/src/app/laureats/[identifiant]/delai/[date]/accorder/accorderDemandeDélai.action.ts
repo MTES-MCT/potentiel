@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateAccordValue: new Date().toISOString(),
         nombreDeMois,
         réponseSignéeValue: reponseSignee,
-        rôleUtilisateurValue: utilisateur.role.nom,
+        rôleUtilisateurValue: utilisateur.rôle.nom,
       },
     });
 

@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -21,8 +20,12 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const identifiantGestionnaireRéseau = decodeParameter(identifiant);
-      vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireRéseau);
-
+      if (
+        utilisateur.estGrd() &&
+        utilisateur.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
+      ) {
+        throw new OperationRejectedError(`L'accès au gestionnaire réseau n'est pas permis`);
+      }
       const dossiers =
         await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>(
           {
@@ -116,17 +119,3 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
       });
     }),
   );
-
-function vérifierAccèsAuGestionnaireRéseau(
-  utilisateur: Utilisateur.ValueType,
-  identifiantGestionnaireRéseau: string,
-) {
-  if (!utilisateur.role.estÉgaleÀ(Role.grd)) return;
-  if (
-    Option.isSome(utilisateur.identifiantGestionnaireRéseau) &&
-    utilisateur.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau
-  ) {
-    return;
-  }
-  throw new OperationRejectedError(`L'accès au gestionnaire réseau n'est pas permis`);
-}

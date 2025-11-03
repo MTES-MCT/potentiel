@@ -2,7 +2,7 @@ import { User } from '../../../entities';
 import { Permission } from '../../authN';
 
 export type UtilisateurReadModel = User & {
-  accountUrl: string;
+  accountUrl?: string;
   permissions: Array<Permission>;
   features: Array<string>;
 };

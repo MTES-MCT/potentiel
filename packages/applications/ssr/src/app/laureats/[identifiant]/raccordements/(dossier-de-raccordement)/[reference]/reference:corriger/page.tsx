@@ -29,7 +29,7 @@ type PageProps = IdentifiantParameter & {
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async ({ role }) => {
+    withUtilisateur(async ({ rôle }) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
@@ -66,7 +66,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossierRaccordement={mapToPlainObject(dossierRaccordement)}
           lienRetour={
-            role.aLaPermission('raccordement.consulter')
+            rôle.aLaPermission('raccordement.consulter')
               ? Routes.Raccordement.détail(identifiantProjet.formatter())
               : Routes.Raccordement.lister
           }

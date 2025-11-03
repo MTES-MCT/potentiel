@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -117,7 +116,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListeDemandeMainlevéePage
           list={mapToListProps({
             ...demandeMainlevéeDesGarantiesFinancières,
-            isDreal: utilisateur.role.estÉgaleÀ(Role.dreal),
+            isDreal: utilisateur.estDreal(),
           })}
           filters={filters}
         />

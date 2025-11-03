@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
@@ -23,7 +22,7 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = async ({
   identifiantProjet,
   noLink,
 }) =>
-  withUtilisateur(async ({ role }) => {
+  withUtilisateur(async ({ rôle }) => {
     const projet = await getÉliminé(identifiantProjet);
 
     const { nomProjet, localité, notifiéLe } = projet;
@@ -36,11 +35,9 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = async ({
           .some((date) => date.formatter())
           .none()}
         /***
-         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
+         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
          */
-        href={
-          noLink || role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)
-        }
+        href={noLink || rôle.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />

@@ -86,9 +86,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          role={mapToPlainObject(utilisateur.role)}
+          role={mapToPlainObject(utilisateur.rôle)}
           actions={mapToActions(
-            utilisateur.role,
+            utilisateur.rôle,
             changement.demande.statut,
             informationEnregistréeEstPossible,
           )}

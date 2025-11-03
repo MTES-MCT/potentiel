@@ -238,7 +238,7 @@ v1Router.get(
         });
 
       const nécessiteInstructionPourActionnaire = !!(
-        role.estÉgaleÀ(Role.porteur) &&
+        role.estPorteur() &&
         cahierDesCharges.getRèglesChangements('actionnaire').demande &&
         instructionChangementActionnaire.estRequise()
       );

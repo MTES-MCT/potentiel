@@ -64,7 +64,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
             identifiantProjetValue: parseIdentifiantProjet(identifiantProjet),
             nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
             référenceDossierRaccordementActuelleValue: referenceDossier,
-            rôleValue: utilisateur.role.nom,
+            rôleValue: utilisateur.rôle.nom,
             modifiéeLeValue: DateTime.now().formatter(),
             modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           },

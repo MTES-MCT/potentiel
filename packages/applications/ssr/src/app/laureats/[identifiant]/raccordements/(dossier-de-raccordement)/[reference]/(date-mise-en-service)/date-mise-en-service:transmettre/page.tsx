@@ -109,7 +109,7 @@ const mapToProps: MapToProps = ({
           max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
         }
       : undefined,
-    lienRetour: utilisateur.role.aLaPermission('raccordement.consulter')
+    lienRetour: utilisateur.rôle.aLaPermission('raccordement.consulter')
       ? Routes.Raccordement.détail(lauréat.identifiantProjet.formatter())
       : Routes.Raccordement.lister,
   };

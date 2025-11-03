@@ -37,7 +37,7 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
             identifiantProjetValue: identifiantProjet,
             référenceDossierRaccordementActuelleValue: reference,
             nouvelleRéférenceDossierRaccordementValue: nouvelleReference,
-            rôleValue: utilisateur.role.nom,
+            rôleValue: utilisateur.rôle.nom,
             modifiéeLeValue: DateTime.now().formatter(),
             modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           },

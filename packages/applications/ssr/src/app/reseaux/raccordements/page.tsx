@@ -64,7 +64,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const listeGestionnaireRéseau = utilisateur.role.estGrd()
+      const listeGestionnaireRéseau = utilisateur.rôle.estGrd()
         ? []
         : (
             await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

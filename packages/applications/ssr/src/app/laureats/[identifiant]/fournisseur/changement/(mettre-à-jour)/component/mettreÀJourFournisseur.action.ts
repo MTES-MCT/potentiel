@@ -95,7 +95,7 @@ const action: FormAction<FormState, typeof schema> = async (
       dateValue: date,
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
-      rôleUtilisateurValue: utilisateur.role.nom,
+      rôleUtilisateurValue: utilisateur.rôle.nom,
     };
 
     const payload: Lauréat.Fournisseur.MettreÀJourFournisseurUseCase['data'] | undefined =

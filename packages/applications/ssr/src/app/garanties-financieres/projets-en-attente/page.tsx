@@ -116,7 +116,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
           list={mapToListProps({
             list: projetsAvecGarantiesFinancièresEnAttente,
-            role: utilisateur.role,
+            role: utilisateur.rôle,
           })}
           filters={filters}
         />
@@ -152,6 +152,6 @@ type MapToActions = (props: {
 }) => ListItemProjetAvecGarantiesFinancièresEnAttenteActions;
 
 const mapToActions: MapToActions = ({ item, role }) =>
-  item.dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estÉgaleÀ(Role.dreal)
+  item.dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estDreal()
     ? ['mise-en-demeure']
     : [];

@@ -34,7 +34,7 @@ export async function ajouterStatistiqueConnexion(
         type: 'connexionUtilisateur',
         données: {
           utilisateur: {
-            role: utilisateur.role.nom,
+            role: utilisateur.rôle.nom,
             email: utilisateur.identifiantUtilisateur.email,
           },
           provider,

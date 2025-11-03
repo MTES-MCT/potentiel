@@ -99,7 +99,7 @@ const action: FormAction<FormState, typeof schema> = async (
   });
 
 const récupérerTousLesProjets = async (utilisateur: Utilisateur.ValueType) => {
-  if (!utilisateur.role.estPorteur()) {
+  if (!utilisateur.rôle.estPorteur()) {
     throw new OperationRejectedError(
       'Seuls les Porteurs de Projet peuvent inviter à tous les projets',
     );
