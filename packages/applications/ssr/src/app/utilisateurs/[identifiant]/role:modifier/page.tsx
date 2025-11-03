@@ -33,7 +33,7 @@ export default async function Page({
 }) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<ModifierRôleUtilisateurUseCase>(
+      utilisateur.rôle.peutExécuterMessage<ModifierRôleUtilisateurUseCase>(
         'Utilisateur.UseCase.ModifierRôleUtilisateur',
       );
 
