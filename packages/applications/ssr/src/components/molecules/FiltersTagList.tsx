@@ -56,10 +56,12 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
     }
   };
 
+  const onDelete = () => router.push(pathname);
+
   return (
     <>
       {tagFilters?.length > 0 && (
-        <ul className="flex flex-row flex-wrap gap-1">
+        <ul className="flex flex-row items-end justify-between flex-wrap gap-1">
           {tagFilters.map(({ searchParamKey, label, value, affects }) => (
             <li key={`tagFilter-${searchParamKey}-${value}`}>
               <Tag
@@ -72,6 +74,18 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
               </Tag>
             </li>
           ))}
+          {tagFilters?.length > 1 && (
+            <li key="tagFilter-delete">
+              <Tag
+                iconId="fr-icon-delete-bin-line"
+                nativeButtonProps={{
+                  onClick: () => onDelete(),
+                }}
+              >
+                Effacer les filtres
+              </Tag>
+            </li>
+          )}
         </ul>
       )}
     </>
