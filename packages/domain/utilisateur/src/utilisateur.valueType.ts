@@ -167,14 +167,14 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
           return (
             estÉgaleÀ(this, other) &&
             other.estGrd() &&
-            other.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau
+            other.identifiantGestionnaireRéseau === this.identifiantGestionnaireRéseau
           );
         },
         formatter() {
           return {
             rôle: 'grd',
             identifiantUtilisateur: identifiantUtilisateur.formatter(),
-            identifiantGestionnaireRéseau,
+            identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau,
           };
         },
       }),
@@ -185,7 +185,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         ...common(Role.dreal),
         région: Région.bind(région),
         estÉgaleÀ(other: ValueType) {
-          return estÉgaleÀ(this, other) && other.estDreal() && other.région === région;
+          return estÉgaleÀ(this, other) && other.estDreal() && other.région.estÉgaleÀ(this.région);
         },
         formatter() {
           return {
@@ -202,7 +202,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         ...common(Role.cocontractant),
         zone: Zone.bind(zone),
         estÉgaleÀ(other) {
-          return estÉgaleÀ(this, other) && other.estCocontractant() && other.zone === zone;
+          return (
+            estÉgaleÀ(this, other) && other.estCocontractant() && other.zone.estÉgaleÀ(this.zone)
+          );
         },
         formatter() {
           return {
@@ -223,8 +225,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
           return (
             estÉgaleÀ(this, other) &&
             other.estValidateur() &&
-            other.nomComplet === nomComplet &&
-            other.fonction === fonction
+            other.nomComplet === this.nomComplet &&
+            other.fonction === this.fonction
           );
         },
         formatter() {
