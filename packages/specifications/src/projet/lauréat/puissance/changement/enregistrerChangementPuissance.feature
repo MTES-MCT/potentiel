@@ -32,13 +32,13 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
-            | nom_projet | Du bouchon lyonnais                                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
+            | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                         |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
-            | nom_projet | Du bouchon lyonnais                                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
+            | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                         |
 
         Exemples:
             | Ratio | Puissance de site |
