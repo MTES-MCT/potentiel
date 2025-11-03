@@ -174,40 +174,27 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
 
   applyUtilisateurInvité({ payload }: UtilisateurInvitéEvent) {
     this.#actif = true;
-    this.#utilisateur = Utilisateur.convertirEnValueType({
-      rôle: payload.rôle,
-      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
-      identifiantGestionnaireRéseau:
-        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
-      région: payload.rôle === 'dreal' ? payload.région : undefined,
-      zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
-      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
-      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
-    });
+    this.#utilisateur = Utilisateur.convertirEnValueType(payload);
   }
 
   applyUtilisateurInvitéV1({ payload }: UtilisateurInvitéEventV1) {
     this.#actif = true;
     this.#utilisateur = Utilisateur.convertirEnValueType({
-      rôle: payload.rôle,
-      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
-      identifiantGestionnaireRéseau:
-        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
-      région: payload.rôle === 'dreal' ? payload.région : undefined,
-      zone: payload.rôle === 'acheteur-obligé' ? 'métropole' : undefined,
-      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
-      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
+      ...payload,
+      ...(payload.rôle === 'acheteur-obligé'
+        ? {
+            rôle: Role.cocontractant.nom,
+            zone: 'métropole',
+          }
+        : {}),
     });
   }
 
   applyPorteurInvité({ payload: { identifiantsProjet } }: PorteurInvitéEvent) {
     this.#actif = true;
     this.#utilisateur = Utilisateur.convertirEnValueType({
-      identifiantGestionnaireRéseau: undefined,
       identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
       rôle: Role.porteur.nom,
-      région: undefined,
-      zone: undefined,
     });
     for (const identifiantProjet of identifiantsProjet) {
       this.#projets.add(identifiantProjet);
@@ -215,16 +202,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   }
 
   applyRoleUtilisateurModifié({ payload }: RoleUtilisateurModifiéEvent) {
-    this.#utilisateur = Utilisateur.convertirEnValueType({
-      rôle: payload.rôle,
-      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
-      identifiantGestionnaireRéseau:
-        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
-      région: payload.rôle === 'dreal' ? payload.région : undefined,
-      zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
-      fonction: payload.rôle === 'dgec-validateur' ? payload.fonction : undefined,
-      nomComplet: payload.rôle === 'dgec-validateur' ? payload.nomComplet : undefined,
-    });
+    this.#utilisateur = Utilisateur.convertirEnValueType(payload);
   }
 
   applyUtilisateurDésactivé(_: UtilisateurDésactivéEvent) {

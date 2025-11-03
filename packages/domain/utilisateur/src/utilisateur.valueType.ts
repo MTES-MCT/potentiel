@@ -140,8 +140,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
     },
     formatter() {
       return {
-        rôle: rôle.nom,
-        identifiantUtilisateur: identifiantUtilisateur.formatter(),
+        rôle: this.rôle.nom,
+        identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
       };
     },
   });
@@ -172,8 +172,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         },
         formatter() {
           return {
-            rôle: 'grd',
-            identifiantUtilisateur: identifiantUtilisateur.formatter(),
+            rôle: this.rôle.nom,
+            identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
             identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau,
           };
         },
@@ -189,9 +189,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         },
         formatter() {
           return {
-            rôle: 'dreal',
-            identifiantUtilisateur: identifiantUtilisateur.formatter(),
-            région: région.nom,
+            rôle: this.rôle.nom,
+            identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+            région: this.région.formatter(),
           };
         },
       }),
@@ -208,9 +208,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         },
         formatter() {
           return {
-            rôle: 'cocontractant',
-            identifiantUtilisateur: identifiantUtilisateur.formatter(),
-            zone: zone.nom,
+            rôle: this.rôle.nom,
+            identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+            zone: this.zone.nom,
           };
         },
       }),
@@ -231,10 +231,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         },
         formatter() {
           return {
-            rôle: 'dgec-validateur',
-            identifiantUtilisateur: identifiantUtilisateur.formatter(),
-            fonction,
-            nomComplet,
+            rôle: this.rôle.nom,
+            identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+            fonction: this.fonction,
+            nomComplet: this.nomComplet,
           };
         },
       }),
