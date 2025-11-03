@@ -6,8 +6,6 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
-import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
-import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given';
 
 EtantDonné(
   `la candidature lauréate {string} avec :`,
@@ -33,22 +31,6 @@ EtantDonné(
   `la candidature lauréate {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, { nomProjet, statut: 'classé' });
-  },
-);
-
-EtantDonné(
-  'la candidature lauréate notifiée {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
-    await notifierLauréat.call(this);
-  },
-);
-
-EtantDonné(
-  'la candidature éliminée notifiée {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
-    await notifierÉliminé.call(this);
   },
 );
 
