@@ -53,6 +53,9 @@ export const mapCsvToTypologieInstallation: GetTypologieInstallation = ({
       .with('bâtiment existant sans rénovation de toiture', () => ({
         typologie: 'bâtiment.existant-sans-rénovation-de-toiture',
       }))
+      .with('mixte', () => ({
+        typologie: 'bâtiment.mixte',
+      }))
       .exhaustive();
 
     typologiesInstallation.push(typologieBâtiment);
