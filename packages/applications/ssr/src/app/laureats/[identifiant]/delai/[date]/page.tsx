@@ -101,21 +101,21 @@ const mapToActions = ({
 
   return match(statut.statut)
     .with('demandé', () => {
-      if (role.aLaPermission('délai.annulerDemande')) {
+      if (role.aLaPermission('délai.annulerChangement')) {
         actions.push('annuler');
       }
-      if (role.aLaPermission('délai.passerEnInstructionDemande') && estAutoritéCompétente) {
+      if (role.aLaPermission('délai.passerDemandeEnInstruction') && estAutoritéCompétente) {
         actions.push('passer-en-instruction');
       }
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
+      if (role.aLaPermission('délai.rejeterChangement') && estAutoritéCompétente) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
+      if (role.aLaPermission('délai.accorderChangement') && estAutoritéCompétente) {
         actions.push('accorder');
       }
 
-      if (role.aLaPermission('délai.corrigerDemande')) {
+      if (role.aLaPermission('délai.corrigerChangement')) {
         actions.push('corriger');
       }
 
@@ -126,15 +126,15 @@ const mapToActions = ({
         return actions;
       }
 
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoritéCompétente) {
+      if (role.aLaPermission('délai.rejeterChangement') && estAutoritéCompétente) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoritéCompétente) {
+      if (role.aLaPermission('délai.accorderChangement') && estAutoritéCompétente) {
         actions.push('accorder');
       }
 
-      if (role.aLaPermission('délai.corrigerDemande')) {
+      if (role.aLaPermission('délai.corrigerChangement')) {
         actions.push('corriger');
       }
 
