@@ -132,8 +132,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | appel d'offres | PPE2 - Innovation |
             | période        | 1                 |
             | famille        | 1                 |
+            | puissance      | 1                 |
+        # la puissance max par famille est 3 pour cette famille
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | puissance | 3.1 |
+            | ratio puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offres"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
@@ -141,8 +143,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | appel d'offres | PPE2 - Sol |
             | période        | 3          |
             | note totale    | 34         |
+            | puissance      | 1          |
+        # le volume réservé de l'AO est de 5
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | puissance | 6 |
+            | ratio puissance | 6 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé"
 
     # Règles spécifiques aux AO

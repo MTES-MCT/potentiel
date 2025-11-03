@@ -21,12 +21,9 @@ export class PuissanceWorld {
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
-  mapExempleToFixtureValues(exemple: Record<string, string>, candidatureValue: number) {
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
     return {
-      ratioPuissance:
-        exemple['puissance'] !== undefined
-          ? Number(exemple['puissance']) / candidatureValue
-          : Number(exemple['ratio puissance']),
+      ratioPuissance: Number(exemple['ratio puissance']),
       puissanceDeSite:
         Number(exemple['puissance de site']) || exemple['puissance de site']
           ? Number(exemple['puissance de site'])

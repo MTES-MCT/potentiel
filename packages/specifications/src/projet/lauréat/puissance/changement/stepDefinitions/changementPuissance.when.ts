@@ -10,10 +10,7 @@ Quand(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { ratioPuissance, puissanceDeSite } =
-      this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(
-        exemple,
-        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
-      );
+      this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(exemple);
 
     try {
       await demanderChangementPuissance.call(this, ratioPuissance, puissanceDeSite);
@@ -28,10 +25,7 @@ Quand(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { ratioPuissance, puissanceDeSite } =
-      this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(
-        exemple,
-        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
-      );
+      this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(exemple);
 
     try {
       await enregistrerChangementPuissance.call(this, ratioPuissance, puissanceDeSite);
