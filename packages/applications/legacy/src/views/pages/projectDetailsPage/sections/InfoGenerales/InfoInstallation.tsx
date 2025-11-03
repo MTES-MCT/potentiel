@@ -31,6 +31,7 @@ export const InfoInstallation = ({
         () => 'Bâtiment existant sans rénovation de toiture',
       )
       .with('bâtiment.neuf', () => 'Bâtiment neuf')
+      .with('bâtiment.mixte', () => 'Bâtiment mixte')
       .with('bâtiment.serre', () => 'Bâtiment (serre)')
       .with('bâtiment.stabulation', () => 'Bâtiment (stabulation)')
       .with('ombrière.parking', () => 'Ombrière (parking)')
