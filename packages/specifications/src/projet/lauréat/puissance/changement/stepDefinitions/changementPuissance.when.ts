@@ -92,7 +92,7 @@ export async function demanderChangementPuissance(
       raisonValue: raison,
       puissanceValue:
         ratioPuissance *
-        this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
+        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
       puissanceDeSiteValue: puissanceDeSite,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
