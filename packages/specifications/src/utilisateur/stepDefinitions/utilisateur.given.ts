@@ -92,6 +92,21 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  'un porteur invité sur le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+
+    const porteur = this.utilisateurWorld.porteurFixture.créer();
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet.formatter()],
+      identifiantUtilisateur: porteur.email,
+    });
+  },
+);
+
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
   const admin = this.utilisateurWorld.adminFixture.créer({});

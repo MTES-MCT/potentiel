@@ -232,16 +232,22 @@ const mapToActions = (
     return [];
   }
 
+  const actions: UtilisateurListItemProps['utilisateur']['actions'] = [];
+
   if (utilisateur.désactivé) {
-    if (!utilisateurConnecté.rôle.aLaPermission('utilisateur.réactiver')) {
-      return [];
+    if (utilisateurConnecté.rôle.aLaPermission('utilisateur.réactiver')) {
+      actions.push('réactiver');
     }
-    return ['réactiver'];
+  } else if (utilisateurConnecté.rôle.aLaPermission('utilisateur.désactiver')) {
+    actions.push('désactiver');
   }
 
-  if (!utilisateurConnecté.rôle.aLaPermission('utilisateur.désactiver')) {
-    return [];
+  if (
+    utilisateurConnecté.rôle.aLaPermission('utilisateur.modifierRôle') &&
+    !utilisateur.rôle.estPorteur()
+  ) {
+    actions.push('modifier');
   }
 
-  return ['désactiver'];
+  return actions;
 };

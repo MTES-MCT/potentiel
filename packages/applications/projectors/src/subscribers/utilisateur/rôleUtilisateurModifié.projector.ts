@@ -8,7 +8,7 @@ import { mapToUtilisateurPayload } from './utilisateurInvité.projector';
 export const rôleUtilisateurModifiéProjector = async ({ payload }: RôleUtilisateurModifiéEvent) => {
   const { identifiantUtilisateur } = payload;
 
-  const porteurToUpsert = mapToUtilisateurPayload(payload);
+  const utilisateurToUpsert = mapToUtilisateurPayload(payload);
 
   const existingUtilisateur = await findProjection<UtilisateurEntity>(
     `utilisateur|${identifiantUtilisateur}`,
@@ -20,6 +20,6 @@ export const rôleUtilisateurModifiéProjector = async ({ payload }: RôleUtilis
 
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
     ...existingUtilisateur,
-    ...porteurToUpsert,
+    ...utilisateurToUpsert,
   });
 };

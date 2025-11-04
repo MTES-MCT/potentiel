@@ -26,7 +26,7 @@ import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 
 export type UtilisateurActions = {
-  actions: ('désactiver' | 'réactiver')[];
+  actions: ('désactiver' | 'réactiver' | 'modifier')[];
 };
 
 export type UtilisateurListItemProps = {
@@ -64,15 +64,23 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
     },
   ];
 
-  if (désactivé) {
+  if (actions.includes('désactiver')) {
+    buttons.push({
+      children: 'Désactiver',
+      iconId: 'ri-user-forbid-line',
+      priority: 'primary',
+      onClick: () => setIsOpen(true),
+    });
+  }
+  if (actions.includes('réactiver')) {
     buttons.push({
       children: 'Réactiver',
       iconId: 'ri-user-follow-line',
       priority: 'primary',
       onClick: () => setIsOpen(true),
-      disabled: !actions.includes('réactiver'),
     });
-  } else {
+  }
+  if (actions.includes('modifier')) {
     buttons.push({
       children: 'Modifier le rôle',
       iconId: 'ri-pencil-line',
@@ -80,13 +88,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
       linkProps: {
         href: Routes.Utilisateur.modifierRôle(identifiantUtilisateur.email),
       },
-    });
-    buttons.push({
-      children: 'Désactiver',
-      iconId: 'ri-user-forbid-line',
-      priority: 'primary',
-      onClick: () => setIsOpen(true),
-      disabled: !actions.includes('désactiver'),
     });
   }
 
