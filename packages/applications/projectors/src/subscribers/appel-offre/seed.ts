@@ -4,6 +4,7 @@ import {
   removeProjectionByCategory,
   createProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const seedAppelOffre = async () => {
   getLogger().info('Starting to seed referential data...');
@@ -16,7 +17,6 @@ export const seedAppelOffre = async () => {
   getLogger().info('Add all appel offre in memory data as projections...');
 
   for (const appelOffre of appelsOffreData) {
-    const appelOffreReadModelKey: `${string}|${string}` = `appel-offre|${appelOffre.id}`;
-    await createProjection(appelOffreReadModelKey, appelOffre);
+    await createProjection<AppelOffre.AppelOffreEntity>(`appel-offre|${appelOffre.id}`, appelOffre);
   }
 };

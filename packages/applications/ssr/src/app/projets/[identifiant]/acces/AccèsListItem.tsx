@@ -2,7 +2,8 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { FC, useState } from 'react';
 
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Email } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
@@ -10,13 +11,13 @@ import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { retirerAccèsProjetAction } from './retirerAccèsProjet.action';
 
-type PorteurListItem = {
+export type PorteurListItemProps = {
   identifiantProjet: IdentifiantProjet.RawType;
   identifiantUtilisateur: Email.RawType;
   peutRetirerAccès: boolean;
 };
 
-export const PorteurListItem: FC<PorteurListItem> = ({
+export const PorteurListItem: FC<PorteurListItemProps> = ({
   identifiantProjet,
   identifiantUtilisateur,
   peutRetirerAccès,

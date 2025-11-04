@@ -201,7 +201,7 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       <Button
         priority="secondary"
         linkProps={{
-          href: Routes.Utilisateur.listerPorteurs(identifiantProjet),
+          href: Routes.Accès.lister(identifiantProjet),
         }}
       >
         {actions.includes('gérer-accès-au-projet')

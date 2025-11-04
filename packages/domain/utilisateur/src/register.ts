@@ -20,22 +20,16 @@ import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
-import {
-  ListerPorteursDependencies,
-  registerListerPorteursQuery,
-} from './lister/listerPorteurs.query';
 import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
-  ListerPorteursDependencies &
   TrouverUtilisateurDependencies;
 
 export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDependencies) => {
   registerConsulterUtilisateurQuery(dependencies);
   registerListerUtilisateursQuery(dependencies);
-  registerListerPorteursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
 };
 
