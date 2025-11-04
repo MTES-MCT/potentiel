@@ -81,7 +81,7 @@ export const registerListerAbandonQuery = ({
         on: 'identifiantProjet',
         where: {
           appelOffre: Where.equal(appelOffre),
-          nomProjet: Where.like(nomProjet),
+          nomProjet: { nom: Where.like(nomProjet) },
           localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
         },
       },
@@ -101,7 +101,7 @@ const mapToReadModel = (
   entity: AbandonEntity & Joined<LauréatEntity>,
 ): AbandonListItemReadModel => {
   return {
-    nomProjet: entity.lauréat.nomProjet,
+    nomProjet: entity.lauréat.nomProjet.nom,
     statut: StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),

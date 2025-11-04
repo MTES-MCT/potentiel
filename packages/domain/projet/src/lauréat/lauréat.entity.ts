@@ -10,7 +10,7 @@ export type LauréatEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéLe: DateTime.RawType;
     notifiéPar: Email.RawType;
-    nomProjet: string;
+    nomProjet: { nom: string; miseÀJourLe: DateTime.RawType };
     appelOffre: string;
     période: string;
     famille?: string;

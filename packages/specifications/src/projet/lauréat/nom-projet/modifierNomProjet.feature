@@ -1,5 +1,6 @@
 # language: fr
 @lauréat
+@select
 Fonctionnalité: Modifier le nom d'un projet lauréat
 
     Contexte:

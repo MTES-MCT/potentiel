@@ -93,7 +93,7 @@ const mapToReadModel: MapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
-  nomProjet,
+  nomProjet: nomProjet.nom,
   localité: Localité.bind({
     adresse1,
     adresse2,

@@ -1,5 +1,6 @@
 # language: fr
 @lauréat
+@select
 Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
 
     Contexte:
@@ -23,7 +24,7 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
     Scénario: Impossible d'enregistrer un changement de nom d'un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Quand un porteur enregistre un changement de nom du projet
-        Alors le projet lauréat devrait être consultable
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible de faire un changement d'un projet lauréat si une demande d'abandon est en cours
         Et une demande d'abandon en cours pour le projet lauréat
@@ -36,11 +37,11 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
     Scénario: Impossible d'enregistrer un changement de nom d'un projet lauréat avec la même valeur
-        Quand Quand un porteur enregistre un changement de nom du projet avec la même valeur
+        Quand un porteur enregistre un changement de nom du projet avec la même valeur
         Alors l'utilisateur devrait être informé que "Les informations du projet n'ont pas été modifiées"
 
     # Règle AO
     Scénario: Impossible d'enregistrer un changement de nom d'un projet lauréat si le CDC ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Toulouse"
         Quand un porteur enregistre un changement de nom du projet
-        Alors le projet lauréat devrait être consultable
+        Alors l'utilisateur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

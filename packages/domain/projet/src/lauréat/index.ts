@@ -18,6 +18,7 @@ import {
 import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
 import { ModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
+import { EnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
 
 // Query
 export type LauréatQuery =
@@ -52,11 +53,13 @@ export { ConsulterCahierDesChargesPort } from './cahierDesCharges/consulter/cons
 export type LauréatUseCase =
   | ModifierSiteDeProductionUseCase
   | ModifierNomProjetUseCase
-  | ChoisirCahierDesChargesUseCase;
+  | ChoisirCahierDesChargesUseCase
+  | EnregistrerChangementNomProjetUseCase;
 export {
   ModifierSiteDeProductionUseCase,
   ModifierNomProjetUseCase,
   ChoisirCahierDesChargesUseCase,
+  EnregistrerChangementNomProjetUseCase,
 };
 
 // Events
@@ -69,12 +72,14 @@ export {
 export { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
 export { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
+export { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';
 
 // Entities
 export { LauréatEntity } from './lauréat.entity';
+export { ChangementNomProjetEntity } from './nomProjet/changementNomProjet.entity';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';

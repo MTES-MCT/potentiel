@@ -85,12 +85,12 @@ export const registerListerLauréatQuery = ({
     >('lauréat', {
       range,
       orderBy: {
-        nomProjet: 'ascending',
+        nomProjet: { nom: 'ascending' },
       },
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        nomProjet: Where.like(nomProjet),
+        nomProjet: { nom: Where.like(nomProjet) },
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(periode),
         famille: Where.equal(famille),
@@ -168,7 +168,7 @@ type MapToReadModelProps = (
 ) => LauréatListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
-  nomProjet,
+  nomProjet: { nom },
   identifiantProjet,
   localité,
   'représentant-légal': représentantLégal,
@@ -188,7 +188,7 @@ const mapToReadModel: MapToReadModelProps = ({
 
   return {
     identifiantProjet: identifiantProjetValueType,
-    nomProjet,
+    nomProjet: nom,
     localité: Localité.bind(localité),
     producteur: producteur.nom,
     email: Email.convertirEnValueType(emailContact),

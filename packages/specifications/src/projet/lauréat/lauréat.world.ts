@@ -7,7 +7,7 @@ import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/achèvement.world';
-import { ModifierNomProjetFixture } from './fixtures/modifierNomProjet.fixture';
+import { MettreÀJourNomProjetFixture } from './nom-projet/fixture/mettreÀJourNomProjet.fixture';
 import {
   NotifierLauréat,
   NotifierLauréatFixture,
@@ -35,9 +35,9 @@ export class LauréatWorld {
   get modifierSiteDeProductionFixture() {
     return this.#modifierSiteDeProductionFixture;
   }
-  #modifierNomProjetFixture: ModifierNomProjetFixture;
-  get modifierNomProjetFixture() {
-    return this.#modifierNomProjetFixture;
+  #mettreÀJourNomProjetFixture: MettreÀJourNomProjetFixture;
+  get mettreÀJourNomProjetFixture() {
+    return this.#mettreÀJourNomProjetFixture;
   }
 
   #choisirCahierDesChargesFixture: ChoisirCahierDesChargesFixture;
@@ -135,7 +135,7 @@ export class LauréatWorld {
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierSiteDeProductionFixture = new ModifierSiteDeProductionFixture();
-    this.#modifierNomProjetFixture = new ModifierNomProjetFixture();
+    this.#mettreÀJourNomProjetFixture = new MettreÀJourNomProjetFixture();
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
@@ -158,7 +158,7 @@ export class LauréatWorld {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
       ...this.modifierSiteDeProductionFixture.mapToExpected(),
-      ...this.modifierNomProjetFixture.mapToExpected(),
+      ...this.mettreÀJourNomProjetFixture.mapToExpected(),
       emailContact,
       nomCandidat,
       technologie,

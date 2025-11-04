@@ -375,8 +375,7 @@ export class LauréatAggregate extends AbstractAggregate<
     enregistréPar,
     nomProjet,
   }: EnregistrerChangementNomProjetOptions) {
-    this.vérifierQueLeLauréatExiste();
-    // vérifier CDC
+    this.vérifierQueLeChangementEstPossible('information-enregistrée', 'nomProjet');
 
     if (this.#nomProjet === nomProjet) {
       throw new LauréatNonModifiéError();

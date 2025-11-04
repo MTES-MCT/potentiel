@@ -85,7 +85,7 @@ export const registerListerTâchesQuery = ({
               ? Where.like('PPE2')
               : Where.notLike('PPE2')
             : Where.equal(appelOffre),
-          nomProjet: Where.like(nomProjet),
+          nomProjet: { nom: Where.like(nomProjet) },
         },
       },
     });
@@ -106,10 +106,12 @@ const mapToReadModel = ({
   identifiantProjet,
   miseÀJourLe,
   typeTâche,
-  lauréat: { nomProjet },
+  lauréat: {
+    nomProjet: { nom },
+  },
 }: TâcheEntity & Joined<LauréatEntity>): TâcheListItem => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   typeTâche: TypeTâche.convertirEnValueType(typeTâche),
-  nomProjet,
+  nomProjet: nom,
 });

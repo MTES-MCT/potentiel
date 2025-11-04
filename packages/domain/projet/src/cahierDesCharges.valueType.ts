@@ -56,6 +56,7 @@ export const bind = ({
 
   getRèglesChangements(domaine) {
     const changementOuModificationIndisponible: AppelOffre.RèglesDemandesChangement = {
+      nomProjet: {},
       abandon: {},
       actionnaire: {},
       délai: {},

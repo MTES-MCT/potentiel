@@ -9,9 +9,9 @@ export type EnregistrerChangementNomProjetCommand = Message<
   'Lauréat.Command.EnregistrerChangementNomProjet',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    identifiantUtilisateur: Email.ValueType;
+    enregistréPar: Email.ValueType;
     nomProjet: string;
-    dateChangement: DateTime.ValueType;
+    enregistréLe: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
   }
@@ -22,18 +22,18 @@ export const registerEnregistrerChangementNomProjetCommand = (
 ) => {
   const handler: MessageHandler<EnregistrerChangementNomProjetCommand> = async ({
     identifiantProjet,
-    identifiantUtilisateur,
+    enregistréPar,
     nomProjet,
-    dateChangement,
+    enregistréLe,
     pièceJustificative,
     raison,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.enregistrerChangementNomProjet({
-      enregistréPar: identifiantUtilisateur,
+      enregistréPar,
       nomProjet,
-      enregistréLe: dateChangement,
+      enregistréLe,
       pièceJustificative,
       raison,
     });

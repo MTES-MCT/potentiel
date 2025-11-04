@@ -61,7 +61,7 @@ export const registerListerChangementProducteurQuery = ({
           on: 'identifiantProjet',
           where: {
             appelOffre: Where.equal(appelOffre),
-            nomProjet: Where.like(nomProjet),
+            nomProjet: { nom: Where.like(nomProjet) },
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },
@@ -87,7 +87,7 @@ const mapToReadModel = (
   entity: ChangementProducteurEntity & Joined<Lauréat.LauréatEntity>,
 ): ChangementProducteurItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  nomProjet: entity.lauréat.nomProjet,
+  nomProjet: entity.lauréat.nomProjet.nom,
   enregistréLe: DateTime.convertirEnValueType(entity.changement.enregistréLe),
   ancienProducteur: entity.changement.ancienProducteur,
   nouveauProducteur: entity.changement.nouveauProducteur,

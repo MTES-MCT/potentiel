@@ -12,9 +12,9 @@ export type EnregistrerChangementNomProjetUseCase = Message<
   'Lauréat.UseCase.EnregistrerChangementNomProjet',
   {
     identifiantProjetValue: string;
-    identifiantUtilisateurValue: string;
+    enregistréParValue: string;
     nomProjetValue: string;
-    dateChangementValue: string;
+    enregistréLeValue: string;
     raisonValue?: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
@@ -26,9 +26,9 @@ export type EnregistrerChangementNomProjetUseCase = Message<
 export const registerEnregistrerChangementNomProjetUseCase = () => {
   const runner: MessageHandler<EnregistrerChangementNomProjetUseCase> = async ({
     identifiantProjetValue,
-    identifiantUtilisateurValue,
+    enregistréParValue,
     nomProjetValue,
-    dateChangementValue,
+    enregistréLeValue,
     pièceJustificativeValue,
     raisonValue,
   }) => {
@@ -36,7 +36,7 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
       ? DocumentProjet.convertirEnValueType(
           identifiantProjetValue,
           TypeDocumentLauréat.pièceJustificative.formatter(),
-          dateChangementValue,
+          enregistréParValue,
           pièceJustificativeValue.format,
         )
       : undefined;
@@ -55,9 +55,9 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
       type: 'Lauréat.Command.EnregistrerChangementNomProjet',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
+        enregistréPar: Email.convertirEnValueType(enregistréParValue),
         nomProjet: nomProjetValue,
-        dateChangement: DateTime.convertirEnValueType(dateChangementValue),
+        enregistréLe: DateTime.convertirEnValueType(enregistréLeValue),
         pièceJustificative,
         raison: raisonValue,
       },
