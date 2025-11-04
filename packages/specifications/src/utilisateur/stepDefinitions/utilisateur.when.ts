@@ -202,6 +202,16 @@ Quand(
 );
 
 Quand(
+  'un administrateur modifie le rôle du porteur en {string}',
+  async function (this: PotentielWorld, nouveauRôle: string) {
+    await modifierRôleUtilisateur.call(this, {
+      rôle: nouveauRôle,
+      email: this.utilisateurWorld.porteurFixture.email,
+    });
+  },
+);
+
+Quand(
   `l'administrateur modifie son propre rôle en {string}`,
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, {

@@ -30,7 +30,7 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
 
     Scénario: Impossible de modifier un porteur de projet
         Etant donné un porteur invité sur le projet lauréat
-        Quand un administrateur modifie le rôle de l'utilisateur en "ademe"
+        Quand un administrateur modifie le rôle du porteur en "ademe"
         Alors l'utilisateur devrait être informé que "Il est impossible de donner ou d'enlever le rôle porteur de projet à un utilisateur"
 
     Scénario: Impossible de modifier le rôle en dreal sans région
