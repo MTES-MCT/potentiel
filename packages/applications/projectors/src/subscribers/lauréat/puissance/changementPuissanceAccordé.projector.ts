@@ -5,7 +5,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
 export const changementPuissanceAccordéProjector = async ({
-  payload: { identifiantProjet, accordéLe, accordéPar, nouvellePuissance, réponseSignée },
+  payload: {
+    identifiantProjet,
+    accordéLe,
+    accordéPar,
+    nouvellePuissance,
+    nouvellePuissanceDeSite,
+    réponseSignée,
+  },
 }: Lauréat.Puissance.ChangementPuissanceAccordéEvent) => {
   const projectionPuissance = await findProjection<Lauréat.Puissance.PuissanceEntity>(
     `puissance|${identifiantProjet}`,
@@ -72,6 +79,7 @@ export const changementPuissanceAccordéProjector = async ({
     ...projectionPuissance,
     miseÀJourLe: accordéLe,
     puissance: nouvellePuissance,
+    puissanceDeSite: nouvellePuissanceDeSite,
     dateDemandeEnCours: undefined,
   });
 };

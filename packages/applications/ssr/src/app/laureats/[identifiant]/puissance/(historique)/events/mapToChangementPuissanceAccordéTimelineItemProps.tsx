@@ -15,6 +15,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
     identifiantProjet,
     réponseSignée,
     nouvellePuissance,
+    nouvellePuissanceDeSite,
     estUneDécisionDEtat,
   } = event.payload;
 
@@ -39,6 +40,14 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
             {nouvellePuissance} {unitéPuissance}
           </span>
         </div>
+        {nouvellePuissanceDeSite !== undefined ? (
+          <div>
+            Nouvelle puissance de site :{' '}
+            <span className="font-semibold">
+              {nouvellePuissanceDeSite} {unitéPuissance}
+            </span>
+          </div>
+        ) : null}
         <div>
           Fait suite à une décision de l'État :{' '}
           <span className="font-semibold">{estUneDécisionDEtat ? 'Oui' : 'Non'}</span>

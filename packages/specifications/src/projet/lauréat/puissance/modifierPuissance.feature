@@ -73,6 +73,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
+            | ratio puissance         | 1       |
             | ratio puissance de site | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
@@ -102,20 +103,20 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,2 |
+            | ratio puissance         | 1.2 |
             | ratio puissance de site | 1   |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
-    Scénario: Impossible de modifier la puissance de site sans valeur pour un AO qui requiert ce champ
+    Scénario: Impossible de ne pas modifier la puissance de site pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,2 |
-            | ratio puissance de site |     |
+            | ratio puissance         | 1.2 |
+            | ratio puissance de site | 1   |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible de modifier la puissance de site pour un AO qui interdit ce champ
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,2 |
-            | ratio puissance de site | 1,2 |
+            | ratio puissance   | 1.2 |
+            | puissance de site | 101 |
         Alors l'utilisateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"

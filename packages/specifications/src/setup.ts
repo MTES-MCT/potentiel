@@ -35,7 +35,6 @@ import { getFakeContent, getFakeDocument } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
 import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
-import { TestTransport } from './test-transport.logger';
 import {
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
@@ -68,7 +67,6 @@ faker.potentiel = {
 const bucketName = 'potentiel';
 
 let unsetup: (() => Promise<void>) | undefined;
-const testLoggerTransport = new TestTransport();
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
 
 BeforeStep(async ({ pickleStep }) => {
@@ -110,10 +108,8 @@ BeforeAll(async () => {
 
 Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   resetLogger();
-  testLoggerTransport.clear();
   const logger = createLogger({
     defaultMeta: { test: pickle.name },
-    transports: [testLoggerTransport],
   });
   initLogger(logger);
   await executeQuery(`delete from "projects"`);
@@ -148,7 +144,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   await initialiserUtilisateursTests.call(this);
 });
 
-After(async ({ result }) => {
+After(async () => {
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
@@ -170,12 +166,6 @@ After(async ({ result }) => {
     await unsetup();
   }
   unsetup = undefined;
-
-  if (result?.status === 'FAILED') {
-    console.log('----- BEGIN TEST LOG OUTPUT -----');
-    testLoggerTransport.dumpToConsole();
-    console.log('----- END TEST LOG OUTPUT -----');
-  }
 });
 
 AfterAll(async () => {

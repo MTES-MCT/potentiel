@@ -39,22 +39,16 @@ export class ModifierPuissanceFixture
     return this.#raison;
   }
 
-  #appelOffre?: string;
-
-  get appelOffre(): string | undefined {
-    return this.#appelOffre;
-  }
-
   créer(
     partialFixture?: Partial<Readonly<ModifierPuissance>> & { appelOffres?: string },
   ): Readonly<ModifierPuissance> {
     const aoData = appelsOffreData.find((x) => x.id === partialFixture?.appelOffres);
 
     const fixture = {
-      puissance: faker.number.float({ min: 0.1, max: 3, multipleOf: 0.01 }),
+      puissance: faker.number.int({ min: 1 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
-          ? faker.number.int({ min: 1 })
+          ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       dateModification: faker.date.recent().toISOString(),
       raison: faker.company.catchPhrase(),

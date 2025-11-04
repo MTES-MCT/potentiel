@@ -14,22 +14,22 @@ export const mapToPuissanceImportéeTimelineItemsProps = (
       <>
         Candidature :{' '}
         {
-          <ul className="list-disc pl-4">
-            <li>
+          <div className="flex flex-col gap-2">
+            <div>
               Puissance :{' '}
               <span className="font-semibold">
                 {puissance} {unitéPuissance}
               </span>
-            </li>
+            </div>
             {puissanceDeSite !== undefined && (
-              <li>
+              <div>
                 Puissance de site :{' '}
                 <span className="font-semibold">
                   {puissanceDeSite} {unitéPuissance}
                 </span>
-              </li>
+              </div>
             )}
-          </ul>
+          </div>
         }
       </>
     ),

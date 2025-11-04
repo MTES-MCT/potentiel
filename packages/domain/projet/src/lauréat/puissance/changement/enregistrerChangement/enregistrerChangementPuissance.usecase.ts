@@ -13,6 +13,7 @@ export type EnregistrerChangementPuissanceUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     puissanceValue: number;
+    puissanceDeSiteValue?: number;
     dateChangementValue: string;
     raisonValue?: string;
     pièceJustificativeValue?: {
@@ -27,6 +28,7 @@ export const registerEnregistrerChangementPuissanceUseCase = () => {
     identifiantProjetValue,
     identifiantUtilisateurValue,
     puissanceValue,
+    puissanceDeSiteValue,
     dateChangementValue,
     pièceJustificativeValue,
     raisonValue,
@@ -55,7 +57,8 @@ export const registerEnregistrerChangementPuissanceUseCase = () => {
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
-        nouvellePuissance: puissanceValue,
+        puissance: puissanceValue,
+        puissanceDeSite: puissanceDeSiteValue,
         dateChangement: DateTime.convertirEnValueType(dateChangementValue),
         pièceJustificative,
         raison: raisonValue,
