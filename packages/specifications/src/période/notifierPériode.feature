@@ -9,7 +9,7 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Et les candidatures de la période notifiée devraient être notifiées
         Et les porteurs doivent avoir accès à leur projet
         Et les attestations de désignation des candidatures de la période notifiée devraient être consultables
-        Et le porteur a été prévenu que sa candidature a été notifiée
+        Et les porteurs ont été prévenu que leurs candidatures ont été notifiées
         Et les lauréats et éliminés devraient être consultables
 
     Scénario: Notifier les candidats oubliés d'une période d'un appel d'offres
@@ -20,6 +20,7 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Et les candidatures de la période notifiée devraient être notifiées
         Et les porteurs doivent avoir accès à leur projet
         Et les attestations de désignation des candidatures de la période notifiée devraient être consultables
+        Et les porteurs ont été prévenu que leurs candidatures ont été notifiées
         Et les lauréats et éliminés devraient être consultables
 
     Scénario: Impossible de notifier une période sans fonction pour le validateur

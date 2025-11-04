@@ -7,6 +7,7 @@ import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Routes } from '@potentiel-applications/routes';
 
 import { getBaseUrl } from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
@@ -78,16 +79,14 @@ async function getEmailPayloads(
         },
       });
 
-      const porteurs = candidatures.items
-        .filter(
-          (candidature, i, self) =>
-            self.findIndex((x) => x.emailContact === candidature.emailContact) === i,
-        )
-        .map((porteur) => ({
-          email: porteur.emailContact,
-          fullName: porteur.nomReprésentantLégal,
-        }));
-
+      const porteurs = Object.groupBy(
+        candidatures.items.map((candidature) => ({
+          email: candidature.emailContact.formatter(),
+          fullName: candidature.nomReprésentantLégal,
+          identifiantProjet: candidature.identifiantProjet.formatter(),
+        })),
+        (candidature) => candidature.email,
+      );
       const baseUrl = getBaseUrl();
 
       return [
@@ -103,20 +102,23 @@ async function getEmailPayloads(
             appel_offre: appelOffre.id,
             periode: période.id,
             date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-            redirect_url: `${baseUrl}/projets.html`,
+            redirect_url: baseUrl,
           },
         })),
-        ...porteurs.map(({ email, fullName }) => ({
+        ...Object.entries(porteurs).map(([email, projets]) => ({
           templateId: templateId.notifierPorteur,
           recipients: [
             {
-              email: email.formatter(),
-              fullName,
+              email,
+              fullName: projets?.[0]?.fullName ?? '',
             },
           ],
           messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
           variables: {
-            redirect_url: `${baseUrl}/projets.html`,
+            redirect_url:
+              projets?.length === 1
+                ? `${baseUrl}${Routes.Projet.details(projets[0].identifiantProjet)}`
+                : baseUrl,
           },
         })),
       ];

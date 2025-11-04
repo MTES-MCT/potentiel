@@ -1,18 +1,29 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../fixture';
+
+export type Candidat = {
+  nomProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  statut: Candidature.StatutCandidature.RawType;
+  sociétéMère?: string;
+  emailContact: string;
+};
 
 interface NotifierPériode {
   readonly estNotifiée: boolean;
   readonly notifiéeLe: string;
   readonly notifiéePar: string;
-  readonly lauréats: Array<IdentifiantProjet.RawType>;
-  readonly éliminés: Array<IdentifiantProjet.RawType>;
+  readonly lauréats: Array<Candidat>;
+  readonly éliminés: Array<Candidat>;
   readonly candidatsÀNotifier: {
-    lauréats: Array<IdentifiantProjet.RawType>;
-    éliminés: Array<IdentifiantProjet.RawType>;
+    lauréats: Array<Candidat>;
+    éliminés: Array<Candidat>;
   };
 }
 
@@ -26,7 +37,7 @@ export class NotifierPériodeFixture
     return this.#estNotifiée;
   }
 
-  #lauréats!: Array<IdentifiantProjet.RawType>;
+  #lauréats!: Array<Candidat>;
 
   get lauréats(): NotifierPériode['lauréats'] {
     return this.#lauréats;
@@ -38,7 +49,7 @@ export class NotifierPériodeFixture
     return this.#candidatsÀNotifier;
   }
 
-  #éliminés!: Array<IdentifiantProjet.RawType>;
+  #éliminés!: Array<Candidat>;
 
   get éliminés(): NotifierPériode['éliminés'] {
     return this.#éliminés;
@@ -56,10 +67,7 @@ export class NotifierPériodeFixture
     return this.#notifiéePar;
   }
 
-  ajouterCandidatsÀNotifier(
-    lauréats: IdentifiantProjet.RawType[],
-    éliminés: IdentifiantProjet.RawType[],
-  ) {
+  ajouterCandidatsÀNotifier(lauréats: Candidat[], éliminés: Candidat[]) {
     this.#candidatsÀNotifier = {
       lauréats,
       éliminés,

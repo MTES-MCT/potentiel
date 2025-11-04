@@ -6,9 +6,10 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
-import { Accès, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Accès, IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -103,6 +104,44 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
     }
   });
 });
+
+Alors(
+  'les porteurs ont été prévenu que leurs candidatures ont été notifiées',
+  async function (this: PotentielWorld) {
+    const candidats = this.périodeWorld.notifierPériodeFixture.lauréats.concat(
+      this.périodeWorld.notifierPériodeFixture.éliminés,
+    );
+
+    const candidatAvecMultipleProjets = candidats.find(
+      (candidat, _, self) =>
+        self.filter((projet) => projet.emailContact === candidat.emailContact).length > 1,
+    );
+    assert(
+      !!candidatAvecMultipleProjets,
+      'Le jeu de donnée devrait avoir au moins un candidat avec plusieurs projts',
+    );
+
+    await waitForExpect(async () => {
+      const emailsCandidats = new Set(candidats.map((projet) => projet.emailContact));
+      for (const email of emailsCandidats) {
+        const notif = this.notificationWorld.récupérerNotification(
+          email,
+          "Résultats de la .* période de l'appel d'offres .*",
+        );
+
+        const projets = candidats.filter((projet) => projet.emailContact === email);
+        if (projets.length === 1) {
+          const identifiantProjet = IdentifiantProjet.bind(projets[0]);
+          expect(notif.variables.redirect_url).to.equal(
+            `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+          );
+        } else {
+          expect(notif.variables.redirect_url).to.equal(`https://potentiel.beta.gouv.fr`);
+        }
+      }
+    });
+  },
+);
 
 async function vérifierPériode(
   this: PotentielWorld,
