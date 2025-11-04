@@ -17,6 +17,7 @@ import crypto from 'node:crypto';
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Routes } from '@potentiel-applications/routes';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -91,6 +92,9 @@ export async function makeServer(port: number) {
           req.path === '/',
       }),
     );
+
+    // Redirection pages legacy
+    app.get('/projets.html', (req, res) => res.redirect(301, '/'));
 
     app.use((req, res, next) => {
       // Cas permettant d'avoir l'authentification keycloak fonctionnelle
