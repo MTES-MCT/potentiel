@@ -50,7 +50,7 @@ export const registerVérifierAccèsProjetQuery = ({
     if (Option.isNone(utilisateur)) {
       throw new ProjetInaccessibleError();
     }
-    // TODO refactor to pass utilisateur (ValueType)
+    // NB : ici on pourrait passer `utilisateur` pour optimiser le double appel à find<UtilisateurEntity>
     const scope = await getScopeProjetUtilisateur(identifiantUtilisateur);
 
     const accèsCandidature = await match(utilisateur.rôle)

@@ -17,7 +17,7 @@ import { InviterOptions } from './inviter/inviterUtilisateur.options';
 import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options';
-import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 import { UtilisateurEvent } from './utilisateur.event';
 import {
   DésactivationPropreCompteError,
@@ -148,8 +148,8 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     if (this.#utilisateur.estÉgaleÀ(nouvelUtilisateur)) {
       throw new ModificationMêmesValeursError();
     }
-    const event: RoleUtilisateurModifiéEvent = {
-      type: 'RoleUtilisateurModifié-V1',
+    const event: RôleUtilisateurModifiéEvent = {
+      type: 'RôleUtilisateurModifié-V1',
       payload: {
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
@@ -166,7 +166,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .with({ type: 'UtilisateurInvité-V2' }, this.applyUtilisateurInvité.bind(this))
       .with({ type: 'UtilisateurDésactivé-V1' }, this.applyUtilisateurDésactivé.bind(this))
       .with({ type: 'UtilisateurRéactivé-V1' }, this.applyUtilisateurRéactivé.bind(this))
-      .with({ type: 'RoleUtilisateurModifié-V1' }, this.applyRoleUtilisateurModifié.bind(this))
+      .with({ type: 'RôleUtilisateurModifié-V1' }, this.applyRôleUtilisateurModifié.bind(this))
       .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
       .with({ type: 'ProjetRéclamé-V1' }, () => {})
       .exhaustive();
@@ -201,7 +201,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     }
   }
 
-  applyRoleUtilisateurModifié({ payload }: RoleUtilisateurModifiéEvent) {
+  applyRôleUtilisateurModifié({ payload }: RôleUtilisateurModifiéEvent) {
     this.#utilisateur = Utilisateur.convertirEnValueType(payload);
   }
 

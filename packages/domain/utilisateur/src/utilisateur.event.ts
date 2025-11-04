@@ -8,7 +8,7 @@ import {
 } from './inviter/inviterUtilisateur.event';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
-import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 
 /**
  * @deprecated La gestion des accès des projets est dorénavant dans le package projet.
@@ -44,6 +44,6 @@ export type UtilisateurEvent =
   | UtilisateurInvitéEventV1
   | UtilisateurDésactivéEvent
   | UtilisateurRéactivéEvent
-  | RoleUtilisateurModifiéEvent
+  | RôleUtilisateurModifiéEvent
   | AccèsProjetRetiréEvent
   | ProjetRéclaméEvent;

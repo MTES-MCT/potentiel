@@ -24,7 +24,7 @@ import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateu
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
 import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
-import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
@@ -65,7 +65,7 @@ export {
   UtilisateurInvitéEventV1,
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
-  RoleUtilisateurModifiéEvent,
+  RôleUtilisateurModifiéEvent,
 };
 export * from './utilisateur.event';
 

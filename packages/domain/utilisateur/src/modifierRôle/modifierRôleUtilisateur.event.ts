@@ -3,8 +3,8 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { SpécificitésRolePayload } from '../utilisateur.valueType';
 
-export type RoleUtilisateurModifiéEvent = DomainEvent<
-  'RoleUtilisateurModifié-V1',
+export type RôleUtilisateurModifiéEvent = DomainEvent<
+  'RôleUtilisateurModifié-V1',
   {
     identifiantUtilisateur: Email.RawType;
     modifiéLe: DateTime.RawType;
