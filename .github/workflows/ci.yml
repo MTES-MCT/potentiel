@@ -4,14 +4,13 @@ on:
   push:
     branches:
       - main
-      - release-workflow
 
 jobs:
   call-shared-workflow:
     uses: ./.github/workflows/shared-workflow.yml
 
   deploy-development:
-    # needs: call-shared-workflow
+    needs: call-shared-workflow
     runs-on: ubuntu-latest
     environment: development
     steps:
@@ -20,5 +19,5 @@ jobs:
           region: ${{ secrets.SCALINGO_REGION }}
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
-      - name: Deploy to Demo
+      - name: Deploy to Development
         run: scalingo integration-link-manual-deploy main
