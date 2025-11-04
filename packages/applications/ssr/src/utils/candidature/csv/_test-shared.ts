@@ -29,6 +29,7 @@ export function assertNoError<TOutput>(
   result: ZodSafeParseResult<TOutput>,
 ): asserts result is ZodSafeParseSuccess<TOutput> {
   if (!result.success) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(result.error).to.be.undefined;
   }
   assert(result.success);
@@ -41,6 +42,7 @@ export function assertError<TOutput>(
   index = 0,
 ): asserts result is ZodSafeParseResult<TOutput> {
   if (!result.error) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(result.data).to.be.undefined;
   }
   assert(result.error);

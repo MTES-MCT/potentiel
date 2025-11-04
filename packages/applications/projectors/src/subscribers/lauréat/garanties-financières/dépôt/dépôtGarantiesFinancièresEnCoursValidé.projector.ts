@@ -4,11 +4,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getArchivesGf, getDépôtGf, getGfActuelles } from '../_utils';
 
-export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
-  payload: { identifiantProjet, validéLe, validéPar },
-}:
-  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
-  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent) => {
+export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
+  event:
+    | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
+    | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
+) => {
+  const {
+    payload: { identifiantProjet, validéLe, validéPar },
+  } = event;
   const dépôtExistant = await getDépôtGf(identifiantProjet);
 
   if (!dépôtExistant) {
