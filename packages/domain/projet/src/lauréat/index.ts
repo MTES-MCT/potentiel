@@ -78,6 +78,7 @@ export { LauréatEntity } from './lauréat.entity';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';
+export * as TypeDocumentLauréat from './nomProjet/TypeDocumentNomProjet.valueType';
 
 export * as Abandon from './abandon';
 export * as Actionnaire from './actionnaire';

@@ -33,6 +33,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
   changement: {
+    nomProjet: {},
     natureDeLExploitation: {},
     représentantLégal: {
       demande: true,

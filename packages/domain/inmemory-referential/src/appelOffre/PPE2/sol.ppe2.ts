@@ -62,6 +62,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: {
+    nomProjet: {},
     natureDeLExploitation: {},
     représentantLégal: {
       demande: true,

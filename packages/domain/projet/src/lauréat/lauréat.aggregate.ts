@@ -48,6 +48,8 @@ import { InstallationAggregate } from './installation/installation.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 import { ModifierNomProjetOptions } from './modifier/modifierNomProjet.option';
+import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options';
+import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -368,6 +370,31 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async enregistrerChangementNomProjet({
+    enregistréLe,
+    enregistréPar,
+    nomProjet,
+  }: EnregistrerChangementNomProjetOptions) {
+    this.vérifierQueLeLauréatExiste();
+    // vérifier CDC
+
+    if (this.#nomProjet === nomProjet) {
+      throw new LauréatNonModifiéError();
+    }
+
+    const event: ChangementNomProjetEnregistréEvent = {
+      type: 'ChangementNomProjetEnregistré-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        enregistréLe: enregistréLe.formatter(),
+        enregistréPar: enregistréPar.formatter(),
+        nomProjet,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async choisirCahierDesCharges({
     identifiantProjet,
     modifiéLe,
@@ -497,6 +524,9 @@ export class LauréatAggregate extends AbstractAggregate<
         this.applySitedeProductionModifié(event),
       )
       .with({ type: 'NomProjetModifié-V1' }, (event) => this.applyNomProjetModifié(event))
+      .with({ type: 'ChangementNomProjetEnregistré-V1' }, (event) =>
+        this.applyNomProjetModifié(event),
+      )
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
         this.applyCahierDesChargesChoisi(event),
       )
@@ -528,7 +558,9 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#localité = Candidature.Localité.bind(localité);
   }
 
-  private applyNomProjetModifié({ payload: { nomProjet } }: NomProjetModifiéEvent) {
+  private applyNomProjetModifié({
+    payload: { nomProjet },
+  }: NomProjetModifiéEvent | ChangementNomProjetEnregistréEvent) {
     this.#nomProjet = nomProjet;
   }
 

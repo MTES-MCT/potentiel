@@ -1,4 +1,4 @@
-import { GetProjetAggregateRoot } from '..';
+import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
 
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
 import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
@@ -79,6 +79,9 @@ import {
   registerInstallationQueries,
   registerInstallationUseCases,
 } from './installation/installation.register';
+import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
+import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -110,6 +113,8 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerModifierSiteDeProductionUseCase();
   registerModifierNomProjetCommand(dependencies.getProjetAggregateRoot);
   registerModifierNomProjetUseCase();
+  registerEnregistrerChangementNomProjetCommand(dependencies.getProjetAggregateRoot);
+  registerEnregistrerChangementNomProjetUseCase();
 
   registerChoisirCahierDesChargesUseCase();
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);
@@ -133,6 +138,7 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterLauréatQuery(dependencies);
   registerListerLauréatQuery(dependencies);
   registerConsulterCahierDesChargesQuery(dependencies);
+  registerConsulterChangementNomProjetQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);
