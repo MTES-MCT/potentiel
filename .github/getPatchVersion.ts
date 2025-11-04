@@ -1,4 +1,4 @@
-#! /usr/bin/env -S node --experimental-strip-types
+#! /usr/bin/env node
 import { execSync } from 'node:child_process';
 
 // send regular logs to stderr so they don't interfere with stdout which is used to capture the output
@@ -6,6 +6,11 @@ const log = console.error;
 const writePatchVersion = console.log;
 
 function getCurrentBranch(): string {
+  const currentBranch =
+    process.env.GITHUB_BASE_REF || process.env.GITHUB_REF?.replace('refs/heads/', '');
+  if (currentBranch) {
+    return currentBranch;
+  }
   return execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
 }
 
