@@ -33,25 +33,15 @@ begin
         )::text);
       end if;
     else
-      for v_streamId in
-        select distinct stream_id
-        from event_store.event_stream
-        where stream_id like p_category || '|%'
-      loop
-        insert into event_store.pending_acknowledgement
-        values (p_category, SPLIT_PART(v_chanel,'|',2), v_streamId, now()::text, 1);
-
-        perform pg_notify(v_chanel, json_build_object(
-          'version', 1,
-          'created_at', now()::text,
-          'stream_id', v_streamId,
-          'type', 'RebuildTriggered',
-          'payload', json_build_object(
-            'category', p_category,
-            'id', split_part(v_streamId, '|', 2)
-          )
-        )::text);
-      end loop;
+      perform pg_notify(v_chanel, json_build_object(
+        'version', 1,
+        'created_at', now()::text,
+        'stream_id', p_category,
+        'type', 'RebuildAllTriggered',
+        'payload', json_build_object(
+          'category', p_category
+        )
+      )::text);
     end if;
   end loop;
   exception

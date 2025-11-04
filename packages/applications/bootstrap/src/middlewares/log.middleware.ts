@@ -10,7 +10,7 @@ export const logMiddleware: Middleware = async (message, next) => {
   const correlationId = context?.correlationId ?? '';
   const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
   const url = context?.url;
-  getLogger().info('Executing message', {
+  getLogger().debug('Executing message', {
     message: JSON.stringify(message),
     utilisateur,
     correlationId,
@@ -20,7 +20,7 @@ export const logMiddleware: Middleware = async (message, next) => {
     const result = await next();
     const elapsed = Date.now() - start;
     const resultJson = getResultJsonBody(message.type, result);
-    getLogger().info('Message executed', {
+    getLogger().debug('Message executed', {
       messageType: message.type,
       result: JSON.stringify(resultJson),
       correlationId,
