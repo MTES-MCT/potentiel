@@ -37,18 +37,11 @@ jobs:
           fetch-depth: '0'
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version-file: package.json
       - name: Set application version
         id: app_version
         run: |
-          GIT_BRANCH=${GITHUB_BASE_REF:-${GITHUB_REF#refs/heads/}}
-          BRANCH_VERSION=$(printf '%s\n' ${GIT_BRANCH//release\//})
-          echo "BRANCH_VERSION=${BRANCH_VERSION}"
-          TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
-          echo "TAG_VERSION=${TAG_VERSION}"
-          export BRANCH_VERSION="${BRANCH_VERSION}" && export TAG_VERSION="${TAG_VERSION}" && npm run version
-          PATCH_VERSION="$(cat .patch-version)"
-          APPLICATION_VERSION=${BRANCH_VERSION}.${PATCH_VERSION}
+          APPLICATION_VERSION=$(.github/getPatchVersion.ts)
           echo "version=${APPLICATION_VERSION}" >> $GITHUB_OUTPUT
 
   deploy-production:
@@ -58,12 +51,6 @@ jobs:
     env:
       APPLICATION_VERSION: ${{ needs.application-version.outputs.applicationVersion }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: 'npm'
-      - run: npm ci
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
@@ -73,25 +60,23 @@ jobs:
           default_prerelease_bump: false
           custom_tag: ${{ env.APPLICATION_VERSION }}
           tag_prefix: ''
+      - uses: scalingo-community/setup-scalingo@v0.1.1
+        with:
+          region: ${{ secrets.SCALINGO_REGION }}
+          app_name: ${{ secrets.SCALINGO_APP }}
+          api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Production
-        run: |
-          curl -O https://cli-dl.scalingo.com/install && bash install
-          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}
 
   deploy-demo:
     needs: deploy-production
     runs-on: ubuntu-latest
     environment: demo
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: scalingo-community/setup-scalingo@v0.1.1
         with:
-          node-version: 20.x
-          cache: 'npm'
-      - run: npm ci
+          region: ${{ secrets.SCALINGO_REGION }}
+          app_name: ${{ secrets.SCALINGO_APP }}
+          api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Demo
-        run: |
-          curl -O https://cli-dl.scalingo.com/install && bash install
-          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy ${{ github.ref_name }}
+        run: scalingo integration-link-manual-deploy ${{ github.ref_name }}

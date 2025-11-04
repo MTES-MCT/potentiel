@@ -1,38 +1,65 @@
-import { writeFileSync } from 'fs';
-import { join } from 'path';
+#! /usr/bin/env node
+import { execSync } from 'node:child_process';
 
-const writePatchVersion = (patch: string) => {
-  writeFileSync(join(__dirname, '..', '.patch-version'), patch);
-};
+// send regular logs to stderr so they don't interfere with stdout which is used to capture the output
+const log = console.error;
+const writePatchVersion = console.log;
 
-const branchVersion = process.env.BRANCH_VERSION || '';
-const tagVersion = process.env.TAG_VERSION || '';
-
-if (!branchVersion) {
-  console.error('❌ No branch version');
-  process.exit(1);
+function getCurrentBranch(): string {
+  return execSync('git branch --show-current', { encoding: 'utf-8' }).trim();
 }
 
-console.log(`ℹ️ Branch version: ${branchVersion}`);
+function getLatestTag(): string {
+  try {
+    return execSync('git tag --sort=-creatordate | head -n1', { encoding: 'utf-8' }).trim();
+  } catch {
+    return '';
+  }
+}
 
-if (!tagVersion) {
-  console.log(`⚠️ No Tag version`);
-  writePatchVersion('0');
-  console.log(`✅ Patch version: 0`);
-} else {
-  console.log(`ℹ️ Tag version: ${tagVersion}`);
+function getBranchVersion(branch: string): string {
+  return branch.replace(/^release\//, '');
+}
+
+function calculatePatchVersion(branchVersion: string, tagVersion: string): string {
+  if (!tagVersion) {
+    log(`⚠️ No Tag version`);
+    return '0';
+  }
+
+  log(`ℹ️ Tag version: ${tagVersion}`);
   const [tagMajor, tagMinor, tagPatch] = tagVersion.split('.');
   const [branchMajor, branchMinor] = branchVersion.split('.');
 
-  console.log(`❓ Major & minor version are the same for branch & tag ?`);
+  log(`❓ Major & minor version are the same for branch & tag ?`);
   if (tagMajor === branchMajor && tagMinor === branchMinor) {
-    console.log(`👍 Yes`);
+    log(`👍 Yes`);
     const patch = `${parseInt(tagPatch) + 1}`;
-    writePatchVersion(patch);
-    console.log(`✅ Patch version: ${patch}`);
+    log(`✅ Patch version: ${patch}`);
+    return patch;
   } else {
-    console.log(`👎 No`);
-    writePatchVersion('0');
-    console.log(`✅Patch version: 0`);
+    log(`👎 No`);
+    log(`✅ Patch version: 0`);
+    return '0';
   }
 }
+
+// Main execution
+const gitBranch = getCurrentBranch();
+const branchVersion = getBranchVersion(gitBranch);
+const tagVersion = getLatestTag();
+
+if (!branchVersion) {
+  log('❌ No branch version');
+  process.exit(1);
+}
+
+log(`ℹ️ Git branch: ${gitBranch}`);
+log(`ℹ️ Branch version: ${branchVersion}`);
+
+const patchVersion = calculatePatchVersion(branchVersion, tagVersion);
+const applicationVersion = `${branchVersion}.${patchVersion}`;
+
+writePatchVersion(applicationVersion);
+
+log(`✅ Application version: ${applicationVersion}`);

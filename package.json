@@ -10,6 +10,7 @@
     "./packages/applications/*",
     "./packages/specifications"
   ],
+  "type": "module",
   "scripts": {
     "prepare": "husky",
     "start": "npx --offline foreman start --procfile Procfile --port 3000",
@@ -41,7 +42,6 @@
     "specs": "npm run test -w @potentiel/specifications -- ",
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
-    "version": "npx tsx .github/getPatchVersion.ts",
     "update:dump": "./.database/scripts/update-potentiel-dump.sh",
     "update:dump-metabase": "./.database/scripts/update-metabase-dump.sh"
   },
