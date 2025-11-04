@@ -175,4 +175,4 @@ jobs:
           app_name: ${{ secrets.SCALINGO_APP }}
           api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Demo
-        run: scalingo integration-link-manual-deploy relase/3.65
+        run: scalingo integration-link-manual-deploy release/3.65
