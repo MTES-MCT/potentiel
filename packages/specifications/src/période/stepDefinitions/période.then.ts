@@ -118,7 +118,7 @@ Alors(
     );
     assert(
       !!candidatAvecMultipleProjets,
-      'Le jeu de donnée devrait avoir au moins un candidat avec plusieurs projts',
+      'Le jeu de donnée devrait avoir au moins un candidat avec plusieurs projets',
     );
 
     await waitForExpect(async () => {

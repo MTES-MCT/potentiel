@@ -3,6 +3,7 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../potentiel.world';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';
 import { Candidat } from '../fixtures/notifierPériode.fixture';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 import { notifierPériode } from './période.when';
 
@@ -97,6 +98,7 @@ EtantDonné(`une période avec un candidat importé`, async function (this: Pote
 
 EtantDonné(`une période avec des candidats notifiés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
+  await waitForSagasNotificationsAndProjectionsToFinish();
   await notifierPériode.call(this);
 });
 
@@ -130,7 +132,7 @@ EtantDonné(
         famille: '',
         numéroCRE: 'éliminé-oublié-3',
         statut: 'éliminé',
-        emailContact: 'porteur3@test.test',
+        emailContact: 'porteur1@test.test',
       },
     ] satisfies Candidat[];
 
