@@ -107,6 +107,7 @@ export type RèglesDemandesChangement = {
   abandon: ChangementAvecAutoritéCompétente;
   natureDeLExploitation: Changement;
   installateur: Changement;
+  nomProjet: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
