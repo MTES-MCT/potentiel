@@ -80,12 +80,14 @@ export { InstallationImportéeEvent } from './importer/importerInstallation.even
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
 export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 export { DispositifDeStockageModifiéEvent } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.event';
+export { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
 
 // Entities
 export * from './installation.entity';
+export * from './installateur/changement/changementInstallateur.entity';
 
 // Value type
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';

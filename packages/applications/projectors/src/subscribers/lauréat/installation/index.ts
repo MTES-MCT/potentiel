@@ -9,6 +9,7 @@ import { installationImportéeProjector } from './installationImportée.projecto
 import { installateurModifiéProjector } from './installateurModifié.projector';
 import { typologieInstallationModifiéeProjector } from './typologieInstallationModifiée.projector';
 import { dispositifDeStockageModifiéProjector } from './dispositifDeStockageModifié.projector';
+import { changementInstallateurEnregistréProjector } from './changementInstallateurEnregistré.projector';
 
 export type SubscriptionEvent = (Lauréat.Installation.InstallationEvent | RebuildTriggered) & Event;
 
@@ -22,6 +23,10 @@ export const register = () => {
       .with({ type: 'InstallateurModifié-V1' }, installateurModifiéProjector)
       .with({ type: 'TypologieInstallationModifiée-V1' }, typologieInstallationModifiéeProjector)
       .with({ type: 'DispositifDeStockageModifié-V1' }, dispositifDeStockageModifiéProjector)
+      .with(
+        { type: 'ChangementInstallateurEnregistré-V1' },
+        changementInstallateurEnregistréProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Installation', handler);
