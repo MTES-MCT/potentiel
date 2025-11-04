@@ -17,13 +17,22 @@ const schema = zod.object({
   identifiantGestionnaireReseau: zod.string().optional(),
   zone: zod.string().optional(),
   fonction: zod.string().optional(),
+  nomComplet: zod.string().optional(),
 });
 
 export type ModifierRôleUtilisateurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantUtilisateur, nouveauRole, identifiantGestionnaireReseau, region, zone, fonction },
+  {
+    identifiantUtilisateur,
+    nouveauRole,
+    identifiantGestionnaireReseau,
+    region,
+    zone,
+    fonction,
+    nomComplet,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<ModifierRôleUtilisateurUseCase>({
@@ -38,6 +47,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
         zoneValue: zone,
         fonctionValue: fonction,
+        nomCompletValue: nomComplet,
       },
     });
 

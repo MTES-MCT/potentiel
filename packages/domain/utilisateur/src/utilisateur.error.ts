@@ -91,7 +91,7 @@ export class UtilisateurDéjàActifError extends InvalidOperationError {
 
 export class ModificationRolePorteurRefuséeError extends InvalidOperationError {
   constructor() {
-    super(`Il est impossible de modifier un utilisateur depuis ou vers le rôle porteur de projet`);
+    super(`Il est impossible de donner ou d'enlever le rôle porteur de projet à un utilisateur`);
   }
 }
 

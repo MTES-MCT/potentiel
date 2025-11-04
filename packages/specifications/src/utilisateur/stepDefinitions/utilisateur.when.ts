@@ -184,7 +184,7 @@ Quand(
 );
 
 Quand(
-  "un administrateur modifie le rôle de l'utilisateur vers {string}",
+  "un administrateur modifie le rôle de l'utilisateur en {string}",
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, getPayloadForRôle.call(this, nouveauRôle));
   },
@@ -202,7 +202,7 @@ Quand(
 );
 
 Quand(
-  `l'administrateur modifie son propre rôle vers {string}`,
+  `l'administrateur modifie son propre rôle en {string}`,
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, {
       rôle: nouveauRôle,
