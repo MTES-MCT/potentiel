@@ -10,8 +10,10 @@ import {
   RéactiverUtilisateurUseCase,
   Zone,
   ModifierRôleUtilisateurUseCase,
+  UtilisateurInvitéEventV1,
 } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture';
@@ -55,6 +57,35 @@ Quand(
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
     await inviterUtilisateur.call(this, this.utilisateurWorld.mapExempleToFixtureData(exemple));
+  },
+);
+
+Quand(
+  'un administrateur invite un utilisateur avec le rôle déprécié {string}',
+  async function (this: PotentielWorld, rôleDéprécié: 'acheteur-obligé') {
+    const rôleMap = {
+      'acheteur-obligé': Role.cocontractant.nom,
+    };
+    if (!rôleMap[rôleDéprécié]) {
+      throw new Error("Le rôle déprécié n'est pas reconnu");
+    }
+    this.utilisateurWorld.inviterUtilisateur.créer({
+      rôle: rôleMap[rôleDéprécié],
+      zone: rôleMap[rôleDéprécié] === Role.cocontractant.nom ? 'métropole' : undefined,
+    });
+    const identifiantUtilisateur = this.utilisateurWorld.inviterUtilisateur
+      .mapToExpected()
+      .identifiantUtilisateur.formatter();
+    const event: UtilisateurInvitéEventV1 = {
+      type: 'UtilisateurInvité-V1',
+      payload: {
+        rôle: rôleDéprécié,
+        identifiantUtilisateur,
+        invitéLe: DateTime.now().formatter(),
+        invitéPar: this.utilisateurWorld.adminFixture.email,
+      },
+    };
+    await publish(`utilisateur|${identifiantUtilisateur}`, event);
   },
 );
 
