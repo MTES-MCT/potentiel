@@ -79,14 +79,9 @@ async function getEmailPayloads(
         },
       });
 
-      const porteurs = Object.groupBy(
-        candidatures.items.map((candidature) => ({
-          email: candidature.emailContact.formatter(),
-          fullName: candidature.nomReprésentantLégal,
-          identifiantProjet: candidature.identifiantProjet.formatter(),
-        })),
-        (candidature) => candidature.email,
-      );
+      const porteurs = [
+        ...new Set(candidatures.items.map((candidature) => candidature.emailContact.formatter())),
+      ];
       const baseUrl = getBaseUrl();
 
       return [
@@ -105,22 +100,28 @@ async function getEmailPayloads(
             redirect_url: baseUrl,
           },
         })),
-        ...Object.entries(porteurs).map(([email, projets]) => ({
-          templateId: templateId.notifierPorteur,
-          recipients: [
-            {
-              email,
-              fullName: projets?.[0]?.fullName ?? '',
+        ...porteurs.map((email) => {
+          const projets = candidatures.items.filter(
+            (candidature) => candidature.emailContact.formatter() === email,
+          );
+
+          return {
+            templateId: templateId.notifierPorteur,
+            recipients: [
+              {
+                email,
+                fullName: projets[0].nomReprésentantLégal,
+              },
+            ],
+            messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
+            variables: {
+              redirect_url:
+                projets?.length === 1
+                  ? `${baseUrl}${Routes.Projet.details(projets[0].identifiantProjet.formatter())}`
+                  : baseUrl,
             },
-          ],
-          messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
-          variables: {
-            redirect_url:
-              projets?.length === 1
-                ? `${baseUrl}${Routes.Projet.details(projets[0].identifiantProjet)}`
-                : baseUrl,
-          },
-        })),
+          };
+        }),
       ];
   }
 }
