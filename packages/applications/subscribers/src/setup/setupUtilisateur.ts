@@ -23,6 +23,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
       'PorteurInvité-V1',
       'UtilisateurDésactivé-V1',
       'UtilisateurRéactivé-V1',
+      'RôleUtilisateurModifié-V1',
     ],
     messageType: 'System.Projector.Utilisateur',
   });

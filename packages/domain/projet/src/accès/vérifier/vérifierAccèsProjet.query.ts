@@ -1,15 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
+import { Role, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 import { LauréatEntity } from '../../lauréat';
 import { CandidatureEntity } from '../../candidature';
-import { AccèsEntity } from '../accès.entity';
 import { RaccordementEntity } from '../../lauréat/raccordement';
+import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port';
+import { IdentifiantProjet } from '../..';
 
 export type VérifierAccèsProjetQuery = Message<
   'System.Projet.Accès.Query.VérifierAccèsProjet',
@@ -22,6 +24,7 @@ export type VérifierAccèsProjetQuery = Message<
 
 export type VérifierAccèsProjetDependencies = {
   find: Find;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 class ProjetInaccessibleError extends OperationRejectedError {
@@ -30,76 +33,53 @@ class ProjetInaccessibleError extends OperationRejectedError {
   }
 }
 
-export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProjetDependencies) => {
+export const registerVérifierAccèsProjetQuery = ({
+  find,
+  getScopeProjetUtilisateur,
+}: VérifierAccèsProjetDependencies) => {
   const handler: MessageHandler<VérifierAccèsProjetQuery> = async ({
     identifiantUtilisateurValue,
     identifiantProjetValue,
   }) => {
-    const identifiantUtilisateur = identifiantUtilisateurValue.toLocaleLowerCase();
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    const utilisateur = await find<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`);
+    const utilisateur = await find<UtilisateurEntity>(
+      `utilisateur|${identifiantUtilisateur.formatter()}`,
+    );
+    if (Option.isNone(utilisateur)) {
+      throw new ProjetInaccessibleError();
+    }
+    // NB : ici on pourrait passer `utilisateur` pour optimiser le double appel à find<UtilisateurEntity>
+    const scope = await getScopeProjetUtilisateur(identifiantUtilisateur);
 
-    return Option.match(utilisateur)
-      .some(async (utilisateur) => {
-        const hasAccess = await match(utilisateur)
-          .with({ rôle: 'ademe' }, () => estUneCandidatureNotifiée(identifiantProjetValue))
-          .with({ rôle: 'admin' }, async () => true)
-          .with({ rôle: 'caisse-des-dépôts' }, () =>
-            estUneCandidatureNotifiée(identifiantProjetValue),
-          )
-          .with({ rôle: 'cre' }, async () => true)
-          .with({ rôle: 'dgec-validateur' }, async () => true)
-          .with({ rôle: 'dreal' }, async (utilisateur) => {
-            const projetNotifié = await estUneCandidatureNotifiée(identifiantProjetValue);
+    const accèsCandidature = await match(utilisateur.rôle)
+      .with(P.union(Role.dgecValidateur.nom, Role.admin.nom, Role.cre.nom), () => true)
+      .otherwise(() => estUneCandidatureNotifiée(identifiantProjetValue));
 
-            if (!projetNotifié) {
-              return false;
-            }
+    if (!accèsCandidature) {
+      throw new ProjetInaccessibleError();
+    }
 
-            if (utilisateur.région) {
-              const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-              return régionProjet === utilisateur.région;
-            }
-
-            return false;
-          })
-          .with({ rôle: 'cocontractant' }, async (utilisateur) => {
-            const projetNotifié = await estUneCandidatureNotifiée(identifiantProjetValue);
-            if (!projetNotifié) {
-              return false;
-            }
-            if (utilisateur.zone) {
-              const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-              return Zone.convertirEnValueType(utilisateur.zone).aAccèsàLaRégion(régionProjet);
-            }
-
-            return false;
-          })
-          .with({ rôle: 'grd' }, async (utilisateur) => {
-            if (utilisateur.identifiantGestionnaireRéseau) {
-              const identifiantGestionnaireRéseau =
-                await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-              return identifiantGestionnaireRéseau === utilisateur.identifiantGestionnaireRéseau;
-            }
-
-            return false;
-          })
-          .with({ rôle: 'porteur-projet' }, async () => {
-            const accès = await find<AccèsEntity>(`accès|${identifiantProjetValue}`);
-
-            return Option.match(accès)
-              .some((accès) => accès.utilisateursAyantAccès.includes(identifiantUtilisateur))
-              .none(() => false);
-          })
-          .exhaustive();
-
-        if (!hasAccess) {
-          throw new ProjetInaccessibleError();
-        }
+    const accèsProjet = await match(scope)
+      .with({ type: 'projet' }, ({ identifiantProjets }) =>
+        identifiantProjets.includes(identifiantProjet.formatter()),
+      )
+      .with({ type: 'région' }, async ({ régions }) => {
+        const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
+        return régions.includes(régionProjet);
       })
-      .none(() => {
-        throw new ProjetInaccessibleError();
-      });
+      .with({ type: 'gestionnaire-réseau' }, async ({ identifiantGestionnaireRéseau }) => {
+        const identifiantGestionnaireRéseauProjet =
+          await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
+        return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
+      })
+      .with({ type: 'all' }, async () => true)
+      .exhaustive();
+
+    if (!accèsProjet) {
+      throw new ProjetInaccessibleError();
+    }
   };
 
   const récuperérRégionProjet = async (identifiantProjet: string) => {

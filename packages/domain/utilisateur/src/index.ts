@@ -23,6 +23,8 @@ import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisat
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
+import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
@@ -43,6 +45,7 @@ export type UtilisateurUseCase =
   | InviterPorteurUseCase
   | DésactiverUtilisateurUseCase
   | RéactiverUtilisateurUseCase
+  | ModifierRôleUtilisateurUseCase
   | CréerPorteurUseCase;
 
 export {
@@ -50,6 +53,7 @@ export {
   InviterPorteurUseCase,
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
+  ModifierRôleUtilisateurUseCase,
   CréerPorteurUseCase,
 };
 
@@ -61,6 +65,7 @@ export {
   UtilisateurInvitéEventV1,
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
+  RôleUtilisateurModifiéEvent,
 };
 export * from './utilisateur.event';
 

@@ -23,6 +23,21 @@ Alors(
 );
 
 Alors(
+  "l'utilisateur invité a accès au projet {lauréat-éliminé} {string}",
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé'
+        ? this.éliminéWorld.rechercherÉliminéFixture(nomProjet)
+        : this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    await vérifierAccèsProjet.call(this, {
+      identifiantProjet,
+      expectHasAccess: true,
+    });
+  },
+);
+
+Alors(
   "l'utilisateur invité n'a pas accès au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const { identifiantProjet } =

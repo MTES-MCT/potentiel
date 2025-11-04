@@ -10,6 +10,7 @@ import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
 import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector';
 import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector';
 import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector';
+import { rôleUtilisateurModifiéProjector } from './rôleUtilisateurModifié.projector';
 
 export type SubscriptionEvent = (UtilisateurEvent & Event) | RebuildTriggered;
 
@@ -24,6 +25,7 @@ export const register = () => {
       .with({ type: 'PorteurInvité-V1' }, porteurInvitéProjector)
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)
+      .with({ type: 'RôleUtilisateurModifié-V1' }, rôleUtilisateurModifiéProjector)
       // Deprecated events
       .with({ type: 'AccèsProjetRetiré-V1' }, async () => {})
       .with({ type: 'ProjetRéclamé-V1' }, async () => {})

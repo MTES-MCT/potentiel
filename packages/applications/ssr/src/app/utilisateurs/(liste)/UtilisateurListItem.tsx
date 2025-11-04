@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { useSearchParams } from 'next/navigation';
+import { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 
 import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -25,7 +26,7 @@ import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 
 export type UtilisateurActions = {
-  actions: ('désactiver' | 'réactiver')[];
+  actions: ('désactiver' | 'réactiver' | 'modifier')[];
 };
 
 export type UtilisateurListItemProps = {
@@ -54,6 +55,42 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
   const searchParams = useSearchParams();
   const actifSearchParam = searchParams.get('actif');
 
+  const buttons: [ButtonProps, ...ButtonProps[]] = [
+    {
+      children: 'Contacter',
+      iconId: 'fr-icon-mail-line',
+      priority: 'secondary',
+      linkProps: { href: `mailto:${identifiantUtilisateur.email}` },
+    },
+  ];
+
+  if (actions.includes('désactiver')) {
+    buttons.push({
+      children: 'Désactiver',
+      iconId: 'ri-user-forbid-line',
+      priority: 'primary',
+      onClick: () => setIsOpen(true),
+    });
+  }
+  if (actions.includes('réactiver')) {
+    buttons.push({
+      children: 'Réactiver',
+      iconId: 'ri-user-follow-line',
+      priority: 'primary',
+      onClick: () => setIsOpen(true),
+    });
+  }
+  if (actions.includes('modifier')) {
+    buttons.push({
+      children: 'Modifier le rôle',
+      iconId: 'ri-pencil-line',
+      priority: 'secondary',
+      linkProps: {
+        href: Routes.Utilisateur.modifierRôle(identifiantUtilisateur.email),
+      },
+    });
+  }
+
   return (
     <>
       <ListItem
@@ -62,29 +99,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
             buttonsSize="small"
             buttonsEquisized
             inlineLayoutWhen="always"
-            buttons={[
-              {
-                children: 'Contacter',
-                iconId: 'fr-icon-mail-line',
-                priority: 'secondary',
-                linkProps: { href: `mailto:${identifiantUtilisateur.email}` },
-              },
-              désactivé
-                ? {
-                    children: 'Réactiver',
-                    iconId: 'ri-user-follow-line',
-                    priority: 'primary',
-                    onClick: () => setIsOpen(true),
-                    disabled: !actions.includes('réactiver'),
-                  }
-                : {
-                    children: 'Désactiver',
-                    iconId: 'ri-user-forbid-line',
-                    priority: 'primary',
-                    onClick: () => setIsOpen(true),
-                    disabled: !actions.includes('désactiver'),
-                  },
-            ]}
+            buttons={buttons}
           />
         }
         heading={

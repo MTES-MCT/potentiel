@@ -11,6 +11,7 @@ import {
   InviterUtilisateurProps,
 } from './fixtures/inviter/inviter.fixture';
 import { CREFixture } from './fixtures/cre.fixture';
+import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -54,6 +55,12 @@ export class UtilisateurWorld {
     return this.#inviterUtilisateur;
   }
 
+  #modifierRôleUtilisateur: ModifierRôleUtilisateurFixture;
+
+  get modifierRôleUtilisateur() {
+    return this.#modifierRôleUtilisateur;
+  }
+
   constructor(private readonly potentielWorld: PotentielWorld) {
     this.#porteurFixture = new PorteurFixture('porteur-projet');
     this.#validateurFixture = new ValidateurFixture('dgec-validateur');
@@ -62,6 +69,7 @@ export class UtilisateurWorld {
     this.#adminFixture = new AdminFixture('admin');
     this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
+    this.#modifierRôleUtilisateur = new ModifierRôleUtilisateurFixture();
   }
 
   récupérerEmailSelonRôle(role: string): string {
@@ -115,6 +123,9 @@ export class UtilisateurWorld {
   mapToExpected() {
     if (this.potentielWorld.accèsWorld.réclamerProjet.aÉtéCréé) {
       return this.potentielWorld.accèsWorld.réclamerProjet.mapToExpected();
+    }
+    if (this.modifierRôleUtilisateur.aÉtéCréé) {
+      return this.modifierRôleUtilisateur.mapToExpected();
     }
     return this.inviterUtilisateur.mapToExpected();
   }

@@ -135,6 +135,16 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | Martinique           | métropole |
             | Martinique           | mayotte   |
 
+    Scénario: Un ancien acheteur obligé est considéré comme Cocontractant Métropole
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | région | Provence-Alpes-Côte d'Azur |
+        Etant donné le projet lauréat "Plage de Fort-de-France" avec :
+            | région | Martinique |
+        Quand un administrateur invite un utilisateur avec le rôle déprécié "acheteur-obligé"
+        Alors l'utilisateur devrait être actif
+        Et l'utilisateur invité a accès au projet lauréat "Du boulodrome de Marseille"
+        Et l'utilisateur invité n'a pas accès au projet lauréat "Plage de Fort-de-France"
+
     @NotImplemented
     Scénario: Inviter un utilisateur désactivé
 
