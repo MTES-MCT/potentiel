@@ -17,6 +17,8 @@ import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFail
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
 import { RebuildTriggered } from './rebuild/rebuildTriggered.event';
 import { Subscriber } from './subscriber/subscriber';
+import { rebuildAll } from './rebuild/rebuildAll';
+import { RebuildAllTriggered } from './rebuild/rebuildAllTriggered.event';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
@@ -84,7 +86,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   }
 
   #getChannelName(eventType: string): ChannelName {
-    if (eventType === 'RebuildTriggered') {
+    if (eventType === 'RebuildTriggered' || eventType === 'RebuildAllTriggered') {
       return 'rebuild';
     }
 
@@ -106,32 +108,39 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   }
 
   #setupRebuildListener() {
-    this.on('rebuild' satisfies ChannelName, async (event: Event & RebuildTriggered) => {
-      try {
-        getLogger().info('Rebuilding', {
-          event,
-          subscriber: this.#subscriber,
-        });
-        await rebuild(event, this.#subscriber);
-        getLogger().info('Rebuilt', {
-          event,
-          subscriber: this.#subscriber,
-        });
-      } catch (error) {
-        getLogger().error(new RebuildFailedError(error), {
-          event,
-          subscriber: this.#subscriber,
-        });
-      } finally {
-        await acknowledge({
-          stream_category: this.#subscriber.streamCategory,
-          subscriber_name: this.#subscriber.name,
-          created_at: event.created_at,
-          stream_id: event.stream_id,
-          version: event.version,
-        });
-      }
-    });
+    this.on(
+      'rebuild' satisfies ChannelName,
+      async (event: Event & (RebuildTriggered | RebuildAllTriggered)) => {
+        try {
+          getLogger().info('Rebuilding', {
+            event,
+            subscriber: this.#subscriber,
+          });
+          if (event.type === 'RebuildTriggered') {
+            const logger = getLogger(
+              `rebuild - ${this.#subscriber.streamCategory} - ${this.#subscriber.name}`,
+            );
+            await rebuild(event, this.#subscriber);
+            logger.info('Rebuilt', { streamId: event.stream_id });
+          } else {
+            await rebuildAll(event, this.#subscriber);
+          }
+        } catch (error) {
+          getLogger().error(new RebuildFailedError(error), {
+            event,
+            subscriber: this.#subscriber,
+          });
+        } finally {
+          await acknowledge({
+            stream_category: this.#subscriber.streamCategory,
+            subscriber_name: this.#subscriber.name,
+            created_at: event.created_at,
+            stream_id: event.stream_id,
+            version: event.version,
+          });
+        }
+      },
+    );
   }
 
   #setupDomainEventListener() {
