@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+#! /usr/bin/env -S node --experimental-strip-types
 
 /**
  * Script to extract distinct tags from Cucumber/Gherkin feature files
