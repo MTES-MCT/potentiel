@@ -4,18 +4,21 @@ on:
   push:
     branches:
       - main
+      - release-workflow
 
 jobs:
   call-shared-workflow:
     uses: ./.github/workflows/shared-workflow.yml
 
   deploy-development:
-    needs: call-shared-workflow
+    # needs: call-shared-workflow
     runs-on: ubuntu-latest
     environment: development
     steps:
-      - name: Deploy to Development
-        run: |
-          curl -O https://cli-dl.scalingo.com/install && bash install
-          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy main
+      - uses: scalingo-community/setup-scalingo@v0.1.1
+        with:
+          region: ${{ secrets.SCALINGO_REGION }}
+          app_name: ${{ secrets.SCALINGO_APP }}
+          api_token: ${{ secrets.SCALINGO_TOKEN }}
+      - name: Deploy to Demo
+        run: scalingo integration-link-manual-deploy main
