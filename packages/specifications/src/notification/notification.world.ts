@@ -37,4 +37,8 @@ export class NotificationWorld {
   récupérerDestinataires(sujet: string) {
     return this.#notifications.filter((notif) => notif.messageSubject.match(new RegExp(sujet)));
   }
+
+  resetNotifications() {
+    this.#notifications = [];
+  }
 }

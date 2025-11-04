@@ -10,6 +10,7 @@ import { PotentielWorld } from '../../potentiel.world';
 Quand(
   /.* DGEC validateur notifie la période d'un appel d'offres/,
   async function (this: PotentielWorld) {
+    this.notificationWorld.resetNotifications();
     await notifierPériode.call(this);
   },
 );
