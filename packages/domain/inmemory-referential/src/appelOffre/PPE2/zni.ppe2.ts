@@ -46,6 +46,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',

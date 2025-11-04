@@ -122,6 +122,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:

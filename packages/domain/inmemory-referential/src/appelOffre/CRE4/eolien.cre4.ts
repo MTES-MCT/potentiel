@@ -68,6 +68,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',

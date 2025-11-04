@@ -95,6 +95,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',

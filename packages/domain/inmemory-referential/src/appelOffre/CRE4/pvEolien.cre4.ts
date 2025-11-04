@@ -71,6 +71,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
 };
 

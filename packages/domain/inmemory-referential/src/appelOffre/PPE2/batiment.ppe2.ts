@@ -100,6 +100,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
