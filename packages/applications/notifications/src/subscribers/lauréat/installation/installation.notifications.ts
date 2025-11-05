@@ -1,10 +1,10 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getLauréat } from '../../../_helpers';
+import { getBaseUrl, getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import {
@@ -12,6 +12,7 @@ import {
   handleInstallateurModifié,
   handleTypologieInstallationModifiée,
 } from './handlers';
+import { changementInstallateurEnregistréNotification } from './changementInstallateurEnregistré.notification';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
@@ -26,6 +27,8 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
+
+    const baseUrl = getBaseUrl();
 
     const projet = await getLauréat(identifiantProjet.formatter());
 
@@ -51,9 +54,17 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
           projet,
         }),
       )
+      .with({ type: 'ChangementInstallateurEnregistré-V1' }, async (event) =>
+        changementInstallateurEnregistréNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with(
         {
-          type: P.union('InstallationImportée-V1', 'ChangementInstallateurEnregistré-V1'),
+          type: 'InstallationImportée-V1',
         },
         () => Promise.resolve(),
       )

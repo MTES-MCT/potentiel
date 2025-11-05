@@ -28,6 +28,7 @@ export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
       'InstallateurModifié-V1',
       'TypologieInstallationModifiée-V1',
       'DispositifDeStockageModifié-V1',
+      'ChangementInstallateurEnregistré-V1',
     ],
     messageType: 'System.Notification.Lauréat.Installation',
   });
