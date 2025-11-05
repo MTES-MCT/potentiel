@@ -58,19 +58,6 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
 });
 
 Alors(
-  'le porteur a été prévenu que sa candidature a été notifiée',
-  async function (this: PotentielWorld) {
-    const email = this.notificationWorld.récupérerNotification(
-      this.candidatureWorld.importerCandidature.values.emailContactValue,
-    );
-
-    await waitForExpect(async () => {
-      expect(email.messageSubject).match(/Résultats de la .* période de l'appel d'offres .*/);
-    });
-  },
-);
-
-Alors(
   'le porteur a été prévenu que son attestation a été modifiée',
   async function (this: PotentielWorld) {
     const email = this.notificationWorld.récupérerNotification(

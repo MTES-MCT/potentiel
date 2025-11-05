@@ -92,6 +92,9 @@ export async function makeServer(port: number) {
       }),
     );
 
+    // Redirection pages legacy
+    app.get('/projets.html', (req, res) => res.redirect(301, '/'));
+
     app.use((req, res, next) => {
       // Cas permettant d'avoir l'authentification keycloak fonctionnelle
       // pour l'application next. À terme ce code disparaîtra une fois l'intégralité

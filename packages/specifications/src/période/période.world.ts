@@ -20,10 +20,6 @@ export class PériodeWorld {
     this.#notifierPériodeFixture = new NotifierPériodeFixture();
   }
 
-  reinitialiserPériode() {
-    this.#notifierPériodeFixture = new NotifierPériodeFixture();
-  }
-
   mapToExpected(
     identifiantPériode: Période.IdentifiantPériode.ValueType,
   ): Période.ConsulterPériodeReadModel {
