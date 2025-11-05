@@ -62,7 +62,6 @@ export const getUpdateClause = <TProjection extends Entity>(
           : value,
     )
     .filter((value) => typeof value !== 'undefined');
-  console.log(jsonb_set, jsonb_unset, values);
 
   return [`update domain_views.projection p set value=${jsonb_set}${jsonb_unset}`, values];
 };
