@@ -130,9 +130,11 @@ export default eslintTs.config(
   },
   // allow "any" in tests
   {
-    files: ['**/*.spec.ts'],
+    files: ['**/*.spec.ts', '**/*.test.ts', '**/*.integration.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
+      // because of chai assertion style
+      '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
 );

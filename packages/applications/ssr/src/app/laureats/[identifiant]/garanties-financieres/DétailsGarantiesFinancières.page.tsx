@@ -23,6 +23,7 @@ import { SectionGarantiesFinancières } from './SectionGarantiesFinancières';
 import { HistoriqueMainlevéeRejetée } from './(mainlevée)/(historique-main-levée-rejetée)/HistoriqueMainlevéeRejetée';
 import { ArchivesGarantiesFinancières } from './(archives)/ArchivesGarantiesFinancières';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actions = [
   'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.actuelles.enregistrerAttestation',

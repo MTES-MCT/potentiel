@@ -23,6 +23,6 @@ export const post = async ({ body, url, retryPolicyOptions }: Post): Promise<JSO
       throw new RequestError({ status, statusText, url, method: 'POST', body });
     }
 
-    return response.json();
+    return response.json() as Promise<JSON>;
   });
 };

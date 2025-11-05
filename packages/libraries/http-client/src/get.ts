@@ -18,7 +18,7 @@ const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Res
   });
 
 export const get = async <T>({ url, retryPolicyOptions }: GetOptions): Promise<T> =>
-  (await getResponse({ url, retryPolicyOptions })).json();
+  (await getResponse({ url, retryPolicyOptions })).json() as Promise<T>;
 
 export const getBlob = async ({ url, retryPolicyOptions }: GetOptions): Promise<Blob> =>
   (await getResponse({ url, retryPolicyOptions })).blob();

@@ -17,6 +17,7 @@ export type Ratios = {
   max: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emailsDGEC = [
   'aoeolien@developpement-durable.gouv.fr',
   'aopv.dgec@developpement-durable.gouv.fr',
@@ -234,6 +235,7 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
  * Ces champs ne sont pas actifs pour tous les AOs/Périodes.
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
  **/
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const champsCandidature = [
   'puissanceALaPointe',
   /**

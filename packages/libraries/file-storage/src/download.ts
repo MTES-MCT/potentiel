@@ -15,7 +15,7 @@ export const download = async (filePath: string) => {
     }
 
     return result.Body.transformToWebStream();
-  } catch (e) {
+  } catch {
     throw new FichierInexistant(filePath);
   }
 };

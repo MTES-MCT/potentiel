@@ -28,7 +28,9 @@ export const Steps: FC<StepsProps> = ({ onStepSelected, steps, currentStep }) =>
           <div>{step.children}</div>
           <StepNavigation
             onStepSelected={(stepIndex) => {
-              onStepSelected && onStepSelected(stepIndex);
+              if (onStepSelected) {
+                onStepSelected(stepIndex);
+              }
             }}
             previousStep={
               step.previousStep

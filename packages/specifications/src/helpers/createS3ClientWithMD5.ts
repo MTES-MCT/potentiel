@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 
 import { S3Client } from '@aws-sdk/client-s3';
 import { HttpRequest } from '@smithy/types';

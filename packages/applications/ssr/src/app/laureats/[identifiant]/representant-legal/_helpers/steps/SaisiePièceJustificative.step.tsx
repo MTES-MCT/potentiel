@@ -68,7 +68,9 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         stateRelatedMessage={validationErrors['piecesJustificatives']}
         onChange={(piècesJustificatives) => {
           delete validationErrors['piecesJustificatives'];
-          onChange && onChange(piècesJustificatives);
+          if (onChange) {
+            onChange(piècesJustificatives);
+          }
         }}
         documentKeys={pièceJustificative}
       />

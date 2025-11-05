@@ -5,12 +5,15 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 
 export const addGRDs = async (gestionnairesORE: ReadonlyArray<OreGestionnaire>) => {
-  gestionnairesORE.length
-    ? getLogger().info('Des nouveaux gestionnaires de réseau vont être ajoutés', {
-        total: gestionnairesORE.length,
-        gestionnaires: gestionnairesORE,
-      })
-    : getLogger().info("Il n'y a pas de nouveaux gestionnaires de réseaux à ajouter");
+  if (gestionnairesORE.length === 0) {
+    getLogger().info("Il n'y a pas de nouveaux gestionnaires de réseaux à ajouter");
+    return;
+  }
+
+  getLogger().info('Des nouveaux gestionnaires de réseau vont être ajoutés', {
+    total: gestionnairesORE.length,
+    gestionnaires: gestionnairesORE,
+  });
 
   for (const gestionnaire of gestionnairesORE) {
     try {

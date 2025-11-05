@@ -7,11 +7,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { RéférencielGRD } from './référencielGRD';
 
 export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) => {
-  gestionnaires.length
-    ? getLogger().info('Des gestionnaires de réseau vont être mis à jour', {
-        total: gestionnaires.length,
-      })
-    : getLogger().info("Il n'y a pas de gestionnaires de réseaux à mettre à jour");
+  if (gestionnaires.length === 0) {
+    getLogger().info("Il n'y a pas de gestionnaires de réseaux à mettre à jour");
+    return;
+  }
+  getLogger().info('Des gestionnaires de réseau vont être mis à jour', {
+    total: gestionnaires.length,
+  });
 
   for (const gestionnaire of gestionnaires) {
     if (gestionnaire.oreGestionnaire) {

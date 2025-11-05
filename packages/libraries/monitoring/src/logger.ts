@@ -6,7 +6,7 @@ export type Logger = {
 };
 
 let logger:
-  | (Logger & { child?: (props: Object) => Logger; defaultMeta?: Record<string, unknown> })
+  | (Logger & { child?: (props: object) => Logger; defaultMeta?: Record<string, unknown> })
   | undefined;
 
 export const forkLogger = (service?: string): Logger => {

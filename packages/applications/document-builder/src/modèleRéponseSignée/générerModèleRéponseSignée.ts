@@ -67,7 +67,7 @@ export const générerModèleRéponseAdapter: GénérerModèleRéponsePort = asy
     try {
       const imageContents = fs.readFileSync(logoFilePath, 'binary');
       zip.file('word/media/image1.png', imageContents, { binary: true });
-    } catch (e) {}
+    } catch {}
   }
 
   const buf = doc.getZip().generate({
