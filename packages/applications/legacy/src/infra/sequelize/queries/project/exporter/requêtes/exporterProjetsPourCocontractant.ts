@@ -32,7 +32,7 @@ const colonnesÀExporter = [
   ...modificationsAvantImport,
 ];
 
-export const exporterProjetsPourAcheteurObligé = ({
+export const exporterProjetsPourCocontractant = ({
   filtres,
 }: {
   filtres?: FiltreListeProjets & { régions: string[] };
