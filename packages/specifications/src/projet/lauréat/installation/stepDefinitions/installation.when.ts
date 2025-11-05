@@ -96,6 +96,17 @@ Quand(
   },
 );
 
+Quand(
+  "le porteur enregistre un changement d'installateur du projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementInstallateur.call(this, this.lauréatWorld.identifiantProjet);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -169,6 +180,29 @@ async function modifierDispositifDeStockage(
       dispositifDeStockageValue: dispositifDeStockage,
       modifiéLeValue: dateModification,
       modifiéParValue: modifiéPar,
+    },
+  });
+}
+
+async function enregistrerChangementInstallateur(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  installateurValue?: string,
+) {
+  const { enregistréLe, enregistréPar, installateur, pièceJustificative } =
+    this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture.créer({
+      enregistréPar: this.utilisateurWorld.adminFixture.email,
+      ...(installateurValue && { installateur: installateurValue }),
+    });
+
+  await mediator.send<Lauréat.Installation.EnregistrerChangementInstallateurUseCase>({
+    type: 'Lauréat.Installateur.UseCase.EnregistrerChangement',
+    data: {
+      installateurValue: installateur,
+      dateChangementValue: enregistréLe,
+      identifiantUtilisateurValue: enregistréPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: pièceJustificative,
     },
   });
 }

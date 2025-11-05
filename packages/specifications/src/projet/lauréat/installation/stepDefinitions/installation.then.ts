@@ -1,6 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { assert } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -110,6 +111,39 @@ Alors(
       } else {
         actual.should.be.deep.equal(expected);
       }
+    });
+  },
+);
+
+Alors(
+  "le changement d'installateur enregistré devrait être consultable",
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changementEnregistré =
+        await mediator.send<Lauréat.Installation.ConsulterChangementInstallateurQuery>({
+          type: 'Lauréat.Installateur.Query.ConsulterChangementInstallateur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréLe:
+              this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture
+                .enregistréLe,
+          },
+        });
+
+      assert(Option.isSome(changementEnregistré), "Changement d'installateur non trouvé !");
+
+      const actual = mapToPlainObject(changementEnregistré);
+
+      const expected = mapToPlainObject(
+        this.lauréatWorld.installationWorld.mapChangementInstallateurToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.dépôtValue.installateur,
+        ),
+      );
+
+      actual.should.be.deep.equal(expected);
     });
   },
 );

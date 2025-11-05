@@ -1,0 +1,72 @@
+import { faker } from '@faker-js/faker';
+
+import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+
+interface EnregistrerChangementInstallateur {
+  readonly enregistréLe: string;
+  readonly enregistréPar: string;
+  readonly installateur: string;
+  readonly pièceJustificative?: { format: string; content: ReadableStream };
+}
+
+export class EnregistrerChangementInstallateurFixture
+  extends AbstractFixture<EnregistrerChangementInstallateur>
+  implements EnregistrerChangementInstallateur
+{
+  #enregistréLe!: string;
+
+  get enregistréLe(): string {
+    return this.#enregistréLe;
+  }
+
+  #enregistréPar!: string;
+
+  get enregistréPar(): string {
+    return this.#enregistréPar;
+  }
+
+  #format!: string;
+  #content!: string;
+
+  get pièceJustificative(): EnregistrerChangementInstallateur['pièceJustificative'] {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
+  }
+
+  #installateur!: string;
+
+  get installateur(): string {
+    return this.#installateur;
+  }
+
+  créer(
+    partialData?: Partial<EnregistrerChangementInstallateur>,
+  ): Readonly<EnregistrerChangementInstallateur> {
+    const content = faker.word.words();
+    const fixture: EnregistrerChangementInstallateur = {
+      enregistréLe: faker.date.recent().toISOString(),
+      enregistréPar: faker.internet.email(),
+      pièceJustificative: {
+        format: faker.potentiel.fileFormat(),
+        content: convertStringToReadableStream(content),
+      },
+      installateur: faker.company.name(),
+      ...partialData,
+    };
+
+    this.#enregistréLe = fixture.enregistréLe;
+    this.#enregistréPar = fixture.enregistréPar;
+    this.#installateur = fixture.installateur;
+
+    if (fixture.pièceJustificative) {
+      this.#format = fixture.pièceJustificative.format;
+      this.#content = content;
+    }
+
+    this.aÉtéCréé = true;
+    return fixture;
+  }
+}
