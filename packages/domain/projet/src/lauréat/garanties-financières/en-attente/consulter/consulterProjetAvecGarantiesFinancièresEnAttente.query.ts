@@ -70,7 +70,7 @@ const mapToReadModel = (
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet: Option.isSome(lauréat) ? lauréat.nomProjet.nom : 'N/A',
+    nomProjet: Option.isSome(lauréat) ? lauréat.nomProjet : 'N/A',
     régionProjet: Option.isSome(lauréat) ? lauréat.localité.région : 'N/A',
     appelOffre,
     période,

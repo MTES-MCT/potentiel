@@ -76,7 +76,7 @@ export const registerListerDemandeDélaiQuery = ({
         on: 'identifiantProjet',
         where: {
           appelOffre: Where.equal(appelOffre),
-          nomProjet: { nom: Where.like(nomProjet) },
+          nomProjet: Where.like(nomProjet),
           localité: {
             région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
           },
@@ -103,12 +103,10 @@ const mapToReadModel = ({
   demandéLe,
   statut,
   nombreDeMois,
-  lauréat: {
-    nomProjet: { nom },
-  },
+  lauréat: { nomProjet },
   miseÀJourLe,
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
-  nomProjet: nom,
+  nomProjet,
   statut: StatutDemandeDélai.convertirEnValueType(statut),
   miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),

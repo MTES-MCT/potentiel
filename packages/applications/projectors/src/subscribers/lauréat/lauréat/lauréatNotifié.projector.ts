@@ -1,4 +1,3 @@
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -18,7 +17,7 @@ export const lauréatNotifiéV1Projector = async ({
     cahierDesCharges: 'initial',
 
     // Ces valeurs manquantes sont systématiquements surchargées par NomEtLocalitéLauréatImportés
-    nomProjet: { nom: '!! VALEUR MANQUANTE !!', miseÀJourLe: DateTime.now().formatter() },
+    nomProjet: '!! VALEUR MANQUANTE !!',
     localité: {
       adresse1: '!! VALEUR MANQUANTE !!',
       adresse2: '!! VALEUR MANQUANTE !!',
@@ -42,7 +41,7 @@ export const lauréatNotifiéProjector = async ({
     famille,
     notifiéLe,
     notifiéPar,
-    nomProjet: { nom: nomProjet, miseÀJourLe: notifiéLe },
+    nomProjet,
     localité,
     cahierDesCharges: 'initial',
   });

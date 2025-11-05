@@ -68,7 +68,7 @@ export const registerListerChangementPuissanceQuery = ({
             on: 'identifiantProjet',
             where: {
               appelOffre: Where.equal(appelOffre),
-              nomProjet: { nom: Where.like(nomProjet) },
+              nomProjet: Where.like(nomProjet),
               localité: {
                 région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
               },
@@ -106,7 +106,7 @@ const mapToReadModel = ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
 
   return {
-    nomProjet: lauréat.nomProjet.nom,
+    nomProjet: lauréat.nomProjet,
     statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
     miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet,

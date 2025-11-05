@@ -47,7 +47,7 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
         value={IdentifiantProjet.bind(identifiantProjet).formatter()}
       />
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <Input
           state={validationErrors['nomProjet'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['nomProjet']}
@@ -61,17 +61,16 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
         />
         <Input
           textArea
-          label="Raison"
+          label="Raison (optionnel)"
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement du nom du projet."
-          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+          nativeTextAreaProps={{ name: 'raison' }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label="Pièce justificative"
+          label="Pièce justificative (optionnel)"
           name="piecesJustificatives"
-          required
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}

@@ -132,7 +132,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     commune: lauréat.localité.commune,
     famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet: lauréat.nomProjet.nom,
+    nomProjet: lauréat.nomProjet,
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),

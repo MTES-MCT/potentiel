@@ -107,15 +107,13 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  lauréat: {
-    nomProjet: { nom },
-  },
+  lauréat: { nomProjet },
   identifiantProjet,
   dépôt,
 }: DépôtGarantiesFinancièresEntity &
   Joined<LauréatEntity>): DépôtGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet: nom,
+  nomProjet,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance: dépôt.dateÉchéance

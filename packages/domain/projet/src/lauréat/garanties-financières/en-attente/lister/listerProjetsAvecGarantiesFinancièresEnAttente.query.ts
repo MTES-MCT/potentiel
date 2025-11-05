@@ -132,9 +132,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 };
 
 const mapToReadModel = ({
-  lauréat: {
-    nomProjet: { nom },
-  },
+  lauréat: { nomProjet },
   identifiantProjet,
   motif,
   dateLimiteSoumission,
@@ -146,7 +144,7 @@ const mapToReadModel = ({
     [LauréatEntity, LeftJoin<AbandonEntity>, LeftJoin<AttestationConformitéEntity>]
   >): GarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet: nom,
+  nomProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   statut:

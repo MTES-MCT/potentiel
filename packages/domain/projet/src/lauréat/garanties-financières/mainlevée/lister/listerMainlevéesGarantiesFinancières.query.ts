@@ -122,7 +122,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
 ): ListerMainlevéeItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   appelOffre: mainlevée.lauréat.appelOffre,
-  nomProjet: mainlevée.lauréat.nomProjet.nom,
+  nomProjet: mainlevée.lauréat.nomProjet,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {

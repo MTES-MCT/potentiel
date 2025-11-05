@@ -15,10 +15,7 @@ export const changementNomProjetEnregistréProjector = async ({
   },
 }: Lauréat.ChangementNomProjetEnregistréEvent) => {
   await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-    nomProjet: {
-      nom: nomProjet,
-      miseÀJourLe: enregistréLe,
-    },
+    nomProjet,
   });
 
   await upsertProjection<Lauréat.ChangementNomProjetEntity>(

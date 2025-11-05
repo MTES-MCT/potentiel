@@ -184,7 +184,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   référence,
   miseEnService,
   lauréat: {
-    nomProjet: { nom },
+    nomProjet,
     localité: { codePostal, commune, département, région, adresse1, adresse2 },
     notifiéLe,
   },
@@ -205,7 +205,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     région,
     famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet: nom,
+    nomProjet,
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),

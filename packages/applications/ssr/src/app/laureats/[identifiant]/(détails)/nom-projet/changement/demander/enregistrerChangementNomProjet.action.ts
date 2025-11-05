@@ -14,7 +14,7 @@ import { singleDocument } from '../../../../../../../utils/zod/document/singleDo
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   nomProjet: zod.string().min(1),
-  raison: zod.string().min(1).optional(),
+  raison: zod.string().optional(),
   piecesJustificatives: singleDocument({ acceptedFileTypes: ['application/pdf'], optional: true }),
 });
 
