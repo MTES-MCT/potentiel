@@ -25,7 +25,7 @@ import {
   EtapesProjetProps,
   MaterielsEtTechnologiesProps,
 } from './sections';
-import { ProjectHeader } from './components';
+import { ProjectHeader, ProjectHeaderProps } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -75,6 +75,7 @@ type ProjectDetailsProps = {
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
   statutLauréat: Lauréat.StatutLauréat.RawType;
   siteDeProduction: InfoGeneralesProps['siteDeProduction'];
+  nomProjet: ProjectHeaderProps['nomProjet'];
   doitAfficherAttestationDésignation: boolean;
 };
 
@@ -104,6 +105,7 @@ export const ProjectDetails = ({
   statutLauréat,
   siteDeProduction,
   doitAfficherAttestationDésignation,
+  nomProjet,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -200,6 +202,7 @@ export const ProjectDetails = ({
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
         siteDeProductionAffichage={siteDeProduction?.affichage}
         doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
+        nomProjet={nomProjet}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

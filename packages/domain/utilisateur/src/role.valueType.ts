@@ -478,11 +478,13 @@ const référencielPermissions = {
     usecase: {
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
       modifierNomProjet: 'Lauréat.UseCase.ModifierNomProjet',
+      enregistrerChangementNomProjet: 'Lauréat.UseCase.EnregistrerChangementNomProjet',
     },
     command: {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
       modifierNomProjet: 'Lauréat.Command.ModifierNomProjet',
+      enregistrerChangementNomProjet: 'Lauréat.Command.EnregistrerChangementNomProjet',
     },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
   },
@@ -1344,6 +1346,19 @@ const policies = {
       référencielPermissions.lauréat.command.modifierNomProjet,
       référencielPermissions.lauréat.usecase.modifierNomProjet,
     ],
+    nomProjet: {
+      modifier: [
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.lauréat.command.modifierNomProjet,
+        référencielPermissions.lauréat.usecase.modifierNomProjet,
+      ],
+      enregistrerChangement: [
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.lauréat.command.enregistrerChangementNomProjet,
+        référencielPermissions.lauréat.usecase.enregistrerChangementNomProjet,
+        référencielPermissions.document.command.enregister,
+      ],
+    },
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
@@ -1635,7 +1650,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifier',
-  'lauréat.modifierNomProjet',
+  'lauréat.nomProjet.modifier',
   'lauréat.modifierSiteDeProduction',
 
   // Accès
@@ -1999,6 +2014,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
   'installation.installateur.enregistrerChangement',
+  
+  // Lauréat
+  'lauréat.nomProjet.enregistrerChangement',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [

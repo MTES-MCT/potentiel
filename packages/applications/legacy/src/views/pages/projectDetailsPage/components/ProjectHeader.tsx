@@ -1,10 +1,11 @@
 import React from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import { Heading1 } from '../../../components';
+import { EditIcon, Heading1, Link } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GetNomProjetForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getNomProjet';
 
 type Affichage = {
   label?: string;
@@ -34,6 +35,7 @@ export type ProjectHeaderProps = {
   délaiAffichage?: Affichage;
   siteDeProductionAffichage?: Affichage;
   doitAfficherAttestationDésignation: boolean;
+  nomProjet: GetNomProjetForProjectPage;
 };
 
 export const ProjectHeader = ({
@@ -54,6 +56,7 @@ export const ProjectHeader = ({
   délaiAffichage,
   dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  nomProjet,
   statutLauréat,
   doitAfficherAttestationDésignation,
 }: ProjectHeaderProps) => (
@@ -61,8 +64,13 @@ export const ProjectHeader = ({
     <div className="pl-3 print:pl-0 mb-3 text-sm">
       <div className="flex md:flex-row flex-col justify-start md:items-end gap-4">
         <Heading1 className="mb-0 pb-0">
-          <div className="inline-block leading-10">{project.nomProjet}</div>
+          <div className="inline-block leading-10">{nomProjet.nom}</div>
         </Heading1>
+        {nomProjet.affichage?.label && (
+          <Link href={nomProjet.affichage.url}>
+            <EditIcon title={nomProjet.affichage.label} />
+          </Link>
+        )}
         <ProjectHeaderBadge statutLauréat={statutLauréat} />
       </div>
       <div className="font-medium mt-3">
@@ -99,6 +107,7 @@ export const ProjectHeader = ({
         dispositifDeStockageAffichage={dispositifDeStockageAffichage}
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         siteDeProductionAffichage={siteDeProductionAffichage}
+        nomProjet={nomProjet}
         doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
       />
     </div>

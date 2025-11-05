@@ -41,6 +41,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { getDélai } from './_utils/getDélai';
 import { getInstallation } from './_utils/getInstallation';
+import { getNomProjet } from './_utils/getNomProjet';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -309,6 +310,11 @@ v1Router.get(
           }),
           statutLauréat: lauréat.statut.statut,
           siteDeProduction: getSiteDeProduction({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: role,
+            project,
+          }),
+          nomProjet: getNomProjet({
             identifiantProjet: identifiantProjetValueType,
             rôle: role,
             project,
