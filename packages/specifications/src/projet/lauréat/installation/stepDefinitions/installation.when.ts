@@ -107,6 +107,21 @@ Quand(
   },
 );
 
+Quand(
+  "le porteur enregistre un changement d'installateur du projet lauréat avec une valeur identique",
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementInstallateur.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.candidatureWorld.importerCandidature.dépôtValue.installateur,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
