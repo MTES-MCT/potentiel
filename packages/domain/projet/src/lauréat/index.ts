@@ -79,7 +79,6 @@ export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.re
 
 // Entities
 export { LauréatEntity } from './lauréat.entity';
-export { ChangementNomProjetEntity } from './nomProjet/changementNomProjet.entity';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';
