@@ -11,13 +11,13 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
         Quand un porteur enregistre un changement de nom du projet
         Alors le projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
+            | sujet             | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | ancien_nom_projet | Du boulodrome de Marseille                                                                                     |
+            | url               | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
+            | sujet             | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | ancien_nom_projet | Du boulodrome de Marseille                                                                                     |
+            | url               | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
 
     Scénario: Impossible d'enregistrer un changement de nom d'un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"

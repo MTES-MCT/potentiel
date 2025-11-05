@@ -4,10 +4,10 @@ import { match, P } from 'ts-pattern';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
+import { getLauréat, getBaseUrl } from '../../../_helpers';
 
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler';
 import { changementNomProjetEnregistréNotification } from './changementNomProjetEnregistré.notifications';
-import { getLauréat, getBaseUrl } from '../../../_helpers';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent;
 
