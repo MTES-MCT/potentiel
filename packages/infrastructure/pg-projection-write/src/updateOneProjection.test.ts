@@ -131,7 +131,7 @@ describe('updateOneProjection', () => {
     expect(results.items).to.deep.eq(expected);
   });
 
-  test.only(`multiple keys`, async () => {
+  test(`multiple keys`, async () => {
     const expected = [
       {
         id: 1,
