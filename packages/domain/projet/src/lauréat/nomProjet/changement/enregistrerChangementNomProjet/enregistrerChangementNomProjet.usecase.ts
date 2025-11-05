@@ -36,7 +36,7 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
       ? DocumentProjet.convertirEnValueType(
           identifiantProjetValue,
           TypeDocumentLauréat.pièceJustificative.formatter(),
-          enregistréParValue,
+          enregistréLeValue,
           pièceJustificativeValue.format,
         )
       : undefined;

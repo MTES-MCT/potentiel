@@ -2,11 +2,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
-
-import { RegisterLauréatNotificationDependencies } from '.';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../_helpers';
 
 import { lauréatNotificationTemplateId } from './constant';
+import { RegisterLauréatNotificationDependencies } from './lauréat.notifications';
 
 type ChangementNomProjetEnregistréNotificationProps = {
   sendEmail: RegisterLauréatNotificationDependencies['sendEmail'];

@@ -314,10 +314,11 @@ v1Router.get(
             rôle: role,
             project,
           }),
-          nomProjet: getNomProjet({
+          nomProjet: await getNomProjet({
             identifiantProjet: identifiantProjetValueType,
             rôle: role,
             project,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('nomProjet'),
           }),
           doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
         }),

@@ -1323,6 +1323,19 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
+  nomProjet: {
+    modifier: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.command.modifierNomProjet,
+      référencielPermissions.lauréat.usecase.modifierNomProjet,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.command.enregistrerChangementNomProjet,
+      référencielPermissions.lauréat.usecase.enregistrerChangementNomProjet,
+      référencielPermissions.document.command.enregister,
+    ],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     lister: [
@@ -1341,24 +1354,6 @@ const policies = {
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
       référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
     ],
-    modifierNomProjet: [
-      référencielPermissions.lauréat.query.consulter,
-      référencielPermissions.lauréat.command.modifierNomProjet,
-      référencielPermissions.lauréat.usecase.modifierNomProjet,
-    ],
-    nomProjet: {
-      modifier: [
-        référencielPermissions.lauréat.query.consulter,
-        référencielPermissions.lauréat.command.modifierNomProjet,
-        référencielPermissions.lauréat.usecase.modifierNomProjet,
-      ],
-      enregistrerChangement: [
-        référencielPermissions.lauréat.query.consulter,
-        référencielPermissions.lauréat.command.enregistrerChangementNomProjet,
-        référencielPermissions.lauréat.usecase.enregistrerChangementNomProjet,
-        référencielPermissions.document.command.enregister,
-      ],
-    },
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
@@ -1650,8 +1645,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifier',
-  'lauréat.nomProjet.modifier',
   'lauréat.modifierSiteDeProduction',
+  'nomProjet.modifier',
 
   // Accès
   'accès.autoriserAccèsProjet',
@@ -2016,7 +2011,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'installation.installateur.enregistrerChangement',
   
   // Lauréat
-  'lauréat.nomProjet.enregistrerChangement',
+  'nomProjet.enregistrerChangement',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
