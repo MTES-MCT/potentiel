@@ -29,7 +29,7 @@ export const handleDemandeMainlevéeMiseÀJour = async ({
 
   await sendEmail({
     templateId: garantiesFinancièresNotificationTemplateId.mainlevée.modifiéePourPorteur,
-    messageSubject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié ${projet.nom}`,
+    messageSubject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet ${projet.nom}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
