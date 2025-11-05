@@ -388,6 +388,7 @@ export class LauréatAggregate extends AbstractAggregate<
         enregistréLe: enregistréLe.formatter(),
         enregistréPar: enregistréPar.formatter(),
         nomProjet,
+        ancienNomProjet: this.#nomProjet!,
       },
     };
 

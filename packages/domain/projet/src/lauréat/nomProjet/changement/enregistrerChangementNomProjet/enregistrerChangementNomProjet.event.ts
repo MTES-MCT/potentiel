@@ -6,6 +6,7 @@ export type ChangementNomProjetEnregistréEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     nomProjet: string;
+    ancienNomProjet: string;
     enregistréLe: DateTime.RawType;
     enregistréPar: Email.RawType;
     raison?: string;

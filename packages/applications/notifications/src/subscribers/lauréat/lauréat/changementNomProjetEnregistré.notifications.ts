@@ -11,7 +11,6 @@ type ChangementNomProjetEnregistréNotificationProps = {
   sendEmail: RegisterLauréatNotificationDependencies['sendEmail'];
   event: Lauréat.ChangementNomProjetEnregistréEvent;
   projet: {
-    nom: string;
     département: string;
     région: string;
   };
@@ -39,10 +38,10 @@ export const changementNomProjetEnregistréNotification = async ({
 
   await sendEmail({
     templateId: lauréatNotificationTemplateId.nomProjet.enregistrerChangement,
-    messageSubject: `Potentiel - Déclaration de changement de nom pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de nom pour le projet ${event.payload.ancienNomProjet} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
-      nom_projet: projet.nom,
+      ancien_nom_projet: event.payload.ancienNomProjet,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())})}`,
     },
@@ -50,10 +49,10 @@ export const changementNomProjetEnregistréNotification = async ({
 
   await sendEmail({
     templateId: lauréatNotificationTemplateId.nomProjet.enregistrerChangement,
-    messageSubject: `Potentiel - Déclaration de changement de nom pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de nom pour le projet ${event.payload.ancienNomProjet} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
-      nom_projet: projet.nom,
+      ancien_nom_projet: event.payload.ancienNomProjet,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())})}`,
     },

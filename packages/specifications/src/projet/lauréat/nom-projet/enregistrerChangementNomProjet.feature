@@ -7,7 +7,6 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
         Quand un porteur enregistre un changement de nom du projet
         Alors le projet lauréat devrait être consultable
@@ -20,7 +19,6 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
             | nom_projet | Du boulodrome de Marseille                                                                                     |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
 
-    # notification
     Scénario: Impossible d'enregistrer un changement de nom d'un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Quand un porteur enregistre un changement de nom du projet
