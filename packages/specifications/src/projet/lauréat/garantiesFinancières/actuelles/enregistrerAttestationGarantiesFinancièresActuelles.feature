@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@garanties-financières-actuelles
 Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Contexte:
@@ -10,6 +9,12 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Et un email a été envoyé à la dreal avec :
+            | sujet              | Potentiel - Attestation de constitution des garanties financières enregistrée pour le projet Du boulodrome de Lyon dans le département .* |
+            | nom_projet         | Du boulodrome de Lyon                                                                                                                     |
+            | departement_projet | .*                                                                                                                                        |
+            | region_projet      | .*                                                                                                                                        |
+            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                          |
 
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles d'un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat

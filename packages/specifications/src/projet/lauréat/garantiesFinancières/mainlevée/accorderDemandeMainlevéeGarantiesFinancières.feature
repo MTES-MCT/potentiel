@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@mainlevée-garanties-financières
 Fonctionnalité: Accorder une demande de mainlevée des garanties financières
 
     Contexte:
@@ -15,6 +14,12 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | motif | projet-abandonné |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet              | Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet Du boulodrome de Marseille |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                         |
+            | departement_projet | .*                                                                                                                                 |
+            | region_projet      | .*                                                                                                                                 |
+            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                   |
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -23,6 +28,12 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | motif | projet-achevé |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet              | Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet Du boulodrome de Marseille |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                         |
+            | departement_projet | .*                                                                                                                                 |
+            | region_projet      | .*                                                                                                                                 |
+            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                   |
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet lauréat

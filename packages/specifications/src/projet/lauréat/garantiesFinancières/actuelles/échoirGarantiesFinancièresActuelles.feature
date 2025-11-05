@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@garanties-financières-actuelles
 Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Contexte:
@@ -18,13 +17,19 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | motif | échéance-garanties-financières-actuelles |
         Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
-            | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet    | Du boulodrome de Marseille                                                                                                       |
-            | date_echeance | 17/07/2050                                                                                                                       |
+            | sujet              | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                       |
+            | departement_projet | .*                                                                                                                               |
+            | region_projet      | .*                                                                                                                               |
+            | date_echeance      | 17/07/2050                                                                                                                       |
+            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                 |
         Et un email a été envoyé à la dreal avec :
-            | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet    | Du boulodrome de Marseille                                                                                                       |
-            | date_echeance | 17/07/2050                                                                                                                       |
+            | sujet              | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet         | Du boulodrome de Marseille                                                                                                       |
+            | departement_projet | .*                                                                                                                               |
+            | region_projet      | .*                                                                                                                               |
+            | date_echeance      | 17/07/2050                                                                                                                       |
+            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                 |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2050-08-18" pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec garanties financières à échoir
