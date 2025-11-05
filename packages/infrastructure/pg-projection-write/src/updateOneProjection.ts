@@ -51,6 +51,9 @@ export const getUpdateClause = <TProjection extends Entity>(
   const unsetFields = Object.entries(flatReadModel)
     .filter(([, value]) => value === undefined)
     .map(([key]) => format('%I', key));
+
+  // Unset values that are undefined using the `-` operator :
+  // select value - {field1, field2}::text[] from domain_views.projection
   const jsonb_unset = unsetFields.length > 0 ? ` - '{${unsetFields.join(',')}}'::text[]` : '';
 
   const values = Object.values(flatReadModel)
