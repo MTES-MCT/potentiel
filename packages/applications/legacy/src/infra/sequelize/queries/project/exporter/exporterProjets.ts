@@ -5,7 +5,10 @@ import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjet
 import { exporterProjetsPourPorteurDeProjet } from './requêtes/exporterProjetsPourPorteurDeProjet';
 import { exporterProjetsPourDREAL } from './requêtes/exporterProjetsPourDREAL';
 import { exporterProjetsPourADEME } from './requêtes/exporterProjetsPourADEME';
-import { exporterProjetsPourAcheteurObligé } from './requêtes/exporterProjetsPourAcheteurObligé';
+import {
+  exporterProjetsPourAcheteurObligé,
+  exporterProjetsPourCocontractant,
+} from './requêtes/exporterProjetsPourAcheteurObligé';
 import { User } from '../../../../../entities';
 import { UnauthorizedError } from '../../../../../modules/shared';
 import { getProjetUtilisateurScopeAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -49,8 +52,9 @@ export const exporterProjets: ExporterProjets = async ({ user, filtres }: Export
     case 'ademe':
       return exporterProjetsPourADEME({ filtres });
     case 'acheteur-obligé':
+      return exporterProjetsPourAcheteurObligé({ filtres });
     case 'cocontractant':
-      return exporterProjetsPourAcheteurObligé({
+      return exporterProjetsPourCocontractant({
         filtres: {
           ...filtres,
           régions: scope.type === 'région' ? scope.régions : [],
