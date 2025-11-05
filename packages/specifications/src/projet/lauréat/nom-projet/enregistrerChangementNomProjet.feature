@@ -1,16 +1,16 @@
 # language: fr
 @lauréat
-@select
 Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Scénario: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
         Quand un porteur enregistre un changement de nom du projet
-        Alors le lauréat devrait être mis à jour
-        Et le changement enregistré du nom du projet lauréat devrait être consultable
+        Alors le projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                     |

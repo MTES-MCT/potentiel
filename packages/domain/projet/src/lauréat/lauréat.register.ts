@@ -81,7 +81,6 @@ import {
 } from './installation/installation.register';
 import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
 import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
-import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -138,7 +137,6 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterLauréatQuery(dependencies);
   registerListerLauréatQuery(dependencies);
   registerConsulterCahierDesChargesQuery(dependencies);
-  registerConsulterChangementNomProjetQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);

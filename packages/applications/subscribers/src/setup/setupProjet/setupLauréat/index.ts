@@ -34,6 +34,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
       'SiteDeProductionModifié-V1',
       'NomProjetModifié-V1',
       'CahierDesChargesChoisi-V1',
+      'ChangementNomProjetEnregistré-V1',
       'RebuildTriggered',
     ],
     messageType: 'System.Projector.Lauréat',
@@ -45,7 +46,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     LauréatNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['CahierDesChargesChoisi-V1'],
+    eventType: ['ChangementNomProjetEnregistré-V1', 'CahierDesChargesChoisi-V1'],
     messageType: 'System.Notification.Lauréat',
   });
 
