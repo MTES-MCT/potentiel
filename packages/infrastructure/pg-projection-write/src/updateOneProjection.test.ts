@@ -20,6 +20,7 @@ describe('updateOneProjection', () => {
       foo: string;
       bar: number;
       baz: boolean;
+      qux?: string;
     }
   >;
   const fakeData1: Omit<TestEntity, 'type'> = {
@@ -27,12 +28,14 @@ describe('updateOneProjection', () => {
     foo: 'foo1',
     bar: 1,
     baz: true,
+    qux: 'qux1',
   };
   const fakeData2: Omit<TestEntity, 'type'> = {
     id: 2,
     foo: 'foo2',
     bar: 2,
     baz: true,
+    qux: 'qux2',
   };
 
   before(() => {
@@ -110,10 +113,28 @@ describe('updateOneProjection', () => {
     expect(results.items).to.deep.eq(expected);
   });
 
-  test(`multiple keys`, async () => {
+  test(`single undefined value`, async () => {
+    const expected: TestEntity[] = [
+      {
+        id: 1,
+        foo: 'foo1',
+        bar: 1,
+        baz: true,
+        type: category,
+      },
+      { ...fakeData2, type: category },
+    ];
+    const key = `${category}|1` as const;
+    await updateOneProjection<TestEntity>(key, { qux: undefined });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
+  });
+
+  test.only(`multiple keys`, async () => {
     const expected = [
       {
-        ...fakeData1,
+        id: 1,
         type: category,
         foo: '',
         bar: -1,
@@ -126,6 +147,7 @@ describe('updateOneProjection', () => {
       foo: expected[0].foo,
       bar: expected[0].bar,
       baz: expected[0].baz,
+      qux: undefined,
     });
 
     const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });

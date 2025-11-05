@@ -41,18 +41,30 @@ export const getUpdateClause = <TProjection extends Entity>(
   const flatReadModel = flatten(readModel) as Record<string, unknown>;
 
   // add 1 to startIndex since arrays start at 0 but sql variables start at $1
-  const jsonb_set = Object.keys(flatReadModel).reduce(
-    (acc, curr, i) => `jsonb_set(${acc},'{${format('%I', curr)}}',$${i + 1 + startIndex})`,
-    'value',
-  );
-  const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'object'
-      ? JSON.stringify(value)
-      : typeof value === 'string'
-        ? toJsonbString(value)
-        : value,
-  );
-  return [`update domain_views.projection p set value=${jsonb_set}`, values];
+  const jsonb_set = Object.entries(flatReadModel)
+    .filter(([, value]) => value !== undefined)
+    .reduce(
+      (acc, [key], i) => `jsonb_set(${acc},'{${format('%I', key)}}',$${i + 1 + startIndex})`,
+      'value',
+    );
+
+  const unsetFields = Object.entries(flatReadModel)
+    .filter(([, value]) => value === undefined)
+    .map(([key]) => format('%I', key));
+  const jsonb_unset = unsetFields.length > 0 ? ` - '{${unsetFields.join(',')}}'::text[]` : '';
+
+  const values = Object.values(flatReadModel)
+    .map((value) =>
+      typeof value === 'object'
+        ? JSON.stringify(value)
+        : typeof value === 'string'
+          ? toJsonbString(value)
+          : value,
+    )
+    .filter((value) => typeof value !== 'undefined');
+  console.log(jsonb_set, jsonb_unset, values);
+
+  return [`update domain_views.projection p set value=${jsonb_set}${jsonb_unset}`, values];
 };
 
 const toJsonbString = (value: string) => {
