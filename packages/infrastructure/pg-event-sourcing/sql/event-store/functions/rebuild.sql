@@ -34,10 +34,13 @@ begin
       end if;
     else
       for v_streamId in
-        select stream_id
+        select distinct stream_id
         from event_store.event_stream
         where stream_id like p_category || '|%'
       loop
+        insert into event_store.pending_acknowledgement
+        values (p_category, SPLIT_PART(v_chanel,'|',2), v_streamId, now()::text, 1);
+
         perform pg_notify(v_chanel, json_build_object(
           'version', 1,
           'created_at', now()::text,
