@@ -111,12 +111,10 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
               baseUrl,
             }),
         )
-        //#endregion Mainlevée
-        //#region Échues
         .with({ type: 'GarantiesFinancièresÉchues-V1' }, (event) =>
           handleGarantiesFinancièresÉchues({ event, sendEmail, projet, baseUrl }),
         )
-        //#endregion Échues
+        //#endregion Mainlevée
         //#region Évènements ignorés
         .with(
           {
