@@ -1,22 +1,11 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
-
 import { PotentielWorld } from '../../potentiel.world';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';
+import { Candidat } from '../fixtures/notifierPériode.fixture';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 import { notifierPériode } from './période.when';
-
-type Candidat = {
-  nomProjet: string;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
-  statut: Candidature.StatutCandidature.RawType;
-  sociétéMère?: string;
-};
 
 const candidats = [
   {
@@ -27,6 +16,7 @@ const candidats = [
     numéroCRE: 'lauréat-1',
     statut: 'classé',
     sociétéMère: 'BonneMère-1',
+    emailContact: 'porteur1@test.test',
   },
   {
     nomProjet: 'lauréat-2',
@@ -36,6 +26,7 @@ const candidats = [
     numéroCRE: 'lauréat-2',
     statut: 'classé',
     sociétéMère: 'BonneMère-2',
+    emailContact: 'porteur1@test.test', // même que précédemment pour tester plusieurs candidatures par porteur
   },
   {
     nomProjet: 'lauréat-3',
@@ -45,6 +36,7 @@ const candidats = [
     numéroCRE: 'lauréat-3',
     statut: 'classé',
     sociétéMère: 'BonneMère-3',
+    emailContact: 'porteur2@test.test',
   },
   {
     nomProjet: 'lauréat-4',
@@ -54,6 +46,7 @@ const candidats = [
     numéroCRE: 'lauréat-4',
     statut: 'classé',
     sociétéMère: 'BonneMère-4',
+    emailContact: 'porteur3@test.test',
   },
   {
     nomProjet: 'lauréat-5',
@@ -63,6 +56,7 @@ const candidats = [
     numéroCRE: 'lauréat-5',
     statut: 'classé',
     sociétéMère: 'BonneMère-5',
+    emailContact: 'porteur4@test.test',
   },
   {
     nomProjet: 'éliminé-1',
@@ -72,6 +66,7 @@ const candidats = [
     numéroCRE: 'éliminé-1',
     statut: 'éliminé',
     sociétéMère: 'BonneMère-eliminé',
+    emailContact: 'porteur1@test.test',
   },
   {
     nomProjet: 'éliminé-2',
@@ -80,6 +75,7 @@ const candidats = [
     famille: '',
     numéroCRE: 'éliminé-2',
     statut: 'éliminé',
+    emailContact: 'porteur5@test.test',
   },
   {
     nomProjet: 'éliminé-3',
@@ -88,8 +84,9 @@ const candidats = [
     famille: '',
     numéroCRE: 'éliminé-3',
     statut: 'éliminé',
+    emailContact: 'porteur6@test.test',
   },
-] as Candidat[];
+] satisfies Candidat[];
 
 EtantDonné(`une période avec des candidats importés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
@@ -101,6 +98,7 @@ EtantDonné(`une période avec un candidat importé`, async function (this: Pote
 
 EtantDonné(`une période avec des candidats notifiés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
+  await waitForSagasNotificationsAndProjectionsToFinish();
   await notifierPériode.call(this);
 });
 
@@ -116,6 +114,7 @@ EtantDonné(
         numéroCRE: 'lauréat-oublié-1',
         statut: 'classé',
         sociétéMère: 'BonneMère',
+        emailContact: 'porteur1@test.test',
       },
       {
         nomProjet: 'lauréat-oublié-2',
@@ -124,6 +123,7 @@ EtantDonné(
         famille: '',
         numéroCRE: 'lauréat-oublié-2',
         statut: 'classé',
+        emailContact: 'porteur2@test.test',
       },
       {
         nomProjet: 'éliminé-oublié-3',
@@ -132,6 +132,7 @@ EtantDonné(
         famille: '',
         numéroCRE: 'éliminé-oublié-3',
         statut: 'éliminé',
+        emailContact: 'porteur1@test.test',
       },
     ] satisfies Candidat[];
 
@@ -140,26 +141,22 @@ EtantDonné(
 );
 
 async function importerCandidatsPériode(this: PotentielWorld, candidats: Candidat[]) {
-  for (const { nomProjet, statut: statut, sociétéMère, ...identifiantProjet } of candidats) {
+  for (const {
+    nomProjet,
+    statut: statut,
+    sociétéMère,
+    emailContact,
+    ...identifiantProjet
+  } of candidats) {
     await importerCandidature.call(this, {
       nomProjet,
       statut,
-      dépôt: { sociétéMère },
+      dépôt: { sociétéMère, emailContact },
       identifiantProjet,
     });
   }
   this.périodeWorld.notifierPériodeFixture.ajouterCandidatsÀNotifier(
-    candidats
-      .filter((c) => c.statut === 'classé')
-      .map(
-        (c) =>
-          [c.appelOffre, c.période, c.famille, c.numéroCRE].join('#') as IdentifiantProjet.RawType,
-      ),
-    candidats
-      .filter((c) => c.statut === 'éliminé')
-      .map(
-        (c) =>
-          [c.appelOffre, c.période, c.famille, c.numéroCRE].join('#') as IdentifiantProjet.RawType,
-      ),
+    candidats.filter((c) => c.statut === 'classé'),
+    candidats.filter((c) => c.statut === 'éliminé'),
   );
 }

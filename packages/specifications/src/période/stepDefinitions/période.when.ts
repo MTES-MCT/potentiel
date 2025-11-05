@@ -3,12 +3,14 @@ import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Période } from '@potentiel-domain/periode';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
   /.* DGEC validateur notifie la période d'un appel d'offres/,
   async function (this: PotentielWorld) {
+    this.notificationWorld.resetNotifications();
     await notifierPériode.call(this);
   },
 );
@@ -22,9 +24,12 @@ export async function notifierPériode(this: PotentielWorld) {
         notifiéePar: this.utilisateurWorld.validateurFixture.email,
       });
 
-    this.utilisateurWorld.porteurFixture.créer({
-      email: this.candidatureWorld.importerCandidature.values.emailContactValue,
-    });
+    const tousProjets = lauréats.concat(éliminés);
+    for (const { emailContact } of tousProjets) {
+      this.utilisateurWorld.porteurFixture.créer({
+        email: emailContact,
+      });
+    }
 
     await mediator.send<Période.NotifierPériodeUseCase>({
       type: 'Période.UseCase.NotifierPériode',
@@ -36,7 +41,9 @@ export async function notifierPériode(this: PotentielWorld) {
           fonction: this.utilisateurWorld.validateurFixture.fonction,
           nomComplet: this.utilisateurWorld.validateurFixture.nom,
         },
-        identifiantCandidatureValues: [...lauréats, ...éliminés],
+        identifiantCandidatureValues: tousProjets.map((projet) =>
+          IdentifiantProjet.bind(projet).formatter(),
+        ),
       },
     });
   } catch (error) {
