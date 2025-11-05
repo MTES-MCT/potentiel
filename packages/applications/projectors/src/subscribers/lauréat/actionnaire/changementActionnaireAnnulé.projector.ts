@@ -1,5 +1,8 @@
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  removeProjection,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -27,10 +30,9 @@ export const changementActionnaireAnnuléProjector = async ({
     return;
   }
 
-  await upsertProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+  await updateOneProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
     {
-      ...projectionToUpsert,
       dateDemandeEnCours: undefined,
     },
   );
