@@ -2,7 +2,14 @@ import format from 'pg-format';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
-import { Entity, FindOptions, Joined, JoinOptions } from '@potentiel-domain/entity';
+import {
+  Entity,
+  Find,
+  FindOptions,
+  FindResult,
+  JoinOptions,
+  SelectOptions,
+} from '@potentiel-domain/entity';
 
 import { KeyValuePair } from './keyValuePair';
 import { getSelectClause } from './getSelectClause';
@@ -10,10 +17,14 @@ import { getFromClause } from './getFromClause';
 import { getWhereClause } from './getWhereClause';
 import { mapResult } from './mapResult';
 
-export const findProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
+export const findProjection: Find = async <
+  TEntity extends Entity,
+  TJoin extends Entity | {} = {},
+  TSelect extends SelectOptions<Omit<TEntity, 'type'>> | {} = {},
+>(
   id: `${TEntity['type']}|${string}`,
-  options?: FindOptions<TEntity, TJoin>,
-): Promise<Option.Type<TEntity & Joined<TJoin>>> => {
+  options?: FindOptions<TEntity, TJoin, TSelect>,
+): Promise<Option.Type<FindResult<TEntity, TJoin, TSelect>>> => {
   const { select, join } = options ?? {};
   const joins = (Array.isArray(join) ? join : join ? [join] : []) as JoinOptions[];
   const selectClause = getSelectClause({ select, joinCategories: joins.map((j) => j.entity) });
@@ -31,5 +42,5 @@ export const findProjection = async <TEntity extends Entity, TJoin extends Entit
     return Option.none;
   }
 
-  return mapResult(result[0]);
+  return mapResult(result[0]) as FindResult<TEntity, TJoin, TSelect>;
 };

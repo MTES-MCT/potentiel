@@ -83,9 +83,12 @@ export const registerVérifierAccèsProjetQuery = ({
   };
 
   const récuperérRégionProjet = async (identifiantProjet: string) => {
-    const lauréat = await find<LauréatEntity>(`lauréat|${identifiantProjet}`, {
-      select: ['localité.région'],
-    });
+    const lauréat = await find<LauréatEntity, {}, ['localité.région']>(
+      `lauréat|${identifiantProjet}`,
+      {
+        select: ['localité.région'],
+      },
+    );
 
     if (Option.isSome(lauréat)) {
       return lauréat.localité.région;
@@ -100,9 +103,12 @@ export const registerVérifierAccèsProjetQuery = ({
   };
 
   const récupérerIdentifiantGestionnaireRéseauProjet = async (identifiantProjet: string) => {
-    const raccordement = await find<RaccordementEntity>(`raccordement|${identifiantProjet}`, {
-      select: ['identifiantGestionnaireRéseau'],
-    });
+    const raccordement = await find<RaccordementEntity, {}, ['identifiantGestionnaireRéseau']>(
+      `raccordement|${identifiantProjet}`,
+      {
+        select: ['identifiantGestionnaireRéseau'],
+      },
+    );
 
     if (Option.isSome(raccordement)) {
       return raccordement.identifiantGestionnaireRéseau;

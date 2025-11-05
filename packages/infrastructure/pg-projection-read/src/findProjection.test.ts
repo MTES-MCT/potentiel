@@ -121,7 +121,7 @@ describe('findProjection', () => {
   it('should return only selected fields when a select option is provided', async () => {
     const id: `${string}|${string}` = `${category1}|${fakeData1.data.value}`;
 
-    const actual = await findProjection<FakeProjection1>(id, {
+    const actual = await findProjection<FakeProjection1, {}, ['data.name', 'data.value']>(id, {
       select: ['data.name', 'data.value'],
     });
 

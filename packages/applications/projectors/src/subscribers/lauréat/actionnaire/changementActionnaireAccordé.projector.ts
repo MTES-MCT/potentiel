@@ -13,9 +13,11 @@ export const changementActionnaireAccordéProjector = async ({
     réponseSignée: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
-  const actionnaire = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
-    `actionnaire|${identifiantProjet}`,
-  );
+  const actionnaire = await findProjection<
+    Lauréat.Actionnaire.ActionnaireEntity,
+    {},
+    ['dateDemandeEnCours']
+  >(`actionnaire|${identifiantProjet}`, { select: ['dateDemandeEnCours'] });
 
   if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
     getLogger().error(`Demande actionnaire non trouvée`, {
