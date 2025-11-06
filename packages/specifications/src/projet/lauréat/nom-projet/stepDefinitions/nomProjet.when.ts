@@ -7,17 +7,16 @@ import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand('un administrateur modifie le nom du projet', async function (this: PotentielWorld) {
   try {
-    const { misÀJourLe, misÀJourPar, nomProjet } =
-      this.lauréatWorld.mettreÀJourNomProjetFixture.créer({
-        misÀJourPar: this.utilisateurWorld.adminFixture.email,
-      });
+    const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer({
+      modifiéPar: this.utilisateurWorld.adminFixture.email,
+    });
 
     await mediator.send<Lauréat.ModifierNomProjetUseCase>({
       type: 'Lauréat.UseCase.ModifierNomProjet',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-        modifiéParValue: misÀJourPar,
-        modifiéLeValue: misÀJourLe,
+        modifiéParValue: modifiéPar,
+        modifiéLeValue: modifiéLe,
         nomProjetValue: nomProjet,
       },
     });
@@ -30,18 +29,19 @@ Quand(
   'un administrateur modifie le nom du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
-      const { misÀJourLe, misÀJourPar, nomProjet } =
-        this.lauréatWorld.mettreÀJourNomProjetFixture.créer({
+      const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer(
+        {
           nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
-          misÀJourPar: this.utilisateurWorld.adminFixture.email,
-        });
+          modifiéPar: this.utilisateurWorld.adminFixture.email,
+        },
+      );
 
       await mediator.send<Lauréat.ModifierNomProjetUseCase>({
         type: 'Lauréat.UseCase.ModifierNomProjet',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-          modifiéParValue: misÀJourPar,
-          modifiéLeValue: misÀJourLe,
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
           nomProjetValue: nomProjet,
         },
       });
@@ -55,18 +55,20 @@ Quand(
   'un porteur enregistre un changement de nom du projet',
   async function (this: PotentielWorld) {
     try {
-      const { misÀJourPar, misÀJourLe, nomProjet } =
-        this.lauréatWorld.mettreÀJourNomProjetFixture.créer({
-          misÀJourPar: this.utilisateurWorld.porteurFixture.email,
+      const { enregistréPar, enregistréLe, nomProjet, raison, pièceJustificative } =
+        this.lauréatWorld.enregistrerChangementNomProjetFixture.créer({
+          enregistréPar: this.utilisateurWorld.porteurFixture.email,
         });
 
       await mediator.send<Lauréat.EnregistrerChangementNomProjetUseCase>({
         type: 'Lauréat.UseCase.EnregistrerChangementNomProjet',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-          enregistréParValue: misÀJourPar,
-          enregistréLeValue: misÀJourLe,
+          enregistréParValue: enregistréPar,
+          enregistréLeValue: enregistréLe,
           nomProjetValue: nomProjet,
+          raisonValue: raison,
+          pièceJustificativeValue: pièceJustificative,
         },
       });
     } catch (e) {
@@ -79,9 +81,9 @@ Quand(
   'un porteur enregistre un changement de nom du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
-      const { misÀJourPar, misÀJourLe, nomProjet } =
-        this.lauréatWorld.mettreÀJourNomProjetFixture.créer({
-          misÀJourPar: this.utilisateurWorld.porteurFixture.email,
+      const { enregistréPar, enregistréLe, nomProjet, raison, pièceJustificative } =
+        this.lauréatWorld.enregistrerChangementNomProjetFixture.créer({
+          enregistréPar: this.utilisateurWorld.porteurFixture.email,
           nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
         });
 
@@ -89,9 +91,11 @@ Quand(
         type: 'Lauréat.UseCase.EnregistrerChangementNomProjet',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-          enregistréParValue: misÀJourPar,
-          enregistréLeValue: misÀJourLe,
+          enregistréParValue: enregistréPar,
+          enregistréLeValue: enregistréLe,
           nomProjetValue: nomProjet,
+          raisonValue: raison,
+          pièceJustificativeValue: pièceJustificative,
         },
       });
     } catch (e) {

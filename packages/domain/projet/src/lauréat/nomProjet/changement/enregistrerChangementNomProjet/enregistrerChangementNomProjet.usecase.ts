@@ -15,8 +15,8 @@ export type EnregistrerChangementNomProjetUseCase = Message<
     enregistréParValue: string;
     nomProjetValue: string;
     enregistréLeValue: string;
-    raisonValue?: string;
-    pièceJustificativeValue?: {
+    raisonValue: string;
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
@@ -32,24 +32,20 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
     pièceJustificativeValue,
     raisonValue,
   }) => {
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentLauréat.pièceJustificative.formatter(),
-          enregistréLeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentLauréat.pièceJustificative.formatter(),
+      enregistréLeValue,
+      pièceJustificativeValue.format,
+    );
 
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue!.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<EnregistrerChangementNomProjetCommand>({
       type: 'Lauréat.Command.EnregistrerChangementNomProjet',

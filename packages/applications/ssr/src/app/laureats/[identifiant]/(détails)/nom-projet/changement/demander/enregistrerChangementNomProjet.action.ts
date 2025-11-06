@@ -14,8 +14,8 @@ import { singleDocument } from '../../../../../../../utils/zod/document/singleDo
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   nomProjet: zod.string().min(1),
-  raison: zod.string().optional(),
-  piecesJustificatives: singleDocument({ acceptedFileTypes: ['application/pdf'], optional: true }),
+  raison: zod.string().min(1),
+  piecesJustificatives: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierNomProjetFormKeys = keyof zod.infer<typeof schema>;
@@ -43,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le changement de nom a été pris en compte',
+        message: 'Le changement de nom a bien été enregistré',
       },
     };
   });

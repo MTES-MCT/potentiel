@@ -12,8 +12,8 @@ export type EnregistrerChangementNomProjetCommand = Message<
     enregistréPar: Email.ValueType;
     nomProjet: string;
     enregistréLe: DateTime.ValueType;
-    pièceJustificative?: DocumentProjet.ValueType;
-    raison?: string;
+    pièceJustificative: DocumentProjet.ValueType;
+    raison: string;
   }
 >;
 

@@ -1,5 +1,6 @@
 # language: fr
 @lauréat
+@select
 Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
 
     Contexte:

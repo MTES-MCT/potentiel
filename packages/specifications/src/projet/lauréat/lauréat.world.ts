@@ -7,7 +7,7 @@ import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/achèvement.world';
-import { MettreÀJourNomProjetFixture } from './nom-projet/fixture/mettreÀJourNomProjet.fixture';
+import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enregistrerChangementNomProjet.fixture';
 import {
   NotifierLauréat,
   NotifierLauréatFixture,
@@ -22,6 +22,7 @@ import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFin
 import { InstallationWorld } from './installation/installation.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
+import { ModifierNomProjetFixture } from './nom-projet/fixture/modifierNomProjet.fixture';
 
 export class LauréatWorld {
   #lauréatFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();
@@ -35,9 +36,13 @@ export class LauréatWorld {
   get modifierSiteDeProductionFixture() {
     return this.#modifierSiteDeProductionFixture;
   }
-  #mettreÀJourNomProjetFixture: MettreÀJourNomProjetFixture;
-  get mettreÀJourNomProjetFixture() {
-    return this.#mettreÀJourNomProjetFixture;
+  #modifierNomProjetFixture: ModifierNomProjetFixture;
+  get modifierNomProjetFixture() {
+    return this.#modifierNomProjetFixture;
+  }
+  #enregistrerChangementNomProjetFixture: EnregistrerChangementNomProjetFixture;
+  get enregistrerChangementNomProjetFixture() {
+    return this.#enregistrerChangementNomProjetFixture;
   }
 
   #choisirCahierDesChargesFixture: ChoisirCahierDesChargesFixture;
@@ -135,7 +140,8 @@ export class LauréatWorld {
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierSiteDeProductionFixture = new ModifierSiteDeProductionFixture();
-    this.#mettreÀJourNomProjetFixture = new MettreÀJourNomProjetFixture();
+    this.#modifierNomProjetFixture = new ModifierNomProjetFixture();
+    this.#enregistrerChangementNomProjetFixture = new EnregistrerChangementNomProjetFixture();
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
@@ -158,7 +164,8 @@ export class LauréatWorld {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
       ...this.modifierSiteDeProductionFixture.mapToExpected(),
-      ...this.mettreÀJourNomProjetFixture.mapToExpected(),
+      ...this.modifierNomProjetFixture.mapToExpected(),
+      ...this.enregistrerChangementNomProjetFixture.mapToExpected(),
       emailContact,
       nomCandidat,
       technologie,
