@@ -5,7 +5,7 @@ import { Where } from '@potentiel-domain/entity';
 
 import { clearProjection } from '../../../helpers';
 
-export const puissancerebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
+export const puissanceRebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
   await clearProjection<Lauréat.Puissance.PuissanceEntity>('puissance', id);
 
   await removeProjectionWhere<Lauréat.Puissance.ChangementPuissanceEntity>('changement-puissance', {

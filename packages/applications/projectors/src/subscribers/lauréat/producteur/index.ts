@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { producteurrebuildTriggeredProjector } from './producteurRebuildTrigerred.projector';
+import { producteurRebuildTriggeredProjector } from './producteurRebuildTrigerred.projector';
 import { changementProducteurEnregistréProjector } from './changementProducteurEnregistré.projector';
 import { producteurModifiéProjector } from './producteurModifié.projector';
 import { producteurImportéProjector } from './producteurImporté.projector';
@@ -16,7 +16,7 @@ export type Execute = Message<'System.Projector.Lauréat.Producteur', Subscripti
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, producteurrebuildTriggeredProjector)
+      .with({ type: 'RebuildTriggered' }, producteurRebuildTriggeredProjector)
       .with({ type: 'ChangementProducteurEnregistré-V1' }, changementProducteurEnregistréProjector)
       .with({ type: 'ProducteurModifié-V1' }, producteurModifiéProjector)
       .with({ type: 'ProducteurImporté-V1' }, producteurImportéProjector)

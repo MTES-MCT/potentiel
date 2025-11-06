@@ -3,7 +3,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { clearProjection } from '../../../helpers';
 
-export const installationrebuildTriggeredProjector = async ({
+export const installationRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
   await clearProjection<Lauréat.Installation.InstallationEntity>(`installation`, id);

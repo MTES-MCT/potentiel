@@ -4,7 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
-export const producteurrebuildTriggeredProjector = async ({
+export const producteurRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
   await removeProjection<Lauréat.Producteur.ProducteurEntity>(`producteur|${id}`);
