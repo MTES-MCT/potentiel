@@ -3,7 +3,7 @@ import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-w
 import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 
-export const délairebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
+export const délaiRebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjectionWhere<Lauréat.Délai.DemandeDélaiEntity>('demande-délai', {
     identifiantProjet: Where.equal(id),
   });
