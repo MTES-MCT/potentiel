@@ -1,10 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const tâcheRenouvelléeProjector = async ({
   payload: { identifiantProjet, typeTâche, ajoutéeLe },
 }: Lauréat.Tâche.TâcheRenouvelléeEvent) => {
-  await updateOneProjection<Lauréat.Tâche.TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
+  await upsertProjection<Lauréat.Tâche.TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
+    identifiantProjet,
     typeTâche,
     miseÀJourLe: ajoutéeLe,
   });
