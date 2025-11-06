@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { lauréatRebuildTriggeredProjector } from './rebuildTriggered.projector';
+import { lauréatRebuildTriggeredProjector } from './lauréatRebuildTriggered.projector';
 import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
 import { siteDeProductionModifiéProjector } from './siteDeProductionModifié.projector';
 import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
