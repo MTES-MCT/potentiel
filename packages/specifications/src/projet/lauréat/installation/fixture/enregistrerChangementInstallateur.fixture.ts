@@ -7,7 +7,8 @@ interface EnregistrerChangementInstallateur {
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly installateur: string;
-  readonly pièceJustificative?: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly raison: string;
 }
 
 export class EnregistrerChangementInstallateurFixture
@@ -36,6 +37,11 @@ export class EnregistrerChangementInstallateurFixture
     };
   }
 
+  #raison!: string;
+  get raison(): string {
+    return this.#raison;
+  }
+
   #installateur!: string;
 
   get installateur(): string {
@@ -54,17 +60,16 @@ export class EnregistrerChangementInstallateurFixture
         content: convertStringToReadableStream(content),
       },
       installateur: faker.company.name(),
+      raison: faker.word.words(),
       ...partialData,
     };
 
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
     this.#installateur = fixture.installateur;
-
-    if (fixture.pièceJustificative) {
-      this.#format = fixture.pièceJustificative.format;
-      this.#content = content;
-    }
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
+    this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -204,7 +204,7 @@ async function enregistrerChangementInstallateur(
   identifiantProjet: IdentifiantProjet.ValueType,
   installateurValue?: string,
 ) {
-  const { enregistréLe, enregistréPar, installateur, pièceJustificative } =
+  const { enregistréLe, enregistréPar, installateur, pièceJustificative, raison } =
     this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture.créer({
       enregistréPar: this.utilisateurWorld.adminFixture.email,
       ...(installateurValue && { installateur: installateurValue }),
@@ -218,6 +218,7 @@ async function enregistrerChangementInstallateur(
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
+      raisonValue: raison,
     },
   });
 }

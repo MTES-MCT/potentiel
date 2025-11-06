@@ -15,8 +15,8 @@ export type EnregistrerChangementInstallateurUseCase = Message<
     identifiantUtilisateurValue: string;
     installateurValue: string;
     dateChangementValue: string;
-    raisonValue?: string;
-    pièceJustificativeValue?: {
+    raisonValue: string;
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
@@ -35,14 +35,12 @@ export const registerEnregistrerChangementInstallateurUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
-    const pièceJustificative =
-      pièceJustificativeValue &&
-      DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        TypeDocumentInstallateur.pièceJustificative.formatter(),
-        dateChangement.formatter(),
-        pièceJustificativeValue.format,
-      );
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjet.formatter(),
+      TypeDocumentInstallateur.pièceJustificative.formatter(),
+      dateChangement.formatter(),
+      pièceJustificativeValue.format,
+    );
 
     await mediator.send<EnregistrerChangementInstallateurCommand>({
       type: 'Lauréat.Installateur.Command.EnregistrerChangement',
@@ -56,15 +54,13 @@ export const registerEnregistrerChangementInstallateurUseCase = () => {
       },
     });
 
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue.content,
+        documentProjet: pièceJustificative,
+      },
+    });
   };
 
   mediator.register('Lauréat.Installateur.UseCase.EnregistrerChangement', handler);

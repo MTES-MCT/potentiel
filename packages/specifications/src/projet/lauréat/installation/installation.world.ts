@@ -107,17 +107,15 @@ export class InstallationWorld {
         ),
         nouvelInstallateur: this.#enregistrerChangementInstallateurFixture.installateur,
         ancienInstallateur: ancienInstallateur ?? '',
-        pièceJustificative: this.#enregistrerChangementInstallateurFixture.pièceJustificative
-          ? DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
-              Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
-              DateTime.convertirEnValueType(
-                this.#enregistrerChangementInstallateurFixture.enregistréLe,
-              ).formatter(),
-              this.#enregistrerChangementInstallateurFixture.pièceJustificative.format,
-            )
-          : undefined,
-        raison: undefined,
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
+          DateTime.convertirEnValueType(
+            this.#enregistrerChangementInstallateurFixture.enregistréLe,
+          ).formatter(),
+          this.#enregistrerChangementInstallateurFixture.pièceJustificative.format,
+        ),
+        raison: this.#enregistrerChangementInstallateurFixture.raison,
       },
     };
 

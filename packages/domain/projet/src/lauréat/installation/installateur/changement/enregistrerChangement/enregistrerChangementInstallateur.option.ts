@@ -8,6 +8,6 @@ export type EnregistrerChangementInstallateurOptions = {
   identifiantUtilisateur: Email.ValueType;
   installateur: string;
   dateChangement: DateTime.ValueType;
-  pièceJustificative?: DocumentProjet.ValueType;
-  raison?: string;
+  pièceJustificative: DocumentProjet.ValueType;
+  raison: string;
 };

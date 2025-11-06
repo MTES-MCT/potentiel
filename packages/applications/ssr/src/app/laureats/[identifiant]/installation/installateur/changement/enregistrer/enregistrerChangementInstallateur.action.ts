@@ -14,10 +14,9 @@ import { NestedKeysForSchema } from '@/utils/candidature';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   installateur: zod.string().min(1),
-  raison: zod.string().optional(),
+  raison: zod.string().min(1),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
-    optional: true,
   }),
 });
 
