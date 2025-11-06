@@ -79,8 +79,10 @@ import {
   registerInstallationQueries,
   registerInstallationUseCases,
 } from './installation/installation.register';
-import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
-import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import { registerEnregistrerChangementNomProjetCommand } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
+import { registerEnregistrerChangementNomProjetUseCase } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import { registerConsulterChangementNomProjetQuery } from './changement/nom-projet/consulter/consulterChangementNomProjet';
+import { registerListerChangementNomProjetQuery } from './changement/nom-projet/lister/listerChangementNomProjet';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -137,6 +139,8 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterLauréatQuery(dependencies);
   registerListerLauréatQuery(dependencies);
   registerConsulterCahierDesChargesQuery(dependencies);
+  registerConsulterChangementNomProjetQuery(dependencies);
+  registerListerChangementNomProjetQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);

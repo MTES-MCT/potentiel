@@ -18,7 +18,7 @@ import {
 import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
 import { ModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
-import { EnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import { EnregistrerChangementNomProjetUseCase } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
 
 // Query
 export type LauréatQuery =
@@ -72,17 +72,18 @@ export {
 export { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
 export { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-export { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
+export { ChangementNomProjetEnregistréEvent } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';
 
 // Entities
 export { LauréatEntity } from './lauréat.entity';
+export { ChangementNomProjetEntity } from './changement/nom-projet/changementNomProjet.entity';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';
-export * as TypeDocumentLauréat from './nomProjet/TypeDocumentNomProjet.valueType';
+export * as TypeDocumentNomProjet from './changement/nom-projet/TypeDocumentNomProjet.valueType';
 
 export * as Abandon from './abandon';
 export * as Actionnaire from './actionnaire';

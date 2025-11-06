@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentLauréat } from '../../..';
 import { IdentifiantProjet } from '../../../..';
+import { TypeDocumentNomProjet } from '../../..';
 
 import { EnregistrerChangementNomProjetCommand } from './enregistrerChangementNomProjet.command';
 
@@ -34,7 +34,7 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
   }) => {
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentLauréat.pièceJustificative.formatter(),
+      TypeDocumentNomProjet.pièceJustificative.formatter(),
       enregistréLeValue,
       pièceJustificativeValue.format,
     );
