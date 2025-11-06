@@ -1,8 +1,8 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 
-import { rebuildProjection } from '../../helpers';
+import { clearProjection } from '../../helpers';
 
 export const utilisateurRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {
-  await rebuildProjection<UtilisateurEntity>('utilisateur', id);
+  await clearProjection<UtilisateurEntity>('utilisateur', id);
 };

@@ -1,1 +1,1 @@
-export { rebuildProjection } from './rebuildProjection';
+export { clearProjection } from './clearProjection';

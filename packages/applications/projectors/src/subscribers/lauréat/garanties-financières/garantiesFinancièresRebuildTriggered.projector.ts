@@ -3,25 +3,25 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-write';
 
-import { rebuildProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers';
 
 export const garantiesFinancièresRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
-  await rebuildProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  await clearProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres`,
     id,
   );
-  await rebuildProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
+  await clearProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres`,
     id,
   );
-  await rebuildProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
+  await clearProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
     `projet-avec-garanties-financieres-en-attente`,
     id,
   );
 
-  await rebuildProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+  await clearProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
     `archives-garanties-financieres`,
     id,
   );

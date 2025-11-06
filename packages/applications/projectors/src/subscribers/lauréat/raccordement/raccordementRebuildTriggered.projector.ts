@@ -3,12 +3,12 @@ import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-w
 import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 
-import { rebuildProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers';
 
 export const raccordementRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
-  await rebuildProjection<Lauréat.Raccordement.RaccordementEntity>('raccordement', id);
+  await clearProjection<Lauréat.Raccordement.RaccordementEntity>('raccordement', id);
 
   await removeProjectionWhere<Lauréat.Raccordement.DossierRaccordementEntity>(
     'dossier-raccordement',

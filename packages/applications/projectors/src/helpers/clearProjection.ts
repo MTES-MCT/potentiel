@@ -4,7 +4,8 @@ import {
   removeProjectionByCategory,
 } from '@potentiel-infrastructure/pg-projection-write';
 
-export const rebuildProjection = async <TEntity extends Entity>(
+/** Delete the projection for the given key, or the whole category */
+export const clearProjection = async <TEntity extends Entity>(
   category: TEntity['type'],
   id: string | undefined,
 ) => {
