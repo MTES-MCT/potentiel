@@ -137,10 +137,7 @@ Alors(
       const actual = mapToPlainObject(changementEnregistré);
 
       const expected = mapToPlainObject(
-        this.lauréatWorld.installationWorld.mapChangementInstallateurToExpected(
-          identifiantProjet,
-          this.candidatureWorld.importerCandidature.dépôtValue.installateur,
-        ),
+        this.lauréatWorld.installationWorld.mapChangementInstallateurToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);

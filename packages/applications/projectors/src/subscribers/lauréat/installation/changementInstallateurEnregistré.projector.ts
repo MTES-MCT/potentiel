@@ -1,8 +1,8 @@
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementInstallateurEnregistréProjector = async ({
   payload: {
@@ -14,22 +14,9 @@ export const changementInstallateurEnregistréProjector = async ({
     pièceJustificative,
   },
 }: Lauréat.Installation.ChangementInstallateurEnregistréEvent) => {
-  const installation = await findProjection<Lauréat.Installation.InstallationEntity>(
-    `installation|${identifiantProjet}`,
-  );
-
-  if (Option.isNone(installation)) {
-    getLogger().error(`Installation non trouvée`, {
-      identifiantProjet,
-      fonction: 'changementInstallateurEnregistréProjector',
-    });
-    return;
-  }
-
-  await upsertProjection<Lauréat.Installation.InstallationEntity>(
+  await updateOneProjection<Lauréat.Installation.InstallationEntity>(
     `installation|${identifiantProjet}`,
     {
-      ...installation,
       installateur,
       miseÀJourLe: enregistréLe,
       identifiantProjet,
@@ -45,8 +32,7 @@ export const changementInstallateurEnregistréProjector = async ({
         enregistréLe,
         raison,
         pièceJustificative,
-        ancienInstallateur: installation.installateur,
-        nouvelInstallateur: installateur,
+        installateur,
       },
     },
   );

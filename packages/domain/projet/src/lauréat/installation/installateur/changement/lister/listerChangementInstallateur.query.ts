@@ -11,8 +11,7 @@ type ChangementInstallateurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   enregistréLe: DateTime.ValueType;
-  ancienInstallateur: string;
-  nouvelInstallateur: string;
+  installateur: string;
 };
 
 export type ListerChangementInstallateurReadModel = {
@@ -89,6 +88,5 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   nomProjet: entity.lauréat.nomProjet,
   enregistréLe: DateTime.convertirEnValueType(entity.changement.enregistréLe),
-  ancienInstallateur: entity.changement.ancienInstallateur,
-  nouvelInstallateur: entity.changement.nouvelInstallateur,
+  installateur: entity.changement.installateur,
 });

@@ -9,6 +9,6 @@ export const mapToInstallateurImportéTimelineItemProps = (
   return {
     date: importéeLe,
     title: 'Candidature :',
-    content: <div>Installateur : {installateur}</div>,
+    content: <div>Installateur : {installateur !== '' ? installateur : 'non-renseigné'}</div>,
   };
 };

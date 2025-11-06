@@ -17,8 +17,7 @@ export const ChangementInstallateurListItem: FC<ChangemenInstallateurListItemPro
   identifiantProjet,
   nomProjet,
   enregistréLe,
-  ancienInstallateur,
-  nouvelInstallateur,
+  installateur,
 }) => (
   <ListItem
     miseÀJourLe={DateTime.bind(enregistréLe).formatter()}
@@ -43,14 +42,9 @@ export const ChangementInstallateurListItem: FC<ChangemenInstallateurListItemPro
       </Button>
     }
   >
-    <ul className="text-sm">
-      <li>
-        Ancien installateur : <span className="font-semibold">{ancienInstallateur}</span>
-      </li>
-      <li>
-        Nouvel installateur : <span className="font-semibold">{nouvelInstallateur}</span>
-      </li>
-    </ul>
+    <div>
+      Nouvel installateur : <span className="font-semibold">{installateur}</span>
+    </div>
     <StatutDemandeBadge statut="information-enregistrée" small />
   </ListItem>
 );

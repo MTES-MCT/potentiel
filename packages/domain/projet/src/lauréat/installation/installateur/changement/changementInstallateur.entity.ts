@@ -9,10 +9,9 @@ export type ChangementInstallateurEntity = Entity<
     changement: {
       enregistréPar: string;
       enregistréLe: DateTime.RawType;
-      ancienInstallateur: string;
-      nouvelInstallateur: string;
-      raison?: string;
-      pièceJustificative?: {
+      installateur: string;
+      raison: string;
+      pièceJustificative: {
         format: string;
       };
     };

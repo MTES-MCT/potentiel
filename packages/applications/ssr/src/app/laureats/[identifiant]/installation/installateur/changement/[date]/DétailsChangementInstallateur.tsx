@@ -16,16 +16,9 @@ export const DétailsChangementInstallateur: FC<DétailsChangementInstallateurPr
       title="Changement d'installateur"
       changement={changement}
       valeurs={
-        <>
-          <div>
-            <span className="font-medium">Nouvel installateur</span> :{' '}
-            {changement.nouvelInstallateur}
-          </div>
-          <div>
-            <span className="font-medium">Ancien installateur</span> :{' '}
-            {changement.ancienInstallateur}
-          </div>
-        </>
+        <div>
+          <span className="font-medium">Nouvel installateur</span> : {changement.installateur}
+        </div>
       }
       statut="information-enregistrée"
     />

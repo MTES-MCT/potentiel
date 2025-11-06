@@ -14,10 +14,9 @@ export type ConsulterChangementInstallateurReadModel = {
   changement: {
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
-    ancienInstallateur: string;
-    nouvelInstallateur: string;
-    raison?: string;
-    pièceJustificative?: DocumentProjet.ValueType;
+    installateur: string;
+    raison: string;
+    pièceJustificative: DocumentProjet.ValueType;
   };
 };
 
@@ -63,17 +62,14 @@ export const mapToReadModel = (result: ChangementInstallateurEntity) => {
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
-      ancienInstallateur: result.changement.ancienInstallateur,
-      nouvelInstallateur: result.changement.nouvelInstallateur,
+      installateur: result.changement.installateur,
       raison: result.changement.raison,
-      pièceJustificative: result.changement.pièceJustificative
-        ? DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentInstallateur.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
-            result.changement.pièceJustificative?.format,
-          )
-        : undefined,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        result.identifiantProjet,
+        TypeDocumentInstallateur.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
+        result.changement.pièceJustificative?.format,
+      ),
     },
   } satisfies ConsulterChangementInstallateurReadModel;
 };

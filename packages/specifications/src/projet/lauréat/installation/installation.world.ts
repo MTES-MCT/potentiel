@@ -86,10 +86,7 @@ export class InstallationWorld {
     return expected;
   }
 
-  mapChangementInstallateurToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-    ancienInstallateur?: string,
-  ) {
+  mapChangementInstallateurToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     if (!this.#enregistrerChangementInstallateurFixture.aÉtéCréé) {
       throw new Error(
         `Aucune information enregistrée n'a été créée pour installateur dans InstallationWorld`,
@@ -105,8 +102,7 @@ export class InstallationWorld {
         enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementInstallateurFixture.enregistréPar,
         ),
-        nouvelInstallateur: this.#enregistrerChangementInstallateurFixture.installateur,
-        ancienInstallateur: ancienInstallateur ?? '',
+        installateur: this.#enregistrerChangementInstallateurFixture.installateur,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
