@@ -12,7 +12,7 @@ export const verifyColumns = (
   rawData: ReadonlyArray<Record<string, string>>,
   columnsToVerify: ReadonlyArray<string>,
 ) => {
-  if (columnsToVerify.length === 0) {
+  if (columnsToVerify.length === 0 || rawData.length === 0) {
     return;
   }
 
