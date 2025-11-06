@@ -13,7 +13,6 @@ import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projec
 import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector';
 import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector';
 import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector';
-import { candidatureRebuildAllTriggered } from './candidatureRebuildAllTriggered.projector';
 
 export type SubscriptionEvent = Candidature.CandidatureEvent | RebuildTriggered;
 
@@ -23,7 +22,6 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, candidatureRebuildTriggeredProjector)
-      .with({ type: 'RebuildAllTriggered' }, candidatureRebuildAllTriggered)
       .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeV1Projector)
       .with({ type: 'CandidatureImportée-V2' }, candidatureImportéeProjector)
       .with({ type: 'CandidatureCorrigée-V1' }, candidatureCorrigéeV1Projector)

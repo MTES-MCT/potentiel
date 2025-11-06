@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { tâchePlanifiéeRebuilTriggered } from './tâchePlanifiéeRebuildTriggered';
+import { tâchePlanifiéerebuildTriggered } from './tâchePlanifiéeRebuildTriggered';
 import { tâchePlanifiéeAjoutéeProjector } from './tâchePlanifiéeAjoutée.projector';
 import { tâchePlanifiéeExecutéeProjector } from './tâchePlanifiéeExecutée.projector';
 import { tâchePlanifiéeAnnuléeProjector } from './tâchePlanifiéeAnnulée.projector';
@@ -16,7 +16,7 @@ export type Execute = Message<'System.Projector.TâchePlanifiée', SubscriptionE
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, tâchePlanifiéeRebuilTriggered)
+      .with({ type: 'RebuildTriggered' }, tâchePlanifiéerebuildTriggered)
       .with({ type: 'TâchePlanifiéeAjoutée-V1' }, tâchePlanifiéeAjoutéeProjector)
       .with({ type: 'TâchePlanifiéeAnnulée-V1' }, tâchePlanifiéeAnnuléeProjector)
       .with({ type: 'TâchePlanifiéeExecutée-V1' }, tâchePlanifiéeExecutéeProjector)

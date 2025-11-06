@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { délaiRebuilTriggeredProjector } from './délaiRebuildTrigerred.projector';
+import { délairebuildTriggeredProjector } from './délaiRebuildTrigerred.projector';
 import { délaiDemandéProjector } from './délaiDemandé.projector';
 import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projector';
 import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
@@ -20,7 +20,7 @@ export type Execute = Message<'System.Projector.Lauréat.Délai', SubscriptionEv
 export const registerDélaiProjectors = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, délaiRebuilTriggeredProjector)
+      .with({ type: 'RebuildTriggered' }, délairebuildTriggeredProjector)
       .with({ type: 'DélaiDemandé-V1' }, délaiDemandéProjector)
       .with(
         {

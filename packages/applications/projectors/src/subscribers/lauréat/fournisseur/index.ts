@@ -5,7 +5,7 @@ import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { fournisseurImportéProjector } from './fournisseurImporté.projector';
-import { fournisseurRebuilTriggeredProjector } from './fournisseurRebuildTrigerred.projector';
+import { fournisseurrebuildTriggeredProjector } from './fournisseurRebuildTrigerred.projector';
 import { évaluationCarboneModifiéeProjector } from './évaluationCarboneModifiée.projector';
 import { changementFournisseurEnregistréProjector } from './changementFournisseurEnregistré.projector';
 import { fournisseurModifiéProjector } from './fournisseurModifié.projector';
@@ -17,7 +17,7 @@ export type Execute = Message<'System.Projector.Lauréat.Fournisseur', Subscript
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, fournisseurRebuilTriggeredProjector)
+      .with({ type: 'RebuildTriggered' }, fournisseurrebuildTriggeredProjector)
       .with({ type: 'FournisseurImporté-V1' }, fournisseurImportéProjector)
       .with({ type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' }, évaluationCarboneModifiéeProjector)
       .with(
