@@ -124,6 +124,7 @@ const PorteurProjetActions = ({
   fournisseurAffichage,
   délaiAffichage,
   natureDeLExploitationAffichage,
+  installateurAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -136,6 +137,7 @@ const PorteurProjetActions = ({
     représentantLégalAffichage ||
     délaiAffichage ||
     natureDeLExploitationAffichage ||
+    installateurAffichage ||
     peutDemanderAbandonOuAchèvement;
 
   return (
@@ -180,6 +182,11 @@ const PorteurProjetActions = ({
             {!!délaiAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem href={délaiAffichage.url}>
                 <span>{délaiAffichage.label ?? délaiAffichage.labelActions}</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
+            {!!installateurAffichage && (
+              <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
+                <span>{installateurAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!natureDeLExploitationAffichage && (
@@ -410,6 +417,7 @@ export const ProjectActions = ({
           identifiantProjet={identifiantProjet}
           features={features}
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
+          installateurAffichage={installateurAffichage}
         />
       )}
       {userIs(['dreal'])(user) && (

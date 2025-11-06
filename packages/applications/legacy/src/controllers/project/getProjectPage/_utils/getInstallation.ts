@@ -7,6 +7,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 
 export type GetInstallationForProjectPage = {
   installateur?: {
@@ -39,15 +40,21 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   champsSupplémentairesCahierDesCharges: AppelOffre.ChampsSupplémentairesCandidature;
+  règlesChangementInstallateur: AppelOffre.RèglesDemandesChangement['installateur'];
 };
 
 export const getInstallation = async ({
   identifiantProjet,
   rôle,
   champsSupplémentairesCahierDesCharges,
+  règlesChangementInstallateur,
 }: Props): Promise<GetInstallationForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
+    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
+      identifiantProjet,
+      role.nom,
+    );
 
     const installationProjection =
       await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
@@ -62,6 +69,8 @@ export const getInstallation = async ({
         dispositifDeStockage: champSupplémentaireDispositifDeStockage,
       } = champsSupplémentairesCahierDesCharges;
 
+      // TYPOLOGIE INSTALLATION
+
       const data: GetInstallationForProjectPage = {
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
@@ -74,6 +83,8 @@ export const getInstallation = async ({
           labelActions: 'Modifier la typologie du projet',
         };
       }
+
+      // DISPOSITIF DE STOCKAGE
 
       if (champSupplémentaireDispositifDeStockage) {
         data.dispositifDeStockage = {
@@ -88,6 +99,8 @@ export const getInstallation = async ({
         }
       }
 
+      //INSTALLATEUR
+
       if (champSupplémentaireInstallateur) {
         data.installateur = { value: installateur };
         if (role.aLaPermission('installation.installateur.modifier')) {
@@ -95,6 +108,20 @@ export const getInstallation = async ({
             url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: "Modifier l'installateur",
+          };
+        } else if (
+          role.aLaPermission('installation.installateur.enregistrerChangement') &&
+          !aUnAbandonEnCours &&
+          !estAbandonné &&
+          !estAchevé &&
+          règlesChangementInstallateur.informationEnregistrée
+        ) {
+          data.installateur.affichage = {
+            url: Routes.Installation.changementInstallateur.enregistrer(
+              identifiantProjet.formatter(),
+            ),
+            label: "Changer l'installateur",
+            labelActions: "Changer l'installateur",
           };
         }
       }
