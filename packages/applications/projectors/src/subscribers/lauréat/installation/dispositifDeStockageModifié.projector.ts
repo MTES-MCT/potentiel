@@ -7,7 +7,11 @@ export const dispositifDeStockageModifiéProjector = async ({
   await updateOneProjection<Lauréat.Installation.InstallationEntity>(
     `installation|${identifiantProjet}`,
     {
-      dispositifDeStockage,
+      dispositifDeStockage: {
+        capacitéDuDispositifDeStockageEnKWh: undefined,
+        puissanceDuDispositifDeStockageEnKW: undefined,
+        ...dispositifDeStockage,
+      },
       miseÀJourLe: modifiéLe,
       identifiantProjet,
     },
