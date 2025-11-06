@@ -7,7 +7,7 @@ import { SendEmail } from '../../../sendEmail';
 import { getLauréat, getBaseUrl } from '../../../_helpers';
 
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler';
-import { changementNomProjetEnregistréNotification } from './changementNomProjetEnregistré.notifications';
+import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent;
 
@@ -30,7 +30,7 @@ export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies
         handleCahierDesChargesChoisi({ event, sendEmail }),
       )
       .with({ type: 'ChangementNomProjetEnregistré-V1' }, (event) =>
-        changementNomProjetEnregistréNotification({ sendEmail, event, projet, baseUrl }),
+        handleChangementNomProjetEnregistré({ sendEmail, event, projet, baseUrl }),
       )
       .with(
         {

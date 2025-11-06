@@ -2,12 +2,11 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../_helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { lauréatNotificationTemplateId } from '../constant';
+import { RegisterLauréatNotificationDependencies } from '../lauréat.notifications';
 
-import { lauréatNotificationTemplateId } from './constant';
-import { RegisterLauréatNotificationDependencies } from './lauréat.notifications';
-
-type ChangementNomProjetEnregistréNotificationProps = {
+type HandleChangementNomProjetEnregistréProps = {
   sendEmail: RegisterLauréatNotificationDependencies['sendEmail'];
   event: Lauréat.ChangementNomProjetEnregistréEvent;
   projet: {
@@ -17,12 +16,12 @@ type ChangementNomProjetEnregistréNotificationProps = {
   baseUrl: string;
 };
 
-export const changementNomProjetEnregistréNotification = async ({
+export const handleChangementNomProjetEnregistré = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementNomProjetEnregistréNotificationProps) => {
+}: HandleChangementNomProjetEnregistréProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
