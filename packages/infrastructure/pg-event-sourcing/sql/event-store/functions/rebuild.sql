@@ -37,7 +37,7 @@ begin
         'version', 1,
         'created_at', now()::text,
         'stream_id', p_category,
-        'type', 'RebuildAllTriggered',
+        'type', 'RebuildTriggered',
         'payload', json_build_object(
           'category', p_category
         )

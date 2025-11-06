@@ -5,4 +5,3 @@ export { publish } from './publish/publish';
 export { subscribe, executeSubscribersRetry, listDanglingSubscribers } from './subscribe/subscribe';
 export { Subscriber, Unsubscribe } from './subscribe/subscriber/subscriber';
 export { RebuildTriggered } from './subscribe/rebuild/rebuildTriggered.event';
-export { RebuildAllTriggered } from './subscribe/rebuild/rebuildAllTriggered.event';
