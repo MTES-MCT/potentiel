@@ -2,16 +2,16 @@ import { bulkhead } from 'cockatiel';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { Event } from '../../event';
 import { loadStreamList } from '../../load/loadStreamList';
 import { Subscriber } from '../subscriber/subscriber';
 import { loadFromStream } from '../../load/loadFromStream';
+import { RebuildFailedError } from '../errors/RebuildFailed.error';
 
-import { RebuildAllTriggered } from './rebuildAllTriggered.event';
+import { RebuildAllTriggered } from './rebuildTriggered.event';
 
-export const rebuildAll = async <TEvent extends Event | RebuildAllTriggered = Event>(
+export const rebuildAll = async (
   rebuildAllTriggered: RebuildAllTriggered,
-  subscriber: Subscriber<TEvent>,
+  subscriber: Subscriber,
 ) => {
   const logger = getLogger(`rebuildAll - ${subscriber.streamCategory} - ${subscriber.name}`);
   const startTime = Date.now();
@@ -32,7 +32,7 @@ export const rebuildAll = async <TEvent extends Event | RebuildAllTriggered = Ev
           : [subscriber.eventType],
   });
 
-  await subscriber.eventHandler(rebuildAllTriggered as TEvent);
+  await subscriber.eventHandler(rebuildAllTriggered);
 
   const rebuildStream = async (streamId: string) => {
     try {
@@ -40,7 +40,11 @@ export const rebuildAll = async <TEvent extends Event | RebuildAllTriggered = Ev
         streamId,
       });
       for (const event of events) {
-        await subscriber.eventHandler(event as TEvent);
+        try {
+          await subscriber.eventHandler(event);
+        } catch (error) {
+          throw new RebuildFailedError(error, event);
+        }
       }
     } catch (e) {
       logger.error('Error rebuilding stream ', { streamId, error: e });
