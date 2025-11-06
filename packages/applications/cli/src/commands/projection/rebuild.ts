@@ -3,7 +3,7 @@ import { Args, Command, getLogger } from '@oclif/core';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 export class RebuildProjectionCommand extends Command {
-  description = 'Déclancher le rebuild des projections';
+  description = 'Déclencher le rebuild des projections';
   static args = {
     categoryOuStreamId: Args.string({
       description: 'nom de la catégorie ou du stream à rebuild',
