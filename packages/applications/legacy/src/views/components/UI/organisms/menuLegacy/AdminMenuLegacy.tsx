@@ -56,6 +56,9 @@ export const AdminMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changementInstallateur.lister}>
+        Installateur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>

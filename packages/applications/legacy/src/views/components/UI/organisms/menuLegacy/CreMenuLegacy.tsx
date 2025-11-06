@@ -48,6 +48,9 @@ export const CreMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changementInstallateur.lister}>
+        Installateur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
