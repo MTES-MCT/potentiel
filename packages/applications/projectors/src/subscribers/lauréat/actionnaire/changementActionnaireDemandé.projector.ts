@@ -1,10 +1,7 @@
-import { Option } from '@potentiel-libraries/monads';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const changementActionnaireDemandéProjector = async ({
@@ -17,15 +14,6 @@ export const changementActionnaireDemandéProjector = async ({
     pièceJustificative: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent) => {
-  const projectionToUpsert = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
-    `actionnaire|${identifiantProjet}`,
-  );
-
-  if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Actionnaire non trouvé`, { identifiantProjet });
-    return;
-  }
-
   await updateOneProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
     {
