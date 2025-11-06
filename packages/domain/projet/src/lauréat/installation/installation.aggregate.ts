@@ -159,7 +159,6 @@ export class InstallationAggregate extends AbstractAggregate<
   }
 
   async enregistrerChangementInstallateur({
-    identifiantProjet,
     installateur,
     dateChangement,
     identifiantUtilisateur,
@@ -174,7 +173,7 @@ export class InstallationAggregate extends AbstractAggregate<
     const event: ChangementInstallateurEnregistréEvent = {
       type: 'ChangementInstallateurEnregistré-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         installateur,
         enregistréLe: dateChangement.formatter(),
         enregistréPar: identifiantUtilisateur.formatter(),
