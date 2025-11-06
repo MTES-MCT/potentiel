@@ -12,6 +12,6 @@ export const clearProjection = async <TEntity extends Entity>(
   if (key) {
     await removeProjection<TEntity>(`${category}|${key}`);
   } else {
-    await removeProjectionByCategory(category);
+    await removeProjectionByCategory<TEntity>(category);
   }
 };
