@@ -9,9 +9,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { mapToInstallationTimelineItemProps } from '../../../(historique)/mapToInstallationTimelineItemProps';
-
 import { DétailsChangementInstallateurPage } from './DétailsChangementInstallateur.page';
+import { mapToInstallateurTimelineItemProps } from './(historique)/mapToInstallateurTimelineItemProps';
 
 export const metadata: Metadata = {
   title: "Détail du changement de l'installateur du projet - Potentiel",
@@ -56,14 +55,8 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         changement={mapToPlainObject(changement.changement)}
         historique={historique.items
-          .filter((i) =>
-            [
-              'InstallationImportée-V1',
-              'InstallateurModifié-V1',
-              'ChangementInstallateurEnregistré-V1',
-            ].includes(i.type),
-          )
-          .map(mapToInstallationTimelineItemProps)}
+          .map(mapToInstallateurTimelineItemProps)
+          .filter((i) => i !== null)}
       />
     );
   });
