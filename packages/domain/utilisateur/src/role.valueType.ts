@@ -361,7 +361,10 @@ const référencielPermissions = {
       },
     },
     installation: {
-      query: { consulter: 'Lauréat.Installation.Query.ConsulterInstallation' },
+      query: {
+        consulter: 'Lauréat.Installation.Query.ConsulterInstallation',
+        listerHistorique: 'Lauréat.Installation.Query.ListerHistoriqueInstallationProjet',
+      },
       dispositifDeStockage: {
         query: {
           consulter: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
@@ -1038,6 +1041,7 @@ const policies = {
       consulterChangement: [
         référencielPermissions.lauréat.installation.installateur.query.consulterChangement,
         référencielPermissions.document.query.consulter,
+        référencielPermissions.lauréat.installation.query.listerHistorique,
       ],
       enregistrerChangement: [
         référencielPermissions.lauréat.installation.installateur.usecase.enregistrerChangement,

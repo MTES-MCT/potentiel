@@ -76,6 +76,7 @@ export { EnregistrerChangementInstallateurUseCase } from './installateur/changem
 
 // Event
 export { InstallationEvent } from './installation.event';
+export { InstallateurEvent } from './installateur/installateur.event';
 export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
 export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
