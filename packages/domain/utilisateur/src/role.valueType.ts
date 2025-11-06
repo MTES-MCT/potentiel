@@ -477,10 +477,8 @@ const référencielPermissions = {
     },
     nomProjet: {
       query: {
-        consulter: 'Lauréat.NomProjet.Query.ConsulterNomProjet',
-        consulterChangement: 'Lauréat.NomProjet.Query.ConsulterChangementNomProjet',
-        listerChangement: 'Lauréat.NomProjet.Query.ListerChangementsNomProjet',
-        listerHistoriqueNomProjet: 'Lauréat.NomProjet.Query.ListerHistoriqueNomProjet',
+        consulterChangement: 'Lauréat.Query.ConsulterChangementNomProjet',
+        listerChangement: 'Lauréat.Query.ListerChangementNomProjet',
       },
       usecase: {
         modifier: 'Lauréat.UseCase.ModifierNomProjet',

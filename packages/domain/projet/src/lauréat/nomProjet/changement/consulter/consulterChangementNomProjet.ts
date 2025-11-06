@@ -5,9 +5,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ChangementNomProjetEntity } from '../changementNomProjet.entity';
 import { IdentifiantProjet } from '../../../..';
-import { TypeDocumentNomProjet } from '../../..';
+import { ChangementNomProjetEntity, TypeDocumentNomProjet } from '../../..';
 
 export type ConsulterChangementNomProjetReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

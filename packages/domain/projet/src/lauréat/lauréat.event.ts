@@ -1,6 +1,6 @@
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-import { ChangementNomProjetEnregistréEvent } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
-import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
+import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
+import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event';
 import { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
 import {
   LauréatNotifiéEvent,

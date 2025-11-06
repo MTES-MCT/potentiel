@@ -46,10 +46,10 @@ import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallationAggregate } from './installation/installation.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
-import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
-import { ModifierNomProjetOptions } from './modifier/modifierNomProjet.option';
-import { EnregistrerChangementNomProjetOptions } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options';
-import { ChangementNomProjetEnregistréEvent } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
+import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event';
+import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option';
+import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options';
+import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -374,6 +374,8 @@ export class LauréatAggregate extends AbstractAggregate<
     enregistréLe,
     enregistréPar,
     nomProjet,
+    raison,
+    pièceJustificative,
   }: EnregistrerChangementNomProjetOptions) {
     this.vérifierQueLeChangementEstPossible('information-enregistrée', 'nomProjet');
 
@@ -389,6 +391,8 @@ export class LauréatAggregate extends AbstractAggregate<
         enregistréPar: enregistréPar.formatter(),
         nomProjet,
         ancienNomProjet: this.#nomProjet!,
+        raison,
+        pièceJustificative,
       },
     };
 
