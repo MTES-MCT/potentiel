@@ -19,19 +19,31 @@ import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduc
 import { ModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
 import { EnregistrerChangementNomProjetUseCase } from './changement/nom-projet/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import {
+  ConsulterChangementNomProjetQuery,
+  ConsulterChangementNomProjetReadModel,
+} from './changement/nom-projet/consulter/consulterChangementNomProjet';
+import {
+  ListerChangementNomProjetQuery,
+  ListerChangementNomProjetReadModel,
+} from './changement/nom-projet/lister/listerChangementNomProjet';
 
 // Query
 export type LauréatQuery =
   | ConsulterLauréatQuery
   | ListerLauréatQuery
   | ConsulterCahierDesChargesQuery
-  | ListerHistoriqueProjetQuery;
+  | ListerHistoriqueProjetQuery
+  | ConsulterChangementNomProjetQuery
+  | ListerChangementNomProjetQuery;
 
 export {
   ConsulterLauréatQuery,
   ListerLauréatQuery,
   ConsulterCahierDesChargesQuery,
   ListerHistoriqueProjetQuery,
+  ConsulterChangementNomProjetQuery,
+  ListerChangementNomProjetQuery,
 };
 
 // ReadModel
@@ -44,6 +56,8 @@ export {
   HistoriqueLauréatProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
   HistoriqueAchèvementProjetListItemReadModel,
+  ConsulterChangementNomProjetReadModel,
+  ListerChangementNomProjetReadModel,
 };
 
 // Port

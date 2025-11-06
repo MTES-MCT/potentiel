@@ -38,7 +38,7 @@ export const getNomProjet = async ({
     nom: project.nomProjet,
     affichage: peutEnregistrerChangement
       ? {
-          url: Routes.Lauréat.changementNomProjet(identifiantProjet.formatter()),
+          url: Routes.Lauréat.changement.nomProjet.enregistrer(identifiantProjet.formatter()),
           label: 'Changer le nom du projet',
           labelActions: 'Changer le nom du projet',
         }
