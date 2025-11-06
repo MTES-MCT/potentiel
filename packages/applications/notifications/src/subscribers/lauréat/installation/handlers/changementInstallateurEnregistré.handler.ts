@@ -2,29 +2,16 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
+import { InstallationNotificationsProps } from '../type';
+import { installationNotificationTemplateId } from '../constant';
+import { listerPorteursRecipients, listerDrealsRecipients } from '../../../../_helpers';
 
-import { RegisterInstallationNotificationDependencies } from '.';
-
-import { installationNotificationTemplateId } from './constant';
-
-type ChangementInstallateurEnregistréNotificationProps = {
-  sendEmail: RegisterInstallationNotificationDependencies['sendEmail'];
-  event: Lauréat.Installation.ChangementInstallateurEnregistréEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
-
-export const changementInstallateurEnregistréNotification = async ({
+export const handleChangementInstallateurEnregistréNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementInstallateurEnregistréNotificationProps) => {
+}: InstallationNotificationsProps<Lauréat.Installation.ChangementInstallateurEnregistréEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);

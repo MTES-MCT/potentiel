@@ -11,8 +11,8 @@ import {
   handleDispositifDeStockageModifié,
   handleInstallateurModifié,
   handleTypologieInstallationModifiée,
+  handleChangementInstallateurEnregistréNotification,
 } from './handlers';
-import { changementInstallateurEnregistréNotification } from './changementInstallateurEnregistré.notification';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
@@ -55,7 +55,7 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
         }),
       )
       .with({ type: 'ChangementInstallateurEnregistré-V1' }, async (event) =>
-        changementInstallateurEnregistréNotification({
+        handleChangementInstallateurEnregistréNotification({
           sendEmail,
           event,
           projet,
