@@ -1,4 +1,5 @@
 export * as IdentifiantProjet from './identifiantProjet.valueType';
+export { DocumentProjet } from './document-projet';
 
 export * from './getProjetAggregateRoot.port';
 export * from './getScopeProjetUtilisateur.port';

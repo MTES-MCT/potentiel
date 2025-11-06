@@ -1,5 +1,5 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 

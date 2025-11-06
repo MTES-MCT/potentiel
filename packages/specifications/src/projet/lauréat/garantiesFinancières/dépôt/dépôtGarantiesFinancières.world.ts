@@ -1,4 +1,4 @@
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';

@@ -3,11 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 // Package
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
-import { IdentifiantProjet } from '../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 
 export type AccorderRecoursCommand = Message<
   'Éliminé.Recours.Command.AccorderRecours',

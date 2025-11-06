@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type AccorderMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',

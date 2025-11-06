@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ChangementPuissanceEntity, StatutChangementPuissance, TypeDocumentPuissance } from '../..';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
 
 export type ConsulterChangementPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

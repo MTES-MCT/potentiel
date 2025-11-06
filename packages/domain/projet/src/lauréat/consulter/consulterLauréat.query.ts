@@ -4,10 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, IdentifiantProjet } from '../..';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
 import { Abandon, StatutLauréat } from '..';
 import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';

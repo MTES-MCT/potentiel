@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
 import {
@@ -14,7 +13,7 @@ import {
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../..';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -2,7 +2,6 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';

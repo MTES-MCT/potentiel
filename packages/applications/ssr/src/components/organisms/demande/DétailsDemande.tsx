@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { StatutDemandeBadgeProps } from './StatutDemandeBadge';

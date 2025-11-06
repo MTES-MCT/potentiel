@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
 import { FormattedDate } from '../../atoms/FormattedDate';

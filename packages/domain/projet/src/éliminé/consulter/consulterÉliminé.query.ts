@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
-import { Candidature, IdentifiantProjet } from '../..';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
 import { CandidatureEntity, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
 

@@ -1,8 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet } from '@potentiel-domain/document';
-
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type SupprimerDocumentProjetSensibleCommand = Message<
   'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',

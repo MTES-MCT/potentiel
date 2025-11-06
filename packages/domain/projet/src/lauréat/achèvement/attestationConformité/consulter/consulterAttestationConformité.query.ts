@@ -2,11 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
 import { AttestationConformitéEntity } from '../attestationConformité.entity';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
 import { TypeDocumentAttestationConformité } from '..';
 
 export type ConsulterAttestationConformitéReadModel = {

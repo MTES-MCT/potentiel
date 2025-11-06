@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
 import { AbandonEntity } from '../abandon.entity';
@@ -12,7 +11,7 @@ import {
   StatutPreuveRecandidature,
   TypeDocumentAbandon,
 } from '..';
-import { IdentifiantProjet } from '../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

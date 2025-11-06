@@ -2,9 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,

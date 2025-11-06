@@ -2,10 +2,10 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { GarantiesFinancières } from '..';
+import { DocumentProjet } from '../..';
 
 import { TypeDocumentProducteur } from '.';
 
