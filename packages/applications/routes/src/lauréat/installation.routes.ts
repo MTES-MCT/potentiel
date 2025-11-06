@@ -14,5 +14,5 @@ export const changementInstallateur = {
     `/laureats/${encodeParameter(identifiantProjet)}/installation/installateur/changement/${enregistréLe}`,
   enregistrer: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/installation/installateur/changement/enregistrer`,
-  lister: `laureats/changements/installateur`,
+  lister: `/laureats/changements/installateur`,
 };

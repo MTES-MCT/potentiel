@@ -104,6 +104,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.NatureDeLExploitation.changement.lister,
       },
     },
+    {
+      text: 'Installateur',
+      linkProps: {
+        href: Routes.Installation.changementInstallateur.lister,
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
