@@ -496,7 +496,11 @@ const référencielPermissions = {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
     },
-    query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
+    query: {
+      consulter: 'Lauréat.Query.ConsulterLauréat',
+      lister: 'Lauréat.Query.ListerLauréat',
+      listerHistorique: 'Lauréat.Query.ListerHistoriqueLauréat',
+    },
   },
   éliminé: {
     query: { consulter: 'Éliminé.Query.ConsulterÉliminé', lister: 'Éliminé.Query.ListerÉliminé' },
@@ -1335,7 +1339,10 @@ const policies = {
   },
   nomProjet: {
     listerChangement: [référencielPermissions.lauréat.nomProjet.query.listerChangement],
-    consulterChangement: [référencielPermissions.lauréat.nomProjet.query.consulterChangement],
+    consulterChangement: [
+      référencielPermissions.lauréat.nomProjet.query.consulterChangement,
+      référencielPermissions.lauréat.query.listerHistorique,
+    ],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.nomProjet.command.modifier,
