@@ -60,6 +60,9 @@ export const DrealMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Lauréat.changement.nomProjet.lister}>
+        Nom projet
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>

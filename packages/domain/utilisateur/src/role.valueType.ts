@@ -475,16 +475,28 @@ const référencielPermissions = {
         corrigerChangement: 'Lauréat.Délai.Command.CorrigerDemandeDélai',
       },
     },
+    nomProjet: {
+      query: {
+        consulter: 'Lauréat.NomProjet.Query.ConsulterNomProjet',
+        consulterChangement: 'Lauréat.NomProjet.Query.ConsulterChangementNomProjet',
+        listerChangement: 'Lauréat.NomProjet.Query.ListerChangementsNomProjet',
+        listerHistoriqueNomProjet: 'Lauréat.NomProjet.Query.ListerHistoriqueNomProjet',
+      },
+      usecase: {
+        modifier: 'Lauréat.UseCase.ModifierNomProjet',
+        enregistrerChangement: 'Lauréat.UseCase.EnregistrerChangementNomProjet',
+      },
+      command: {
+        modifier: 'Lauréat.Command.ModifierNomProjet',
+        enregistrerChangement: 'Lauréat.Command.EnregistrerChangementNomProjet',
+      },
+    },
     usecase: {
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
-      modifierNomProjet: 'Lauréat.UseCase.ModifierNomProjet',
-      enregistrerChangementNomProjet: 'Lauréat.UseCase.EnregistrerChangementNomProjet',
     },
     command: {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
-      modifierNomProjet: 'Lauréat.Command.ModifierNomProjet',
-      enregistrerChangementNomProjet: 'Lauréat.Command.EnregistrerChangementNomProjet',
     },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
   },
@@ -1324,15 +1336,17 @@ const policies = {
     ],
   },
   nomProjet: {
+    listerChangement: [référencielPermissions.lauréat.nomProjet.query.listerChangement],
+    consulterChangement: [référencielPermissions.lauréat.nomProjet.query.consulterChangement],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
-      référencielPermissions.lauréat.command.modifierNomProjet,
-      référencielPermissions.lauréat.usecase.modifierNomProjet,
+      référencielPermissions.lauréat.nomProjet.command.modifier,
+      référencielPermissions.lauréat.nomProjet.usecase.modifier,
     ],
     enregistrerChangement: [
       référencielPermissions.lauréat.query.consulter,
-      référencielPermissions.lauréat.command.enregistrerChangementNomProjet,
-      référencielPermissions.lauréat.usecase.enregistrerChangementNomProjet,
+      référencielPermissions.lauréat.nomProjet.command.enregistrerChangement,
+      référencielPermissions.lauréat.nomProjet.usecase.enregistrerChangement,
       référencielPermissions.document.command.enregister,
     ],
   },
@@ -1346,8 +1360,8 @@ const policies = {
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
       référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
-      référencielPermissions.lauréat.command.modifierNomProjet,
-      référencielPermissions.lauréat.usecase.modifierNomProjet,
+      référencielPermissions.lauréat.nomProjet.command.modifier,
+      référencielPermissions.lauréat.nomProjet.usecase.modifier,
     ],
     modifierSiteDeProduction: [
       référencielPermissions.lauréat.query.consulter,
@@ -1647,6 +1661,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'lauréat.modifier',
   'lauréat.modifierSiteDeProduction',
   'nomProjet.modifier',
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 
   // Accès
   'accès.autoriserAccèsProjet',
@@ -1769,6 +1785,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+
+  // Nom Projet
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1884,6 +1904,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+
+  // Nom Projet
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -2009,9 +2033,11 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
   'installation.installateur.enregistrerChangement',
-  
-  // Lauréat
+
+  // Nom Projet
   'nomProjet.enregistrerChangement',
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -2054,6 +2080,10 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+
+  // Nom Projet
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
