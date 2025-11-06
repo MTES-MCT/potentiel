@@ -27,6 +27,7 @@ export const changementActionnaireAccordéProjector = async ({
   await updateManyProjections<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     'changement-actionnaire',
     {
+      identifiantProjet: Where.equal(identifiantProjet),
       demande: {
         statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
       },
