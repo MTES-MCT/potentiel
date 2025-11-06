@@ -7,10 +7,10 @@ import {
 /** Delete the projection for the given key, or the whole category */
 export const clearProjection = async <TEntity extends Entity>(
   category: TEntity['type'],
-  id: string | undefined,
+  key: string | undefined,
 ) => {
-  if (id) {
-    await removeProjection<TEntity>(`${category}|${id}`);
+  if (key) {
+    await removeProjection<TEntity>(`${category}|${key}`);
   } else {
     await removeProjectionByCategory(category);
   }
