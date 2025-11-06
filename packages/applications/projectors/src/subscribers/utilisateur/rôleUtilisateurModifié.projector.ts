@@ -18,8 +18,11 @@ export const rôleUtilisateurModifiéProjector = async ({ payload }: RôleUtilis
     throw new Error('Utilisateur non trouvé');
   }
 
+  // on n'utilise pas updateOneProjection car on veut remplacer tous les champs non liés au rôle de l'utilisateur
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    ...existingUtilisateur,
+    identifiantUtilisateur: existingUtilisateur.identifiantUtilisateur,
+    invitéLe: existingUtilisateur.invitéLe,
+    invitéPar: existingUtilisateur.invitéPar,
     ...utilisateurToUpsert,
   });
 };
