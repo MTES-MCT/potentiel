@@ -4,7 +4,7 @@ import { removeProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const actionnaireRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
+export const actionnaireRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<Lauréat.Actionnaire.ActionnaireEntity>(`actionnaire|${id}`);
 
   const demandeChangementActionnaire =
