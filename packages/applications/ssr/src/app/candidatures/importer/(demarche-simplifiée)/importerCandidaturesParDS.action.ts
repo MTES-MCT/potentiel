@@ -51,11 +51,11 @@ const action: FormAction<FormState, typeof schema> = async (
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    const { parsedData: instructions } = await parseCsv(
-      fichierInstruction.content,
-      instructionCsvSchema,
-      { delimiter: ';' },
-    );
+    const { parsedData: instructions } = await parseCsv({
+      fileStream: fichierInstruction.content,
+      lineSchema: instructionCsvSchema,
+      parseOptions: { delimiter: ';' },
+    });
 
     if (instructions.length === 0) {
       return {

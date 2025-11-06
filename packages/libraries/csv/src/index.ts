@@ -1,1 +1,2 @@
-export { parseCsv, CsvError, CsvValidationError, ParseOptions } from './parseCsv';
+export { parseCsv, CsvLineError, CsvLineValidationError, ParseOptions } from './parseCsv';
+export { CsvColumnError, CsvColumnValidationError } from './verifyColumns';

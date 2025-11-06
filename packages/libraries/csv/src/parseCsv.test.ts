@@ -42,7 +42,10 @@ const readFixture = (name: string) => {
       },
     ];
 
-    const { parsedData: actual } = await parseCsv(readableStream, schema);
+    const { parsedData: actual } = await parseCsv({
+      fileStream: readableStream,
+      lineSchema: schema,
+    });
 
     expect(actual).to.deep.eq(expected);
   });
@@ -55,8 +58,12 @@ test(`Étant donné un fichier au format utf8
 
   const {
     parsedData: [actual],
-  } = await parseCsv(readableStream, schema, {
-    encoding: 'win1252',
+  } = await parseCsv({
+    fileStream: readableStream,
+    lineSchema: schema,
+    parseOptions: {
+      encoding: 'win1252',
+    },
   });
 
   const expected = {
@@ -85,7 +92,7 @@ test(`Étant donné un fichier séparé par des virgules
     },
   ];
 
-  const { parsedData: actual } = await parseCsv(readableStream, schema);
+  const { parsedData: actual } = await parseCsv({ fileStream: readableStream, lineSchema: schema });
 
   expect(actual).to.deep.eq(expected);
 });
@@ -107,7 +114,7 @@ test(`Étant donné un fichier séparé par des tabulations
     },
   ];
 
-  const { parsedData: actual } = await parseCsv(readableStream, schema);
+  const { parsedData: actual } = await parseCsv({ fileStream: readableStream, lineSchema: schema });
 
   expect(actual).to.deep.eq(expected);
 });
@@ -118,7 +125,11 @@ test(`Étant donné un fichier séparé par des points-virgules
   const readableStream = readFixture(`utf8.csv`);
 
   try {
-    await parseCsv(readableStream, schema, { delimiter: ',' });
+    await parseCsv({
+      fileStream: readableStream,
+      lineSchema: schema,
+      parseOptions: { delimiter: ',' },
+    });
     expect.fail('did not throw');
   } catch (e) {
     expect(e).to.be.instanceOf(Error);

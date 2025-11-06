@@ -7,7 +7,12 @@ import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 import { DomainError } from '@potentiel-domain/core';
-import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
+import {
+  CsvLineError,
+  CsvColumnError,
+  CsvLineValidationError,
+  CsvColumnValidationError,
+} from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { unflatten } from '@potentiel-libraries/flat';
 
@@ -30,35 +35,53 @@ export type ActionResult = {
 
 export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
 
+type FormStateSuccess = {
+  status: 'success' | undefined;
+  result?: ActionResult;
+  redirection?: {
+    url: string;
+    message?: string;
+    linkUrl?: { url: string; label: string };
+  };
+};
+
+type FormStateValidationError = {
+  status: 'validation-error';
+  errors: ValidationErrors;
+};
+
+type FormStateRateLimitError = {
+  status: 'rate-limit-error';
+  message: string;
+};
+
+type FormStateDomainError = {
+  status: 'domain-error';
+  message: string;
+};
+
+export type FormStateCsvLineError = {
+  status: 'csv-line-error';
+  errors: Array<CsvLineError>;
+};
+
+export type FormStateCsvColumnError = {
+  status: 'csv-column-error';
+  errors: Array<CsvColumnError>;
+};
+
+type FormStateUnknownError = {
+  status: 'unknown-error';
+};
+
 export type FormState =
-  | {
-      status: 'success' | undefined;
-      result?: ActionResult;
-      redirection?: {
-        url: string;
-        message?: string;
-        linkUrl?: { url: string; label: string };
-      };
-    }
-  | {
-      status: 'validation-error';
-      errors: ValidationErrors;
-    }
-  | {
-      status: 'rate-limit-error';
-      message: string;
-    }
-  | {
-      status: 'domain-error';
-      message: string;
-    }
-  | {
-      status: 'csv-error';
-      errors: Array<CsvError>;
-    }
-  | {
-      status: 'unknown-error';
-    };
+  | FormStateSuccess
+  | FormStateValidationError
+  | FormStateRateLimitError
+  | FormStateDomainError
+  | FormStateCsvLineError
+  | FormStateCsvColumnError
+  | FormStateUnknownError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -118,9 +141,15 @@ export const formAction =
       if (isRedirectError(e) || isNotFoundError(e)) {
         throw e;
       }
-      if (e instanceof CsvValidationError) {
+      if (e instanceof CsvLineValidationError) {
         return {
-          status: 'csv-error' as const,
+          status: 'csv-line-error' as const,
+          errors: e.errors,
+        };
+      }
+      if (e instanceof CsvColumnValidationError) {
+        return {
+          status: 'csv-column-error' as const,
           errors: e.errors,
         };
       }

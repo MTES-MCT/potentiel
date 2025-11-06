@@ -1,23 +1,21 @@
-import iconv from 'iconv-lite';
-import { parse } from 'csv-parse';
 import * as zod from 'zod';
 
-import { streamToArrayBuffer } from './streamToArrayBuffer';
-import { getEncoding } from './getEncoding';
+import { loadCsv } from './loadCsv';
+import { verifyColumns } from './verifyColumns';
 
-export type CsvError = {
+export type CsvLineError = {
   line: string;
   field: string;
   message: string;
 };
 
-export class CsvValidationError extends Error {
-  constructor(public errors: Array<CsvError>) {
+export class CsvLineValidationError extends Error {
+  constructor(public errors: Array<CsvLineError>) {
     super('Erreur lors de la validation du fichier CSV');
   }
 }
 
-const defaultParseOptions = {
+export const defaultParseOptions = {
   delimiter: [',', ';', '\t'] as string[] | string,
   columns: true,
   ltrim: true,
@@ -30,53 +28,41 @@ export type ParseOptions = typeof defaultParseOptions & {
   encoding?: 'utf8' | 'win1252';
 };
 
-type ParseCsv = <TSchema extends zod.ZodTypeAny>(
-  fileStream: ReadableStream,
-  lineSchema: TSchema,
-  parseOptions?: Partial<ParseOptions>,
-) => Promise<{
+type ParseCsv = <TSchema extends zod.ZodTypeAny>(args: {
+  fileStream: ReadableStream;
+  lineSchema: TSchema;
+  parseOptions?: Partial<ParseOptions>;
+  columnsToVerify?: ReadonlyArray<string>;
+}) => Promise<{
   parsedData: ReadonlyArray<zod.infer<TSchema>>;
   rawData: ReadonlyArray<Record<string, string>>;
 }>;
 
-export const parseCsv: ParseCsv = async (
+export const parseCsv: ParseCsv = async ({
   fileStream,
   lineSchema,
-  parseOptions: Partial<ParseOptions> = {},
-) => {
-  const rawData = await loadCsv(fileStream, parseOptions);
-
+  parseOptions,
+  columnsToVerify,
+}) => {
   try {
+    const rawData = await loadCsv(fileStream, parseOptions ?? {});
+
+    verifyColumns(rawData, columnsToVerify ?? []);
+
     return { parsedData: zod.array(lineSchema).parse(rawData), rawData };
   } catch (error) {
     if (error instanceof zod.ZodError) {
-      const csvErrors = error.issues.map(({ path: [ligne, key], message }) => {
-        return {
+      const csvErrors: Array<CsvLineError> = error.issues.map(
+        ({ path: [ligne, key], message }) => ({
           line: (Number(ligne) + 1).toString(),
           field: key.toString(),
           message,
-        };
-      });
+        }),
+      );
 
-      throw new CsvValidationError(csvErrors);
+      throw new CsvLineValidationError(csvErrors);
     }
 
     throw error;
   }
-};
-
-const loadCsv = async (fileStream: ReadableStream, parseOptions: Partial<ParseOptions>) => {
-  const { encoding: encodingOption, ...options } = { ...defaultParseOptions, ...parseOptions };
-  const arrayBuffer = await streamToArrayBuffer(fileStream);
-  const encoding = getEncoding(arrayBuffer, encodingOption);
-  const decoded = iconv.decode(Buffer.from(arrayBuffer), encoding);
-  const rows = await new Promise<Record<string, string>[]>((resolve, reject) =>
-    parse(decoded, options, (err, records) => {
-      if (err) reject(err);
-      else {
-        resolve(records);
-      }
-    }),
-  );
-  return rows;
 };

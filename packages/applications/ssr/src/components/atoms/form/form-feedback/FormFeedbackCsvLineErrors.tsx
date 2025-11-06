@@ -4,22 +4,22 @@ import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';
 import { useFormStatus } from 'react-dom';
 
-import { CsvError } from '@potentiel-libraries/csv';
+import { CsvLineError } from '@potentiel-libraries/csv';
 
-import { FormState } from '@/utils/formAction';
+import { FormStateCsvLineError } from '@/utils/formAction';
 
-type FormFeedbackCsvErrorsProps = {
-  formState: FormState;
+type FormFeedbackCsvLineErrorsProps = {
+  formState: FormStateCsvLineError;
 };
 
-export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formState }) => {
+export const FormFeedbackCsvLineErrors: FC<FormFeedbackCsvLineErrorsProps> = ({ formState }) => {
   const { pending } = useFormStatus();
 
-  if (pending || formState.status !== 'csv-error') {
+  if (pending) {
     return undefined;
   }
 
-  const regroupedErrors = formState.errors.reduce(
+  const regroupeCsvLineErrors = formState.errors.reduce(
     (acc, error) => {
       if (!acc[error.line]) {
         acc[error.line] = [];
@@ -27,7 +27,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
       acc[error.line].push(error);
       return acc;
     },
-    {} as Record<string, CsvError[]>,
+    {} as Record<string, CsvLineError[]>,
   );
 
   return (
@@ -38,7 +38,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
       className="mt-6"
       description={
         <div className={`list-disc pl-3 my-6 ${fr.cx('fr-accordions-group')}`}>
-          {Object.entries(regroupedErrors).map(([ligne, erreurs]) => (
+          {Object.entries(regroupeCsvLineErrors).map(([ligne, erreurs]) => (
             <Accordion label={`Ligne ${Number(ligne) + 1}`} defaultExpanded key={ligne}>
               <ul className="list-disc pl-3">
                 {erreurs.map((erreur) => (

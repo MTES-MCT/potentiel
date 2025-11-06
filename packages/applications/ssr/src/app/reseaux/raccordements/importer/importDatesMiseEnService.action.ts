@@ -48,7 +48,10 @@ const action: FormAction<FormState, typeof schema> = async (
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireReseau,
     );
-  const { parsedData: lines } = await parseCsv(fichierDatesMiseEnService.content, csvSchema);
+  const { parsedData: lines } = await parseCsv({
+    fileStream: fichierDatesMiseEnService.content,
+    lineSchema: csvSchema,
+  });
 
   if (lines.length === 0) {
     return {
