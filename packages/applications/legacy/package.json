@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@hqoss/monads": "^0.5.0",
-    "@json2csv/plainjs": "^6.1.3",
+    "@json2csv/plainjs": "^7.0.3",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/subscribers": "*",
     "@potentiel-applications/request-context": "*",
@@ -36,7 +36,6 @@
     "iconv-lite": "^0.6.3",
     "ioredis": "^4.29.1",
     "isemail": "^3.2.0",
-    "json2csv": "^5.0.7",
     "mediateur": "^0.3.0",
     "mime-types": "^2.1.35",
     "moment": "^2.30.1",

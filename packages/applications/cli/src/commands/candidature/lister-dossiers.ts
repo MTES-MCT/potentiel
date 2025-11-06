@@ -17,13 +17,6 @@ export class ListerDossiersCandidatureCommand extends Command {
     }),
   };
 
-  #faker!: Faker;
-  protected async init() {
-    // Faker est importé dynamiquement car c'est une dev dependency, et n'est pas dispo en env de prod
-    const { fakerFR } = await import('@faker-js/faker');
-    this.#faker = fakerFR as unknown as Faker;
-  }
-
   async run() {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
@@ -35,14 +28,17 @@ export class ListerDossiersCandidatureCommand extends Command {
       }
 
       if (flags.instruction) {
+        // Faker est importé dynamiquement car c'est une dev dependency, et n'est pas dispo en env de prod
+        const { fakerFR } = await import('@faker-js/faker');
+        const faker = fakerFR as unknown as Faker;
         const data = dossiers.map((dossier) => {
-          const statut = this.#faker.helpers.arrayElement(['retenu', 'éliminé']);
+          const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
             numeroDossierDS: dossier.numeroDS,
             statut,
             motifElimination:
-              statut === 'éliminé' ? this.#faker.lorem.words({ min: 8, max: 16 }) : undefined,
-            note: this.#faker.number.int({ min: 10, max: 100 }).toString(),
+              statut === 'éliminé' ? faker.lorem.words({ min: 8, max: 16 }) : undefined,
+            note: faker.number.int({ min: 10, max: 100 }).toString(),
           };
         });
         const fields = ['numeroDossierDS', 'statut', 'motifElimination', 'note'];
