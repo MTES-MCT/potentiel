@@ -5,7 +5,7 @@ import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { puissanceImportéeProjector } from './puissanceImportée.projector';
-import { puissanceRebuilTriggeredProjector } from './puissanceRebuildTrigerred.projector';
+import { puissancerebuildTriggeredProjector } from './puissanceRebuildTrigerred.projector';
 import { puissanceModifiéeProjector } from './puissanceModifiée.projector';
 import { changementPuissanceDemandéProjector } from './changementPuissanceDemandé.projector';
 import { changementPuissanceAnnuléProjector } from './changementPuissanceAnnulé.projector';
@@ -21,7 +21,7 @@ export type Execute = Message<'System.Projector.Lauréat.Puissance', Subscriptio
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, puissanceRebuilTriggeredProjector)
+      .with({ type: 'RebuildTriggered' }, puissancerebuildTriggeredProjector)
       .with({ type: 'PuissanceImportée-V1' }, puissanceImportéeProjector)
       .with({ type: 'PuissanceModifiée-V1' }, puissanceModifiéeProjector)
       .with({ type: 'ChangementPuissanceDemandé-V1' }, changementPuissanceDemandéProjector)

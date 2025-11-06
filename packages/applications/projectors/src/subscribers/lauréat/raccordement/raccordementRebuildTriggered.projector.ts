@@ -1,23 +1,19 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Option } from '@potentiel-libraries/monads';
+import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Where } from '@potentiel-domain/entity';
+
+import { rebuildProjection } from '../../../helpers';
 
 export const raccordementRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
-  const raccordement = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
-    `raccordement|${id}`,
+  await rebuildProjection<Lauréat.Raccordement.RaccordementEntity>('raccordement', id);
+
+  await removeProjectionWhere<Lauréat.Raccordement.DossierRaccordementEntity>(
+    'dossier-raccordement',
+    {
+      identifiantProjet: Where.equal(id),
+    },
   );
-
-  if (Option.isSome(raccordement)) {
-    for (const référence of raccordement.dossiers.map((d) => d.référence)) {
-      await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
-        `dossier-raccordement|${id}#${référence}`,
-      );
-    }
-
-    await removeProjection<Lauréat.Raccordement.RaccordementEntity>(`raccordement|${id}`);
-  }
 };
