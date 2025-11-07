@@ -44,12 +44,6 @@ export class GarantiesFinancièresDéjàLevéesError extends InvalidOperationErr
   }
 }
 
-export class DateConstitutionDansLeFuturError extends InvalidOperationError {
-  constructor() {
-    super(`La date de prise d'effet des garanties financières ne peut pas être une date future`);
-  }
-}
-
 export class GarantiesFinancièresActuellesDéjàExistantesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);

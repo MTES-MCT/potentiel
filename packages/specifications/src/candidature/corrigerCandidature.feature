@@ -267,20 +267,5 @@ Fonctionnalité: Corriger une candidature
             | type GF | exemption |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature classée avec des GF constituées dans le futur
-        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | statut                | classé                   |
-            | appel d'offres        | PPE2 - Petit PV Bâtiment |
-            | période               | 1                        |
-            | famille               |                          |
-            | type GF               | consignation             |
-            | date de constitution  | 2024-01-01               |
-            | format attestation GF | application/pdf          |
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF               | consignation    |
-            | date de constitution  | 2050-01-01      |
-            | format attestation GF | application/pdf |
-        Alors l'administrateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
-
 
 # garanties financières - fin
