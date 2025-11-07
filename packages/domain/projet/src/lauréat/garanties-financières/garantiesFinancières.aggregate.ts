@@ -24,7 +24,6 @@ import {
   AttestationEtDateGarantiesFinancièresRequisesError,
   AttestationGarantiesFinancièresDéjàExistanteError,
   AucunesGarantiesFinancièresActuellesError,
-  DateConstitutionDansLeFuturError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
   GarantiesFinancièresActuellesDéjàExistantesError,
@@ -187,12 +186,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   ) {
     this.vérifierSiLesGarantiesFinancièresSontRequises(garantiesFinancières?.type);
     this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
-  }
-
-  private vérifierQueLaDateDeConstitutionEstValide(dateConstitution: DateTime.ValueType) {
-    if (dateConstitution.estDansLeFutur()) {
-      throw new DateConstitutionDansLeFuturError();
-    }
   }
 
   private vérifierSiLeTypeEstDisponiblePourAppelOffre(
@@ -373,7 +366,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.aUneAttestation) {
       throw new AttestationGarantiesFinancièresDéjàExistanteError();
     }
-    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
 
     const event: AttestationGarantiesFinancièresEnregistréeEvent = {
       type: 'AttestationGarantiesFinancièresEnregistrée-V1',
@@ -487,7 +479,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
-    this.vérifierQueLaDateDeConstitutionEstValide(garantiesFinancières.constitution.date);
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
     this.vérifierQueLeProjetNEstPasExempt();
 
@@ -525,7 +516,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
     this.vérifierQuUnDépôtEstEnCours();
-    this.vérifierQueLaDateDeConstitutionEstValide(garantiesFinancières.constitution.date);
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: DépôtGarantiesFinancièresEnCoursModifiéEvent = {
@@ -552,7 +542,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
-    this.vérifierQueLaDateDeConstitutionEstValide(garantiesFinancières.constitution.date);
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
