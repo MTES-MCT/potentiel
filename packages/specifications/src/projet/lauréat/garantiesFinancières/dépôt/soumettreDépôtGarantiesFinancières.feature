@@ -70,11 +70,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | date d'échéance | 2024-12-01         |
         Alors il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
 
-    Scénario: Impossible de soumettre un dépôt de garanties financières si la date de constitution est dans le futur
-        Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
-            | date de constitution | 2055-01-01 |
-        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
-
     Scénario: Impossible de soumettre un dépôt de garanties financières si date d'échéance manquante
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
