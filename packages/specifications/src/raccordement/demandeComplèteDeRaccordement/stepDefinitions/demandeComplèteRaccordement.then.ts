@@ -5,7 +5,7 @@ import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -52,7 +52,7 @@ Alors(
 
       if (actualAccuséRéception) {
         assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey: actualAccuséRéception.formatter(),

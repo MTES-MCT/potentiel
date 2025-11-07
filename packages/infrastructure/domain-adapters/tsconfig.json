@@ -18,9 +18,6 @@
       "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../../domain/document"
-    },
-    {
       "path": "../../domain/utilisateur"
     },
     {

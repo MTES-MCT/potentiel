@@ -18,7 +18,7 @@ export type EnregistrerDocumentProjetDependencies = {
   enregistrerDocumentProjet: EnregistrerDocumentProjetPort;
 };
 
-export const registerEnregistrerDocumentCommand = ({
+export const registerEnregistrerDocumentProjetCommand = ({
   enregistrerDocumentProjet,
 }: EnregistrerDocumentProjetDependencies) => {
   const handler: MessageHandler<EnregistrerDocumentProjetCommand> = ({ documentProjet, content }) =>

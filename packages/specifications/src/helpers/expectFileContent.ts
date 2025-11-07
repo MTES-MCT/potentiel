@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { DocumentProjet, ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { DocumentProjet, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from './convertReadableToString';
@@ -20,7 +20,7 @@ export const expectFileContent = async (
     'Le format de la clé du document est incorrect',
   );
 
-  const result = await mediator.send<ConsulterDocumentProjetQuery>({
+  const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey: actual.formatter(),

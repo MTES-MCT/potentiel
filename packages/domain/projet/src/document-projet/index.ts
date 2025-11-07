@@ -10,7 +10,7 @@ import {
 import {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
-} from './déplacer/déplacerDocument.command';
+} from './déplacer/déplacerDocumentProjet.command';
 import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
@@ -36,7 +36,7 @@ export {
 };
 
 // Register
-export * from './register';
+export * from './documentProjet.register';
 
 // ValueType
 export * as DocumentProjet from './documentProjet.valueType';

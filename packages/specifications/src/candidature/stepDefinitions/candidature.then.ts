@@ -6,7 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { Candidature } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -43,7 +43,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     // on compare donc aussi les valeurs des champs du dépôt
     shallowCompareObject(expectedDépôtValue, candidature.dépôt.formatter());
 
-    const détailsImport = await mediator.send<ConsulterDocumentProjetQuery>({
+    const détailsImport = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: candidature.détailsImport.formatter(),
@@ -105,7 +105,7 @@ Alors(
       expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
 
       if (candidature.notification?.attestation) {
-        const attestation = await mediator.send<ConsulterDocumentProjetQuery>({
+        const attestation = await mediator.send<Document.ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey: candidature.notification.attestation.formatter(),

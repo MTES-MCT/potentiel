@@ -2,12 +2,16 @@ import { Command, Flags } from '@oclif/core';
 import zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, registerProjetUseCases } from '@potentiel-domain/projet';
+import {
+  Candidature,
+  Document,
+  IdentifiantProjet,
+  registerProjetUseCases,
+} from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { registerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 
 const envSchema = zod.object({
@@ -41,13 +45,13 @@ export class ImporterCandidatures extends Command {
     const { flags } = await this.parse(ImporterCandidatures);
 
     if (flags.skipDocuments) {
-      registerDocumentProjetCommand({
+      Document.registerDocumentProjetCommand({
         enregistrerDocumentProjet: async () => {},
         archiverDocumentProjet: async () => {},
         déplacerDossierProjet: async () => {},
       });
     } else {
-      registerDocumentProjetCommand({
+      Document.registerDocumentProjetCommand({
         enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
         déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
         archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,

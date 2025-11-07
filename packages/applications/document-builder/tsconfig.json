@@ -7,9 +7,6 @@
   },
   "references": [
     {
-      "path": "../../domain/document"
-    },
-    {
       "path": "../../domain/appel-offre"
     },
     {

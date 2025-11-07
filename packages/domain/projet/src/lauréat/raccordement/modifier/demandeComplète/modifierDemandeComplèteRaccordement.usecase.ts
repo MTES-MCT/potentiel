@@ -1,12 +1,12 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
 
 import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
 

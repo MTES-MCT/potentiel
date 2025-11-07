@@ -2,11 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, DocumentProjet, Document, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
@@ -96,7 +95,7 @@ export const register = () => {
             format,
           );
 
-          await mediator.send<EnregistrerDocumentProjetCommand>({
+          await mediator.send<Document.EnregistrerDocumentProjetCommand>({
             type: 'Document.Command.EnregistrerDocumentProjet',
             data: {
               content: certificate,
@@ -157,7 +156,7 @@ export const register = () => {
           format,
         );
 
-        await mediator.send<EnregistrerDocumentProjetCommand>({
+        await mediator.send<Document.EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',
           data: {
             content: certificate,

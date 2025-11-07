@@ -1,10 +1,10 @@
-import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 
 export const mapToConsulterDocumentProjetReadModel = (
   blob: Blob,
-): ConsulterDocumentProjetReadModel => {
+): Document.ConsulterDocumentProjetReadModel => {
   return {
     content: blob.stream(),
     format: blob.type,
-  } as ConsulterDocumentProjetReadModel;
+  } as Document.ConsulterDocumentProjetReadModel;
 };

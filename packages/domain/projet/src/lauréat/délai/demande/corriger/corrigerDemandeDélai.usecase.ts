@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as TypeDocumentDemandeDélai from '../typeDocumentDemandeDélai.valueType';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { CorrigerDocumentProjetCommand } from '../../../../document-projet';
 
 import { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command';
 

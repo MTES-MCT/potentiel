@@ -1,15 +1,12 @@
-import {
-  registerDocumentProjetCommand,
-  registerDocumentProjetQueries,
-} from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupDocumentProjet = () => {
-  registerDocumentProjetQueries({
+  Document.registerDocumentProjetQueries({
     récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
   });
 
-  registerDocumentProjetCommand({
+  Document.registerDocumentProjetCommand({
     enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
     déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
     archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,

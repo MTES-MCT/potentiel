@@ -6,6 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
+import { DocumentProjet } from '../../document-projet';
 
 import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from '.';
 

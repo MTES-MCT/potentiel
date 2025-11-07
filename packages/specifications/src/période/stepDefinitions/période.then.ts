@@ -8,7 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { Accès, IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -49,7 +49,7 @@ Alors(
       expect(candidature.attestation, "La candidature n'a pas d'attestation").not.to.be.undefined;
       await waitForExpect(async () => {
         if (candidature.attestation) {
-          const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
             data: {
               documentKey: candidature.attestation.formatter(),

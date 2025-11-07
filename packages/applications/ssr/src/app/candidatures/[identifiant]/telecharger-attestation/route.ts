@@ -4,8 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé, Document } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -26,7 +25,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: attestationDésignation.formatter(),

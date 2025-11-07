@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
 import { TypeDocumentDemandeDélai } from '../..';
 import { IdentifiantProjet } from '../../../..';
 
