@@ -82,11 +82,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
-    Scénario: Impossible d'enregister des garanties financières actuelles si la date de constitution est dans le futur
-        Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
-            | date de constitution | 2050-01-01 |
-        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
-
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet lauréat
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat

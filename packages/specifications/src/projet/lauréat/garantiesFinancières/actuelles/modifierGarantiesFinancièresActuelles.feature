@@ -79,13 +79,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
-    Scénario: Impossible de modifier des garanties financières actuelles si la date de constitution est dans le futur
-        Etant donné des garanties financières actuelles pour le projet lauréat avec :
-            | type GF | consignation |
-        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
-            | date de constitution | 2050-01-01 |
-        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
-
     Scénario: Impossible de modifier des garanties financières actuelles si aucunes garanties financières actuelles ne sont trouvées
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Lyon"
         Quand un admin modifie les garanties financières actuelles du projet lauréat

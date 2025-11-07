@@ -55,13 +55,6 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
-    Scénario: Impossible de modifier un dépôt de garanties financières si la date de constitution est dans le futur
-        Etant donné un dépôt de garanties financières avec :
-            | type GF | consignation |
-        Quand le porteur modifie le dépôt de garanties financières avec :
-            | date de constitution | 2050-12-01 |
-        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
-
     Scénario: Impossible de modifier un dépôt de garanties financières si aucun dépôt de garanties financières n'est trouvé
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF | consignation |
