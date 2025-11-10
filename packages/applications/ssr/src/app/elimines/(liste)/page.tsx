@@ -122,7 +122,12 @@ export default async function Page({ searchParams }: PageProps) {
           }}
           actions={mapToActions({
             rôle: utilisateur.rôle,
-            searchParams: { appelOffre, nomProjet },
+            searchParams: {
+              appelOffreId: appelOffre,
+              periodeId: periode,
+              familleId: famille,
+              nomProjet,
+            },
           })}
         />
       );
@@ -133,12 +138,17 @@ export default async function Page({ searchParams }: PageProps) {
 type MapToActionsProps = {
   rôle: Role.ValueType;
   searchParams: {
-    appelOffre?: string;
+    appelOffreId?: string;
+    periodeId?: string;
+    familleId?: string;
     nomProjet?: string;
   };
 };
 
-const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToActionsProps) => {
+const mapToActions = ({
+  rôle,
+  searchParams: { appelOffreId, periodeId, familleId, nomProjet },
+}: MapToActionsProps) => {
   const actions: ÉliminéListPageProps['actions'] = [];
 
   if (rôle.estGrd()) {
@@ -148,7 +158,9 @@ const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToA
   actions.push({
     label: 'Télécharger un export (format CSV)',
     href: Routes.Projet.exportCsv({
-      appelOffreId: appelOffre,
+      appelOffreId,
+      periodeId,
+      familleId,
       nomProjet: nomProjet,
       statut: 'éliminé',
     }),

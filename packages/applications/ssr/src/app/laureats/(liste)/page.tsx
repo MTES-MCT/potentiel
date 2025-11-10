@@ -133,7 +133,13 @@ export default async function Page({ searchParams }: PageProps) {
           }}
           actions={mapToActions({
             rôle: utilisateur.rôle,
-            searchParams: { appelOffre, nomProjet, statut },
+            searchParams: {
+              appelOffreId: appelOffre,
+              periodeId: periode,
+              familleId: famille,
+              nomProjet,
+              statut,
+            },
           })}
         />
       );
@@ -144,7 +150,9 @@ export default async function Page({ searchParams }: PageProps) {
 type MapToActionsProps = {
   rôle: Role.ValueType;
   searchParams: {
-    appelOffre?: string;
+    appelOffreId?: string;
+    periodeId?: string;
+    familleId?: string;
     nomProjet?: string;
     statut?: Lauréat.StatutLauréat.RawType;
   };
@@ -152,7 +160,7 @@ type MapToActionsProps = {
 
 const mapToActions = ({
   rôle,
-  searchParams: { appelOffre, nomProjet, statut },
+  searchParams: { appelOffreId, periodeId, familleId, nomProjet, statut },
 }: MapToActionsProps) => {
   const actions: LauréatListPageProps['actions'] = [];
 
@@ -163,9 +171,11 @@ const mapToActions = ({
   actions.push({
     label: 'Télécharger un export (format CSV)',
     href: Routes.Projet.exportCsv({
-      appelOffreId: appelOffre,
-      nomProjet: nomProjet,
-      statut: statut,
+      appelOffreId,
+      periodeId,
+      familleId,
+      nomProjet,
+      statut,
     }),
   });
 
