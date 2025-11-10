@@ -20,6 +20,8 @@ export const details = (
 type ExportCsvFilters = {
   statut?: Lauréat.StatutLauréat.RawType | 'éliminé';
   appelOffreId?: string;
+  periodeId?: string;
+  familleId?: string;
   nomProjet?: string;
 };
 
@@ -27,7 +29,13 @@ type ExportCsvFilters = {
  *
  * @deprecated Lien pour générer un document CSV
  */
-export const exportCsv = ({ appelOffreId, nomProjet, statut }: ExportCsvFilters) => {
+export const exportCsv = ({
+  appelOffreId,
+  periodeId,
+  familleId,
+  nomProjet,
+  statut,
+}: ExportCsvFilters) => {
   const searchParams = new URLSearchParams();
 
   // mapping avec les statuts legacy, sachant que :
@@ -50,6 +58,14 @@ export const exportCsv = ({ appelOffreId, nomProjet, statut }: ExportCsvFilters)
 
   if (nomProjet) {
     searchParams.append('recherche', nomProjet);
+  }
+
+  if (periodeId) {
+    searchParams.append('periodeId', periodeId);
+  }
+
+  if (familleId) {
+    searchParams.append('familleId', familleId);
   }
 
   return `/export-liste-projets.csv${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
