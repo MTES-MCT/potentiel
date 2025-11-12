@@ -117,7 +117,13 @@ const mapToActions: MapToActions = ({
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
   if (Option.isSome(demandeRecoursEnCours)) {
-    if (role.aLaPermission('recours.consulter.détail')) {
+    if (
+      demandeRecoursEnCours.statut.estRejeté() &&
+      cahierDesChargesPermetDemandeRecours &&
+      role.aLaPermission('recours.demander')
+    ) {
+      actions.push('faire-demande-recours');
+    } else if (role.aLaPermission('recours.consulter.détail')) {
       actions.push('consulter-demande-recours');
     }
   } else if (role.aLaPermission('recours.demander') && cahierDesChargesPermetDemandeRecours) {
