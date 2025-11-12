@@ -2,11 +2,7 @@ import { Args, Command } from '@oclif/core';
 import z from 'zod';
 import { mediator } from 'mediateur';
 
-import {
-  registerDocumentProjetCommand,
-  registerDocumentProjetQueries,
-} from '@potentiel-domain/document';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -41,12 +37,12 @@ const identifiantEnedis =
 
 export default class TransmettreRéférences extends Command {
   async init() {
-    registerDocumentProjetCommand({
+    Document.registerDocumentProjetCommand({
       enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
       déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
       archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
     });
-    registerDocumentProjetQueries({
+    Document.registerDocumentProjetQueries({
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });
   }

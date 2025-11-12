@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { EnregistrerDocumentProjetCommand, DocumentProjet } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 
+import { EnregistrerDocumentProjetCommand, DocumentProjet } from '../../../../document-projet';
 import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 import { Candidature, Éliminé } from '../../../..';
 import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event';

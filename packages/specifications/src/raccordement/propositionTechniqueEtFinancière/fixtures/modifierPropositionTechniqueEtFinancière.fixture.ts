@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture';

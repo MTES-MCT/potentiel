@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 
+import { DocumentProjet, CorrigerDocumentProjetCommand } from '../../../../document-projet';
 import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 import { IdentifiantProjet } from '../../../..';
 import { TypeReprésentantLégal } from '../..';

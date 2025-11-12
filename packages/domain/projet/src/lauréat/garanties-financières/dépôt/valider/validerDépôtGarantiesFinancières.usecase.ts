@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
+import { DocumentProjetCommand, DossierProjet } from '../../../../document-projet';
 import { TypeDocumentGarantiesFinancières } from '../..';
 
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancières.command';

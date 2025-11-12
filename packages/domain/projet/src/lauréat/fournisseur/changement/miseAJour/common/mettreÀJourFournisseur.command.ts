@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../..';
 import { Fournisseur } from '../../..';
 import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.error';
 import { ModifierFournisseurOptions } from '../modifierFournisseur.option';

@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, DocumentProjet, Document } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import {
   DésignationCatégorie,
@@ -15,7 +15,6 @@ import { Option } from '@potentiel-libraries/monads';
 import getDepartementRegionFromCodePostal, {
   DepartementRegion,
 } from '../helpers/getDepartementRegionFromCodePostal';
-import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
@@ -297,7 +296,7 @@ const fetchDétails = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   date: DateTime.ValueType,
 ) => {
-  const détailsImport = await mediator.send<ConsulterDocumentProjetQuery>({
+  const détailsImport = await mediator.send<Document.ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey: DocumentProjet.convertirEnValueType(

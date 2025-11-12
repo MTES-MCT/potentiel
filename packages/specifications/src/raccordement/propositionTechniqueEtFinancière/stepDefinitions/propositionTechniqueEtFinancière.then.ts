@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
@@ -38,7 +38,7 @@ Alors(
         ? this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture
         : this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey:

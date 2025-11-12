@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
-import { IdentifiantProjet } from '../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 
 export type RejeterRecoursCommand = Message<
   'Éliminé.Recours.Command.RejeterRecours',

@@ -21,7 +21,7 @@ export type DéplacerDossierProjetDependencies = {
   déplacerDossierProjet: DéplacerDossierProjetPort;
 };
 
-export const registerDéplacerDocumentCommand = ({
+export const registerDéplacerDocumentProjetCommand = ({
   déplacerDossierProjet,
 }: DéplacerDossierProjetDependencies) => {
   const handler: MessageHandler<DéplacerDossierProjetCommand> = ({

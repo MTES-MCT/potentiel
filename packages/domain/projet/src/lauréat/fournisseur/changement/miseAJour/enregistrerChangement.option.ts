@@ -1,7 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
 import { Fournisseur } from '../..';
 
 export type EnregistrerChangementFournisseurOptions = {

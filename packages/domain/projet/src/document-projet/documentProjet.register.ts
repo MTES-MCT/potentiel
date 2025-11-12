@@ -8,11 +8,11 @@ import {
 } from './corriger/corrigerDocumentProjet.command';
 import {
   DéplacerDossierProjetDependencies,
-  registerDéplacerDocumentCommand,
-} from './déplacer/déplacerDocument.command';
+  registerDéplacerDocumentProjetCommand,
+} from './déplacer/déplacerDocumentProjet.command';
 import {
   EnregistrerDocumentProjetDependencies,
-  registerEnregistrerDocumentCommand,
+  registerEnregistrerDocumentProjetCommand,
 } from './enregistrer/enregistrerDocument.command';
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
@@ -25,7 +25,7 @@ export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryD
 };
 
 export const registerDocumentProjetCommand = (dependencies: DocumentProjetCommandDependencies) => {
-  registerEnregistrerDocumentCommand(dependencies);
-  registerDéplacerDocumentCommand(dependencies);
+  registerEnregistrerDocumentProjetCommand(dependencies);
+  registerDéplacerDocumentProjetCommand(dependencies);
   registerCorrigerDocumentProjetCommand(dependencies);
 };

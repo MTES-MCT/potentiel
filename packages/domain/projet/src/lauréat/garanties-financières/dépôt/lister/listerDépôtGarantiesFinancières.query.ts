@@ -1,12 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity';
 import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import {
+  Candidature,
+  DocumentProjet,
+  GetProjetUtilisateurScope,
+  IdentifiantProjet,
+} from '../../../..';
 import { TypeDocumentGarantiesFinancières } from '../..';
 
 type DépôtGarantiesFinancièresListItemReadModel = {

@@ -6,7 +6,7 @@ import { assert, expect } from 'chai';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -98,7 +98,7 @@ async function vérifierRecours(
 
   actual.should.be.deep.equal(expected);
 
-  const pièceJustificative = await mediator.send<ConsulterDocumentProjetQuery>({
+  const pièceJustificative = await mediator.send<Document.ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey: Option.match(recours)
@@ -121,7 +121,7 @@ async function vérifierRecours(
   expect(actualPièceJustificativeContent).to.be.equal(expectedPièceJustificativeContent);
 
   if (this.éliminéWorld.recoursWorld.accorderRecoursFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(recours)
@@ -141,7 +141,7 @@ async function vérifierRecours(
   }
 
   if (this.éliminéWorld.recoursWorld.rejeterRecoursFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(recours)

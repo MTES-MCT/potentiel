@@ -6,8 +6,7 @@ import { assert, expect } from 'chai';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { IdentifiantProjet, Document } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
@@ -131,7 +130,7 @@ async function vérifierChangementPuissance(
     ) {
       expect(demandeEnCours.demande.accord).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: demandeEnCours.demande.accord?.réponseSignée
@@ -156,7 +155,7 @@ async function vérifierChangementPuissance(
     ) {
       expect(demandeEnCours.demande.rejet).to.be.not.undefined;
 
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: demandeEnCours.demande.rejet

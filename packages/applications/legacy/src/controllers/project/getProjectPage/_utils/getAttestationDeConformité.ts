@@ -1,11 +1,10 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, DocumentProjet } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 export type GetAttestationDeConformitéForProjectPage = {
   date: number;

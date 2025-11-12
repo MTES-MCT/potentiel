@@ -2,10 +2,10 @@ import { mediator, MessageHandler, Message } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
+import { DossierProjet, DéplacerDocumentProjetCommand } from '../../../../document-projet';
 
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 

@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -147,7 +147,7 @@ async function vérifierAbandon(
   actual.should.be.deep.equal(expected);
 
   if (this.lauréatWorld.abandonWorld.demanderAbandonFixture.pièceJustificative) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(abandon)
@@ -167,7 +167,7 @@ async function vérifierAbandon(
   }
 
   if (this.lauréatWorld.abandonWorld.accorderAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(abandon)
@@ -187,7 +187,7 @@ async function vérifierAbandon(
   }
 
   if (this.lauréatWorld.abandonWorld.rejeterAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(abandon)
@@ -207,7 +207,7 @@ async function vérifierAbandon(
   }
 
   if (this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(abandon)

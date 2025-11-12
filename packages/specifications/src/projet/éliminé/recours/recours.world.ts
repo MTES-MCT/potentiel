@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Éliminé, IdentifiantProjet } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
 import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture';

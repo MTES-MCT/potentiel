@@ -12,7 +12,7 @@
       "path": "../../domain/réseau"
     },
     {
-      "path": "../../domain/document"
+      "path": "../../domain/projet"
     },
     {
       "path": "../../infrastructure/domain-adapters"

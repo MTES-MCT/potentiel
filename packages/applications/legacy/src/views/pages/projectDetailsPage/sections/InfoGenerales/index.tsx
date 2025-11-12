@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 
 import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, DocumentProjet } from '@potentiel-domain/projet';
 import { InfoActionnaire } from './InfoActionnaire';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
@@ -21,7 +21,6 @@ import {
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetInstallationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 import { GetNatureDeLExploitationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { InfoSiteDeProduction, InfoSiteDeProductionProps } from './InfoSiteDeProduction';

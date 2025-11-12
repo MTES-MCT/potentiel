@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { FileTypes } from '../blob';
@@ -13,7 +13,7 @@ const existingDocument = zod
   .string()
   .min(1, 'Champ obligatoire')
   .transform(async (documentKey) => {
-    const document = await mediator.send<ConsulterDocumentProjetQuery>({
+    const document = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey,

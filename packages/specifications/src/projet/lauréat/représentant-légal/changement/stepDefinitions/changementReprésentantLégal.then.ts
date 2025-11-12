@@ -5,8 +5,7 @@ import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, Document } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
@@ -108,7 +107,7 @@ async function vérifierDemande(this: PotentielWorld) {
     actual.should.be.deep.equal(expected);
 
     if (Option.isSome(demande)) {
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: demande.demande.pièceJustificative.formatter(),

@@ -3,9 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, Document } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -35,7 +34,7 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      const attestation = await mediator.send<ConsulterDocumentProjetQuery>({
+      const attestation = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: Option.match(achèvement)
@@ -54,7 +53,7 @@ Alors(
 
       expect(actualAttestationContent).to.be.equal(expectedAttestationContent);
 
-      const preuve = await mediator.send<ConsulterDocumentProjetQuery>({
+      const preuve = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: Option.match(achèvement)

@@ -8,10 +8,7 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  registerDocumentProjetCommand,
-  registerDocumentProjetQueries,
-} from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { ProjetAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
@@ -44,13 +41,13 @@ Candidature.registerCandidatureQueries({
     ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
 });
 
-registerDocumentProjetCommand({
+Document.registerDocumentProjetCommand({
   enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
   déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
   archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
 });
 
-registerDocumentProjetQueries({
+Document.registerDocumentProjetQueries({
   récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
 });
 

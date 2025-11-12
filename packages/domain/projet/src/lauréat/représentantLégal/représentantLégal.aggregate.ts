@@ -1,10 +1,9 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { DocumentProjet, IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 

@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Accès } from '@potentiel-domain/projet';
 
@@ -26,7 +26,7 @@ export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParamete
           identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey,

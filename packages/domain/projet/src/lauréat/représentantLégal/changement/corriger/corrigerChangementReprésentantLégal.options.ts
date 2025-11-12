@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import type { DocumentProjet } from '@potentiel-domain/document';
 
+import type { DocumentProjet } from '../../../../document-projet';
 import { TypeReprésentantLégal } from '../..';
 
 export type CorrigerChangementOptions = {

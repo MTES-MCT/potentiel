@@ -3,11 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity';
-import { IdentifiantProjet } from '../..';
+import { DocumentProjet, IdentifiantProjet } from '../..';
 import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance } from '..';
 
 export type ConsulterCandidatureReadModel = {

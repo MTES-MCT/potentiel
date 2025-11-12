@@ -1,5 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import type { DocumentProjet } from '@potentiel-domain/document';
+
+import { DocumentProjet } from '../../../..';
 
 export type CorrigerDemandeDélaiOptions = {
   identifiantUtilisateur: Email.ValueType;

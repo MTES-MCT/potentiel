@@ -1,14 +1,11 @@
-// Third party
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-// Workspaces
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-// Package
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { ArchiverÉliminéCommand } from '../../archiver/archiverÉliminé.command';
-import { IdentifiantProjet } from '../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
 import { AccorderRecoursCommand } from './accorderRecours.command';
 

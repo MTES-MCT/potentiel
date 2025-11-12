@@ -5,8 +5,7 @@ import { assert } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Lauréat, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -97,7 +96,7 @@ Alors(
 
       assert(Option.isSome(changement), 'Aucun changement de représentant légal trouvé');
 
-      const document = await mediator.send<ConsulterDocumentProjetQuery>({
+      const document = await mediator.send<Document.ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: changement.demande.pièceJustificative.formatter(),

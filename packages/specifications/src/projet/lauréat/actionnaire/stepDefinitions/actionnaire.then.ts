@@ -4,9 +4,8 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -199,7 +198,7 @@ async function vérifierChangementActionnaire(
   }
 
   if (this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(demandeEnCours)
@@ -219,7 +218,7 @@ async function vérifierChangementActionnaire(
   }
 
   if (this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: Option.match(demandeEnCours)

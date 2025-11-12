@@ -1,5 +1,6 @@
 import { Email, DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+
+import { DocumentProjet } from '../../../..';
 
 export type DemanderChangementOptions = {
   actionnaire: string;
