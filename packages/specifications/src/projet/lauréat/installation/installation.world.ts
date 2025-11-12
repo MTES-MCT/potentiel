@@ -1,8 +1,7 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatWorld } from '../lauréat.world';
 

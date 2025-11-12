@@ -10,7 +10,6 @@
   "dependencies": {
     "@potentiel-applications/request-context": "*",
     "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/document": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/utilisateur": "*",
