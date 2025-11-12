@@ -4,10 +4,251 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Erreur serveur</title>
-    <link
-      href="https://staging-potentiel.cellar-c2.services.clever-cloud.com/server-error/style.css"
-      rel="stylesheet"
-    />
+    <style>
+      html {
+        height: 100%;
+      }
+
+      body {
+        min-height: 100%;
+        font-family: 'Marianne', arial, sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-text-size-adjust: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5fe;
+      }
+
+      body::before,
+      body::after {
+        box-sizing: inherit;
+      }
+
+      body *,
+      body *::before,
+      body *::after {
+        box-sizing: inherit;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+      }
+
+      a {
+        text-decoration: var(--text-decoration);
+        outline-offset: 2px;
+        outline-width: 2px;
+        outline-color: #0a76f6;
+      }
+
+      *:focus-visible {
+        z-index: 500;
+        outline-style: solid;
+      }
+
+      .fr-container {
+        width: 100%;
+        max-width: 78rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex: 1;
+      }
+
+      .fr-grid-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+      }
+
+      .fr-grid-row--center {
+        justify-content: center;
+        align-items: center;
+      }
+
+      .fr-grid-row--gutters {
+        margin: -0.5rem;
+      }
+
+      .fr-grid-row--gutters > [class^='fr-col-'],
+      .fr-grid-row--gutters > [class*=' fr-col-'] {
+        padding: 0.5rem;
+      }
+
+      .fr-col-12 {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .fr-btns-group {
+        list-style: none;
+        padding: 0;
+        margin-top: -0.5rem;
+        margin-bottom: -0.5rem;
+      }
+
+      .fr-btns-group .fr-btn > span {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .fr-btns-group--inline {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+      }
+
+      .fr-btns-group--inline .fr-btn {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+      }
+
+      .fr-btns-group--sm .fr-btn {
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+      }
+
+      .fr-btn {
+        border-radius: 0;
+        padding: 0.25rem 0.75rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: transparent;
+        overflow: initial;
+        max-width: 100%;
+        max-height: none;
+        font-weight: 500;
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .fr-btn svg {
+        width: 1rem;
+        height: 1rem;
+        margin-left: -0.125rem;
+        margin-right: 0.5rem;
+        fill: #000091;
+      }
+
+      .fr-server__body {
+        margin-top: 3.5rem;
+        margin-bottom: 3.5rem;
+      }
+
+      .fr-server__footer {
+        margin-top: 3.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .fr-server__image {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 3.5rem;
+      }
+
+      .fr-server__image img {
+        width: 13.25rem;
+        margin: 0 auto;
+      }
+
+      .fr-h1 {
+        font-size: 2rem;
+        line-height: 2.5rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+      }
+
+      .fr-text--xl {
+        font-size: 1.25rem;
+        line-height: 2rem;
+        margin-top: 0;
+        margin-bottom: 1.5rem;
+      }
+
+      .fr-text--sm {
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
+      }
+
+      .fr-btn--tertiary {
+        background-color: #f6f6f6;
+        box-shadow: inset 0 0 0 1px #ddd;
+        color: #000091;
+      }
+
+      .fr-btn--tertiary:hover {
+        background-color: #dfdfdf;
+      }
+
+      .fr-btn--tertiary:active {
+        background-color: #cfcfcf;
+      }
+
+      @media (min-width: 48em) {
+        .fr-container {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+
+        .fr-col-offset-md-1 {
+          margin-left: 8.3333333333%;
+        }
+
+        .fr-col-md-6 {
+          flex: 0 0 50%;
+          width: 50%;
+          max-width: 50%;
+        }
+
+        .fr-col-md-3 {
+          flex: 0 0 25%;
+          width: 25%;
+          max-width: 25%;
+        }
+
+        .fr-server__image {
+          margin-top: 3.5rem;
+          margin-bottom: 3.5rem;
+        }
+
+        .fr-server__image img {
+          width: 100%;
+        }
+
+        .fr-h1 {
+          font-size: 2.5rem;
+          line-height: 3rem;
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -69,7 +310,7 @@
           <img
             width="66px"
             height="24px"
-            src="https://staging-potentiel.cellar-c2.services.clever-cloud.com/server-error/marianne.png"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAAAwCAMAAADnwSL2AAAAflBMVEUAAJHhAA////8QEJjv7/gwMKYgIJ+/v+RwcMFAQK1QULPf3/GPj8+vr92AgMhgYLr4v8Ofn9bPz+rjEB739/f0n6X73+HwgIfnMDz97/D5z9KoqKiKioqAgIDl5eXKysr2r7Tyj5bsYGnpQEvAwMC4uLjucHjqUFrlIC2YmJgpfk6NAAACI0lEQVRYw73YaWObMAwGYFe+zWGOQJK2uZpe+/9/cJjMW7sVlKwW+pKPPIgXWYR9p2Qu4O+qznc31zcIVsOXdWyXQxiYqmoxhIPpWgrBxQTgHmC9FKKEieqfqIOJG0IvqIOJByIoNu9kCDwQsar+nR6RA1JP9J1QgFVLj6hRxCs9QqCIIz2iAbRackSBI97IESWOWJMj7Dxg/3zYV+QIPiNYPT+8PDzu6BEsm0GsYPWyO3T0CA1zvXjc/Vid6BFmzjA8jAP0Sxxg84o9wDo9wnp72wkGsEmM4HnBb55X92kRsvGMea2L0vDYEZ6lnFdXGETNWF17ZzSEskw6XWoUUSVESCEUU0yaXMc4ZoDX9rRJh5AiD7ceP/t+XV+gji7h2+EaOZ7d4efP4VUrNJh9OkSpw2uhQgK0uTissZxxgSYiGYLnn8Z0Vqprt8ztJhnCxmBArJyPBjyax9QTU/5ufpaPvTCooW+TIuJgEroIqYh9aLBcpkXIRnvOHI+kMvTFeJivtAhV2MvFLz8+tEE4KZAxkRYhP8+NwSBKbgZDo/45xrohCe153VWvpCu/LZ3kTgOE/hjk9okQ0pT68jy++BrsW0qEy8dcqPiHYeF4MCCf4kkRXoBW4/iELHdycs/c3tEhFDSecT5cVZiPNOS0SIuofehCuHU7a4ATZSdiJtXH2YGuc9QrvxojSfs4cMJEdW8LIWwxu0V0G3qEumLHPv8H4idR9Cak2+TKegAAAABJRU5ErkJggg=="
             alt="Marianne"
           />
         </div>
