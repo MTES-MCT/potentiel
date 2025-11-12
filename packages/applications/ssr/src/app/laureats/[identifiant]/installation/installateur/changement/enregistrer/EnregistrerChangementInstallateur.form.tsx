@@ -59,19 +59,20 @@ export const EnregistrerChangementInstallateurForm: FC<
 
         <Input
           textArea
-          label="Raison (optionnel)"
+          label="Raison"
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement."
           nativeTextAreaProps={{
             name: 'raison',
-            required: false,
-            'aria-required': false,
+            required: true,
+            'aria-required': true,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label="Pièce justificative (optionnel)"
+          required
+          label="Pièce justificative"
           name="piecesJustificatives"
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
