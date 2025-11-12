@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
+import { DocumentProjet } from '../../../..';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type EnregistrerChangementNomProjetCommand = Message<

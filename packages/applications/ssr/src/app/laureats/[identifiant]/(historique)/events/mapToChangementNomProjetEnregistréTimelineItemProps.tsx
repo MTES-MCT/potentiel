@@ -1,6 +1,5 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
