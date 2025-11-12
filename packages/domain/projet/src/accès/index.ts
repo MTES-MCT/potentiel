@@ -45,6 +45,7 @@ export { ListerAccèsReadModel, ListerProjetsÀRéclamerReadModel, ConsulterAcc�
 export * from './accès.event';
 export * from './autoriser/autoriserAccèsProjet.event';
 export * from './retirer/retirerAccèsProjet.event';
+export * from './remplacer/remplacerAccèsProjet.event';
 
 // Entities
 export * from './accès.entity';

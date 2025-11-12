@@ -100,7 +100,22 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
+        expectHasAccess: true,
+      }),
+    );
+  },
+);
+
+Alors(
+  'le porteur {string} a accès au projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, email: string, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: email,
         expectHasAccess: true,
       }),
     );
@@ -116,8 +131,23 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
-        expectHasAccess: true,
+        expectHasAccess: false,
+      }),
+    );
+  },
+);
+
+Alors(
+  `le porteur {string} n'a pas accès au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, email: string, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: email,
+        expectHasAccess: false,
       }),
     );
   },
@@ -134,7 +164,6 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
         expectHasAccess: true,
       }),
     );
