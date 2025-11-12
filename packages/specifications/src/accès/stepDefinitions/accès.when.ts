@@ -1,9 +1,8 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
-import { CréerPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -114,20 +113,29 @@ Quand('un porteur retire ses accès au projet lauréat', async function (this: P
 });
 
 Quand(
-  'un administrateur remplace le porteur sur le projet lauréat',
-  async function (this: PotentielWorld) {
-    const { email } = this.accèsWorld.remplacerAccèsProjet.créer({});
-    await mediator.send<Accès.RemplacerAccèsProjetUseCase>({
-      type: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
-      data: {
-        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-        identifiantUtilisateurValue:
-          this.candidatureWorld.importerCandidature.dépôtValue.emailContact,
-        nouvelIdentifiantUtilisateurValue: email,
-        remplacéLeValue: new Date().toISOString(),
-        remplacéParValue: this.utilisateurWorld.adminFixture.email,
-      },
+  'un administrateur remplace le porteur sur le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const { email } = this.accèsWorld.remplacerAccèsProjet.créer({
+      email: exemple['nouveau'],
     });
+    const identifiantUtilisateurValue =
+      exemple['actuel'] ?? this.candidatureWorld.importerCandidature.dépôtValue.emailContact;
+
+    try {
+      await mediator.send<Accès.RemplacerAccèsProjetUseCase>({
+        type: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          identifiantUtilisateurValue,
+          nouvelIdentifiantUtilisateurValue: email,
+          remplacéLeValue: new Date().toISOString(),
+          remplacéParValue: this.utilisateurWorld.adminFixture.email,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 
@@ -167,13 +175,6 @@ async function réclamerProjet(
 
   try {
     const avecPrixEtNuméroCRE = numéroCRE !== undefined && prix !== undefined;
-
-    await mediator.send<CréerPorteurUseCase>({
-      type: 'Utilisateur.UseCase.CréerPorteur',
-      data: {
-        identifiantUtilisateurValue: email,
-      },
-    });
 
     await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
       type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',

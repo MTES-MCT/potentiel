@@ -1,5 +1,6 @@
 import { AccèsProjector } from '@potentiel-applications/projectors';
 import { AccèsNotification } from '@potentiel-applications/notifications';
+import { UtilisateurSaga } from '@potentiel-domain/utilisateur';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
@@ -11,7 +12,12 @@ export const setupAccès: SetupProjet = async ({ sendEmail }) => {
   AccèsProjector.register();
   await accès.setupSubscription<AccèsProjector.SubscriptionEvent, AccèsProjector.Execute>({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'AccèsProjetAutorisé-V1',
+      'AccèsProjetRetiré-V1',
+      'AccèsProjetRemplacé-V1',
+    ],
     messageType: 'System.Projector.Accès',
   });
 
@@ -20,6 +26,12 @@ export const setupAccès: SetupProjet = async ({ sendEmail }) => {
     name: 'notifications',
     eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
     messageType: 'System.Notification.Accès',
+  });
+
+  await accès.setupSubscription<UtilisateurSaga.SubscriptionEvent, UtilisateurSaga.Execute>({
+    name: 'utilisateur-acces-saga',
+    eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRemplacé-V1'],
+    messageType: 'System.Utilisateur.Saga.Execute',
   });
 
   return accès.clearSubscriptions;

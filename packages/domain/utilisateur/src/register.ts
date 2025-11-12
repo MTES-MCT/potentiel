@@ -22,7 +22,6 @@ import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.us
 import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
 import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
 import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command';
-import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
@@ -55,6 +54,5 @@ export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurComman
   registerModifierRôleUseCase();
   registerModifierRôleCommand(loadAggregate);
 
-  registerCréerPorteurUseCase();
   registerCréerPorteurCommand(loadAggregate);
 };
