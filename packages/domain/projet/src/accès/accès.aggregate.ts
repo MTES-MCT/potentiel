@@ -20,6 +20,7 @@ import {
 } from './accès.error';
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
+import { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options';
 
 export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', ProjetAggregateRoot> {
   get projet() {
@@ -137,6 +138,32 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', Pr
     };
 
     await this.publish(event);
+  }
+
+  async remplacer({
+    identifiantUtilisateur,
+    nouvelIdentifiantUtilisateur,
+    remplacéLe,
+    remplacéPar,
+  }: RemplacerAccèsProjetOptions) {
+    if (identifiantUtilisateur.estÉgaleÀ(nouvelIdentifiantUtilisateur)) {
+      throw new AccèsProjetDéjàAutoriséError();
+    }
+
+    await this.retirer({
+      identifiantUtilisateur,
+      retiréLe: remplacéLe,
+      retiréPar: remplacéPar,
+    });
+
+    if (!this.aDéjàAccès(nouvelIdentifiantUtilisateur.formatter())) {
+      await this.autoriser({
+        autoriséLe: remplacéLe,
+        autoriséPar: remplacéPar,
+        identifiantUtilisateur: nouvelIdentifiantUtilisateur,
+        raison: 'notification',
+      });
+    }
   }
 
   apply(event: AccèsEvent): void {

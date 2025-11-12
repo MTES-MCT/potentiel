@@ -6,6 +6,7 @@ import { assert, expect } from 'chai';
 import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -146,10 +147,20 @@ Alors(
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
-    const expectedPorteurs = [this.utilisateurWorld.porteurFixture.email];
-    if (this.utilisateurWorld.inviterUtilisateur.aÉtéCréé) {
-      expectedPorteurs.push(this.utilisateurWorld.inviterUtilisateur.email);
+    const expectedPorteursValues = this.accèsWorld.remplacerAccèsProjet.aÉtéCréé
+      ? [this.accèsWorld.remplacerAccèsProjet.email]
+      : [this.utilisateurWorld.porteurFixture.email];
+
+    if (this.utilisateurWorld.inviterPorteur.aÉtéCréé) {
+      expectedPorteursValues.push(this.utilisateurWorld.inviterPorteur.email);
     }
+
+    const expectedPorteurs = mapToPlainObject(
+      expectedPorteursValues
+        .map(Email.convertirEnValueType)
+        .map((utilisateur) => utilisateur.formatter())
+        .sort(),
+    );
 
     await waitForExpect(async () => {
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
@@ -162,13 +173,10 @@ Alors(
       if (Option.isNone(accèsProjet)) {
         throw new Error(`Il devrait y avoir des accès pour le projet !!`);
       }
-
-      for (const email of expectedPorteurs) {
-        const expected = Email.convertirEnValueType(email);
-        expect(
-          accèsProjet.utilisateursAyantAccès.find((utilisateur) => utilisateur.estÉgaleÀ(expected)),
-        ).not.to.be.undefined;
-      }
+      const actualPorteurs = accèsProjet.utilisateursAyantAccès
+        .map((utilisateur) => utilisateur.formatter())
+        .sort();
+      expect(actualPorteurs).to.deep.eq(expectedPorteurs);
     });
   },
 );

@@ -113,6 +113,24 @@ Quand('un porteur retire ses accès au projet lauréat', async function (this: P
   });
 });
 
+Quand(
+  'un administrateur remplace le porteur sur le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { email } = this.accèsWorld.remplacerAccèsProjet.créer({});
+    await mediator.send<Accès.RemplacerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
+      data: {
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+        identifiantUtilisateurValue:
+          this.candidatureWorld.importerCandidature.dépôtValue.emailContact,
+        nouvelIdentifiantUtilisateurValue: email,
+        remplacéLeValue: new Date().toISOString(),
+        remplacéParValue: this.utilisateurWorld.adminFixture.email,
+      },
+    });
+  },
+);
+
 export async function retirerAccèsProjet(
   this: PotentielWorld,
   {
