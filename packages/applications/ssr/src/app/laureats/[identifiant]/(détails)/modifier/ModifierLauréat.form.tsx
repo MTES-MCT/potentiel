@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
@@ -19,6 +20,7 @@ import {
 } from '@/utils/candidature';
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
+import { Icon } from '@/components/atoms/Icon';
 
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_helpers';
 
@@ -135,7 +137,17 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         <FormRow>
           <CandidatureField
             candidature={candidature.emailContact}
-            label="Email de contact"
+            label={
+              <>
+                Email de contact{' '}
+                <Tooltip
+                  kind="hover"
+                  title="La modification de l'email entraînera la mise à jour des comptes ayant accès au projet"
+                >
+                  <Icon id="ri-information-line" />
+                </Tooltip>
+              </>
+            }
             name="emailContact"
             validationErrors={validationErrors}
             required
