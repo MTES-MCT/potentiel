@@ -107,7 +107,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Installateur',
       linkProps: {
-        href: Routes.Installation.changementInstallateur.lister,
+        href: Routes.Installation.changement.installateur.lister,
       },
     },
   ];

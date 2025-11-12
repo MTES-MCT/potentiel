@@ -46,7 +46,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Installation.changementInstallateur.détails(identifiantProjet, date),
+        url: Routes.Installation.changement.installateur.détails(identifiantProjet, date),
         message: "Le changement d'installateur a bien été enregistré.",
       },
     };

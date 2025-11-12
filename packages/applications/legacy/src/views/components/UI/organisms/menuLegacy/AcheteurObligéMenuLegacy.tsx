@@ -35,7 +35,7 @@ export const AcheteurObligéMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Installation.changementInstallateur.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
     </DropdownMenu>

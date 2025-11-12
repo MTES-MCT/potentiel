@@ -32,7 +32,7 @@ export const handleChangementInstallateurEnregistréNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Installation.changementInstallateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
+      url: `${baseUrl}${Routes.Installation.changement.installateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
     },
   });
 
@@ -43,7 +43,7 @@ export const handleChangementInstallateurEnregistréNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Installation.changementInstallateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
+      url: `${baseUrl}${Routes.Installation.changement.installateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
     },
   });
 };

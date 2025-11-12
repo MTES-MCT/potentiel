@@ -1,5 +1,4 @@
 import React from 'react';
-import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
@@ -48,7 +47,7 @@ export const CreMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Installation.changementInstallateur.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
     </DropdownMenu>

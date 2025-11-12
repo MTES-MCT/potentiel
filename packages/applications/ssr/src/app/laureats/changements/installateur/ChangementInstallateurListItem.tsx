@@ -31,7 +31,7 @@ export const ChangementInstallateurListItem: FC<ChangemenInstallateurListItemPro
     actions={
       <Button
         linkProps={{
-          href: Routes.Installation.changementInstallateur.détails(
+          href: Routes.Installation.changement.installateur.détails(
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             enregistréLe.date,
           ),
