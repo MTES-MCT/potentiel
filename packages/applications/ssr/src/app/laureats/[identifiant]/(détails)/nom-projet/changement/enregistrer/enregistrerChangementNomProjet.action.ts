@@ -42,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, dateChangement),
         message: 'Le changement de nom a bien été enregistré',
       },
     };

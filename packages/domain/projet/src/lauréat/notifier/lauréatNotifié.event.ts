@@ -24,6 +24,7 @@ export type LauréatNotifiéV1Event = DomainEvent<
  * @deprecated Ajoute les informations nomProjet et localité à un lauréat notifié avec LauréatNotifié-V1
  * Tous les évènements LauréatNotifié-V1 doivent avoir un évènement NomEtLocalitéLauréatImportés-V1 associé
  */
+// TODO: devrait avoir une date, notamment pour la frise (historique)
 export type NomEtLocalitéLauréatImportésEvent = DomainEvent<
   'NomEtLocalitéLauréatImportés-V1',
   {
