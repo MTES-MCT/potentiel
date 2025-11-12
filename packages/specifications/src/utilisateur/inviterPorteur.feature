@@ -2,6 +2,7 @@
 @utilisateur
 Fonctionnalité: Inviter un porteur sur un projet
 
+    @select
     Plan du scénario: Inviter un porteur
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
         Quand le porteur invite un autre porteur sur le projet <Statut>

@@ -45,23 +45,14 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       });
 
       if (candidature.emailContact) {
-        await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
-          type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            identifiantUtilisateurValue: candidature.emailContact,
-            autoriséParValue: utilisateur.identifiantUtilisateur.formatter(),
-            autoriséLeValue: new Date().toISOString(),
-            raison: 'notification',
-          },
-        });
-        await mediator.send<Accès.RetirerAccèsProjetUseCase>({
-          type: 'Projet.Accès.UseCase.RetirerAccèsProjet',
+        await mediator.send<Accès.RemplacerAccèsProjetUseCase>({
+          type: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
           data: {
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: candidatureACorriger.dépôt.emailContact.formatter(),
-            retiréParValue: utilisateur.identifiantUtilisateur.formatter(),
-            retiréLeValue: new Date().toISOString(),
+            nouvelIdentifiantUtilisateurValue: candidature.emailContact,
+            remplacéParValue: utilisateur.identifiantUtilisateur.formatter(),
+            remplacéLeValue: new Date().toISOString(),
           },
         });
       }

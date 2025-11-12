@@ -12,6 +12,7 @@ import {
 } from './fixtures/inviter/inviter.fixture';
 import { CREFixture } from './fixtures/cre.fixture';
 import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture';
+import { InviterPorteurFixture } from './fixtures/inviter/inviterPorteur.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -55,6 +56,12 @@ export class UtilisateurWorld {
     return this.#inviterUtilisateur;
   }
 
+  #inviterPorteur: InviterPorteurFixture;
+
+  get inviterPorteur() {
+    return this.#inviterPorteur;
+  }
+
   #modifierRôleUtilisateur: ModifierRôleUtilisateurFixture;
 
   get modifierRôleUtilisateur() {
@@ -69,6 +76,7 @@ export class UtilisateurWorld {
     this.#adminFixture = new AdminFixture('admin');
     this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
+    this.#inviterPorteur = new InviterPorteurFixture();
     this.#modifierRôleUtilisateur = new ModifierRôleUtilisateurFixture();
   }
 
