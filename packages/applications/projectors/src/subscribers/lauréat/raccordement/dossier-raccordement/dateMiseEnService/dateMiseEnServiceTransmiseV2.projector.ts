@@ -1,9 +1,7 @@
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DateTime, Email } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-
-import { getDossierRaccordement } from '../../_utils/getDossierRaccordement';
-import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordement';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const dateMiseEnServiceTransmiseV2Projector = async ({
   payload: {
@@ -15,22 +13,15 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
   },
   created_at,
 }: Lauréat.Raccordement.DateMiseEnServiceTransmiseEvent & Event) => {
-  const { dossier, raccordement } = await getDossierRaccordement(
-    identifiantProjet,
-    référenceDossierRaccordement,
-  );
-
-  await upsertDossierRaccordement({
-    identifiantProjet,
-    raccordement,
-    dossierRaccordement: {
-      ...dossier,
+  await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
+    `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
+    {
       miseEnService: {
         dateMiseEnService,
         transmiseLe,
-        transmisePar: Email.convertirEnValueType(transmisePar).formatter(),
+        transmisePar,
       },
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
-  });
+  );
 };

@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-
-import { getDossierRaccordement } from '../_utils/getDossierRaccordement';
-import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
 
 export const référenceDossierRacordementModifiéeV1Projector = async ({
   payload: {
@@ -14,27 +13,23 @@ export const référenceDossierRacordementModifiéeV1Projector = async ({
   },
   created_at,
 }: Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEventV1 & Pick<Event, 'created_at'>) => {
-  const { dossier, raccordement } = await getDossierRaccordement(
-    identifiantProjet,
-    référenceDossierRaccordementActuelle,
-  );
-
-  await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
+  const dossier = await findProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordementActuelle}`,
   );
 
-  await upsertDossierRaccordement({
-    identifiantProjet,
-    raccordement: {
-      ...raccordement,
-      dossiers: raccordement.dossiers.filter(
-        (d) => d.référence !== référenceDossierRaccordementActuelle,
-      ),
-    },
-    dossierRaccordement: {
+  if (Option.isNone(dossier)) {
+    throw new Error('Dossier non trouvé');
+  }
+
+  await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
+    `dossier-raccordement|${identifiantProjet}#${nouvelleRéférenceDossierRaccordement}`,
+    {
       ...dossier,
       référence: nouvelleRéférenceDossierRaccordement,
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
-  });
+  );
+  await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
+    `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordementActuelle}`,
+  );
 };

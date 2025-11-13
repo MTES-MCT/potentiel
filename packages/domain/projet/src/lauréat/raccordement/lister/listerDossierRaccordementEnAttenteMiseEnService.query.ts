@@ -73,7 +73,6 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
           miseEnService: {
             dateMiseEnService: Where.equalNull(),
           },
-          projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
         },
         join: [
           {
@@ -83,6 +82,11 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
           {
             entity: 'candidature',
             on: 'identifiantProjet',
+            where: {
+              notification: {
+                notifiéeLe: Where.lessOrEqual(projetNotifiéAvant),
+              },
+            },
           },
           {
             entity: 'puissance',
