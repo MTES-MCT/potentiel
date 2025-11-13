@@ -1,7 +1,7 @@
 import React from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
-import { EditIcon, Heading1, Link } from '../../../components';
+import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -66,11 +66,6 @@ export const ProjectHeader = ({
         <Heading1 className="mb-0 pb-0">
           <div className="inline-block leading-10">{nomProjet.nom}</div>
         </Heading1>
-        {nomProjet.affichage?.label && (
-          <Link href={nomProjet.affichage.url}>
-            <EditIcon title={nomProjet.affichage.label} />
-          </Link>
-        )}
         <ProjectHeaderBadge statutLauréat={statutLauréat} />
       </div>
       <div className="font-medium mt-3">
