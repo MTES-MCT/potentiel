@@ -3,8 +3,8 @@ import path from 'node:path';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';

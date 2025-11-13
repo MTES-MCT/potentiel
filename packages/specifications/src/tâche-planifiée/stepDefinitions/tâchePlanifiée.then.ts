@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';

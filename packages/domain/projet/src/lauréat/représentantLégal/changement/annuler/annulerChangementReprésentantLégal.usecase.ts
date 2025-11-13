@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import { IdentifiantProjet } from '../../../..';
 
 import { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command';
 

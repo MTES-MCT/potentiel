@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { GetProjetAggregateRoot } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
   'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',

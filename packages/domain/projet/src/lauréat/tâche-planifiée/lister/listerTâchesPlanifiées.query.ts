@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { TâchePlanifiéeEntity } from '../tâchePlanifiée.entity';
+import { IdentifiantProjet } from '../../..';
 
 type TâchePlanifiéeListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;

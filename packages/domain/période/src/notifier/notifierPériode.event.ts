@@ -1,5 +1,6 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
 

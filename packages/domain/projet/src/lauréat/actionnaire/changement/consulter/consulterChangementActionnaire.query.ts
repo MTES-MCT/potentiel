@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import {
@@ -9,7 +9,7 @@ import {
   StatutChangementActionnaire,
   TypeDocumentActionnaire,
 } from '../..';
-import { DocumentProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../..';
 
 export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

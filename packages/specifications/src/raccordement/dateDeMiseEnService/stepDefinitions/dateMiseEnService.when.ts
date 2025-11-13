@@ -1,8 +1,8 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 

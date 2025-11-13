@@ -3,7 +3,9 @@ import { join } from 'path';
 import { extension } from 'mime-types';
 
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '..';
 
 import { DossierProjet } from '.';
 

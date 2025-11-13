@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Localité } from '../../candidature';
+import { IdentifiantProjet } from '../..';
 
 import { ModifierSiteDeProductionCommand } from './modifierSiteDeProduction.command';
 
