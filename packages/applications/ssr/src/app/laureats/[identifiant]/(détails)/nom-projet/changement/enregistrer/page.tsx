@@ -1,16 +1,14 @@
-import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
+
+import { getLauréatInfos } from '../../../../_helpers/getLauréat';
 
 import { EnregistrerChangementNomProjetPage } from './EnregistrerChangementNomProjet.page';
 
@@ -23,16 +21,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isNone(lauréat)) {
-      return notFound();
-    }
+    const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
     await vérifierQueLeCahierDesChargesPermetUnChangement(
       lauréat.identifiantProjet,
