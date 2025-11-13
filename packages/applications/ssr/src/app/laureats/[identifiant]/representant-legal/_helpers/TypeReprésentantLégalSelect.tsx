@@ -1,7 +1,8 @@
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
-import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
+
+import { getTypeReprésentantLégalLabel } from './getTypeReprésentantLégalLabel';
 
 export type TypeReprésentantLégalSelectProps = {
   id: string;
@@ -37,12 +38,7 @@ export const TypeReprésentantLégalSelect = ({
   const typesReprésentantLégalOptions = Lauréat.ReprésentantLégal.TypeReprésentantLégal.types
     .filter((type) => type !== 'inconnu')
     .map((type) => ({
-      label: match(type)
-        .with('personne-physique', () => 'Personne physique')
-        .with('personne-morale', () => 'Personne morale')
-        .with('collectivité', () => 'Collectivité')
-        .with('autre', () => 'Autre')
-        .exhaustive(),
+      label: getTypeReprésentantLégalLabel(type),
       value: type,
       key: type,
     }));

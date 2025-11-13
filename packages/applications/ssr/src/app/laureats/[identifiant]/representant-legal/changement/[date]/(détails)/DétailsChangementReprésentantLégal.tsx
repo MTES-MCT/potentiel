@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
+
+import { getTypeReprésentantLégalLabel } from '../../../_helpers/getTypeReprésentantLégalLabel';
 
 import { DétailsChangementReprésentantLégalPageProps } from './DétailsChangementReprésentantLégal.page';
 
@@ -46,16 +47,6 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
   );
 };
 
-const getTypeLabel = (type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType) =>
-  match(type)
-    .returnType<string>()
-    .with('personne-physique', () => 'Personne physique')
-    .with('personne-morale', () => 'Personne morale')
-    .with('collectivité', () => 'Collectivité')
-    .with('autre', () => 'Organisme')
-    .with('inconnu', () => 'Inconnu')
-    .exhaustive();
-
 type DétailsValeursReprésentantLégalProps = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
@@ -67,7 +58,8 @@ const DétailsValeursReprésentantLégal = ({
 }: DétailsValeursReprésentantLégalProps) => (
   <>
     <div>
-      <span className="font-medium">Type :</span> {getTypeLabel(typeReprésentantLégal)}
+      <span className="font-medium">Type :</span>{' '}
+      {getTypeReprésentantLégalLabel(typeReprésentantLégal)}
     </div>
     <div>
       <span className="font-medium">Nom représentant légal :</span> {nomReprésentantLégal}

@@ -1,9 +1,10 @@
 'use client';
 import { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
-import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
+
+import { getTypeReprésentantLégalLabel } from '../getTypeReprésentantLégalLabel';
 
 import { TypeSociété } from './SaisieTypeSociété.step';
 
@@ -21,15 +22,6 @@ export const ValidationStep: FC<ValidationStepProps> = ({
   piècesJustificatives,
   message,
 }) => {
-  const type = match(typeReprésentantLégal)
-    .returnType<string>()
-    .with('personne-physique', () => 'Personne physique')
-    .with('personne-morale', () => 'Personne morale')
-    .with('collectivité', () => 'Collectivité')
-    .with('autre', () => `Autre`)
-    .with('inconnu', () => 'Inconnu')
-    .exhaustive();
-
   return (
     <div className="flex flex-col gap-4">
       <Alert severity="info" small description={<p>{message}</p>} />
@@ -37,7 +29,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
             <div className="font-semibold">Type :</div>
-            <blockquote>{type}</blockquote>
+            <blockquote>{getTypeReprésentantLégalLabel(typeReprésentantLégal)}</blockquote>
           </div>
           {typeSociété && (
             <div className="flex gap-2">
