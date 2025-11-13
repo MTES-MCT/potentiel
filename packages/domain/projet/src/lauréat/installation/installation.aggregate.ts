@@ -294,7 +294,7 @@ export class InstallationAggregate extends AbstractAggregate<
 
   private applyDispositifDeStockageMisÀJourV1({
     payload: { dispositifDeStockage },
-  }: DispositifDeStockageModifiéEvent) {
+  }: DispositifDeStockageModifiéEvent | ChangementDispositifDeStockageEnregistréEvent) {
     this.#dispositifDeStockage = DispositifDeStockage.convertirEnValueType(dispositifDeStockage);
   }
 }
