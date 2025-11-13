@@ -5,7 +5,6 @@ import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -77,7 +76,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const périodesPartiellementNotifiées: Période.ListerPériodeItemReadModel[] =
+      const périodesPartiellementNotifiées =
         estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
 
       const props = await mapToProps({
@@ -86,7 +85,7 @@ export default async function Page({ searchParams }: PageProps) {
           .concat(périodes.items)
           .filter(
             (val, i, self) =>
-              self.findIndex((x) => x.identifiantPériode === val.identifiantPériode) === i,
+              self.findIndex((x) => x.identifiantPériode.estÉgaleÀ(val.identifiantPériode)) === i,
           ),
       });
 
@@ -159,6 +158,9 @@ const getCandidaturesStatsForPeriode = async (
   };
 };
 
+/**
+ * Périodes notifiées, avec au moins un candidat non notifié
+ **/
 async function getPériodesPartiellementNotifiées(appelOffre: string | undefined) {
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
@@ -180,8 +182,9 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
     type: 'Période.Query.ListerPériodes',
     data: {
       identifiantsPériodes,
+      estNotifiée: true,
     },
   });
 
-  return nouvellesPériodes.items.filter(Option.isSome);
+  return nouvellesPériodes.items;
 }

@@ -54,7 +54,7 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
     appelOffre,
     identifiantsPériodes,
   }) => {
-    const notifiées = await list<PériodeEntity, AppelOffre.AppelOffreEntity>(`période`, {
+    const périodes = await list<PériodeEntity, AppelOffre.AppelOffreEntity>(`période`, {
       range,
       join: {
         entity: 'appel-offre',
@@ -71,9 +71,9 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
     });
 
     return {
-      items: notifiées.items.map(mapToReadModel),
-      range: notifiées.range,
-      total: notifiées.total,
+      items: périodes.items.map(mapToReadModel),
+      range: périodes.range,
+      total: périodes.total,
     };
   };
 
