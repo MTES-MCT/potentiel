@@ -8,6 +8,7 @@ import { mapToInstallateurModifiéTimelineItemsProps } from './events/mapToInsta
 import { mapToInstallationImportéeTimelineItemProps } from './events/mapToInstallationImportéeTimelineItemProps';
 import { mapToTypologieInstallationModifiéeTimelineItemsProps } from './events/mapToTypologieInstallationModifiéeTimelineItemsProps';
 import { mapToDispositifDeStockageModifiéTimelineItemsProps } from './events/mapToDispositifDeStockageModifiéTimelineItemsProps';
+import { mapToChangementInstallateurEnregistréTimelineItemsProps } from './events/mapToChangementInstallateurEnregistréTimelineItemsProps';
 
 type MapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
@@ -26,5 +27,8 @@ export const mapToInstallationTimelineItemProps: MapToInstallationTimelineItemPr
     )
     .with({ type: 'DispositifDeStockageModifié-V1' }, (readmodel) =>
       mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
+    )
+    .with({ type: 'ChangementInstallateurEnregistré-V1' }, (readmodel) =>
+      mapToChangementInstallateurEnregistréTimelineItemsProps(readmodel),
     )
     .exhaustive();

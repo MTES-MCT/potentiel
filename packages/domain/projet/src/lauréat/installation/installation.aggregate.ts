@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
@@ -30,6 +30,8 @@ import { ModifierInstallateurOptions } from './installateur/modifier/modifierIns
 import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
 import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 import { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options';
+import { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option';
+import { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -156,6 +158,33 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async enregistrerChangementInstallateur({
+    installateur,
+    dateChangement,
+    identifiantUtilisateur,
+    pièceJustificative,
+    raison,
+  }: EnregistrerChangementInstallateurOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'installateur');
+    if (this.#installateur === installateur) {
+      throw new InstallateurIdentiqueError();
+    }
+
+    const event: ChangementInstallateurEnregistréEvent = {
+      type: 'ChangementInstallateurEnregistré-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        installateur,
+        enregistréLe: dateChangement.formatter(),
+        enregistréPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   private vérifierQueModificationTypologieInstallationEstPossible = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
@@ -186,7 +215,7 @@ export class InstallationAggregate extends AbstractAggregate<
       )
       .with(
         {
-          type: 'InstallateurModifié-V1',
+          type: P.union('InstallateurModifié-V1', 'ChangementInstallateurEnregistré-V1'),
         },
         (event) => this.applyInstallateurModifiéV1(event),
       )
@@ -212,7 +241,7 @@ export class InstallationAggregate extends AbstractAggregate<
 
   private applyInstallateurModifiéV1({
     payload: { installateur: nouvelInstallateur },
-  }: InstallateurModifiéEvent) {
+  }: InstallateurModifiéEvent | ChangementInstallateurEnregistréEvent) {
     this.#installateur = nouvelInstallateur;
   }
 

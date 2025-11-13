@@ -361,7 +361,10 @@ const référencielPermissions = {
       },
     },
     installation: {
-      query: { consulter: 'Lauréat.Installation.Query.ConsulterInstallation' },
+      query: {
+        consulter: 'Lauréat.Installation.Query.ConsulterInstallation',
+        listerHistorique: 'Lauréat.Installation.Query.ListerHistoriqueInstallationProjet',
+      },
       dispositifDeStockage: {
         query: {
           consulter: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
@@ -376,12 +379,16 @@ const référencielPermissions = {
       installateur: {
         query: {
           consulter: 'Lauréat.Installation.Query.ConsulterInstallateur',
+          consulterChangement: 'Lauréat.Installateur.Query.ConsulterChangementInstallateur',
+          listerChangement: 'Lauréat.Installateur.Query.ListerChangementInstallateur',
         },
         usecase: {
           modifier: 'Lauréat.Installation.UseCase.ModifierInstallateur',
+          enregistrerChangement: 'Lauréat.Installateur.UseCase.EnregistrerChangement',
         },
         command: {
           modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
+          enregistrerChangement: 'Lauréat.Installateur.Command.EnregistrerChangement',
         },
       },
       typologieInstallation: {
@@ -1031,6 +1038,20 @@ const policies = {
         référencielPermissions.lauréat.installation.installateur.usecase.modifier,
         référencielPermissions.lauréat.installation.installateur.command.modifier,
       ],
+      consulterChangement: [
+        référencielPermissions.lauréat.installation.installateur.query.consulterChangement,
+        référencielPermissions.document.query.consulter,
+        référencielPermissions.lauréat.installation.query.listerHistorique,
+      ],
+      enregistrerChangement: [
+        référencielPermissions.lauréat.installation.installateur.usecase.enregistrerChangement,
+        référencielPermissions.lauréat.installation.installateur.command.enregistrerChangement,
+        référencielPermissions.document.command.enregister,
+      ],
+      listerChangement: [
+        référencielPermissions.appelOffre.query.lister,
+        référencielPermissions.lauréat.installation.installateur.query.listerChangement,
+      ],
     },
     typologieInstallation: {
       modifier: [
@@ -1663,6 +1684,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'installation.installateur.modifier',
   'installation.typologieInstallation.modifier',
   'installation.dispositifDeStockage.modifier',
+  'installation.installateur.consulterChangement',
+  'installation.installateur.listerChangement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.modifier',
@@ -1732,6 +1755,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // installation
+  'installation.installateur.consulterChangement',
+  'installation.installateur.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1843,6 +1870,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'délai.reprendreInstructionDemande',
   'délai.rejeterChangement',
   'délai.accorderChangement',
+
+  // installation
+  'installation.installateur.consulterChangement',
+  'installation.installateur.listerChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1963,6 +1994,11 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'natureDeLExploitation.enregistrerChangement',
   'natureDeLExploitation.consulterChangement',
   'natureDeLExploitation.consulter',
+
+  // installation
+  'installation.installateur.consulterChangement',
+  'installation.installateur.listerChangement',
+  'installation.installateur.enregistrerChangement',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -2001,6 +2037,10 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Nature de l'exploitation
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // installation
+  'installation.installateur.consulterChangement',
+  'installation.installateur.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

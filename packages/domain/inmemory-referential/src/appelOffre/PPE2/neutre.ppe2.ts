@@ -47,6 +47,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    installateur: {},
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

@@ -65,6 +65,7 @@ export const bind = ({
       recours: {},
       représentantLégal: {},
       natureDeLExploitation: {},
+      installateur: {},
     };
 
     const règlesChangement = {

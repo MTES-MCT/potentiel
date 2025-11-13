@@ -299,6 +299,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             champsSupplémentairesCahierDesCharges: cahierDesCharges.getChampsSupplémentaires(),
+            règlesChangementInstallateur: cahierDesCharges.getRèglesChangements('installateur'),
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,

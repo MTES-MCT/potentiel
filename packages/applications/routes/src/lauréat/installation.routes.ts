@@ -8,3 +8,13 @@ export const modifierTypologie = (identifiantProjet: string) =>
 
 export const modifierDispositifDeStockage = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/installation/dispositif-de-stockage/modifier`;
+
+export const changement = {
+  installateur: {
+    détails: (identifiantProjet: string, enregistréLe: string) =>
+      `/laureats/${encodeParameter(identifiantProjet)}/installation/installateur/changement/${enregistréLe}`,
+    enregistrer: (identifiantProjet: string) =>
+      `/laureats/${encodeParameter(identifiantProjet)}/installation/installateur/changement/enregistrer`,
+    lister: `/laureats/changements/installateur`,
+  },
+};

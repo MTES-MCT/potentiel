@@ -49,6 +49,9 @@ export const PorteurMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
+        Installateur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Utilisateur.réclamerProjet}>Projets à réclamer</Header.MenuItem>

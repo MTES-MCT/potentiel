@@ -106,6 +106,7 @@ export type RèglesDemandesChangement = {
   recours: Changement;
   abandon: ChangementAvecAutoritéCompétente;
   natureDeLExploitation: Changement;
+  installateur: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;

@@ -10,7 +10,6 @@
   "dependencies": {
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
-    "@potentiel-domain/document": "*",
     "@potentiel-domain/entity": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*"
