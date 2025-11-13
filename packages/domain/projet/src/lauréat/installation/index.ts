@@ -93,3 +93,4 @@ export * from './installateur/changement/changementInstallateur.entity';
 // Value type
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';
 export * as TypeDocumentInstallateur from './installateur/typeDocumentInstallateur.valueType';
+export * as TypeDocumentDispositifDeStockage from './dispositif-de-stockage/typeDocumentIDispositifDeStockage.valueType';

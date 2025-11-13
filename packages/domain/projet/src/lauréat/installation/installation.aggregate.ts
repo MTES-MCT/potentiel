@@ -11,6 +11,7 @@ import {
 } from '../../candidature/candidature.error';
 
 import {
+  ChangementInstallateurEnregistréEvent,
   DispositifDeStockage,
   DispositifDeStockageModifiéEvent,
   InstallateurModifiéEvent,
@@ -31,7 +32,8 @@ import { ModifierTypologieInstallationOptions } from './typologie-installation/m
 import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 import { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options';
 import { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option';
-import { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
+import { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event';
+import { EnregistrerChangementDispositifDeStockageOptions } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.options';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -158,6 +160,37 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async enregistrerChangementDispositifDeStockage({
+    dispositifDeStockage,
+    enregistréLe,
+    enregistréPar,
+    pièceJustificative,
+    raison,
+  }: EnregistrerChangementDispositifDeStockageOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible(
+      'information-enregistrée',
+      'dispositifDeStockage',
+    );
+
+    if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
+      throw new DispositifDeStockageIdentiqueError();
+    }
+
+    const event: ChangementDispositifDeStockageEnregistréEvent = {
+      type: 'ChangementDispositifDeStockageEnregistré-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dispositifDeStockage: dispositifDeStockage.formatter(),
+        enregistréLe: enregistréLe.formatter(),
+        enregistréPar: enregistréPar.formatter(),
+        raison,
+        pièceJustificative,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async enregistrerChangementInstallateur({
     installateur,
     dateChangement,
@@ -222,8 +255,14 @@ export class InstallationAggregate extends AbstractAggregate<
       .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
         this.applyTypologieInstallationModifiéeV1(event),
       )
-      .with({ type: 'DispositifDeStockageModifié-V1' }, (event) =>
-        this.applyDispositifDeStockageModifiéV1(event),
+      .with(
+        {
+          type: P.union(
+            'DispositifDeStockageModifié-V1',
+            'ChangementDispositifDeStockageEnregistré-V1',
+          ),
+        },
+        (event) => this.applyDispositifDeStockageMisÀJourV1(event),
       )
       .exhaustive();
   }
@@ -253,7 +292,7 @@ export class InstallationAggregate extends AbstractAggregate<
     );
   }
 
-  private applyDispositifDeStockageModifiéV1({
+  private applyDispositifDeStockageMisÀJourV1({
     payload: { dispositifDeStockage },
   }: DispositifDeStockageModifiéEvent) {
     this.#dispositifDeStockage = DispositifDeStockage.convertirEnValueType(dispositifDeStockage);

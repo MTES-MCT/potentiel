@@ -108,6 +108,7 @@ export type RèglesDemandesChangement = {
   natureDeLExploitation: Changement;
   installateur: Changement;
   nomProjet: Changement;
+  dispositifDeStockage: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
