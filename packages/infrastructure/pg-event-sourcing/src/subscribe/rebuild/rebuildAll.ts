@@ -1,6 +1,7 @@
 import { bulkhead } from 'cockatiel';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { loadStreamList } from '../../load/loadStreamList';
 import { Subscriber } from '../subscriber/subscriber';
@@ -9,9 +10,9 @@ import { RebuildFailedError } from '../errors/RebuildFailed.error';
 
 import { RebuildAllTriggered } from './rebuildTriggered.event';
 
-export const rebuildAll = async (
+export const rebuildAll = async <TEvent extends DomainEvent>(
   rebuildAllTriggered: RebuildAllTriggered,
-  subscriber: Subscriber,
+  subscriber: Subscriber<TEvent>,
 ) => {
   const logger = getLogger(`rebuildAll - ${subscriber.streamCategory} - ${subscriber.name}`);
   const startTime = Date.now();
@@ -32,11 +33,11 @@ export const rebuildAll = async (
           : [subscriber.eventType],
   });
 
-  await subscriber.eventHandler(rebuildAllTriggered);
+  await subscriber.eventHandler(rebuildAllTriggered as unknown as TEvent);
 
   const rebuildStream = async (streamId: string) => {
     try {
-      const events = await loadFromStream({
+      const events = await loadFromStream<TEvent>({
         streamId,
       });
       for (const event of events) {

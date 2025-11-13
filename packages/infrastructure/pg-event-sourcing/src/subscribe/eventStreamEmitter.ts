@@ -118,9 +118,9 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           subscriber: this.#subscriber,
         });
         if (isRebuildAllEvent(event)) {
-          await rebuildAll(event, this.#subscriber);
+          await rebuildAll<TEvent>(event, this.#subscriber);
         } else {
-          await rebuild(event, this.#subscriber);
+          await rebuild<TEvent>(event, this.#subscriber);
           this.#logger.info('Rebuilt', { streamId: event.stream_id });
         }
       } catch (error) {
