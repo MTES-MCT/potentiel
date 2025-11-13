@@ -9,7 +9,6 @@ import {
   ProjectDataCorrected,
   ProjectDCRDueDateSet,
   ProjectNotified,
-  ProjectRawDataCorrected,
 } from '../modules/project';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
@@ -26,6 +25,7 @@ export type SubscriptionEvent = (
   | Lauréat.SiteDeProductionModifiéEvent
   | Lauréat.NomProjetModifiéEvent
   | Lauréat.CahierDesChargesChoisiEvent
+  | Lauréat.ChangementNomProjetEnregistréEvent
 ) &
   Event;
 
@@ -153,6 +153,26 @@ export const register = () => {
       case 'NomProjetModifié-V1': {
         const userId = await new Promise<string>((r) =>
           getUserByEmail(event.payload.modifiéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        await eventStore.publish(
+          new ProjectDataCorrected({
+            payload: {
+              correctedBy: userId,
+              projectId: projet.id,
+              correctedData: {
+                nomProjet: event.payload.nomProjet,
+              },
+            },
+          }),
+        );
+        return;
+      }
+      case 'ChangementNomProjetEnregistré-V1': {
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(event.payload.enregistréPar).map((user) => {
             r(user?.id ?? '');
             return ok(user);
           }),

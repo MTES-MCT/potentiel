@@ -52,6 +52,9 @@ export const PorteurMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Lauréat.changement.nomProjet.lister}>
+        Nom projet
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Utilisateur.réclamerProjet}>Projets à réclamer</Header.MenuItem>

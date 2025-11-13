@@ -142,6 +142,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           },
         });
       }
+
       if (laureat.nomProjet) {
         await mediator.send<Lauréat.ModifierNomProjetUseCase>({
           type: 'Lauréat.UseCase.ModifierNomProjet',

@@ -1,4 +1,4 @@
-import { GetProjetAggregateRoot } from '..';
+import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
 
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
 import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
@@ -12,8 +12,6 @@ import {
 } from './consulter/consulterLauréat.query';
 import { registerModifierSiteDeProductionCommand } from './modifier/modifierSiteDeProduction.command';
 import { registerModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
-import { registerModifierNomProjetCommand } from './modifier/modifierNomProjet.command';
-import { registerModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
@@ -79,6 +77,16 @@ import {
   registerInstallationQueries,
   registerInstallationUseCases,
 } from './installation/installation.register';
+import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
+import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
+import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet';
+import { registerListerChangementNomProjetQuery } from './nomProjet/changement/lister/listerChangementNomProjet';
+import { registerModifierNomProjetCommand } from './nomProjet/modifier/modifierNomProjet.command';
+import { registerModifierNomProjetUseCase } from './nomProjet/modifier/modifierNomProjet.usecase';
+import {
+  ListerHistoriqueLauréatDependencies,
+  registerListerHistoriqueLauréatQuery,
+} from './listerHistorique/listerHistoriqueLauréat.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -97,7 +105,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   AchèvementQueryDependencies &
   InstallationQueryDependencies &
   TâcheQueryDependencies &
-  NatureDeLExploitationQueryDependencies;
+  NatureDeLExploitationQueryDependencies &
+  ListerHistoriqueLauréatDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -110,6 +119,8 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerModifierSiteDeProductionUseCase();
   registerModifierNomProjetCommand(dependencies.getProjetAggregateRoot);
   registerModifierNomProjetUseCase();
+  registerEnregistrerChangementNomProjetCommand(dependencies.getProjetAggregateRoot);
+  registerEnregistrerChangementNomProjetUseCase();
 
   registerChoisirCahierDesChargesUseCase();
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);
@@ -133,6 +144,9 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterLauréatQuery(dependencies);
   registerListerLauréatQuery(dependencies);
   registerConsulterCahierDesChargesQuery(dependencies);
+  registerConsulterChangementNomProjetQuery(dependencies);
+  registerListerChangementNomProjetQuery(dependencies);
+  registerListerHistoriqueLauréatQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);

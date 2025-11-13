@@ -3,4 +3,7 @@ export const lauréatNotificationTemplateId = {
     modifiéChoisi: 4237729,
     initialChoisi: 4237739,
   },
+  nomProjet: {
+    enregistrerChangement: 7463935,
+  },
 };

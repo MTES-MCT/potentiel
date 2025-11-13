@@ -1,6 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
+  nomProjet: {},
   natureDeLExploitation: {},
   représentantLégal: {
     demande: true,

@@ -125,6 +125,7 @@ const PorteurProjetActions = ({
   délaiAffichage,
   natureDeLExploitationAffichage,
   installateurAffichage,
+  nomProjet,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -138,6 +139,7 @@ const PorteurProjetActions = ({
     délaiAffichage ||
     natureDeLExploitationAffichage ||
     installateurAffichage ||
+    nomProjet.affichage ||
     peutDemanderAbandonOuAchèvement;
 
   return (
@@ -198,6 +200,14 @@ const PorteurProjetActions = ({
                   {natureDeLExploitationAffichage.label ??
                     natureDeLExploitationAffichage.labelActions}
                 </span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
+            {!!nomProjet.affichage && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={nomProjet.affichage.url}
+                disabled={demandesDisabled}
+              >
+                <span>{nomProjet.affichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {peutDemanderAbandonOuAchèvement && (
@@ -371,6 +381,7 @@ export const ProjectActions = ({
   dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
+  nomProjet,
   doitAfficherAttestationDésignation,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
@@ -418,6 +429,7 @@ export const ProjectActions = ({
           features={features}
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
           installateurAffichage={installateurAffichage}
+          nomProjet={nomProjet}
         />
       )}
       {userIs(['dreal'])(user) && (

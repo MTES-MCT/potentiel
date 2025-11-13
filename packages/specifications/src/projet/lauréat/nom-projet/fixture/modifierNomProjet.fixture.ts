@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../fixture';
+import { AbstractFixture } from '../../../../fixture';
 
 export interface ModifierNomProjet {
   readonly nomProjet: string;
@@ -33,9 +33,8 @@ export class ModifierNomProjetFixture
     partialFixture: Partial<Readonly<ModifierNomProjet>> & { modifiéPar: string },
   ): Readonly<ModifierNomProjet> {
     const fixture = {
-      nomProjet: faker.person.fullName(),
+      nomProjet: faker.food.dish(),
       modifiéLe: faker.date.recent().toISOString(),
-
       ...partialFixture,
     };
 
@@ -52,6 +51,7 @@ export class ModifierNomProjetFixture
     if (!this.aÉtéCréé) {
       return {};
     }
+
     return {
       nomProjet: this.nomProjet,
     };

@@ -3,6 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 const garantieFinanciereEnMois = 42;
 
 const changementsCDCModifié = {
+  nomProjet: {},
   natureDeLExploitation: {},
   représentantLégal: {
     demande: true,

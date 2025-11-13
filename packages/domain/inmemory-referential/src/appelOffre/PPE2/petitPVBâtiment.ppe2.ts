@@ -14,6 +14,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   delaiRealisationTexte: 'trente-quatre (34) mois',
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
   changement: {
+    nomProjet: { informationEnregistrée: true },
     natureDeLExploitation: { informationEnregistrée: true },
     représentantLégal: {
       informationEnregistrée: true,

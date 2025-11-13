@@ -69,6 +69,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'eolien',
   unitePuissance: 'MW',
   changement: {
+    nomProjet: {},
     natureDeLExploitation: {},
     représentantLégal: {
       demande: true,

@@ -14,6 +14,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
   changement: {
+    nomProjet: {},
     natureDeLExploitation: {},
     représentantLégal: {
       demande: true,

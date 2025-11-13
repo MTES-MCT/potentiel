@@ -40,6 +40,7 @@ export const registerSagas = async () => {
       'NomProjetModifié-V1',
       'SiteDeProductionModifié-V1',
       'CahierDesChargesChoisi-V1',
+      'ChangementNomProjetEnregistré-V1',
     ],
     messageType: 'System.Saga.Lauréat',
   });

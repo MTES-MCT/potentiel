@@ -110,6 +110,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Installation.changement.installateur.lister,
       },
     },
+    {
+      text: 'Nom du projet',
+      linkProps: {
+        href: Routes.Lauréat.changement.nomProjet.lister,
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [

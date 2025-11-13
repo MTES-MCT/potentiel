@@ -7,7 +7,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
-import { getLauréatInfos } from '../../_helpers/getLauréat';
+import { getLauréatInfos } from '../../../_helpers/getLauréat';
 
 import { ModifierSiteDeProductionPage } from './ModifierSiteDeProduction.page';
 

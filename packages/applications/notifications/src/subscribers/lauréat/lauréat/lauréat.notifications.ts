@@ -1,11 +1,13 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
+import { getLauréat, getBaseUrl } from '../../../_helpers';
 
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler';
+import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent;
 
@@ -16,10 +18,19 @@ export type RegisterLauréatNotificationDependencies = {
 };
 
 export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies) => {
-  const handler: MessageHandler<Execute> = async (event) =>
-    match(event)
+  const handler: MessageHandler<Execute> = async (event) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      event.payload.identifiantProjet,
+    );
+    const projet = await getLauréat(identifiantProjet.formatter());
+    const baseUrl = getBaseUrl();
+
+    return await match(event)
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
         handleCahierDesChargesChoisi({ event, sendEmail }),
+      )
+      .with({ type: 'ChangementNomProjetEnregistré-V1' }, (event) =>
+        handleChangementNomProjetEnregistré({ sendEmail, event, projet, baseUrl }),
       )
       .with(
         {
@@ -34,6 +45,7 @@ export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies
         () => Promise.resolve(),
       )
       .exhaustive();
+  };
 
   mediator.register('System.Notification.Lauréat', handler);
 };

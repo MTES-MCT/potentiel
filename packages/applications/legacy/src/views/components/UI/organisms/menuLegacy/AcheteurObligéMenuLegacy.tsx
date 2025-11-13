@@ -38,6 +38,9 @@ export const AcheteurObligéMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Lauréat.changement.nomProjet.lister}>
+        Nom projet
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );
