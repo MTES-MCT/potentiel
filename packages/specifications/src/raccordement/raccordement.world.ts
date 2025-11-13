@@ -38,8 +38,13 @@ export class RaccordementWorld {
     const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : undefined;
-
+    const identifiantGestionnaireRéseau =
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        this.identifiantGestionnaireRéseau,
+      );
     const dossier = {
+      identifiantProjet,
+      identifiantGestionnaireRéseau,
       demandeComplèteRaccordement:
         this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
       référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
@@ -50,21 +55,13 @@ export class RaccordementWorld {
         this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
     };
 
-    const identifiantGestionnaireRéseau =
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        this.identifiantGestionnaireRéseau,
-      );
     return {
       raccordement: {
         dossiers: [dossier],
         identifiantProjet,
         identifiantGestionnaireRéseau,
       },
-      dossier: {
-        ...dossier,
-        identifiantProjet,
-        identifiantGestionnaireRéseau,
-      },
+      dossier,
     };
   }
 }
