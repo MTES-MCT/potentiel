@@ -9,6 +9,7 @@ import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositi
 import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
 import { ModifierTypologieInstallationFixture } from './fixture/modifierTypologieInstallation.fixture';
 import { EnregistrerChangementInstallateurFixture } from './fixture/enregistrerChangementInstallateur.fixture';
+import { EnregistrerChangementDispositifDeStockageFixture } from './fixture/enregistrerChangementDispositifStockage.fixture';
 
 export class InstallationWorld {
   #modifierInstallateurFixture: ModifierInstallateurFixture;
@@ -26,6 +27,11 @@ export class InstallationWorld {
     return this.#modifierDispositifDeStockageFixture;
   }
 
+  #enregistrerChangementDispositifDeStockageFixture: EnregistrerChangementDispositifDeStockageFixture;
+  get enregistrerChangementDispositifDeStockageFixture() {
+    return this.#enregistrerChangementDispositifDeStockageFixture;
+  }
+
   #enregistrerChangementInstallateurFixture: EnregistrerChangementInstallateurFixture;
   get enregistrerChangementInstallateurFixture() {
     return this.#enregistrerChangementInstallateurFixture;
@@ -38,6 +44,8 @@ export class InstallationWorld {
     );
     this.#modifierDispositifDeStockageFixture = new ModifierDispositifDeStockageFixture();
     this.#enregistrerChangementInstallateurFixture = new EnregistrerChangementInstallateurFixture();
+    this.#enregistrerChangementDispositifDeStockageFixture =
+      new EnregistrerChangementDispositifDeStockageFixture();
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
