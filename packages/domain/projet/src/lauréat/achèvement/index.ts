@@ -14,6 +14,8 @@ export type AchèvementUseCase =
   | TransmettreAttestationConformitéUseCase
   | ModifierAttestationConformitéUseCase;
 
+export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformitéUseCase };
+
 // Query
 export type AchèvementQuery = ConsulterAchèvementQuery | ConsulterAttestationConformitéQuery;
 

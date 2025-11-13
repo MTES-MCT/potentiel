@@ -15,19 +15,17 @@ EtantDonné(
     const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
       this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({});
 
-    await mediator.send<Lauréat.Achèvement.AttestationConformité.TransmettreAttestationConformitéUseCase>(
-      {
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
-          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-          dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
-          identifiantUtilisateurValue: utilisateur,
-        },
+    await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        attestationValue: attestation,
+        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+        dateValue: date,
+        preuveTransmissionAuCocontractantValue: preuve,
+        identifiantUtilisateurValue: utilisateur,
       },
-    );
+    });
   },
 );
 

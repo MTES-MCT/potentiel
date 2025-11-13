@@ -1,7 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture';
@@ -27,7 +26,7 @@ export class AchèvementWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel> {
+  ): Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel> {
     if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
@@ -41,7 +40,7 @@ export class AchèvementWorld {
       identifiantProjet,
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(date).formatter(),
         attestation.format,
       ),
@@ -50,7 +49,7 @@ export class AchèvementWorld {
       ),
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
         preuve.format,
       ),
