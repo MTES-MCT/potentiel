@@ -7,9 +7,7 @@ import { RécupererConstitutionGarantiesFinancièresPort } from '..';
 
 import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers';
 
-type Event = { version: number; created_at: string; stream_id: string };
-
-export type SubscriptionEvent = (TâchePlanifiéeExecutéeEvent | LauréatNotifiéEvent) & Event;
+export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent | LauréatNotifiéEvent;
 
 export type Execute = Message<
   'System.Lauréat.GarantiesFinancières.Saga.Execute',

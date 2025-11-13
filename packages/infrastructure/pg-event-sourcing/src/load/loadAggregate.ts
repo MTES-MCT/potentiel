@@ -24,16 +24,14 @@ export const loadAggregate: LoadAggregate = async <
   aggregateId: AggregateId,
   parent: TAggregate['parent'],
 ) => {
-  const events = await loadFromStream({
+  const events = await loadFromStream<TDomainEvent>({
     streamId: aggregateId,
   });
   const version = events.length === 0 ? 0 : events[events.length - 1].version;
 
   const aggregate = new ctor(parent, aggregateId, version, publish, loadAggregate);
 
-  const domainEvents = events.map<TDomainEvent>(
-    ({ type, payload }) => ({ type, payload }) as TDomainEvent,
-  );
+  const domainEvents = events.map(({ type, payload }) => ({ type, payload }) as TDomainEvent);
 
   for (const domainEvent of domainEvents) {
     aggregate.apply(domainEvent);

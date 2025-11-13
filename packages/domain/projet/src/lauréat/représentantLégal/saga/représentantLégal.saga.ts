@@ -5,12 +5,9 @@ import { Abandon } from '../..';
 import { Lauréat } from '../../..';
 
 import { handleAbandonAccordé, handleTâchePlanifiéeReprésentantLégalExecutée } from './handlers';
-type Event = { version: number; created_at: string; stream_id: string };
-export type SubscriptionEvent = (
+export type SubscriptionEvent =
   | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
-  | Abandon.AbandonAccordéEvent
-) &
-  Event;
+  | Abandon.AbandonAccordéEvent;
 
 export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 

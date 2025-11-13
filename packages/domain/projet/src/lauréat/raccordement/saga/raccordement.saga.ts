@@ -6,12 +6,9 @@ import { Lauréat, RécupererGRDParVillePort } from '../../..';
 
 import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers';
 
-type Event = { version: number; created_at: string; stream_id: string };
-export type SubscriptionEvent = (
+export type SubscriptionEvent =
   | LauréatNotifiéEvent
-  | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
-) &
-  Event;
+  | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent;
 
 export type Execute = Message<'System.Lauréat.Raccordement.Saga.Execute', SubscriptionEvent>;
 

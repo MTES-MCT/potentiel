@@ -1,4 +1,5 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { Event } from '../../event';
 
@@ -16,11 +17,11 @@ const selectEventsWithPendingAcknowledgement = `
       pa.version = es.version 
    where pa.stream_category = $1 and subscriber_name = $2`;
 
-export const getEventsWithPendingAcknowledgement = async (
+export const getEventsWithPendingAcknowledgement = async <TEvent extends DomainEvent>(
   streamCategory: string,
   subscriberName: string,
 ) => {
-  return await executeSelect<Event>(
+  return await executeSelect<TEvent & Event>(
     selectEventsWithPendingAcknowledgement,
     streamCategory,
     subscriberName,
