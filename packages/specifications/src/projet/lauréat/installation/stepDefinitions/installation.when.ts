@@ -255,20 +255,27 @@ async function enregistrerChangementInstallateur(
 async function enregistrerChangementDispositifDeStockage(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  installateurValue?: string,
+  dispositifDeStockageValue?: Partial<ModifierDispositifDeStockage['dispositifDeStockage']>,
 ) {
-  const { enregistréLe, enregistréPar, installateur, pièceJustificative, raison } =
-    this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture.créer({
-      enregistréPar: this.utilisateurWorld.adminFixture.email,
-      ...(installateurValue && { installateur: installateurValue }),
+  const { enregistréLe, dispositifDeStockage, pièceJustificative, raison } =
+    this.lauréatWorld.installationWorld.enregistrerChangementDispositifDeStockageFixture.créer({
+      dispositifDeStockage:
+        dispositifDeStockageValue?.installationAvecDispositifDeStockage !== undefined
+          ? {
+              // otherwise typescript does not understand that dispositifDeStockageExemple.dispositifDeStockage is not undefined...
+              installationAvecDispositifDeStockage:
+                dispositifDeStockageValue.installationAvecDispositifDeStockage,
+              ...dispositifDeStockageValue,
+            }
+          : undefined,
     });
 
-  await mediator.send<Lauréat.Installation.EnregistrerChangementInstallateurUseCase>({
-    type: 'Lauréat.Installateur.UseCase.EnregistrerChangement',
+  await mediator.send<Lauréat.Installation.EnregistrerChangementDispositifDeStockageUseCase>({
+    type: 'Lauréat.Installation.UseCase.EnregistrerChangementDispositifDeStockage',
     data: {
-      installateurValue: installateur,
-      dateChangementValue: enregistréLe,
-      identifiantUtilisateurValue: enregistréPar,
+      dispositifDeStockageValue: dispositifDeStockage,
+      enregistréLeValue: enregistréLe,
+      enregistréParValue: this.utilisateurWorld.porteurFixture.email,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
       raisonValue: raison,

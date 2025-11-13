@@ -2,6 +2,7 @@ import {
   ConsulterInstallationQuery,
   ConsulterInstallationReadModel,
 } from './consulter/consulterInstallation.query';
+import { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
 import {
   ConsulterDispositifDeStockageQuery,
   ConsulterDispositifDeStockageReadModel,
@@ -67,12 +68,14 @@ export type InstallationUseCase =
   | ModifierInstallateurUseCase
   | ModifierTypologieInstallationUseCase
   | ModifierDispositifDeStockageUseCase
-  | EnregistrerChangementInstallateurUseCase;
+  | EnregistrerChangementInstallateurUseCase
+  | EnregistrerChangementDispositifDeStockageUseCase;
 
 export { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
 export { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase';
 export { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase';
 export { EnregistrerChangementInstallateurUseCase } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.usecase';
+export { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
 
 // Event
 export { InstallationEvent } from './installation.event';
