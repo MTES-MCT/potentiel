@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getBaseUrl, getCandidature } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
@@ -16,7 +15,7 @@ import {
   handleRecoursPasséEnInstruction,
 } from './handlers';
 
-export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
+export type SubscriptionEvent = Éliminé.Recours.RecoursEvent;
 
 export type Execute = Message<'System.Notification.Eliminé.Recours', SubscriptionEvent>;
 

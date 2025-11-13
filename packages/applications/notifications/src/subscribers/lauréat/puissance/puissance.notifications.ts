@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -18,7 +17,7 @@ import {
   handlePuissanceModifiée,
 } from './handlers';
 
-export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
+export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Puissance', SubscriptionEvent>;
 

@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Candidature, IdentifiantProjet } from '.';
@@ -9,7 +8,7 @@ import { Candidature, IdentifiantProjet } from '.';
 import { NotifierLauréatCommand } from './lauréat/notifier/notifierLauréat.command';
 import { NotifierÉliminéCommand } from './éliminé/notifier/notifierÉliminé.command';
 
-export type SubscriptionEvent = Candidature.CandidatureNotifiéeEvent & Event;
+export type SubscriptionEvent = Candidature.CandidatureNotifiéeEvent;
 
 export type Execute = Message<'System.Projet.Saga.Execute', SubscriptionEvent>;
 

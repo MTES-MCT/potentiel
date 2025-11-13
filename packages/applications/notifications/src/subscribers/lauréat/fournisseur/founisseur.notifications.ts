@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../_helpers';
@@ -13,7 +12,7 @@ import {
   handleÉvaluationCarboneSimplifiéeModifiée,
 } from './handlers';
 
-export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
+export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Fournisseur', SubscriptionEvent>;
 

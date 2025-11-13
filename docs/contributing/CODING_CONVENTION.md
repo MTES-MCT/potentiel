@@ -528,7 +528,7 @@ Cette partie de l'infrastructure permet l'alimentation de la partie `Query` et d
 ```typescript
 // file: exemple.projector.ts
 
-export type SubscriptionEvent = (ExempleEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = ExempleEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Exemple', SubscriptionEvent>;
 

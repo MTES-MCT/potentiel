@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Accès } from '@potentiel-domain/projet';
 
 import { accèsRebuildTriggeredProjector } from './accèsRebuildTriggered.projector';
 import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector';
 import { accèsProjetAutoriséProjector } from './accèsProjetAutorisé.projector';
 
-export type SubscriptionEvent = (Accès.AccèsEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = Accès.AccèsEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Accès', SubscriptionEvent>;
 

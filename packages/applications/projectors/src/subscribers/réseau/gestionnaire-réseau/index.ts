@@ -1,16 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { gestionnaireRéseauAjoutéV1Projector } from './gestionnaireRéseauAjoutéV1.projector';
 import { gestionnaireRéseauAjoutéProjector } from './gestionnaireRéseauAjouté.projector';
 import { gestionnaireRéseauRebuildTriggeredProjector } from './gestionnaireRéseauRebuildTriggered.projector';
 
-export type SubscriptionEvent =
-  | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)
-  | RebuildTriggered;
+export type SubscriptionEvent = GestionnaireRéseau.GestionnaireRéseauEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Réseau.Gestionnaire', SubscriptionEvent>;
 

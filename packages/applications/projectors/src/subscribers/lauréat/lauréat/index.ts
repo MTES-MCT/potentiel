@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
@@ -11,7 +11,7 @@ import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauré
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector';
 import { nomProjetModifiéProjector } from './nomProjetModifié.projector';
 
-export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = Lauréat.LauréatEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat', SubscriptionEvent>;
 

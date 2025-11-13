@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -18,7 +17,7 @@ import {
   handleDélaiDemandé,
 } from './handlers';
 
-export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
+export type SubscriptionEvent = Lauréat.Délai.DélaiEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Délai', SubscriptionEvent>;
 

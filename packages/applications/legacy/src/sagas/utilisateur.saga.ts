@@ -1,5 +1,4 @@
 import { Role, UtilisateurEvent } from '@potentiel-domain/utilisateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { createUser } from '../config';
 import { eventStore } from '../config/eventStore.config';
@@ -9,7 +8,7 @@ import { DrealUserInvited } from '../modules/authZ';
 import { Région } from '../modules/dreal/région';
 import { UtilisateurInvité } from '../modules/utilisateur';
 
-export type SubscriptionEvent = UtilisateurEvent & Event;
+export type SubscriptionEvent = UtilisateurEvent;
 
 export type Execute = Message<'System.Saga.Utilisateur', SubscriptionEvent>;
 

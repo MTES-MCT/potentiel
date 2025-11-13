@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger, ok } from '../core/utils';
@@ -9,7 +8,7 @@ import { ProjectDataCorrected, ProjectPuissanceUpdated } from '../modules/projec
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { match } from 'ts-pattern';
 
-export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
+export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 
 export type Execute = Message<'System.Saga.Puissance', SubscriptionEvent>;
 

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
@@ -30,7 +30,7 @@ import {
 import { garantiesFinancièresRebuildTriggeredProjector } from './garantiesFinancièresRebuildTriggered.projector';
 
 export type SubscriptionEvent =
-  | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresEvent
   | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat.GarantiesFinancières', SubscriptionEvent>;
