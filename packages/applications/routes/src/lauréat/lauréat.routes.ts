@@ -11,7 +11,7 @@ export const lister = () => `/laureats`;
 export const changement = {
   nomProjet: {
     enregistrer: (identifiantProjet: string) =>
-      `/laureats/${encodeParameter(identifiantProjet)}/nom-projet/changement/demander`,
+      `/laureats/${encodeParameter(identifiantProjet)}/nom-projet/changement/enregistrer`,
     détails: (identifiantProjet: string, enregistréLe: string) =>
       `/laureats/${encodeParameter(identifiantProjet)}/nom-projet/changement/${enregistréLe}`,
     lister: `/laureats/changements/nom-projet`,
