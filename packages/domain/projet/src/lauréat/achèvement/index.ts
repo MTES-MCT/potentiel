@@ -2,14 +2,25 @@ import {
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query';
+import {
+  ConsulterAttestationConformitéQuery,
+  ConsulterAttestationConformitéReadModel,
+} from './consulter/consulterAttestationConformité.query';
+import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
+import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
+
+// UseCases
+export type AchèvementUseCase =
+  | TransmettreAttestationConformitéUseCase
+  | ModifierAttestationConformitéUseCase;
 
 // Query
-export type AchèvementQuery = ConsulterAchèvementQuery;
+export type AchèvementQuery = ConsulterAchèvementQuery | ConsulterAttestationConformitéQuery;
 
-export type { ConsulterAchèvementQuery };
+export type { ConsulterAchèvementQuery, ConsulterAttestationConformitéQuery };
 
 // ReadModel
-export type { ConsulterAchèvementReadModel };
+export type { ConsulterAchèvementReadModel, ConsulterAttestationConformitéReadModel };
 
 // Entity
 export { AchèvementEntity } from './achèvement.entity';
@@ -17,10 +28,11 @@ export { AchèvementEntity } from './achèvement.entity';
 // ValueTypes
 export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';
 export * as TypeTâchePlanifiéeAchèvement from './typeTâchePlanifiéeAchèvement.valueType';
+export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType';
 
 // Event
 export * from './achèvement.event';
 export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
-// Attestation de conformité
-export * as AttestationConformité from './attestationConformité';
+export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
+export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';

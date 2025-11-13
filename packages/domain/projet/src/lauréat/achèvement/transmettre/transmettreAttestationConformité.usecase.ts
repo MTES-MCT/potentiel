@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 import { TypeDocumentAttestationConformité } from '..';
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
 
