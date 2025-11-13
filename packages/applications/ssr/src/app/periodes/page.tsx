@@ -158,6 +158,9 @@ const getCandidaturesStatsForPeriode = async (
   };
 };
 
+/**
+ * Périodes notifiées, avec au moins un candidat non notifié
+ **/
 async function getPériodesPartiellementNotifiées(appelOffre: string | undefined) {
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
@@ -179,6 +182,7 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
     type: 'Période.Query.ListerPériodes',
     data: {
       identifiantsPériodes,
+      estNotifiée: true,
     },
   });
 
