@@ -178,7 +178,7 @@ const mapToActionsAndInfos = ({
           infos.push('conditions-demande-mainlevée');
         }
         if (!estAbandonné && actuelles.garantiesFinancières.estConstitué()) {
-          actions.push('achèvement.attestationConformité.transmettre');
+          actions.push('achèvement.transmettre');
         }
       }
 

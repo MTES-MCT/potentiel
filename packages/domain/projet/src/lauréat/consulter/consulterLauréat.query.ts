@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined, LeftJoin, Where } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -48,20 +48,8 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
       join: [
-        {
-          entity: 'candidature',
-          on: 'identifiantProjet',
-        },
-        /**
-         * TODO : statut ?
-         */
-        {
-          entity: 'achèvement',
-          on: 'identifiantProjet',
-          where: {
-            estAchevé: Where.equal(false),
-          },
-        },
+        { entity: 'candidature', on: 'identifiantProjet' },
+        { entity: 'achèvement', on: 'identifiantProjet' },
         { entity: 'abandon', on: 'identifiantProjet', type: 'left' },
       ],
     });
