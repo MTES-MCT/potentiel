@@ -8,6 +8,7 @@ import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { Heading5 } from '../../atoms/headings';
 import { ReadMore } from '../../atoms/ReadMore';
+import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 
 import { DétailsDemandeProps } from './DétailsDemande';
 
@@ -23,8 +24,8 @@ export const DemandeRejetée: FC<DemandeRejetéeProps> = ({
     <Heading5>Rejet</Heading5>
     <div>
       Rejetée le{' '}
-      <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />, par{' '}
-      <span className="font-medium">{Email.bind(rejetéePar).formatter()}</span>
+      <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />
+      <DisplayAuteur email={Email.bind(rejetéePar)} />
     </div>
     {réponseSignée && (
       <div className="flex gap-2">

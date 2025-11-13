@@ -14,6 +14,7 @@ import {
 } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { ReadMore } from '../../atoms/ReadMore';
+import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 
 export type DétailsChangementProps = {
   changement: PlainType<{
@@ -56,9 +57,8 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
           <FormattedDate
             className="font-medium"
             date={DateTime.bind(changement.enregistréLe).formatter()}
-          />{' '}
-          par{' '}
-          <span className="font-medium">{Email.bind(changement.enregistréPar).formatter()}</span>
+          />
+          <DisplayAuteur email={Email.bind(changement.enregistréPar)} />
         </div>
         <div className="flex flex-col">{valeurs}</div>
         {changement.raison ? (

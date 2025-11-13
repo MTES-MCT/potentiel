@@ -15,8 +15,8 @@ type DétailsChangementReprésentantLégalProps =
 
 export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprésentantLégalProps> = (
   demande,
-) => {
-  return demande.statut.statut === 'information-enregistrée' ? (
+) =>
+  demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
       title="Changement de représentant légal"
       valeurs={
@@ -45,7 +45,6 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
       title="Changement de représentant légal"
     />
   );
-};
 
 type DétailsValeursReprésentantLégalProps = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;

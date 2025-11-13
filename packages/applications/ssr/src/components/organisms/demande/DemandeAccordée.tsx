@@ -7,6 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { DownloadDocument } from '../../atoms/form/document/DownloadDocument';
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { Heading5 } from '../../atoms/headings';
+import { DisplayAuteur } from '../../atoms/demande/DisplayAuteur';
 
 import { DétailsDemandeProps } from './DétailsDemande';
 
@@ -21,8 +22,8 @@ export const DemandeAccordée: FC<DemandeAccordéeProps> = ({
     <Heading5>Accord</Heading5>
     <div>
       Accordée le{' '}
-      <FormattedDate className="font-medium" date={DateTime.bind(accordéeLe).formatter()} />, par{' '}
-      <span className="font-medium">{Email.bind(accordéePar).formatter()}</span>
+      <FormattedDate className="font-medium" date={DateTime.bind(accordéeLe).formatter()} />
+      <DisplayAuteur email={Email.bind(accordéePar)} />
     </div>
     {réponseSignée && (
       <div className="flex gap-2">
