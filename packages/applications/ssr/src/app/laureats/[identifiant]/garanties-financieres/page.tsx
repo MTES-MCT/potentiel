@@ -61,12 +61,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         });
 
       const achèvement =
-        await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
-          {
-            type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-            data: { identifiantProjetValue: identifiantProjet.formatter() },
-          },
-        );
+        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
+        });
 
       const mainlevée =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
@@ -134,7 +132,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type Props = {
-  achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
+  achèvement: Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel>;
   abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel>;
   actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;

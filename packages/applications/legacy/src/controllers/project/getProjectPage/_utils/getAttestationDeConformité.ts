@@ -22,12 +22,10 @@ export const getAttestationDeConformité = async (
     const utilisateur = Role.convertirEnValueType(rôle);
 
     const attestationConformité =
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        },
-      );
+      await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      });
 
     return Option.isSome(attestationConformité)
       ? {

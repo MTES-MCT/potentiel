@@ -7,7 +7,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAttestationConformitéModifiéeTimelineItemProps = (
-  event: Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent,
+  event: Lauréat.Achèvement.AttestationConformitéModifiéeEvent,
 ): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -20,14 +20,14 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
     date,
     format,
   ).formatter();
 
   const preuveTransmission = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant.format,
   ).formatter();

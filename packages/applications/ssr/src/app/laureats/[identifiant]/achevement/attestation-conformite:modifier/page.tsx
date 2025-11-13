@@ -27,12 +27,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     const attestationConformitéActuelle =
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: { identifiantProjetValue: identifiantProjet },
-        },
-      );
+      await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        data: { identifiantProjetValue: identifiantProjet },
+      });
 
     if (Option.isNone(attestationConformitéActuelle)) {
       return notFound();
@@ -51,7 +49,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (
   identifiantProjet: IdentifiantProjet.ValueType,
-  attestationConformitéActuelle: Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel,
+  attestationConformitéActuelle: Lauréat.Achèvement.ConsulterAttestationConformitéReadModel,
 ) => ModifierAttestationConformitéPageProps;
 const mapToProps: MapToProps = (identifiantProjet, attestationConformitéActuelle) => ({
   identifiantProjet: identifiantProjet.formatter(),

@@ -34,21 +34,19 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Achèvement.AttestationConformité.ModifierAttestationConformitéUseCase>(
-      {
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          attestationValue: attestation,
-          preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
-          dateTransmissionAuCocontractantValue: new Date(
-            dateTransmissionAuCocontractant,
-          ).toISOString(),
-          dateValue: new Date().toISOString(),
-          utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        },
+    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        attestationValue: attestation,
+        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
+        dateTransmissionAuCocontractantValue: new Date(
+          dateTransmissionAuCocontractant,
+        ).toISOString(),
+        dateValue: new Date().toISOString(),
+        utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       },
-    );
+    });
 
     return {
       status: 'success',
