@@ -29,8 +29,5 @@ export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttesta
 // ValueTypes
 export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType';
 
-// Entities
-export * from './attestationConformité.entity';
-
 // Errors
 export * from './attestationConformité.error';

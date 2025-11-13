@@ -44,12 +44,10 @@ export const registerConsulterAchèvementQuery = ({ find }: ConsulterAchèvement
 
 const mapToReadModel = ({
   identifiantProjet,
-  dateAchèvementPrévisionnel,
+  prévisionnel: { date },
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(
-      dateAchèvementPrévisionnel,
-    ),
+    dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(date),
   };
 };

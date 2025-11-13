@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { AttestationConformitéEntity } from '../attestationConformité.entity';
 import { DocumentProjet, IdentifiantProjet } from '../../../..';
 import { TypeDocumentAttestationConformité } from '..';
+import { AchèvementEntity } from '../../achèvement.entity';
 
 export type ConsulterAttestationConformitéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,6 +29,10 @@ export type ConsulterAttestationConformitéDependencies = {
   find: Find;
 };
 
+/**
+ *
+ * @deprecated On maintient cette query en attente de merge avec consulter achèvement
+ */
 export const registerConsulterAttestationConformitéQuery = ({
   find,
 }: ConsulterAttestationConformitéDependencies) => {
@@ -37,15 +41,13 @@ export const registerConsulterAttestationConformitéQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<AttestationConformitéEntity>(
-      `attestation-conformité|${identifiantProjet.formatter()}`,
-    );
+    const result = await find<AchèvementEntity>(`achèvement|${identifiantProjet.formatter()}`);
 
-    if (Option.isNone(result)) {
+    if (Option.isNone(result) || !result.réel) {
       return Option.none;
     }
 
-    return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
+    return mapToReadModel({ ...result, réel: result.réel });
   };
 
   mediator.register(
@@ -54,18 +56,18 @@ export const registerConsulterAttestationConformitéQuery = ({
   );
 };
 
+type MapToReadModelProps = AchèvementEntity & {
+  réel: NonNullable<AchèvementEntity['réel']>;
+};
+
 const mapToReadModel = ({
-  attestationConformité,
-  preuveTransmissionAuCocontractant,
-  dernièreMiseÀJour,
-  identifiantProjetValueType,
-}: AttestationConformitéEntity & {
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterAttestationConformitéReadModel => {
+  réel: { attestationConformité, preuveTransmissionAuCocontractant, dernièreMiseÀJour },
+  identifiantProjet,
+}: MapToReadModelProps): ConsulterAttestationConformitéReadModel => {
   return {
-    identifiantProjet: identifiantProjetValueType,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjetValueType.formatter(),
+      identifiantProjet,
       TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
       DateTime.convertirEnValueType(attestationConformité.date).formatter(),
       attestationConformité.format,
@@ -74,7 +76,7 @@ const mapToReadModel = ({
       preuveTransmissionAuCocontractant.date,
     ),
     preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-      identifiantProjetValueType.formatter(),
+      identifiantProjet,
       TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
       DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.date).formatter(),
       preuveTransmissionAuCocontractant.format,

@@ -11,8 +11,8 @@ export const attestationConformitéTransmiseProjector = async ({
     utilisateur,
   },
 }: Lauréat.Achèvement.AttestationConformité.AttestationConformitéTransmiseEvent) => {
-  await upsertProjection<Lauréat.Achèvement.AttestationConformité.AttestationConformitéEntity>(
-    `attestation-conformité|${identifiantProjet}`,
+  await upsertProjection<Lauréat.Achèvement.AttestationConformité.AchèvementEntity>(
+    `achèvement|${identifiantProjet}`,
     {
       identifiantProjet,
       attestationConformité: { format: attestation.format, date },

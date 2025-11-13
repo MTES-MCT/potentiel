@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -10,7 +10,7 @@ import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
 import { Abandon, StatutLauréat } from '..';
 import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
-import { AttestationConformité } from '../achèvement';
+import { AchèvementEntity } from '../achèvement';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,11 +43,7 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [
-  CandidatureEntity,
-  LeftJoin<AttestationConformité.AttestationConformitéEntity>,
-  LeftJoin<Abandon.AbandonEntity>,
-];
+type LauréatJoins = [CandidatureEntity, AchèvementEntity, LeftJoin<Abandon.AbandonEntity>];
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
@@ -56,8 +52,16 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
           entity: 'candidature',
           on: 'identifiantProjet',
         },
-
-        { entity: 'attestation-conformité', on: 'identifiantProjet', type: 'left' },
+        /**
+         * TODO : statut ?
+         */
+        {
+          entity: 'achèvement',
+          on: 'identifiantProjet',
+          where: {
+            estAchevé: Where.equal(false),
+          },
+        },
         { entity: 'abandon', on: 'identifiantProjet', type: 'left' },
       ],
     });
@@ -86,7 +90,7 @@ const mapToReadModel: MapToReadModel = (
     nomProjet,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
     abandon,
-    'attestation-conformité': attestationConformité,
+    achèvement,
   },
   candidature,
 ) => ({
@@ -102,7 +106,7 @@ const mapToReadModel: MapToReadModel = (
     département,
     région,
   }),
-  statut: attestationConformité
+  statut: achèvement.estAchevé
     ? StatutLauréat.achevé
     : abandon && Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
       ? StatutLauréat.abandonné

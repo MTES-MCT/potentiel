@@ -11,7 +11,7 @@ import { ProducteurEntity } from '../producteur';
 import { ReprésentantLégalEntity } from '../représentantLégal';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '..';
 import { AbandonEntity } from '../abandon';
-import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
+import { AchèvementEntity } from '../achèvement';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -79,8 +79,8 @@ export const registerListerLauréatQuery = ({
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
+        AchèvementEntity,
         LeftJoin<AbandonEntity>,
-        LeftJoin<AttestationConformitéEntity>,
       ]
     >('lauréat', {
       range,
@@ -120,6 +120,16 @@ export const registerListerLauréatQuery = ({
           },
         },
         {
+          entity: 'achèvement',
+          on: 'identifiantProjet',
+          where:
+            statut === 'achevé'
+              ? { estAchevé: Where.equal(true) }
+              : statut === 'actif'
+                ? { estAchevé: Where.equal(false) }
+                : undefined,
+        },
+        {
           entity: 'abandon',
           on: 'identifiantProjet',
           type: 'left',
@@ -128,17 +138,6 @@ export const registerListerLauréatQuery = ({
               ? { statut: Where.equal('accordé') }
               : statut === 'actif'
                 ? { statut: Where.notEqual('accordé') }
-                : undefined,
-        },
-        {
-          entity: 'attestation-conformité',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statut === 'achevé'
-              ? { identifiantProjet: Where.notEqualNull() }
-              : statut === 'actif'
-                ? { identifiantProjet: Where.equalNull() }
                 : undefined,
         },
       ],
@@ -161,8 +160,8 @@ type MapToReadModelProps = (
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
+        AchèvementEntity,
         LeftJoin<AbandonEntity>,
-        LeftJoin<AttestationConformitéEntity>,
       ]
     >,
 ) => LauréatListItemReadModel;
@@ -182,7 +181,7 @@ const mapToReadModel: MapToReadModelProps = ({
     unitéPuissance,
   },
   abandon,
-  'attestation-conformité': attestationConformité,
+  achèvement,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -205,7 +204,7 @@ const mapToReadModel: MapToReadModelProps = ({
     statut:
       abandon?.statut === 'accordé'
         ? StatutLauréat.abandonné
-        : attestationConformité
+        : achèvement.estAchevé
           ? StatutLauréat.achevé
           : StatutLauréat.actif,
   };

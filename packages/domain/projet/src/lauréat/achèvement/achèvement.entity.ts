@@ -1,16 +1,25 @@
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
+
+import { IdentifiantProjet } from '../..';
 
 export type AchèvementEntity = Entity<
   'achèvement',
   {
-    identifiantProjet: string;
-    dateAchèvementPrévisionnel: string;
-    raison:
-      | 'notification'
-      | 'covid'
-      | 'ajout-délai-cdc-30_08_2022'
-      | 'retrait-délai-cdc-30_08_2022'
-      | 'délai-accordé'
-      | 'inconnue';
+    identifiantProjet: IdentifiantProjet.RawType;
+
+    estAchevé: boolean;
+
+    prévisionnel: {
+      date: DateTime.RawType;
+    };
+    réel?: {
+      attestationConformité: { format: string; date: string };
+      preuveTransmissionAuCocontractant: { format: string; date: string };
+      dernièreMiseÀJour: {
+        date: string;
+        utilisateur: string;
+      };
+    };
   }
 >;

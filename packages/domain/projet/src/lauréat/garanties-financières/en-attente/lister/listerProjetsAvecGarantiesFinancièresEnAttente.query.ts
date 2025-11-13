@@ -8,7 +8,7 @@ import { LauréatEntity } from '../../../lauréat.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { StatutLauréat } from '../../..';
 import { AbandonEntity } from '../../../abandon';
-import { AttestationConformitéEntity } from '../../../achèvement/attestationConformité';
+import { AchèvementEntity } from '../../../achèvement';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -67,7 +67,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       total,
     } = await list<
       GarantiesFinancièresEnAttenteEntity,
-      [LauréatEntity, LeftJoin<AbandonEntity>, LeftJoin<AttestationConformitéEntity>]
+      [LauréatEntity, AchèvementEntity, LeftJoin<AbandonEntity>]
     >('projet-avec-garanties-financieres-en-attente', {
       orderBy: { dernièreMiseÀJour: { date: 'descending' } },
       range,
@@ -94,6 +94,16 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
           },
         },
         {
+          entity: 'achèvement',
+          on: 'identifiantProjet',
+          where:
+            statut === 'achevé'
+              ? { estAchevé: Where.equal(true) }
+              : statut === 'actif'
+                ? { estAchevé: Where.equal(false) }
+                : undefined,
+        },
+        {
           entity: 'abandon',
           on: 'identifiantProjet',
           type: 'left',
@@ -102,17 +112,6 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
               ? { statut: Where.equal('accordé') }
               : statut === 'actif'
                 ? { statut: Where.notEqual('accordé') }
-                : undefined,
-        },
-        {
-          entity: 'attestation-conformité',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statut === 'achevé'
-              ? { identifiantProjet: Where.notEqualNull() }
-              : statut === 'actif'
-                ? { identifiantProjet: Where.equalNull() }
                 : undefined,
         },
       ],
@@ -138,10 +137,10 @@ const mapToReadModel = ({
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
   abandon,
-  'attestation-conformité': attestationConformité,
+  achèvement,
 }: GarantiesFinancièresEnAttenteEntity &
   Joined<
-    [LauréatEntity, LeftJoin<AbandonEntity>, LeftJoin<AttestationConformitéEntity>]
+    [LauréatEntity, LeftJoin<AbandonEntity>, AchèvementEntity]
   >): GarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -150,7 +149,7 @@ const mapToReadModel = ({
   statut:
     abandon?.statut === 'accordé'
       ? StatutLauréat.abandonné
-      : attestationConformité
+      : achèvement?.estAchevé
         ? StatutLauréat.achevé
         : StatutLauréat.actif,
   dernièreMiseÀJour: {
