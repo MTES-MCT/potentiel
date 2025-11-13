@@ -3,7 +3,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../..';
 
-export type ChangementInstallateurnregistréEvent = DomainEvent<
+export type ChangementInstallateurEnregistréEvent = DomainEvent<
   'ChangementInstallateurEnregistré-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;

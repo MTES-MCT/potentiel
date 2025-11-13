@@ -82,6 +82,7 @@ export { InstallateurModifiéEvent } from './installateur/modifier/modifierInsta
 export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 export { DispositifDeStockageModifiéEvent } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.event';
 export { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
+export { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
@@ -89,6 +90,7 @@ export { registerInstallationQueries, registerInstallationUseCases } from './ins
 // Entities
 export * from './installation.entity';
 export * from './installateur/changement/changementInstallateur.entity';
+export * from './dispositif-de-stockage/changement/changementDispositifDeStockage.entity';
 
 // Value type
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';
