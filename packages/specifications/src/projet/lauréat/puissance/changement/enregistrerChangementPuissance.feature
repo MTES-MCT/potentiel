@@ -25,7 +25,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
     Scénario: Enregistrer un changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour un projet dont l'AO requiert la puissance de site
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | puissance de site | <Puissance de site> |
             | ratio puissance   | <Ratio>             |

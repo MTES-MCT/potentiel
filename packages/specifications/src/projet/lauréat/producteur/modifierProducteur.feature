@@ -51,7 +51,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
             | appel d'offres | Eolien |
             | période        | 1      |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
@@ -67,7 +67,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 1               |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
 

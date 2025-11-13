@@ -24,7 +24,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"

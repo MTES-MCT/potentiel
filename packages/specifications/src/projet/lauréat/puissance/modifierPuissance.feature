@@ -18,7 +18,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
     Scénario: Modifier la puissance et la puissance de site d'un projet lauréat par un admin
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance de site | 2 |
             | ratio puissance         | 2 |
@@ -31,7 +31,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
     Scénario: Modifier uniquement la puissance de site d'un projet lauréat par un admin
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-        Et la dreal "Dreal du sud" associée à la région du projet
+        Et la dreal "Dreal du nord" associée à la région du projet
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance de site | 2 |
             | ratio puissance         | 1 |
