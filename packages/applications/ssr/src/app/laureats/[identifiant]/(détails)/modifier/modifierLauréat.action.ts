@@ -2,7 +2,7 @@
 
 import { mediator } from 'mediateur';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Accès, Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -43,6 +43,19 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
+
+      if (candidature.emailContact) {
+        await mediator.send<Accès.RemplacerAccèsProjetUseCase>({
+          type: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            identifiantUtilisateurValue: candidatureACorriger.dépôt.emailContact.formatter(),
+            nouvelIdentifiantUtilisateurValue: candidature.emailContact,
+            remplacéParValue: utilisateur.identifiantUtilisateur.formatter(),
+            remplacéLeValue: new Date().toISOString(),
+          },
+        });
+      }
     }
 
     if (laureat) {
