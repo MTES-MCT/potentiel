@@ -21,24 +21,19 @@ export const getAttestationDeConformité = async (
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
-    const attestationConformité =
-      await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
-    return Option.isSome(attestationConformité)
+    return Option.isSome(achèvement) && achèvement.estAchevé
       ? {
-          date: new Date(
-            attestationConformité.preuveTransmissionAuCocontractant.dateCréation,
-          ).getTime(),
-          attestation: attestationConformité.attestation.formatter(),
+          date: new Date(achèvement.preuveTransmissionAuCocontractant.dateCréation).getTime(),
+          attestation: achèvement.attestation.formatter(),
           preuveTransmissionAuCocontractant:
-            attestationConformité.preuveTransmissionAuCocontractant.formatter(),
+            achèvement.preuveTransmissionAuCocontractant.formatter(),
           identifiantProjet: identifiantProjet.formatter(),
-          permissionModifier: utilisateur.aLaPermission(
-            'achèvement.attestationConformité.modifier',
-          ),
+          permissionModifier: utilisateur.aLaPermission('achèvement.modifier'),
         }
       : undefined;
   } catch (error) {

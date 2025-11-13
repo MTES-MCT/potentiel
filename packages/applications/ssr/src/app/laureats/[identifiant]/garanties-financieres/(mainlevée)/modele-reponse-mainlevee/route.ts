@@ -46,13 +46,12 @@ export const GET = async (
           },
         });
 
-      const achèvement =
-        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: {
-            identifiantProjetValue,
-          },
-        });
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue,
+        },
+      });
 
       let abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel> = Option.none;
 
@@ -98,7 +97,9 @@ export const GET = async (
             .some(({ motif }) => motif.estProjetAchevé())
             .none(() => false),
           dateTransmissionAuCocontractant: formatDateForDocument(
-            Option.isSome(achèvement) ? achèvement.dateTransmissionAuCocontractant.date : undefined,
+            Option.isSome(achèvement) && achèvement.estAchevé
+              ? achèvement.dateTransmissionAuCocontractant.date
+              : undefined,
           ),
           estMotifAbandon: Option.match(mainlevéeEnCours)
             .some(({ motif }) => motif.estProjetAbandonné())

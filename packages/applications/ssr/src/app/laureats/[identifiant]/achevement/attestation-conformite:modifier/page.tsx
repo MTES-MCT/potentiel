@@ -26,17 +26,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
-    const attestationConformitéActuelle =
-      await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: { identifiantProjetValue: identifiantProjet },
-      });
+    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+      data: { identifiantProjetValue: identifiantProjet },
+    });
 
-    if (Option.isNone(attestationConformitéActuelle)) {
+    if (Option.isNone(achèvement) || !achèvement.estAchevé) {
       return notFound();
     }
 
-    const props = mapToProps(projet.identifiantProjet, attestationConformitéActuelle);
+    const props = mapToProps(projet.identifiantProjet, achèvement);
 
     return (
       <ModifierAttestationConformitéPage
@@ -49,15 +48,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (
   identifiantProjet: IdentifiantProjet.ValueType,
-  attestationConformitéActuelle: Lauréat.Achèvement.ConsulterAttestationConformitéReadModel,
+  achèvement: Lauréat.Achèvement.ConsulterAchèvementAchevéReadModel,
 ) => ModifierAttestationConformitéPageProps;
-const mapToProps: MapToProps = (identifiantProjet, attestationConformitéActuelle) => ({
+const mapToProps: MapToProps = (
+  identifiantProjet,
+  { attestation, preuveTransmissionAuCocontractant, dateTransmissionAuCocontractant },
+) => ({
   identifiantProjet: identifiantProjet.formatter(),
   attestationConformitéActuelle: {
-    attestation: attestationConformitéActuelle.attestation.formatter(),
-    preuveTransmissionAuCocontractant:
-      attestationConformitéActuelle.preuveTransmissionAuCocontractant.formatter(),
-    dateTransmissionAuCocontractant:
-      attestationConformitéActuelle.dateTransmissionAuCocontractant.formatter(),
+    attestation: attestation.formatter(),
+    preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant.formatter(),
+    dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
   },
 });

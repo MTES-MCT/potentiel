@@ -4,7 +4,6 @@ import {
   ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query';
-import { registerConsulterAttestationConformitéQuery } from './consulter/consulterAttestationConformité.query';
 import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command';
 import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
@@ -26,5 +25,4 @@ export type AchèvementQueryDependencies = ConsulterAchèvementDependencies;
 
 export const registerAchèvementQueries = (dependencies: AchèvementQueryDependencies) => {
   registerConsulterAchèvementQuery(dependencies);
-  registerConsulterAttestationConformitéQuery(dependencies);
 };

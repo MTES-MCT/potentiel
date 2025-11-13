@@ -1,11 +1,8 @@
 import {
+  ConsulterAchèvementAchevéReadModel,
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query';
-import {
-  ConsulterAttestationConformitéQuery,
-  ConsulterAttestationConformitéReadModel,
-} from './consulter/consulterAttestationConformité.query';
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 
@@ -17,12 +14,12 @@ export type AchèvementUseCase =
 export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformitéUseCase };
 
 // Query
-export type AchèvementQuery = ConsulterAchèvementQuery | ConsulterAttestationConformitéQuery;
+export type AchèvementQuery = ConsulterAchèvementQuery;
 
-export type { ConsulterAchèvementQuery, ConsulterAttestationConformitéQuery };
+export type { ConsulterAchèvementQuery };
 
 // ReadModel
-export type { ConsulterAchèvementReadModel, ConsulterAttestationConformitéReadModel };
+export type { ConsulterAchèvementReadModel, ConsulterAchèvementAchevéReadModel };
 
 // Entity
 export { AchèvementEntity } from './achèvement.entity';

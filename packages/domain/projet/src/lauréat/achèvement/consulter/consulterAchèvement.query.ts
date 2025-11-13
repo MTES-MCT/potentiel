@@ -2,15 +2,32 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AchèvementEntity } from '../achèvement.entity';
-import { DateAchèvementPrévisionnel } from '..';
-import { IdentifiantProjet } from '../../..';
+import { DateAchèvementPrévisionnel, TypeDocumentAttestationConformité } from '..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 
-export type ConsulterAchèvementReadModel = {
+export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
+  estAchevé: true;
+  attestation: DocumentProjet.ValueType;
+  dateTransmissionAuCocontractant: DateTime.ValueType;
+  preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
+  misÀJourLe: DateTime.ValueType;
+  misÀJourPar: Email.ValueType;
 };
+
+export type ConsulterAchèvementNonAchevéReadModel = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
+  estAchevé: false;
+};
+
+export type ConsulterAchèvementReadModel =
+  | ConsulterAchèvementAchevéReadModel
+  | ConsulterAchèvementNonAchevéReadModel;
 
 export type ConsulterAchèvementQuery = Message<
   'Lauréat.Achèvement.Query.ConsulterAchèvement',
@@ -44,10 +61,41 @@ export const registerConsulterAchèvementQuery = ({ find }: ConsulterAchèvement
 
 const mapToReadModel = ({
   identifiantProjet,
-  prévisionnel: { date },
+  prévisionnel: { date: dateAchèvementPrévisionnel },
+  réel,
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
-  return {
+  const common = {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(date),
+    dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(
+      dateAchèvementPrévisionnel,
+    ),
+  };
+  if (!réel) {
+    return {
+      ...common,
+      estAchevé: false,
+    };
+  }
+  const { attestationConformité, dernièreMiseÀJour, preuveTransmissionAuCocontractant } = réel;
+  return {
+    ...common,
+    estAchevé: true,
+    attestation: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+      DateTime.convertirEnValueType(attestationConformité.date).formatter(),
+      attestationConformité.format,
+    ),
+    dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
+      preuveTransmissionAuCocontractant.date,
+    ),
+    preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+      DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.date).formatter(),
+      preuveTransmissionAuCocontractant.format,
+    ),
+    misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+    misÀJourPar: Email.convertirEnValueType(dernièreMiseÀJour.utilisateur),
   };
 };

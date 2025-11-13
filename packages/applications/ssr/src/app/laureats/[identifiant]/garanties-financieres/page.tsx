@@ -33,7 +33,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      await récupérerLauréat(identifiantProjet.formatter());
+      const { statut } = await récupérerLauréat(identifiantProjet.formatter());
 
       const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
@@ -57,12 +57,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const dépôtEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        });
-
-      const achèvement =
-        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
@@ -90,16 +84,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
       const data = {
-        achèvement,
-        abandon,
+        statut,
         actuelles,
         dépôtEnCours,
         mainlevée,
@@ -132,8 +118,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type Props = {
-  achèvement: Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel>;
-  abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  statut: Lauréat.StatutLauréat.ValueType;
   actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
@@ -145,8 +130,7 @@ type Props = {
 };
 
 const mapToActionsAndInfos = ({
-  abandon,
-  achèvement,
+  statut,
   utilisateur,
   actuelles,
   dépôtEnCours,
@@ -155,10 +139,8 @@ const mapToActionsAndInfos = ({
   const actions: ActionGarantiesFinancières[] = [];
   const infos: DétailsGarantiesFinancièresPageProps['infos'] = [];
 
-  const estAbandonné = Option.match(abandon)
-    .some((abandon) => abandon.statut.estAccordé())
-    .none(() => false);
-  const estAchevé = Option.isSome(achèvement);
+  const estAchevé = statut.estAchevé();
+  const estAbandonné = statut.estAbandonné();
   const estAchevéOuAbandonné = estAchevé || estAbandonné;
   const aUnDépôtEnCours = Option.isSome(dépôtEnCours);
 
@@ -231,7 +213,7 @@ const mapToProps = ({
   mainlevée,
   mainlevéesRejetées,
   archivesGarantiesFinancières,
-  achèvement,
+  statut,
   accès,
   appelOffres,
 }: Props) => {
@@ -241,7 +223,7 @@ const mapToProps = ({
     mainlevée: mapToPlainObject(mainlevée),
     mainlevéesRejetées: mainlevéesRejetées.items.map(mapToPlainObject),
     archivesGarantiesFinancières: archivesGarantiesFinancières.map(mapToPlainObject),
-    motifMainlevée: Option.isSome(achèvement)
+    motifMainlevée: statut.estAchevé()
       ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAchevé
       : Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAbandonné,
     contactPorteurs: Option.match(accès)
