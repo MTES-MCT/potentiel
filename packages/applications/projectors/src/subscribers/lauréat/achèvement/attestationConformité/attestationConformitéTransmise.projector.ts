@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const attestationConformitéTransmiseProjector = async ({
   payload: {
@@ -10,17 +10,18 @@ export const attestationConformitéTransmiseProjector = async ({
     dateTransmissionAuCocontractant,
     utilisateur,
   },
-}: Lauréat.Achèvement.AttestationConformité.AttestationConformitéTransmiseEvent) => {
-  await upsertProjection<Lauréat.Achèvement.AttestationConformité.AchèvementEntity>(
+}: Lauréat.Achèvement.AttestationConformitéTransmiseEvent) => {
+  await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
     `achèvement|${identifiantProjet}`,
     {
-      identifiantProjet,
-      attestationConformité: { format: attestation.format, date },
-      preuveTransmissionAuCocontractant: {
-        format: preuveTransmissionAuCocontractant.format,
-        date: dateTransmissionAuCocontractant,
+      réel: {
+        attestationConformité: { format: attestation.format, date },
+        preuveTransmissionAuCocontractant: {
+          format: preuveTransmissionAuCocontractant.format,
+          date: dateTransmissionAuCocontractant,
+        },
+        dernièreMiseÀJour: { date, utilisateur },
       },
-      dernièreMiseÀJour: { date, utilisateur },
     },
   );
 };

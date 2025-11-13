@@ -19,7 +19,7 @@ export type SubscriptionEvent =
   | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | (Lauréat.Raccordement.RaccordementEvent & Event)
-  | (Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent & Event)
+  | (Lauréat.Achèvement.AchèvementEvent & Event)
   | (Lauréat.LauréatEvent & Event)
   | RebuildTriggered;
 
