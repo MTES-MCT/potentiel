@@ -14,6 +14,7 @@ export const attestationConformitéTransmiseProjector = async ({
   await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
     `achèvement|${identifiantProjet}`,
     {
+      estAchevé: true,
       réel: {
         attestationConformité: { format: attestation.format, date },
         preuveTransmissionAuCocontractant: {
