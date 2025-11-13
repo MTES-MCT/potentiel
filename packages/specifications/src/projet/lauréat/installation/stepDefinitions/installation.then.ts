@@ -116,7 +116,7 @@ Alors(
 );
 
 Alors(
-  "le changement d'installateur enregistré devrait être consultable",
+  "le changement d'installateur devrait être consultable",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;

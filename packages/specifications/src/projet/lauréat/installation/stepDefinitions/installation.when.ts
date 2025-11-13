@@ -122,6 +122,35 @@ Quand(
   },
 );
 
+Quand(
+  'le porteur enregistre un changement de dispositif de stockage du projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementDispositifDeStockage.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de dispositif de stockage du projet lauréat avec une valeur identique',
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementDispositifDeStockage.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -200,6 +229,30 @@ async function modifierDispositifDeStockage(
 }
 
 async function enregistrerChangementInstallateur(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  installateurValue?: string,
+) {
+  const { enregistréLe, enregistréPar, installateur, pièceJustificative, raison } =
+    this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture.créer({
+      enregistréPar: this.utilisateurWorld.adminFixture.email,
+      ...(installateurValue && { installateur: installateurValue }),
+    });
+
+  await mediator.send<Lauréat.Installation.EnregistrerChangementInstallateurUseCase>({
+    type: 'Lauréat.Installateur.UseCase.EnregistrerChangement',
+    data: {
+      installateurValue: installateur,
+      dateChangementValue: enregistréLe,
+      identifiantUtilisateurValue: enregistréPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: pièceJustificative,
+      raisonValue: raison,
+    },
+  });
+}
+
+async function enregistrerChangementDispositifDeStockage(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   installateurValue?: string,
