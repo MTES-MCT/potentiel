@@ -3,8 +3,7 @@ import { retry, ExponentialBackoff, handleAll, FailureReason } from 'cockatiel';
 
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { Event } from '../event';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
@@ -15,9 +14,10 @@ import { listSubscribers } from './subscriber/listSubscribers';
 let isReconnecting = false;
 let client: Client | undefined;
 
-const eventStreamEmitters = new Map<string, EventStreamEmitter>();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const eventStreamEmitters = new Map<string, EventStreamEmitter<any>>();
 
-export const subscribe = async <TEvent extends Event = Event>(
+export const subscribe = async <TEvent extends DomainEvent = DomainEvent>(
   subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {
   if (!client) {
@@ -28,12 +28,12 @@ export const subscribe = async <TEvent extends Event = Event>(
 
   await registerSubscriber(subscriber);
 
-  const eventStreamEmitter = new EventStreamEmitter(client, {
+  const eventStreamEmitter = new EventStreamEmitter<TEvent>(client, {
     eventHandler: subscriber.eventHandler,
     eventType: subscriber.eventType,
     name: subscriber.name,
     streamCategory: subscriber.streamCategory,
-  } as Subscriber);
+  });
 
   await eventStreamEmitter.listen();
 

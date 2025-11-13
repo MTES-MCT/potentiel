@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { fournisseurImportéProjector } from './fournisseurImporté.projector';
@@ -10,7 +10,7 @@ import { évaluationCarboneModifiéeProjector } from './évaluationCarboneModifi
 import { changementFournisseurEnregistréProjector } from './changementFournisseurEnregistré.projector';
 import { fournisseurModifiéProjector } from './fournisseurModifié.projector';
 
-export type SubscriptionEvent = (Lauréat.Fournisseur.FournisseurEvent | RebuildTriggered) & Event;
+export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat.Fournisseur', SubscriptionEvent>;
 

@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Période } from '@potentiel-domain/periode';
 
 import { périodeNotifiéeProjector } from './périodeNotifiée.projector';
 import { périodeRebuildTriggered } from './périodeRebuildTriggered.projector';
 
-export type SubscriptionEvent = (Période.PériodeNotifiéeEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = Période.PériodeNotifiéeEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Période', SubscriptionEvent>;
 

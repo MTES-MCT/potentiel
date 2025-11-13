@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger, ok } from '../core/utils';
@@ -8,7 +7,7 @@ import { eventStore } from '../config/eventStore.config';
 import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 
-export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent & Event;
+export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent;
 
 export type Execute = Message<'System.Saga.Producteur', SubscriptionEvent>;
 

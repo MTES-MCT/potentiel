@@ -1,9 +1,10 @@
 import { Message, mediator } from 'mediateur';
 import { bulkhead, noop, IPolicy, wrap } from 'cockatiel';
 
-import { Event, Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { runWorkerWithContext } from '@potentiel-applications/request-context';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DomainEvent } from '@potentiel-domain/core';
 
 let globalPolicy: IPolicy | undefined = undefined;
 const getGlobalPolicy = () => {
@@ -21,7 +22,10 @@ const getGlobalPolicy = () => {
 
 export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];
-  const setupSubscription = async <TEvent extends Event, TMessage extends Message<string, TEvent>>({
+  const setupSubscription = async <
+    TEvent extends DomainEvent,
+    TMessage extends Message<string, TEvent>,
+  >({
     messageType,
     eventType,
     name,
@@ -29,7 +33,7 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
   }: {
     messageType: TMessage['type'];
     eventType: Subscriber<TEvent>['eventType'];
-    name: 'projector' | 'notifications' | 'saga' | 'historique' | string;
+    name: 'projector' | 'history' | 'notifications' | 'historique' | `${string}-saga`;
     maxConcurrency?: number;
   }): Promise<void> => {
     const policy = maxConcurrency

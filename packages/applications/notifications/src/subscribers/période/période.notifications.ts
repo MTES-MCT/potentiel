@@ -2,13 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Période } from '@potentiel-domain/periode';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { SendEmail } from '../../sendEmail';
 
 import { handlePériodeNotifiée } from './handlers';
 
-export type SubscriptionEvent = Période.PériodeEvent & Event;
+export type SubscriptionEvent = Période.PériodeEvent;
 
 export type Execute = Message<'System.Notification.Période', SubscriptionEvent>;
 

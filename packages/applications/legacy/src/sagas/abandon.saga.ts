@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { publishToEventBus } from '../config/eventBus.config';
 import { ProjectAbandoned } from '../modules/project';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
@@ -10,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 /**
  * @deprecated à bouger dans la nouvelle app
  */
-export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
+export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent;
 
 /**
  * @deprecated à bouger dans la nouvelle app

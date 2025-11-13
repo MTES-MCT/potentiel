@@ -4,6 +4,7 @@ import { Client } from 'pg';
 import format from 'pg-format';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { isEvent, Event } from '../event';
 
@@ -19,11 +20,11 @@ import { Subscriber } from './subscriber/subscriber';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
-export class EventStreamEmitter extends EventEmitter {
+export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extends EventEmitter {
   #client: Client;
-  #subscriber: Subscriber;
+  #subscriber: Subscriber<TEvent>;
 
-  constructor(client: Client, subscriber: Subscriber) {
+  constructor(client: Client, subscriber: Subscriber<TEvent>) {
     super();
     this.setMaxListeners(3);
     this.#subscriber = subscriber;
@@ -32,7 +33,7 @@ export class EventStreamEmitter extends EventEmitter {
     this.#setupListener();
   }
 
-  public get subscriber(): Subscriber {
+  public get subscriber(): Subscriber<TEvent> {
     return this.#subscriber;
   }
 
@@ -134,7 +135,7 @@ export class EventStreamEmitter extends EventEmitter {
   }
 
   #setupDomainEventListener() {
-    this.on('domain-event' satisfies ChannelName, async (event: Event) => {
+    this.on('domain-event' satisfies ChannelName, async (event: TEvent & Event) => {
       try {
         await this.#subscriber.eventHandler(event);
         await acknowledge({

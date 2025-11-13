@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectNotified } from '../modules/project';
@@ -8,7 +7,7 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger } from '../core/utils';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 
-export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent & Event;
+export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent;
 
 export type Execute = Message<'System.Saga.Éliminé', SubscriptionEvent>;
 

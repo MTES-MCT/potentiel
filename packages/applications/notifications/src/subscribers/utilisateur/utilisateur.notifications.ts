@@ -1,14 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { PorteurInvitéEvent, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '../../sendEmail';
 
 import { handlePorteurInvité, handleUtilisateurInvité } from './handlers';
 
-export type SubscriptionEvent = (PorteurInvitéEvent | UtilisateurInvitéEvent) & Event;
+export type SubscriptionEvent = PorteurInvitéEvent | UtilisateurInvitéEvent;
 
 export type Execute = Message<'System.Notification.Utilisateur', SubscriptionEvent>;
 

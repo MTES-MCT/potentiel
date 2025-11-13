@@ -1,7 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Accès } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { createUser } from '../config';
 import { eventStore } from '../config/eventStore.config';
@@ -14,7 +13,7 @@ import {
   UserRightsToProjectRevoked,
 } from '../modules/authZ';
 
-export type SubscriptionEvent = Accès.AccèsEvent & Event;
+export type SubscriptionEvent = Accès.AccèsEvent;
 
 export type Execute = Message<'System.Saga.Accès', SubscriptionEvent>;
 

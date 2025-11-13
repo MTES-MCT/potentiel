@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ProjectCompletionDueDateSet } from '../modules/project';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger } from '../core/utils';
@@ -7,7 +6,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config';
 import { DateTime } from '@potentiel-domain/common';
 
-export type SubscriptionEvent = Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent & Event;
+export type SubscriptionEvent = Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent;
 
 export type Execute = Message<'System.Saga.Achèvement', SubscriptionEvent>;
 

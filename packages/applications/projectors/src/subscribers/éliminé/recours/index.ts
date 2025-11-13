@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { recoursDemandéProjector } from './recoursDemandé.projector';
@@ -11,7 +11,7 @@ import { recoursAnnuléProjector } from './recoursAnnulé.projector';
 import { recoursPasséEnInstructionProjector } from './recoursPasséEnInstruction.projector';
 import { recoursRebuildTriggeredProjector } from './recoursRebuildTriggered.projector';
 
-export type SubscriptionEvent = (Éliminé.Recours.RecoursEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = Éliminé.Recours.RecoursEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Eliminé.Recours', SubscriptionEvent>;
 
