@@ -1,10 +1,10 @@
+import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
-
-import { installationNotificationTemplateId } from '../constant.js';
-import { InstallationNotificationsProps } from '../type.js';
+import { installationNotificationTemplateId } from "../constant.js";
+import { InstallationNotificationsProps } from "../type.js";
 
 export const handleDispositifDeStockageModifié = async ({
   sendEmail,

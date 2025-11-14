@@ -1,12 +1,12 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match } from 'ts-pattern';
+import { getLauréat } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
-import { handleAttestationConformitéTransmise } from './handlers.js';
+import { handleAttestationConformitéTransmise } from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent;
 

@@ -1,15 +1,13 @@
 import { mediator } from 'mediateur';
+import { listerDrealsRecipients } from '@/helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '@/helpers';
-
-import { représentantLégalNotificationTemplateId } from '../constant.js';
-
-import { RegisterReprésentantLégalNotificationDependencies } from '...js';
+import { RegisterReprésentantLégalNotificationDependencies } from "...js";
+import { représentantLégalNotificationTemplateId } from "../constant.js";
 
 type ChangementReprésentantLégalCorrigéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];

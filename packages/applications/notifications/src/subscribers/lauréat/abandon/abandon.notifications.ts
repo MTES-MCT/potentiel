@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
+import { getLauréat } from '@/helpers';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
 import {
@@ -15,7 +15,7 @@ import {
   handleAbandonRejeté,
   handleConfirmationAbandonDemandée,
   handlePreuveRecandidatureDemandée,
-} from './handlers.js';
+} from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent;
 

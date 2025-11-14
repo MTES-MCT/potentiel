@@ -1,11 +1,10 @@
+import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
-
-import { représentantLégalNotificationTemplateId } from '../constant.js';
-
-import { RegisterReprésentantLégalNotificationDependencies } from '...js';
+import { RegisterReprésentantLégalNotificationDependencies } from "...js";
+import { représentantLégalNotificationTemplateId } from "../constant.js";
 
 type ChangementReprésentantLégalAccordéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];

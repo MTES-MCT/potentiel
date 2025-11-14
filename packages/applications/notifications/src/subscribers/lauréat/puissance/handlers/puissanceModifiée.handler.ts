@@ -1,10 +1,10 @@
+import { listerPorteursRecipients } from '@/helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '@/helpers';
-
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+import { puissanceNotificationTemplateId } from "../constant.js";
+import { PuissanceNotificationsProps } from "../type.js";
 
 export const handlePuissanceModifiée = async ({
   sendEmail,

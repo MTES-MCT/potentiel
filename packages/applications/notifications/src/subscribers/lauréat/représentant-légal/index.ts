@@ -1,18 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
+import { getBaseUrl, getLauréat } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
-import { changementReprésentantLégalAccordéNotification } from './handlers/changementReprésentantLégalAccordé.notification.js';
-import { changementReprésentantLégalAnnuléNotification } from './handlers/changementReprésentantLégalAnnulé.notification.js';
-import { changementReprésentantLégalCorrigéNotification } from './handlers/changementReprésentantLégalCorrigé.notification.js';
-import { changementReprésentantLégalDemandéNotification } from './handlers/changementReprésentantLégalDemandé.notification.js';
-import { changementReprésentantLégalRejetéNotification } from './handlers/changementReprésentantLégalRejeté.notification.js';
-import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification.js';
-import { changementReprésentantLégalEnregistréNotification } from './handlers/changementReprésentantLégalEnregistré.notification.js';
+import { changementReprésentantLégalAccordéNotification } from "./handlers/changementReprésentantLégalAccordé.notification.js";
+import { changementReprésentantLégalAnnuléNotification } from "./handlers/changementReprésentantLégalAnnulé.notification.js";
+import { changementReprésentantLégalCorrigéNotification } from "./handlers/changementReprésentantLégalCorrigé.notification.js";
+import { changementReprésentantLégalDemandéNotification } from "./handlers/changementReprésentantLégalDemandé.notification.js";
+import { changementReprésentantLégalRejetéNotification } from "./handlers/changementReprésentantLégalRejeté.notification.js";
+import { représentantLégalModifiéNotification } from "./représentantLégalModifié.notification.js";
+import { changementReprésentantLégalEnregistréNotification } from "./handlers/changementReprésentantLégalEnregistré.notification.js";
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent;
 

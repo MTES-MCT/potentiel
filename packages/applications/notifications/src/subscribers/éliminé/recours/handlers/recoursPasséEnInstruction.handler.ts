@@ -1,10 +1,10 @@
+import { getBaseUrl, listerPorteursRecipients } from '@/helpers';
+
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '@/helpers';
-
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+import { recoursNotificationTemplateId } from "../constant.js";
+import { RecoursNotificationsProps } from "../type.js";
 
 export const handleRecoursPasséEnInstruction = async ({
   sendEmail,

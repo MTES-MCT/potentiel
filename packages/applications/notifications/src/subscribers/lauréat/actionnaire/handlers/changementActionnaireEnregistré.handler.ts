@@ -1,10 +1,10 @@
+import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
-
-import { RegisterActionnaireNotificationDependencies } from '../actionnaire.notifications.js';
-import { actionnaireNotificationTemplateId } from '../constant.js';
+import { RegisterActionnaireNotificationDependencies } from "../actionnaire.notifications.js";
+import { actionnaireNotificationTemplateId } from "../constant.js";
 
 type ChangementActionnaireEnregistréNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];

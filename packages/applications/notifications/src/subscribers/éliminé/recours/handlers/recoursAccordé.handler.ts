@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '@/helpers';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '@/helpers';
-
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+import { recoursNotificationTemplateId } from "../constant.js";
+import { RecoursNotificationsProps } from "../type.js";
 
 export const handleRecoursAccordé = async ({
   sendEmail,

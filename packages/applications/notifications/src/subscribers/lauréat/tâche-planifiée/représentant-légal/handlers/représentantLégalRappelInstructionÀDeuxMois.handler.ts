@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
+import { listerDrealsRecipients, getCahierDesChargesLauréat } from '@/helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, getCahierDesChargesLauréat } from '@/helpers';
-
-import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';
+import { TâchePlanifiéeReprésentantLégalNotificationProps } from "../tâche-planifiée.représentantLégal.notifications.js";
 
 export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   sendEmail,

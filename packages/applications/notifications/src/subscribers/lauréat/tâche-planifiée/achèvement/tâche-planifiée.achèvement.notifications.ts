@@ -4,7 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleRelanceÉchéanceAchèvement } from './handlers/.js';
+import { handleRelanceÉchéanceAchèvement } from "./handlers/.js";
 
 type TâchePlanifiéeExecutéeAchèvementEventPayload = {
   typeTâchePlanifiée: Lauréat.Achèvement.TypeTâchePlanifiéeAchèvement.RawType;
