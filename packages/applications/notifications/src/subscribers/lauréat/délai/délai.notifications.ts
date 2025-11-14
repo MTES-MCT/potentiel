@@ -15,7 +15,7 @@ import {
   handleDemandeDélaiPasséeEnInstruction,
   handleDemandeDélaiRejetée,
   handleDélaiDemandé,
-} from './handlers';
+} from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent;
 

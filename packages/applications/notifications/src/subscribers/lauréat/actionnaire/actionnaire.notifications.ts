@@ -13,7 +13,7 @@ import {
   handleChangementActionnaireDemandé,
   handleChangementActionnaireEnregistré,
   handleChangementActionnaireRejeté,
-} from './handlers';
+} from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Actionnaire.ActionnaireEvent;
 

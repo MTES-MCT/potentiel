@@ -4,7 +4,7 @@ import { getBaseUrl, NotificationHandlerProps } from '@/helpers';
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { utilisateurNotificationTemplateId } from '../constant';
+import { utilisateurNotificationTemplateId } from "../constant.js";
 
 export async function handleUtilisateurInvité({
   event: {

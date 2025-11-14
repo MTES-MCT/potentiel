@@ -6,8 +6,8 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler';
-import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler';
+import { handleCahierDesChargesChoisi } from "./handlers/cahierDesChargesChoisi.handler.js";
+import { handleChangementNomProjetEnregistré } from "./handlers/changementNomProjetEnregistré.handler.js";
 
 export type SubscriptionEvent = Lauréat.LauréatEvent;
 

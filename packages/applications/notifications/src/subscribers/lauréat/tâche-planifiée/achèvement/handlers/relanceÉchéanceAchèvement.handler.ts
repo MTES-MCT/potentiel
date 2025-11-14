@@ -3,7 +3,7 @@ import { listerPorteursRecipients, listerDrealsRecipients } from '@/helpers';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { TâchePlanifiéeAchèvementNotificationProps } from '../tâche-planifiée.achèvement.notifications';
+import { TâchePlanifiéeAchèvementNotificationProps } from "../tâche-planifiée.achèvement.notifications.js";
 
 export const handleRelanceÉchéanceAchèvement = async ({
   sendEmail,

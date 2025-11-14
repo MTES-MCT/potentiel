@@ -10,7 +10,7 @@ import {
   handleChangementFournisseurEnregistré,
   handleFournisseurModifié,
   handleÉvaluationCarboneSimplifiéeModifiée,
-} from './handlers';
+} from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent;
 

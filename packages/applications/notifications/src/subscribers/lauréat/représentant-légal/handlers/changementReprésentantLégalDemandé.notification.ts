@@ -4,8 +4,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { RegisterReprésentantLégalNotificationDependencies } from '..';
-import { représentantLégalNotificationTemplateId } from '../constant';
+import { RegisterReprésentantLégalNotificationDependencies } from "...js";
+import { représentantLégalNotificationTemplateId } from "../constant.js";
 
 type ChangementReprésentantLégalDemandéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];

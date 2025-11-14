@@ -3,7 +3,7 @@ import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { AchèvementNotificationsProps } from '../type';
+import { AchèvementNotificationsProps } from "../type.js";
 
 export const handleAttestationConformitéTransmise = async ({
   sendEmail,

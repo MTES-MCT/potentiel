@@ -3,8 +3,8 @@ import { listerPorteursRecipients } from '@/helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { délaiNotificationTemplateId } from '../constant';
-import { DélaiNotificationsProps } from '../type';
+import { délaiNotificationTemplateId } from "../constant.js";
+import { DélaiNotificationsProps } from "../type.js";
 
 export const handleDemandeDélaiRejetée = async ({
   sendEmail,

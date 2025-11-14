@@ -3,8 +3,8 @@ import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { RegisterActionnaireNotificationDependencies } from '../actionnaire.notifications';
-import { actionnaireNotificationTemplateId } from '../constant';
+import { RegisterActionnaireNotificationDependencies } from "../actionnaire.notifications.js";
+import { actionnaireNotificationTemplateId } from "../constant.js";
 
 type ChangementActionnaireEnregistréNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];

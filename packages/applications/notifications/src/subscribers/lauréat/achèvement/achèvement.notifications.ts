@@ -6,7 +6,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleAttestationConformitéTransmise } from './handlers';
+import { handleAttestationConformitéTransmise } from "./handlers.js";
 
 export type SubscriptionEvent = Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent;
 

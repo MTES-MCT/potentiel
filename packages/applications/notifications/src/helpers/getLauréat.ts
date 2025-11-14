@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl } from './getBaseUrl';
+import { getBaseUrl } from "./getBaseUrl.js";
 
 class ProjetNonTrouvéError extends Error {
   constructor() {

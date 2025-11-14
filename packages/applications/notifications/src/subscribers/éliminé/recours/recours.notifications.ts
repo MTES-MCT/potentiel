@@ -13,7 +13,7 @@ import {
   handleRecoursAccordé,
   handleRecoursRejeté,
   handleRecoursPasséEnInstruction,
-} from './handlers';
+} from "./handlers.js";
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent;
 

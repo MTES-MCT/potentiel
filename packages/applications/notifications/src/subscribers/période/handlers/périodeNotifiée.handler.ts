@@ -9,7 +9,7 @@ import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { périodeNotificationTemplateId } from '../constant';
+import { périodeNotificationTemplateId } from "../constant.js";
 
 export const handlePériodeNotifiée = async ({
   event,

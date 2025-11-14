@@ -3,8 +3,8 @@ import { getBaseUrl, listerDrealsRecipients } from '@/helpers';
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { accèsNotificationTemplateId } from '../constant';
-import { AccèsNotificationsProps } from '../type';
+import { accèsNotificationTemplateId } from "../constant.js";
+import { AccèsNotificationsProps } from "../type.js";
 
 export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
   sendEmail,

@@ -3,8 +3,8 @@ import { listerPorteursRecipients } from '@/helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { puissanceNotificationTemplateId } from '../constant';
-import { PuissanceNotificationsProps } from '../type';
+import { puissanceNotificationTemplateId } from "../constant.js";
+import { PuissanceNotificationsProps } from "../type.js";
 
 export const handleChangementPuissanceAccordé = async ({
   sendEmail,

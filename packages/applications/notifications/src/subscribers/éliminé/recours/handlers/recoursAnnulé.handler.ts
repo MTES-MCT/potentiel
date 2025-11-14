@@ -3,8 +3,8 @@ import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '@/he
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { recoursNotificationTemplateId } from '../constant';
-import { RecoursNotificationsProps } from '../type';
+import { recoursNotificationTemplateId } from "../constant.js";
+import { RecoursNotificationsProps } from "../type.js";
 
 export const handleRecoursAnnulé = async ({
   sendEmail,

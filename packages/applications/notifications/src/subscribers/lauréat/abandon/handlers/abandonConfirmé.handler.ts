@@ -7,8 +7,8 @@ import {
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { abandonNotificationTemplateId } from '../constant';
-import { AbandonNotificationsProps } from '../type';
+import { abandonNotificationTemplateId } from "../constant.js";
+import { AbandonNotificationsProps } from "../type.js";
 
 export const handleAbandonConfirmé = async ({
   sendEmail,

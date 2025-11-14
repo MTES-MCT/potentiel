@@ -5,8 +5,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { Recipient } from '@/sendEmail';
 
-import { puissanceNotificationTemplateId } from '../constant';
-import { PuissanceNotificationsProps } from '../type';
+import { puissanceNotificationTemplateId } from "../constant.js";
+import { PuissanceNotificationsProps } from "../type.js";
 
 export const handleChangementPuissanceAnnulé = async ({
   sendEmail,
