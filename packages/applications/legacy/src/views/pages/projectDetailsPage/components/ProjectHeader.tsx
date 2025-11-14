@@ -14,10 +14,10 @@ type Affichage = {
 };
 
 export type ProjectHeaderProps = {
+  identifiantProjet: string;
   project: ProjectDataForProjectPage;
   user: UtilisateurReadModel;
   abandonEnCoursOuAccordé: boolean;
-  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   estAchevé: boolean;
   statutLauréat: Lauréat.StatutLauréat.RawType;
@@ -39,10 +39,10 @@ export type ProjectHeaderProps = {
 };
 
 export const ProjectHeader = ({
+  identifiantProjet,
   project,
   user,
   abandonEnCoursOuAccordé,
-  demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
   représentantLégalAffichage,
@@ -84,10 +84,9 @@ export const ProjectHeader = ({
 
     <div className="px-3">
       <ProjectActions
-        project={project}
+        identifiantProjet={identifiantProjet}
         user={user}
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
-        demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
         représentantLégalAffichage={représentantLégalAffichage}

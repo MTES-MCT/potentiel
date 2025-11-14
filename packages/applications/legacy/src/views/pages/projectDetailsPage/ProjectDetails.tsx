@@ -181,12 +181,12 @@ export const ProjectDetails = ({
       </p>
       <ProjectHeader
         user={user}
+        identifiantProjet={identifiantProjet}
         project={project}
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={!!achèvementRéel}
         statutLauréat={statutLauréat}
-        demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
