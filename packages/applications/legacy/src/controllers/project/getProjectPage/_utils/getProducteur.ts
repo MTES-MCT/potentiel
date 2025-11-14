@@ -22,12 +22,18 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['producteur'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getProducteur = async ({
   identifiantProjet,
   rôle,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {
     const producteurProjection = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
@@ -41,7 +47,9 @@ export const getProducteur = async ({
       const { peutModifier, peutEnregistrerChangement } =
         await checkAutorisationChangement<'producteur'>({
           rôle: Role.convertirEnValueType(rôle),
-          identifiantProjet,
+          aUnAbandonEnCours,
+          estAbandonné,
+          estAchevé,
           règlesChangementPourAppelOffres,
           domain: 'producteur',
         });

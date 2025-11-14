@@ -7,7 +7,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 
 export type GetInstallationForProjectPage = {
   installateur?: {
@@ -41,6 +40,9 @@ type Props = {
   rôle: string;
   champsSupplémentairesCahierDesCharges: AppelOffre.ChampsSupplémentairesCandidature;
   règlesChangementInstallateur: AppelOffre.RèglesDemandesChangement['installateur'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getInstallation = async ({
@@ -48,13 +50,12 @@ export const getInstallation = async ({
   rôle,
   champsSupplémentairesCahierDesCharges,
   règlesChangementInstallateur,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetInstallationForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      role.nom,
-    );
 
     const installationProjection =
       await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({

@@ -178,11 +178,27 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
+      const attestationConformité = await getAttestationDeConformité(
+        identifiantProjetValueType,
+        user.role,
+      );
+
+      const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
+        identifiantProjetValueType,
+      );
+      if (Option.isNone(dateAchèvementPrévisionnel)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       const abandon = await getAbandon(identifiantProjetValueType);
+      const aUnAbandonEnCours = !!abandon?.statut.estEnCours();
+      const estAbandonné = !!abandon?.statut.estAccordé();
 
       const raccordement = await getRaccordement({
         role,
         identifiantProjet: identifiantProjetValueType,
+        aUnAbandonEnCours,
+        estAbandonné,
       });
 
       const alertesRaccordement =
@@ -195,18 +211,6 @@ v1Router.get(
                 project.cahierDesChargesActuel.paruLe === '30/08/2022',
             })
           : [];
-
-      const attestationConformité = await getAttestationDeConformité(
-        identifiantProjetValueType,
-        user.role,
-      );
-
-      const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
-        identifiantProjetValueType,
-      );
-      if (Option.isNone(dateAchèvementPrévisionnel)) {
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
-      }
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
@@ -259,6 +263,9 @@ v1Router.get(
             rôle: user.role,
             règlesChangementPourAppelOffres:
               cahierDesCharges.getRèglesChangements('représentantLégal'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
@@ -266,16 +273,25 @@ v1Router.get(
             rôle: user.role,
             nécessiteInstruction: nécessiteInstructionPourActionnaire,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('actionnaire'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('puissance'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           producteur: await getProducteur({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('producteur'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,
@@ -288,12 +304,18 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('fournisseur'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           délai: await getDélai({
             identifiantProjet: identifiantProjetValueType,
             identifiantUtilisateur: user.email,
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('délai'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
           installation: await getInstallation({
@@ -301,12 +323,18 @@ v1Router.get(
             rôle: user.role,
             champsSupplémentairesCahierDesCharges: cahierDesCharges.getChampsSupplémentaires(),
             règlesChangementInstallateur: cahierDesCharges.getRèglesChangements('installateur'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             règlesChangementPourAppelOffres:
               cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           statutLauréat: lauréat.statut.statut,
           siteDeProduction: getSiteDeProduction({
@@ -319,6 +347,9 @@ v1Router.get(
             rôle: role,
             project,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('nomProjet'),
+            aUnAbandonEnCours,
+            estAbandonné,
+            estAchevé: !!attestationConformité,
           }),
           doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
         }),
