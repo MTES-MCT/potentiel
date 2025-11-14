@@ -7,6 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { DocumentProjet } from '../../document-projet';
+import { ProjetAbandonnéError } from '../abandon/abandon.error';
 
 import {
   DateAchèvementPrévisionnel,
@@ -209,6 +210,10 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     if (this.#estAchevé) {
       throw new ProjetDéjàAchevéError();
+    }
+
+    if (this.lauréat.statut.estAbandonné()) {
+      throw new ProjetAbandonnéError();
     }
 
     if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {

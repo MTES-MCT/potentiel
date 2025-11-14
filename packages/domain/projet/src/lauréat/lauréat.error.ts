@@ -42,7 +42,7 @@ export class RetourAuCahierDesChargesInitialImpossibleError extends InvalidOpera
   }
 }
 
-export class ProjetAbandonnéError extends InvalidOperationError {
+export class ChangementImpossibleCarProjetAbandonnéError extends InvalidOperationError {
   constructor() {
     super('Impossible de faire un changement pour un projet abandonné');
   }

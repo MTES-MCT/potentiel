@@ -35,6 +35,7 @@ Fonctionnalité: Transmettre la date d'achèvement
         Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet est déjà achevé"
 
-    @NotImplemented
     Scénario: Impossible de transmettre une date d'achèvement pour un projet abandonné
-
+        Etant donné un abandon accordé pour le projet lauréat
+        Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet est abandonné"
