@@ -9,15 +9,18 @@ export type TransmettreDateAchèvementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateAchèvement: DateTime.ValueType;
-    transmisLe: DateTime.ValueType;
-    transmisPar: Email.ValueType;
+    attestation: { format: string };
+    transmiseLe: DateTime.ValueType;
+    transmisePar: Email.ValueType;
   }
 >;
 
-export const registerTransmettreDateAchèvementCommand = (_: GetProjetAggregateRoot) => {
-  const handler: MessageHandler<TransmettreDateAchèvementCommand> = async (_) => {
-    // const projet = await getProjetAggregateRoot(payload.identifiantProjet);
-    // await projet.lauréat.achèvement.transmettreDateAchèvement(payload);
+export const registerTransmettreDateAchèvementCommand = (
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
+  const handler: MessageHandler<TransmettreDateAchèvementCommand> = async (payload) => {
+    const projet = await getProjetAggregateRoot(payload.identifiantProjet);
+    await projet.lauréat.achèvement.transmettreDateAchèvement(payload);
   };
   mediator.register('Lauréat.Achèvement.Command.TransmettreDateAchèvement', handler);
 };

@@ -8,9 +8,10 @@ Fonctionnalité: Transmettre la date d'achèvement
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Scénario: le co-contractant transmet la date d'achèvement pour le projet lauréat
         Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet lauréat
-        Alors la date d'achèvement dverait être consultable pour le projet lauréat
+        Alors la date d'achèvement devrait être consultable pour le projet lauréat
         Et une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"
         Et un email a été envoyé à la dreal avec :

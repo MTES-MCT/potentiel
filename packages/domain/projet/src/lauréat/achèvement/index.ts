@@ -37,7 +37,3 @@ export * as TypeDocumentAttestationConformité from './typeDocumentAttestationCo
 
 // Event
 export * from './achèvement.event';
-export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
-
-export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
-export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';

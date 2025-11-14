@@ -26,6 +26,8 @@ import {
   AucuneAttestationDeConformitéÀCorrigerError,
   DateDeTransmissionAuCoContractantFuturError,
 } from './achèvement.error';
+import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
+import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -194,6 +196,30 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async transmettreDateAchèvement({
+    dateAchèvement,
+    attestation: { format },
+    transmiseLe,
+    transmisePar,
+  }: TransmettreDateAchèvementOptions) {
+    // this.lauréat.vérifierQueLeLauréatExiste();
+
+    const event: DateAchèvementTransmiseEvent = {
+      type: 'DateAchèvementTransmise-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        attestation: {
+          format,
+        },
+        dateAchèvement: dateAchèvement.formatter(),
+        transmiseLe: transmiseLe.formatter(),
+        transmisePar: transmisePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
     if (
       this.lauréat.projet.cahierDesChargesActuel.appelOffre.id !== 'PPE2 - Petit PV Bâtiment' ||
@@ -248,6 +274,9 @@ export class AchèvementAggregate extends AbstractAggregate<
           type: 'DateAchèvementPrévisionnelCalculée-V1',
         },
         (event) => this.applyDateAchèvementPrévisionnelCalculéeV1(event),
+      )
+      .with({ type: 'DateAchèvementTransmise-V1' }, (event) =>
+        this.applyDateAchèvementTransmiseV1(event),
       )
       .exhaustive();
   }
@@ -306,5 +335,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     payload: { date },
   }: DateAchèvementPrévisionnelCalculéeEvent) {
     this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
+  }
+
+  private applyDateAchèvementTransmiseV1(_: DateAchèvementTransmiseEvent) {
+    this.#estAchevé = true;
   }
 }

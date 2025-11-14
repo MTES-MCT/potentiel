@@ -105,6 +105,7 @@ export class TransmettreAttestationConformitéFixture
         DateTime.convertirEnValueType(this.date).formatter(),
         this.#formatAttestation,
       ),
+
       dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
         this.dateTransmissionAuCocontractant,
       ),

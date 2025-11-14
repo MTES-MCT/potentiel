@@ -71,3 +71,28 @@ Alors(
     });
   },
 );
+
+Alors(
+  `la date d'achèvement devrait être consultable pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
+      assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
+
+      const actual = achèvement.dateTransmissionAuCocontractant;
+      const expected =
+        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.dateAchèvement;
+
+      expect(actual.formatter()).to.be.equal(new Date(expected).toISOString());
+    });
+  },
+);
