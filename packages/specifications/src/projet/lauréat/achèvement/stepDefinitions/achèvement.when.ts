@@ -5,6 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   'le porteur transmet une attestation de conformité pour le projet {lauréat-éliminé}',
@@ -14,7 +15,7 @@ Quand(
         statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
         });
 
@@ -22,10 +23,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           identifiantUtilisateurValue: utilisateur,
         },
       });
@@ -44,7 +45,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
             dateTransmissionAuCocontractant: new Date(
@@ -57,10 +58,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           identifiantUtilisateurValue: utilisateur,
         },
       });
@@ -77,7 +78,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
 
@@ -85,10 +86,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
         },
       });
@@ -106,7 +107,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
             dateTransmissionAuCocontractant: new Date(
@@ -119,10 +120,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
         },
       });
