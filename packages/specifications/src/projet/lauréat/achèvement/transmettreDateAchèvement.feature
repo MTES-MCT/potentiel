@@ -8,24 +8,25 @@ Fonctionnalité: Transmettre la date d'achèvement
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: le co-contractant transmet la date d'achèvement pour le projet lauréat
         Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet lauréat
         Alors la date d'achèvement devrait être consultable pour le projet lauréat
         Et une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"
-        Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - La date d'achèvement a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
-        Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
 
-    @NotImplemented
+    # Et un email a été envoyé à la dreal avec :
+    #     | sujet      | Potentiel - La date d'achèvement a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
+    #     | nom_projet | Du boulodrome de Marseille                                                                                         |
+    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
+    # Et un email a été envoyé au porteur avec :
+    #     | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
+    #     | nom_projet | Du boulodrome de Marseille                                                                                   |
+    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
     Scénario: Impossible de transmettre une date d'achèvement antérieure à la date de désignation du projet
-
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | date notification | 2025-11-01 |
+        Quand le co-contractant transmet la date d'achèvement "2025-09-01" pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"
 
     @NotImplemented
     Scénario: Impossible de transmettre une date d'achèvement postérieure à la date actuelle

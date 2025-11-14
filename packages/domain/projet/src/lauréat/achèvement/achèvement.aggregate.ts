@@ -24,6 +24,7 @@ import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchè
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
+  DateAchèvementAntérieureÀDateNotificationError,
   DateDeTransmissionAuCoContractantFuturError,
 } from './achèvement.error';
 import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
@@ -203,6 +204,10 @@ export class AchèvementAggregate extends AbstractAggregate<
     transmisePar,
   }: TransmettreDateAchèvementOptions) {
     // this.lauréat.vérifierQueLeLauréatExiste();
+
+    if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
+      throw new DateAchèvementAntérieureÀDateNotificationError();
+    }
 
     const event: DateAchèvementTransmiseEvent = {
       type: 'DateAchèvementTransmise-V1',
