@@ -240,23 +240,17 @@ const référencielPermissions = {
       },
     },
     achèvement: {
-      attestationConformité: {
-        query: {
-          consulter:
-            'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        },
-        command: {
-          transmettre:
-            'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
-          modifier:
-            'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
-        },
-        useCase: {
-          transmettre:
-            'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-          modifier:
-            'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
-        },
+      command: {
+        transmettreAttestationConformité:
+          'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+        modifierAttestationConformité:
+          'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
+      },
+      useCase: {
+        transmettreAttestationConformité:
+          'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        modifierAttestationConformité:
+          'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       },
       query: {
         consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
@@ -920,26 +914,22 @@ const policies = {
     },
   },
   achèvement: {
-    attestationConformité: {
-      consulter: [
-        référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.lauréat.achèvement.attestationConformité.query.consulter,
-        référencielPermissions.document.query.consulter,
-      ],
-      transmettre: [
-        référencielPermissions.lauréat.achèvement.attestationConformité.useCase.transmettre,
-        référencielPermissions.lauréat.achèvement.attestationConformité.command.transmettre,
-        référencielPermissions.document.command.enregister,
-      ],
-      modifier: [
-        référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.lauréat.achèvement.attestationConformité.query.consulter,
-        référencielPermissions.lauréat.achèvement.attestationConformité.useCase.modifier,
-        référencielPermissions.lauréat.achèvement.attestationConformité.command.modifier,
-        référencielPermissions.document.command.enregister,
-      ],
-    },
-    consulter: [référencielPermissions.lauréat.achèvement.query.consulter],
+    consulter: [
+      référencielPermissions.lauréat.achèvement.query.consulter,
+      référencielPermissions.document.query.consulter,
+    ],
+    transmettre: [
+      référencielPermissions.lauréat.achèvement.useCase.transmettreAttestationConformité,
+      référencielPermissions.lauréat.achèvement.command.transmettreAttestationConformité,
+      référencielPermissions.document.command.enregister,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.achèvement.query.consulter,
+      référencielPermissions.lauréat.achèvement.useCase.modifierAttestationConformité,
+      référencielPermissions.lauréat.achèvement.command.modifierAttestationConformité,
+      référencielPermissions.document.command.enregister,
+    ],
   },
   candidature: {
     consulter: [référencielPermissions.candidature.query.consulterCandidature],
@@ -1573,7 +1563,6 @@ const pageProjetPolicies: Policy[] = [
 
   // Achèvement
   'achèvement.consulter',
-  'achèvement.attestationConformité.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1633,8 +1622,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.consulter',
 
   // Attestation conformité
-  'achèvement.attestationConformité.transmettre',
-  'achèvement.attestationConformité.modifier',
+  'achèvement.transmettre',
+  'achèvement.modifier',
 
   // Candidature
   'candidature.consulter',
@@ -1843,8 +1832,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.rejeter',
 
   // Attestation conformité
-  'achèvement.attestationConformité.transmettre',
-  'achèvement.attestationConformité.modifier',
+  'achèvement.transmettre',
+  'achèvement.modifier',
 
   // Candidature
   'candidature.attestation.télécharger',
@@ -1964,7 +1953,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.enAttente.consulter',
 
   // Attestation conformité
-  'achèvement.attestationConformité.transmettre',
+  'achèvement.transmettre',
 
   // Candidature
   'candidature.attestation.télécharger',

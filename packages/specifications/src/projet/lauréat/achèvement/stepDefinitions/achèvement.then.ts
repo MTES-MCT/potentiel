@@ -17,16 +17,15 @@ Alors(
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-      const achèvement =
-        await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
-          {
-            type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
+      assert(Option.isSome(achèvement), 'Non trouvé');
+      assert(achèvement.estAchevé, 'Non achevé');
       const actual = mapToPlainObject(achèvement);
       const expected = mapToPlainObject(
         this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet),

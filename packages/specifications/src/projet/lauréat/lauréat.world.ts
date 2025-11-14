@@ -1,5 +1,12 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import {
+  CahierDesCharges,
+  Candidature,
+  IdentifiantProjet,
+  Lauréat,
+} from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/projet';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -125,6 +132,35 @@ export class LauréatWorld {
     return this.#natureDeLExploitationWorld;
   }
 
+  get cahierDesCharges() {
+    const appelOffre = appelsOffreData.find((ao) => ao.id === this.identifiantProjet.appelOffre)!;
+    const période = appelOffre.periodes.find((p) => p.id === this.identifiantProjet.période)!;
+    const cahierDesChargesModificatif = this.choisirCahierDesChargesFixture.aÉtéCréé
+      ? période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+          AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
+            AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+              this.choisirCahierDesChargesFixture.cahierDesCharges,
+            ),
+          ),
+        )
+      : undefined;
+    const famille = this.identifiantProjet.famille
+      ? période.familles.find((f) => f.id === this.identifiantProjet.famille)
+      : undefined;
+    return CahierDesCharges.bind({
+      appelOffre,
+      période,
+      cahierDesChargesModificatif,
+      famille,
+      technologie: Candidature.TypeTechnologie.déterminer({
+        appelOffre,
+        projet: {
+          technologie: this.candidatureWorld.importerCandidature.dépôtValue.technologie,
+        },
+      }).type,
+    });
+  }
+
   constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
@@ -132,7 +168,7 @@ export class LauréatWorld {
     this.#puissanceWorld = new PuissanceWorld();
     this.#producteurWorld = new ProducteurWorld();
     this.#installationWorld = new InstallationWorld(this);
-    this.#achèvementWorld = new AchèvementWorld();
+    this.#achèvementWorld = new AchèvementWorld(this);
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();
     this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);

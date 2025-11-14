@@ -17,19 +17,17 @@ Quand(
           utilisateur: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.TransmettreAttestationConformitéUseCase>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            attestationValue: attestation,
-            dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-            dateValue: date,
-            preuveTransmissionAuCocontractantValue: preuve,
-            identifiantUtilisateurValue: utilisateur,
-          },
+      await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: attestation,
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          preuveTransmissionAuCocontractantValue: preuve,
+          identifiantUtilisateurValue: utilisateur,
         },
-      );
+      });
     } catch (error) {
       this.error = error as Error;
     }
@@ -54,19 +52,17 @@ Quand(
           }),
         });
 
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.TransmettreAttestationConformitéUseCase>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            attestationValue: attestation,
-            dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-            dateValue: date,
-            preuveTransmissionAuCocontractantValue: preuve,
-            identifiantUtilisateurValue: utilisateur,
-          },
+      await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: attestation,
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          preuveTransmissionAuCocontractantValue: preuve,
+          identifiantUtilisateurValue: utilisateur,
         },
-      );
+      });
     } catch (error) {
       this.error = error as Error;
     }
@@ -84,19 +80,17 @@ Quand(
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.ModifierAttestationConformitéUseCase>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            attestationValue: attestation,
-            dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-            dateValue: date,
-            preuveTransmissionAuCocontractantValue: preuve,
-            utilisateurValue: utilisateur,
-          },
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: attestation,
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          preuveTransmissionAuCocontractantValue: preuve,
+          utilisateurValue: utilisateur,
         },
-      );
+      });
     } catch (error) {
       this.error = error as Error;
     }
@@ -120,19 +114,17 @@ Quand(
           }),
         });
 
-      await mediator.send<Lauréat.Achèvement.AttestationConformité.ModifierAttestationConformitéUseCase>(
-        {
-          type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            attestationValue: attestation,
-            dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-            dateValue: date,
-            preuveTransmissionAuCocontractantValue: preuve,
-            utilisateurValue: utilisateur,
-          },
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: attestation,
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          preuveTransmissionAuCocontractantValue: preuve,
+          utilisateurValue: utilisateur,
         },
-      );
+      });
     } catch (error) {
       this.error = error as Error;
     }

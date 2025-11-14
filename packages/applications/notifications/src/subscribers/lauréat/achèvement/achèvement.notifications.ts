@@ -8,7 +8,7 @@ import { getLauréat } from '../../../_helpers';
 
 import { handleAttestationConformitéTransmise } from './handlers';
 
-export type SubscriptionEvent = Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent;
+export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent;
 
 export type Execute = Message<
   'System.Notification.Lauréat.Achèvement.AttestationConformité',

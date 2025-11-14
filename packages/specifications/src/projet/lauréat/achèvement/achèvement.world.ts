@@ -1,7 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+
+import { LauréatWorld } from '../lauréat.world';
 
 import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture';
@@ -18,16 +19,28 @@ export class AchèvementWorld {
     return this.#calculerDateAchèvementPrévisionnelFixture;
   }
 
-  constructor() {
+  constructor(private lauréat: LauréatWorld) {
     this.#transmettreOuModifierAttestationConformitéFixture =
       new TransmettreOuModifierAttestationConformitéFixture();
     this.#calculerDateAchèvementPrévisionnelFixture =
       new CalculerDateAchèvementPrévisionnelFixture();
   }
 
+  get dateAchèvementPrévisionnelCalculée() {
+    if (this.calculerDateAchèvementPrévisionnelFixture.aÉtéCréé) {
+      return this.calculerDateAchèvementPrévisionnelFixture.dateAchèvementPrévisionnel;
+    }
+    return Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
+      this.lauréat.notifierLauréatFixture.notifiéLe,
+    )
+      .ajouterDélai(this.lauréat.cahierDesCharges.getDélaiRéalisationEnMois())
+      .dateTime.retirerNombreDeJours(1) // délai EDFOA
+      .formatter();
+  }
+
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel> {
+  ): Option.Type<Lauréat.Achèvement.ConsulterAchèvementReadModel> {
     if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
@@ -39,9 +52,14 @@ export class AchèvementWorld {
 
     return {
       identifiantProjet,
+      estAchevé: true,
+      dateAchèvementPrévisionnel:
+        Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
+          this.dateAchèvementPrévisionnelCalculée,
+        ),
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(date).formatter(),
         attestation.format,
       ),
@@ -50,7 +68,7 @@ export class AchèvementWorld {
       ),
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
         preuve.format,
       ),

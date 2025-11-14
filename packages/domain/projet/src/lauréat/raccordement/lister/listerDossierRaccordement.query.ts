@@ -8,7 +8,7 @@ import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
 import { AbandonEntity } from '../../abandon';
-import { AttestationConformitéEntity } from '../../achèvement/attestationConformité';
+import { AchèvementEntity } from '../../achèvement';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -67,8 +67,8 @@ type DossierRaccordementJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
+  AchèvementEntity,
   LeftJoin<AbandonEntity>,
-  LeftJoin<AttestationConformitéEntity>,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -132,6 +132,16 @@ export const registerListerDossierRaccordementQuery = ({
           on: 'identifiantGestionnaireRéseau',
         },
         {
+          entity: 'achèvement',
+          on: 'identifiantProjet',
+          where:
+            statutProjet === 'achevé'
+              ? { estAchevé: Where.equal(true) }
+              : statutProjet === 'actif'
+                ? { estAchevé: Where.equal(false) }
+                : undefined,
+        },
+        {
           entity: 'abandon',
           on: 'identifiantProjet',
           type: 'left',
@@ -140,17 +150,6 @@ export const registerListerDossierRaccordementQuery = ({
               ? { statut: Where.equal('accordé') }
               : statutProjet === 'actif'
                 ? { statut: Where.notEqual('accordé') }
-                : undefined,
-        },
-        {
-          entity: 'attestation-conformité',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statutProjet === 'achevé'
-              ? { identifiantProjet: Where.notEqualNull() }
-              : statutProjet === 'actif'
-                ? { identifiantProjet: Where.equalNull() }
                 : undefined,
         },
       ],
@@ -192,7 +191,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
   abandon,
-  'attestation-conformité': attestationConformité,
+  achèvement,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -228,7 +227,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     statutProjet:
       abandon?.statut === 'accordé'
         ? StatutLauréat.abandonné
-        : attestationConformité
+        : achèvement.estAchevé
           ? StatutLauréat.achevé
           : StatutLauréat.actif,
   };

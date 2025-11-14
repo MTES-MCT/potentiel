@@ -1,8 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
 
-export type ModifierAttestationConformitéOptions = {
+export type TransmettreAttestationConformitéOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   attestation: DocumentProjet.ValueType;

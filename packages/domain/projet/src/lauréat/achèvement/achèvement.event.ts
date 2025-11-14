@@ -1,4 +1,8 @@
-import { AttestationConformitéEvent } from './attestationConformité';
 import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
+import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
 
-export type AchèvementEvent = AttestationConformitéEvent | DateAchèvementPrévisionnelCalculéeEvent;
+export type AchèvementEvent =
+  | AttestationConformitéTransmiseEvent
+  | AttestationConformitéModifiéeEvent
+  | DateAchèvementPrévisionnelCalculéeEvent;

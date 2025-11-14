@@ -8,7 +8,7 @@ export const handleAttestationConformitéTransmise = async ({
   sendEmail,
   event,
   projet,
-}: AchèvementNotificationsProps<Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent>) => {
+}: AchèvementNotificationsProps<Lauréat.Achèvement.AttestationConformitéTransmiseEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);

@@ -37,7 +37,7 @@ const actions = [
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.supprimer',
-  'achèvement.attestationConformité.transmettre',
+  'achèvement.transmettre',
 ] satisfies Role.Policy[];
 export type ActionGarantiesFinancières = (typeof actions)[number];
 

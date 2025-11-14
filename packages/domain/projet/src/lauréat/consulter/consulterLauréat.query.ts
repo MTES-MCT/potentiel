@@ -10,7 +10,7 @@ import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
 import { Abandon, StatutLauréat } from '..';
 import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
-import { AttestationConformité } from '../achèvement';
+import { AchèvementEntity } from '../achèvement';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,21 +43,13 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [
-  CandidatureEntity,
-  LeftJoin<AttestationConformité.AttestationConformitéEntity>,
-  LeftJoin<Abandon.AbandonEntity>,
-];
+type LauréatJoins = [CandidatureEntity, AchèvementEntity, LeftJoin<Abandon.AbandonEntity>];
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
       join: [
-        {
-          entity: 'candidature',
-          on: 'identifiantProjet',
-        },
-
-        { entity: 'attestation-conformité', on: 'identifiantProjet', type: 'left' },
+        { entity: 'candidature', on: 'identifiantProjet' },
+        { entity: 'achèvement', on: 'identifiantProjet' },
         { entity: 'abandon', on: 'identifiantProjet', type: 'left' },
       ],
     });
@@ -86,7 +78,7 @@ const mapToReadModel: MapToReadModel = (
     nomProjet,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
     abandon,
-    'attestation-conformité': attestationConformité,
+    achèvement,
   },
   candidature,
 ) => ({
@@ -102,7 +94,7 @@ const mapToReadModel: MapToReadModel = (
     département,
     région,
   }),
-  statut: attestationConformité
+  statut: achèvement.estAchevé
     ? StatutLauréat.achevé
     : abandon && Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
       ? StatutLauréat.abandonné

@@ -35,7 +35,7 @@ export const InfoAttestationConformité = ({
       >
         Télécharger la preuve de transmission au cocontractant
       </DownloadLink>
-      {role.aLaPermission('achèvement.attestationConformité.modifier') && (
+      {role.aLaPermission('achèvement.modifier') && (
         <Link
           href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet.formatter())}
           aria-label="Modifier les informations d'achèvement du projet"

@@ -2,17 +2,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
 import { TypeDocumentAttestationConformité } from '..';
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
-import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
+import { ModifierAttestationConformitéCommand } from './modifierAttestationConformité.command';
 
-export type TransmettreAttestationConformitéUseCase = Message<
-  'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+export type ModifierAttestationConformitéUseCase = Message<
+  'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
   {
     identifiantProjetValue: string;
-    identifiantUtilisateurValue: string;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -23,17 +22,18 @@ export type TransmettreAttestationConformitéUseCase = Message<
       format: string;
     };
     dateValue: string;
+    utilisateurValue: string;
   }
 >;
 
-export const registerTransmettreAttestationConformitéUseCase = () => {
-  const runner: MessageHandler<TransmettreAttestationConformitéUseCase> = async ({
+export const registerModifierAttestationConformitéUseCase = () => {
+  const runner: MessageHandler<ModifierAttestationConformitéUseCase> = async ({
     identifiantProjetValue,
     attestationValue,
     dateValue,
     preuveTransmissionAuCocontractantValue,
     dateTransmissionAuCocontractantValue,
-    identifiantUtilisateurValue,
+    utilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = DocumentProjet.convertirEnValueType(
@@ -53,7 +53,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     );
     const date = DateTime.convertirEnValueType(dateValue);
 
-    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -71,8 +71,8 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
       },
     });
 
-    await mediator.send<TransmettreAttestationConformitéCommand>({
-      type: 'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+    await mediator.send<ModifierAttestationConformitéCommand>({
+      type: 'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
       data: {
         identifiantProjet,
         attestation,
@@ -84,7 +84,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     });
   };
   mediator.register(
-    'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+    'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
     runner,
   );
 };
