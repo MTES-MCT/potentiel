@@ -206,7 +206,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     transmiseLe,
     transmisePar,
   }: TransmettreDateAchèvementOptions) {
-    // this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.#estAchevé) {
       throw new ProjetDéjàAchevéError();
