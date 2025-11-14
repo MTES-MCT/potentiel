@@ -8,7 +8,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
-import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 export type GetInstallationForProjectPage = {
   installateur?: {
@@ -101,22 +100,19 @@ export const getInstallation = async ({
       //INSTALLATEUR
       if (champSupplémentaireInstallateur) {
         data.installateur = { value: installateur };
-
-        const { peutModifier, peutEnregistrerChangement } =
-          await checkAutorisationChangement<'installateur'>({
-            rôle: Role.convertirEnValueType(rôle),
-            identifiantProjet,
-            règlesChangementPourAppelOffres: règlesChangementInstallateur,
-            domain: 'installateur',
-          });
-
-        if (peutModifier) {
+        if (role.aLaPermission('installation.installateur.modifier')) {
           data.installateur.affichage = {
             url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: "Modifier l'installateur",
           };
-        } else if (peutEnregistrerChangement) {
+        } else if (
+          role.aLaPermission('installation.installateur.enregistrerChangement') &&
+          !aUnAbandonEnCours &&
+          !estAbandonné &&
+          !estAchevé &&
+          règlesChangementInstallateur.informationEnregistrée
+        ) {
           data.installateur.affichage = {
             url: Routes.Installation.changement.installateur.enregistrer(
               identifiantProjet.formatter(),
