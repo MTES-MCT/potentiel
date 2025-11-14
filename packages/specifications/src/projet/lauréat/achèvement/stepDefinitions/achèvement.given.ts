@@ -17,7 +17,7 @@ EtantDonné(
       this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+      type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         attestationValue: convertFixtureFileToReadableStream(attestation),
