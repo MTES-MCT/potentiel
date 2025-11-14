@@ -6,7 +6,6 @@ type DossierRaccordement = {
   identifiantProjet: string;
 
   référence: string;
-  projetNotifiéLe?: DateTime.RawType;
   demandeComplèteRaccordement?: {
     dateQualification?: DateTime.RawType;
     accuséRéception?: { format: string };
@@ -14,7 +13,7 @@ type DossierRaccordement = {
     transmisePar?: Email.RawType;
   };
   propositionTechniqueEtFinancière?: {
-    dateSignature: string;
+    dateSignature?: string;
     propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
@@ -32,7 +31,6 @@ export type RaccordementEntity = Entity<
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
-    dossiers: Array<DossierRaccordement>;
   }
 >;
 

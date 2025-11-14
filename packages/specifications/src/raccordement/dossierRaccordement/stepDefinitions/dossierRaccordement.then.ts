@@ -134,7 +134,7 @@ export function vérifierDossierRaccordement(
 
   if (Option.isSome(actualDossierRaccordement)) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    delete (actualDossierRaccordement as any).misÀJourLe;
+    delete (actualDossierRaccordement as any).miseÀJourLe;
   }
   actualDossierRaccordement.should.be.deep.equal(
     expectedDossier,

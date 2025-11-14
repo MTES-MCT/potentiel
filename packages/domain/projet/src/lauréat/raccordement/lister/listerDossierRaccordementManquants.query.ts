@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { RaccordementEntity } from '../raccordement.entity';
+import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity';
 import { LauréatEntity, Puissance, StatutLauréat } from '../..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 
@@ -61,6 +61,7 @@ type ListerDossierRaccordementManquantJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
+  LeftJoin<DossierRaccordementEntity>,
 ];
 export const registerListerDossierRaccordementManquantsQuery = ({
   list,
@@ -87,7 +88,6 @@ export const registerListerDossierRaccordementManquantsQuery = ({
             ? scope.identifiantGestionnaireRéseau
             : identifiantGestionnaireRéseau,
         ),
-        dossiers: Where.isEmptyArray(),
       },
       range,
       orderBy: {
@@ -114,6 +114,14 @@ export const registerListerDossierRaccordementManquantsQuery = ({
         {
           entity: 'gestionnaire-réseau',
           on: 'identifiantGestionnaireRéseau',
+        },
+        {
+          entity: 'dossier-raccordement',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: {
+            identifiantProjet: Where.equalNull(),
+          },
         },
       ],
     });
