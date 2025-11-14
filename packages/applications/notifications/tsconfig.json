@@ -3,9 +3,8 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "module": "nodenext",
+    "moduleResolution": "node16"
   },
   "references": [
     {

@@ -5,6 +5,10 @@
   "types": "dist/index.d.ts",
   "private": true,
   "type": "module",
+  "imports": {
+    "#helpers": "./dist/helpers/index.js",
+    "#sendEmail": "./dist/sendEmail.js"
+  },
   "scripts": {
     "build": "tsc"
   },
