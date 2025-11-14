@@ -43,3 +43,9 @@ export class DateAchèvementDansLeFuturError extends InvalidOperationError {
     super("La date d'achèvement ne peut pas être dans le futur");
   }
 }
+
+export class ProjetDéjàAchevéError extends InvalidOperationError {
+  constructor() {
+    super('Le projet est déjà achevé');
+  }
+}

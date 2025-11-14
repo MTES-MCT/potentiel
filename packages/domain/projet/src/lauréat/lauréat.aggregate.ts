@@ -25,7 +25,7 @@ import {
   LauréatNonNotifiéError,
   LauréatNonTrouvéError,
   ProjetAbandonnéError,
-  ProjetAchevéError,
+  ChangementImpossibleCarProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
 } from './lauréat.error';
@@ -503,7 +503,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierNonAchevé() {
     if (this.statut.estAchevé()) {
-      throw new ProjetAchevéError();
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
   }
 
