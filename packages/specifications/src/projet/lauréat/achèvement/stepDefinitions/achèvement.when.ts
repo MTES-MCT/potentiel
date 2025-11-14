@@ -2,6 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -123,6 +124,28 @@ Quand(
           dateValue: date,
           preuveTransmissionAuCocontractantValue: preuve,
           utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le co-contractant transmet la date d'achèvement {string} pour le projet lauréat",
+  async function (this: PotentielWorld, dateTransmise: string) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+      // const = this.lauréatWorld.achèvementWorld.tra
+
+      await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAchèvementValue: DateTime.convertirEnValueType(dateTransmise).formatter(),
+          transmisLeValue: DateTime.now().formatter(),
+          transmisParValue: 'testXX@test.test',
         },
       });
     } catch (error) {
