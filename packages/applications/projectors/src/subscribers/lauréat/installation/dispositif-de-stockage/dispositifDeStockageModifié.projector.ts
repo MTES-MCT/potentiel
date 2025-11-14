@@ -1,0 +1,21 @@
+import { Lauréat } from '@potentiel-domain/projet';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+
+export const dispositifDeStockageModifiéProjector = async ({
+  payload: { identifiantProjet, modifiéLe, dispositifDeStockage },
+}: Lauréat.Installation.DispositifDeStockageModifiéEvent) => {
+  await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+    `installation|${identifiantProjet}`,
+    {
+      dispositifDeStockage: dispositifDeStockage.installationAvecDispositifDeStockage
+        ? dispositifDeStockage
+        : {
+            installationAvecDispositifDeStockage: false,
+            capacitéDuDispositifDeStockageEnKWh: undefined,
+            puissanceDuDispositifDeStockageEnKW: undefined,
+          },
+      miseÀJourLe: modifiéLe,
+      identifiantProjet,
+    },
+  );
+};
