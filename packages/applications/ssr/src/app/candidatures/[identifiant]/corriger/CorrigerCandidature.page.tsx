@@ -3,12 +3,8 @@ import Link from 'next/link';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 
-import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
-import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 
 import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
 
@@ -31,20 +27,6 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
 
   return (
     <ColumnPageTemplate
-      banner={
-        <ProjetBannerTemplate
-          identifiantProjet={identifiantProjet}
-          nom={candidature.nomProjet}
-          href={Routes.Projet.details(identifiantProjet.formatter())}
-          badge={
-            <div className="flex gap-2">
-              {candidature.statut && <StatutCandidatureBadge statut={candidature.statut} />}
-              <NotificationBadge estNotifié={estNotifiée} />
-            </div>
-          }
-          dateDésignation={Option.none}
-        />
-      }
       leftColumn={{
         children: (
           <CorrigerCandidatureForm

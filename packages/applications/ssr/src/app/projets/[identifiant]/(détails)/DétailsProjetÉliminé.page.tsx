@@ -11,7 +11,6 @@ import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { getActionnariatTypeLabel } from '@/app/_helpers';
 
 export type DétailsProjetÉliminéPageProps = {
@@ -51,7 +50,6 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
   actions,
 }) => (
   <ColumnPageTemplate
-    banner={<ProjetÉliminéBanner identifiantProjet={identifiantProjet} noLink />}
     leftColumn={{
       children: (
         <section className="flex flex-col gap-4">

@@ -16,7 +16,6 @@ export const ModifierRôleUtilisateurPage: FC<ModifierRôleUtilisateurPageProps>
   zones,
 }) => (
   <ColumnPageTemplate
-    banner={<></>}
     leftColumn={{
       children: (
         <ModifierRôleUtilisateurForm
