@@ -5,9 +5,7 @@
     "rootDir": "src",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "module": "esnext",
-    "moduleResolution": "bundler"
+    }
   },
   "references": [
     {
