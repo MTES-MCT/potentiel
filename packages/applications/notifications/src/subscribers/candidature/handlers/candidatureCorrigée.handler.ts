@@ -1,4 +1,4 @@
-import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '@helpers';
+import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '@/helpers';
 
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';

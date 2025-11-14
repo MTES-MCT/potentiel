@@ -2,7 +2,7 @@ import {
   getBaseUrl,
   listerPorteursRecipients,
   listerRecipientsAutoritéInstructrice,
-} from '@helpers';
+} from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';

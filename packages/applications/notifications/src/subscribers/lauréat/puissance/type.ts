@@ -1,4 +1,4 @@
-import { NotificationHandlerProps } from '@helpers';
+import { NotificationHandlerProps } from '@/helpers';
 
 import { DomainEvent } from '@potentiel-domain/core';
 

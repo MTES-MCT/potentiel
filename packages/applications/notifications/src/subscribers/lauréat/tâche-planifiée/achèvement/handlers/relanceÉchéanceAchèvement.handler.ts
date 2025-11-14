@@ -1,5 +1,5 @@
 import { match } from 'ts-pattern';
-import { listerPorteursRecipients, listerDrealsRecipients } from '@helpers';
+import { listerPorteursRecipients, listerDrealsRecipients } from '@/helpers';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 

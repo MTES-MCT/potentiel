@@ -1,4 +1,4 @@
-import { listerDgecRecipients, listerDrealsRecipients } from '@helpers';
+import { listerDgecRecipients, listerDrealsRecipients } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';

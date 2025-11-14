@@ -1,6 +1,6 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
-import { getBaseUrl, getLauréat } from '@helpers';
+import { getBaseUrl, getLauréat } from '@/helpers';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';

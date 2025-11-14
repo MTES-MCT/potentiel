@@ -4,9 +4,10 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@helpers": ["./src/_helpers/index"],
       "@/*": ["./src/*"]
-    }
+    },
+    "module": "esnext",
+    "moduleResolution": "bundler"
   },
   "references": [
     {

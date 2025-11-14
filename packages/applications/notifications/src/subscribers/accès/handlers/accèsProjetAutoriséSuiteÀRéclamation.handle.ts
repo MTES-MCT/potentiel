@@ -1,4 +1,4 @@
-import { getBaseUrl, listerDrealsRecipients } from '@helpers';
+import { getBaseUrl, listerDrealsRecipients } from '@/helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';

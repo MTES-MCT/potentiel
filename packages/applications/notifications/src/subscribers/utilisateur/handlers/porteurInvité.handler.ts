@@ -1,4 +1,4 @@
-import { getBaseUrl, getCandidature, NotificationHandlerProps } from '@helpers';
+import { getBaseUrl, getCandidature, NotificationHandlerProps } from '@/helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';

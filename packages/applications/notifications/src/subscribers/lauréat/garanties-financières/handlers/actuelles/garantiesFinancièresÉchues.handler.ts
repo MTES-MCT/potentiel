@@ -1,4 +1,4 @@
-import { listerDrealsRecipients, listerPorteursRecipients, formatDateForEmail } from '@helpers';
+import { listerDrealsRecipients, listerPorteursRecipients, formatDateForEmail } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';

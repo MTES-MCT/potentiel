@@ -1,4 +1,4 @@
-import { getBaseUrl, listerPorteursRecipients } from '@helpers';
+import { getBaseUrl, listerPorteursRecipients } from '@/helpers';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';

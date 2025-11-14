@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
-import { getBaseUrl, getCandidature } from '@helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
+import { getBaseUrl, getCandidature } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
 import {

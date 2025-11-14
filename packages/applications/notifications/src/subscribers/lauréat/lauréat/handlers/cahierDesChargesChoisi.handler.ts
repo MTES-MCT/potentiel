@@ -1,5 +1,5 @@
 import { match } from 'ts-pattern';
-import { getLauréat, listerPorteursRecipients } from '@helpers';
+import { getLauréat, listerPorteursRecipients } from '@/helpers';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';

@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '@helpers';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '@/helpers';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';

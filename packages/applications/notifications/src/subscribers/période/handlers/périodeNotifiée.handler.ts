@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { getBaseUrl, NotificationHandlerProps } from '@helpers';
+import { getBaseUrl, NotificationHandlerProps } from '@/helpers';
 
 import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
