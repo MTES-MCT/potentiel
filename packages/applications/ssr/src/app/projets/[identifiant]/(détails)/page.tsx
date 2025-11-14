@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { Metadata, ResolvingMetadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
@@ -21,22 +20,6 @@ import {
 } from './DétailsProjetÉliminé.page';
 
 type PageProps = IdentifiantParameter;
-
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const éliminé = await getProjetÉliminé(decodeParameter(params.identifiant));
-
-    return {
-      title: `${éliminé.nomProjet} - Potentiel`,
-      description: "Détail de la page d'un projet",
-    };
-  } catch {
-    return {};
-  }
-}
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>

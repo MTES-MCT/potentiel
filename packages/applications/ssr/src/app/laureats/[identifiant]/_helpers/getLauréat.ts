@@ -39,7 +39,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   };
 });
 
-export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
+export const getLauréatInfos = cache(async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getLauréatInfos');
 
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
@@ -55,7 +55,7 @@ export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return lauréat;
-};
+});
 
 const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getActionnaireInfos');

@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { match } from 'ts-pattern';
 
@@ -13,7 +13,6 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 
 import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimelineItemProps';
 
@@ -21,22 +20,10 @@ import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.p
 
 type PageProps = IdentifiantParameter;
 
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const identifiantProjet = decodeParameter(params.identifiant);
-    const éliminé = await getProjetÉliminé(identifiantProjet);
-
-    return {
-      title: `Détails du recours du projet ${éliminé.nomProjet} - Potentiel`,
-      description: "Détail du recours d'un projet",
-    };
-  } catch {
-    return {};
-  }
-}
+export const metadata: Metadata = {
+  title: `Détails du recours du projet - Potentiel`,
+  description: "Détail du recours d'un projet",
+};
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>

@@ -1,15 +1,14 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
+import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
-import { getLauréatInfos } from './_helpers/getLauréat';
+import { getProjetÉliminé } from './_helpers/getÉliminé';
 
-type LayoutProps = {
+type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
-  params: { identifiant: string };
 };
 
 export async function generateMetadata(
@@ -18,11 +17,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
-    const lauréat = await getLauréatInfos({ identifiantProjet });
+    const lauréat = await getProjetÉliminé(identifiantProjet);
 
     return {
       title: `${lauréat.nomProjet} - Potentiel`,
-      description: "Détail de la page d'un projet",
+      description: 'Détails du projet éliminé',
       other: {
         nomProjet: lauréat.nomProjet,
       },
@@ -32,10 +31,10 @@ export async function generateMetadata(
   }
 }
 
-export default function LauréatLayout({ children, params: { identifiant } }: LayoutProps) {
+export default function ProjetLayout({ children, params: { identifiant } }: LayoutProps) {
   const identifiantProjet = decodeParameter(identifiant);
   return (
-    <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
+    <PageTemplate banner={<ProjetÉliminéBanner identifiantProjet={identifiantProjet} />}>
       {children}
     </PageTemplate>
   );

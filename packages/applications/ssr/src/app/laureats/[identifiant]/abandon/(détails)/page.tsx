@@ -22,30 +22,14 @@ import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimel
 type PageProps = IdentifiantParameter;
 
 export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
+  _: IdentifiantParameter,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  try {
-    const identifiantProjet = decodeParameter(params.identifiant);
-
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-    if (Option.isNone(lauréat)) {
-      return notFound();
-    }
-
-    return {
-      title: `Détail abandon du projet ${lauréat.nomProjet} - Potentiel`,
-      description: "Détail de l'abandon d'un projet",
-    };
-  } catch {
-    return {};
-  }
+  const { other } = await parent;
+  return {
+    title: `Détail abandon du projet ${other?.nomProjet} - Potentiel`,
+    description: "Détail de l'abandon d'un projet",
+  };
 }
 
 export default async function Page({ params: { identifiant } }: PageProps) {

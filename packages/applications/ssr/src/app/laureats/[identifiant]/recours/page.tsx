@@ -10,28 +10,17 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { DétailsRecoursPage } from '@/app/elimines/(liste)/[identifiant]/recours/(détails)/DétailsRecours.page';
-import { mapToRecoursTimelineItemProps } from '@/app/elimines/(liste)/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
-
-import { getLauréatInfos } from '../_helpers/getLauréat';
+import { DétailsRecoursPage } from '@/app/elimines/[identifiant]/recours/(détails)/DétailsRecours.page';
+import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 
 type PageProps = IdentifiantParameter;
 
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const identifiantProjet = decodeParameter(params.identifiant);
-    const lauréat = await getLauréatInfos({ identifiantProjet });
-
-    return {
-      title: `Détails du recours du projet ${lauréat.nomProjet} - Potentiel`,
-      description: "Détail du recours d'un projet",
-    };
-  } catch {
-    return {};
-  }
+export async function generateMetadata(_: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const { other } = await parent;
+  return {
+    title: `Détails du recours du projet ${other?.nomProjet} - Potentiel`,
+    description: "Détail du recours d'un projet",
+  };
 }
 
 /**
