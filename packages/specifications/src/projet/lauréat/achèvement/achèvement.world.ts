@@ -1,29 +1,40 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { LauréatWorld } from '../lauréat.world';
 
-import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
+import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture';
+import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture';
+import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture';
 
 export class AchèvementWorld {
-  #transmettreOuModifierAttestationConformitéFixture: TransmettreOuModifierAttestationConformitéFixture;
+  #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;
+  #modifierAttestationConformitéFixture: ModifierAttestationConformitéFixture;
   #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
+  #transmettreDateAchèvementFixture: TransmettreDateAchèvementFixture;
 
-  get transmettreOuModifierAttestationConformitéFixture() {
-    return this.#transmettreOuModifierAttestationConformitéFixture;
+  get transmettreAttestationConformitéFixture() {
+    return this.#transmettreAttestationConformitéFixture;
+  }
+
+  get modifierAttestationConformitéFixture() {
+    return this.#modifierAttestationConformitéFixture;
   }
 
   get calculerDateAchèvementPrévisionnelFixture() {
     return this.#calculerDateAchèvementPrévisionnelFixture;
   }
 
+  get transmettreDateAchèvementFixture() {
+    return this.#transmettreDateAchèvementFixture;
+  }
+
   constructor(private lauréat: LauréatWorld) {
-    this.#transmettreOuModifierAttestationConformitéFixture =
-      new TransmettreOuModifierAttestationConformitéFixture();
+    this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture();
+    this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture();
     this.#calculerDateAchèvementPrévisionnelFixture =
       new CalculerDateAchèvementPrévisionnelFixture();
+    this.#transmettreDateAchèvementFixture = new TransmettreDateAchèvementFixture();
   }
 
   get dateAchèvementPrévisionnelCalculée() {
@@ -40,40 +51,49 @@ export class AchèvementWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Option.Type<Lauréat.Achèvement.ConsulterAchèvementReadModel> {
-    if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
+  ): Lauréat.Achèvement.ConsulterAchèvementReadModel {
+    if (!this.transmettreAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
       );
     }
-
-    const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
-      this.#transmettreOuModifierAttestationConformitéFixture;
-
-    return {
+    let result: Lauréat.Achèvement.ConsulterAchèvementReadModel = {
+      estAchevé: false,
       identifiantProjet,
-      estAchevé: true,
       dateAchèvementPrévisionnel:
         Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
           this.dateAchèvementPrévisionnelCalculée,
         ),
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(date).formatter(),
-        attestation.format,
-      ),
-      dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
-        dateTransmissionAuCocontractant,
-      ),
-      preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-        DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
-        preuve.format,
-      ),
-      misÀJourLe: DateTime.convertirEnValueType(date),
-      misÀJourPar: Email.convertirEnValueType(utilisateur),
     };
+
+    if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
+      result = {
+        ...result,
+        estAchevé: true,
+        ...this.transmettreAttestationConformitéFixture.mapToExpected(identifiantProjet),
+      };
+    }
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      result = {
+        ...result,
+        ...this.modifierAttestationConformitéFixture.mapToExpected(identifiantProjet),
+      };
+    }
+
+    return result;
+  }
+
+  mapToAttestation(): { format: string; content: string } | undefined {
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      return this.modifierAttestationConformitéFixture.attestation;
+    }
+    return this.transmettreAttestationConformitéFixture.attestation;
+  }
+
+  mapToPreuveTransmissionAuCocontractant(): { format: string; content: string } | undefined {
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      return this.modifierAttestationConformitéFixture.preuve;
+    }
+    return this.transmettreAttestationConformitéFixture.preuve;
   }
 }
