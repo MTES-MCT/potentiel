@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port';
 import { GarantiesFinancières } from '../..';
+import { IdentifiantProjet } from '../../../..';
 
 export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',

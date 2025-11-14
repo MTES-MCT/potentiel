@@ -4,8 +4,8 @@ import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
 import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/projet';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';

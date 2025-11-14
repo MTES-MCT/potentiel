@@ -1,5 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '../../..';
 
 export type PuissanceModifiéeEvent = DomainEvent<
   'PuissanceModifiée-V1',

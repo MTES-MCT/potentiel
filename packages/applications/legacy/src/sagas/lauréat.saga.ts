@@ -1,7 +1,7 @@
 import { ok } from 'neverthrow';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   CahierDesChargesChoisi,
   ProjectClasseGranted,
@@ -10,7 +10,7 @@ import {
   ProjectDCRDueDateSet,
   ProjectNotified,
 } from '../modules/project';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger } from '../core/utils';
 import { AppelOffre } from '@potentiel-domain/appel-offre';

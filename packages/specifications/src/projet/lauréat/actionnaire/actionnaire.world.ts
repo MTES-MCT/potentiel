@@ -1,6 +1,6 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture';

@@ -3,9 +3,9 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { Accès } from '@potentiel-domain/projet';
+import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { CréerPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';

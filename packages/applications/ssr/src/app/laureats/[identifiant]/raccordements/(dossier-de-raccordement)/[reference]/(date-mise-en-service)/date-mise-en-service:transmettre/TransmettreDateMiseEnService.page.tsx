@@ -1,7 +1,8 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';

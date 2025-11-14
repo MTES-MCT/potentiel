@@ -1,10 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
+import { IdentifiantProjet } from '../../../..';
 
 import { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière.command';
 
