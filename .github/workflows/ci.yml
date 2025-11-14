@@ -14,8 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
+      - uses: scalingo-community/setup-scalingo@v0.1.1
+        with:
+          region: ${{ secrets.SCALINGO_REGION }}
+          app_name: ${{ secrets.SCALINGO_APP }}
+          api_token: ${{ secrets.SCALINGO_TOKEN }}
       - name: Deploy to Development
-        run: |
-          curl -O https://cli-dl.scalingo.com/install && bash install
-          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
-          scalingo --app ${{ secrets.SCALINGO_APP }} --region ${{ secrets.SCALINGO_REGION }} integration-link-manual-deploy main
+        run: scalingo integration-link-manual-deploy main

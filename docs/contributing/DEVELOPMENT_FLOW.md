@@ -226,13 +226,6 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **Description**: Génére un fichier .dump de la base `metabase`
 - **Commande**: cf [.database/scripts/update-potentiel-dump.sh](../../.database/scripts/update-potentiel-dump.sh)
 
-#### `version`
-
-> ⚠️ Attention, ce script n'est utilisé que par la CI
-
-- **Description**: Calcule le numéro de version de l'application.
-- **Commande**: `tsx .github/getPatchVersion.ts`
-
 ## <a id="environnements"></a> Environnements
 
 Liste des environnements sur Scalingo :

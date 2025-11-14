@@ -80,7 +80,9 @@ jobs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
       - uses: actions/checkout@v4
-      - run: npm i -g tsx
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}

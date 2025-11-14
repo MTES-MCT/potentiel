@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#! /usr/bin/env node
 
 /**
  * Script to extract distinct tags from Cucumber/Gherkin feature files
