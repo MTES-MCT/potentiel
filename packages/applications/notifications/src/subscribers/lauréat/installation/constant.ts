@@ -3,6 +3,5 @@ export const installationNotificationTemplateId = {
   modifierTypologieInstallation: 7386566,
   modifierDispositifDeStockage: 7302254,
   enregistrerChangementInstallateur: 7462811,
-  // TODO: créer le template dans mailjet
-  enregistrerChangementDispositifDeStockage: 7462811,
+  enregistrerChangementDispositifDeStockage: 7492000,
 };
