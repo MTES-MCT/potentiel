@@ -5,7 +5,7 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleCandidatureCorrigée } from "./handlers.js";
+import { handleCandidatureCorrigée } from './handlers';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent;
 

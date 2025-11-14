@@ -8,10 +8,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { tâchePlanifiéeGarantiesFinancièresNotifications } from "./garanties-financières/tâche-planifiée.garantiesFinancières.notifications.js";
-import { tâchePlanifiéeReprésentantLégalNotifications } from "./représentant-légal/tâche-planifiée.représentantLégal.notifications.js";
-import { tâchePlanifiéeRaccordementNotifications } from "./raccordement/tâche-planifiée.raccordement.notifications.js";
-import { tâchePlanifiéeAchèvementNotifications } from "./achèvement/tâche-planifiée.achèvement.notifications.js";
+import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications';
+import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal/tâche-planifiée.représentantLégal.notifications';
+import { tâchePlanifiéeRaccordementNotifications } from './raccordement/tâche-planifiée.raccordement.notifications';
+import { tâchePlanifiéeAchèvementNotifications } from './achèvement/tâche-planifiée.achèvement.notifications';
 
 type TypeTâchePlanifiée =
   | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType

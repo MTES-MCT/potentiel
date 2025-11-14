@@ -3,7 +3,7 @@ import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { candidatureNotificationTemplateId } from "../constant.js";
+import { candidatureNotificationTemplateId } from '../constant';
 
 export const handleCandidatureCorrigée = async ({
   sendEmail,

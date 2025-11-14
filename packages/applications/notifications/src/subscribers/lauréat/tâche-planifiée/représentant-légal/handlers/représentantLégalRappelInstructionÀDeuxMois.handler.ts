@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { TâchePlanifiéeReprésentantLégalNotificationProps } from "../tâche-planifiée.représentantLégal.notifications.js";
+import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications';
 
 export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   sendEmail,

@@ -3,8 +3,8 @@ import { getBaseUrl } from '@/helpers';
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { AccèsNotificationsProps } from "../type.js";
-import { accèsNotificationTemplateId } from "../constant.js";
+import { AccèsNotificationsProps } from '../type';
+import { accèsNotificationTemplateId } from '../constant';
 
 export async function handleAccèsProjetRetiré({
   sendEmail,

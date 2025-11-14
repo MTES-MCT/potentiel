@@ -5,7 +5,7 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { utilisateurNotificationTemplateId } from "../constant.js";
+import { utilisateurNotificationTemplateId } from '../constant';
 
 export const handlePorteurInvité = async ({
   event: {

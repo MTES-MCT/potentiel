@@ -5,7 +5,7 @@ import { PorteurInvitéEvent, UtilisateurInvitéEvent } from '@potentiel-domain/
 
 import { SendEmail } from '@/sendEmail';
 
-import { handlePorteurInvité, handleUtilisateurInvité } from "./handlers.js";
+import { handlePorteurInvité, handleUtilisateurInvité } from './handlers';
 
 export type SubscriptionEvent = PorteurInvitéEvent | UtilisateurInvitéEvent;
 

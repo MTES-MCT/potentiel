@@ -5,7 +5,7 @@ import { Période } from '@potentiel-domain/periode';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handlePériodeNotifiée } from "./handlers.js";
+import { handlePériodeNotifiée } from './handlers';
 
 export type SubscriptionEvent = Période.PériodeEvent;
 

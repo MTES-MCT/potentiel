@@ -4,7 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleReprésentantLégalRappelInstructionÀDeuxMois } from "./handlers.js";
+import { handleReprésentantLégalRappelInstructionÀDeuxMois } from './handlers';
 
 type TâchePlanifiéeExecutéeReprésentantLégalEventPayload = {
   typeTâchePlanifiée: Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;

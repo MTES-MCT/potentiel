@@ -14,7 +14,7 @@ import {
   handleGarantiesFinancièresMiseÀJour,
   handleGarantiesFinancièresÉchues,
   handleMainlevéeDemandée,
-} from "./handlers.js";
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 

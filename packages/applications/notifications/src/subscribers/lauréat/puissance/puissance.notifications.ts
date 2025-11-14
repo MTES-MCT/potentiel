@@ -15,7 +15,7 @@ import {
   handleChangementPuissanceEnregistré,
   handleChangementPuissanceRejeté,
   handlePuissanceModifiée,
-} from "./handlers.js";
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 

@@ -4,8 +4,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { lauréatNotificationTemplateId } from "../constant.js";
-import { RegisterLauréatNotificationDependencies } from "../lauréat.notifications.js";
+import { lauréatNotificationTemplateId } from '../constant';
+import { RegisterLauréatNotificationDependencies } from '../lauréat.notifications';
 
 type HandleChangementNomProjetEnregistréProps = {
   sendEmail: RegisterLauréatNotificationDependencies['sendEmail'];

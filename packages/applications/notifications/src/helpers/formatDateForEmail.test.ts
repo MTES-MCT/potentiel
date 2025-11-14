@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { formatDateForEmail } from './formatDateForEmail.js';
+import { formatDateForEmail } from './formatDateForEmail';
 
 describe('formatDateForEmail', () => {
   it('should return an empty string if the date is undefined', () => {

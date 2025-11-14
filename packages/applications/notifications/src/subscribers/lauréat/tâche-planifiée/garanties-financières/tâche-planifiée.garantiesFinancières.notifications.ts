@@ -7,7 +7,7 @@ import { SendEmail } from '@/sendEmail';
 import {
   handleGarantiesFinancièresRappelEnAttente,
   handleGarantiesFinancièresRappelÉchéance,
-} from "./handlers.js";
+} from './handlers';
 
 type TâchePlanifiéeExecutéeGarantiesFinancièresEventPayload = {
   typeTâchePlanifiée: Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType;

@@ -6,7 +6,7 @@ import { Accès } from '@potentiel-domain/projet';
 
 import { SendEmail } from '@/sendEmail';
 
-import { handleAccèsProjetRetiré, handleAccèsProjetAutoriséSuiteÀRéclamation } from "./handlers.js";
+import { handleAccèsProjetRetiré, handleAccèsProjetAutoriséSuiteÀRéclamation } from './handlers';
 
 export type SubscriptionEvent = Accès.AccèsEvent;
 

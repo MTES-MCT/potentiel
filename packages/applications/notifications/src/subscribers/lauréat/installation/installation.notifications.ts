@@ -11,7 +11,7 @@ import {
   handleInstallateurModifié,
   handleTypologieInstallationModifiée,
   handleChangementInstallateurEnregistréNotification,
-} from "./handlers.js";
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent;
 

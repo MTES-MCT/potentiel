@@ -15,7 +15,7 @@ import {
   handleAbandonRejeté,
   handleConfirmationAbandonDemandée,
   handlePreuveRecandidatureDemandée,
-} from "./handlers.js";
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent;
 

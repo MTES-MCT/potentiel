@@ -4,8 +4,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { actionnaireNotificationTemplateId } from "../constant.js";
-import { ActionnaireNotificationsProps } from "../type.js";
+import { actionnaireNotificationTemplateId } from '../constant';
+import { ActionnaireNotificationsProps } from '../type';
 
 export const handleChangementActionnaireDemandé = async ({
   sendEmail,
