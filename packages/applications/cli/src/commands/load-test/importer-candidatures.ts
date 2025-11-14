@@ -49,18 +49,20 @@ export class ImporterCandidatures extends Command {
         enregistrerDocumentProjet: async () => {},
         archiverDocumentProjet: async () => {},
         déplacerDossierProjet: async () => {},
+        enregistrerDocumentSubstitut: async () => {},
       });
     } else {
       Document.registerDocumentProjetCommand({
         enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
         déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
         archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+        enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
       });
     }
 
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
-      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
     });
   }
 

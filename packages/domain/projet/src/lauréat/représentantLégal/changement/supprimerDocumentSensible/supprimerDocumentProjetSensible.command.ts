@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { EnregistrerDocumentSubstitutPort } from '../../../../document-projet';
 
 export type SupprimerDocumentProjetSensibleCommand = Message<
   'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
@@ -10,19 +11,14 @@ export type SupprimerDocumentProjetSensibleCommand = Message<
   }
 >;
 
-export type SupprimerDocumentProjetSensiblePort = (
-  documentProjet: DocumentProjet.ValueType,
-  raison: string,
-) => Promise<void>;
-
 export type SupprimerDocumentProjetSensibleCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-  supprimerDocumentProjetSensible: SupprimerDocumentProjetSensiblePort;
+  enregistrerDocumentSubstitut: EnregistrerDocumentSubstitutPort;
 };
 
 export const registerSupprimerDocumentProjetSensibleCommand = ({
   getProjetAggregateRoot,
-  supprimerDocumentProjetSensible,
+  enregistrerDocumentSubstitut,
 }: SupprimerDocumentProjetSensibleCommandDependencies) => {
   const handler: MessageHandler<SupprimerDocumentProjetSensibleCommand> = async ({
     identifiantProjet,
@@ -33,7 +29,7 @@ export const registerSupprimerDocumentProjetSensibleCommand = ({
     const { pièceJustificative } = projet.lauréat.représentantLégal;
 
     if (pièceJustificative) {
-      await supprimerDocumentProjetSensible(pièceJustificative, raison);
+      await enregistrerDocumentSubstitut(pièceJustificative, raison);
     }
   };
 

@@ -15,6 +15,10 @@ import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
 } from './enregistrer/enregistrerDocument.command';
+import {
+  EnregistrerDocumentSubstitutCommand,
+  EnregistrerDocumentSubstitutPort,
+} from './enregistrer/enregistrerDocumentSubstitut.command';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
@@ -27,12 +31,14 @@ export { ConsulterDocumentProjetReadModel };
 export type DocumentProjetCommand =
   | EnregistrerDocumentProjetCommand
   | DéplacerDossierProjetCommand
-  | CorrigerDocumentProjetCommand;
+  | CorrigerDocumentProjetCommand
+  | EnregistrerDocumentSubstitutCommand;
 
 export {
   EnregistrerDocumentProjetCommand,
   DéplacerDossierProjetCommand as DéplacerDocumentProjetCommand,
   CorrigerDocumentProjetCommand,
+  EnregistrerDocumentSubstitutCommand,
 };
 
 // Register
@@ -48,4 +54,5 @@ export {
   EnregistrerDocumentProjetPort,
   DéplacerDossierProjetPort,
   ArchiverDocumentProjetPort,
+  EnregistrerDocumentSubstitutPort,
 };

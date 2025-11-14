@@ -15,7 +15,7 @@ import {
 export const setupProjet = () => {
   registerProjetUseCases({
     getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
-    supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+    enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
   });
 
   registerProjetQueries({
