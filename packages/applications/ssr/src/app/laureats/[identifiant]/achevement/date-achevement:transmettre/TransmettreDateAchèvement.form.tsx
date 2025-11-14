@@ -33,7 +33,7 @@ export const TransmettreDateAchèvementForm: FC<TransmettreDateAchèvementFormPr
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-      <div>
+      <div className="max-w-sm">
         <InputDate
           label="Date d'achèvement"
           name="dateAchevement"
