@@ -22,12 +22,18 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['représentantLégal'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getReprésentantLégal = async ({
   identifiantProjet,
   rôle,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetReprésentantLégalForProjectPage | undefined> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
@@ -68,7 +74,9 @@ export const getReprésentantLégal = async ({
       const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
         await checkAutorisationChangement<'représentantLégal'>({
           rôle: Role.convertirEnValueType(rôle),
-          identifiantProjet,
+          aUnAbandonEnCours,
+          estAbandonné,
+          estAchevé,
           règlesChangementPourAppelOffres,
           domain: 'représentantLégal',
         });

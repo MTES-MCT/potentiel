@@ -7,11 +7,12 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
+  estAbandonné: boolean;
+  aUnAbandonEnCours: boolean;
 };
 
 export type GetRaccordementForProjectPage = {
@@ -25,6 +26,8 @@ export type GetRaccordementForProjectPage = {
 export const getRaccordement = async ({
   role,
   identifiantProjet,
+  aUnAbandonEnCours,
+  estAbandonné,
 }: GetRaccordementProps): Promise<GetRaccordementForProjectPage> => {
   if (!role.aLaPermission('raccordement.consulter')) {
     return {
@@ -44,11 +47,6 @@ export const getRaccordement = async ({
       Lauréat.Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
     )
   ) {
-    const { aUnAbandonEnCours, estAbandonné } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      role.nom,
-    );
-
     return {
       raccordement: Option.none,
       affichage: estAbandonné

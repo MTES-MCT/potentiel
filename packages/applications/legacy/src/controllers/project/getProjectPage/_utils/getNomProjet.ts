@@ -19,6 +19,9 @@ type Props = {
   rôle: Role.ValueType;
   project: ProjectDataForProjectPage;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['nomProjet'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getNomProjet = async ({
@@ -26,10 +29,15 @@ export const getNomProjet = async ({
   rôle,
   project,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetNomProjetForProjectPage> => {
   const { peutEnregistrerChangement } = await checkAutorisationChangement<'nomProjet'>({
     rôle,
-    identifiantProjet,
+    aUnAbandonEnCours,
+    estAbandonné,
+    estAchevé,
     règlesChangementPourAppelOffres,
     domain: 'nomProjet',
   });

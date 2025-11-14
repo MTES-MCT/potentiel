@@ -24,6 +24,9 @@ type Props = {
   rôle: string;
   nécessiteInstruction: boolean;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['actionnaire'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getActionnaire = async ({
@@ -31,6 +34,9 @@ export const getActionnaire = async ({
   rôle,
   nécessiteInstruction,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -62,10 +68,12 @@ export const getActionnaire = async ({
       const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
         await checkAutorisationChangement<'actionnaire'>({
           rôle: Role.convertirEnValueType(rôle),
-          identifiantProjet,
           règlesChangementPourAppelOffres,
           nécessiteInstruction,
           domain: 'actionnaire',
+          aUnAbandonEnCours,
+          estAbandonné,
+          estAchevé,
         });
 
       // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
