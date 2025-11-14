@@ -27,6 +27,7 @@ import {
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
+  ProjetDéjàAchevéError,
 } from './achèvement.error';
 import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
 import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event';
@@ -205,6 +206,10 @@ export class AchèvementAggregate extends AbstractAggregate<
     transmisePar,
   }: TransmettreDateAchèvementOptions) {
     // this.lauréat.vérifierQueLeLauréatExiste();
+
+    if (this.#estAchevé) {
+      throw new ProjetDéjàAchevéError();
+    }
 
     if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
       throw new DateAchèvementAntérieureÀDateNotificationError();
