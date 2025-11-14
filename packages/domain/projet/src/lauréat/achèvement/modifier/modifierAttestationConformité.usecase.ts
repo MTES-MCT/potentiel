@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { TypeDocumentAttestationConformité } from '..';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import { IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
 import { ModifierAttestationConformitéCommand } from './modifierAttestationConformité.command';
 
