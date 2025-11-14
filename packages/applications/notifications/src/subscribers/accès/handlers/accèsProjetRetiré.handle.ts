@@ -1,7 +1,8 @@
+import { getBaseUrl } from '@helpers';
+
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { getBaseUrl } from '../../../_helpers';
 import { AccèsNotificationsProps } from '../type';
 import { accèsNotificationTemplateId } from '../constant';
 

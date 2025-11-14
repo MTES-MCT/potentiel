@@ -1,8 +1,10 @@
+import { listerDgecRecipients, listerDrealsRecipients } from '@helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDgecRecipients, listerDrealsRecipients } from '../../../../_helpers';
-import { Recipient } from '../../../../sendEmail';
+import { Recipient } from '@/sendEmail';
+
 import { puissanceNotificationTemplateId } from '../constant';
 import { PuissanceNotificationsProps } from '../type';
 

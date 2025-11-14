@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
+import { getLauréat } from '@helpers';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat } from '../../../_helpers';
-import { SendEmail } from '../../../sendEmail';
+import { SendEmail } from '@/sendEmail';
 
 import {
   handleAbandonAccordé,

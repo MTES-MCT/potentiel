@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { getBaseUrl, NotificationHandlerProps } from '@helpers';
 
 import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -8,7 +9,6 @@ import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, NotificationHandlerProps } from '../../../_helpers';
 import { périodeNotificationTemplateId } from '../constant';
 
 export const handlePériodeNotifiée = async ({

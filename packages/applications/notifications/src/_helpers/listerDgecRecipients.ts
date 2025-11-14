@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Recipient } from '../sendEmail';
+import { Recipient } from '@/sendEmail';
 
 import { getAppelOffre } from './getAppelOffre';
 

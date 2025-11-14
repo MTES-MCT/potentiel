@@ -1,8 +1,12 @@
+import {
+  getBaseUrl,
+  listerPorteursRecipients,
+  listerRecipientsAutoritéInstructrice,
+} from '@helpers';
+
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../../_helpers';
-import { listerRecipientsAutoritéInstructrice } from '../../../../_helpers/listerRecipientsAutoritéInstructrice';
 import { abandonNotificationTemplateId } from '../constant';
 import { AbandonNotificationsProps } from '../type';
 

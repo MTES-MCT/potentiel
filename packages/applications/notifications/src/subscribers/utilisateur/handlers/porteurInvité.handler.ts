@@ -1,9 +1,10 @@
+import { getBaseUrl, getCandidature, NotificationHandlerProps } from '@helpers';
+
 import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature, NotificationHandlerProps } from '../../../_helpers';
 import { utilisateurNotificationTemplateId } from '../constant';
 
 export const handlePorteurInvité = async ({

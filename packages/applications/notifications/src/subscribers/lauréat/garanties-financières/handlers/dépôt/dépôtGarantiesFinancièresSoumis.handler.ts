@@ -1,9 +1,10 @@
+import { listerDrealsRecipients, listerPorteursRecipients } from '@helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { GarantiesFinancièresNotificationsProps } from '../../type';
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../../_helpers';
 import { garantiesFinancièresNotificationTemplateId } from '../../constant';
 
 export const handleDépôtGarantiesFinancièresSoumis = async ({

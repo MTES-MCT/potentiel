@@ -1,7 +1,8 @@
+import { listerDrealsRecipients, listerPorteursRecipients } from '@helpers';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
 import { AchèvementNotificationsProps } from '../type';
 
 export const handleAttestationConformitéTransmise = async ({

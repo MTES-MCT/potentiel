@@ -2,7 +2,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerRecipientsAutoritéInstructrice } from '../../../../_helpers/listerRecipientsAutoritéInstructrice';
+import { listerRecipientsAutoritéInstructrice } from '@/_helpers';
+
 import { délaiNotificationTemplateId } from '../constant';
 import { DélaiNotificationsProps } from '../type';
 

@@ -1,10 +1,10 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
+import { getLauréat, getBaseUrl } from '@helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat, getBaseUrl } from '../../../_helpers';
+import { SendEmail } from '@/sendEmail';
 
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler';
 import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler';

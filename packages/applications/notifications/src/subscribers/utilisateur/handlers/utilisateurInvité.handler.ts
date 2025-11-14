@@ -1,9 +1,9 @@
 import { match, P } from 'ts-pattern';
+import { getBaseUrl, NotificationHandlerProps } from '@helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl, NotificationHandlerProps } from '../../../_helpers';
 import { utilisateurNotificationTemplateId } from '../constant';
 
 export async function handleUtilisateurInvité({

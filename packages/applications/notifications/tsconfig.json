@@ -2,7 +2,11 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "paths": {
+      "@helpers": ["./src/_helpers/index"],
+      "@/*": ["./src/*"]
+    }
   },
   "references": [
     {

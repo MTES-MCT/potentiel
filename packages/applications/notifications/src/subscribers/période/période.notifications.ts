@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 
 import { Période } from '@potentiel-domain/periode';
 
-import { SendEmail } from '../../sendEmail';
+import { SendEmail } from '@/sendEmail';
 
 import { handlePériodeNotifiée } from './handlers';
 
