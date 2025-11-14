@@ -42,7 +42,7 @@ export type ReprésentantLégalCommandDependencies = {
 } & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerReprésentantLégalUseCases = ({
-  supprimerDocumentProjetSensible,
+  enregistrerDocumentSubstitut,
   getProjetAggregateRoot,
 }: ReprésentantLégalCommandDependencies) => {
   registerModifierReprésentantLégalCommand(getProjetAggregateRoot);
@@ -68,7 +68,7 @@ export const registerReprésentantLégalUseCases = ({
 
   registerSupprimerDocumentProjetSensibleCommand({
     getProjetAggregateRoot,
-    supprimerDocumentProjetSensible,
+    enregistrerDocumentSubstitut,
   });
 };
 
