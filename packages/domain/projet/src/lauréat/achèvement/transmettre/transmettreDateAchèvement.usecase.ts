@@ -11,8 +11,8 @@ export type TransmettreDateAchèvementUseCase = Message<
   {
     identifiantProjetValue: string;
     dateAchèvementValue: string;
-    transmisLeValue: string;
-    transmisParValue: string;
+    transmiseLeValue: string;
+    transmiseParValue: string;
   }
 >;
 
@@ -20,14 +20,14 @@ export const registerTransmettreDateAchèvementUseCase = () => {
   const runner: MessageHandler<TransmettreDateAchèvementUseCase> = async ({
     identifiantProjetValue,
     dateAchèvementValue,
-    transmisLeValue,
-    transmisParValue,
+    transmiseLeValue,
+    transmiseParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const dateAchèvement = DateTime.convertirEnValueType(dateAchèvementValue);
-    const transmisLe = DateTime.convertirEnValueType(transmisLeValue);
-    const transmisPar = Email.convertirEnValueType(transmisParValue);
+    const transmiseLe = DateTime.convertirEnValueType(transmiseLeValue);
+    const transmisePar = Email.convertirEnValueType(transmiseParValue);
 
     // await mediator.send<EnregistrerDocumentProjetCommand>({
     //   type: 'Document.Command.EnregistrerDocumentProjet',
@@ -42,8 +42,9 @@ export const registerTransmettreDateAchèvementUseCase = () => {
       data: {
         identifiantProjet,
         dateAchèvement,
-        transmisLe,
-        transmisPar,
+        attestation: { format: 'application/pdf' },
+        transmiseLe,
+        transmisePar,
       },
     });
   };

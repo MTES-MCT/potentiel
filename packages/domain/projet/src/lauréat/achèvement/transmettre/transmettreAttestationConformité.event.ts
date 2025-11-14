@@ -18,21 +18,6 @@ export type AttestationConformitéTransmiseEvent = DomainEvent<
   }
 >;
 
-/**
- * Evènement temporaire, mis en place pour l'automatisation de la transmissiond de la date d'achèvement par le co-contractant, en attendant que le dépôt de l'attestation soit fait sur Potentiel.
- **/
-export type DateAchèvementTransmiseEvent = DomainEvent<
-  'DateAchèvementTransmise-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    /** document sans valeur, pour palier au manque temporaire d'attestation entre AttestationConformitéTransmise-V1 et AttestationConformitéTransmise-V2 */
-    attestation: { format: string };
-    dateTransmissionAuCocontractant: DateTime.RawType;
-    transmisLe: DateTime.RawType;
-    transmisPar: Email.RawType;
-  }
->;
-
 // /**
 //  * Représente la transmission de l'attestation de conformité par le Porteur, sans transmission préalable au co-contractant.
 //  * La date de transmission vaut date d'achèvement du projet, une fois l'attestation validée par le co-contractant.

@@ -4,6 +4,8 @@ import { AbstractFixture } from '../../../../fixture';
 
 interface TransmettreDateAchèvement {
   readonly dateAchèvement: string;
+  readonly transmiseLe: string;
+  readonly transmisePar: string;
 }
 
 export class TransmettreDateAchèvementFixture
@@ -16,9 +18,22 @@ export class TransmettreDateAchèvementFixture
     return this.#dateAchèvement;
   }
 
+  #transmiseLe!: string;
+
+  get transmiseLe(): string {
+    return this.#transmiseLe;
+  }
+
+  #transmisePar!: string;
+
+  get transmisePar(): string {
+    return this.#transmisePar;
+  }
   créer(partialFixture?: Partial<TransmettreDateAchèvement>): TransmettreDateAchèvement {
     const fixture: TransmettreDateAchèvement = {
       dateAchèvement: faker.date.past().toISOString(),
+      transmiseLe: faker.date.recent().toISOString(),
+      transmisePar: faker.internet.email(),
       ...partialFixture,
     };
 

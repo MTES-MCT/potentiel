@@ -135,18 +135,25 @@ Quand(
 
 Quand(
   "le co-contractant transmet la date d'achèvement {string} pour le projet lauréat",
-  async function (this: PotentielWorld, dateTransmise: string) {
+  async function (this: PotentielWorld, dateAchèvementValue: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
       // const = this.lauréatWorld.achèvementWorld.tra
+
+      const { dateAchèvement, transmiseLe, transmisePar } =
+        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({
+          dateAchèvement: dateAchèvementValue,
+        });
 
       await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
         type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateAchèvementValue: DateTime.convertirEnValueType(dateTransmise).formatter(),
-          transmisLeValue: DateTime.now().formatter(),
-          transmisParValue: 'testXX@test.test',
+          dateAchèvementValue: DateTime.convertirEnValueType(
+            new Date(dateAchèvement).toISOString(),
+          ).formatter(),
+          transmiseLeValue: transmiseLe,
+          transmiseParValue: transmisePar,
         },
       });
     } catch (error) {

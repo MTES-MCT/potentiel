@@ -8,6 +8,7 @@ import { attestationConformitéTransmiseProjector } from './attestationConformit
 import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector';
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector';
 import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector';
+import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent | RebuildTriggered;
 
@@ -23,6 +24,7 @@ export const register = () => {
         { type: 'DateAchèvementPrévisionnelCalculée-V1' },
         dateAchèvementPrévisionnelCalculéeProjector,
       )
+      .with({ type: 'DateAchèvementTransmise-V1' }, dateAchèvementTransmiseProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Achèvement', handler);
