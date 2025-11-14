@@ -1,1 +1,1 @@
-export * from './candidatureCorrigée.handler';
+export * from './candidatureCorrigée.handler.js';

@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
-import { getLauréat } from '@/helpers';
-import { getBaseUrl } from '@/helpers';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SendEmail } from '@/sendEmail';
+import { getLauréat } from '#helpers';
+import { getBaseUrl } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleDemandeDélaiAccordée,
@@ -15,7 +15,7 @@ import {
   handleDemandeDélaiPasséeEnInstruction,
   handleDemandeDélaiRejetée,
   handleDélaiDemandé,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent;
 

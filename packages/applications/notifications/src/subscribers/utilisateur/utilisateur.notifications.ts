@@ -3,9 +3,9 @@ import { match } from 'ts-pattern';
 
 import { PorteurInvitéEvent, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { SendEmail } from '@/sendEmail';
+import { SendEmail } from '#sendEmail';
 
-import { handlePorteurInvité, handleUtilisateurInvité } from './handlers';
+import { handlePorteurInvité, handleUtilisateurInvité } from './handlers/index.js';
 
 export type SubscriptionEvent = PorteurInvitéEvent | UtilisateurInvitéEvent;
 

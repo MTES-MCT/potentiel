@@ -1,11 +1,11 @@
-import { listerPorteursRecipients, listerDrealsRecipients } from '@/helpers';
-
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { InstallationNotificationsProps } from '../type';
-import { installationNotificationTemplateId } from '../constant';
+import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
+
+import { InstallationNotificationsProps } from '../type.js';
+import { installationNotificationTemplateId } from '../constant.js';
 
 export const handleChangementInstallateurEnregistréNotification = async ({
   sendEmail,

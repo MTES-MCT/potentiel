@@ -1,13 +1,13 @@
 import { match } from 'ts-pattern';
-import { getLauréat, listerPorteursRecipients } from '@/helpers';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { EmailPayload } from '@/sendEmail';
+import { getLauréat, listerPorteursRecipients } from '#helpers';
+import { EmailPayload } from '#sendEmail';
 
-import { lauréatNotificationTemplateId } from '../constant';
-import { LauréatNotificationsProps } from '../type';
+import { lauréatNotificationTemplateId } from '../constant.js';
+import { LauréatNotificationsProps } from '../type.js';
 
 export const handleCahierDesChargesChoisi = async ({
   event: { payload },

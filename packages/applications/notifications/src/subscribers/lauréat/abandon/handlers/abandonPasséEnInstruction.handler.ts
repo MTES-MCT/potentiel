@@ -1,10 +1,10 @@
-import { getBaseUrl, listerPorteursRecipients } from '@/helpers';
-
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { abandonNotificationTemplateId } from '../constant';
-import { AbandonNotificationsProps } from '../type';
+import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+
+import { abandonNotificationTemplateId } from '../constant.js';
+import { AbandonNotificationsProps } from '../type.js';
 
 export const handleAbandonPasséEnInstruction = async ({
   sendEmail,

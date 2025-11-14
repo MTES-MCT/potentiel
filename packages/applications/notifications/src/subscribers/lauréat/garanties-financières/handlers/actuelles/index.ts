@@ -1,3 +1,3 @@
-export * from './attestationGarantiesFinancièresEnregistrée.handler';
-export * from './garantiesFinancièresMiseÀJour.handler';
-export * from './garantiesFinancièresÉchues.handler';
+export * from './attestationGarantiesFinancièresEnregistrée.handler.js';
+export * from './garantiesFinancièresMiseÀJour.handler.js';
+export * from './garantiesFinancièresÉchues.handler.js';

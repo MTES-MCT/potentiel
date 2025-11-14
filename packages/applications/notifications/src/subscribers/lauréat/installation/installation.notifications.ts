@@ -1,17 +1,17 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match } from 'ts-pattern';
-import { getBaseUrl, getLauréat } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '@/sendEmail';
+import { getBaseUrl, getLauréat } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleDispositifDeStockageModifié,
   handleInstallateurModifié,
   handleTypologieInstallationModifiée,
   handleChangementInstallateurEnregistréNotification,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent;
 

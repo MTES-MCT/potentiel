@@ -1,1 +1,1 @@
-export * from './attestationConformitéTransmise.handler';
+export * from './attestationConformitéTransmise.handler.js';

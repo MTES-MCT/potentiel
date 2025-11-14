@@ -2,10 +2,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../../../helpers';
+import { listerDrealsRecipients } from '#helpers';
 
-import { GarantiesFinancièresNotificationsProps } from '../../type';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant';
+import { GarantiesFinancièresNotificationsProps } from '../../type.js';
+import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
 
 export const handleAttestationGarantiesFinancièresEnregistrée = async ({
   event,

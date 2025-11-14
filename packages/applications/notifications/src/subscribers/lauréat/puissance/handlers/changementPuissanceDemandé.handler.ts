@@ -1,13 +1,12 @@
-import { listerDgecRecipients, listerDrealsRecipients } from '@/helpers';
-
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { Recipient } from '@/sendEmail';
+import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
+import { Recipient } from '#sendEmail';
 
-import { puissanceNotificationTemplateId } from '../constant';
-import { PuissanceNotificationsProps } from '../type';
+import { puissanceNotificationTemplateId } from '../constant.js';
+import { PuissanceNotificationsProps } from '../type.js';
 
 export const handleChangementPuissanceDemandé = async ({
   sendEmail,
