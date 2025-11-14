@@ -3,7 +3,6 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
@@ -80,7 +79,6 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
             : "Date de prise d'effet"
         }
         name="dateConstitution"
-        max={DateTime.now().formatter()}
         defaultValue={gfActuelles?.constitution?.date.formatter()}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
