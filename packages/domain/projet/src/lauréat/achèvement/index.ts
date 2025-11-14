@@ -5,13 +5,19 @@ import {
 } from './consulter/consulterAchèvement.query';
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
+import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase';
 
 // UseCases
 export type AchèvementUseCase =
   | TransmettreAttestationConformitéUseCase
-  | ModifierAttestationConformitéUseCase;
+  | ModifierAttestationConformitéUseCase
+  | TransmettreDateAchèvementUseCase;
 
-export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformitéUseCase };
+export {
+  TransmettreAttestationConformitéUseCase,
+  ModifierAttestationConformitéUseCase,
+  TransmettreDateAchèvementUseCase,
+};
 
 // Query
 export type AchèvementQuery = ConsulterAchèvementQuery;
