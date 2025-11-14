@@ -3,6 +3,8 @@ import { IdentifiantProjet, CahierDesCharges, Lauréat } from '@potentiel-domain
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getAppelOffres } from '../../candidature/_helpers/getAppelOffres';
+
 export const getCahierDesCharges = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<CahierDesCharges.ValueType | undefined> => {
@@ -11,11 +13,9 @@ export const getCahierDesCharges = async (
     {},
   );
 
-  const appelOffres = await findProjection<AppelOffre.AppelOffreEntity>(
-    `appel-offre|${identifiantProjet.appelOffre}`,
-  );
+  const appelOffres = await getAppelOffres(identifiantProjet);
 
-  if (Option.isNone(appelOffres) || Option.isNone(lauréat)) {
+  if (Option.isNone(lauréat)) {
     return undefined;
   }
 

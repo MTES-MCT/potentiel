@@ -2,6 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { loadFromStream } from '../../load/loadFromStream';
 import { Subscriber } from '../subscriber/subscriber';
+import { RebuildFailedError } from '../errors/RebuildFailed.error';
 
 import { RebuildTriggered } from './rebuildTriggered.event';
 
@@ -20,6 +21,10 @@ export const rebuild = async <TEvent extends DomainEvent = DomainEvent>(
   await eventHandler(rebuildTriggered as unknown as TEvent);
 
   for (const event of events) {
-    await eventHandler(event as TEvent);
+    try {
+      await eventHandler(event as TEvent);
+    } catch (error) {
+      throw new RebuildFailedError(error, event);
+    }
   }
 };

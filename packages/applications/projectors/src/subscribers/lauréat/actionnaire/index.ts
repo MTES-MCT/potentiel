@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { actionnaireImportéProjector } from './actionnaireImporté.projector';
 import { actionnaireModifiéProjector } from './actionnaireModifié.projector';
-import { actionnaireRebuilTriggered } from './actionnaireRebuildTriggered.projector';
+import { actionnaireRebuildTriggered } from './actionnaireRebuildTriggered.projector';
 import { changementActionnaireAccordéProjector } from './changementActionnaireAccordé.projector';
 import { changementActionnaireAnnuléProjector } from './changementActionnaireAnnulé.projector';
 import { changementActionnaireDemandéProjector } from './changementActionnaireDemandé.projector';
@@ -21,7 +21,7 @@ export type Execute = Message<'System.Projector.Lauréat.Actionnaire', Subscript
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, actionnaireRebuilTriggered)
+      .with({ type: 'RebuildTriggered' }, actionnaireRebuildTriggered)
       .with({ type: 'ActionnaireImporté-V1' }, actionnaireImportéProjector)
       .with({ type: 'ActionnaireModifié-V1' }, actionnaireModifiéProjector)
       .with({ type: 'ChangementActionnaireDemandé-V1' }, changementActionnaireDemandéProjector)

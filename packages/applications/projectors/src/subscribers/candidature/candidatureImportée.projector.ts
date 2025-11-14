@@ -1,19 +1,14 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { Option } from '@potentiel-libraries/monads';
+
+import { getAppelOffres } from './_helpers/getAppelOffres';
 
 export const candidatureImportéeProjector = async ({
   payload,
 }: Candidature.CandidatureImportéeEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
-  const appelOffres = await findProjection<AppelOffre.AppelOffreEntity>(
-    `appel-offre|${identifiantProjet.appelOffre}`,
-  );
-  if (Option.isNone(appelOffres)) {
-    throw new Error("Appel d'offres non trouvé");
-  }
+  const appelOffres = await getAppelOffres(identifiantProjet);
   const candidatureToUpsert = mapToCandidatureToUpsert({ appelOffres, identifiantProjet, payload });
 
   await upsertProjection<Candidature.CandidatureEntity>(
@@ -29,7 +24,7 @@ export const mapToCandidatureToUpsert = ({
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: Candidature.CandidatureImportéeEvent['payload'];
-  appelOffres: AppelOffre.AppelOffreEntity;
+  appelOffres: AppelOffre.AppelOffreReadModel;
 }): Omit<Candidature.CandidatureEntity, 'type'> => {
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,

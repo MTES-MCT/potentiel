@@ -8,7 +8,7 @@ import { tâcheAjoutéeProjector } from './tâcheAjoutée.projector';
 import { tâcheRenouvelléeProjector } from './tâcheRenouvellée.projector';
 import { tâcheRelancéeProjector } from './tâcheRelancée.projector';
 import { tâcheAchevéeProjector } from './tâcheAchevée.projector';
-import { tâcheRebuilTriggered } from './tâcheRebuildTriggered.projector';
+import { tâcheRebuildTriggered } from './tâcheRebuildTriggered.projector';
 
 export type SubscriptionEvent = Lauréat.Tâche.TâcheEvent | RebuildTriggered;
 
@@ -17,7 +17,7 @@ export type Execute = Message<'System.Projector.Tâche', SubscriptionEvent>;
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, tâcheRebuilTriggered)
+      .with({ type: 'RebuildTriggered' }, tâcheRebuildTriggered)
       .with({ type: 'TâcheAjoutée-V1' }, tâcheAjoutéeProjector)
       .with({ type: 'TâcheRenouvellée-V1' }, tâcheRenouvelléeProjector)
       .with({ type: 'TâcheRelancée-V1' }, tâcheRelancéeProjector)
