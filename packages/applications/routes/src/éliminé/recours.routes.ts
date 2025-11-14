@@ -12,6 +12,9 @@ export const lister = withFilters<ListerFilters>(`/recours`);
 export const détail = (identifiantProjet: string) =>
   `/elimines/${encodeParameter(identifiantProjet)}/recours`;
 
+export const détailAccordé = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/recours`;
+
 export const demander = (identifiantProjet: string) =>
   `/elimines/${encodeParameter(identifiantProjet)}/recours/demander`;
 

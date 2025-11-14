@@ -1,9 +1,6 @@
 import { FC } from 'react';
 
-import { PageTemplate } from './Page.template';
-
 type ColumnPageTemplateProps = {
-  banner: React.ReactNode;
   children?: React.ReactNode;
   heading?: React.ReactNode;
   leftColumn: {
@@ -17,13 +14,12 @@ type ColumnPageTemplateProps = {
 };
 
 export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
-  banner,
   children,
   heading,
   leftColumn,
   rightColumn,
 }) => (
-  <PageTemplate banner={banner}>
+  <>
     {heading ?? null}
     <div className="flex flex-col lg:flex-row gap-12 mt-6 items-start">
       <div className={`flex-1 ${leftColumn.className ?? ''}`}>{leftColumn.children}</div>
@@ -32,5 +28,5 @@ export const ColumnPageTemplate: FC<ColumnPageTemplateProps> = ({
       </div>
     </div>
     {children ?? null}
-  </PageTemplate>
+  </>
 );

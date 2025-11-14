@@ -18,7 +18,7 @@ const schema = zod.object({
 export type AccorderRecoursFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _,
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Recours.détail(identifiantProjet) },
+      redirection: { url: Routes.Recours.détailAccordé(identifiantProjet) },
     };
   });
 };
