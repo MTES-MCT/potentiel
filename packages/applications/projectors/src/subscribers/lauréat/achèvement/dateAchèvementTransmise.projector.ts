@@ -11,7 +11,7 @@ export const dateAchèvementTransmiseProjector = async ({
       réel: {
         attestationConformité: {
           format: payload.attestation.format,
-          date: payload.dateAchèvement,
+          date: payload.transmiseLe,
         },
         /**
          * TODO

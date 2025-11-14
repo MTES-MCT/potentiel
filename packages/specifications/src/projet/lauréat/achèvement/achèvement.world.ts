@@ -52,11 +52,6 @@ export class AchèvementWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Lauréat.Achèvement.ConsulterAchèvementReadModel {
-    if (!this.transmettreAttestationConformitéFixture.aÉtéCréé) {
-      throw new Error(
-        `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
-      );
-    }
     let result: Lauréat.Achèvement.ConsulterAchèvementReadModel = {
       estAchevé: false,
       identifiantProjet,
@@ -77,6 +72,13 @@ export class AchèvementWorld {
       result = {
         ...result,
         ...this.modifierAttestationConformitéFixture.mapToExpected(identifiantProjet),
+      };
+    }
+    if (this.transmettreDateAchèvementFixture.aÉtéCréé) {
+      result = {
+        ...result,
+        estAchevé: true,
+        ...this.transmettreDateAchèvementFixture.mapToExpected(identifiantProjet),
       };
     }
 

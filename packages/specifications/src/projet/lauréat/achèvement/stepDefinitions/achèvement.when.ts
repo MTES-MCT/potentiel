@@ -2,7 +2,6 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
@@ -138,7 +137,6 @@ Quand(
   async function (this: PotentielWorld, dateAchèvementValue: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
-      // const = this.lauréatWorld.achèvementWorld.tra
 
       const { dateAchèvement, transmiseLe, transmisePar } =
         this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({
@@ -149,9 +147,7 @@ Quand(
         type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateAchèvementValue: DateTime.convertirEnValueType(
-            new Date(dateAchèvement).toISOString(),
-          ).formatter(),
+          dateAchèvementValue: dateAchèvement,
           transmiseLeValue: transmiseLe,
           transmiseParValue: transmisePar,
         },
