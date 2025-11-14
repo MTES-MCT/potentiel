@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Accès } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -23,13 +23,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-        type: 'Lauréat.Query.ConsulterLauréat',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
       const nombreDeProjets = await getNombreProjets(utilisateur);
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
@@ -46,14 +39,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         utilisateurQuiInvite: utilisateur,
         identifiantProjet,
         nombreDeProjets,
-        lauréat,
       });
       return (
         <AccèsListPage
           identifiantProjet={props.identifiantProjet}
           nombreDeProjets={props.nombreDeProjets}
           accès={props.accès}
-          statut={props.statut}
         />
       );
     }),
@@ -66,7 +57,6 @@ type MapToProps = (props: {
   accès: Email.ValueType[];
 
   utilisateurQuiInvite: Utilisateur.ValueType;
-  lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>;
 }) => AccèsListPageProps;
 
 const mapToProps: MapToProps = ({
@@ -74,7 +64,6 @@ const mapToProps: MapToProps = ({
   identifiantProjet,
   nombreDeProjets,
   utilisateurQuiInvite,
-  lauréat,
 }) =>
   mapToPlainObject({
     accès: accès.map((identifiantUtilisateur) => ({
@@ -86,9 +75,6 @@ const mapToProps: MapToProps = ({
     })),
     identifiantProjet: identifiantProjet.formatter(),
     nombreDeProjets,
-    statut: Option.match(lauréat)
-      .some(() => 'lauréat' as 'lauréat' | 'éliminé')
-      .none(() => 'éliminé'),
   });
 
 const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
