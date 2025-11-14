@@ -38,7 +38,7 @@ export const handleChangementDispositifDeStockageEnregistréNotification = async
 
   await sendEmail({
     templateId: installationNotificationTemplateId.enregistrerChangementDispositifDeStockage,
-    messageSubject: `Potentiel - Déclaration de de dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

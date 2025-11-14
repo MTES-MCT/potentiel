@@ -8,6 +8,7 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 export interface EnregistrerChangementDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType;
   readonly enregistréLe: string;
+  readonly enregistréPar: string;
   readonly pièceJustificative: { format: string; content: ReadableStream };
   readonly raison: string;
 }
@@ -26,6 +27,12 @@ export class EnregistrerChangementDispositifDeStockageFixture
 
   get enregistréLe(): string {
     return this.#enregistréLe;
+  }
+
+  #enregistréPar!: string;
+
+  get enregistréPar(): string {
+    return this.#enregistréPar;
   }
 
   #format!: string;
@@ -64,6 +71,7 @@ export class EnregistrerChangementDispositifDeStockageFixture
           }
         : { installationAvecDispositifDeStockage },
       enregistréLe: faker.date.recent().toISOString(),
+      enregistréPar: faker.internet.email(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -77,6 +85,7 @@ export class EnregistrerChangementDispositifDeStockageFixture
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
     this.#raison = fixture.raison;
+    this.#enregistréPar = fixture.enregistréPar;
 
     this.aÉtéCréé = true;
 
