@@ -23,14 +23,12 @@ Fonctionnalité: Transmettre la date d'achèvement
     #     | nom_projet | Du boulodrome de Marseille                                                                                   |
     #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
     Scénario: Impossible de transmettre une date d'achèvement antérieure à la date de désignation du projet
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
-            | date notification | 2025-11-01 |
         Quand le co-contractant transmet la date d'achèvement "2025-09-01" pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"
 
-    @NotImplemented
-    Scénario: Impossible de transmettre une date d'achèvement postérieure à la date actuelle
-
+    Scénario: Impossible de transmettre une date d'achèvement future
+        Quand le co-contractant transmet la date d'achèvement "2050-09-01" pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "La date d'achèvement ne peut pas être dans le futur"
 
     @NotImplemented
     Scénario: Impossible de transmettre une date d'achèvement pour un projet déjà achevé
