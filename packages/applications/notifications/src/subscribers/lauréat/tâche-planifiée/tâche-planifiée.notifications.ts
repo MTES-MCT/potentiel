@@ -1,17 +1,17 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
-import { getBaseUrl, getLauréat } from '@/helpers';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { getBaseUrl, getLauréat } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
-import { tâchePlanifiéeGarantiesFinancièresNotifications } from "./garanties-financières/tâche-planifiée.garantiesFinancières.notifications.js";
-import { tâchePlanifiéeReprésentantLégalNotifications } from "./représentant-légal/tâche-planifiée.représentantLégal.notifications.js";
-import { tâchePlanifiéeRaccordementNotifications } from "./raccordement/tâche-planifiée.raccordement.notifications.js";
-import { tâchePlanifiéeAchèvementNotifications } from "./achèvement/tâche-planifiée.achèvement.notifications.js";
+import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications.js';
+import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal/tâche-planifiée.représentantLégal.notifications.js';
+import { tâchePlanifiéeRaccordementNotifications } from './raccordement/tâche-planifiée.raccordement.notifications.js';
+import { tâchePlanifiéeAchèvementNotifications } from './achèvement/tâche-planifiée.achèvement.notifications.js';
 
 type TypeTâchePlanifiée =
   | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType

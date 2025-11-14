@@ -1,9 +1,9 @@
-import { listerPorteursRecipients, listerDrealsRecipients } from '@/helpers';
-
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from "../tâche-planifiée.garantiesFinancières.notifications.js";
+import { listerPorteursRecipients, listerDrealsRecipients } from '@/helpers';
+
+import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
 
 export const handleGarantiesFinancièresRappelEnAttente = async ({
   sendEmail,

@@ -1,10 +1,11 @@
 import { match, P } from 'ts-pattern';
-import { getBaseUrl, NotificationHandlerProps } from '@/helpers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { utilisateurNotificationTemplateId } from "../constant.js";
+import { getBaseUrl, NotificationHandlerProps } from '@/helpers';
+
+import { utilisateurNotificationTemplateId } from '../constant.js';
 
 export async function handleUtilisateurInvité({
   event: {

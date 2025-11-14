@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
-import { getLauréat } from '@/helpers';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { getLauréat } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
 import {
   handleChangementFournisseurEnregistré,
   handleFournisseurModifié,
   handleÉvaluationCarboneSimplifiéeModifiée,
-} from "./handlers.js";
+} from './handlers.js';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent;
 

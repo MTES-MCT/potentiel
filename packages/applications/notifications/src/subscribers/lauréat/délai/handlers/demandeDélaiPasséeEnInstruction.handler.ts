@@ -1,11 +1,11 @@
-import { listerPorteursRecipients } from '@/helpers';
-
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { délaiNotificationTemplateId } from "../constant.js";
-import { DélaiNotificationsProps } from "../type.js";
+import { listerPorteursRecipients } from '@/helpers';
+
+import { délaiNotificationTemplateId } from '../constant.js';
+import { DélaiNotificationsProps } from '../type.js';
 
 export const handleDemandeDélaiPasséeEnInstruction = async ({
   sendEmail,

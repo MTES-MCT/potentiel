@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
-import { getLauréat } from '@/helpers';
-import { getBaseUrl } from '@/helpers';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { getLauréat } from '@/helpers';
+import { getBaseUrl } from '@/helpers';
 import { SendEmail } from '@/sendEmail';
 
 import {
@@ -15,7 +15,7 @@ import {
   handleChangementPuissanceEnregistré,
   handleChangementPuissanceRejeté,
   handlePuissanceModifiée,
-} from "./handlers.js";
+} from './handlers.js';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 

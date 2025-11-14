@@ -1,10 +1,10 @@
-import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
-
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { actionnaireNotificationTemplateId } from "../constant.js";
-import { ActionnaireNotificationsProps } from "../type.js";
+import { listerDrealsRecipients, listerPorteursRecipients } from '@/helpers';
+
+import { actionnaireNotificationTemplateId } from '../constant.js';
+import { ActionnaireNotificationsProps } from '../type.js';
 
 export const handleActionnaireModifié = async ({
   sendEmail,
