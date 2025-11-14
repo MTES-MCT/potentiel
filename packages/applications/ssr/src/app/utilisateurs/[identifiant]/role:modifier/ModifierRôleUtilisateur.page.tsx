@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageTemplate } from '@/components/templates/Page.template';
+import { Heading1 } from '@/components/atoms/headings';
 
 import {
   ModifierRôleUtilisateurForm,
@@ -15,19 +17,27 @@ export const ModifierRôleUtilisateurPage: FC<ModifierRôleUtilisateurPageProps>
   régions,
   zones,
 }) => (
-  <ColumnPageTemplate
-    leftColumn={{
-      children: (
-        <ModifierRôleUtilisateurForm
-          utilisateur={utilisateur}
-          gestionnairesRéseau={gestionnairesRéseau}
-          régions={régions}
-          zones={zones}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: <></>,
-    }}
-  />
+  <PageTemplate
+    banner={
+      <Heading1 className="text-theme-white">
+        Modifier le rôle de {utilisateur.identifiantUtilisateur.email}
+      </Heading1>
+    }
+  >
+    <ColumnPageTemplate
+      leftColumn={{
+        children: (
+          <ModifierRôleUtilisateurForm
+            utilisateur={utilisateur}
+            gestionnairesRéseau={gestionnairesRéseau}
+            régions={régions}
+            zones={zones}
+          />
+        ),
+      }}
+      rightColumn={{
+        children: <></>,
+      }}
+    />
+  </PageTemplate>
 );

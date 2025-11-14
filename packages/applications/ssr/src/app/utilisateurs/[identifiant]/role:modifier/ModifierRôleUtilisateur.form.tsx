@@ -39,7 +39,6 @@ export const ModifierRôleUtilisateurForm: FC<ModifierRôleUtilisateurFormProps>
     <Form
       action={modifierRôleUtilisateurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      heading={`Modifier le rôle de ${utilisateur.identifiantUtilisateur.email}`}
       actionButtons={{
         submitLabel: 'Modifier le rôle',
       }}

@@ -3,6 +3,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { Heading1 } from '@/components/atoms/headings';
 
 import { InviterUtilisateurForm, InviterUtilisateurFormProps } from './InviterUtilisateur.form';
 
@@ -14,7 +15,7 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
   régions,
   zones,
 }) => (
-  <PageTemplate>
+  <PageTemplate banner={<Heading1 className="text-theme-white">Inviter un utilisateur</Heading1>}>
     <ColumnPageTemplate
       leftColumn={{
         children: (

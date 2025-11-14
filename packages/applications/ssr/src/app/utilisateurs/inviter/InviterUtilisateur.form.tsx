@@ -36,7 +36,6 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
     <Form
       action={inviterUtilisateurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      heading="Inviter un utilisateur"
       actionButtons={{
         submitLabel: 'Inviter',
       }}
