@@ -38,6 +38,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
     autoritéCompétente: 'dgec',
   },
   installateur: {},
+  dispositifDeStockage: {},
 } satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {

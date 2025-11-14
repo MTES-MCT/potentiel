@@ -47,6 +47,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
       autoritéCompétente: 'dgec',
     },
     installateur: {},
+    dispositifDeStockage: {},
   },
 };
 
