@@ -1,4 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../..';
@@ -14,11 +14,12 @@ export type AchèvementEntity = Entity<
       date: DateTime.RawType;
     };
     réel?: {
-      attestationConformité: { format: string; date: string };
-      preuveTransmissionAuCocontractant: { format: string; date: string };
+      date: DateTime.RawType;
+      attestationConformité: { format: string; transmiseLe: DateTime.RawType };
+      preuveTransmissionAuCocontractant?: { format: string; transmiseLe: DateTime.RawType };
       dernièreMiseÀJour: {
-        date: string;
-        utilisateur: string;
+        date: DateTime.RawType;
+        utilisateur: Email.RawType;
       };
     };
   }

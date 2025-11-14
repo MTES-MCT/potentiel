@@ -178,17 +178,29 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const attestationConformité = await getAttestationDeConformité(
-        identifiantProjetValueType,
-        user.role,
-      );
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: { identifiantProjetValue: identifiantProjetValueType.formatter() },
+      });
 
-      const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
-        identifiantProjetValueType,
-      );
-      if (Option.isNone(dateAchèvementPrévisionnel)) {
+      if (Option.isNone(achèvement)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
+
+      const achèvementRéel = achèvement.estAchevé
+        ? {
+            date: achèvement.dateAchèvementRéel.date.getTime(),
+            attestationConformité: achèvement.attestation.formatter(),
+            preuveTransmissionAuCocontractant: Option.isSome(
+              achèvement.preuveTransmissionAuCocontractant,
+            )
+              ? achèvement.preuveTransmissionAuCocontractant.formatter()
+              : undefined,
+          }
+        : undefined;
+
+      const dateAchèvementPrévisionnel =
+        achèvement.dateAchèvementPrévisionnel.dateTime.date.getTime();
 
       const abandon = await getAbandon(identifiantProjetValueType);
       const aUnAbandonEnCours = !!abandon?.statut.estEnCours();
@@ -265,7 +277,7 @@ v1Router.get(
               cahierDesCharges.getRèglesChangements('représentantLégal'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
@@ -275,7 +287,7 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('actionnaire'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
@@ -283,7 +295,7 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('puissance'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           producteur: await getProducteur({
             identifiantProjet: identifiantProjetValueType,
@@ -291,11 +303,10 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('producteur'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           emailContact: lauréat.emailContact.formatter(),
-          estAchevé: !!attestationConformité,
-          attestationConformité,
+          achèvementRéel,
           dateAchèvementPrévisionnel,
           modificationsNonPermisesParLeCDCActuel:
             cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
@@ -306,7 +317,7 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('fournisseur'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           délai: await getDélai({
             identifiantProjet: identifiantProjetValueType,
@@ -315,7 +326,7 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('délai'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
           installation: await getInstallation({
@@ -325,7 +336,7 @@ v1Router.get(
             règlesChangementInstallateur: cahierDesCharges.getRèglesChangements('installateur'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
@@ -334,7 +345,7 @@ v1Router.get(
               cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           statutLauréat: lauréat.statut.statut,
           siteDeProduction: getSiteDeProduction({
@@ -349,7 +360,7 @@ v1Router.get(
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('nomProjet'),
             aUnAbandonEnCours,
             estAbandonné,
-            estAchevé: !!attestationConformité,
+            estAchevé: !!achèvementRéel,
           }),
           doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
         }),

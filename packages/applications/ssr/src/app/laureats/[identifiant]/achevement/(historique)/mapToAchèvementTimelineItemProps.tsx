@@ -10,6 +10,7 @@ import {
   mapToAttestationConformitéModifiéeTimelineItemProps,
   mapToAttestationConformitéTransmiseTimelineItemProps,
   mapToDateAchèvementPrévisionnelCalculéeProps,
+  mapToDateAchèvementTransmiseTimelineItemProps,
 } from './events';
 
 type MapToAchèvementTimelineItemProps = (
@@ -18,17 +19,14 @@ type MapToAchèvementTimelineItemProps = (
 
 export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProps = (readmodel) =>
   match(readmodel)
+    .with({ type: 'DateAchèvementTransmise-V1' }, mapToDateAchèvementTransmiseTimelineItemProps)
     .with(
-      {
-        type: 'AttestationConformitéModifiée-V1',
-      },
-      mapToAttestationConformitéModifiéeTimelineItemProps,
+      { type: 'AttestationConformitéTransmise-V1' },
+      mapToAttestationConformitéTransmiseTimelineItemProps,
     )
     .with(
-      {
-        type: 'AttestationConformitéTransmise-V1',
-      },
-      mapToAttestationConformitéTransmiseTimelineItemProps,
+      { type: 'AttestationConformitéModifiée-V1' },
+      mapToAttestationConformitéModifiéeTimelineItemProps,
     )
     .with(
       {

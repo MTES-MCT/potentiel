@@ -9,16 +9,10 @@ export const dateAchèvementTransmiseProjector = async ({
     {
       estAchevé: true,
       réel: {
+        date: payload.dateAchèvement,
         attestationConformité: {
           format: payload.attestation.format,
-          date: payload.transmiseLe,
-        },
-        /**
-         * TODO
-         */
-        preuveTransmissionAuCocontractant: {
-          format: payload.attestation.format,
-          date: payload.dateAchèvement,
+          transmiseLe: payload.transmiseLe,
         },
         dernièreMiseÀJour: {
           date: payload.transmiseLe,

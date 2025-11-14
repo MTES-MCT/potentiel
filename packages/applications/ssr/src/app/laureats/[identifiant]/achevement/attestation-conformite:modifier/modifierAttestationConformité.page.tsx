@@ -1,7 +1,5 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
@@ -14,14 +12,19 @@ import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
 
-export type ModifierAttestationConformitéPageProps = {
-  identifiantProjet: IdentifiantProjet.RawType;
-  attestationConformitéActuelle: AttestationConformitéFormProps['donnéesActuelles'];
-};
+export type ModifierAttestationConformitéPageProps = Pick<
+  AttestationConformitéFormProps,
+  | 'identifiantProjet'
+  | 'dateTransmissionAuCocontractant'
+  | 'attestationConformité'
+  | 'preuveTransmissionAuCocontractant'
+>;
 
 export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
   identifiantProjet,
-  attestationConformitéActuelle,
+  dateTransmissionAuCocontractant,
+  attestationConformité,
+  preuveTransmissionAuCocontractant,
 }) => (
   <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
@@ -30,7 +33,9 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
       identifiantProjet={identifiantProjet}
       action={modifierAttestationConformitéAction}
       submitLabel="Modifier"
-      donnéesActuelles={attestationConformitéActuelle}
+      dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
+      attestationConformité={attestationConformité}
+      preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
       demanderMainlevée={{ visible: false, canBeDone: false }}
     />
   </PageTemplate>

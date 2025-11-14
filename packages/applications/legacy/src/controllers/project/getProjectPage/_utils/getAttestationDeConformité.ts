@@ -9,7 +9,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 export type GetAttestationDeConformitéForProjectPage = {
   date: number;
   attestation: DocumentProjet.RawType;
-  preuveTransmissionAuCocontractant: DocumentProjet.RawType;
+  preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
   identifiantProjet: IdentifiantProjet.RawType;
   permissionModifier: boolean;
 };
@@ -28,10 +28,13 @@ export const getAttestationDeConformité = async (
 
     return Option.isSome(achèvement) && achèvement.estAchevé
       ? {
-          date: new Date(achèvement.preuveTransmissionAuCocontractant.dateCréation).getTime(),
+          date: achèvement.dateAchèvementRéel.date.getTime(),
           attestation: achèvement.attestation.formatter(),
-          preuveTransmissionAuCocontractant:
-            achèvement.preuveTransmissionAuCocontractant.formatter(),
+          preuveTransmissionAuCocontractant: Option.isSome(
+            achèvement.preuveTransmissionAuCocontractant,
+          )
+            ? achèvement.preuveTransmissionAuCocontractant.formatter()
+            : undefined,
           identifiantProjet: identifiantProjet.formatter(),
           permissionModifier: utilisateur.aLaPermission('achèvement.modifier'),
         }
