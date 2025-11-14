@@ -1,9 +1,5 @@
 import { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-import { Heading1 } from '@/components/atoms/headings';
-
 import {
   AttestationConformitéForm,
   type AttestationConformitéFormProps,
@@ -11,6 +7,7 @@ import {
 import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
+import { Heading1 } from '@/components/atoms/headings';
 
 export type ModifierAttestationConformitéPageProps = Pick<
   AttestationConformitéFormProps,
@@ -26,7 +23,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
   attestationConformité,
   preuveTransmissionAuCocontractant,
 }) => (
-  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
+  <>
     <Heading1>Modifier l'attestation de conformité du projet</Heading1>
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm
@@ -38,5 +35,5 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
       preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
       demanderMainlevée={{ visible: false, canBeDone: false }}
     />
-  </PageTemplate>
+  </>
 );

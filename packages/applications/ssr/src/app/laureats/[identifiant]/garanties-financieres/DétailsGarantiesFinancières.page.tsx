@@ -6,8 +6,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { GarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/components/GarantiesFinancières';
 import { Heading2 } from '@/components/atoms/headings';
 
@@ -74,7 +72,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   motifMainlevée,
   archivesGarantiesFinancières,
 }) => (
-  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
+  <>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
     <>
       <div className="flex flex-col lg:flex-row gap-4">
@@ -155,5 +153,5 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <InfoBoxSoumettreDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
-  </PageTemplate>
+  </>
 );

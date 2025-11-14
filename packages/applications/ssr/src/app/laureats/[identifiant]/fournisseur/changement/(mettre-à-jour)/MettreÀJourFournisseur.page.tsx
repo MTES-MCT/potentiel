@@ -1,10 +1,6 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { Heading1 } from '@/components/atoms/headings';
-import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
   MettreÀJourFournisseurForm,
@@ -20,13 +16,7 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
   évaluationCarboneSimplifiéeInitiale,
   isInformationEnregistrée,
 }) => (
-  <PageTemplate
-    banner={
-      <ProjetLauréatBanner
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
-    }
-  >
+  <>
     <Heading1>Changer de fournisseurs</Heading1>
     <MettreÀJourFournisseurForm
       identifiantProjet={identifiantProjet}
@@ -36,5 +26,5 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
       évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
       isInformationEnregistrée={isInformationEnregistrée}
     />
-  </PageTemplate>
+  </>
 );

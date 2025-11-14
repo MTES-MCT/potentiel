@@ -1,12 +1,10 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { Heading1 } from '@/components/atoms/headings';
-import { PageTemplate } from '@/components/templates/Page.template';
 
 import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.form';
 
@@ -28,13 +26,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   puissanceInitiale,
   infosCahierDesChargesPuissanceDeSite,
 }) => (
-  <PageTemplate
-    banner={
-      <ProjetLauréatBanner
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
-    }
-  >
+  <>
     <Heading1>Changer de puissance</Heading1>
     <DemanderChangementPuissanceForm
       identifiantProjet={identifiantProjet}
@@ -46,5 +38,5 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       puissanceInitiale={puissanceInitiale}
       infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
     />
-  </PageTemplate>
+  </>
 );
