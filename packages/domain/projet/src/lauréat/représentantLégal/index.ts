@@ -88,8 +88,5 @@ export * as TypeDocumentChangementReprésentantLégal from './changement/typeDoc
 export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType';
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
 
-// Ports
-export { type SupprimerDocumentProjetSensiblePort } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-
 // Saga
 export * as ReprésentantLégalSaga from './saga/représentantLégal.saga';

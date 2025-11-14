@@ -35,7 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+      type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue: attestation,

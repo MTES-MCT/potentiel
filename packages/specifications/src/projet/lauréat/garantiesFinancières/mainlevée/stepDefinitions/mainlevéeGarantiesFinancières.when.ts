@@ -102,7 +102,7 @@ export async function demanderMainlevée(
   const { projetAbandonné, projetAchevé } =
     Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières;
   const aTransmisAttestationConformité =
-    this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé;
+    this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.aÉtéCréé;
 
   const { demandéLe, motif, demandéPar } =
     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.demander.créer({

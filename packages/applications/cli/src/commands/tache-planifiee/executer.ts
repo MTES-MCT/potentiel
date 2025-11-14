@@ -47,7 +47,7 @@ export class Executer extends Command {
     });
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
-      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+      enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
     });
   }
 

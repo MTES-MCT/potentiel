@@ -31,3 +31,21 @@ export class AucuneAttestationDeConformitéÀCorrigerError extends InvalidOperat
     super("Aucune attestation de conformité à modifier n'a été trouvée");
   }
 }
+
+export class DateAchèvementAntérieureÀDateNotificationError extends InvalidOperationError {
+  constructor() {
+    super("La date d'achèvement ne peut pas être antérieure à la date de notification du projet");
+  }
+}
+
+export class DateAchèvementDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super("La date d'achèvement ne peut pas être dans le futur");
+  }
+}
+
+export class ProjetDéjàAchevéError extends InvalidOperationError {
+  constructor() {
+    super('Le projet est déjà achevé');
+  }
+}

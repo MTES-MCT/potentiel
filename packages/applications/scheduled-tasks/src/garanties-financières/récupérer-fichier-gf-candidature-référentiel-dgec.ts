@@ -45,6 +45,7 @@ Document.registerDocumentProjetCommand({
   enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
   déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
   archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+  enregistrerDocumentSubstitut: DocumentAdapter.enregistrerDocumentSubstitutAdapter,
 });
 
 Document.registerDocumentProjetQueries({

@@ -98,7 +98,7 @@ export const GET = async (
             .none(() => false),
           dateTransmissionAuCocontractant: formatDateForDocument(
             Option.isSome(achèvement) && achèvement.estAchevé
-              ? achèvement.dateTransmissionAuCocontractant.date
+              ? achèvement.dateAchèvementRéel.date
               : undefined,
           ),
           estMotifAbandon: Option.match(mainlevéeEnCours)

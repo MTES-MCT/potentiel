@@ -24,8 +24,8 @@ import {
   LauréatNonModifiéError,
   LauréatNonNotifiéError,
   LauréatNonTrouvéError,
-  ProjetAbandonnéError,
-  ProjetAchevéError,
+  ChangementImpossibleCarProjetAbandonnéError,
+  ChangementImpossibleCarProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
 } from './lauréat.error';
@@ -486,7 +486,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierNonAbandonné() {
     if (this.statut.estAbandonné()) {
-      throw new ProjetAbandonnéError();
+      throw new ChangementImpossibleCarProjetAbandonnéError();
     }
   }
 
@@ -503,7 +503,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierNonAchevé() {
     if (this.statut.estAchevé()) {
-      throw new ProjetAchevéError();
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
   }
 

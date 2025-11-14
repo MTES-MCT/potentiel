@@ -3,13 +3,13 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
-import { Lauréat, Document } from '@potentiel-domain/projet';
+import { Document, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { expectFileContent } from '../../../../helpers/expectFileContent';
 
 Alors(
   'une attestation de conformité devrait être consultable pour le projet lauréat',
@@ -33,43 +33,30 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      const attestation = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: Option.match(achèvement)
-            .some((a) => a.attestation.formatter() ?? '')
-            .none(() => ''),
-        },
-      });
+      // dans le contexte d'une transmission de la date par le Cocontractant, une "fausse" attestation est générée
+      // or on ne peut pas comparer le contenu du fichier généré
+      const estUneTransmissionParCocontractant =
+        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.aÉtéCréé;
 
-      assert(Option.isSome(attestation), `Attestation de conformité non trouvée !`);
+      if (estUneTransmissionParCocontractant) {
+        const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: achèvement.attestation.formatter(),
+          },
+        });
+        assert(Option.isSome(result), "L'attestation de conformité n'a pas été trouvée !");
+      } else {
+        await expectFileContent(
+          achèvement.attestation,
+          this.lauréatWorld.achèvementWorld.mapToAttestation(),
+        );
 
-      const actualAttestationContent = await convertReadableStreamToString(attestation.content);
-      const expectedAttestationContent = await convertReadableStreamToString(
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture
-          .attestation.content ?? new ReadableStream(),
-      );
-
-      expect(actualAttestationContent).to.be.equal(expectedAttestationContent);
-
-      const preuve = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: Option.match(achèvement)
-            .some((a) => a.preuveTransmissionAuCocontractant.formatter() ?? '')
-            .none(() => ''),
-        },
-      });
-
-      assert(Option.isSome(preuve), `Preuve d'attestation de conformité non trouvée !`);
-
-      const actualPreuveContent = await convertReadableStreamToString(preuve.content);
-      const expectedPreuveContent = await convertReadableStreamToString(
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.preuve
-          .content ?? new ReadableStream(),
-      );
-
-      expect(actualPreuveContent).to.be.equal(expectedPreuveContent);
+        await expectFileContent(
+          achèvement.preuveTransmissionAuCocontractant,
+          this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
+        );
+      }
     });
   },
 );
@@ -96,6 +83,31 @@ Alors(
       );
 
       expect(actual.formatter()).to.be.equal(expected.formatter());
+    });
+  },
+);
+
+Alors(
+  `la date d'achèvement devrait être consultable pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
+      assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
+
+      const actual = achèvement.dateAchèvementRéel;
+      const expected =
+        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.dateAchèvement;
+
+      expect(actual.formatter()).to.be.equal(new Date(expected).toISOString());
     });
   },
 );

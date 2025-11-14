@@ -38,8 +38,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <TransmettreAttestationConformitéPage
         identifiantProjet={props.identifiantProjet}
-        peutDemanderMainlevée={props.peutDemanderMainlevée}
-        peutVoirMainlevée={props.peutVoirMainlevée}
+        demanderMainlevée={props.demanderMainlevée}
       />
     );
   });
@@ -57,7 +56,9 @@ const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) =>
 
   return {
     identifiantProjet: identifiantProjet.formatter(),
-    peutDemanderMainlevée,
-    peutVoirMainlevée,
+    demanderMainlevée: {
+      canBeDone: peutDemanderMainlevée,
+      visible: peutVoirMainlevée,
+    },
   };
 };
