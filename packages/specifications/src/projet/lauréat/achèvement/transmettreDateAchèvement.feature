@@ -22,6 +22,11 @@ Fonctionnalité: Transmettre la date d'achèvement
     #     | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
     #     | nom_projet | Du boulodrome de Marseille                                                                                   |
     #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
+    Scénario: Impossible de transmettre une date d'achèvement pour un projet lauréat inexistant
+        Etant donné le projet éliminé "Du boulodrome de Lyon"
+        Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet éliminé
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
     Scénario: Impossible de transmettre une date d'achèvement antérieure à la date de désignation du projet
         Quand le co-contractant transmet la date d'achèvement "2025-09-01" pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"

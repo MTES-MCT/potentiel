@@ -133,10 +133,15 @@ Quand(
 );
 
 Quand(
-  "le co-contractant transmet la date d'achèvement {string} pour le projet lauréat",
-  async function (this: PotentielWorld, dateAchèvementValue: string) {
+  "le co-contractant transmet la date d'achèvement {string} pour le projet {lauréat-éliminé}",
+  async function (
+    this: PotentielWorld,
+    dateAchèvementValue: string,
+    statutProjet: 'lauréat' | 'éliminé',
+  ) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
+      const { identifiantProjet } =
+        statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
       const { dateAchèvement, transmiseLe, transmisePar } =
         this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({
