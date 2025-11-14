@@ -80,14 +80,18 @@ export class InstallationWorld {
         : typologieInstallationÀLaCandidature.map(
             Candidature.TypologieInstallation.convertirEnValueType,
           ),
-      dispositifDeStockage: this.#modifierDispositifDeStockageFixture.aÉtéCréé
+      dispositifDeStockage: this.#enregistrerChangementDispositifDeStockageFixture.aÉtéCréé
         ? Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
-            this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
+            this.#enregistrerChangementDispositifDeStockageFixture.dispositifDeStockage,
           )
-        : dispositifDeStockageÀLaCandidature &&
-          Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
-            dispositifDeStockageÀLaCandidature,
-          ),
+        : this.#modifierDispositifDeStockageFixture.aÉtéCréé
+          ? Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
+              this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
+            )
+          : dispositifDeStockageÀLaCandidature &&
+            Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
+              dispositifDeStockageÀLaCandidature,
+            ),
     };
 
     return expected;
@@ -119,6 +123,40 @@ export class InstallationWorld {
           this.#enregistrerChangementInstallateurFixture.pièceJustificative.format,
         ),
         raison: this.#enregistrerChangementInstallateurFixture.raison,
+      },
+    };
+
+    return expected;
+  }
+
+  mapChangementDispositifDeStockageToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+    if (!this.#enregistrerChangementDispositifDeStockageFixture.aÉtéCréé) {
+      throw new Error(
+        `Aucune information enregistrée n'a été créée pour le dispositif de stockage dans InstallationWorld`,
+      );
+    }
+
+    const expected: Lauréat.Installation.ConsulterChangementDispositifDeStockageReadModel = {
+      identifiantProjet,
+      changement: {
+        enregistréLe: DateTime.convertirEnValueType(
+          this.#enregistrerChangementDispositifDeStockageFixture.enregistréLe,
+        ),
+        enregistréPar: Email.convertirEnValueType(
+          this.#enregistrerChangementDispositifDeStockageFixture.enregistréPar,
+        ),
+        dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
+          this.#enregistrerChangementDispositifDeStockageFixture.dispositifDeStockage,
+        ),
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Lauréat.Installation.TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
+          DateTime.convertirEnValueType(
+            this.#enregistrerChangementDispositifDeStockageFixture.enregistréLe,
+          ).formatter(),
+          this.#enregistrerChangementDispositifDeStockageFixture.pièceJustificative.format,
+        ),
+        raison: this.#enregistrerChangementDispositifDeStockageFixture.raison,
       },
     };
 

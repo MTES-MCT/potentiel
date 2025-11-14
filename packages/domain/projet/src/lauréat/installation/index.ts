@@ -2,7 +2,15 @@ import {
   ConsulterInstallationQuery,
   ConsulterInstallationReadModel,
 } from './consulter/consulterInstallation.query';
+import {
+  ConsulterChangementDispositifDeStockageQuery,
+  ConsulterChangementDispositifDeStockageReadModel,
+} from './dispositif-de-stockage/changement/consulter/consulterChangementDispositifDeStockage.query';
 import { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
+import {
+  ListerChangementDispositifDeStockageQuery,
+  ListerChangementDispositifDeStockageReadModel,
+} from './dispositif-de-stockage/changement/lister/listerChangementDispositifDeStockagequery';
 import {
   ConsulterDispositifDeStockageQuery,
   ConsulterDispositifDeStockageReadModel,
@@ -40,7 +48,9 @@ export type InstallationQuery =
   | ListerHistoriqueInstallationProjetQuery
   | ConsulterDispositifDeStockageQuery
   | ConsulterChangementInstallateurQuery
-  | ListerChangementInstallateurQuery;
+  | ListerChangementInstallateurQuery
+  | ConsulterChangementDispositifDeStockageQuery
+  | ListerChangementDispositifDeStockageQuery;
 
 export {
   ConsulterInstallationQuery,
@@ -50,6 +60,8 @@ export {
   ConsulterDispositifDeStockageQuery,
   ConsulterChangementInstallateurQuery,
   ListerChangementInstallateurQuery,
+  ConsulterChangementDispositifDeStockageQuery,
+  ListerChangementDispositifDeStockageQuery,
 };
 
 // ReadModel
@@ -61,6 +73,8 @@ export {
   ConsulterDispositifDeStockageReadModel,
   ConsulterChangementInstallateurReadModel,
   ListerChangementInstallateurReadModel,
+  ConsulterChangementDispositifDeStockageReadModel,
+  ListerChangementDispositifDeStockageReadModel,
 };
 
 // UseCase

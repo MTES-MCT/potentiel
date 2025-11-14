@@ -123,12 +123,15 @@ Quand(
 );
 
 Quand(
-  'le porteur enregistre un changement de dispositif de stockage du projet lauréat',
-  async function (this: PotentielWorld) {
+  'le porteur enregistre un changement de dispositif de stockage du projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
     try {
       await enregistrerChangementDispositifDeStockage.call(
         this,
         this.lauréatWorld.identifiantProjet,
+        dispositifDeStockage,
       );
     } catch (error) {
       this.error = error as Error;
@@ -257,7 +260,7 @@ async function enregistrerChangementDispositifDeStockage(
   identifiantProjet: IdentifiantProjet.ValueType,
   dispositifDeStockageValue?: Partial<ModifierDispositifDeStockage['dispositifDeStockage']>,
 ) {
-  const { enregistréLe, dispositifDeStockage, pièceJustificative, raison } =
+  const { enregistréLe, dispositifDeStockage, pièceJustificative, raison, enregistréPar } =
     this.lauréatWorld.installationWorld.enregistrerChangementDispositifDeStockageFixture.créer({
       dispositifDeStockage:
         dispositifDeStockageValue?.installationAvecDispositifDeStockage !== undefined
@@ -275,7 +278,7 @@ async function enregistrerChangementDispositifDeStockage(
     data: {
       dispositifDeStockageValue: dispositifDeStockage,
       enregistréLeValue: enregistréLe,
-      enregistréParValue: this.utilisateurWorld.porteurFixture.email,
+      enregistréParValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
       raisonValue: raison,

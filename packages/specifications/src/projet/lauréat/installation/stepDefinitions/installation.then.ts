@@ -144,3 +144,38 @@ Alors(
     });
   },
 );
+
+Alors(
+  'le changement de dispositif de stockage devrait être consultable',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changementEnregistré =
+        await mediator.send<Lauréat.Installation.ConsulterChangementDispositifDeStockageQuery>({
+          type: 'Lauréat.DispositifDeStockage.Query.ConsulterChangementDispositifDeStockage',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréLe:
+              this.lauréatWorld.installationWorld.enregistrerChangementDispositifDeStockageFixture
+                .enregistréLe,
+          },
+        });
+
+      assert(
+        Option.isSome(changementEnregistré),
+        'Changement de dispositif de stockage non trouvé !',
+      );
+
+      const actual = mapToPlainObject(changementEnregistré);
+
+      const expected = mapToPlainObject(
+        this.lauréatWorld.installationWorld.mapChangementDispositifDeStockageToExpected(
+          identifiantProjet,
+        ),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

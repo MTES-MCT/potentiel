@@ -1,7 +1,6 @@
 # language: fr
 @dispositif-de-stockage
 @installation
-@select
 Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
 
     Contexte:
