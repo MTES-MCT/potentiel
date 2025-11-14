@@ -2,8 +2,8 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getCahierDesChargesLauréat } from './getCahierDesChargesLauréat';
-import { listerDrealsRecipients } from './listerDrealsRecipients';
+import { getCahierDesChargesLauréat } from './getCahierDesChargesLauréat.js';
+import { listerDrealsRecipients } from './listerDrealsRecipients.js';
 
 type ListerRecipientsAutoritéInstructriceProps = {
   identifiantProjet: IdentifiantProjet.ValueType;

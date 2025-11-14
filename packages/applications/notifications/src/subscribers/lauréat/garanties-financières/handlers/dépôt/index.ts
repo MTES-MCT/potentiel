@@ -1,2 +1,2 @@
-export * from './dépôtGarantiesFinancièresSoumis.handler';
-export * from './dépôtGarantiesFinancièresValidé.handler';
+export * from './dépôtGarantiesFinancièresSoumis.handler.js';
+export * from './dépôtGarantiesFinancièresValidé.handler.js';

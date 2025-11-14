@@ -2,9 +2,9 @@ import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../../../sendEmail';
+import { SendEmail } from '#sendEmail';
 
-import { handleRelanceÉchéanceAchèvement } from './handlers/';
+import { handleRelanceÉchéanceAchèvement } from './handlers/index.js';
 
 type TâchePlanifiéeExecutéeAchèvementEventPayload = {
   typeTâchePlanifiée: Lauréat.Achèvement.TypeTâchePlanifiéeAchèvement.RawType;

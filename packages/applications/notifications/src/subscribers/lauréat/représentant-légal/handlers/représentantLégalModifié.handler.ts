@@ -1,14 +1,13 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../_helpers';
+import { listerPorteursRecipients } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
-import { RegisterReprésentantLégalNotificationDependencies } from '.';
-
-import { représentantLégalNotificationTemplateId } from './constant';
+import { représentantLégalNotificationTemplateId } from '../constant.js';
 
 type ReprésentantLégalModifiéNotificationProps = {
-  sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
+  sendEmail: SendEmail;
   event: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent;
   projet: {
     nom: string;

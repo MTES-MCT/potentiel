@@ -1,2 +1,2 @@
-export * from './accèsProjetAutoriséSuiteÀRéclamation.handle';
-export * from './accèsProjetRetiré.handle';
+export * from './accèsProjetAutoriséSuiteÀRéclamation.handler.js';
+export * from './accèsProjetRetiré.handler.js';

@@ -1,1 +1,1 @@
-export * from './représentantLégalRappelInstructionÀDeuxMois.handler';
+export * from './représentantLégalRappelInstructionÀDeuxMois.handler.js';

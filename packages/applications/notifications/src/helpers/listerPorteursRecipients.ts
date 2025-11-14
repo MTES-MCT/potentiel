@@ -5,7 +5,7 @@ import { Accès } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
-import { Recipient } from '../sendEmail';
+import { Recipient } from '#sendEmail';
 
 export const listerPorteursRecipients = async (
   identifiantProjet: IdentifiantProjet.ValueType,

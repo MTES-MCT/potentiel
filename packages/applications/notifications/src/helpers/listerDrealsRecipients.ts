@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
-import { Recipient } from '../sendEmail';
+import { Recipient } from '#sendEmail';
 
 export const listerDrealsRecipients = async (région: string): Promise<Recipient[]> => {
   const dreals = await mediator.send<ListerUtilisateursQuery>({

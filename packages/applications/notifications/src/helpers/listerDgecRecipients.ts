@@ -1,8 +1,8 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Recipient } from '../sendEmail';
+import { Recipient } from '#sendEmail';
 
-import { getAppelOffre } from './getAppelOffre';
+import { getAppelOffre } from './getAppelOffre.js';
 
 export const listerDgecRecipients = async ({
   appelOffre,

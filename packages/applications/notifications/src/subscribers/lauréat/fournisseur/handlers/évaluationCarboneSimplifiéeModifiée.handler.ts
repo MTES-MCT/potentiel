@@ -1,9 +1,10 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
-import { fournisseurNotificationTemplateId } from '../constant';
-import { FournisseurNotificationsProps } from '../type';
+import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+
+import { fournisseurNotificationTemplateId } from '../constant.js';
+import { FournisseurNotificationsProps } from '../type.js';
 
 export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
   sendEmail,

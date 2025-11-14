@@ -1,10 +1,11 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDgecRecipients, listerDrealsRecipients } from '../../../../_helpers';
-import { Recipient } from '../../../../sendEmail';
-import { puissanceNotificationTemplateId } from '../constant';
-import { PuissanceNotificationsProps } from '../type';
+import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
+import { Recipient } from '#sendEmail';
+
+import { puissanceNotificationTemplateId } from '../constant.js';
+import { PuissanceNotificationsProps } from '../type.js';
 
 export const handleChangementPuissanceAnnulé = async ({
   sendEmail,

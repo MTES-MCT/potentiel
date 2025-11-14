@@ -3,8 +3,9 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature, NotificationHandlerProps } from '../../../_helpers';
-import { utilisateurNotificationTemplateId } from '../constant';
+import { getBaseUrl, getCandidature, NotificationHandlerProps } from '#helpers';
+
+import { utilisateurNotificationTemplateId } from '../constant.js';
 
 export const handlePorteurInvité = async ({
   event: {

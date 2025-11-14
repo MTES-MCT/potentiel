@@ -93,6 +93,11 @@ export default eslintTs.config(
               group: 'parent',
               position: 'before',
             },
+            {
+              pattern: '#**',
+              group: 'parent',
+              position: 'before',
+            },
           ],
         },
       ],

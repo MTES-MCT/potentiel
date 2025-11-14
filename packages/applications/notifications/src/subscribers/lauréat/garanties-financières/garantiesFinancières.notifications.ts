@@ -3,8 +3,8 @@ import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat } from '../../../_helpers';
-import { SendEmail } from '../../..';
+import { getBaseUrl, getLauréat } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleAttestationGarantiesFinancièresEnregistrée,
@@ -14,7 +14,7 @@ import {
   handleGarantiesFinancièresMiseÀJour,
   handleGarantiesFinancièresÉchues,
   handleMainlevéeDemandée,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 

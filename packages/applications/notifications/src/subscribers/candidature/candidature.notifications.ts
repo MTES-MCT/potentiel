@@ -3,9 +3,9 @@ import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../sendEmail';
+import { SendEmail } from '#sendEmail';
 
-import { handleCandidatureCorrigée } from './handlers';
+import { handleCandidatureCorrigée } from './handlers/index.js';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent;
 

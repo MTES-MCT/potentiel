@@ -1,8 +1,9 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '../../../_helpers';
-import { candidatureNotificationTemplateId } from '../constant';
+import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '#helpers';
+
+import { candidatureNotificationTemplateId } from '../constant.js';
 
 export const handleCandidatureCorrigée = async ({
   sendEmail,

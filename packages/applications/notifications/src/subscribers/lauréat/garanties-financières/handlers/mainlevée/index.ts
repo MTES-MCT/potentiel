@@ -1,2 +1,2 @@
-export * from './demandeMainlevéeMiseÀJour.handler';
-export * from './mainlevéeDemandée.handler';
+export * from './demandeMainlevéeMiseÀJour.handler.js';
+export * from './mainlevéeDemandée.handler.js';

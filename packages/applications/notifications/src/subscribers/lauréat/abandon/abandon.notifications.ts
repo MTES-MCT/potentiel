@@ -3,8 +3,8 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat } from '../../../_helpers';
-import { SendEmail } from '../../../sendEmail';
+import { getLauréat } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleAbandonAccordé,
@@ -15,7 +15,7 @@ import {
   handleAbandonRejeté,
   handleConfirmationAbandonDemandée,
   handlePreuveRecandidatureDemandée,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent;
 

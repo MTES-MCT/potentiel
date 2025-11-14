@@ -1,9 +1,10 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { AbandonNotificationsProps } from '../type';
-import { listerPorteursRecipients, getBaseUrl } from '../../../../_helpers';
-import { abandonNotificationTemplateId } from '../constant';
+import { listerPorteursRecipients, getBaseUrl } from '#helpers';
+
+import { AbandonNotificationsProps } from '../type.js';
+import { abandonNotificationTemplateId } from '../constant.js';
 
 export const handlePreuveRecandidatureDemandée = async ({
   sendEmail,

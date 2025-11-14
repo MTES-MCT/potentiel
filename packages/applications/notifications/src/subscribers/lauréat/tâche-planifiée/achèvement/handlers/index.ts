@@ -1,1 +1,1 @@
-export * from './relanceÉchéanceAchèvement.handler';
+export * from './relanceÉchéanceAchèvement.handler.js';

@@ -1,3 +1,3 @@
-export * from './changementFournisseurEnregistré.handler';
-export * from './fournisseurModifié.handler';
-export * from './évaluationCarboneSimplifiéeModifiée.handler';
+export * from './changementFournisseurEnregistré.handler.js';
+export * from './fournisseurModifié.handler.js';
+export * from './évaluationCarboneSimplifiéeModifiée.handler.js';

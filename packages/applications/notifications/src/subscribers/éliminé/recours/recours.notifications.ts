@@ -4,8 +4,8 @@ import { match } from 'ts-pattern';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature } from '../../../_helpers';
-import { SendEmail } from '../../../sendEmail';
+import { getBaseUrl, getCandidature } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleRecoursDemandé,
@@ -13,7 +13,7 @@ import {
   handleRecoursAccordé,
   handleRecoursRejeté,
   handleRecoursPasséEnInstruction,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent;
 

@@ -1,1 +1,1 @@
-export * from './demandeComplèteRaccordementAttendueRelance.handler';
+export * from './demandeComplèteRaccordementAttendueRelance.handler.js';

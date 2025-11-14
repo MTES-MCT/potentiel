@@ -3,14 +3,14 @@ import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../_helpers';
+import { getLauréat } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleChangementFournisseurEnregistré,
   handleFournisseurModifié,
   handleÉvaluationCarboneSimplifiéeModifiée,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent;
 
