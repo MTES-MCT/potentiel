@@ -7,8 +7,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
-import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 export type GetInstallationForProjectPage = {
   installateur?: {
@@ -42,6 +40,9 @@ type Props = {
   rôle: string;
   champsSupplémentairesCahierDesCharges: AppelOffre.ChampsSupplémentairesCandidature;
   règlesChangementInstallateur: AppelOffre.RèglesDemandesChangement['installateur'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getInstallation = async ({
@@ -49,13 +50,12 @@ export const getInstallation = async ({
   rôle,
   champsSupplémentairesCahierDesCharges,
   règlesChangementInstallateur,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetInstallationForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      role.nom,
-    );
 
     const installationProjection =
       await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
@@ -101,22 +101,19 @@ export const getInstallation = async ({
       //INSTALLATEUR
       if (champSupplémentaireInstallateur) {
         data.installateur = { value: installateur };
-
-        const { peutModifier, peutEnregistrerChangement } =
-          await checkAutorisationChangement<'installateur'>({
-            rôle: Role.convertirEnValueType(rôle),
-            identifiantProjet,
-            règlesChangementPourAppelOffres: règlesChangementInstallateur,
-            domain: 'installateur',
-          });
-
-        if (peutModifier) {
+        if (role.aLaPermission('installation.installateur.modifier')) {
           data.installateur.affichage = {
             url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: "Modifier l'installateur",
           };
-        } else if (peutEnregistrerChangement) {
+        } else if (
+          role.aLaPermission('installation.installateur.enregistrerChangement') &&
+          !aUnAbandonEnCours &&
+          !estAbandonné &&
+          !estAchevé &&
+          règlesChangementInstallateur.informationEnregistrée
+        ) {
           data.installateur.affichage = {
             url: Routes.Installation.changement.installateur.enregistrer(
               identifiantProjet.formatter(),

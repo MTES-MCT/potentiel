@@ -23,12 +23,18 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['puissance'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getPuissance = async ({
   identifiantProjet,
   rôle,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetPuissanceForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -61,7 +67,9 @@ export const getPuissance = async ({
       const { peutModifier, peutFaireUneDemandeDeChangement } =
         await checkAutorisationChangement<'puissance'>({
           rôle: Role.convertirEnValueType(rôle),
-          identifiantProjet,
+          aUnAbandonEnCours,
+          estAbandonné,
+          estAchevé,
           règlesChangementPourAppelOffres,
           domain: 'puissance',
         });

@@ -24,12 +24,18 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['fournisseur'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 };
 
 export const getFournisseur = async ({
   identifiantProjet,
   rôle,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }: Props): Promise<GetFournisseurForProjectPage | undefined> => {
   try {
     const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
@@ -43,7 +49,9 @@ export const getFournisseur = async ({
       const { peutModifier, peutEnregistrerChangement } =
         await checkAutorisationChangement<'fournisseur'>({
           rôle: Role.convertirEnValueType(rôle),
-          identifiantProjet,
+          aUnAbandonEnCours,
+          estAbandonné,
+          estAchevé,
           règlesChangementPourAppelOffres,
           domain: 'fournisseur',
         });

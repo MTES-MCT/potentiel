@@ -48,7 +48,7 @@ export const InfoInstallation = ({
         {typologieInstallation.value.length > 0 ? (
           <ul className="m-0">
             {typologieInstallation.value.map((t) => (
-              <li>
+              <li key={t.typologie}>
                 <div>{getTypologieLabels(t.typologie)}</div>
                 {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
               </li>

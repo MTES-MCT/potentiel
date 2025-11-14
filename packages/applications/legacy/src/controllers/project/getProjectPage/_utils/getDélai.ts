@@ -20,6 +20,9 @@ type GetDélai = (args: {
   identifiantUtilisateur: string;
   rôle: string;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['délai'];
+  aUnAbandonEnCours: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
 }) => Promise<GetDélaiForProjectPage>;
 
 export const getDélai: GetDélai = async ({
@@ -27,6 +30,9 @@ export const getDélai: GetDélai = async ({
   identifiantUtilisateur,
   rôle,
   règlesChangementPourAppelOffres,
+  aUnAbandonEnCours,
+  estAbandonné,
+  estAchevé,
 }) => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -58,7 +64,9 @@ export const getDélai: GetDélai = async ({
 
     const { peutFaireUneDemandeDeChangement } = await checkAutorisationChangement<'délai'>({
       rôle: Role.convertirEnValueType(rôle),
-      identifiantProjet,
+      aUnAbandonEnCours,
+      estAbandonné,
+      estAchevé,
       règlesChangementPourAppelOffres,
       domain: 'délai',
     });
