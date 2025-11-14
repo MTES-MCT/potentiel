@@ -20,7 +20,7 @@
     "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.3.0",
     "next-auth": "^4.24.11",
-    "nodemailer": "^6.10.0",
+    "nodemailer": "^7.0.10",
     "pg": "^8.14.1"
   },
   "devDependencies": {
