@@ -37,7 +37,7 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
@@ -58,9 +58,8 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   installation?: InfoGeneralesProps['installation'];
-  attestationConformité?: InfoGeneralesProps['attestationConformité'];
+  achèvementRéel?: InfoGeneralesProps['achèvementRéel'];
   dateAchèvementPrévisionnel: number;
-  estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   emailContact: string;
@@ -86,8 +85,7 @@ export const ProjectDetails = ({
   alertesRaccordement,
   abandon,
   demandeRecours,
-  estAchevé,
-  attestationConformité,
+  achèvementRéel,
   dateAchèvementPrévisionnel,
   représentantLégal,
   actionnaire,
@@ -166,10 +164,10 @@ export const ProjectDetails = ({
       });
     }
 
-    if (attestationConformité?.date) {
+    if (achèvementRéel) {
       étapes.push({
         type: 'achèvement-réel',
-        date: attestationConformité.date,
+        date: achèvementRéel.date,
       });
     }
   }
@@ -186,7 +184,7 @@ export const ProjectDetails = ({
         project={project}
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        estAchevé={estAchevé}
+        estAchevé={!!achèvementRéel}
         statutLauréat={statutLauréat}
         demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
@@ -211,7 +209,9 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {affichageInfobox}
-          {estAchevé && user.role === 'porteur-projet' && <DemandeImpossibleSiAchèvementInfoBox />}
+          {achèvementRéel && user.role === 'porteur-projet' && (
+            <DemandeImpossibleSiAchèvementInfoBox />
+          )}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <AlertBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
@@ -258,8 +258,7 @@ export const ProjectDetails = ({
               actionnaire={actionnaire}
               puissance={puissance}
               coefficientKChoisi={coefficientKChoisi}
-              estAchevé={estAchevé}
-              attestationConformité={attestationConformité}
+              achèvementRéel={achèvementRéel}
               autorisationDUrbanisme={autorisationDUrbanisme}
               installation={installation}
               natureDeLExploitation={natureDeLExploitation}

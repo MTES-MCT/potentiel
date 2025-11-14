@@ -106,9 +106,7 @@ export class TransmettreAttestationConformitéFixture
         this.#formatAttestation,
       ),
 
-      dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
-        this.dateTransmissionAuCocontractant,
-      ),
+      dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),

@@ -103,7 +103,7 @@ Alors(
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
       assert(achèvement.estAchevé, `Le projet n'est pas achevé`);
 
-      const actual = achèvement.dateTransmissionAuCocontractant;
+      const actual = achèvement.dateAchèvementRéel;
       const expected =
         this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.dateAchèvement;
 

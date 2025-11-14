@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { AbstractFixture } from '../../../../fixture';
 
@@ -59,13 +60,8 @@ export class TransmettreDateAchèvementFixture
         'application/pdf',
       ),
 
-      dateTransmissionAuCocontractant: DateTime.convertirEnValueType(this.dateAchèvement),
-      preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-        DateTime.convertirEnValueType(this.dateAchèvement).formatter(),
-        'application/pdf',
-      ),
+      dateAchèvementRéel: DateTime.convertirEnValueType(this.dateAchèvement),
+      preuveTransmissionAuCocontractant: Option.none,
       misÀJourLe: DateTime.convertirEnValueType(this.transmiseLe),
       misÀJourPar: Email.convertirEnValueType(this.transmisePar),
     };

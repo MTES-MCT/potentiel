@@ -11,6 +11,7 @@ export type AttestationConformitéTransmiseEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     attestation: { format: string };
+    // La date de transmission au co-contractant vaut date d'achèvement du projet
     dateTransmissionAuCocontractant: DateTime.RawType;
     preuveTransmissionAuCocontractant: { format: string };
     date: DateTime.RawType;
