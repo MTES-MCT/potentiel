@@ -7,7 +7,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
@@ -36,11 +35,6 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   dateDemandeEnCoursSiDifférente,
 }) => (
   <ColumnPageTemplate
-    banner={
-      <ProjetLauréatBanner
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
-    }
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">

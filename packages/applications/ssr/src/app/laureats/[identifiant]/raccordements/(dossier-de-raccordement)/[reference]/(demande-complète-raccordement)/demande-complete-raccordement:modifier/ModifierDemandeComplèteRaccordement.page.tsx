@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import {
@@ -29,7 +28,6 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
   delaiDemandeDeRaccordementEnMois,
 }) => (
   <ColumnPageTemplate
-    banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (

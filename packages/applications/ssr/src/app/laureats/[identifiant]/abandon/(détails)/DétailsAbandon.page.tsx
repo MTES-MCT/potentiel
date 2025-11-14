@@ -5,7 +5,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -65,7 +64,6 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Demande d'abandon</Heading1>}
       leftColumn={{
         children: (

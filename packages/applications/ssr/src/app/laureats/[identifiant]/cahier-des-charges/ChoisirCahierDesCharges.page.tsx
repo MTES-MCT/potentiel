@@ -1,7 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import {
@@ -19,7 +18,6 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
 }) => {
   return (
     <ColumnPageTemplate
-      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       leftColumn={{
         children: (
           <ChoisirCahierDesChargesForm

@@ -5,7 +5,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
@@ -29,7 +28,6 @@ export const TransmettreDateMiseEnServicePage = ({
   intervalleDatesMeSDélaiCDC2022,
 }: TransmettreDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
-    banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
