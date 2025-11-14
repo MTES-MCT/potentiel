@@ -1,5 +1,8 @@
 import { faker } from '@faker-js/faker';
 
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+
 import { AbstractFixture } from '../../../../fixture';
 
 interface TransmettreDateAchèvement {
@@ -29,6 +32,7 @@ export class TransmettreDateAchèvementFixture
   get transmisePar(): string {
     return this.#transmisePar;
   }
+
   créer(partialFixture?: Partial<TransmettreDateAchèvement>): TransmettreDateAchèvement {
     const fixture: TransmettreDateAchèvement = {
       dateAchèvement: faker.date.past().toISOString(),
@@ -37,10 +41,33 @@ export class TransmettreDateAchèvementFixture
       ...partialFixture,
     };
 
-    this.#dateAchèvement = fixture.dateAchèvement;
+    this.#dateAchèvement = new Date(fixture.dateAchèvement).toISOString();
+    this.#transmiseLe = new Date(fixture.transmiseLe).toISOString();
+    this.#transmisePar = fixture.transmisePar;
 
     this.aÉtéCréé = true;
 
-    return fixture;
+    return this;
+  }
+
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+    return {
+      attestation: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+        DateTime.convertirEnValueType(this.transmiseLe).formatter(),
+        'application/pdf',
+      ),
+
+      dateTransmissionAuCocontractant: DateTime.convertirEnValueType(this.dateAchèvement),
+      preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+        DateTime.convertirEnValueType(this.dateAchèvement).formatter(),
+        'application/pdf',
+      ),
+      misÀJourLe: DateTime.convertirEnValueType(this.transmiseLe),
+      misÀJourPar: Email.convertirEnValueType(this.transmisePar),
+    };
   }
 }
