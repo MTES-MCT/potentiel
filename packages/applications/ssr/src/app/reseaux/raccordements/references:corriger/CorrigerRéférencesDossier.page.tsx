@@ -8,9 +8,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { CorrigerRéférencesDossierForm } from './CorrigerRéférencesDossier.form';
 
 export const CorrigerRéférencesDossierPage = () => (
-  <PageTemplate
-    banner={<Heading1 className="text-theme-white">Corriger des références dossier</Heading1>}
-  >
+  <PageTemplate banner={<Heading1>Corriger des références dossier</Heading1>}>
     <ColumnPageTemplate
       leftColumn={{
         children: <CorrigerRéférencesDossierForm />,

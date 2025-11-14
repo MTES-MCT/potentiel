@@ -16,7 +16,7 @@ export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
     .with('grd', () => ({ texte: 'Voir les raccordements', lien: Routes.Raccordement.lister }))
     .otherwise(() => ({ texte: 'Voir les projets lauréats', lien: Routes.Lauréat.lister() }));
   return (
-    <section className="bg-[linear-gradient(180deg,_#000091_50%,_white_50%)]">
+    <section className="bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">
       <h2 className="sr-only">Accéder à Potentiel</h2>
       <div className="flex xl:mx-auto xl:max-w-5xl px-2 lg:px-4 p-0 lg:p-8">
         <div className="flex flex-col items-center md:mx-auto shadow-md bg-dsfr-background-alt-blueFrance-default p-10">

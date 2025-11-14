@@ -18,9 +18,7 @@ export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePagePr
   gestionnaireRéseauActuel,
   listeGestionnairesRéseau,
 }) => (
-  <PageTemplate
-    banner={<Heading1 className="text-theme-white">Importer des dates de mise en service</Heading1>}
-  >
+  <PageTemplate banner={<Heading1>Importer des dates de mise en service</Heading1>}>
     <ColumnPageTemplate
       leftColumn={{
         children: (

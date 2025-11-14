@@ -38,10 +38,7 @@ export const ListPageTemplate = <TItem,>({
   legend = { symbols: [] },
   feature,
 }: ListPageTemplateProps<TItem>) => (
-  <PageTemplate
-    feature={feature}
-    banner={<Heading1 className="text-theme-white">{heading}</Heading1>}
-  >
+  <PageTemplate feature={feature} banner={<Heading1>{heading}</Heading1>}>
     <div className="flex flex-col gap-5 md:gap-10">
       {search && (
         <div className="w-full justify-end md:w-1/3 ml-auto">

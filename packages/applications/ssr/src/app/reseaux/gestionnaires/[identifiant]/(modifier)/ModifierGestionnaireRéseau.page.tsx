@@ -17,13 +17,7 @@ export const ModifierGestionnaireRéseauPage: FC<ModifierGestionnaireRéseauPage
   contactEmail,
 }) => {
   return (
-    <PageTemplate
-      banner={
-        <Heading1 className="text-theme-white">
-          Modifier le gestionnaire de réseau {raisonSociale}
-        </Heading1>
-      }
-    >
+    <PageTemplate banner={<Heading1>Modifier le gestionnaire de réseau {raisonSociale}</Heading1>}>
       <ModifierGestionnaireRéseauForm
         identifiantGestionnaireRéseau={identifiantGestionnaireRéseau}
         raisonSociale={raisonSociale}

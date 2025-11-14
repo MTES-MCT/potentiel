@@ -11,9 +11,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { CorrigerCandidaturesParLotForm } from './CorrigerCandidaturesParLot.form';
 
 export const CorrigerCandidaturesParLotPage: FC = () => (
-  <PageTemplate
-    banner={<Heading1 className="text-theme-white">Corriger des candidats par lot</Heading1>}
-  >
+  <PageTemplate banner={<Heading1>Corriger des candidats par lot</Heading1>}>
     <ColumnPageTemplate
       leftColumn={{
         children: <CorrigerCandidaturesParLotForm />,

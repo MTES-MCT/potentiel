@@ -18,11 +18,7 @@ export const ModifierRôleUtilisateurPage: FC<ModifierRôleUtilisateurPageProps>
   zones,
 }) => (
   <PageTemplate
-    banner={
-      <Heading1 className="text-theme-white">
-        Modifier le rôle de {utilisateur.identifiantUtilisateur.email}
-      </Heading1>
-    }
+    banner={<Heading1>Modifier le rôle de {utilisateur.identifiantUtilisateur.email}</Heading1>}
   >
     <ColumnPageTemplate
       leftColumn={{

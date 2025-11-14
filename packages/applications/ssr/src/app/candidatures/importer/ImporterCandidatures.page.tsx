@@ -17,7 +17,7 @@ export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({
   périodes,
   importMultipleAOEtPeriodesPossible,
 }) => (
-  <PageTemplate banner={<Heading1 className="text-theme-white">Importer des candidats</Heading1>}>
+  <PageTemplate banner={<Heading1>Importer des candidats</Heading1>}>
     <ImporterCandidaturesForm
       périodes={périodes}
       importMultipleAOEtPeriodesPossible={importMultipleAOEtPeriodesPossible}
