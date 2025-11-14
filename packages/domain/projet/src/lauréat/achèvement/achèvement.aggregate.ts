@@ -25,6 +25,7 @@ import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
   DateAchèvementAntérieureÀDateNotificationError,
+  DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
 } from './achèvement.error';
 import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
@@ -207,6 +208,10 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
       throw new DateAchèvementAntérieureÀDateNotificationError();
+    }
+
+    if (dateAchèvement.estDansLeFutur()) {
+      throw new DateAchèvementDansLeFuturError();
     }
 
     const event: DateAchèvementTransmiseEvent = {

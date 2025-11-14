@@ -37,3 +37,9 @@ export class DateAchèvementAntérieureÀDateNotificationError extends InvalidOp
     super("La date d'achèvement ne peut pas être antérieure à la date de notification du projet");
   }
 }
+
+export class DateAchèvementDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super("La date d'achèvement ne peut pas être dans le futur");
+  }
+}
