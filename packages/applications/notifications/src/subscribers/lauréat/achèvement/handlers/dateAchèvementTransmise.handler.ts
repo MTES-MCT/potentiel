@@ -1,8 +1,9 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
-import { AchèvementNotificationsProps } from '../type';
-import { achèvementNotificationTemplateId } from '../constant';
+import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+
+import { AchèvementNotificationsProps } from '../type.js';
+import { achèvementNotificationTemplateId } from '../constant.js';
 
 export const handleDateAchèvementTransmise = async ({
   sendEmail,
