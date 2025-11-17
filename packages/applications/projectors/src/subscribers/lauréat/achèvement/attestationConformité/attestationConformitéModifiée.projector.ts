@@ -8,7 +8,7 @@ export const attestationConformitéModifiéeProjector = async ({
     `achèvement|${payload.identifiantProjet}`,
     {
       réel: {
-        date: payload.date,
+        date: payload.dateTransmissionAuCocontractant,
         attestationConformité: { format: payload.attestation.format, transmiseLe: payload.date },
         preuveTransmissionAuCocontractant: {
           format: payload.preuveTransmissionAuCocontractant.format,
