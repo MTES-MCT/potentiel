@@ -1,15 +1,16 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
-import { installationNotificationTemplateId } from '../constant';
-import { InstallationNotificationsProps } from '../type';
+import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
-export const handleTypologieInstallationModifiée = async ({
+import { installationNotificationTemplateId } from '../constant.js';
+import { InstallationNotificationsProps } from '../type.js';
+
+export const handleInstallateurModifié = async ({
   sendEmail,
   event,
   projet,
-}: InstallationNotificationsProps<Lauréat.Installation.TypologieInstallationModifiéeEvent>) => {
+}: InstallationNotificationsProps<Lauréat.Installation.InstallateurModifiéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -18,14 +19,14 @@ export const handleTypologieInstallationModifiée = async ({
     getLogger().info('Aucune dreal ou porteur trouvé(e)', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'typologieInstallationModifiéeNotification',
+      fonction: 'installateurModifiéNotifications',
     });
     return;
   }
 
   await sendEmail({
-    templateId: installationNotificationTemplateId.modifierTypologieInstallation,
-    messageSubject: `Potentiel - Modification de la typologie du projet ${projet.nom} dans le département ${projet.département}`,
+    templateId: installationNotificationTemplateId.modifierInstallateur,
+    messageSubject: `Potentiel - Modification de l'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -35,8 +36,8 @@ export const handleTypologieInstallationModifiée = async ({
   });
 
   await sendEmail({
-    templateId: installationNotificationTemplateId.modifierTypologieInstallation,
-    messageSubject: `Potentiel - Modification de la typologie du projet ${projet.nom}`,
+    templateId: installationNotificationTemplateId.modifierInstallateur,
+    messageSubject: `Potentiel - Modification de l'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

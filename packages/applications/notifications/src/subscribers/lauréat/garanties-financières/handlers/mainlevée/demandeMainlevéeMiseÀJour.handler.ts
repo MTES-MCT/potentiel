@@ -2,9 +2,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { GarantiesFinancièresNotificationsProps } from '../../type';
-import { listerPorteursRecipients } from '../../../../../_helpers';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant';
+import { listerPorteursRecipients } from '#helpers';
+
+import { GarantiesFinancièresNotificationsProps } from '../../type.js';
+import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
 
 export const handleDemandeMainlevéeMiseÀJour = async ({
   event,

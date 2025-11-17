@@ -3,10 +3,13 @@ import { match } from 'ts-pattern';
 
 import { Accès } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../sendEmail';
-import { getCandidature } from '../../_helpers';
+import { SendEmail } from '#sendEmail';
+import { getCandidature } from '#helpers';
 
-import { handleAccèsProjetRetiré, handleAccèsProjetAutoriséSuiteÀRéclamation } from './handlers';
+import {
+  handleAccèsProjetRetiré,
+  handleAccèsProjetAutoriséSuiteÀRéclamation,
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Accès.AccèsEvent;
 

@@ -1,9 +1,10 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerRecipientsAutoritéInstructrice } from '../../../../_helpers/listerRecipientsAutoritéInstructrice';
-import { délaiNotificationTemplateId } from '../constant';
-import { DélaiNotificationsProps } from '../type';
+import { listerRecipientsAutoritéInstructrice } from '#helpers';
+
+import { délaiNotificationTemplateId } from '../constant.js';
+import { DélaiNotificationsProps } from '../type.js';
 
 export const handleDemandeDélaiAnnulée = async ({
   sendEmail,

@@ -3,16 +3,16 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat } from '../../../_helpers';
-import { SendEmail } from '../../../sendEmail';
+import { getBaseUrl, getLauréat } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
-import { changementReprésentantLégalAccordéNotification } from './handlers/changementReprésentantLégalAccordé.notification';
-import { changementReprésentantLégalAnnuléNotification } from './handlers/changementReprésentantLégalAnnulé.notification';
-import { changementReprésentantLégalCorrigéNotification } from './handlers/changementReprésentantLégalCorrigé.notification';
-import { changementReprésentantLégalDemandéNotification } from './handlers/changementReprésentantLégalDemandé.notification';
-import { changementReprésentantLégalRejetéNotification } from './handlers/changementReprésentantLégalRejeté.notification';
-import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
-import { changementReprésentantLégalEnregistréNotification } from './handlers/changementReprésentantLégalEnregistré.notification';
+import { changementReprésentantLégalAccordéNotification } from './handlers/changementReprésentantLégalAccordé.handler.js';
+import { changementReprésentantLégalAnnuléNotification } from './handlers/changementReprésentantLégalAnnulé.handler.js';
+import { changementReprésentantLégalCorrigéNotification } from './handlers/changementReprésentantLégalCorrigé.handler.js';
+import { changementReprésentantLégalDemandéNotification } from './handlers/changementReprésentantLégalDemandé.handler.js';
+import { changementReprésentantLégalRejetéNotification } from './handlers/changementReprésentantLégalRejeté.handler.js';
+import { représentantLégalModifiéNotification } from './handlers/représentantLégalModifié.handler.js';
+import { changementReprésentantLégalEnregistréNotification } from './handlers/changementReprésentantLégalEnregistré.handler.js';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent;
 

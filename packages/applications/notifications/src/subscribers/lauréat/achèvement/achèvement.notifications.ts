@@ -3,10 +3,10 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../_helpers';
+import { SendEmail } from '#sendEmail';
+import { getLauréat } from '#helpers';
 
-import { handleAttestationConformitéTransmise } from './handlers';
+import { handleAttestationConformitéTransmise } from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent;
 

@@ -1,2 +1,2 @@
-export * from './changementProducteurEnregistré.handler';
-export * from './producteurModifié.handler';
+export * from './changementProducteurEnregistré.handler.js';
+export * from './producteurModifié.handler.js';

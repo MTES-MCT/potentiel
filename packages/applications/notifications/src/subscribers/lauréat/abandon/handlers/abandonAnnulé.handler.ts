@@ -1,10 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../../_helpers';
-import { listerRecipientsAutoritéInstructrice } from '../../../../_helpers/listerRecipientsAutoritéInstructrice';
-import { abandonNotificationTemplateId } from '../constant';
-import { AbandonNotificationsProps } from '../type';
+import {
+  getBaseUrl,
+  listerPorteursRecipients,
+  listerRecipientsAutoritéInstructrice,
+} from '#helpers';
+
+import { abandonNotificationTemplateId } from '../constant.js';
+import { AbandonNotificationsProps } from '../type.js';
 
 export const handleAbandonAnnulé = async ({
   sendEmail,

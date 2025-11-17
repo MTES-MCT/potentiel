@@ -1,2 +1,2 @@
-export * from './porteurInvité.handler';
-export * from './utilisateurInvité.handler';
+export * from './porteurInvité.handler.js';
+export * from './utilisateurInvité.handler.js';

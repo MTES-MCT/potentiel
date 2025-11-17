@@ -1,8 +1,9 @@
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../../../_helpers';
-import { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications';
+import { listerPorteursRecipients } from '#helpers';
+
+import { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications.js';
 
 export const handleDemandeComplèteRaccordementAttendueRelance = async ({
   sendEmail,

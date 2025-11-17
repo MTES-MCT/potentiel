@@ -1,1 +1,1 @@
-export * from './périodeNotifiée.handler';
+export * from './périodeNotifiée.handler.js';

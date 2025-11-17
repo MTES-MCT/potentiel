@@ -4,9 +4,9 @@ import { match, P } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../_helpers';
-import { getBaseUrl } from '../../../_helpers';
+import { getLauréat } from '#helpers';
+import { getBaseUrl } from '#helpers';
+import { SendEmail } from '#sendEmail';
 
 import {
   handleChangementPuissanceAccordé,
@@ -15,7 +15,7 @@ import {
   handleChangementPuissanceEnregistré,
   handleChangementPuissanceRejeté,
   handlePuissanceModifiée,
-} from './handlers';
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 

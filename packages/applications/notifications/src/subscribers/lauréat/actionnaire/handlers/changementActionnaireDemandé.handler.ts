@@ -2,9 +2,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../../_helpers';
-import { actionnaireNotificationTemplateId } from '../constant';
-import { ActionnaireNotificationsProps } from '../type';
+import { listerDrealsRecipients } from '#helpers';
+
+import { actionnaireNotificationTemplateId } from '../constant.js';
+import { ActionnaireNotificationsProps } from '../type.js';
 
 export const handleChangementActionnaireDemandé = async ({
   sendEmail,

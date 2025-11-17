@@ -1,2 +1,2 @@
-export * from './garantiesFinancièresRappelEnAttente.notification';
-export * from './garantiesFinancièresRappelÉchéance.handler';
+export * from './garantiesFinancièresRappelEnAttente.handler.js';
+export * from './garantiesFinancièresRappelÉchéance.handler.js';

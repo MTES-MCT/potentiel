@@ -2,12 +2,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../../_helpers';
-import { RegisterReprésentantLégalNotificationDependencies } from '..';
-import { représentantLégalNotificationTemplateId } from '../constant';
+import { listerDrealsRecipients } from '#helpers';
+import { SendEmail } from '#sendEmail';
+
+import { représentantLégalNotificationTemplateId } from '../constant.js';
 
 type ChangementReprésentantLégalDemandéNotificationProps = {
-  sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
+  sendEmail: SendEmail;
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent;
   projet: {
     nom: string;
