@@ -2,9 +2,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { InstallationNotificationsProps } from '../type';
-import { installationNotificationTemplateId } from '../constant';
-import { listerPorteursRecipients, listerDrealsRecipients } from '../../../../_helpers';
+import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
+
+import { installationNotificationTemplateId } from '../constant.js';
+import { InstallationNotificationsProps } from '../type.js';
 
 export const handleChangementDispositifDeStockageEnregistréNotification = async ({
   sendEmail,
