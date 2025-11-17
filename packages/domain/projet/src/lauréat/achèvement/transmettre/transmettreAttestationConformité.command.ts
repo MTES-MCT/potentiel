@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type TransmettreAttestationConformitéCommand = Message<
-  'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+  'Lauréat.AchèvementCommand.TransmettreAttestationConformité',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
@@ -23,8 +23,5 @@ export const registerTransmettreAttestationConformitéCommand = (
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
     await projet.lauréat.achèvement.transmettreAttestationConformité(payload);
   };
-  mediator.register(
-    'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
-    handler,
-  );
+  mediator.register('Lauréat.AchèvementCommand.TransmettreAttestationConformité', handler);
 };

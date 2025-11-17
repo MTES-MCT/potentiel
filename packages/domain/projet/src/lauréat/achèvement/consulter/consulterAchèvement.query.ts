@@ -11,10 +11,11 @@ import { DocumentProjet, IdentifiantProjet } from '../../..';
 export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
+
   estAchevé: true;
   attestation: DocumentProjet.ValueType;
-  dateTransmissionAuCocontractant: DateTime.ValueType;
-  preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
+  dateAchèvementRéel: DateTime.ValueType;
+  preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType>;
   misÀJourLe: DateTime.ValueType;
   misÀJourPar: Email.ValueType;
 };
@@ -76,25 +77,30 @@ const mapToReadModel = ({
       estAchevé: false,
     };
   }
-  const { attestationConformité, dernièreMiseÀJour, preuveTransmissionAuCocontractant } = réel;
+  const {
+    date: dateAchèvementRéel,
+    attestationConformité,
+    preuveTransmissionAuCocontractant,
+    dernièreMiseÀJour,
+  } = réel;
   return {
     ...common,
     estAchevé: true,
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjet,
       TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      DateTime.convertirEnValueType(attestationConformité.date).formatter(),
+      DateTime.convertirEnValueType(attestationConformité.transmiseLe).formatter(),
       attestationConformité.format,
     ),
-    dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
-      preuveTransmissionAuCocontractant.date,
-    ),
-    preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-      DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.date).formatter(),
-      preuveTransmissionAuCocontractant.format,
-    ),
+    dateAchèvementRéel: DateTime.convertirEnValueType(dateAchèvementRéel),
+    preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+          DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.transmiseLe).formatter(),
+          preuveTransmissionAuCocontractant.format,
+        )
+      : Option.none,
     misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
     misÀJourPar: Email.convertirEnValueType(dernièreMiseÀJour.utilisateur),
   };

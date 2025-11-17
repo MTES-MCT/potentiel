@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   'le porteur transmet une attestation de conformité pour le projet {lauréat-éliminé}',
@@ -13,18 +14,18 @@ Quand(
         statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
         });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           identifiantUtilisateurValue: utilisateur,
         },
       });
@@ -43,7 +44,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
             dateTransmissionAuCocontractant: new Date(
@@ -53,13 +54,13 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+        type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           identifiantUtilisateurValue: utilisateur,
         },
       });
@@ -76,18 +77,18 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
         },
       });
@@ -105,7 +106,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
             dateTransmissionAuCocontractant: new Date(
@@ -115,14 +116,45 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation,
+          attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: preuve,
+          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le co-contractant transmet la date d'achèvement {string} pour le projet {lauréat-éliminé}",
+  async function (
+    this: PotentielWorld,
+    dateAchèvementValue: string,
+    statutProjet: 'lauréat' | 'éliminé',
+  ) {
+    try {
+      const { identifiantProjet } =
+        statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+
+      const { dateAchèvement, transmiseLe, transmisePar } =
+        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({
+          dateAchèvement: dateAchèvementValue,
+        });
+
+      await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateAchèvementValue: dateAchèvement,
+          transmiseLeValue: transmiseLe,
+          transmiseParValue: transmisePar,
         },
       });
     } catch (error) {

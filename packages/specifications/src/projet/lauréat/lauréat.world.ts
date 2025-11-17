@@ -210,7 +210,7 @@ export class LauréatWorld {
       unitéPuissance,
       statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
         ? Lauréat.StatutLauréat.abandonné
-        : this.#achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé
+        : this.#achèvementWorld.transmettreAttestationConformitéFixture.aÉtéCréé
           ? Lauréat.StatutLauréat.achevé
           : Lauréat.StatutLauréat.actif,
       autorisationDUrbanisme,

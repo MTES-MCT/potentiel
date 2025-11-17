@@ -1,10 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import React from 'react';
 
-import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { userIs } from '../../../../modules/users';
 import {
-  PreviewLinkButton,
   DropdownMenuSecondaryButton,
   PrimaryButton,
   PrintIcon,
@@ -12,109 +9,44 @@ import {
   DownloadLinkButton,
   LinkButton,
 } from '../../../components';
-import { match } from 'ts-pattern';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectHeaderProps } from './ProjectHeader';
+import { Role } from '@potentiel-domain/utilisateur';
 
-type EnregistrerUneModificationProps = Pick<
-  ProjectHeaderProps,
-  | 'producteurAffichage'
-  | 'puissanceAffichage'
-  | 'actionnaireAffichage'
-  | 'représentantLégalAffichage'
-  | 'délaiAffichage'
-  | 'fournisseurAffichage'
-  | 'installateurAffichage'
-  | 'typologieInstallationAffichage'
-  | 'dispositifDeStockageAffichage'
-  | 'natureDeLExploitationAffichage'
-  | 'siteDeProductionAffichage'
->;
+type Affichage = { labelActions?: string; url: string };
+type ActionsProps = {
+  actions: (Affichage | undefined)[];
+  demandesDisabled?: true;
+};
 
-const EnregistrerUneModification = ({
-  producteurAffichage,
-  puissanceAffichage,
-  actionnaireAffichage,
-  représentantLégalAffichage,
-  délaiAffichage,
-  fournisseurAffichage,
-  installateurAffichage,
-  typologieInstallationAffichage,
-  dispositifDeStockageAffichage,
-  natureDeLExploitationAffichage,
-  siteDeProductionAffichage,
-}: EnregistrerUneModificationProps) => {
+const Actions = ({ actions, demandesDisabled }: ActionsProps) => {
+  const actionsWithLabel = actions.filter((action): action is Affichage => !!action?.labelActions);
+  if (actionsWithLabel.length === 0) {
+    return null;
+  }
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
-      {!!producteurAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
-          <span>{producteurAffichage.labelActions}</span>
+      {actionsWithLabel.map((modification, index) => (
+        <DropdownMenuSecondaryButton.DropdownItem
+          key={index}
+          href={modification.url}
+          disabled={demandesDisabled}
+        >
+          <span>{modification.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!puissanceAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={puissanceAffichage.url}>
-          <span>{puissanceAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!actionnaireAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={actionnaireAffichage.url}>
-          <span>{actionnaireAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!représentantLégalAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
-          <span>{représentantLégalAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!délaiAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={délaiAffichage.url}>
-          <span>{délaiAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!fournisseurAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={fournisseurAffichage.url}>
-          <span>{fournisseurAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!installateurAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
-          <span>{installateurAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!typologieInstallationAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={typologieInstallationAffichage.url}>
-          <span>{typologieInstallationAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!dispositifDeStockageAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={dispositifDeStockageAffichage.url}>
-          <span>{dispositifDeStockageAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!natureDeLExploitationAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={natureDeLExploitationAffichage.url}>
-          <span>{natureDeLExploitationAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
-      {!!siteDeProductionAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem href={siteDeProductionAffichage.url}>
-          <span>{siteDeProductionAffichage.labelActions}</span>
-        </DropdownMenuSecondaryButton.DropdownItem>
-      )}
+      ))}
     </DropdownMenuSecondaryButton>
   );
 };
 
-type PorteurProjetActionsProps = Omit<ProjectActionsProps, 'user'> & {
-  identifiantProjet: IdentifiantProjet.RawType;
+type PorteurProjetActionsProps = Omit<ProjectActionsProps, 'user' | 'project'> & {
+  identifiantProjet: string;
+  doitAfficherAttestationDésignation: boolean;
 };
 
 const PorteurProjetActions = ({
   identifiantProjet,
-  project,
   abandonEnCoursOuAccordé,
-  demandeRecours,
+  doitAfficherAttestationDésignation,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
   représentantLégalAffichage,
@@ -127,110 +59,39 @@ const PorteurProjetActions = ({
   installateurAffichage,
   nomProjet,
 }: PorteurProjetActionsProps) => {
-  const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
-
-  const auMoinsUneActionDisponible =
-    producteurAffichage ||
-    fournisseurAffichage ||
-    actionnaireAffichage ||
-    puissanceAffichage ||
-    représentantLégalAffichage ||
-    délaiAffichage ||
-    natureDeLExploitationAffichage ||
-    installateurAffichage ||
-    nomProjet.affichage ||
-    peutDemanderAbandonOuAchèvement;
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col xl:flex-row gap-2">
-        {!project.isClasse && !demandeRecours && (
-          <SecondaryLinkButton
-            href={Routes.Recours.demander(identifiantProjet)}
-            disabled={demandesDisabled}
-          >
-            Faire une demande de recours
-          </SecondaryLinkButton>
-        )}
+        <Actions
+          actions={[
+            producteurAffichage,
+            fournisseurAffichage,
+            actionnaireAffichage,
+            puissanceAffichage,
+            représentantLégalAffichage,
+            délaiAffichage,
+            installateurAffichage,
+            natureDeLExploitationAffichage,
+            nomProjet.affichage,
+            {
+              labelActions:
+                estAchevé || abandonEnCoursOuAccordé ? undefined : 'Demander un abandon',
+              url: Routes.Abandon.demander(identifiantProjet),
+            },
+            {
+              labelActions:
+                estAchevé || abandonEnCoursOuAccordé
+                  ? undefined
+                  : "Transmettre l'attestation de conformité",
+              url: Routes.Achèvement.transmettreAttestationConformité(identifiantProjet),
+            },
+          ]}
+          demandesDisabled={demandesDisabled}
+        />
 
-        {project.isClasse && auMoinsUneActionDisponible && (
-          <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-            {!!producteurAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
-                <span>{producteurAffichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!fournisseurAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={fournisseurAffichage.url}>
-                <span>{fournisseurAffichage.labelActions ?? fournisseurAffichage.label}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!actionnaireAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={actionnaireAffichage.url}>
-                <span>{actionnaireAffichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!puissanceAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={puissanceAffichage.url}>
-                <span>{puissanceAffichage.labelActions ?? puissanceAffichage.label}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!représentantLégalAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
-                <span>{représentantLégalAffichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!délaiAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={délaiAffichage.url}>
-                <span>{délaiAffichage.label ?? délaiAffichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!installateurAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
-                <span>{installateurAffichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!natureDeLExploitationAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={natureDeLExploitationAffichage.url}
-                disabled={demandesDisabled}
-              >
-                <span>
-                  {natureDeLExploitationAffichage.label ??
-                    natureDeLExploitationAffichage.labelActions}
-                </span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {!!nomProjet.affichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={nomProjet.affichage.url}
-                disabled={demandesDisabled}
-              >
-                <span>{nomProjet.affichage.labelActions}</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
-            {peutDemanderAbandonOuAchèvement && (
-              <>
-                <DropdownMenuSecondaryButton.DropdownItem
-                  href={Routes.Abandon.demander(identifiantProjet)}
-                  disabled={demandesDisabled}
-                >
-                  <span>Demander un abandon</span>
-                </DropdownMenuSecondaryButton.DropdownItem>
-                {!estAchevé && getProjectStatus(project) === 'lauréat' && (
-                  <DropdownMenuSecondaryButton.DropdownItem
-                    href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
-                  >
-                    <span>Transmettre l'attestation de conformité</span>
-                  </DropdownMenuSecondaryButton.DropdownItem>
-                )}
-              </>
-            )}
-          </DropdownMenuSecondaryButton>
-        )}
-
-        {project.notifiedOn && !project.isLegacy && (
+        {!doitAfficherAttestationDésignation && (
           <DownloadLinkButton
             className="w-fit"
             fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
@@ -247,72 +108,37 @@ const PorteurProjetActions = ({
   );
 };
 
-type AdminActionsProps = EnregistrerUneModificationProps & {
-  project: ProjectDataForProjectPage;
-  identifiantProjet: IdentifiantProjet.RawType;
+type AdminActionsProps = ActionsProps & {
+  identifiantProjet: string;
+  estAchevé: boolean;
   doitAfficherAttestationDésignation: boolean;
 };
 
 const AdminActions = ({
-  project: { notifiedOn, isClasse },
   identifiantProjet,
-  producteurAffichage,
-  puissanceAffichage,
-  actionnaireAffichage,
-  représentantLégalAffichage,
-  délaiAffichage,
-  fournisseurAffichage,
-  installateurAffichage,
-  typologieInstallationAffichage,
-  dispositifDeStockageAffichage,
-  natureDeLExploitationAffichage,
-  siteDeProductionAffichage,
+  estAchevé,
+  actions,
   doitAfficherAttestationDésignation,
 }: AdminActionsProps) => (
   <div className="flex flex-col md:flex-row gap-2">
-    {isClasse && (
-      <EnregistrerUneModification
-        producteurAffichage={producteurAffichage}
-        puissanceAffichage={puissanceAffichage}
-        actionnaireAffichage={actionnaireAffichage}
-        représentantLégalAffichage={représentantLégalAffichage}
-        délaiAffichage={délaiAffichage}
-        fournisseurAffichage={fournisseurAffichage}
-        installateurAffichage={installateurAffichage}
-        typologieInstallationAffichage={typologieInstallationAffichage}
-        dispositifDeStockageAffichage={dispositifDeStockageAffichage}
-        natureDeLExploitationAffichage={natureDeLExploitationAffichage}
-        siteDeProductionAffichage={siteDeProductionAffichage}
-      />
+    <Actions
+      actions={actions.concat({
+        labelActions: estAchevé ? undefined : "Transmettre date d'achèvement",
+        url: Routes.Achèvement.transmettreDateAchèvement(identifiantProjet),
+      })}
+    />
+
+    <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>Modifier le projet</LinkButton>
+
+    {doitAfficherAttestationDésignation && (
+      <DownloadLinkButton
+        fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+        className="m-auto"
+      >
+        Voir attestation
+      </DownloadLinkButton>
     )}
-    {notifiedOn && isClasse ? (
-      <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>Modifier le projet</LinkButton>
-    ) : (
-      <LinkButton href={Routes.Candidature.corriger(identifiantProjet)}>
-        Modifier la candidature
-      </LinkButton>
-    )}
-    {match({
-      notifiedOn: !!notifiedOn,
-      doitAfficherAttestationDésignation,
-    })
-      .with({ notifiedOn: true, doitAfficherAttestationDésignation: true }, () => (
-        <DownloadLinkButton
-          fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-          className="m-auto"
-        >
-          Voir attestation
-        </DownloadLinkButton>
-      ))
-      .with({ notifiedOn: false }, () => (
-        <PreviewLinkButton
-          fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
-          className="m-auto"
-        >
-          Aperçu attestation
-        </PreviewLinkButton>
-      ))
-      .otherwise(() => null)}
+
     <PrimaryButton className="m-auto inline-flex items-center" onClick={() => window.print()}>
       <PrintIcon className="text-white mr-2" aria-hidden />
       Imprimer la page
@@ -320,38 +146,10 @@ const AdminActions = ({
   </div>
 );
 
-type DrealActionsProps = Pick<
-  ProjectHeaderProps,
-  | 'project'
-  | 'puissanceAffichage'
-  | 'actionnaireAffichage'
-  | 'représentantLégalAffichage'
-  | 'producteurAffichage'
-  | 'fournisseurAffichage'
-  | 'siteDeProductionAffichage'
->;
-
-const DrealActions = ({
-  project: { isClasse },
-  représentantLégalAffichage,
-  puissanceAffichage,
-  actionnaireAffichage,
-  producteurAffichage,
-  siteDeProductionAffichage,
-  fournisseurAffichage,
-}: DrealActionsProps) => {
+const DrealActions = ({ actions }: ActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      {isClasse && (
-        <EnregistrerUneModification
-          producteurAffichage={producteurAffichage}
-          puissanceAffichage={puissanceAffichage}
-          actionnaireAffichage={actionnaireAffichage}
-          représentantLégalAffichage={représentantLégalAffichage}
-          siteDeProductionAffichage={siteDeProductionAffichage}
-          fournisseurAffichage={fournisseurAffichage}
-        />
-      )}
+      <Actions actions={actions} />
       <PrimaryButton onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
@@ -360,13 +158,12 @@ const DrealActions = ({
   );
 };
 
-type ProjectActionsProps = Omit<ProjectHeaderProps, 'statutLauréat'>;
+type ProjectActionsProps = Omit<ProjectHeaderProps, 'statutLauréat' | 'project'>;
 
 export const ProjectActions = ({
-  project,
+  identifiantProjet,
   user,
   abandonEnCoursOuAccordé,
-  demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
   représentantLégalAffichage,
@@ -384,38 +181,33 @@ export const ProjectActions = ({
   nomProjet,
   doitAfficherAttestationDésignation,
 }: ProjectActionsProps) => {
-  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
-    appelOffreId: project.appelOffreId,
-    periodeId: project.periodeId,
-    familleId: project.familleId,
-    numeroCRE: project.numeroCRE,
-  }).formatter();
+  const role = Role.convertirEnValueType(user.role);
 
   return (
     <div className="print:hidden whitespace-nowrap">
-      {userIs(['admin', 'dgec-validateur'])(user) && (
+      {role.estDGEC() && (
         <AdminActions
-          project={project}
           identifiantProjet={identifiantProjet}
-          producteurAffichage={producteurAffichage}
-          puissanceAffichage={puissanceAffichage}
-          actionnaireAffichage={actionnaireAffichage}
-          représentantLégalAffichage={représentantLégalAffichage}
-          délaiAffichage={délaiAffichage}
-          fournisseurAffichage={fournisseurAffichage}
-          installateurAffichage={installateurAffichage}
-          typologieInstallationAffichage={typologieInstallationAffichage}
-          dispositifDeStockageAffichage={dispositifDeStockageAffichage}
-          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
-          siteDeProductionAffichage={siteDeProductionAffichage}
+          estAchevé={estAchevé}
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
+          actions={[
+            producteurAffichage,
+            puissanceAffichage,
+            actionnaireAffichage,
+            représentantLégalAffichage,
+            délaiAffichage,
+            fournisseurAffichage,
+            installateurAffichage,
+            typologieInstallationAffichage,
+            dispositifDeStockageAffichage,
+            natureDeLExploitationAffichage,
+            siteDeProductionAffichage,
+          ]}
         />
       )}
-      {userIs(['porteur-projet'])(user) && (
+      {role.estPorteur() && (
         <PorteurProjetActions
-          project={project}
           abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
-          demandeRecours={demandeRecours}
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
           estAchevé={estAchevé}
           représentantLégalAffichage={représentantLégalAffichage}
@@ -432,27 +224,23 @@ export const ProjectActions = ({
           nomProjet={nomProjet}
         />
       )}
-      {userIs(['dreal'])(user) && (
+      {role.estDreal() && (
         <DrealActions
-          project={project}
-          producteurAffichage={producteurAffichage}
-          puissanceAffichage={puissanceAffichage}
-          actionnaireAffichage={actionnaireAffichage}
-          représentantLégalAffichage={représentantLégalAffichage}
-          siteDeProductionAffichage={siteDeProductionAffichage}
-          fournisseurAffichage={fournisseurAffichage}
+          actions={[
+            producteurAffichage,
+            puissanceAffichage,
+            actionnaireAffichage,
+            représentantLégalAffichage,
+            siteDeProductionAffichage,
+            fournisseurAffichage,
+          ]}
         />
+      )}
+      {role.estCocontractant() && (
+        <SecondaryLinkButton href={Routes.Achèvement.transmettreDateAchèvement(identifiantProjet)}>
+          Transmettre la date d'achèvement
+        </SecondaryLinkButton>
       )}
     </div>
   );
 };
-
-type ProjectStatus = 'non-notifié' | 'abandonné' | 'lauréat' | 'éliminé';
-const getProjectStatus = (project: ProjectDataForProjectPage): ProjectStatus =>
-  !project.notifiedOn
-    ? 'non-notifié'
-    : project.isAbandoned
-      ? 'abandonné'
-      : project.isClasse
-        ? 'lauréat'
-        : 'éliminé';

@@ -71,3 +71,9 @@ export class AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError extends In
     super("L'abandon est déjà en instruction avec le même administrateur");
   }
 }
+
+export class ProjetAbandonnéError extends InvalidOperationError {
+  constructor() {
+    super('Le projet est abandonné');
+  }
+}

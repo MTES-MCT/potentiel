@@ -11,7 +11,7 @@ export class ImporterDossierCandidatureCommand extends Command {
   async init() {
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
-      supprimerDocumentProjetSensible: () => {
+      enregistrerDocumentSubstitut: () => {
         throw new Error('not implemented');
       },
     });

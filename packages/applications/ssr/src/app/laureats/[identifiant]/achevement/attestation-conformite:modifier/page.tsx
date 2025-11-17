@@ -36,11 +36,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const props = mapToProps(projet.identifiantProjet, achèvement);
-
     return (
       <ModifierAttestationConformitéPage
         identifiantProjet={props.identifiantProjet}
-        attestationConformitéActuelle={props.attestationConformitéActuelle}
+        attestationConformité={props.attestationConformité}
+        dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
+        preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
       />
     );
   });
@@ -52,12 +53,12 @@ type MapToProps = (
 ) => ModifierAttestationConformitéPageProps;
 const mapToProps: MapToProps = (
   identifiantProjet,
-  { attestation, preuveTransmissionAuCocontractant, dateTransmissionAuCocontractant },
+  { attestation, preuveTransmissionAuCocontractant, dateAchèvementRéel },
 ) => ({
   identifiantProjet: identifiantProjet.formatter(),
-  attestationConformitéActuelle: {
-    attestation: attestation.formatter(),
-    preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant.formatter(),
-    dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
-  },
+  dateTransmissionAuCocontractant: dateAchèvementRéel.formatter(),
+  attestationConformité: attestation.formatter(),
+  preuveTransmissionAuCocontractant: Option.isSome(preuveTransmissionAuCocontractant)
+    ? preuveTransmissionAuCocontractant.formatter()
+    : undefined,
 });

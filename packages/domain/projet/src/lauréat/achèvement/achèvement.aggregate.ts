@@ -7,6 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { DocumentProjet } from '../../document-projet';
+import { ProjetAbandonnéError } from '../abandon/abandon.error';
 
 import {
   DateAchèvementPrévisionnel,
@@ -24,8 +25,13 @@ import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchè
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
+  DateAchèvementAntérieureÀDateNotificationError,
+  DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
+  ProjetDéjàAchevéError,
 } from './achèvement.error';
+import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
+import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -194,6 +200,46 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async transmettreDateAchèvement({
+    dateAchèvement,
+    attestation: { format },
+    transmiseLe,
+    transmisePar,
+  }: TransmettreDateAchèvementOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
+    if (this.#estAchevé) {
+      throw new ProjetDéjàAchevéError();
+    }
+
+    if (this.lauréat.statut.estAbandonné()) {
+      throw new ProjetAbandonnéError();
+    }
+
+    if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
+      throw new DateAchèvementAntérieureÀDateNotificationError();
+    }
+
+    if (dateAchèvement.estDansLeFutur()) {
+      throw new DateAchèvementDansLeFuturError();
+    }
+
+    const event: DateAchèvementTransmiseEvent = {
+      type: 'DateAchèvementTransmise-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        attestation: {
+          format,
+        },
+        dateAchèvement: dateAchèvement.formatter(),
+        transmiseLe: transmiseLe.formatter(),
+        transmisePar: transmisePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
     if (
       this.lauréat.projet.cahierDesChargesActuel.appelOffre.id !== 'PPE2 - Petit PV Bâtiment' ||
@@ -248,6 +294,9 @@ export class AchèvementAggregate extends AbstractAggregate<
           type: 'DateAchèvementPrévisionnelCalculée-V1',
         },
         (event) => this.applyDateAchèvementPrévisionnelCalculéeV1(event),
+      )
+      .with({ type: 'DateAchèvementTransmise-V1' }, (event) =>
+        this.applyDateAchèvementTransmiseV1(event),
       )
       .exhaustive();
   }
@@ -306,5 +355,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     payload: { date },
   }: DateAchèvementPrévisionnelCalculéeEvent) {
     this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
+  }
+
+  private applyDateAchèvementTransmiseV1(_: DateAchèvementTransmiseEvent) {
+    this.#estAchevé = true;
   }
 }

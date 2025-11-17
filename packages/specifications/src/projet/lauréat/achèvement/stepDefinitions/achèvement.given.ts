@@ -6,6 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 EtantDonné(
   'une attestation de conformité transmise pour le projet lauréat',
@@ -13,16 +14,16 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
-      this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({});
+      this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+      type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: attestation,
+        attestationValue: convertFixtureFileToReadableStream(attestation),
         dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         dateValue: date,
-        preuveTransmissionAuCocontractantValue: preuve,
+        preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
         identifiantUtilisateurValue: utilisateur,
       },
     });

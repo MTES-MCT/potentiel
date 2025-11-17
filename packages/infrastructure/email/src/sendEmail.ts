@@ -36,6 +36,11 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
   if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
     const { templateId, messageSubject, recipients, cc, bcc, variables } = sendEmailArgs;
 
+    if (recipients.length === 0 && !cc?.length && !bcc?.length) {
+      getLogger().error('No recipients provided for email', sendEmailArgs);
+      return;
+    }
+
     await getMailjetClient()
       .post('send', {
         version: 'v3.1',

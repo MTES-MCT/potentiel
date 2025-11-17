@@ -5,7 +5,9 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { now } from '@potentiel-libraries/iso8601-datetime';
+import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
@@ -29,11 +31,11 @@ export type AttestationConformitéFormProps = {
   identifiantProjet: string;
   action: Action;
   submitLabel: string;
-  donnéesActuelles?: {
-    attestation: string;
-    preuveTransmissionAuCocontractant: string;
-    dateTransmissionAuCocontractant: Iso8601DateTime;
-  };
+
+  dateTransmissionAuCocontractant?: DateTime.RawType;
+  attestationConformité?: DocumentProjet.RawType;
+  preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
+
   demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
 
@@ -41,7 +43,9 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   identifiantProjet,
   action,
   submitLabel,
-  donnéesActuelles,
+  dateTransmissionAuCocontractant,
+  attestationConformité,
+  preuveTransmissionAuCocontractant,
   demanderMainlevée,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -69,7 +73,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           name="attestation"
           multiple
           required
-          documentKeys={donnéesActuelles && [donnéesActuelles.attestation]}
+          documentKeys={attestationConformité ? [attestationConformité] : undefined}
           label="Attestation de conformité et rapport associé"
           hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
           state={validationErrors['attestation'] ? 'error' : 'default'}
@@ -81,7 +85,9 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           name="preuveTransmissionAuCocontractant"
           required
           formats={['pdf']}
-          documentKeys={donnéesActuelles && [donnéesActuelles.preuveTransmissionAuCocontractant]}
+          documentKeys={
+            preuveTransmissionAuCocontractant ? [preuveTransmissionAuCocontractant] : undefined
+          }
           label="Preuve de transmission au co-contractant"
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
@@ -93,7 +99,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           name="dateTransmissionAuCocontractant"
           max={now()}
           required
-          defaultValue={donnéesActuelles?.dateTransmissionAuCocontractant}
+          defaultValue={dateTransmissionAuCocontractant}
           state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
         />

@@ -6,4 +6,4 @@ export const téléverserDocumentProjet: Document.EnregistrerDocumentProjetPort 
 export const déplacerDossierProjet: Document.DéplacerDossierProjetPort = copyFolder;
 export const archiverDocumentProjet: Document.ArchiverDocumentProjetPort = copyFile;
 
-export { remplacerDocumentProjetSensible } from './remplacerDocumentProjetSensible.adapter';
+export { enregistrerDocumentSubstitutAdapter } from './enregistrerDocumentSubstitut.adapter';

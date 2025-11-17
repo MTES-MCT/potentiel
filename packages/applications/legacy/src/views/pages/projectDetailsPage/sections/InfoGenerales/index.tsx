@@ -36,8 +36,11 @@ export type InfoGeneralesProps = {
   puissance?: GetPuissanceForProjectPage;
   installation?: GetInstallationForProjectPage;
   coefficientKChoisi: boolean | undefined;
-  estAchevé: boolean;
-  attestationConformité?: GetAttestationDeConformitéForProjectPage;
+  achèvementRéel?: {
+    date: number;
+    attestationConformité: DocumentProjet.RawType;
+    preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
+  };
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
   natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
   siteDeProduction: InfoSiteDeProductionProps;
@@ -65,8 +68,7 @@ export const InfoGenerales = ({
   actionnaire,
   puissance,
   coefficientKChoisi,
-  estAchevé,
-  attestationConformité,
+  achèvementRéel,
   autorisationDUrbanisme,
   installation,
   natureDeLExploitation,
@@ -109,7 +111,7 @@ export const InfoGenerales = ({
           identifiantProjet={identifiantProjet}
           peutModifier={peutModifierActuelles || peutModifierDépôt}
           peutLever={peutDemanderMainlevée}
-          estAchevé={estAchevé}
+          estAchevé={!!achèvementRéel}
         />
       )}
       {demandeRecours && role.aLaPermission('recours.consulter.détail') && (
@@ -165,9 +167,10 @@ export const InfoGenerales = ({
           <span>{prixReference} €/MWh</span>
         </div>
       )}
-      {attestationConformité && (
+      {achèvementRéel && (
         <InfoAttestationConformité
-          attestationConformité={attestationConformité}
+          attestationConformité={achèvementRéel.attestationConformité}
+          preuveTransmissionAuCocontractant={achèvementRéel.preuveTransmissionAuCocontractant}
           role={role}
           identifiantProjet={identifiantProjet}
         />

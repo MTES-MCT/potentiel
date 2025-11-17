@@ -1,5 +1,5 @@
 import { AchèvementProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
-import { AttestationConformitéNotification } from '@potentiel-applications/notifications';
+import { AchèvementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
@@ -17,18 +17,19 @@ export const setupAchèvement: SetupProjet = async ({ sendEmail }) => {
       'AttestationConformitéTransmise-V1',
       'AttestationConformitéModifiée-V1',
       'DateAchèvementPrévisionnelCalculée-V1',
+      'DateAchèvementTransmise-V1',
       'RebuildTriggered',
     ],
     messageType: 'System.Projector.Lauréat.Achèvement',
   });
 
-  AttestationConformitéNotification.register({ sendEmail });
+  AchèvementNotification.register({ sendEmail });
   await achèvement.setupSubscription<
-    AttestationConformitéNotification.SubscriptionEvent,
-    AttestationConformitéNotification.Execute
+    AchèvementNotification.SubscriptionEvent,
+    AchèvementNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['AttestationConformitéTransmise-V1'],
+    eventType: ['AttestationConformitéTransmise-V1', 'DateAchèvementTransmise-V1'],
     messageType: 'System.Notification.Lauréat.Achèvement.AttestationConformité',
   });
 
