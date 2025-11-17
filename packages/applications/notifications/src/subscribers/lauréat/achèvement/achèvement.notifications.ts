@@ -6,7 +6,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { SendEmail } from '#sendEmail';
 import { getLauréat } from '#helpers';
 
-import { handleAttestationConformitéTransmise } from './handlers/index.js';
+import {
+  handleAttestationConformitéTransmise,
+  handleDateAchèvementTransmise,
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent;
 
@@ -29,6 +32,9 @@ export const register = ({ sendEmail }: RegisterAttestationConformitéNotificati
     return match(event)
       .with({ type: 'AttestationConformitéTransmise-V1' }, async (event) =>
         handleAttestationConformitéTransmise({ sendEmail, event, projet }),
+      )
+      .with({ type: 'DateAchèvementTransmise-V1' }, async (event) =>
+        handleDateAchèvementTransmise({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

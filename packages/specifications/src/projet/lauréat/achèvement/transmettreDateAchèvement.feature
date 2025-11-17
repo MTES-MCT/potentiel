@@ -14,14 +14,15 @@ Fonctionnalité: Transmettre la date d'achèvement
         Et une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"
 
-    # Et un email a été envoyé à la dreal avec :
-    #     | sujet      | Potentiel - La date d'achèvement a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
-    #     | nom_projet | Du boulodrome de Marseille                                                                                         |
-    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
-    # Et un email a été envoyé au porteur avec :
-    #     | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
-    #     | nom_projet | Du boulodrome de Marseille                                                                                   |
-    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Transmission de la date d'achèvement du projet Du boulodrome de Marseille dans le département (.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Transmission de la date d'achèvement du projet Du boulodrome de Marseille dans le département (.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
+
     Scénario: Impossible de transmettre une date d'achèvement pour un projet lauréat inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le co-contractant transmet la date d'achèvement "2025-11-14" pour le projet éliminé

@@ -3,7 +3,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
-import { AchèvementNotificationsProps } from '../type.js';
+import type { AchèvementNotificationsProps } from '../type.js';
+import { achèvementNotificationTemplateId } from '../constant.js';
 
 export const handleAttestationConformitéTransmise = async ({
   sendEmail,
@@ -22,7 +23,7 @@ export const handleAttestationConformitéTransmise = async ({
     return;
   }
   await sendEmail({
-    templateId: 6409011,
+    templateId: achèvementNotificationTemplateId.transmettreAttestationConformité,
     messageSubject: `Potentiel - Mise à jour de la date d'achèvement du projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
