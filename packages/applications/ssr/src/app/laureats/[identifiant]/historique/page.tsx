@@ -32,24 +32,7 @@ import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-expl
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
-
-const categoriesDisponibles = [
-  'abandon',
-  'achevement',
-  'actionnaire',
-  'délai',
-  'fournisseur',
-  'garanties-financieres',
-  'lauréat',
-  'éliminé',
-  'producteur',
-  'puissance',
-  'recours',
-  'représentant-légal',
-  'raccordement',
-  'installation',
-  'nature-de-l-exploitation',
-] as const;
+import { categoriesDisponibles, mapCatégoriesToLabel } from './_helpers/mapCatégoriesToLabel';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -107,7 +90,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const options = categoriesDisponibles
         .map((categorie) => ({
-          label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
+          label: mapCatégoriesToLabel(categorie),
           value: categorie,
         }))
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
