@@ -106,10 +106,14 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         !aUnRecoursAccordé && !!lauréat.attestationDésignation;
 
       const options = categoriesDisponibles
-        .map((categorie) => ({
-          label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
-          value: categorie,
-        }))
+        .map((categorie) => {
+          const sanitizedLabel = categorie.replace(/-/g, ' ');
+
+          return {
+            label: sanitizedLabel.charAt(0).toUpperCase() + sanitizedLabel.slice(1).toLowerCase(),
+            value: categorie,
+          };
+        })
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
 
       const historiqueFilteredAndSorted = historique.items
