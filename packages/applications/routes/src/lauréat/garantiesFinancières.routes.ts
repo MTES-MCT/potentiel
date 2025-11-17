@@ -4,7 +4,7 @@ import { encodeParameter } from '../encodeParameter';
 import { withFilters } from '../_helpers/withFilters';
 
 type ListerMainlevéesFilters = {
-  statut?: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
+  statut?: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType[];
 };
 
 type ListerEnAttenteFilters = {

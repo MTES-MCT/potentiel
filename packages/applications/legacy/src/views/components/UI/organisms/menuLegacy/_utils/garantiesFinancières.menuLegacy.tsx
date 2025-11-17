@@ -14,7 +14,9 @@ export const MenuLegacyGarantiesFinancières = () => (
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
     <DropdownMenu.DropdownItem
-      href={Routes.GarantiesFinancières.demandeMainlevée.lister({ statut: 'demandé' })}
+      href={Routes.GarantiesFinancières.demandeMainlevée.lister({
+        statut: ['demandé', 'en-instruction'],
+      })}
     >
       Demandes de mainlevée
     </DropdownMenu.DropdownItem>
