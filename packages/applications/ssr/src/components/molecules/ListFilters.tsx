@@ -54,7 +54,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
       }
     }
 
-    return router.push(buildUrl(pathname, newSearchParams));
+    return router.push(buildUrl(pathname, newSearchParams), { scroll: false });
   };
 
   return (
