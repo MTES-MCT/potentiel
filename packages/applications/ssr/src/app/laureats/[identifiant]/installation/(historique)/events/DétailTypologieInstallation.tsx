@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Candidature } from '@potentiel-domain/projet';
 
 import { getTypologieInstallationLabel } from '@/app/laureats/[identifiant]/installation/typologie-du-projet/typologieInstallationLabel';
@@ -8,21 +6,24 @@ export const DétailTypologieInstallation = (
   typologieInstallation: Candidature.TypologieInstallation.RawType[],
 ) => {
   return (
-    <div>
+    <>
       {typologieInstallation.length > 0 ? (
-        <>
-          <ul className="list-disc pl-4 m-0">
-            {typologieInstallation.map((t) => (
-              <li key={t.typologie}>
-                <div className="font-semibold">{getTypologieInstallationLabel(t.typologie)}</div>
-                {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
-              </li>
-            ))}
-          </ul>
-        </>
+        <div className="flex flex-col gap-2">
+          {typologieInstallation.map((t) => (
+            <div key={t.typologie}>
+              <div>
+                Installation:{' '}
+                <span className="font-semibold">{getTypologieInstallationLabel(t.typologie)}</span>
+              </div>
+              {t.détails && (
+                <div className="italic">Éléments sous l'installation : {t.détails}</div>
+              )}
+            </div>
+          ))}
+        </div>
       ) : (
         <span>Typologie du projet non renseignée</span>
       )}
-    </div>
+    </>
   );
 };

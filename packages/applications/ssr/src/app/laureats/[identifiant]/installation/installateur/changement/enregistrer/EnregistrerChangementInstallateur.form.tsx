@@ -42,7 +42,6 @@ export const EnregistrerChangementInstallateurForm: FC<
         type="hidden"
         value={IdentifiantProjet.bind(identifiantProjet).formatter()}
       />
-      {installateur !== '' && <div>Installateur actuel : {installateur}</div>}
       <div className="flex flex-col gap-6">
         <Input
           state={validationErrors['installateur'] ? 'error' : 'default'}
@@ -52,6 +51,7 @@ export const EnregistrerChangementInstallateurForm: FC<
           nativeInputProps={{
             type: 'text',
             name: 'installateur',
+            defaultValue: installateur,
             required: true,
             'aria-required': true,
           }}

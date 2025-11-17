@@ -45,18 +45,20 @@ export const InfoInstallation = ({
       <Heading3 className="m-0">Installation</Heading3>
       <div>
         <Heading4 className="m-0">Typologie du projet</Heading4>
-        {typologieInstallation.value.length > 0 ? (
-          <ul className="m-0">
-            {typologieInstallation.value.map((t) => (
-              <li key={t.typologie}>
-                <div>{getTypologieLabels(t.typologie)}</div>
-                {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div>Typologie du projet non renseignée</div>
-        )}
+        <div>
+          {typologieInstallation.value.length > 0 ? (
+            <>
+              {typologieInstallation.value.map((t) => (
+                <div key={t.typologie}>
+                  <div>{getTypologieLabels(t.typologie)}</div>
+                  {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
+                </div>
+              ))}
+            </>
+          ) : (
+            <span>Typologie du projet non renseignée</span>
+          )}
+        </div>
         {typologieInstallation.affichage && (
           <Link
             href={typologieInstallation.affichage.url}
