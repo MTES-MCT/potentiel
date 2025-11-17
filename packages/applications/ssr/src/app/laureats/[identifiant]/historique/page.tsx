@@ -105,10 +105,12 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const doitAfficherLienAttestationDésignation =
         !aUnRecoursAccordé && !!lauréat.attestationDésignation;
 
-      const options = categoriesDisponibles.map((categorie) => ({
-        label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
-        value: categorie,
-      }));
+      const options = categoriesDisponibles
+        .map((categorie) => ({
+          label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
+          value: categorie,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
 
       const historiqueFilteredAndSorted = historique.items
         .filter(filtrerImportsEtRecoursLegacy)
