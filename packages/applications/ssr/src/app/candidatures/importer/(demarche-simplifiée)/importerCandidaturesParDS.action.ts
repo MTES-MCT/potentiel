@@ -118,7 +118,6 @@ const action: FormAction<FormState, typeof schema> = async (
             obligationDeSolarisation: undefined,
             territoireProjet: '',
             fournisseurs: [],
-            puissanceDeSite: undefined,
             installateur: undefined,
             dispositifDeStockage: undefined,
             natureDeLExploitation: undefined,
@@ -130,6 +129,10 @@ const action: FormAction<FormState, typeof schema> = async (
             attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
             puissanceProductionAnnuelle: convertirKWcEnMWc(dépôt.puissanceProductionAnnuelle),
+            puissanceDeSite:
+              dépôt.puissanceDeSite !== undefined
+                ? convertirKWcEnMWc(dépôt.puissanceDeSite)
+                : undefined,
             localité: {
               ...dépôt.localité,
               adresse2: dépôt.localité.adresse2 ?? '',
