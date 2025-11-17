@@ -57,6 +57,7 @@ const PorteurProjetActions = ({
   délaiAffichage,
   natureDeLExploitationAffichage,
   installateurAffichage,
+  dispositifDeStockageAffichage,
   nomProjet,
 }: PorteurProjetActionsProps) => {
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -74,6 +75,7 @@ const PorteurProjetActions = ({
             délaiAffichage,
             installateurAffichage,
             natureDeLExploitationAffichage,
+            dispositifDeStockageAffichage,
             nomProjet.affichage,
             {
               labelActions:
@@ -222,6 +224,7 @@ export const ProjectActions = ({
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
           installateurAffichage={installateurAffichage}
           nomProjet={nomProjet}
+          dispositifDeStockageAffichage={dispositifDeStockageAffichage}
         />
       )}
       {role.estDreal() && (

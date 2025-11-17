@@ -22,7 +22,7 @@ export type ListerChangementDispositifDeStockageReadModel = {
 };
 
 export type ListerChangementDispositifDeStockageQuery = Message<
-  'Lauréat.DispositifDeStockage.Query.ListerChangementDispositifDeStockage',
+  'Lauréat.Installation.Query.ListerChangementDispositifDeStockage',
   {
     utilisateur: Email.RawType;
     appelOffre?: string;
@@ -80,10 +80,7 @@ export const registerListerChangementDispositifDeStockageQuery = ({
     };
   };
 
-  mediator.register(
-    'Lauréat.DispositifDeStockage.Query.ListerChangementDispositifDeStockage',
-    handler,
-  );
+  mediator.register('Lauréat.Installation.Query.ListerChangementDispositifDeStockage', handler);
 };
 
 const mapToReadModel = (

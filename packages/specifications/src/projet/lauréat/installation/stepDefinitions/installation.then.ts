@@ -153,7 +153,7 @@ Alors(
 
       const changementEnregistré =
         await mediator.send<Lauréat.Installation.ConsulterChangementDispositifDeStockageQuery>({
-          type: 'Lauréat.DispositifDeStockage.Query.ConsulterChangementDispositifDeStockage',
+          type: 'Lauréat.Installation.Query.ConsulterChangementDispositifDeStockage',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
             enregistréLe:

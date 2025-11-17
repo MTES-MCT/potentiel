@@ -20,7 +20,7 @@ export type ConsulterChangementDispositifDeStockageReadModel = {
 };
 
 export type ConsulterChangementDispositifDeStockageQuery = Message<
-  'Lauréat.DispositifDeStockage.Query.ConsulterChangementDispositifDeStockage',
+  'Lauréat.Installation.Query.ConsulterChangementDispositifDeStockage',
   {
     identifiantProjet: string;
     enregistréLe: string;
@@ -47,10 +47,7 @@ export const registerConsulterChangementDispositifDeStockageQuery = ({
 
     return Option.match(changementDispositifDeStockage).some(mapToReadModel).none();
   };
-  mediator.register(
-    'Lauréat.DispositifDeStockage.Query.ConsulterChangementDispositifDeStockage',
-    handler,
-  );
+  mediator.register('Lauréat.Installation.Query.ConsulterChangementDispositifDeStockage', handler);
 };
 
 export const mapToReadModel = (result: ChangementDispositifDeStockageEntity) => {
