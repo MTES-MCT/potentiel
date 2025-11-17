@@ -1,5 +1,4 @@
 import { Routes } from '@potentiel-applications/routes';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
 
@@ -21,23 +20,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
 }: GarantiesFinancièresRappelÉchéanceNotificationProps) => {
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
-
   const dreals = await listerDrealsRecipients(région);
-
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
 
   await sendEmail({
     messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,

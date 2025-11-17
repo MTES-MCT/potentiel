@@ -25,15 +25,6 @@ export const changementReprésentantLégalAccordéNotification = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'changementReprésentantLégalAccordéNotification',
-    });
-    return;
-  }
-
   const templateIdMailPorteur = event.payload.avecCorrection
     ? représentantLégalNotificationTemplateId.changement.accord.avecCorrection
     : représentantLégalNotificationTemplateId.changement.accord.sansCorrection;

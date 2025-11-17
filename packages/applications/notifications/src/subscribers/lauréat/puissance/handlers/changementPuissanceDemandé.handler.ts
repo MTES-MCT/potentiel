@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
 import { Recipient } from '#sendEmail';
@@ -23,14 +22,6 @@ export const handleChangementPuissanceDemandé = async ({
     const dgecs = await listerDgecRecipients(identifiantProjet);
 
     recipients.push(...dgecs);
-  }
-
-  if (recipients.length === 0) {
-    getLogger().info('Aucune dreal ou DGEC trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
   }
 
   return sendEmail({

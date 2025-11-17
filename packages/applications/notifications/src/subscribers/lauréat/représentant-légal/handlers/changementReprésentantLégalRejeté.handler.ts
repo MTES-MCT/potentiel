@@ -1,5 +1,4 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { SendEmail } from '#sendEmail';
@@ -24,14 +23,6 @@ export const changementReprésentantLégalRejetéNotification = async ({
 }: ChangementReprésentantLégalRejetéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'changementReprésentantLégalRejetéNotification',
-    });
-    return;
-  }
 
   await sendEmail({
     templateId: représentantLégalNotificationTemplateId.changement.rejeter,
@@ -47,15 +38,6 @@ export const changementReprésentantLégalRejetéNotification = async ({
 
   if (event.payload.rejetAutomatique) {
     const dreals = await listerDrealsRecipients(projet.région);
-
-    if (dreals.length === 0) {
-      getLogger().info('Aucune dreal trouvée', {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'changementReprésentantLégalRejetéNotification',
-      });
-      return;
-    }
 
     await sendEmail({
       templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,

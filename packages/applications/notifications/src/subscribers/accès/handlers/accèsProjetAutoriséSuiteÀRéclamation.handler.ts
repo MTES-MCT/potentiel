@@ -32,12 +32,10 @@ export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
 
   const dreals = await listerDrealsRecipients(région);
 
-  if (dreals.length > 0) {
-    await sendEmail({
-      templateId: accèsNotificationTemplateId.accèsProjetAutorisé.dreal,
-      messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
-      recipients: dreals,
-      variables,
-    });
-  }
+  await sendEmail({
+    templateId: accèsNotificationTemplateId.accèsProjetAutorisé.dreal,
+    messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
+    recipients: dreals,
+    variables,
+  });
 }
