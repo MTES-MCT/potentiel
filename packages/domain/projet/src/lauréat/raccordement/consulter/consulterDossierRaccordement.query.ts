@@ -103,14 +103,14 @@ export const mapToReadModel = ({
     propositionTechniqueEtFinancière: propositionTechniqueEtFinancière
       ? {
           dateSignature: DateTime.convertirEnValueType(
-            propositionTechniqueEtFinancière.dateSignature ?? '',
+            propositionTechniqueEtFinancière.dateSignature,
           ),
           propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
             identifiantProjet,
             TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
               référence,
             ).formatter(),
-            propositionTechniqueEtFinancière.dateSignature ?? '',
+            propositionTechniqueEtFinancière.dateSignature,
             propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
           ),
         }

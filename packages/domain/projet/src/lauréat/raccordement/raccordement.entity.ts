@@ -13,7 +13,7 @@ type DossierRaccordement = {
     transmisePar?: Email.RawType;
   };
   propositionTechniqueEtFinancière?: {
-    dateSignature?: string;
+    dateSignature: string;
     propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
