@@ -4,6 +4,8 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
+import { callbackURLSchema } from '../../../utils/zod/auth';
+
 import SignInPage from './SignIn.page';
 
 type PageProps = {
@@ -11,10 +13,7 @@ type PageProps = {
 };
 
 const searchParamsSchema = z.object({
-  callbackUrl: z
-    .string()
-    .refine((url) => url.startsWith('/') || url.startsWith(process.env.BASE_URL ?? '__MISSING__'))
-    .optional(),
+  callbackUrl: callbackURLSchema.optional(),
   forceProConnect: z.stringbool().optional(),
 });
 
