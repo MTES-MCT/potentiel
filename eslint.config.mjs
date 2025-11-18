@@ -7,6 +7,7 @@ import monorepoPlugin from 'eslint-plugin-monorepo-cop';
 import react from 'eslint-plugin-react';
 import eslintJs from '@eslint/js';
 import next from '@next/eslint-plugin-next';
+import unusedImports from 'eslint-plugin-unused-imports';
 
 export default eslintTs.config(
   eslintJs.configs.recommended,
@@ -26,7 +27,11 @@ export default eslintTs.config(
   },
   {
     languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
-    plugins: { import: importPlugin, 'monorepo-cop': monorepoPlugin },
+    plugins: {
+      import: importPlugin,
+      'monorepo-cop': monorepoPlugin,
+      'unused-imports': unusedImports,
+    },
     settings: {
       'import/parsers': {
         espree: ['.js', '.cjs', '.mjs', '.jsx'],
@@ -101,6 +106,7 @@ export default eslintTs.config(
           ],
         },
       ],
+      'unused-imports/no-unused-imports': 'error',
     },
   },
   {
