@@ -10,10 +10,18 @@ type PageProps = {
   searchParams: Record<string, string>;
 };
 
+const allowedBaseURL = process.env.BASE_URL ?? '__MISSING__';
+
 const searchParamsSchema = z.object({
   callbackUrl: z
     .string()
-    .refine((url) => url.startsWith('/') || url.startsWith(process.env.BASE_URL ?? '__MISSING__'))
+    .refine((url) => url.startsWith('/') || url.startsWith(allowedBaseURL))
+    .refine((url) => {
+      if (url.startsWith(allowedBaseURL)) {
+        const parsedUrl = new URL(url);
+        return new URL(allowedBaseURL).hostname === parsedUrl.hostname;
+      }
+    })
     .optional(),
   forceProConnect: z.stringbool().optional(),
 });
