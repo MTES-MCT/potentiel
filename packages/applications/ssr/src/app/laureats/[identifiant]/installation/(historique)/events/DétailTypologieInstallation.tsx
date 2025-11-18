@@ -8,7 +8,7 @@ export const DétailTypologieInstallation = (
   return (
     <>
       {typologieInstallation.length > 0 ? (
-        <div className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2">
           {typologieInstallation.map((t) => (
             <div key={t.typologie}>
               <div>
@@ -20,7 +20,7 @@ export const DétailTypologieInstallation = (
               )}
             </div>
           ))}
-        </div>
+        </ul>
       ) : (
         <span>Typologie du projet non renseignée</span>
       )}
