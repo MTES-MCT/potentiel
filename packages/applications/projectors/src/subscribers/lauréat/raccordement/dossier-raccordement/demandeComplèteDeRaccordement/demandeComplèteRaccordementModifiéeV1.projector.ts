@@ -24,10 +24,10 @@ export const demandeComplèteRaccordementModifiéeV1Projector = async ({
   await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${nouvelleReference}`,
     {
-      identifiantProjet,
-      identifiantGestionnaireRéseau: dossier.identifiantGestionnaireRéseau,
+      ...dossier,
       référence: nouvelleReference,
       demandeComplèteRaccordement: {
+        ...dossier.demandeComplèteRaccordement,
         dateQualification,
       },
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
