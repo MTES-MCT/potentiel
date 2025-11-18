@@ -12,7 +12,7 @@ export const DétailTypologieInstallation = (
           {typologieInstallation.map((t) => (
             <div key={t.typologie}>
               <div>
-                Installation:{' '}
+                Installation :{' '}
                 <span className="font-semibold">{getTypologieInstallationLabel(t.typologie)}</span>
               </div>
               {t.détails && (
