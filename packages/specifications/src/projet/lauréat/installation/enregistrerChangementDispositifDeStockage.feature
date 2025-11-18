@@ -40,10 +40,7 @@ Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
     Scénario: Impossible d'enregistrer un changement de dispositif de stockage avec une valeur identique à l'actuelle
-        Quand le porteur enregistre un changement de dispositif de stockage du projet lauréat avec :
-            | installation avec dispositif de stockage | oui |
-            | capacité du dispositif                   | 1   |
-            | puissance du dispositif                  | 1   |
+        Quand le porteur enregistre un changement de dispositif de stockage du projet lauréat avec une valeur identique
         Alors l'utilisateur devrait être informé que "Les informations relatives au dispositif de stockage sont identiques à celles du projet"
 
     Scénario: Impossible d'enregistrer un changement pour un projet avec dispositif de stockage avec des valeurs invalides
