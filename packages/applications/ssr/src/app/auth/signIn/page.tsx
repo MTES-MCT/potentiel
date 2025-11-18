@@ -13,7 +13,7 @@ type PageProps = {
 };
 
 const searchParamsSchema = z.object({
-  callbackUrl: callbackURLSchema,
+  callbackUrl: callbackURLSchema.optional(),
   forceProConnect: z.stringbool().optional(),
 });
 
