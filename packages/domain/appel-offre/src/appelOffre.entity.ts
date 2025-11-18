@@ -334,6 +334,7 @@ export type AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: string;
   afficherValeurEvaluationCarbone: boolean;
   afficherPhraseRegionImplantation: boolean;
+  afficherParagrapheAutorisationUrbanisme?: true;
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
   dépôtDCRPossibleSeulementAprèsDésignation?: true;

@@ -38,6 +38,7 @@ export const Introduction = ({ project }: IntroductionProps) => {
         {project.communeProjet} d’une puissance de {formatNumber(project.puissance, 1e6)}{' '}
         {project.unitePuissance}
         {project.autorisationDUrbanisme &&
+          project.appelOffre.afficherParagrapheAutorisationUrbanisme &&
           ` disposant d’une autorisation au titre du code de l’urbanisme n° ${project.autorisationDUrbanisme.numéro} obtenue le ${formatDateForPdf(project.autorisationDUrbanisme.date)}`}
         .
       </Text>
