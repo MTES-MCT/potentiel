@@ -3,12 +3,15 @@ import z from 'zod';
 const allowedBaseURL = process.env.BASE_URL ?? '';
 
 export const callbackURLSchema = z.string().refine((url) => {
-  checkAllowedCallbackURL(url, allowedBaseURL);
+  return checkAllowedCallbackURL(url, allowedBaseURL);
 }, "L'URL de redirection n'est pas valide");
 
-export const checkAllowedCallbackURL = (url: string, allowedBaseURL: string) => {
-  if (!url.startsWith('/') && !url.startsWith(allowedBaseURL)) {
-    return false;
+export const checkAllowedCallbackURL = (allowedBaseURL: string, url?: string) => {
+  if (!url) {
+    return true;
+  }
+  if (url.startsWith('/')) {
+    return true;
   }
   if (url.startsWith(allowedBaseURL)) {
     try {
@@ -18,5 +21,5 @@ export const checkAllowedCallbackURL = (url: string, allowedBaseURL: string) => 
       return false;
     }
   }
-  return true;
+  return false;
 };
