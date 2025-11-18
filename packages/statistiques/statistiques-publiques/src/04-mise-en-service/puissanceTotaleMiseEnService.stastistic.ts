@@ -19,14 +19,6 @@ export const computePuissanceTotaleMiseEnService = async () => {
               where 
                   racc.key like 'dossier-raccordement|%'
                   and value->>'miseEnService.dateMiseEnService' is not null
-              except
-              select 
-                distinct racc.value->>'identifiantProjet' as identifiantProjet
-              from
-                  domain_views.projection racc
-              where 
-                  racc.key like 'dossier-raccordement|%'
-                  and value->>'miseEnService.dateMiseEnService' is null
             )
             select 
                   sum((puiss.value->>'puissance')::float)
