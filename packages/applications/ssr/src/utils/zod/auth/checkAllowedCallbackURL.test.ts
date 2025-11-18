@@ -21,5 +21,23 @@ describe('checkAllowedCallbackURL', () => {
       false,
     );
     expect(checkAllowedCallbackURL(allowedBaseURL, `https://evil.com`)).to.equal(false);
+    // encodées
+    expect(checkAllowedCallbackURL(`${allowedBaseURL}%40evil.com`, allowedBaseURL)).to.equal(false);
+    // sous domaines trompeurs
+    expect(checkAllowedCallbackURL(`http://${allowedBaseURL}.evil.com/`, allowedBaseURL)).to.equal(
+      false,
+    );
+    // port suspect
+    expect(checkAllowedCallbackURL(`${allowedBaseURL}:8080@evil.com/`, allowedBaseURL)).to.equal(
+      false,
+    );
+    // chemin relatif
+    expect(checkAllowedCallbackURL(`${allowedBaseURL}/../../evil.com`, allowedBaseURL)).to.equal(
+      false,
+    );
+    // caractères invisibles
+    expect(checkAllowedCallbackURL(`${allowedBaseURL}\u200B@evil.com`, allowedBaseURL)).to.equal(
+      false,
+    );
   });
 });
