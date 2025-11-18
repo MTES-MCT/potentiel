@@ -1,6 +1,5 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
@@ -28,28 +27,12 @@ export const handleGarantiesFinancièresMiseÀJour = async ({
     url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
   };
 
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
-
   await sendEmail({
     templateId: garantiesFinancièresNotificationTemplateId.actuelles.miseÀJourPourDreal,
     messageSubject,
     recipients: dreals,
     variables,
   });
-
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
 
   await sendEmail({
     templateId: garantiesFinancièresNotificationTemplateId.actuelles.miseÀJourPourDreal,

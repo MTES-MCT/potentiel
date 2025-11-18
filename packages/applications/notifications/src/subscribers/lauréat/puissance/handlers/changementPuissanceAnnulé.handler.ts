@@ -1,5 +1,4 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
 import { Recipient } from '#sendEmail';
@@ -21,14 +20,6 @@ export const handleChangementPuissanceAnnulé = async ({
     const dgecs = await listerDgecRecipients(identifiantProjet);
 
     recipients.push(...dgecs);
-  }
-
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
   }
 
   return sendEmail({

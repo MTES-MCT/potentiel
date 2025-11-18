@@ -17,16 +17,14 @@ export const handleCandidatureCorrigée = async ({
     IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet),
   );
 
-  if (porteurs.length > 0) {
-    await sendEmail({
-      templateId: candidatureNotificationTemplateId.attestationRegénéréePorteur,
-      messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${event.payload.nomProjet}`,
-      recipients: porteurs,
-      variables: {
-        nom_projet: event.payload.nomProjet,
-        raison: 'Votre candidature a été modifiée',
-        redirect_url: `${getBaseUrl()}${Routes.Projet.details(event.payload.identifiantProjet)}`,
-      },
-    });
-  }
+  await sendEmail({
+    templateId: candidatureNotificationTemplateId.attestationRegénéréePorteur,
+    messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${event.payload.nomProjet}`,
+    recipients: porteurs,
+    variables: {
+      nom_projet: event.payload.nomProjet,
+      raison: 'Votre candidature a été modifiée',
+      redirect_url: `${getBaseUrl()}${Routes.Projet.details(event.payload.identifiantProjet)}`,
+    },
+  });
 };

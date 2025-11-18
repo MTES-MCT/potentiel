@@ -1,5 +1,4 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerPorteursRecipients } from '#helpers';
 import { SendEmail } from '#sendEmail';
@@ -24,15 +23,6 @@ export const représentantLégalModifiéNotification = async ({
 }: ReprésentantLégalModifiéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'représentantLégalModifiéNotification',
-    });
-    return;
-  }
 
   return sendEmail({
     templateId: représentantLégalNotificationTemplateId.modifier,

@@ -1,5 +1,4 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerPorteursRecipients } from '#helpers';
 
@@ -13,14 +12,6 @@ export const handleDemandeDélaiRejetée = async ({
 }: DélaiNotificationsProps<Lauréat.Délai.DemandeDélaiRejetéeEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
 
   await sendEmail({
     templateId: délaiNotificationTemplateId.demande.rejeter,

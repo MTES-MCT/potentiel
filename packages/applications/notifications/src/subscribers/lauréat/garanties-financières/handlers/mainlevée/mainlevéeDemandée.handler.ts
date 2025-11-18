@@ -1,6 +1,5 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients } from '#helpers';
 
@@ -15,14 +14,6 @@ export const handleMainlevéeDemandée = async ({
 }: GarantiesFinancièresNotificationsProps<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
-
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
 
   await sendEmail({
     templateId: garantiesFinancièresNotificationTemplateId.mainlevée.demandéePourDreal,

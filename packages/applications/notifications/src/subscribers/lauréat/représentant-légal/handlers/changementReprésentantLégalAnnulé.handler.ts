@@ -1,5 +1,4 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { listerDrealsRecipients } from '#helpers';
 import { SendEmail } from '#sendEmail';
@@ -19,20 +18,9 @@ type ChangementReprésentantLégalAnnuléNotificationProps = {
 
 export const changementReprésentantLégalAnnuléNotification = async ({
   sendEmail,
-  event,
   projet,
 }: ChangementReprésentantLégalAnnuléNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
-
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'changementReprésentantLégalAnnuléNotification',
-    });
-    return;
-  }
 
   return sendEmail({
     templateId: représentantLégalNotificationTemplateId.changement.annuler,

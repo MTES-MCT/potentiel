@@ -1,6 +1,5 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerPorteursRecipients } from '#helpers';
 
@@ -19,14 +18,6 @@ export const handleDemandeMainlevéeMiseÀJour = async ({
 >) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-    });
-    return;
-  }
 
   await sendEmail({
     templateId: garantiesFinancièresNotificationTemplateId.mainlevée.modifiéePourPorteur,
