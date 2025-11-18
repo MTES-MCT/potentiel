@@ -10,7 +10,7 @@ export const checkAllowedCallbackURL = (allowedBaseURL: string, url?: string) =>
     return true;
   }
   if (url.startsWith('/')) {
-    return true;
+    return !url.startsWith('//');
   }
   if (url.startsWith(allowedBaseURL)) {
     try {

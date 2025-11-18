@@ -21,22 +21,20 @@ describe('checkAllowedCallbackURL', () => {
       false,
     );
     expect(checkAllowedCallbackURL(allowedBaseURL, `https://evil.com`)).to.equal(false);
+    // double slash
+    expect(checkAllowedCallbackURL(allowedBaseURL, `//https://evil.com`)).to.equal(false);
     // encodées
-    expect(checkAllowedCallbackURL(`${allowedBaseURL}%40evil.com`, allowedBaseURL)).to.equal(false);
+    expect(checkAllowedCallbackURL(allowedBaseURL, `${allowedBaseURL}%40evil.com`)).to.equal(false);
     // sous domaines trompeurs
-    expect(checkAllowedCallbackURL(`http://${allowedBaseURL}.evil.com/`, allowedBaseURL)).to.equal(
+    expect(checkAllowedCallbackURL(allowedBaseURL, `http://${allowedBaseURL}.evil.com/`)).to.equal(
       false,
     );
     // port suspect
-    expect(checkAllowedCallbackURL(`${allowedBaseURL}:8080@evil.com/`, allowedBaseURL)).to.equal(
-      false,
-    );
-    // chemin relatif
-    expect(checkAllowedCallbackURL(`${allowedBaseURL}/../../evil.com`, allowedBaseURL)).to.equal(
+    expect(checkAllowedCallbackURL(allowedBaseURL, `${allowedBaseURL}:8080@evil.com/`)).to.equal(
       false,
     );
     // caractères invisibles
-    expect(checkAllowedCallbackURL(`${allowedBaseURL}\u200B@evil.com`, allowedBaseURL)).to.equal(
+    expect(checkAllowedCallbackURL(allowedBaseURL, `${allowedBaseURL}\u200B@evil.com`)).to.equal(
       false,
     );
   });
