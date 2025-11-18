@@ -10,8 +10,6 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 import { DétailsChangementInstallateur } from './DétailsChangementInstallateur';
 
-export type ChangementInstallateurActions = 'enregistrer-changement';
-
 export type DétailsChangementInstallateurPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   changement: PlainType<

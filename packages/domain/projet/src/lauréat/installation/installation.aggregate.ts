@@ -4,7 +4,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
-import { Candidature } from '../..';
+import { Candidature, Lauréat } from '../..';
 import {
   DispositifDeStockageNonAttenduError,
   InstallateurNonAttenduError,
@@ -137,16 +137,7 @@ export class InstallationAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierDispositifDeStockageOptions) {
-    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentairedispositifDeStockage) {
-      throw new DispositifDeStockageNonAttenduError();
-    }
-
-    if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
-      throw new DispositifDeStockageIdentiqueError();
-    }
+    this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
 
     const event: DispositifDeStockageModifiéEvent = {
       type: 'DispositifDeStockageModifié-V1',
@@ -172,9 +163,7 @@ export class InstallationAggregate extends AbstractAggregate<
       'dispositifDeStockage',
     );
 
-    if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
-      throw new DispositifDeStockageIdentiqueError();
-    }
+    this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
 
     const event: ChangementDispositifDeStockageEnregistréEvent = {
       type: 'ChangementDispositifDeStockageEnregistré-V1',
@@ -235,6 +224,21 @@ export class InstallationAggregate extends AbstractAggregate<
       if (uniqueTypologies.size < modification.length) {
         throw new JeuDeTypologiesIdentiquesError();
       }
+    }
+  };
+
+  private vérifierSiMiseÀJourDispositifDeStockagePossible = (
+    modification: Lauréat.Installation.DispositifDeStockage.ValueType,
+  ) => {
+    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentairedispositifDeStockage) {
+      throw new DispositifDeStockageNonAttenduError();
+    }
+
+    if (this.#dispositifDeStockage && modification.estÉgaleÀ(this.#dispositifDeStockage)) {
+      throw new DispositifDeStockageIdentiqueError();
     }
   };
 

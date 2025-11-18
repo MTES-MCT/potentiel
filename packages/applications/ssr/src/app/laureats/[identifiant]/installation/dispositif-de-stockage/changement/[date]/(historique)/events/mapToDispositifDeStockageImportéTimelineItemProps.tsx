@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
+import { DétailsDispositifDeStockage } from '../../../../DétailsDispositifDeStockage';
+
 export const mapToDispositifDeStockageImportéTimelineItemProps = (
   event: Lauréat.Installation.InstallationImportéeEvent,
 ): TimelineItemProps => {
@@ -12,24 +14,7 @@ export const mapToDispositifDeStockageImportéTimelineItemProps = (
     content: (
       <>
         {dispositifDeStockage ? (
-          <div>
-            Dispositif de stockage :{' '}
-            <span className="font-semibold">
-              {dispositifDeStockage.installationAvecDispositifDeStockage ? 'avec' : 'sans'}
-            </span>
-            {dispositifDeStockage.puissanceDuDispositifDeStockageEnKW !== undefined ? (
-              <div>
-                Puissance du dispositif de stockage :{' '}
-                {dispositifDeStockage.puissanceDuDispositifDeStockageEnKW} kW
-              </div>
-            ) : null}
-            {dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh !== undefined ? (
-              <div>
-                Capacité du dispositif de stockage :{' '}
-                {dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh} kWh
-              </div>
-            ) : null}
-          </div>
+          <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
         ) : (
           <div>Dispositif de stockage non renseigné</div>
         )}

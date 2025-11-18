@@ -69,7 +69,7 @@ export const mapToReadModel = (result: ChangementDispositifDeStockageEntity) => 
         result.identifiantProjet,
         TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
         DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
-        result.changement.pièceJustificative?.format,
+        result.changement.pièceJustificative.format,
       ),
     },
   } satisfies ConsulterChangementDispositifDeStockageReadModel;

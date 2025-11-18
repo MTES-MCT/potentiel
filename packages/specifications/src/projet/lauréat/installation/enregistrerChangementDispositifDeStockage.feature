@@ -1,7 +1,6 @@
 # language: fr
 @dispositif-de-stockage
 @installation
-@select
 Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet lauréat en tant que porteur
 
     Contexte:
@@ -9,7 +8,7 @@ Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
             | capacité du dispositif                   | 1                        |
-            | puissance du dispositif                  | 1                        |
+            | puissance du dispositif                  | 2                        |
 
         Et la dreal "Dreal du sud" associée à la région du projet
 

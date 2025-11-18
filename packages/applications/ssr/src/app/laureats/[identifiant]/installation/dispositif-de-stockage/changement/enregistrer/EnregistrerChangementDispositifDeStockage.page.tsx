@@ -23,7 +23,7 @@ export const EnregistrerChangementDispositifDeStockagePage: FC<
       />
     }
   >
-    <Heading1>Changer l'installateur</Heading1>
+    <Heading1>Changer le dispositif de stockage</Heading1>
     <EnregistrerChangementDispositifDeStockageForm
       identifiantProjet={identifiantProjet}
       dispositifDeStockage={dispositifDeStockage}

@@ -10,7 +10,7 @@ import { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-d
 import {
   ListerChangementDispositifDeStockageQuery,
   ListerChangementDispositifDeStockageReadModel,
-} from './dispositif-de-stockage/changement/lister/listerChangementDispositifDeStockagequery';
+} from './dispositif-de-stockage/changement/lister/listerChangementDispositifDeStockage.query';
 import {
   ConsulterDispositifDeStockageQuery,
   ConsulterDispositifDeStockageReadModel,
@@ -112,4 +112,4 @@ export * from './dispositif-de-stockage/changement/changementDispositifDeStockag
 // Value type
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';
 export * as TypeDocumentInstallateur from './installateur/typeDocumentInstallateur.valueType';
-export * as TypeDocumentDispositifDeStockage from './dispositif-de-stockage/typeDocumentIDispositifDeStockage.valueType';
+export * as TypeDocumentDispositifDeStockage from './dispositif-de-stockage/typeDocumentDispositifDeStockage.valueType';

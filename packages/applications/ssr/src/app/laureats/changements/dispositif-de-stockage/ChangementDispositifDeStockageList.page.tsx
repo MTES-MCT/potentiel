@@ -7,7 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
 
-import { ChangementDispositifDeStockageListItem } from './ChangementInstallateurListItem';
+import { ChangementDispositifDeStockageListItem } from './ChangementDispositifDeStockageListItem';
 
 export type ChangementDispositifDeStockageListPageProps = {
   list: {
@@ -29,7 +29,7 @@ export const ChangementDispositifDeStockageListPage: FC<
   filters,
 }) => (
   <ListPageTemplate
-    heading="DispositifDeStockage"
+    heading="Dispositif de stockage"
     actions={[]}
     items={items.map((item) => ({
       ...item,

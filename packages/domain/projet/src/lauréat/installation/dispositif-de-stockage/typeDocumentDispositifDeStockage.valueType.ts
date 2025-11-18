@@ -25,13 +25,13 @@ function estValide(value: string): asserts value is TypeDocument {
   const isValid = (typeDocument as Array<string>).includes(value);
 
   if (!isValid) {
-    throw new TypeDocumentInstallateurInvalideError(value);
+    throw new TypeDocumentDispositifDeStockageInvalideError(value);
   }
 }
 
 export const pièceJustificative = convertirEnValueType('pièce-justificative');
 
-class TypeDocumentInstallateurInvalideError extends InvalidOperationError {
+class TypeDocumentDispositifDeStockageInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type du document ne correspond à aucune valeur connue`, {
       value,

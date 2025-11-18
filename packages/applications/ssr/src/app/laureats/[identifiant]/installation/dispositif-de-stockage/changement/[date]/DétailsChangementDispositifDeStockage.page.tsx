@@ -10,8 +10,6 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 import { DétailsChangementDispositifDeStockage } from './DétailsChangementDispositifDeStockage';
 
-export type ChangementDispositifDeStockageActions = 'enregistrer-changement';
-
 export type DétailsChangementDispositifDeStockagePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   changement: PlainType<

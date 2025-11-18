@@ -9,7 +9,7 @@ import { registerEnregistrerChangementDispositifDeStockageUseCase } from './chan
 import {
   ListerChangementDispositifDeStockageDependencies,
   registerListerChangementDispositifDeStockageQuery,
-} from './changement/lister/listerChangementDispositifDeStockagequery';
+} from './changement/lister/listerChangementDispositifDeStockage.query';
 import {
   ConsulterDispositifDeStockageDependencies,
   registerConsulterDispositifDeStockageQuery,

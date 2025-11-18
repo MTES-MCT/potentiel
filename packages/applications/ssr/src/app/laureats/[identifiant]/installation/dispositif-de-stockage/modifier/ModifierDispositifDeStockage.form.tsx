@@ -82,6 +82,9 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
               required: true,
               'aria-required': true,
               disabled: !installationAvecDispositifDeStockage,
+              inputMode: 'decimal',
+              pattern: '[0-9]+([,.][0-9]+)?',
+              step: 'any',
             }}
           />
 
@@ -96,6 +99,9 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
               required: true,
               'aria-required': true,
               disabled: !installationAvecDispositifDeStockage,
+              inputMode: 'decimal',
+              pattern: '[0-9]+([,.][0-9]+)?',
+              step: 'any',
             }}
           />
         </>

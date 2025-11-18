@@ -9,7 +9,9 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/liste/Proj
 import { ListItem } from '@/components/molecules/ListItem';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
-import { ChangementDispositifDeStockageListPageProps } from './ChangementInstallateurList.page';
+import { DétailsDispositifDeStockage } from '../../[identifiant]/installation/dispositif-de-stockage/DétailsDispositifDeStockage';
+
+import { ChangementDispositifDeStockageListPageProps } from './ChangementDispositifDeStockageList.page';
 
 export type ChangemenDispositifDeStockageListItemProps =
   ChangementDispositifDeStockageListPageProps['list']['items'][number];
@@ -40,24 +42,7 @@ export const ChangementDispositifDeStockageListItem: FC<
       </Button>
     }
   >
-    <div>
-      Dispositif de stockage :{' '}
-      <span className="font-semibold">
-        {dispositifDeStockage.installationAvecDispositifDeStockage ? 'avec' : 'sans'}
-      </span>
-      {dispositifDeStockage.puissanceDuDispositifDeStockageEnKW !== undefined ? (
-        <div>
-          Puissance du dispositif de stockage :{' '}
-          {dispositifDeStockage.puissanceDuDispositifDeStockageEnKW} kW
-        </div>
-      ) : null}
-      {dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh !== undefined ? (
-        <div>
-          Capacité du dispositif de stockage :{' '}
-          {dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh} kWh
-        </div>
-      ) : null}
-    </div>
+    <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
     <StatutDemandeBadge statut="information-enregistrée" small />
   </ListItem>
 );

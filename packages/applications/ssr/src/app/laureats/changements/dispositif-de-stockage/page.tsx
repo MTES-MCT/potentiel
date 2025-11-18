@@ -13,7 +13,7 @@ import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import {
   ChangementDispositifDeStockageListPage,
   ChangementDispositifDeStockageListPageProps,
-} from './ChangementInstallateurList.page';
+} from './ChangementDispositifDeStockageList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

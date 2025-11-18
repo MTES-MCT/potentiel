@@ -82,6 +82,10 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
                 required: true,
                 'aria-required': true,
                 disabled: !installationAvecDispositifDeStockage,
+                type: 'number',
+                inputMode: 'decimal',
+                pattern: '[0-9]+([,.][0-9]+)?',
+                step: 'any',
               }}
             />
 
@@ -96,6 +100,10 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
                 required: true,
                 'aria-required': true,
                 disabled: !installationAvecDispositifDeStockage,
+                type: 'number',
+                inputMode: 'decimal',
+                pattern: '[0-9]+([,.][0-9]+)?',
+                step: 'any',
               }}
             />
           </>
