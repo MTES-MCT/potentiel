@@ -24,7 +24,7 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({ identifiantP
               severity="info"
               small
               description={
-                <div className="py-4 text-justify">
+                <div className="text-justify">
                   Une fois votre demande d'abandon envoyée, la DGEC pourra vous demander une
                   confirmation avant de vous apporter une réponse définitive.
                   <br />

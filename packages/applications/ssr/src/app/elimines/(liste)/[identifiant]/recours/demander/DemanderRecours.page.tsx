@@ -24,7 +24,7 @@ export const DemanderRecoursPage: FC<DemanderRecoursPageProps> = ({ identifiantP
               severity="info"
               small
               description={
-                <div className="py-4 text-justify">
+                <div className="text-justify">
                   Toute réponse vous sera mise à disposition dans Potentiel et donnera lieu à une
                   notification par courriel.
                 </div>
