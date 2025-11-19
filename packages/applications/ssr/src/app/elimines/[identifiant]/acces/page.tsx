@@ -11,8 +11,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { AccèsListPage, AccèsListPageProps } from './AccèsList.page';
+import { AccèsListPage, AccèsListPageProps } from '@/components/organisms/accès/AccèsList.page';
 
 type PageProps = IdentifiantParameter;
 
