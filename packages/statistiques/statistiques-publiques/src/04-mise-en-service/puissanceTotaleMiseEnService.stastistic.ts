@@ -11,20 +11,24 @@ export const computePuissanceTotaleMiseEnService = async () => {
           values(
             $1, 
             (             
+              with raccordements_en_service AS (
               select 
+                distinct racc.value->>'identifiantProjet' as identifiantProjet
+              from
+                  domain_views.projection racc
+              where 
+                  racc.key like 'dossier-raccordement|%'
+                  and value->>'miseEnService.dateMiseEnService' is not null
+            )
+            select 
                   sum((puiss.value->>'puissance')::float)
               from
                   domain_views.projection racc
+                  inner join raccordements_en_service dossier on dossier.identifiantProjet = racc.value->>'identifiantProjet'
                   join domain_views.projection puiss on puiss.key=format('puissance|%s',racc.value->>'identifiantProjet')
               where 
                     racc.key like 'raccordement|%'
-                    and NOT EXISTS ( 
-                        SELECT 1
-                        FROM jsonb_array_elements(racc.value->'dossiers') AS dossier
-                        WHERE dossier->'miseEnService'->>'dateMiseEnService' is null
-                    )
-                    AND jsonb_array_length(racc.value->'dossiers') > 0
-            )
+              )
           )
           `,
     statisticType,

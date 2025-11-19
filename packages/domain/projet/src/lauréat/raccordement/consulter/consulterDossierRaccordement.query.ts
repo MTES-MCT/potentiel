@@ -25,6 +25,7 @@ export type ConsulterDossierRaccordementReadModel = {
   miseEnService?: {
     dateMiseEnService?: DateTime.ValueType;
   };
+  miseÀJourLe: DateTime.ValueType;
 };
 
 export type ConsulterDossierRaccordementQuery = Message<
@@ -47,52 +48,44 @@ export const registerConsulterDossierRaccordementQuery = ({
     identifiantProjetValue,
     référenceDossierRaccordementValue: référenceDossierRaccordement,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const référence = RéférenceDossierRaccordement.convertirEnValueType(
-      référenceDossierRaccordement,
-    );
-
     const result = await find<DossierRaccordementEntity>(
-      `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
+      `dossier-raccordement|${identifiantProjetValue}#${référenceDossierRaccordement}`,
     );
 
     if (Option.isNone(result)) {
       return result;
     }
 
-    return mapToResult(identifiantProjet, référence, result);
+    return mapToReadModel(result);
   };
 
   mediator.register('Lauréat.Raccordement.Query.ConsulterDossierRaccordement', handler);
 };
 
-const mapToResult = (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  référence: RéférenceDossierRaccordement.ValueType,
-  {
-    identifiantGestionnaireRéseau,
-    demandeComplèteRaccordement,
-    propositionTechniqueEtFinancière,
-    miseEnService,
-  }: DossierRaccordementEntity,
-): ConsulterDossierRaccordementReadModel => {
+export const mapToReadModel = ({
+  identifiantGestionnaireRéseau,
+  demandeComplèteRaccordement,
+  propositionTechniqueEtFinancière,
+  miseEnService,
+  identifiantProjet,
+  référence,
+  miseÀJourLe,
+}: DossierRaccordementEntity): ConsulterDossierRaccordementReadModel => {
   return {
-    identifiantProjet,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
-    référence,
+    référence: RéférenceDossierRaccordement.convertirEnValueType(référence),
     demandeComplèteRaccordement: {
       dateQualification: demandeComplèteRaccordement?.dateQualification
         ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
         : undefined,
       accuséRéception: demandeComplèteRaccordement?.accuséRéception
         ? DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référence.formatter(),
-            ).formatter(),
+            identifiantProjet,
+            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
             // Initialement dans le legacy certaines DCR n'avait pas de date de qualitification.
             // Lorsque le domain raccordement a été migré, l'optionalité de la date a été conservé.
             // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
@@ -113,19 +106,20 @@ const mapToResult = (
             propositionTechniqueEtFinancière.dateSignature,
           ),
           propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
+            identifiantProjet,
             TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-              référence.formatter(),
+              référence,
             ).formatter(),
             propositionTechniqueEtFinancière.dateSignature,
             propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
           ),
         }
       : undefined,
-    miseEnService: miseEnService
+    miseEnService: miseEnService?.dateMiseEnService
       ? {
           dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
         }
       : undefined,
+    miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   };
 };
