@@ -7,6 +7,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { ModifierDispositifDeStockage } from '../fixture/modifierDispositifDeStockage.fixture';
 import { mapToExemple } from '../../../../helpers/mapToExemple';
 import { dispositifDeStockageExempleMap } from '../../../../candidature/candidature.exempleMap';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   "le DGEC validateur modifie l'installateur du projet lauréat",
@@ -249,7 +250,7 @@ async function enregistrerChangementInstallateur(
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
     },
   });
@@ -280,7 +281,7 @@ async function enregistrerChangementDispositifDeStockage(
       enregistréLeValue: enregistréLe,
       enregistréParValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
     },
   });

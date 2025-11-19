@@ -3,13 +3,17 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../fixture';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
+
+interface EnregistrerChangementDispositifDeStockageJustificatif {
+  readonly content: string;
+  readonly format: string;
+}
 
 export interface EnregistrerChangementDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: EnregistrerChangementDispositifDeStockageJustificatif;
   readonly raison: string;
 }
 
@@ -41,7 +45,7 @@ export class EnregistrerChangementDispositifDeStockageFixture
   get pièceJustificative(): EnregistrerChangementDispositifDeStockage['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -74,7 +78,7 @@ export class EnregistrerChangementDispositifDeStockageFixture
       enregistréPar: faker.internet.email(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       raison: faker.word.words(),
       ...partialFixture,
