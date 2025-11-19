@@ -35,7 +35,7 @@ export async function generateMetadata(
   }
 }
 
-export default function LauréatLayout({ children, params: { identifiant, statut } }: LayoutProps) {
+export default function ProjetLayout({ children, params: { identifiant, statut } }: LayoutProps) {
   const identifiantProjet = decodeParameter(identifiant);
   return (
     <PageTemplate

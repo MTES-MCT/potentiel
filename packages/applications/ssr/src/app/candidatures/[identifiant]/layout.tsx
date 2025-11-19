@@ -36,7 +36,10 @@ export async function generateMetadata(
   }
 }
 
-export default async function LauréatLayout({ children, params: { identifiant } }: LayoutProps) {
+export default async function CandidatureLayout({
+  children,
+  params: { identifiant },
+}: LayoutProps) {
   const identifiantProjetValue = decodeParameter(identifiant);
   const { identifiantProjet, notification, dépôt, instruction } =
     await getCandidature(identifiantProjetValue);
