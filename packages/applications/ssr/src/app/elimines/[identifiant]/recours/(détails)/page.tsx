@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -39,11 +38,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       if (Option.isNone(recours)) {
         return notFound();
-      }
-
-      // Pour bénéficier de la bannière "projet lauréat", on redirige vers la bonne URL
-      if (recours.statut.estAccordé()) {
-        return redirect(Routes.Recours.détailAccordé(identifiantProjet));
       }
 
       const historique = await mediator.send<Éliminé.Recours.ListerHistoriqueRecoursProjetQuery>({

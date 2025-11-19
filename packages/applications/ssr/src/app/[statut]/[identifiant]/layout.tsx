@@ -18,16 +18,16 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
-    const lauréat =
+    const projet =
       params.statut === 'laureats'
         ? await getLauréatInfos({ identifiantProjet })
         : await getProjetÉliminé(identifiantProjet);
 
     return {
-      title: `${lauréat.nomProjet} - Potentiel`,
+      title: `${projet.nomProjet} - Potentiel`,
       description: "Détail de la page d'un projet",
       other: {
-        nomProjet: lauréat.nomProjet,
+        nomProjet: projet.nomProjet,
       },
     };
   } catch {

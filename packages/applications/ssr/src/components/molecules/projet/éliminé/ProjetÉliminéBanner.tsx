@@ -10,6 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
+import { ProjetLauréatBanner } from '../lauréat/ProjetLauréatBanner';
 
 import { StatutÉliminéBadge } from './StatutÉliminéBadge';
 
@@ -24,6 +25,11 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = async ({
 }) =>
   withUtilisateur(async ({ rôle }) => {
     const projet = await getÉliminé(identifiantProjet);
+
+    // dans le cas d'un recours accordé, le projet devient lauréat
+    if (!projet) {
+      return <ProjetLauréatBanner identifiantProjet={identifiantProjet} />;
+    }
 
     const { nomProjet, localité, notifiéLe } = projet;
 

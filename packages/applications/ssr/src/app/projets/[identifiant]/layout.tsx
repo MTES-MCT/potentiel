@@ -17,13 +17,13 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
-    const lauréat = await getProjetÉliminé(identifiantProjet);
+    const éliminé = await getProjetÉliminé(identifiantProjet);
 
     return {
-      title: `${lauréat.nomProjet} - Potentiel`,
+      title: `${éliminé.nomProjet} - Potentiel`,
       description: 'Détails du projet éliminé',
       other: {
-        nomProjet: lauréat.nomProjet,
+        nomProjet: éliminé.nomProjet,
       },
     };
   } catch {
