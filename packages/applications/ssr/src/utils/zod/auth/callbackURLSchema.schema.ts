@@ -2,7 +2,7 @@ import z from 'zod';
 
 export const callbackURLSchema = z.string().refine((url) => {
   const allowedBaseURL = process.env.BASE_URL ?? '';
-  return checkAllowedCallbackURL(url, allowedBaseURL);
+  return checkAllowedCallbackURL(allowedBaseURL, url);
 }, "L'URL de redirection n'est pas valide");
 
 export const checkAllowedCallbackURL = (allowedBaseURL: string, url?: string) => {
