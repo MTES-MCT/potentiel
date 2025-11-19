@@ -22,7 +22,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
   // Redirection vers la page projet legacy
   if (!features?.includes('page-projet')) {
-    const legacyUrl = `/projet/${identifiantProjet}/details.html`;
+    const legacyUrl = `/projet/${encodeURIComponent(identifiantProjet)}/details.html`;
     if (urlSearchParams.size === 0) {
       redirect(legacyUrl);
     }
