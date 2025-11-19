@@ -70,6 +70,3 @@ export const exportCsv = ({
 
   return `/export-liste-projets.csv${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
-
-export const détailsÉliminé = (identifiantProjet: string) =>
-  `/projets/${encodeParameter(identifiantProjet)}`;

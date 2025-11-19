@@ -4,8 +4,8 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
-import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
+import { getProjetÉliminé } from '@/app/elimines/[identifiant]/_helpers/getÉliminé';
 
 type LayoutProps = {
   children: React.ReactNode;

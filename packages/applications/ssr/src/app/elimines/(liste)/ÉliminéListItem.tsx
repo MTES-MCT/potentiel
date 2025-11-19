@@ -41,7 +41,7 @@ export const ÉliminéListItem: FC<ÉliminéListItemProps> = ({
       <Button
         className="md:flex ml-auto"
         linkProps={{
-          href: Routes.Projet.détailsÉliminé(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          href: Routes.Éliminé.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
         }}
         aria-label={`Lien vers la page du projet ${nomProjet}`}
       >

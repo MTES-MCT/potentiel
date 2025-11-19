@@ -46,7 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
         paramsSchema.parse(searchParams);
 
       if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
-        return redirect(Routes.Projet.détailsÉliminé(nomProjet));
+        return redirect(Routes.Éliminé.détails(nomProjet));
       }
 
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({

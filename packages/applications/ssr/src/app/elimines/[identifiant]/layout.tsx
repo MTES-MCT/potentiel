@@ -1,10 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+
+import { getProjetÉliminé } from './_helpers/getÉliminé';
 
 type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
