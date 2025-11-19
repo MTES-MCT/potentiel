@@ -39,7 +39,6 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
             )}
             {process.env.APPLICATION_STAGE !== 'production' && (
               <CopyButton
-                className="mx-2"
                 textToCopy={identifiantProjet.formatter()}
                 priority="primary"
                 noChildren
