@@ -1,11 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-
-import { getProjetÉliminé } from './_helpers/getÉliminé';
+import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
 type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
@@ -17,7 +17,10 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const identifiantProjet = decodeParameter(params.identifiant);
   try {
-    const projet = await getProjetÉliminé(identifiantProjet);
+    const projet = await getÉliminé(identifiantProjet);
+    if (!projet) {
+      notFound();
+    }
 
     return {
       title: `${projet.nomProjet} - Potentiel`,

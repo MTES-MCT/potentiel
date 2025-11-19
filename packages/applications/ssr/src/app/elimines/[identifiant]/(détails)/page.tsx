@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
@@ -10,8 +11,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers';
-
-import { getProjetÉliminé } from '../_helpers/getÉliminé';
+import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
 import {
   DétailsProjetÉliminéActions,
@@ -28,7 +28,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const éliminé = await getProjetÉliminé(identifiantProjet.formatter());
+      const éliminé = await getÉliminé(identifiantProjet.formatter());
+      if (!éliminé) {
+        notFound();
+      }
 
       const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',

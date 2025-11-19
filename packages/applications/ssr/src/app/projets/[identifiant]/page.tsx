@@ -1,16 +1,29 @@
+import { redirect } from 'next/navigation';
+
 import { Routes } from '@potentiel-applications/routes';
 
-import { getProjetÉliminé } from '@/app/elimines/[identifiant]/_helpers/getÉliminé';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
-export default async function ProjetPage({ params: { identifiant } }: IdentifiantParameter) {
+type ProjetPageProps = IdentifiantParameter & {
+  searchParams?: Record<string, string>;
+};
+
+// Page de redirection vers la page lauréat ou éliminé
+export default async function ProjetPage({
+  params: { identifiant },
+  searchParams,
+}: ProjetPageProps) {
   const identifiantProjet = decodeParameter(identifiant);
-  const éliminé = await getProjetÉliminé(identifiantProjet);
+  const éliminé = await getÉliminé(identifiantProjet);
 
   if (éliminé) {
-    return Routes.Éliminé.détails(identifiantProjet);
+    redirect(Routes.Éliminé.détails(identifiantProjet));
   }
-
-  return Routes.Projet.details(identifiantProjet);
+  const urlSearchParams = new URLSearchParams(searchParams);
+  if (urlSearchParams.size === 0) {
+    return redirect(Routes.Lauréat.détails(identifiantProjet));
+  }
+  return redirect(`${Routes.Lauréat.détails(identifiantProjet)}?${urlSearchParams.toString()}`);
 }
