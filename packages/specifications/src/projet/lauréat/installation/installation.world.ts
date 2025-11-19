@@ -129,6 +129,12 @@ export class InstallationWorld {
     return expected;
   }
 
+  mapJustificatifChangementInstallateurToExpected():
+    | { format: string; content: string }
+    | undefined {
+    return this.#enregistrerChangementInstallateurFixture.pièceJustificative;
+  }
+
   mapChangementDispositifDeStockageToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     if (!this.#enregistrerChangementDispositifDeStockageFixture.aÉtéCréé) {
       throw new Error(
@@ -161,5 +167,11 @@ export class InstallationWorld {
     };
 
     return expected;
+  }
+
+  mapJustificatifChangementDispositifDeStockageToExpected():
+    | { format: string; content: string }
+    | undefined {
+    return this.#enregistrerChangementDispositifDeStockageFixture.pièceJustificative;
   }
 }

@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { expectFileContent } from '../../../../helpers/expectFileContent';
 
 Alors(
   "l'installation du projet lauréat devrait être mise à jour",
@@ -141,6 +142,11 @@ Alors(
       );
 
       actual.should.be.deep.equal(expected);
+
+      await expectFileContent(
+        changementEnregistré.changement.pièceJustificative,
+        this.lauréatWorld.installationWorld.mapJustificatifChangementInstallateurToExpected(),
+      );
     });
   },
 );
@@ -176,6 +182,11 @@ Alors(
       );
 
       actual.should.be.deep.equal(expected);
+
+      await expectFileContent(
+        changementEnregistré.changement.pièceJustificative,
+        this.lauréatWorld.installationWorld.mapJustificatifChangementDispositifDeStockageToExpected(),
+      );
     });
   },
 );
