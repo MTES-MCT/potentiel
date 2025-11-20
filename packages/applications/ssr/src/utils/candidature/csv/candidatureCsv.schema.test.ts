@@ -504,7 +504,7 @@ describe('Schema candidature CSV', () => {
       expect(result.error.issues[0]).to.deep.eq({
         code: 'custom',
         path: ['Capacité du dispositif de stockage', 'Puissance du dispositif de stockage'],
-        message: 'La capacité et la puissance du dispositif de stockage sont requis',
+        message: 'La capacité et la puissance du dispositif de stockage sont requises',
       });
     });
   });

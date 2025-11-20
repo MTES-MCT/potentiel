@@ -233,7 +233,7 @@ const candidatureCsvRowSchema = z
         val[colonnes.puissanceDuDispositifDeStockageEnKW] !== undefined) ||
       !val[colonnes.installationAvecDispositifDeStockage],
     {
-      message: 'La capacité et la puissance du dispositif de stockage sont requis',
+      message: 'La capacité et la puissance du dispositif de stockage sont requises',
       path: [
         colonnes.capacitéDuDispositifDeStockageEnKWh,
         colonnes.puissanceDuDispositifDeStockageEnKW,

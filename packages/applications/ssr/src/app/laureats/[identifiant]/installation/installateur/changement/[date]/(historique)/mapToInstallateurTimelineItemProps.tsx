@@ -25,7 +25,13 @@ export const mapToInstallateurTimelineItemProps: MapToInstallateurTimelineItemPr
       mapToChangementInstallateurEnregistréTimelineItemsProps(readmodel),
     )
     .with(
-      { type: P.union('DispositifDeStockageModifié-V1', 'TypologieInstallationModifiée-V1') },
+      {
+        type: P.union(
+          'DispositifDeStockageModifié-V1',
+          'TypologieInstallationModifiée-V1',
+          'ChangementDispositifDeStockageEnregistré-V1',
+        ),
+      },
       () => null,
     )
     .exhaustive();

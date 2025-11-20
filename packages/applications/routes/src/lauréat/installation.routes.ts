@@ -17,4 +17,11 @@ export const changement = {
       `/laureats/${encodeParameter(identifiantProjet)}/installation/installateur/changement/enregistrer`,
     lister: `/laureats/changements/installateur`,
   },
+  dispositifDeStockage: {
+    détails: (identifiantProjet: string, enregistréLe: string) =>
+      `/laureats/${encodeParameter(identifiantProjet)}/installation/dispositif-de-stockage/changement/${enregistréLe}`,
+    enregistrer: (identifiantProjet: string) =>
+      `/laureats/${encodeParameter(identifiantProjet)}/installation/dispositif-de-stockage/changement/enregistrer`,
+    lister: `/laureats/changements/dispositif-de-stockage`,
+  },
 };

@@ -111,6 +111,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
     },
     {
+      text: 'Dispositif de stockage',
+      linkProps: {
+        href: Routes.Installation.changement.dispositifDeStockage.lister,
+      },
+    },
+    {
       text: 'Nom du projet',
       linkProps: {
         href: Routes.Lauréat.changement.nomProjet.lister,

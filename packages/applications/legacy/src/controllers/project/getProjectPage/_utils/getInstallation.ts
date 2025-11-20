@@ -95,6 +95,14 @@ export const getInstallation = async ({
             label: 'Modifier',
             labelActions: 'Modifier le dispositif de stockage',
           };
+        } else if (role.aLaPermission('installation.dispositifDeStockage.enregistrerChangement')) {
+          data.dispositifDeStockage.affichage = {
+            url: Routes.Installation.changement.dispositifDeStockage.enregistrer(
+              identifiantProjet.formatter(),
+            ),
+            label: 'Changer le dispositif de stockage',
+            labelActions: 'Changer le dispositif de stockage',
+          };
         }
       }
 

@@ -23,7 +23,7 @@ const schema = zod
         val.capaciteDuDispositifDeStockageEnKWh !== undefined &&
         val.puissanceDuDispositifDeStockageEnKW !== undefined) ||
       !val.installationAvecDispositifDeStockage,
-    'La capacité et la puissance du dispositif de stockage sont requis',
+    'La capacité et la puissance du dispositif de stockage sont requises',
   );
 
 export type ModifierDispositifDeStockageFormKeys = keyof zod.infer<typeof schema>;

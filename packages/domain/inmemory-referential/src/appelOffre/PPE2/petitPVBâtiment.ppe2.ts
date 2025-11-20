@@ -44,6 +44,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       autoritéCompétente: 'dreal',
     },
     installateur: { informationEnregistrée: true },
+    dispositifDeStockage: { informationEnregistrée: true },
   },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',

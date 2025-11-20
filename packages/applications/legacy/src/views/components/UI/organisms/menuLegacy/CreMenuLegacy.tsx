@@ -50,6 +50,9 @@ export const CreMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.Installation.changement.installateur.lister}>
         Installateur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Installation.changement.dispositifDeStockage.lister}>
+        Dispositif de stockage
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Lauréat.changement.nomProjet.lister}>
         Nom projet
       </DropdownMenu.DropdownItem>

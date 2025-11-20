@@ -1,13 +1,16 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
+interface EnregistrerChangementInstallateurJustificatif {
+  readonly content: string;
+  readonly format: string;
+}
 interface EnregistrerChangementInstallateur {
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly installateur: string;
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: EnregistrerChangementInstallateurJustificatif;
   readonly raison: string;
 }
 
@@ -33,7 +36,7 @@ export class EnregistrerChangementInstallateurFixture
   get pièceJustificative(): EnregistrerChangementInstallateur['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -57,7 +60,7 @@ export class EnregistrerChangementInstallateurFixture
       enregistréPar: faker.internet.email(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       installateur: faker.company.name(),
       raison: faker.word.words(),

@@ -362,12 +362,18 @@ const référencielPermissions = {
       dispositifDeStockage: {
         query: {
           consulter: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
+          listerChangement: 'Lauréat.Installation.Query.ListerChangementDispositifDeStockage',
+          consulterChangement: 'Lauréat.Installation.Query.ConsulterChangementDispositifDeStockage',
         },
         usecase: {
           modifier: 'Lauréat.Installation.UseCase.ModifierDispositifDeStockage',
+          enregistrerChangement:
+            'Lauréat.Installation.UseCase.EnregistrerChangementDispositifDeStockage',
         },
         command: {
           modifier: 'Lauréat.Installation.Command.ModifierDispositifDeStockage',
+          enregistrerChangement:
+            'Lauréat.Installation.Command.EnregistrerChangementDispositifDeStockage',
         },
       },
       installateur: {
@@ -1043,6 +1049,22 @@ const policies = {
         référencielPermissions.lauréat.installation.dispositifDeStockage.usecase.modifier,
         référencielPermissions.lauréat.installation.dispositifDeStockage.command.modifier,
       ],
+      consulterChangement: [
+        référencielPermissions.lauréat.installation.dispositifDeStockage.query.consulterChangement,
+        référencielPermissions.document.query.consulter,
+        référencielPermissions.lauréat.installation.query.listerHistorique,
+      ],
+      enregistrerChangement: [
+        référencielPermissions.lauréat.installation.dispositifDeStockage.usecase
+          .enregistrerChangement,
+        référencielPermissions.lauréat.installation.dispositifDeStockage.command
+          .enregistrerChangement,
+        référencielPermissions.document.command.enregister,
+      ],
+      listerChangement: [
+        référencielPermissions.appelOffre.query.lister,
+        référencielPermissions.lauréat.installation.dispositifDeStockage.query.listerChangement,
+      ],
     },
     installateur: {
       modifier: [
@@ -1110,6 +1132,7 @@ const policies = {
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
       référencielPermissions.lauréat.natureDeLExploitation.query
         .listerHistoriqueNatureDeLExploitation,
+      référencielPermissions.lauréat.installation.query.listerHistorique,
     ],
     imprimer: [],
   },
@@ -1558,7 +1581,7 @@ const pageProjetPolicies: Policy[] = [
   // Fournisseur
   'fournisseur.consulter',
 
-  // Installateur
+  // Installation
   'installation.consulter',
 
   // Nature de l'exploitation
@@ -1713,6 +1736,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'installation.dispositifDeStockage.modifier',
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+  'installation.dispositifDeStockage.consulterChangement',
+  'installation.dispositifDeStockage.listerChangement',
 
   // Nature de l'exploitation
   'natureDeLExploitation.modifier',
@@ -1786,6 +1811,8 @@ const crePolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+  'installation.dispositifDeStockage.consulterChangement',
+  'installation.dispositifDeStockage.listerChangement',
 
   // Nom Projet
   'nomProjet.consulterChangement',
@@ -1905,6 +1932,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+  'installation.dispositifDeStockage.consulterChangement',
+  'installation.dispositifDeStockage.listerChangement',
 
   // Nom Projet
   'nomProjet.consulterChangement',
@@ -2034,6 +2063,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
   'installation.installateur.enregistrerChangement',
+  'installation.dispositifDeStockage.consulterChangement',
+  'installation.dispositifDeStockage.listerChangement',
+  'installation.dispositifDeStockage.enregistrerChangement',
 
   // Nom Projet
   'nomProjet.enregistrerChangement',
@@ -2082,6 +2114,8 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
+  'installation.dispositifDeStockage.consulterChangement',
+  'installation.dispositifDeStockage.listerChangement',
 
   // Nom Projet
   'nomProjet.consulterChangement',

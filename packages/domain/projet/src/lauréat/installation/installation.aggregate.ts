@@ -4,13 +4,14 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
-import { Candidature } from '../..';
+import { Candidature, Lauréat } from '../..';
 import {
   DispositifDeStockageNonAttenduError,
   InstallateurNonAttenduError,
 } from '../../candidature/candidature.error';
 
 import {
+  ChangementInstallateurEnregistréEvent,
   DispositifDeStockage,
   DispositifDeStockageModifiéEvent,
   InstallateurModifiéEvent,
@@ -31,7 +32,8 @@ import { ModifierTypologieInstallationOptions } from './typologie-installation/m
 import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 import { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options';
 import { EnregistrerChangementInstallateurOptions } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.option';
-import { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
+import { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event';
+import { EnregistrerChangementDispositifDeStockageOptions } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.options';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -135,16 +137,7 @@ export class InstallationAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierDispositifDeStockageOptions) {
-    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentairedispositifDeStockage) {
-      throw new DispositifDeStockageNonAttenduError();
-    }
-
-    if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
-      throw new DispositifDeStockageIdentiqueError();
-    }
+    this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
 
     const event: DispositifDeStockageModifiéEvent = {
       type: 'DispositifDeStockageModifié-V1',
@@ -155,6 +148,35 @@ export class InstallationAggregate extends AbstractAggregate<
         modifiéPar: modifiéPar.formatter(),
       },
     };
+    await this.publish(event);
+  }
+
+  async enregistrerChangementDispositifDeStockage({
+    dispositifDeStockage,
+    enregistréLe,
+    enregistréPar,
+    pièceJustificative,
+    raison,
+  }: EnregistrerChangementDispositifDeStockageOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible(
+      'information-enregistrée',
+      'dispositifDeStockage',
+    );
+
+    this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
+
+    const event: ChangementDispositifDeStockageEnregistréEvent = {
+      type: 'ChangementDispositifDeStockageEnregistré-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dispositifDeStockage: dispositifDeStockage.formatter(),
+        enregistréLe: enregistréLe.formatter(),
+        enregistréPar: enregistréPar.formatter(),
+        raison,
+        pièceJustificative,
+      },
+    };
+
     await this.publish(event);
   }
 
@@ -205,6 +227,21 @@ export class InstallationAggregate extends AbstractAggregate<
     }
   };
 
+  private vérifierSiMiseÀJourDispositifDeStockagePossible = (
+    modification: Lauréat.Installation.DispositifDeStockage.ValueType,
+  ) => {
+    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentairedispositifDeStockage) {
+      throw new DispositifDeStockageNonAttenduError();
+    }
+
+    if (this.#dispositifDeStockage && modification.estÉgaleÀ(this.#dispositifDeStockage)) {
+      throw new DispositifDeStockageIdentiqueError();
+    }
+  };
+
   apply(event: InstallationEvent): void {
     match(event)
       .with(
@@ -222,8 +259,14 @@ export class InstallationAggregate extends AbstractAggregate<
       .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
         this.applyTypologieInstallationModifiéeV1(event),
       )
-      .with({ type: 'DispositifDeStockageModifié-V1' }, (event) =>
-        this.applyDispositifDeStockageModifiéV1(event),
+      .with(
+        {
+          type: P.union(
+            'DispositifDeStockageModifié-V1',
+            'ChangementDispositifDeStockageEnregistré-V1',
+          ),
+        },
+        (event) => this.applyDispositifDeStockageMisÀJourV1(event),
       )
       .exhaustive();
   }
@@ -253,9 +296,9 @@ export class InstallationAggregate extends AbstractAggregate<
     );
   }
 
-  private applyDispositifDeStockageModifiéV1({
+  private applyDispositifDeStockageMisÀJourV1({
     payload: { dispositifDeStockage },
-  }: DispositifDeStockageModifiéEvent) {
+  }: DispositifDeStockageModifiéEvent | ChangementDispositifDeStockageEnregistréEvent) {
     this.#dispositifDeStockage = DispositifDeStockage.convertirEnValueType(dispositifDeStockage);
   }
 }

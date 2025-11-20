@@ -3,6 +3,15 @@ import {
   ConsulterInstallationReadModel,
 } from './consulter/consulterInstallation.query';
 import {
+  ConsulterChangementDispositifDeStockageQuery,
+  ConsulterChangementDispositifDeStockageReadModel,
+} from './dispositif-de-stockage/changement/consulter/consulterChangementDispositifDeStockage.query';
+import { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
+import {
+  ListerChangementDispositifDeStockageQuery,
+  ListerChangementDispositifDeStockageReadModel,
+} from './dispositif-de-stockage/changement/lister/listerChangementDispositifDeStockage.query';
+import {
   ConsulterDispositifDeStockageQuery,
   ConsulterDispositifDeStockageReadModel,
 } from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query';
@@ -39,7 +48,9 @@ export type InstallationQuery =
   | ListerHistoriqueInstallationProjetQuery
   | ConsulterDispositifDeStockageQuery
   | ConsulterChangementInstallateurQuery
-  | ListerChangementInstallateurQuery;
+  | ListerChangementInstallateurQuery
+  | ConsulterChangementDispositifDeStockageQuery
+  | ListerChangementDispositifDeStockageQuery;
 
 export {
   ConsulterInstallationQuery,
@@ -49,6 +60,8 @@ export {
   ConsulterDispositifDeStockageQuery,
   ConsulterChangementInstallateurQuery,
   ListerChangementInstallateurQuery,
+  ConsulterChangementDispositifDeStockageQuery,
+  ListerChangementDispositifDeStockageQuery,
 };
 
 // ReadModel
@@ -60,6 +73,8 @@ export {
   ConsulterDispositifDeStockageReadModel,
   ConsulterChangementInstallateurReadModel,
   ListerChangementInstallateurReadModel,
+  ConsulterChangementDispositifDeStockageReadModel,
+  ListerChangementDispositifDeStockageReadModel,
 };
 
 // UseCase
@@ -67,12 +82,14 @@ export type InstallationUseCase =
   | ModifierInstallateurUseCase
   | ModifierTypologieInstallationUseCase
   | ModifierDispositifDeStockageUseCase
-  | EnregistrerChangementInstallateurUseCase;
+  | EnregistrerChangementInstallateurUseCase
+  | EnregistrerChangementDispositifDeStockageUseCase;
 
 export { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
 export { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase';
 export { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase';
 export { EnregistrerChangementInstallateurUseCase } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.usecase';
+export { EnregistrerChangementDispositifDeStockageUseCase } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
 
 // Event
 export { InstallationEvent } from './installation.event';
@@ -82,6 +99,7 @@ export { InstallateurModifiéEvent } from './installateur/modifier/modifierInsta
 export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 export { DispositifDeStockageModifiéEvent } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.event';
 export { ChangementInstallateurEnregistréEvent } from './installateur/changement/enregistrerChangement/enregistrerChangementInstallateur.event';
+export { ChangementDispositifDeStockageEnregistréEvent } from './dispositif-de-stockage/changement/enregistrer/enregistrerChangementDispositifDeStockage.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
@@ -89,7 +107,9 @@ export { registerInstallationQueries, registerInstallationUseCases } from './ins
 // Entities
 export * from './installation.entity';
 export * from './installateur/changement/changementInstallateur.entity';
+export * from './dispositif-de-stockage/changement/changementDispositifDeStockage.entity';
 
 // Value type
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';
 export * as TypeDocumentInstallateur from './installateur/typeDocumentInstallateur.valueType';
+export * as TypeDocumentDispositifDeStockage from './dispositif-de-stockage/typeDocumentDispositifDeStockage.valueType';

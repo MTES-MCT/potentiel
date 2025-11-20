@@ -13,7 +13,7 @@ Fonctionnalité: Enregistrer un changement d'installateur d'un projet lauréat
     Scénario: Enregistrer un changement d'installateur pour un projet lauréat en tant que porteur
         Quand le porteur enregistre un changement d'installateur du projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
-        Et le changement d'installateur enregistré devrait être consultable
+        Et le changement d'installateur devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Déclaration de changement d'installateur pour le projet Du boulodrome de la Villette dans le département(.*) |
             | nom_projet | Du boulodrome de la Villette                                                                                             |

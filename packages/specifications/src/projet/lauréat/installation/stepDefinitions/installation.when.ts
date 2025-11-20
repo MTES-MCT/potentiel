@@ -7,6 +7,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { ModifierDispositifDeStockage } from '../fixture/modifierDispositifDeStockage.fixture';
 import { mapToExemple } from '../../../../helpers/mapToExemple';
 import { dispositifDeStockageExempleMap } from '../../../../candidature/candidature.exempleMap';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   "le DGEC validateur modifie l'installateur du projet lauréat",
@@ -122,6 +123,38 @@ Quand(
   },
 );
 
+Quand(
+  'le porteur enregistre un changement de dispositif de stockage du projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
+    try {
+      await enregistrerChangementDispositifDeStockage.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        dispositifDeStockage,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de dispositif de stockage du projet lauréat avec une valeur identique',
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementDispositifDeStockage.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -217,7 +250,38 @@ async function enregistrerChangementInstallateur(
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+      raisonValue: raison,
+    },
+  });
+}
+
+async function enregistrerChangementDispositifDeStockage(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  dispositifDeStockageValue?: Partial<ModifierDispositifDeStockage['dispositifDeStockage']>,
+) {
+  const { enregistréLe, dispositifDeStockage, pièceJustificative, raison, enregistréPar } =
+    this.lauréatWorld.installationWorld.enregistrerChangementDispositifDeStockageFixture.créer({
+      dispositifDeStockage:
+        dispositifDeStockageValue?.installationAvecDispositifDeStockage !== undefined
+          ? {
+              // otherwise typescript does not understand that dispositifDeStockageExemple.dispositifDeStockage is not undefined...
+              installationAvecDispositifDeStockage:
+                dispositifDeStockageValue.installationAvecDispositifDeStockage,
+              ...dispositifDeStockageValue,
+            }
+          : undefined,
+    });
+
+  await mediator.send<Lauréat.Installation.EnregistrerChangementDispositifDeStockageUseCase>({
+    type: 'Lauréat.Installation.UseCase.EnregistrerChangementDispositifDeStockage',
+    data: {
+      dispositifDeStockageValue: dispositifDeStockage,
+      enregistréLeValue: enregistréLe,
+      enregistréParValue: enregistréPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
     },
   });
