@@ -8,6 +8,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { CopyButton } from '../CopyButton';
 
+// viovio ajouter un picto
 export type ProjetBannerProps = {
   href?: string;
   nom: string;
