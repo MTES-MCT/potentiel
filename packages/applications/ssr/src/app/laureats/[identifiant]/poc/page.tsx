@@ -30,6 +30,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const lauréat = { nomProjet: 'Projet exemple' };
 
+      // data par tabs
+
       return (
         <LauréatDétailsPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
@@ -48,6 +50,7 @@ type MapToActions = (args: { rôle: Role.ValueType }) => Array<LauréatDétailsP
 const mapToActions: MapToActions = ({ rôle }) => {
   const actions: Array<LauréatDétailsPageActions> = [];
 
+  // actions par tabs
   actions.push('imprimer-page');
 
   if (rôle.aLaPermission('lauréat.modifier')) {

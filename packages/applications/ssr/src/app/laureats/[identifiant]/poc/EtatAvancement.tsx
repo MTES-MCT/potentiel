@@ -1,12 +1,11 @@
-// ici mettre
-// alerte
-// les étapes
-// GFS / Raccordement ?
+'use client';
 
 import { LauréatDétailsPageProps } from './LauréatDétails.page';
-import { Heading1, Heading4 } from '@/components/atoms/headings';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { Heading1 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
+import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
+import { Timeline } from '../../../../components/organisms/timeline';
+import { DateTime } from '@potentiel-domain/common';
 
 export const EtatAvancementLauréat: React.FC<LauréatDétailsPageProps> = ({
   identifiantProjet,
@@ -14,35 +13,66 @@ export const EtatAvancementLauréat: React.FC<LauréatDétailsPageProps> = ({
   actions,
 }) => (
   <ColumnTemplate
-    heading={<Heading1>État d'avancement du projet</Heading1>}
+    heading={<Heading1>Overview</Heading1>}
     leftColumn={{
       children: <EtatAvancement />,
     }}
     rightColumn={{
       children: (
-        <Button
-          priority="secondary"
-          // onClick={() => setIsOpen(true)}
-          className="block w-1/2 text-center"
-        >
-          Une fausse action
-        </Button>
+        <ButtonsGroup
+          buttonsSize="medium"
+          buttonsEquisized
+          alignment="center"
+          inlineLayoutWhen="always"
+          buttons={[
+            {
+              children: "Télécharger l'attestation",
+              priority: 'primary',
+              onClick: () => window.print(),
+            },
+            {
+              children: 'Modifier le lauréat',
+              priority: 'secondary',
+              onClick: () => window.print(),
+            },
+            {
+              children: "Voir l'historique complet",
+              priority: 'secondary',
+              onClick: () => window.print(),
+            },
+            {
+              children: 'Imprimer la page',
+              priority: 'secondary',
+              onClick: () => window.print(),
+            },
+          ]}
+        />
       ),
     }}
   />
 );
 
+// Etat avance est une timeline filtrées ?
 const EtatAvancement = () => (
   <div className="flex flex-col gap-4">
-    <div className="flex flex-col gap-2">
-      <Heading4 className="mb-0">Site de Production</Heading4>
-      <span>3 rue du beurre</span>
-      <span>69008 LYON</span>
-      <span>Région Rhônes Alpes</span>
-    </div>
-    <div>
-      <Heading4 className="mb-0">Société mère</Heading4>
-      <span>Groupe Bolloré</span>
-    </div>
+    <Timeline
+      items={[
+        {
+          status: 'info',
+          title: 'Notification du projet',
+          date: DateTime.now().retirerNombreDeMois(2).formatter(),
+        },
+        {
+          status: 'info',
+          title: 'Recours accordé',
+          date: DateTime.now().formatter(),
+        },
+        {
+          status: 'info',
+          title: "Date d'achèvement prévisionnelle",
+          date: DateTime.now().ajouterNombreDeMois(3).formatter(),
+        },
+      ]}
+    />
   </div>
 );

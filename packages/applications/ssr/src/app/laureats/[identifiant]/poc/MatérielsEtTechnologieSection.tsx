@@ -1,13 +1,11 @@
 'use client';
 
 import { LauréatDétailsPageProps } from './LauréatDétails.page';
-import { Heading1 } from '@/components/atoms/headings';
+import { Heading1, Heading4 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
-import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-export const ContactLauréat: React.FC<LauréatDétailsPageProps> = ({
+export const MatérielEtTechnologieSection: React.FC<LauréatDétailsPageProps> = ({
   identifiantProjet,
   lauréat,
   actions,
@@ -15,7 +13,7 @@ export const ContactLauréat: React.FC<LauréatDétailsPageProps> = ({
   <ColumnTemplate
     heading={<Heading1>Matériel et Technologies</Heading1>}
     leftColumn={{
-      children: <div>Nom projet: {lauréat.nomProjet}</div>,
+      children: <MatérielEtTechnologie />,
     }}
     rightColumn={{
       children: (
@@ -26,24 +24,37 @@ export const ContactLauréat: React.FC<LauréatDétailsPageProps> = ({
           inlineLayoutWhen="always"
           buttons={[
             {
-              children: 'Imprimer la page',
+              children: 'Modifier les fournisseurs',
               iconId: 'fr-icon-mail-line',
               priority: 'secondary',
-              onClick: () => window.print(),
             },
             {
-              children: 'Modifier le lauréat',
+              children: "Modifier l'évaluation carbone",
               iconId: 'fr-icon-mail-line',
               priority: 'secondary',
-              linkProps: {
-                href: Routes.Lauréat.modifier(
-                  IdentifiantProjet.bind(identifiantProjet).formatter(),
-                ),
-              },
             },
           ]}
         />
       ),
     }}
   />
+);
+
+const MatérielEtTechnologie = () => (
+  <div className="flex flex-col gap-4">
+    <div>
+      <Heading4 className="m-0">Évaluation carbone simplifiée</Heading4>
+      <span>55 kg eq CO2/kWc</span>
+    </div>
+
+    <div>
+      <Heading4 className="mb-0">Fournisseurs</Heading4>
+      <li key={1}>
+        <span>Postes de conversion : Samsung</span>
+      </li>
+      <li key={2}>
+        <span>Autres : Apple</span>
+      </li>
+    </div>
+  </div>
 );

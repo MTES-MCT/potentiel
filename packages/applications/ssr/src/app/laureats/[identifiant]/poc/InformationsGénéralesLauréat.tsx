@@ -27,6 +27,7 @@ export const InformationsGénéralesLauréat: React.FC<LauréatDétailsPageProps
   />
 );
 
+// Ajouter infos sur le CDC
 const InformationGénérales = () => (
   <div className="flex flex-col gap-4">
     <div className="flex flex-col gap-2">

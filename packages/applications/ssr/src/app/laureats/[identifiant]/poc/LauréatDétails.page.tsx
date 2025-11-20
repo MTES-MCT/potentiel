@@ -7,6 +7,7 @@ import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
 import { ContactLauréat } from './ContactLauréat';
 import { InstallationLauréat } from './InstallationLauréat';
 import { EtatAvancementLauréat } from './EtatAvancement';
+import { MatérielEtTechnologieSection } from './MatérielsEtTechnologieSection';
 
 export type LauréatDétailsPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -31,8 +32,8 @@ export const LauréatDétailsPage: React.FC<LauréatDétailsPageProps> = ({
     <Tabs
       tabs={[
         {
-          label: "État d'avancement",
-          iconId: 'fr-icon-add-line',
+          label: 'Overview',
+          iconId: 'ri-dashboard-line',
           isDefault: true,
           content: (
             <EtatAvancementLauréat
@@ -44,7 +45,7 @@ export const LauréatDétailsPage: React.FC<LauréatDétailsPageProps> = ({
         },
         {
           label: 'Information Générale',
-          iconId: 'fr-icon-add-line',
+          iconId: 'ri-focus-line',
           content: (
             <InformationsGénéralesLauréat
               identifiantProjet={identifiantProjet}
@@ -53,10 +54,20 @@ export const LauréatDétailsPage: React.FC<LauréatDétailsPageProps> = ({
             />
           ),
         },
-        { label: 'Matériel et technologies', content: <p>Content of tab3</p> },
+        {
+          label: 'Matériel et technologies',
+          iconId: 'ri-building-3-line',
+          content: (
+            <MatérielEtTechnologieSection
+              identifiantProjet={identifiantProjet}
+              lauréat={lauréat}
+              actions={actions}
+            />
+          ),
+        },
         {
           label: 'Contact',
-          iconId: 'fr-icon-ball-pen-fill',
+          iconId: 'ri-mail-line',
           content: (
             <ContactLauréat
               identifiantProjet={identifiantProjet}
@@ -67,7 +78,7 @@ export const LauréatDétailsPage: React.FC<LauréatDétailsPageProps> = ({
         },
         {
           label: 'Installation',
-          iconId: 'fr-icon-ball-pen-fill',
+          iconId: 'ri-home-line',
           content: (
             <InstallationLauréat
               identifiantProjet={identifiantProjet}
