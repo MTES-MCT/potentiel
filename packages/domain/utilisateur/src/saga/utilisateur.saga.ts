@@ -10,9 +10,7 @@ import {
   accèsProjetRemplacéHandler,
 } from './handlers/accèsProjetRemplacé.handler';
 
-/** @deprecated hack due to typing requirements */
-type Event = { version: number; created_at: string; stream_id: string };
-export type SubscriptionEvent = (AccèsProjetAutoriséEvent | AccèsProjetRemplacéEvent) & Event;
+export type SubscriptionEvent = AccèsProjetAutoriséEvent | AccèsProjetRemplacéEvent;
 
 export type Execute = Message<'System.Utilisateur.Saga.Execute', SubscriptionEvent>;
 
