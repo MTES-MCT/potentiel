@@ -1,13 +1,13 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Heading1, Heading4 } from '@/components/atoms/headings';
+import { Heading2, Heading4 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
-export const InformationsGénéralesLauréat = () => (
+export const AdministratifSection = () => (
   <ColumnTemplate
-    heading={<Heading1>Informations Générales</Heading1>}
+    heading={<Heading2>Renseignements Administratifs</Heading2>}
     leftColumn={{
-      children: <InformationGénérales />,
+      children: <Administratif />,
     }}
     rightColumn={{
       children: (
@@ -23,8 +23,11 @@ export const InformationsGénéralesLauréat = () => (
   />
 );
 
-// Ajouter infos sur le CDC
-const InformationGénérales = () => (
+// Nom candidat
+// Représentant Légal
+// Producteur
+// les contacts
+const Administratif = () => (
   <div className="flex flex-col gap-4">
     <div className="flex flex-col gap-2">
       <Heading4 className="mb-0">Site de Production</Heading4>

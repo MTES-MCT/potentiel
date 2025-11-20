@@ -2,14 +2,14 @@
 
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 
-import { Heading1, Heading4 } from '@/components/atoms/headings';
+import { Heading2, Heading4 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
-export const InstallationLauréat = () => (
+export const InstallationSection = () => (
   <ColumnTemplate
-    heading={<Heading1>Installation</Heading1>}
+    heading={<Heading2>Installation</Heading2>}
     leftColumn={{
-      children: <InfoInstallation />,
+      children: <Installation />,
     }}
     rightColumn={{
       children: (
@@ -36,7 +36,7 @@ export const InstallationLauréat = () => (
   />
 );
 
-const InfoInstallation = () => (
+const Installation = () => (
   <div className="flex flex-col gap-4">
     <div>
       <Heading4 className="m-0">Typologie du projet</Heading4>

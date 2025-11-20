@@ -4,16 +4,18 @@ import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { Heading1 } from '@/components/atoms/headings';
+import { Heading2 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
 import { Timeline } from '../../../../../components/organisms/timeline';
 
-export const EtatAvancementLauréat = () => (
+// Ajouter infos sur le CDC
+
+export const VueEnsembleSection = () => (
   <ColumnTemplate
-    heading={<Heading1>Overview</Heading1>}
+    heading={<Heading2>Vue d'ensemble</Heading2>}
     leftColumn={{
-      children: <EtatAvancement />,
+      children: <VueEnsemble />,
     }}
     rightColumn={{
       children: (
@@ -52,7 +54,7 @@ export const EtatAvancementLauréat = () => (
 );
 
 // Etat avance est une timeline filtrées ?
-const EtatAvancement = () => (
+const VueEnsemble = () => (
   <div className="flex flex-col gap-4">
     <Timeline
       items={[

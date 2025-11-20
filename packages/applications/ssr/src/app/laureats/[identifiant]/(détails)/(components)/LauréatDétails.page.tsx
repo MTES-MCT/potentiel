@@ -1,10 +1,11 @@
 import { Tabs } from '@codegouvfr/react-dsfr/Tabs';
 
-import { InformationsGénéralesLauréat } from './InformationsGénéralesLauréat';
-import { ContactLauréat } from './ContactLauréat';
-import { InstallationLauréat } from './InstallationLauréat';
-import { EtatAvancementLauréat } from './EtatAvancement';
+import { InformationsGénéralesSection } from './InformationsGénéralesSection';
+import { VueEnsembleSection } from './VueEnsembleSection';
 import { MatérielEtTechnologieSection } from './MatérielsEtTechnologieSection';
+import { AdministratifSection } from './AdministratifSection';
+import { DocumentSection } from './DocumentsSection';
+import { InstallationSection } from './InstallationSection';
 
 export type LauréatDétailsPageActions = 'imprimer-page' | 'modifier-lauréat';
 
@@ -13,30 +14,35 @@ export const LauréatDétailsPage = () => (
     <Tabs
       tabs={[
         {
-          label: 'Overview',
+          label: "Vue d'ensemble",
           iconId: 'ri-dashboard-line',
           isDefault: true,
-          content: <EtatAvancementLauréat />,
+          content: <VueEnsembleSection />,
         },
         {
-          label: 'Information Générale',
+          label: 'Administratif',
           iconId: 'ri-focus-line',
-          content: <InformationsGénéralesLauréat />,
+          content: <AdministratifSection />,
         },
         {
-          label: 'Matériel et technologies',
+          label: 'Informations Générales',
+          iconId: 'ri-focus-line',
+          content: <InformationsGénéralesSection />,
+        },
+        {
+          label: 'Fournisseurs',
           iconId: 'ri-building-3-line',
           content: <MatérielEtTechnologieSection />,
         },
         {
-          label: 'Contact',
-          iconId: 'ri-mail-line',
-          content: <ContactLauréat />,
-        },
-        {
           label: 'Installation',
           iconId: 'ri-home-line',
-          content: <InstallationLauréat />,
+          content: <InstallationSection />,
+        },
+        {
+          label: 'Documents',
+          iconId: 'ri-home-line',
+          content: <DocumentSection />,
         },
       ]}
     />
