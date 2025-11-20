@@ -37,13 +37,15 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
   | 'demandeComplèteRaccordementManquante';
+
+// viovio
 
 type ProjectDetailsProps = {
   request: Request;

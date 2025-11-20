@@ -10,6 +10,7 @@ export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
   multiple?: true;
+  title?: string;
   options: Array<{
     label: string;
     value: string;
@@ -59,7 +60,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col">
-      {filters.map(({ label, searchParamKey, options, affects, multiple }) => {
+      {filters.map(({ label, searchParamKey, options, affects, multiple, title }) => {
         const disabled =
           filters.some(
             (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
@@ -87,6 +88,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             disabled={disabled}
             key={`filter-${searchParamKey}`}
             label={label}
+            title={title}
             options={options}
             value={searchParams.get(searchParamKey) ?? ''}
             onChange={(value) =>
