@@ -1,17 +1,15 @@
 'use client';
 
-import { LauréatDétailsPageProps } from './LauréatDétails.page';
-import { Heading1 } from '@/components/atoms/headings';
-import { ColumnTemplate } from '@/components/templates/Column.templace';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
-import { Timeline } from '../../../../components/organisms/timeline';
+
 import { DateTime } from '@potentiel-domain/common';
 
-export const EtatAvancementLauréat: React.FC<LauréatDétailsPageProps> = ({
-  identifiantProjet,
-  lauréat,
-  actions,
-}) => (
+import { Heading1 } from '@/components/atoms/headings';
+import { ColumnTemplate } from '@/components/templates/Column.templace';
+
+import { Timeline } from '../../../../../components/organisms/timeline';
+
+export const EtatAvancementLauréat = () => (
   <ColumnTemplate
     heading={<Heading1>Overview</Heading1>}
     leftColumn={{
@@ -24,6 +22,7 @@ export const EtatAvancementLauréat: React.FC<LauréatDétailsPageProps> = ({
           buttonsEquisized
           alignment="center"
           inlineLayoutWhen="always"
+          className="flex flex-col gap-1"
           buttons={[
             {
               children: "Télécharger l'attestation",

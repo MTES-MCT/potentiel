@@ -1,15 +1,11 @@
 'use client';
 
-import { LauréatDétailsPageProps } from './LauréatDétails.page';
-import { Heading1, Heading4 } from '@/components/atoms/headings';
-import { ColumnTemplate } from '@/components/templates/Column.templace';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 
-export const MatérielEtTechnologieSection: React.FC<LauréatDétailsPageProps> = ({
-  identifiantProjet,
-  lauréat,
-  actions,
-}) => (
+import { Heading1, Heading4 } from '@/components/atoms/headings';
+import { ColumnTemplate } from '@/components/templates/Column.templace';
+
+export const MatérielEtTechnologieSection = () => (
   <ColumnTemplate
     heading={<Heading1>Matériel et Technologies</Heading1>}
     leftColumn={{
@@ -20,8 +16,9 @@ export const MatérielEtTechnologieSection: React.FC<LauréatDétailsPageProps> 
         <ButtonsGroup
           buttonsSize="medium"
           buttonsEquisized
-          alignment="right"
+          alignment="center"
           inlineLayoutWhen="always"
+          className="flex flex-col gap-1"
           buttons={[
             {
               children: 'Modifier les fournisseurs',

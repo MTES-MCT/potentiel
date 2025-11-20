@@ -1,13 +1,9 @@
-import { LauréatDétailsPageProps } from './LauréatDétails.page';
-import { Heading1, Heading4 } from '@/components/atoms/headings';
 import Button from '@codegouvfr/react-dsfr/Button';
+
+import { Heading1, Heading4 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
-export const InformationsGénéralesLauréat: React.FC<LauréatDétailsPageProps> = ({
-  identifiantProjet,
-  lauréat,
-  actions,
-}) => (
+export const InformationsGénéralesLauréat = () => (
   <ColumnTemplate
     heading={<Heading1>Informations Générales</Heading1>}
     leftColumn={{

@@ -1,17 +1,11 @@
 'use client';
 
-import { LauréatDétailsPageProps } from './LauréatDétails.page';
+import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
+
 import { Heading1, Heading4 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
-import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
-import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-export const InstallationLauréat: React.FC<LauréatDétailsPageProps> = ({
-  identifiantProjet,
-  lauréat,
-  actions,
-}) => (
+export const InstallationLauréat = () => (
   <ColumnTemplate
     heading={<Heading1>Installation</Heading1>}
     leftColumn={{
@@ -24,6 +18,7 @@ export const InstallationLauréat: React.FC<LauréatDétailsPageProps> = ({
           buttonsEquisized
           alignment="center"
           inlineLayoutWhen="always"
+          className="flex flex-col gap-1"
           buttons={[
             {
               children: 'Modifier le dispositif de stockage',
@@ -33,11 +28,6 @@ export const InstallationLauréat: React.FC<LauréatDétailsPageProps> = ({
             {
               children: "Modifier l'installateur",
               priority: 'secondary',
-              linkProps: {
-                href: Routes.Lauréat.modifier(
-                  IdentifiantProjet.bind(identifiantProjet).formatter(),
-                ),
-              },
             },
           ]}
         />
