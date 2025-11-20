@@ -70,6 +70,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-storybook": "^0.8.0",
+    "eslint-plugin-unused-imports": "^4.3.0",
     "foreman": "^3.0.1",
     "gitmoji-cli": "^9.7.0",
     "globals": "^15.15.0",
