@@ -1,20 +1,17 @@
 import './global.css';
 
-import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
-import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
 
 import { getContext } from '@potentiel-applications/request-context';
 
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
+import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
+import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
 
-import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
-import { StartDsfr } from './StartDsfr';
 
 export const metadata: Metadata = {
   title: 'Potentiel',
@@ -34,13 +31,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
+    <html {...getHtmlAttributes({ lang: 'fr' })}>
       <head>
-        <StartDsfr />
-        <DsfrHead Link={Link} />
+        <DsfrHead
+          preloadFonts={['Marianne-Light', 'Marianne-Regular', 'Marianne-Medium', 'Marianne-Bold']}
+        />
       </head>
 
       <body className="flex flex-col min-h-screen">
+        {/*
+          NB : la documentation (https://react-dsfr.codegouv.studio/) indique que ce composant doit être placé dans chaque page, et non dans le layout.
+          Cette issue https://github.com/codegouvfr/react-dsfr/issues/305#issuecomment-2758317047 explique que : 
+            - Until <StartDsfrOnHydration /> is hydrated, DSFR elements remain non-interactive
+            - Once it is hydrated, you can no longer stream in new HTML chunks conaining DSFR components (i.e. no server components below this point)
+          Cependant, aucune différence n'est visible et le SSR semble bien fonctionner.
+        */}
+        <StartDsfrOnHydration />
+
         <Providers features={features}>
           <SkipLinks
             links={[
