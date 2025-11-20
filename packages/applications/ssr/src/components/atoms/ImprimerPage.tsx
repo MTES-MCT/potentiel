@@ -6,7 +6,7 @@ export const ImprimerPage = () => (
   <Button
     priority="primary"
     iconId="fr-icon-printer-line"
-    className="print:hidden ml-auto"
+    className="print:hidden ml-auto h-fit"
     onClick={(event) => {
       event.preventDefault();
       window.print();

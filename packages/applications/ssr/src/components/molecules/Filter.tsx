@@ -8,11 +8,12 @@ type FilterProps = {
   value: string;
   onChange?: (value: string | undefined) => void;
   disabled?: boolean;
+  title?: string;
 };
 
-export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onChange }) => (
+export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onChange, title }) => (
   <SelectNext
-    label={label}
+    label={title ?? label}
     placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
     nativeSelectProps={{
       value,
