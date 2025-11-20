@@ -1,23 +1,15 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-write';
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const actionnaireRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
-  await removeProjection<Lauréat.Actionnaire.ActionnaireEntity>(`actionnaire|${id}`);
+import { clearProjection } from '../../../helpers';
 
-  const demandeChangementActionnaire =
-    await listProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
-      `changement-actionnaire`,
-      {
-        where: { identifiantProjet: Where.equal(id) },
-      },
-    );
+export const actionnaireRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {
+  await clearProjection<Lauréat.Actionnaire.ActionnaireEntity>(`actionnaire`, id);
 
-  for (const changement of demandeChangementActionnaire.items) {
-    await removeProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
-      `changement-actionnaire|${id}#${changement.demande.demandéeLe}`,
-    );
-  }
+  await removeProjectionWhere<Lauréat.Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire`,
+    { identifiantProjet: Where.equal(id) },
+  );
 };

@@ -13,6 +13,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pg-helpers": "*",
+    "cockatiel": "^3.2.1",
     "pg": "^8.14.1"
   },
   "devDependencies": {

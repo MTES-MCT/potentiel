@@ -4,6 +4,8 @@ import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { getAppelOffres } from './_helpers/getAppelOffres';
+
 export const candidatureCorrigéeProjector = async ({
   payload,
 }: Candidature.CandidatureCorrigéeEvent) => {
@@ -12,9 +14,8 @@ export const candidatureCorrigéeProjector = async ({
   const candidature = await findProjection<Candidature.CandidatureEntity>(
     `candidature|${identifiantProjet.formatter()}`,
   );
-  const appelOffres = await findProjection<AppelOffre.AppelOffreEntity>(
-    `appel-offre|${identifiantProjet.appelOffre}`,
-  );
+  const appelOffres = await getAppelOffres(identifiantProjet);
+
   if (Option.isNone(appelOffres)) {
     throw new Error("Appel d'offres non trouvé");
   }
@@ -41,7 +42,7 @@ export const mapToCandidatureToUpsert = ({
   payload: Candidature.CandidatureCorrigéeEvent['payload'];
   candidature: Option.Type<Candidature.CandidatureEntity>;
   identifiantProjet: IdentifiantProjet.ValueType;
-  appelOffres: AppelOffre.AppelOffreEntity;
+  appelOffres: AppelOffre.AppelOffreReadModel;
 }): Omit<Candidature.CandidatureEntity, 'type'> => {
   const notification: Candidature.CandidatureEntity['notification'] = Option.isSome(candidature)
     ? payload.doitRégénérerAttestation && candidature.notification

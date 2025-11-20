@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import { Client } from 'pg';
 import format from 'pg-format';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { isEvent, Event } from '../event';
@@ -15,18 +15,23 @@ import { NotificationPayloadParseError } from './errors/NotificationPayloadParse
 import { RebuildFailedError } from './errors/RebuildFailed.error';
 import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
-import { RebuildTriggered } from './rebuild/rebuildTriggered.event';
+import { isRebuildAllEvent, RebuildTriggered } from './rebuild/rebuildTriggered.event';
 import { Subscriber } from './subscriber/subscriber';
+import { rebuildAll } from './rebuild/rebuildAll';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 
 export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extends EventEmitter {
   #client: Client;
   #subscriber: Subscriber<TEvent>;
+  #logger: Logger;
 
   constructor(client: Client, subscriber: Subscriber<TEvent>) {
     super();
     this.setMaxListeners(3);
+    this.#logger = getLogger(
+      `EventStreamEmitter - ${subscriber.streamCategory} - ${subscriber.name}`,
+    );
     this.#subscriber = subscriber;
     this.#client = client;
 
@@ -53,7 +58,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
         const event = JSON.parse(notification.payload || '{}');
 
         if (!isEvent(event)) {
-          getLogger().error(new NotificationPayloadNotAnEventError(), {
+          this.#logger.error(new NotificationPayloadNotAnEventError(), {
             notification,
             subscriber: this.#subscriber,
           });
@@ -66,7 +71,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           this.emit(this.#getChannelName(event.type), event);
         }
       } catch (error) {
-        getLogger().error(new NotificationPayloadParseError(error));
+        this.#logger.error(new NotificationPayloadParseError(error));
       }
     });
 
@@ -84,7 +89,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   }
 
   #getChannelName(eventType: string): ChannelName {
-    if (eventType === 'RebuildTriggered') {
+    if (eventType === 'RebuildTriggered' || eventType === 'RebuildAllTriggered') {
       return 'rebuild';
     }
 
@@ -108,20 +113,30 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   #setupRebuildListener() {
     this.on('rebuild' satisfies ChannelName, async (event: Event & RebuildTriggered) => {
       try {
-        getLogger().info('Rebuilding', {
+        this.#logger.info('Rebuilding', {
           event,
           subscriber: this.#subscriber,
         });
-        await rebuild(event, this.#subscriber);
-        getLogger().info('Rebuilt', {
-          event,
-          subscriber: this.#subscriber,
-        });
+        if (isRebuildAllEvent(event)) {
+          await rebuildAll<TEvent>(event, this.#subscriber);
+        } else {
+          await rebuild<TEvent>(event, this.#subscriber);
+          this.#logger.info('Rebuilt', { streamId: event.stream_id });
+        }
       } catch (error) {
-        getLogger().error(new RebuildFailedError(error), {
-          event,
-          subscriber: this.#subscriber,
-        });
+        if (error instanceof RebuildFailedError) {
+          this.#logger.error(error, {
+            event: error.event ?? event,
+            subscriberName: this.#subscriber.name,
+            category: this.#subscriber.streamCategory,
+          });
+        } else {
+          this.#logger.error(new RebuildFailedError(error), {
+            event,
+            subscriberName: this.#subscriber.name,
+            category: this.#subscriber.streamCategory,
+          });
+        }
       } finally {
         await acknowledge({
           stream_category: this.#subscriber.streamCategory,
@@ -146,7 +161,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new DomainEventHandlingFailedError(error), {
+        this.#logger.error(new DomainEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
@@ -166,7 +181,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
 
   #setupUnknownEventListener() {
     this.on('unknown-event' satisfies ChannelName, async (event: Event) => {
-      getLogger().warn('Unknown event', {
+      this.#logger.warn('Unknown event', {
         event,
         subscriber: this.#subscriber,
       });
@@ -179,7 +194,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new UnknownEventHandlingFailedError(error), {
+        this.#logger.error(new UnknownEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
