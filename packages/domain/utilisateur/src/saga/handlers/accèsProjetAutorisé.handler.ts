@@ -7,7 +7,7 @@ import { CréerPorteurCommand } from '../../créer/créerPorteur.command';
 
 /**
  * @deprecated Copie de Accès.AccèsProjetAutoriséEvent pour éviter une dépendence cyclique.
- * Idéalement, Utilisateur pourrait dépendre de Projet plutot que l'inverse, mais pour cela Role doit être sortid d'Utitilisateur.
+ * Idéalement, Utilisateur pourrait dépendre de Projet plutot que l'inverse, mais pour cela Role doit être sorti d'Utitilisateur.
  **/
 export type AccèsProjetAutoriséEvent = DomainEvent<
   'AccèsProjetAutorisé-V1',
