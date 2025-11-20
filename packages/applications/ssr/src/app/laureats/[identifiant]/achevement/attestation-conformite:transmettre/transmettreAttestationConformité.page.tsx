@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { Heading1 } from '@/components/atoms/headings';
+
 import {
   AttestationConformitéForm,
   AttestationConformitéFormProps,
@@ -7,7 +9,6 @@ import {
 import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 
 import { transmettreAttestationConformitéAction } from './transmettreAttestationConformité.action';
-import { Heading1 } from '@/components/atoms/headings';
 
 export type TransmettreAttestationConformitéPageProps = Pick<
   AttestationConformitéFormProps,
