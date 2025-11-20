@@ -8,10 +8,11 @@ import { formAction, ValidationErrors } from '@/utils/formAction';
 
 import { Heading2 } from '../headings';
 
-import { FormFeedback } from './FormFeedback';
+import { FormFeedback } from './form-feedback/FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
-import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
 import { FormActionButtons, FormActionButtonsProps } from './FormActionButtons';
+import { FormFeedbackCsvLineErrors } from './form-feedback/FormFeedbackCsvLineErrors';
+import { FormFeedbackCsvColumnErrors } from './form-feedback/FormFeedbackCsvColumnErrors';
 
 export type FormProps = {
   id?: string;
@@ -99,7 +100,8 @@ export const Form: FC<FormProps> = ({
           </div>
         )}
       </div>
-      <FormFeedbackCsvErrors formState={state} />
+      {state.status === 'csv-line-error' && <FormFeedbackCsvLineErrors formState={state} />}
+      {state.status === 'csv-column-error' && <FormFeedbackCsvColumnErrors formState={state} />}
     </form>
   );
 };
