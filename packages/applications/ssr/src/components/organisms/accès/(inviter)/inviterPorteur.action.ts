@@ -8,6 +8,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Accès } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase, Utilisateur } from '@potentiel-domain/utilisateur';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -89,11 +90,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
         message: 'Utilisateur invité avec succès',
-        url: Routes.Accès.lister(identifiantProjet),
+        url: url ?? Routes.Accès.lister(identifiantProjet, 'classé'),
       },
     };
   });

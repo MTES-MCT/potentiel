@@ -8,8 +8,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
@@ -43,13 +41,6 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   return (
     <ColumnPageTemplate
       heading={<Heading1>Demande de recours</Heading1>}
-      banner={
-        recours.statut.value === 'accordé' ? (
-          <ProjetLauréatBanner identifiantProjet={identifiantProjet} />
-        ) : (
-          <ProjetÉliminéBanner identifiantProjet={identifiantProjet} />
-        )
-      }
       leftColumn={{
         children: (
           <div className="flex flex-col gap-4">

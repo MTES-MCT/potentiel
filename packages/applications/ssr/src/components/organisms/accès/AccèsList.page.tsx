@@ -7,8 +7,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 
 import { PorteurListItem, PorteurListItemProps } from './AccèsListItem';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
@@ -17,24 +15,15 @@ export type AccèsListPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;
   accès: PorteurListItemProps[];
   nombreDeProjets?: number;
-  statut: 'lauréat' | 'éliminé';
 };
 
 export const AccèsListPage: FC<AccèsListPageProps> = ({
   accès,
   identifiantProjet,
   nombreDeProjets,
-  statut,
 }) => {
   return (
     <ColumnPageTemplate
-      banner={
-        statut === 'lauréat' ? (
-          <ProjetLauréatBanner identifiantProjet={identifiantProjet} />
-        ) : (
-          <ProjetÉliminéBanner identifiantProjet={identifiantProjet} />
-        )
-      }
       leftColumn={{
         children: (
           <div className="flex flex-col">

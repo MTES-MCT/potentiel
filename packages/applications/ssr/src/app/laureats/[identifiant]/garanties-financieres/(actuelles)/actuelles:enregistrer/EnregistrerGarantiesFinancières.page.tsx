@@ -1,8 +1,5 @@
 import { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import {
   SoumettreDépôtGarantiesFinancièresForm,
@@ -20,7 +17,7 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
   identifiantProjet,
   typesGarantiesFinancières,
 }) => (
-  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
+  <>
     <TitrePageGarantiesFinancières title="Enregistrer des garanties financières" />
 
     <SoumettreDépôtGarantiesFinancièresForm
@@ -29,5 +26,5 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
       submitLabel="Enregistrer"
       typesGarantiesFinancières={typesGarantiesFinancières}
     />
-  </PageTemplate>
+  </>
 );

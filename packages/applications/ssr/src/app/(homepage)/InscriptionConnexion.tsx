@@ -4,7 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 
 export const InscriptionConnexion = () => (
-  <section className="lg:p-8 bg-[linear-gradient(180deg,_#000091_50%,_white_50%)]">
+  <section className="lg:p-8 bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">
     <h2 className="sr-only">Accéder à Potentiel</h2>
     <div className="flex xl:mx-auto xl:max-w-5xl  lg:px-4 p-0 lg:p-8">
       <div className="flex mx-auto flex-col lg:flex-row">

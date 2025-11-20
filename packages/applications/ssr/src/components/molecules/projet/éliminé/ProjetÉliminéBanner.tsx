@@ -10,6 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
+import { ProjetLauréatBanner } from '../lauréat/ProjetLauréatBanner';
 
 import { StatutÉliminéBadge } from './StatutÉliminéBadge';
 
@@ -25,6 +26,11 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = async ({
   withUtilisateur(async ({ rôle }) => {
     const projet = await getÉliminé(identifiantProjet);
 
+    // dans le cas d'un recours accordé, le projet devient lauréat
+    if (!projet) {
+      return <ProjetLauréatBanner identifiantProjet={identifiantProjet} />;
+    }
+
     const { nomProjet, localité, notifiéLe } = projet;
 
     return (
@@ -37,7 +43,7 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = async ({
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
          */
-        href={noLink || rôle.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
+        href={noLink || rôle.estGrd() ? undefined : Routes.Éliminé.détails(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />

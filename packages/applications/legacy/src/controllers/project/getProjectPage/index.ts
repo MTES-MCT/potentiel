@@ -157,9 +157,7 @@ v1Router.get(
        * Redirection vers la page éliminé dans la nouvelle application
        */
       if (!project.isClasse) {
-        return response.redirect(
-          Routes.Projet.détailsÉliminé(identifiantProjetValueType.formatter()),
-        );
+        return response.redirect(Routes.Éliminé.détails(identifiantProjetValueType.formatter()));
       }
 
       const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({

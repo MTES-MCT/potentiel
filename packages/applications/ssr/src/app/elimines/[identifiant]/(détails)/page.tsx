@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { Metadata, ResolvingMetadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
@@ -11,8 +11,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers';
-
-import { getProjetÉliminé } from '../_helpers/getÉliminé';
+import { getÉliminé } from '@/app/_helpers/getÉliminé';
 
 import {
   DétailsProjetÉliminéActions,
@@ -22,22 +21,6 @@ import {
 
 type PageProps = IdentifiantParameter;
 
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const éliminé = await getProjetÉliminé(decodeParameter(params.identifiant));
-
-    return {
-      title: `${éliminé.nomProjet} - Potentiel`,
-      description: "Détail de la page d'un projet",
-    };
-  } catch {
-    return {};
-  }
-}
-
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
@@ -45,7 +28,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const éliminé = await getProjetÉliminé(identifiantProjet.formatter());
+      const éliminé = await getÉliminé(identifiantProjet.formatter());
+      if (!éliminé) {
+        notFound();
+      }
 
       const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',

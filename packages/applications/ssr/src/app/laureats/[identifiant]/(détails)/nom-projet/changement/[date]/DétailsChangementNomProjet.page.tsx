@@ -4,8 +4,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-import { PageTemplate } from '@/components/templates/Page.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 import { DétailsChangementNomProjet } from './DétailsChangementNomProjet';
@@ -18,18 +16,8 @@ export type DétailsNomProjetPageProps = {
   historique: Array<TimelineItemProps>;
 };
 
-export const DétailsNomProjetPage: FC<DétailsNomProjetPageProps> = ({
-  identifiantProjet,
-  changement,
-  historique,
-}) => (
-  <PageTemplate
-    banner={
-      <ProjetLauréatBanner
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
-    }
-  >
+export const DétailsNomProjetPage: FC<DétailsNomProjetPageProps> = ({ changement, historique }) => (
+  <>
     <div className="flex flex-col gap-8">
       <DétailsChangementNomProjet changement={changement} />
       <div className="mb-4">
@@ -37,5 +25,5 @@ export const DétailsNomProjetPage: FC<DétailsNomProjetPageProps> = ({
         <Timeline items={historique} />
       </div>
     </div>
-  </PageTemplate>
+  </>
 );

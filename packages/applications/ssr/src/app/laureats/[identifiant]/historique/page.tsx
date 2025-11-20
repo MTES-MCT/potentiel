@@ -13,8 +13,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { IconProps } from '@/components/atoms/Icon';
-import { mapToRecoursTimelineItemProps } from '@/app/elimines/(liste)/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
-import { mapToÉliminéTimelineItemProps } from '@/app/elimines/(liste)/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
+import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
+import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';

@@ -12,11 +12,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |
-            | projet_url | https://potentiel.beta.gouv.fr/projet/.*/details.html                       |
+            | projet_url | https://potentiel.beta.gouv.fr/projets/.*                                   |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |
-            | projet_url | https://potentiel.beta.gouv.fr/projet/.*/details.html                       |
+            | projet_url | https://potentiel.beta.gouv.fr/projets/.*                                   |
         Mais le projet <Statut> n'est plus consultable dans la liste des projets à réclamer
 
         Exemples:
@@ -34,11 +34,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |
-            | projet_url | https://potentiel.beta.gouv.fr/projet/.*/details.html                       |
+            | projet_url | https://potentiel.beta.gouv.fr/projets/.*                                   |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |
-            | projet_url | https://potentiel.beta.gouv.fr/projet/.*/details.html                       |
+            | projet_url | https://potentiel.beta.gouv.fr/projets/.*                                   |
         Mais le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
     Scénario: Impossible de réclamer un projet avec un email différent de celui de la candidature

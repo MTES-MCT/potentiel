@@ -19,5 +19,5 @@ Fonctionnalité: Demande des garanties financières
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Garanties financières en attente pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                          |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2024-09-17" pour le projet lauréat

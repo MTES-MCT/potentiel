@@ -37,7 +37,7 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = async ({
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
          */
-        href={noLink || rôle.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
+        href={noLink || rôle.estGrd() ? undefined : Routes.Lauréat.détails(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />

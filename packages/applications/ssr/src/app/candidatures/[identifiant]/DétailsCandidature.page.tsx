@@ -4,17 +4,13 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 
@@ -46,21 +42,6 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
     : undefined;
   return (
     <ColumnPageTemplate
-      banner={
-        <ProjetBannerTemplate
-          identifiantProjet={identifiantProjet}
-          href={notification ? Routes.Projet.details(identifiantProjet.formatter()) : undefined}
-          nom={dépôt.nomProjet}
-          localité={dépôt.localité}
-          badge={
-            <div className="flex gap-2">
-              <StatutCandidatureBadge statut={instruction.statut.statut} />
-              <NotificationBadge estNotifié={!!notification} />
-            </div>
-          }
-          dateDésignation={Option.none}
-        />
-      }
       heading={<Heading1>Détails de la candidature</Heading1>}
       leftColumn={{
         children: (

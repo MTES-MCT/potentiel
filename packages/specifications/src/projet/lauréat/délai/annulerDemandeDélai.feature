@@ -15,7 +15,7 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
         Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                             |
 
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est inexistante
         Quand le porteur annule la demande de délai pour le projet lauréat

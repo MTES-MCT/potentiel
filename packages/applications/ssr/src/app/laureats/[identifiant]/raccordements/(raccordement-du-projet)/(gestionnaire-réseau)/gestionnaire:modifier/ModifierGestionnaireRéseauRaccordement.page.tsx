@@ -1,9 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../../TitrePageRaccordement';
@@ -23,11 +20,6 @@ export const ModifierGestionnaireRéseauRaccordementPage: FC<
   ModifierGestionnaireRéseauRaccordementPageProps
 > = ({ identifiantProjet, gestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
   <ColumnPageTemplate
-    banner={
-      <ProjetLauréatBanner
-        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
-    }
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
