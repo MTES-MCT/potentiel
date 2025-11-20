@@ -50,7 +50,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sharp": "^0.33.5",
-    "swagger-ui-react": "^5.20.8",
+    "swagger-ui-react": "^5.30.2",
     "winston-elasticsearch": "^0.19.0",
     "zod": "^4.1.9"
   },
@@ -61,7 +61,7 @@
     "@types/swagger-ui-react": "^4.19.0",
     "autoprefixer": "^10.4.21",
     "diff": "^8.0.2",
-    "glob": "^11.0.3",
+    "glob": "^11.1.0",
     "postcss": "^8.5.3",
     "sass": "^1.86.3",
     "tailwindcss": "^3.4.17"
