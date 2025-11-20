@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Leaf from '@codegouvfr/react-dsfr/picto/Leaf';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
@@ -30,6 +31,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
       <div>
         <div className="flex justify-start w-fit gap-4 flex-col md:flex-row md:gap-0 md:items-center">
           <div className="flex print:hidden">
+            <Leaf fontSize="large" color="blue-ecume" className="bg-theme-white rounded-lg mr-2" />
             {href ? (
               <a href={href} className="text-xl font-bold !text-theme-white mr-2">
                 {nom}
