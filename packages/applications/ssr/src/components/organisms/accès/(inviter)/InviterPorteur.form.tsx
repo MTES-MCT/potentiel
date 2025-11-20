@@ -29,7 +29,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
   return (
     <>
       <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
-        Inviter un nouvel utilisateur sur le projet
+        Inviter un nouvel utilisateur
       </Button>
       <ModalWithForm
         id="inviter-porteur-form"

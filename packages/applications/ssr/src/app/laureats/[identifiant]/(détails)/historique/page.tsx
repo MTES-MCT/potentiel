@@ -16,20 +16,20 @@ import { IconProps } from '@/components/atoms/Icon';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 
-import { getLauréatInfos } from '../_helpers/getLauréat';
-import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';
-import { mapToActionnaireTimelineItemProps } from '../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
-import { mapToReprésentantLégalTimelineItemProps } from '../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
-import { mapToLauréatTimelineItemProps } from '../(historique)/mapToLauréatTimelineItemProps';
-import { mapToGarantiesFinancièresTimelineItemProps } from '../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
-import { mapToProducteurTimelineItemProps } from '../producteur/(historique)/mapToProducteurTimelineItemProps';
-import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)/mapToPuissanceTimelineItemProps';
-import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
-import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
-import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
-import { mapToInstallationTimelineItemProps } from '../installation/(historique)/mapToInstallationTimelineItemProps';
-import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
-import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
+import { getLauréatInfos } from '../../_helpers/getLauréat';
+import { mapToAchèvementTimelineItemProps } from '../../achevement/(historique)/mapToAchèvementTimelineItemProps';
+import { mapToActionnaireTimelineItemProps } from '../../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
+import { mapToReprésentantLégalTimelineItemProps } from '../../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
+import { mapToLauréatTimelineItemProps } from '../../(historique)/mapToLauréatTimelineItemProps';
+import { mapToGarantiesFinancièresTimelineItemProps } from '../../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
+import { mapToProducteurTimelineItemProps } from '../../producteur/(historique)/mapToProducteurTimelineItemProps';
+import { mapToPuissanceTimelineItemProps } from '../../puissance/(historique)/mapToPuissanceTimelineItemProps';
+import { mapToAbandonTimelineItemProps } from '../../abandon/(historique)/mapToAbandonTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from '../../raccordements/(historique)/mapToRaccordementTimelineItemProps';
+import { mapToDélaiTimelineItemProps } from '../../delai/(historique)/mapToDélaiTimelineItemProps';
+import { mapToInstallationTimelineItemProps } from '../../installation/(historique)/mapToInstallationTimelineItemProps';
+import { mapToNatureDeLExploitationTimelineItemProps } from '../../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
+import { mapToFournisseurTimelineItemProps } from '../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 import { categoriesDisponibles, mapCatégoriesToLabel } from './_helpers/mapCatégoriesToLabel';
@@ -115,6 +115,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           filters={[
             {
               label: 'Catégorie',
+              title: '',
               searchParamKey: 'categorie',
               options,
             },
