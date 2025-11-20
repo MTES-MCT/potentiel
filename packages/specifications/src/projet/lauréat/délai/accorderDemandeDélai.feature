@@ -17,7 +17,7 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Bordeaux                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                             |
 
         Exemples:
             | date achèvement prévisionnel actuelle | durée du délai demandé | date achèvement prévisionnel attendue |
@@ -38,7 +38,7 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Bordeaux                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                             |
 
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat

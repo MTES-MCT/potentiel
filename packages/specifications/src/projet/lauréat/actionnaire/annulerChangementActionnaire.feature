@@ -17,7 +17,7 @@ Fonctionnalité: Annuler la demande changement de l'actionnaire d'un projet laur
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                          |
             | type       | annulation                                                                                                                         |
 
     Scénario: Impossible d'annuler la demande de changement de l'actionnaire si la demande est inexistante

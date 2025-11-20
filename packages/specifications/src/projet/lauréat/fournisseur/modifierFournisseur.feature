@@ -12,11 +12,11 @@ Fonctionnalité: Modifier un fournisseur en tant que DREAL ou DGEC
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                 |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                 |
 
     Scénario: Modifier un fournisseur en tant que DREAL
         Quand la DREAL associée au projet modifie le fournisseur du projet lauréat
@@ -24,11 +24,11 @@ Fonctionnalité: Modifier un fournisseur en tant que DREAL ou DGEC
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                 |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                 |
 
     Scénario: Impossible de modifier le fournisseur avec des valeurs identiques
         Quand le DGEC validateur modifie le fournisseur du projet lauréat avec des valeurs identiques

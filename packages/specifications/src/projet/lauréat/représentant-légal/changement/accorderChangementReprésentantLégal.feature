@@ -15,7 +15,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Marseille                                                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                     |
             | type       | accord                                                                                                                                        |
         Et il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
@@ -33,7 +33,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                              |
 
         Exemples:
             | l'utilisateur autorisé      |
@@ -50,13 +50,13 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Bordeaux dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Bordeaux                                                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                        |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                    |
             | type       | accord                                                                                                                                       |
         Et un email a été envoyé à la dreal avec :
             | type       | accord                                                                                                                                                       |
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Bordeaux dans le département(.*) a été accordée automatiquement |
             | nom_projet | Du boulodrome de Bordeaux                                                                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                                        |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                                    |
 
     Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été accordé
         Etant donné une demande de changement de représentant légal accordée pour le projet lauréat

@@ -15,7 +15,7 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                      |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                       |
             | type       | rejet                                                                                                           |
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si aucune demande n'est en cours

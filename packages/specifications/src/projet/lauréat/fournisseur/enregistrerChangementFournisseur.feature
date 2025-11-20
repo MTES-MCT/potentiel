@@ -14,11 +14,11 @@ Fonctionnalité: Enregistrer un changement de fournisseur
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                              |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Déclaration de changement de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                              |
 
     Scénario: Impossible d'enregistrer un changement de fournisseur si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :

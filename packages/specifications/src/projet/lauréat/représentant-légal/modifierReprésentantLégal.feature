@@ -9,7 +9,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                        |
 
     Scénario: Modifier le représentant légal d'un projet lauréat abandonné
         Etant donné le projet lauréat "Du boulodrome de Marseille"
@@ -20,7 +20,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                        |
 
     Scénario: Modifier le représentant légal d'un projet lauréat achevé
         Etant donné le projet lauréat "Du boulodrome de Marseille"
@@ -31,7 +31,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                        |
 
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat inexistant
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
