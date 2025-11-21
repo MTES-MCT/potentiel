@@ -20,6 +20,8 @@ import {
 } from './accès.error';
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
+import { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options';
+import { AccèsProjetRemplacéEvent } from './remplacer/remplacerAccèsProjet.event';
 
 export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', ProjetAggregateRoot> {
   get projet() {
@@ -139,21 +141,57 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', Pr
     await this.publish(event);
   }
 
+  async remplacer({
+    identifiantUtilisateur,
+    nouvelIdentifiantUtilisateur,
+    remplacéLe,
+    remplacéPar,
+  }: RemplacerAccèsProjetOptions) {
+    if (identifiantUtilisateur.estÉgaleÀ(nouvelIdentifiantUtilisateur)) {
+      throw new AccèsProjetDéjàAutoriséError();
+    }
+
+    // si l'utilisateur actuel n'a pas accès, on ne donne pas accès non plus au nouvel utilisateur
+    if (!this.aDéjàAccès(identifiantUtilisateur.formatter())) {
+      return;
+    }
+
+    // si le nouvel utilisateur a déjà accès, il suffit de retirer les droits de l'actuel
+    if (this.aDéjàAccès(nouvelIdentifiantUtilisateur.formatter())) {
+      await this.retirer({
+        identifiantUtilisateur,
+        retiréLe: remplacéLe,
+        retiréPar: remplacéPar,
+      });
+    } else {
+      const event: AccèsProjetRemplacéEvent = {
+        type: 'AccèsProjetRemplacé-V1',
+        payload: {
+          identifiantProjet: this.projet.identifiantProjet.formatter(),
+          identifiantUtilisateur: identifiantUtilisateur.formatter(),
+          nouvelIdentifiantUtilisateur: nouvelIdentifiantUtilisateur.formatter(),
+          remplacéLe: remplacéLe.formatter(),
+          remplacéPar: remplacéPar.formatter(),
+        },
+      };
+
+      await this.publish(event);
+    }
+  }
+
   apply(event: AccèsEvent): void {
     match(event)
-      .with(
-        {
-          type: 'AccèsProjetAutorisé-V1',
-        },
-        (event) => this.applyAccèsProjetAutoriséV1(event),
-      )
-      .with(
-        {
-          type: 'AccèsProjetRetiré-V1',
-        },
-        (event) => this.applyAccèsProjetRetiréV1(event),
-      )
+      .with({ type: 'AccèsProjetAutorisé-V1' }, this.applyAccèsProjetAutoriséV1.bind(this))
+      .with({ type: 'AccèsProjetRetiré-V1' }, this.applyAccèsProjetRetiréV1.bind(this))
+      .with({ type: 'AccèsProjetRemplacé-V1' }, this.applyAccèsProjetRemplacéV1.bind(this))
       .exhaustive();
+  }
+
+  private applyAccèsProjetRemplacéV1({
+    payload: { identifiantUtilisateur, nouvelIdentifiantUtilisateur },
+  }: AccèsProjetRemplacéEvent) {
+    this.identifiantsUtilisateurAyantAccès.delete(identifiantUtilisateur);
+    this.identifiantsUtilisateurAyantAccès.add(nouvelIdentifiantUtilisateur);
   }
 
   private applyAccèsProjetAutoriséV1({

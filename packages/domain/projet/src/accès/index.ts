@@ -8,14 +8,21 @@ import { ConsulterAccèsQuery, ConsulterAccèsReadModel } from './consulter/cons
 import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
 import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query';
+import { RemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase';
 
 // UseCases
 export type AccèsUseCase =
   | AutoriserAccèsProjetUseCase
   | RéclamerAccèsProjetUseCase
-  | RetirerAccèsProjetUseCase;
+  | RetirerAccèsProjetUseCase
+  | RemplacerAccèsProjetUseCase;
 
-export { AutoriserAccèsProjetUseCase, RéclamerAccèsProjetUseCase, RetirerAccèsProjetUseCase };
+export {
+  AutoriserAccèsProjetUseCase,
+  RéclamerAccèsProjetUseCase,
+  RetirerAccèsProjetUseCase,
+  RemplacerAccèsProjetUseCase,
+};
 
 // Query
 export type AttestationConformitéQuery =
@@ -38,6 +45,7 @@ export { ListerAccèsReadModel, ListerProjetsÀRéclamerReadModel, ConsulterAcc�
 export * from './accès.event';
 export * from './autoriser/autoriserAccèsProjet.event';
 export * from './retirer/retirerAccèsProjet.event';
+export * from './remplacer/remplacerAccèsProjet.event';
 
 // Entities
 export * from './accès.entity';

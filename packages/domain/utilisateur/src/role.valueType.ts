@@ -603,11 +603,13 @@ const référencielPermissions = {
     command: {
       autoriserAccèsProjet: 'Projet.Accès.Command.AutoriserAccèsProjet',
       retirerAccèsProjet: 'Projet.Accès.Command.RetirerAccèsProjet',
+      remplacerAccèsProjet: 'Projet.Accès.Command.RemplacerAccèsProjet',
       réclamerProjet: 'Projet.Accès.Command.RéclamerAccèsProjet',
     },
     usecase: {
       autoriserAccèsProjet: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
       retirerAccèsProjet: 'Projet.Accès.UseCase.RetirerAccèsProjet',
+      remplacerAccèsProjet: 'Projet.Accès.UseCase.RemplacerAccèsProjet',
       réclamerProjet: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
     },
   },
@@ -627,7 +629,6 @@ const référencielPermissions = {
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
-      créerPorteur: 'Utilisateur.UseCase.CréerPorteur',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
       modifierRôle: 'Utilisateur.UseCase.ModifierRôleUtilisateur',
@@ -1412,6 +1413,10 @@ const policies = {
       référencielPermissions.accès.command.retirerAccèsProjet,
       référencielPermissions.accès.usecase.retirerAccèsProjet,
     ],
+    remplacerAccèsProjet: [
+      référencielPermissions.accès.command.remplacerAccèsProjet,
+      référencielPermissions.accès.usecase.remplacerAccèsProjet,
+    ],
     réclamerProjet: [
       référencielPermissions.accès.command.réclamerProjet,
       référencielPermissions.accès.usecase.réclamerProjet,
@@ -1428,10 +1433,6 @@ const policies = {
       référencielPermissions.utilisateur.command.inviterPorteur,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
-    ],
-    créerPorteur: [
-      référencielPermissions.utilisateur.command.créerPorteur,
-      référencielPermissions.utilisateur.usecase.créerPorteur,
     ],
     désactiver: [
       référencielPermissions.utilisateur.command.désactiver,
@@ -1691,6 +1692,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
+  'accès.remplacerAccèsProjet',
   'accès.consulter',
   'accès.lister',
   'accès.listerProjetsÀRéclamer',
@@ -2029,7 +2031,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Utilisateur
   'utilisateur.inviterPorteur',
-  'utilisateur.créerPorteur',
 
   // Cahier des charges
   'cahierDesCharges.choisir',

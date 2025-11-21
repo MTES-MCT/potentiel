@@ -6,6 +6,7 @@ import { assert, expect } from 'chai';
 import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -99,7 +100,22 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
+        expectHasAccess: true,
+      }),
+    );
+  },
+);
+
+Alors(
+  'le porteur {string} a accès au projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, email: string, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: email,
         expectHasAccess: true,
       }),
     );
@@ -115,8 +131,23 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
-        expectHasAccess: true,
+        expectHasAccess: false,
+      }),
+    );
+  },
+);
+
+Alors(
+  `le porteur {string} n'a pas accès au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, email: string, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: email,
+        expectHasAccess: false,
       }),
     );
   },
@@ -133,7 +164,6 @@ Alors(
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {
         identifiantProjet,
-        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
         expectHasAccess: true,
       }),
     );
@@ -146,10 +176,20 @@ Alors(
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
-    const expectedPorteurs = [this.utilisateurWorld.porteurFixture.email];
-    if (this.utilisateurWorld.inviterUtilisateur.aÉtéCréé) {
-      expectedPorteurs.push(this.utilisateurWorld.inviterUtilisateur.email);
+    const expectedPorteursValues = this.accèsWorld.remplacerAccèsProjet.aÉtéCréé
+      ? [this.accèsWorld.remplacerAccèsProjet.email]
+      : [this.utilisateurWorld.porteurFixture.email];
+
+    if (this.utilisateurWorld.inviterPorteur.aÉtéCréé) {
+      expectedPorteursValues.push(this.utilisateurWorld.inviterPorteur.email);
     }
+
+    const expectedPorteurs = mapToPlainObject(
+      expectedPorteursValues
+        .map(Email.convertirEnValueType)
+        .map((utilisateur) => utilisateur.formatter())
+        .sort(),
+    );
 
     await waitForExpect(async () => {
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
@@ -162,13 +202,10 @@ Alors(
       if (Option.isNone(accèsProjet)) {
         throw new Error(`Il devrait y avoir des accès pour le projet !!`);
       }
-
-      for (const email of expectedPorteurs) {
-        const expected = Email.convertirEnValueType(email);
-        expect(
-          accèsProjet.utilisateursAyantAccès.find((utilisateur) => utilisateur.estÉgaleÀ(expected)),
-        ).not.to.be.undefined;
-      }
+      const actualPorteurs = accèsProjet.utilisateursAyantAccès
+        .map((utilisateur) => utilisateur.formatter())
+        .sort();
+      expect(actualPorteurs).to.deep.eq(expectedPorteurs);
     });
   },
 );
