@@ -5,7 +5,7 @@ export * from './getBaseUrl.js';
 export * from './getCahierDesChargesLauréat.js';
 export * from './getCandidature.js';
 export * from './getLauréat.js';
-export * from './listerAdminRecipients.js';
+export * from './listerAdminEtValidateursRecipients.js';
 export * from './listerDgecRecipients.js';
 export * from './listerDrealsRecipients.js';
 export * from './listerPorteursRecipients.js';
