@@ -38,7 +38,7 @@ export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: stri
 
   expect(destinataires).not.to.contain(
     Email.convertirEnValueType(email).email,
-    'Un email non désiré à été envoyé',
+    'Un email non désiré a été envoyé',
   );
 }
 
@@ -132,5 +132,12 @@ Alors(
   'un email a été envoyé à la cre avec :',
   async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.creFixture.email, data);
+  },
+);
+
+Alors(
+  `un email a été envoyé à l'administrateur avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
   },
 );

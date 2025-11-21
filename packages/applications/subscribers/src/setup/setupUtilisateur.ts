@@ -35,7 +35,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     UtilisateurNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V2'],
+    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V2', 'RôleUtilisateurModifié-V1'],
     messageType: 'System.Notification.Utilisateur',
   });
 
