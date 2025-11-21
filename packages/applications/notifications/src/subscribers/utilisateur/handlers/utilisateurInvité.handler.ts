@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl, listerAdminRecipients, NotificationHandlerProps } from '#helpers';
+import { getBaseUrl, listerAdminEtValidateursRecipients, NotificationHandlerProps } from '#helpers';
 
 import { utilisateurNotificationTemplateId } from '../constant.js';
 
@@ -45,7 +45,7 @@ export async function handleUtilisateurInvité({
 
   if (rôle === 'dgec-validateur') {
     const templateId = utilisateurNotificationTemplateId.informer.dgecValidateurInvité;
-    const recipients = await listerAdminRecipients();
+    const recipients = await listerAdminEtValidateursRecipients();
     await sendEmail({
       templateId,
       messageSubject: `Nouvel utilisateur DGEC Validateur sur Potentiel`,
