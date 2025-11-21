@@ -1,13 +1,24 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { PorteurInvitéEvent, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import {
+  PorteurInvitéEvent,
+  RôleUtilisateurModifiéEvent,
+  UtilisateurInvitéEvent,
+} from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '#sendEmail';
 
-import { handlePorteurInvité, handleUtilisateurInvité } from './handlers/index.js';
+import {
+  handlePorteurInvité,
+  handleRôleUtilisateurModifié,
+  handleUtilisateurInvité,
+} from './handlers/index.js';
 
-export type SubscriptionEvent = PorteurInvitéEvent | UtilisateurInvitéEvent;
+export type SubscriptionEvent =
+  | PorteurInvitéEvent
+  | UtilisateurInvitéEvent
+  | RôleUtilisateurModifiéEvent;
 
 export type Execute = Message<'System.Notification.Utilisateur', SubscriptionEvent>;
 
@@ -21,6 +32,9 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
       .with({ type: 'PorteurInvité-V1' }, (event) => handlePorteurInvité({ event, sendEmail }))
       .with({ type: 'UtilisateurInvité-V2' }, (event) =>
         handleUtilisateurInvité({ event, sendEmail }),
+      )
+      .with({ type: 'RôleUtilisateurModifié-V1' }, (event) =>
+        handleRôleUtilisateurModifié({ event, sendEmail }),
       )
       .exhaustive();
 
