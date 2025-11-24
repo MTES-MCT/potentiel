@@ -12,7 +12,7 @@ import { ColumnTemplate } from '@/components/templates/Column.templace';
 
 export const DocumentsSection = () => (
   <ColumnTemplate
-    heading={<Heading2>Mes documents pour ce projet</Heading2>}
+    heading={<Heading2>Mes documents</Heading2>}
     leftColumn={{
       children: (
         <Alert

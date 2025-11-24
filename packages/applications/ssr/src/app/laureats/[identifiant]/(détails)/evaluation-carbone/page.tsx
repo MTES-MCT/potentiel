@@ -5,7 +5,7 @@ import { getContext } from '@potentiel-applications/request-context';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
-import { FournisseursSection } from './FournisseursSection';
+import { ÉvaluationCarboneSection } from './ÉvaluationCarboneSection';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -28,5 +28,5 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
   // const lauréat = await getLauréat({ identifiantProjet });
 
-  return <FournisseursSection />;
+  return <ÉvaluationCarboneSection />;
 }

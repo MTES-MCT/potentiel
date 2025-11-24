@@ -19,7 +19,7 @@ const tabs: TabsProps.Controlled['tabs'] = [
   },
   { label: 'Administratif', tabId: 'administratif', iconId: 'ri-focus-line' },
   { label: 'Installation', tabId: 'installation', iconId: 'ri-home-line' },
-  { label: 'Fournisseurs', tabId: 'fournisseurs', iconId: 'ri-building-3-line' },
+  { label: 'Évaluation Carbone', tabId: 'evaluation-carbone', iconId: 'ri-building-3-line' },
   { label: 'Documents', tabId: 'documents', iconId: 'ri-file-line' },
 ];
 
