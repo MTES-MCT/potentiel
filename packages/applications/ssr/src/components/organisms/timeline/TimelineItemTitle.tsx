@@ -8,7 +8,11 @@ export type TimelineItemTitleProps = {
 };
 
 export const TimelineItemTitle: FC<TimelineItemTitleProps> = ({ acteur, title }) => {
-  if (!acteur || Email.convertirEnValueType(acteur).estSystème()) {
+  if (
+    !acteur ||
+    Email.convertirEnValueType(acteur).estSystème() ||
+    Email.convertirEnValueType(acteur).estInconnu()
+  ) {
     return <div>{title}</div>;
   }
 

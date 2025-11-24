@@ -22,7 +22,7 @@ export const mapToLegacyDélaiAccordéTimelineItemProps = (
 
 const getTitleFromRaison = (raison: Lauréat.Délai.LegacyDélaiAccordéEvent['payload']['raison']) =>
   match(raison)
-    .with('demande', () => `Demande de délai exceptionnel accordée par l'administration`)
+    .with('demande', () => `Demande de délai de force majeure accordée par l'administration`)
     .with('cdc-18-mois', () => (
       <>
         Attribution d'un délai supplémentaire prévu dans le{' '}

@@ -17,7 +17,7 @@ import {
 import { DemanderDélaiPage } from './DemanderDélai.page';
 
 export const metadata: Metadata = {
-  title: 'Demander un délai exceptionnel - Potentiel',
+  title: 'Demander un délai de force majeure - Potentiel',
   description: 'Formulaire de demande de délai',
 };
 
