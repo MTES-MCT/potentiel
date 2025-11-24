@@ -2,6 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
+import { DocumentProjet } from '../../..';
+import { TypeDocumentNomProjet } from '../..';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
+
 import { ModifierNomProjetCommand } from './modifierNomProjet.command';
 
 export type ModifierNomProjetUseCase = Message<
@@ -11,6 +15,11 @@ export type ModifierNomProjetUseCase = Message<
     modifiéLeValue: string;
     modifiéParValue: string;
     nomProjetValue: string;
+    raisonValue: string;
+    pièceJustificativeValue?: {
+      content: ReadableStream;
+      format: string;
+    };
   }
 >;
 
@@ -20,7 +29,26 @@ export const registerModifierNomProjetUseCase = () => {
     nomProjetValue,
     modifiéLeValue,
     modifiéParValue,
+    raisonValue,
+    pièceJustificativeValue,
   }) => {
+    const pièceJustificative =
+      pièceJustificativeValue &&
+      DocumentProjet.convertirEnValueType(
+        identifiantProjetValue,
+        TypeDocumentNomProjet.pièceJustificative.formatter(),
+        modifiéLeValue,
+        pièceJustificativeValue.format,
+      );
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
     await mediator.send<ModifierNomProjetCommand>({
       type: 'Lauréat.Command.ModifierNomProjet',
       data: {
@@ -28,6 +56,8 @@ export const registerModifierNomProjetUseCase = () => {
         nomProjet: nomProjetValue,
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
+        raison: raisonValue,
+        pièceJustificative,
       },
     });
   };

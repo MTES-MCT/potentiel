@@ -151,6 +151,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             nomProjetValue: laureat.nomProjet,
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+            raisonValue: '',
           },
         });
       }

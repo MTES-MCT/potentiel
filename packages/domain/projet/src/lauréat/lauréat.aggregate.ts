@@ -352,7 +352,13 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifierNomProjet({ modifiéLe, modifiéPar, nomProjet }: ModifierNomProjetOptions) {
+  async modifierNomProjet({
+    modifiéLe,
+    modifiéPar,
+    nomProjet,
+    raison,
+    pièceJustificative,
+  }: ModifierNomProjetOptions) {
     this.vérifierQueLeLauréatExiste();
     if (this.#nomProjet === nomProjet) {
       throw new LauréatNonModifiéError();
@@ -364,6 +370,8 @@ export class LauréatAggregate extends AbstractAggregate<
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
         nomProjet,
+        raison,
+        pièceJustificative,
       },
     };
 

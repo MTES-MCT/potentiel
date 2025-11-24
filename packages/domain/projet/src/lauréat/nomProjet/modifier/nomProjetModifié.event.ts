@@ -10,5 +10,9 @@ export type NomProjetModifiéEvent = DomainEvent<
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
     nomProjet: string;
+    raison: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;
