@@ -166,6 +166,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
+    await this.lauréat.garantiesFinancières.annulerTâchesPorteur();
     await this.annulerTâchesPlanifiéesRappelsÉchéance();
   }
 
