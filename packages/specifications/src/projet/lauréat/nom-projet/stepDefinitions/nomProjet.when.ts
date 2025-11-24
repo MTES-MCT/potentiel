@@ -4,12 +4,14 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
 
 Quand('un administrateur modifie le nom du projet', async function (this: PotentielWorld) {
   try {
-    const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer({
-      modifiéPar: this.utilisateurWorld.adminFixture.email,
-    });
+    const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =
+      this.lauréatWorld.modifierNomProjetFixture.créer({
+        modifiéPar: this.utilisateurWorld.adminFixture.email,
+      });
 
     await mediator.send<Lauréat.ModifierNomProjetUseCase>({
       type: 'Lauréat.UseCase.ModifierNomProjet',
@@ -18,6 +20,9 @@ Quand('un administrateur modifie le nom du projet', async function (this: Potent
         modifiéParValue: modifiéPar,
         modifiéLeValue: modifiéLe,
         nomProjetValue: nomProjet,
+        raisonValue: raison,
+        pièceJustificativeValue:
+          pièceJustificative && convertFixtureFileToReadableStream(pièceJustificative),
       },
     });
   } catch (e) {
@@ -29,12 +34,11 @@ Quand(
   'un administrateur modifie le nom du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
-      const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer(
-        {
+      const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =
+        this.lauréatWorld.modifierNomProjetFixture.créer({
           nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
           modifiéPar: this.utilisateurWorld.adminFixture.email,
-        },
-      );
+        });
 
       await mediator.send<Lauréat.ModifierNomProjetUseCase>({
         type: 'Lauréat.UseCase.ModifierNomProjet',
@@ -43,6 +47,9 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           nomProjetValue: nomProjet,
+          raisonValue: raison,
+          pièceJustificativeValue:
+            pièceJustificative && convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
     } catch (e) {
