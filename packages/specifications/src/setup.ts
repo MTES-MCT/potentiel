@@ -87,7 +87,7 @@ AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) 
     throw this.error;
   }
 
-  // ignore notifications sent in context steps
+  // Notifications sent in context are not relevant for assertion.
   if (pickleStep.type === 'Context') {
     this.notificationWorld.resetNotifications();
   }

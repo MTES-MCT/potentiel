@@ -35,7 +35,9 @@ export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: stri
   const exemple = data.rowsHash();
   const destinataires = this.notificationWorld
     .récupérerDestinataires(exemple.sujet)
-    .map(({ recipients }) => recipients.map((r) => r.email))
+    .map(({ recipients, cc, bcc }) =>
+      [...recipients, ...(cc ?? []), ...(bcc ?? [])].map((r) => r.email),
+    )
     .flat();
 
   expect(destinataires).not.to.contain(
@@ -141,5 +143,12 @@ Alors(
   `un email a été envoyé à l'administrateur avec :`,
   async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
+  },
+);
+
+Alors(
+  `un email n'a pas été envoyé à l'administrateur avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
   },
 );
