@@ -15,7 +15,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: 'Demande de délai exceptionnel accordée',
+    title: 'Demande de délai de force majeure accordée',
     acteur: accordéPar,
     content: (
       <div className="flex flex-col gap-2">
