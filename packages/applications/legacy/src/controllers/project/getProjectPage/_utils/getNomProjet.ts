@@ -33,23 +33,30 @@ export const getNomProjet = async ({
   estAbandonné,
   estAchevé,
 }: Props): Promise<GetNomProjetForProjectPage> => {
-  const { peutEnregistrerChangement } = await checkAutorisationChangement<'nomProjet'>({
-    rôle,
-    aUnAbandonEnCours,
-    estAbandonné,
-    estAchevé,
-    règlesChangementPourAppelOffres,
-    domain: 'nomProjet',
-  });
+  const { peutEnregistrerChangement, peutModifier } =
+    await checkAutorisationChangement<'nomProjet'>({
+      rôle,
+      aUnAbandonEnCours,
+      estAbandonné,
+      estAchevé,
+      règlesChangementPourAppelOffres,
+      domain: 'nomProjet',
+    });
 
   return {
     nom: project.nomProjet,
-    affichage: peutEnregistrerChangement
+    affichage: peutModifier
       ? {
-          url: Routes.Lauréat.changement.nomProjet.enregistrer(identifiantProjet.formatter()),
-          label: 'Changer le nom du projet',
-          labelActions: 'Changer le nom du projet',
+          url: Routes.Lauréat.modifierNomProjet(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: 'Modifier le nom du projet',
         }
-      : undefined,
+      : peutEnregistrerChangement
+        ? {
+            url: Routes.Lauréat.changement.nomProjet.enregistrer(identifiantProjet.formatter()),
+            label: 'Changer le nom du projet',
+            labelActions: 'Changer le nom du projet',
+          }
+        : undefined,
   };
 };
