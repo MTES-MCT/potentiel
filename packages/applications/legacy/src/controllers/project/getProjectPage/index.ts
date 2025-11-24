@@ -326,7 +326,9 @@ v1Router.get(
             estAbandonné,
             estAchevé: !!achèvementRéel,
           }),
-          autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
+          autorisationDUrbanisme:
+            cahierDesCharges.getChampsSupplémentaires().autorisationDUrbanisme &&
+            lauréat.autorisationDUrbanisme,
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
