@@ -369,6 +369,7 @@ export class LauréatAggregate extends AbstractAggregate<
         identifiantProjet: this.projet.identifiantProjet.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
+        ancienNomProjet: this.#nomProjet!,
         nomProjet,
         raison,
         pièceJustificative,
