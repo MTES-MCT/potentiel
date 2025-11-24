@@ -274,6 +274,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRappel3mois.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
+
+  async annulerTâchesPorteur() {
+    await this.#tâcheDemanderGarantiesFinancières.achever();
+  }
+
   //#endregion Utilitaires
 
   //#region Behavior Actuelles
