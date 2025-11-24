@@ -9,6 +9,7 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { modifierNomProjetAction, ModifierNomProjetFormKeys } from './modifierNomProjet.action';
 
@@ -54,6 +55,23 @@ export const ModifierNomProjetForm: FC<ModifierNomProjetFormProps> = ({
             required: true,
             'aria-required': true,
           }}
+        />
+        <Input
+          textArea
+          label="Raison"
+          id="raison"
+          hintText="Veuillez détailler les raisons ayant conduit au changement du nom du projet."
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+          state={validationErrors['raison'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['raison']}
+        />
+
+        <UploadNewOrModifyExistingDocument
+          label="Pièce justificative (optionnel)"
+          name="piecesJustificatives"
+          formats={['pdf']}
+          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['piecesJustificatives']}
         />
       </div>
     </Form>
