@@ -46,15 +46,17 @@ export class NotificationWorld {
     return notif;
   }
 
-  récupérerDestinataires(sujet: string) {
-    return this.#notifications.filter((notif) => notif.messageSubject.match(new RegExp(sujet)));
-  }
-
   resetNotifications() {
     this.#notifications = [];
   }
 
-  assertAllNotificationsChecked() {
+  vérifierAucunEmailsEnvoyés(emailValue: string) {
+    const email = Email.convertirEnValueType(emailValue);
+    const notif = this.#notifications.find((notif) => notif.email.estÉgaleÀ(email));
+    expect(notif, `Des emails ont été envoyés`).to.be.undefined;
+  }
+
+  vérifierToutesNotificationsPointées() {
     expect(
       this.#notifications
         .filter((notif) => !notif.checked)

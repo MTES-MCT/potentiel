@@ -27,12 +27,26 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
   });
 }
 
+export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string) {
+  await sleep(500);
+  this.notificationWorld.vérifierAucunEmailsEnvoyés(email);
+}
+
 Alors(
   'un email a été envoyé au porteur avec :',
   async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
   },
 );
+
+Alors(`aucun email n'a été envoyé au porteur`, async function (this: PotentielWorld) {
+  await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email);
+});
+
+Alors(`aucun email n'a été envoyé à l'utilisateur`, async function (this: PotentielWorld) {
+  const email = this.utilisateurWorld.inviterUtilisateur.email;
+  await vérifierEmailNonEnvoyé.call(this, email);
+});
 
 Alors(
   'un email a été envoyé à la dreal avec :',
@@ -105,7 +119,7 @@ Alors(
   },
 );
 
-Alors(/aucun .*email n'a été envoyé/, async function (this: PotentielWorld) {
+Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld) {
   await sleep(200);
-  this.notificationWorld.assertAllNotificationsChecked();
+  this.notificationWorld.vérifierToutesNotificationsPointées();
 });
