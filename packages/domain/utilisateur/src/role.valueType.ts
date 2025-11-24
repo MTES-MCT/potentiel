@@ -1874,6 +1874,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifierSiteDeProduction',
+  'nomProjet.modifier',
+  'nomProjet.consulterChangement',
+  'nomProjet.listerChangement',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -1930,14 +1933,18 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'délai.accorderChangement',
 
   // installation
+  'installation.installateur.modifier',
+  'installation.typologieInstallation.modifier',
+  'installation.dispositifDeStockage.modifier',
   'installation.installateur.consulterChangement',
   'installation.installateur.listerChangement',
   'installation.dispositifDeStockage.consulterChangement',
   'installation.dispositifDeStockage.listerChangement',
 
-  // Nom Projet
-  'nomProjet.consulterChangement',
-  'nomProjet.listerChangement',
+  // Nature de l'exploitation
+  'natureDeLExploitation.modifier',
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.consulterChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

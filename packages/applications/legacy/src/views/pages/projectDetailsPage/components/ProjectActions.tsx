@@ -236,6 +236,10 @@ export const ProjectActions = ({
             représentantLégalAffichage,
             siteDeProductionAffichage,
             fournisseurAffichage,
+            installateurAffichage,
+            typologieInstallationAffichage,
+            dispositifDeStockageAffichage,
+            natureDeLExploitationAffichage,
           ]}
         />
       )}
