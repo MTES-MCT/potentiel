@@ -1,15 +1,18 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat, getBaseUrl } from '#helpers';
 import { SendEmail } from '#sendEmail';
 
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler.js';
 import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler.js';
+import { handleLauréatNotifié } from './handlers/lauréatNotifié.handler.js';
 
-export type SubscriptionEvent = Lauréat.LauréatEvent;
+export type SubscriptionEvent =
+  | Lauréat.CahierDesChargesChoisiEvent
+  | Lauréat.ChangementNomProjetEnregistréEvent
+  | Lauréat.LauréatNotifiéEvent;
 
 export type Execute = Message<'System.Notification.Lauréat', SubscriptionEvent>;
 
@@ -19,30 +22,13 @@ export type RegisterLauréatNotificationDependencies = {
 
 export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-    const baseUrl = getBaseUrl();
-
     return await match(event)
+      .with({ type: 'LauréatNotifié-V2' }, (event) => handleLauréatNotifié({ sendEmail, event }))
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
-        handleCahierDesChargesChoisi({ event, sendEmail }),
+        handleCahierDesChargesChoisi({ sendEmail, event }),
       )
       .with({ type: 'ChangementNomProjetEnregistré-V1' }, (event) =>
-        handleChangementNomProjetEnregistré({ sendEmail, event, projet, baseUrl }),
-      )
-      .with(
-        {
-          type: P.union(
-            'LauréatNotifié-V1',
-            'LauréatNotifié-V2',
-            'NomEtLocalitéLauréatImportés-V1',
-            'NomProjetModifié-V1',
-            'SiteDeProductionModifié-V1',
-          ),
-        },
-        () => Promise.resolve(),
+        handleChangementNomProjetEnregistré({ sendEmail, event }),
       )
       .exhaustive();
   };

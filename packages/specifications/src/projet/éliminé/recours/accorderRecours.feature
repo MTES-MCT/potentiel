@@ -24,7 +24,8 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Et un email a été envoyé à la cre avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
-        Mais l'attestation de désignation de la candidature ne devrait pas être régénérée
+        Mais aucun autre email n'a été envoyé
+        Et l'attestation de désignation de la candidature ne devrait pas être régénérée
 
     Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé

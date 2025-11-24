@@ -20,6 +20,7 @@ export * as InstallationNotification from './subscribers/lauréat/installation/i
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation/index.js';
 
 // Éliminé
+export * as ÉliminéNotification from './subscribers/éliminé/éliminé/éliminé.notifications.js';
 export * as RecoursNotification from './subscribers/éliminé/recours/recours.notifications.js';
 
 // Période

@@ -27,19 +27,17 @@ Fonctionnalité: Désactiver un utilisateur
     Scénario: Un porteur de projet désactivé ne recoit plus d'email
         Etant donné le porteur du projet désactivé
         Quand la DREAL associée au projet modifie l'actionnaire pour le projet lauréat
-        Alors un email n'a pas été envoyé au porteur avec :
+        Alors un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-        Mais un email a été envoyé à la dreal avec :
-            | sujet | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+        Mais aucun autre email n'a été envoyé
 
     Scénario: Un utilisateur désactivé ne recoit plus d'email
         Etant donné un utilisateur désactivé avec le rôle "ademe"
         Et une période avec des candidats importés
         Quand un DGEC validateur notifie la période d'un appel d'offres
-        Alors un email n'a pas été envoyé à l'utilisateur avec :
+        Alors un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Notification de la période (.*) de l'appel d'offres (.*) |
-        Mais un email a été envoyé à la dreal avec :
-            | sujet | Potentiel - Notification de la période (.*) de l'appel d'offres (.*) |
+        Mais aucun autre email n'a été envoyé
 
     Scénario: Désactiver un porteur de projet
         Quand un administrateur désactive le porteur du projet

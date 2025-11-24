@@ -7,10 +7,12 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Quand un DGEC validateur notifie la période d'un appel d'offres
         Alors la période devrait être notifiée avec les lauréats et les éliminés
         Et les candidatures de la période notifiée devraient être notifiées
+        Et les lauréats et éliminés devraient être consultables
         Et les porteurs doivent avoir accès à leur projet
         Et les attestations de désignation des candidatures de la période notifiée devraient être consultables
         Et les porteurs ont été prévenu que leurs candidatures ont été notifiées
-        Et les lauréats et éliminés devraient être consultables
+        Et les partenaires ont été prévenus de la notification de la période
+        Et aucun autre email n'a été envoyé
 
     Scénario: Notifier les candidats oubliés d'une période d'un appel d'offres
         Etant donné une période avec des candidats notifiés

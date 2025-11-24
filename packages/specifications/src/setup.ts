@@ -72,12 +72,11 @@ const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = 
 BeforeStep(async ({ pickleStep }) => {
   // As read data are inconsistant, we wait 100ms before each step.
   if (pickleStep.type !== 'Context') {
-    // As read data are inconsistant, we wait 100ms before each step.
     await sleep(100);
   }
 });
 
-AfterStep(async function (this: PotentielWorld, { result, pickle }) {
+AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) {
   await waitForSagasNotificationsAndProjectionsToFinish();
 
   const expectsErrorOutcome = pickle.steps.find(
@@ -86,6 +85,11 @@ AfterStep(async function (this: PotentielWorld, { result, pickle }) {
 
   if (this.hasError && result.status === 'PASSED' && !expectsErrorOutcome) {
     throw this.error;
+  }
+
+  // ignore notifications sent in context steps
+  if (pickleStep.type === 'Context') {
+    this.notificationWorld.resetNotifications();
   }
 });
 
@@ -144,7 +148,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   await initialiserUtilisateursTests.call(this);
 });
 
-After(async () => {
+After(async function (this: PotentielWorld) {
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
