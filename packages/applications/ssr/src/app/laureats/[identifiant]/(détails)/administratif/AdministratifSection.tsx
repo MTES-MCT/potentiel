@@ -3,7 +3,7 @@ import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { Heading2 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
-import { Section } from './Section';
+import { Section } from '../(components)/Section';
 
 // Nom candidat
 // Représentant Légal

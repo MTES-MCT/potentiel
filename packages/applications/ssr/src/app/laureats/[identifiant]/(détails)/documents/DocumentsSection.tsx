@@ -10,7 +10,7 @@ import { ColumnTemplate } from '@/components/templates/Column.templace';
 // retrouver les documents à télécharger
 // alertes sur les documents manquants ?
 
-export const DocumentSection = () => (
+export const DocumentsSection = () => (
   <ColumnTemplate
     heading={<Heading2>Mes documents pour ce projet</Heading2>}
     leftColumn={{

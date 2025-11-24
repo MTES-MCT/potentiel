@@ -5,13 +5,13 @@ import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnTemplate } from '@/components/templates/Column.templace';
 
-import { Section } from './Section';
+import { Section } from '../(components)/Section';
 
-export const MatérielEtTechnologieSection = () => (
+export const FournisseursSection = () => (
   <ColumnTemplate
-    heading={<Heading1>Matériel et Technologies</Heading1>}
+    heading={<Heading1>Fournisseurs</Heading1>}
     leftColumn={{
-      children: <MatérielEtTechnologie />,
+      children: <Fournisseurs />,
     }}
     rightColumn={{
       children: (
@@ -39,7 +39,7 @@ export const MatérielEtTechnologieSection = () => (
   />
 );
 
-const MatérielEtTechnologie = () => (
+const Fournisseurs = () => (
   <div className="flex flex-col gap-4">
     <Section title="Évaluation carbone simplifiée">
       <span>55 kg eq CO2/kWc</span>
