@@ -21,12 +21,14 @@ export default function SignIn({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { callbackUrl, forceProConnect } = searchParamsSchema.parse(searchParams);
     const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
+    const providersKO = process.env.NEXTAUTH_PROVIDERS_KO?.split(',') ?? [];
 
     return (
       <SignInPage
         providers={providers}
         callbackUrl={callbackUrl ?? Routes.Auth.redirectToDashboard()}
         forceProConnect={forceProConnect}
+        providersKO={providersKO}
       />
     );
   });
