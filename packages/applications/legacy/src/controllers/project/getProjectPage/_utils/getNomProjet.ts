@@ -33,15 +33,14 @@ export const getNomProjet = async ({
   estAbandonné,
   estAchevé,
 }: Props): Promise<GetNomProjetForProjectPage> => {
-  const { peutEnregistrerChangement, peutModifier } =
-    await checkAutorisationChangement<'nomProjet'>({
-      rôle,
-      aUnAbandonEnCours,
-      estAbandonné,
-      estAchevé,
-      règlesChangementPourAppelOffres,
-      domain: 'nomProjet',
-    });
+  const { peutEnregistrerChangement, peutModifier } = await checkAutorisationChangement({
+    rôle,
+    aUnAbandonEnCours,
+    estAbandonné,
+    estAchevé,
+    règlesChangementPourAppelOffres,
+    domain: 'nomProjet',
+  });
 
   return {
     nom: project.nomProjet,
