@@ -9,12 +9,11 @@ import { ColumnTemplate } from '@/components/templates/Column.templace';
 
 import { Timeline } from '../../../../../components/organisms/timeline';
 import { Heading2 } from '../../../../../components/atoms/headings';
-
-import { Section } from './Section';
+import { Section } from '../(components)/Section';
 
 // Ajouter infos sur le CDC
 
-export const VueEnsembleSection = () => (
+export const VueDEnsembleSection = () => (
   <ColumnTemplate
     heading={<Heading2>Vue d'ensemble</Heading2>}
     leftColumn={{

@@ -11,7 +11,7 @@ type LayoutProps = {
 };
 
 const tabs: TabsProps.Controlled['tabs'] = [
-  { label: "Vue d'ensemble", tabId: '', iconId: 'ri-dashboard-line' },
+  { label: "Vue d'ensemble", tabId: 'vue-d-ensemble', iconId: 'ri-dashboard-line' },
   {
     label: 'Informations Générales',
     tabId: 'informations-generales',
@@ -31,7 +31,7 @@ export default function LauréatDétailsLayout({ children, params: { identifiant
   const pathname = usePathname();
   const getTabIdFromPath = () => {
     const pathParts = pathname.split('/');
-    return pathParts.length > 3 && tabsIds.includes(pathParts[3]) ? pathParts[3] : '';
+    return pathParts.length > 3 && tabsIds.includes(pathParts[3]) ? pathParts[3] : 'vue-d-ensemble';
   };
   const [selectedTabId, setSelectedTabId] = useState(getTabIdFromPath());
 
