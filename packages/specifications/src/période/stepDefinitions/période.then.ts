@@ -10,6 +10,7 @@ import { Accès, IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domai
 import { Candidature } from '@potentiel-domain/projet';
 import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -112,32 +113,43 @@ Alors(
       this.périodeWorld.notifierPériodeFixture.éliminés,
     );
 
-    const candidatAvecMultipleProjets = candidats.find(
-      (candidat, _, self) =>
-        self.filter((projet) => projet.emailContact === candidat.emailContact).length > 1,
-    );
-    assert(
-      !!candidatAvecMultipleProjets,
-      'Le jeu de donnée devrait avoir au moins un candidat avec plusieurs projets',
-    );
-
     await waitForExpect(async () => {
-      const emailsCandidats = new Set(candidats.map((projet) => projet.emailContact));
-      for (const email of emailsCandidats) {
+      for (const candidat of candidats) {
         const notif = this.notificationWorld.récupérerNotification(
-          email,
+          candidat.emailContact,
           "Résultats de la .* période de l'appel d'offres .*",
         );
+        const identifiantProjet = IdentifiantProjet.bind(candidat);
 
-        const projets = candidats.filter((projet) => projet.emailContact === email);
-        if (projets.length === 1) {
-          const identifiantProjet = IdentifiantProjet.bind(projets[0]);
-          expect(notif.variables.redirect_url).to.equal(
-            `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
-          );
-        } else {
-          expect(notif.variables.redirect_url).to.equal(`https://potentiel.beta.gouv.fr`);
-        }
+        expect(notif.variables.redirect_url).to.equal(
+          `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+        );
+      }
+    });
+  },
+);
+
+Alors(
+  'les partenaires ont été prévenus de la notification de la période',
+  async function (this: PotentielWorld) {
+    const { identifiantPériode } = this.périodeWorld;
+
+    await waitForExpect(async () => {
+      const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+          actif: true,
+        },
+      });
+
+      for (const { email } of usersOthersThanDGECOrPorteur.items) {
+        const notif = this.notificationWorld.récupérerNotification(
+          email,
+          `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
+        );
+
+        expect(notif).to.not.be.undefined;
       }
     });
   },

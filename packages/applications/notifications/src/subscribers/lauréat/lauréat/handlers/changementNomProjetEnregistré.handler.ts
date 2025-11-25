@@ -1,28 +1,17 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
 import { lauréatNotificationTemplateId } from '../constant.js';
-import { RegisterLauréatNotificationDependencies } from '../lauréat.notifications.js';
-
-type HandleChangementNomProjetEnregistréProps = {
-  sendEmail: RegisterLauréatNotificationDependencies['sendEmail'];
-  event: Lauréat.ChangementNomProjetEnregistréEvent;
-  projet: {
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
+import { LauréatNotificationsProps } from '../type.js';
 
 export const handleChangementNomProjetEnregistré = async ({
   sendEmail,
   event,
-  projet,
-  baseUrl,
-}: HandleChangementNomProjetEnregistréProps) => {
+}: LauréatNotificationsProps<Lauréat.ChangementNomProjetEnregistréEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const projet = await getLauréat(identifiantProjet.formatter());
   const dreals = await listerDrealsRecipients(projet.région);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
@@ -33,7 +22,7 @@ export const handleChangementNomProjetEnregistré = async ({
     variables: {
       ancien_nom_projet: event.payload.ancienNomProjet,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())})}`,
+      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet.formatter())})}`,
     },
   });
 
@@ -44,7 +33,7 @@ export const handleChangementNomProjetEnregistré = async ({
     variables: {
       ancien_nom_projet: event.payload.ancienNomProjet,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())})}`,
+      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet.formatter())})}`,
     },
   });
 };

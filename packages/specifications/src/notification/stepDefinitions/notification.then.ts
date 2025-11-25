@@ -6,7 +6,6 @@ import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -28,18 +27,9 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
   });
 }
 
-export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
+export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string) {
   await sleep(500);
-  const exemple = data.rowsHash();
-  const destinataires = this.notificationWorld
-    .récupérerDestinataires(exemple.sujet)
-    .map(({ recipients }) => recipients.map((r) => r.email))
-    .flat();
-
-  expect(destinataires).not.to.contain(
-    Email.convertirEnValueType(email).email,
-    'Un email non désiré à été envoyé',
-  );
+  this.notificationWorld.vérifierAucunEmailsEnvoyés(email);
 }
 
 Alors(
@@ -49,20 +39,14 @@ Alors(
   },
 );
 
-Alors(
-  `un email n'a pas été envoyé au porteur avec :`,
-  async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
-  },
-);
+Alors(`aucun email n'a été envoyé au porteur`, async function (this: PotentielWorld) {
+  await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email);
+});
 
-Alors(
-  `un email n'a pas été envoyé à l'utilisateur avec :`,
-  async function (this: PotentielWorld, data: DataTable) {
-    const email = this.utilisateurWorld.inviterUtilisateur.email;
-    await vérifierEmailNonEnvoyé.call(this, email, data);
-  },
-);
+Alors(`aucun email n'a été envoyé à l'utilisateur`, async function (this: PotentielWorld) {
+  const email = this.utilisateurWorld.inviterUtilisateur.email;
+  await vérifierEmailNonEnvoyé.call(this, email);
+});
 
 Alors(
   'un email a été envoyé à la dreal avec :',
@@ -134,3 +118,8 @@ Alors(
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.creFixture.email, data);
   },
 );
+
+Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld) {
+  await sleep(200);
+  this.notificationWorld.vérifierToutesNotificationsPointées();
+});

@@ -6,4 +6,5 @@ export const lauréatNotificationTemplateId = {
   nomProjet: {
     enregistrerChangement: 7463935,
   },
+  projetNotifié: 1350523,
 };
