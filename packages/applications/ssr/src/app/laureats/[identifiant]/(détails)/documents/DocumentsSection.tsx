@@ -4,14 +4,15 @@ import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnTemplate } from '@/components/templates/Column.templace';
+
+import { ColumnPageTemplate } from '../../../../../components/templates/ColumnPage.template';
 
 // l'onglet pour ses documents
 // retrouver les documents à télécharger
 // alertes sur les documents manquants ?
 
 export const DocumentsSection = () => (
-  <ColumnTemplate
+  <ColumnPageTemplate
     heading={<Heading2>Mes documents</Heading2>}
     leftColumn={{
       children: (

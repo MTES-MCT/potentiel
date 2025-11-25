@@ -1,47 +1,42 @@
 'use client';
-import Tabs, { TabsProps } from '@codegouvfr/react-dsfr/Tabs';
-import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { SideMenu } from '@codegouvfr/react-dsfr/SideMenu';
+import { usePathname } from 'next/navigation';
 
 import { decodeParameter } from '@/utils/decodeParameter';
+
+import { mapMenuItemsToSideMenuItems, menuItems } from '../_helpers/mapMenuItemsToSideMenuItems';
 
 type LayoutProps = {
   children: React.ReactNode;
   params: { identifiant: string };
 };
 
-const tabs: TabsProps.Controlled['tabs'] = [
-  { label: "Vue d'ensemble", tabId: '', iconId: 'ri-dashboard-line' },
-  {
-    label: 'Informations Générales',
-    tabId: 'informations-generales',
-    iconId: 'ri-focus-line',
-  },
-  { label: 'Administratif', tabId: 'administratif', iconId: 'ri-focus-line' },
-  { label: 'Installation', tabId: 'installation', iconId: 'ri-home-line' },
-  { label: 'Évaluation Carbone', tabId: 'evaluation-carbone', iconId: 'ri-building-3-line' },
-  { label: 'Documents', tabId: 'documents', iconId: 'ri-file-line' },
-];
-
-const tabsIds = tabs.map((tab) => tab.tabId);
-
 export default function LauréatDétailsLayout({ children, params: { identifiant } }: LayoutProps) {
   const identifiantProjet = decodeParameter(identifiant);
-  const router = useRouter();
   const pathname = usePathname();
+
+  // à voir pour cette fonction
   const getTabIdFromPath = () => {
     const pathParts = pathname.split('/');
-    return pathParts.length > 3 && tabsIds.includes(pathParts[3]) ? pathParts[3] : '';
+    return pathParts.length > 3 ? pathParts[3] : '';
   };
-  const [selectedTabId, setSelectedTabId] = useState(getTabIdFromPath());
 
-  useEffect(() => {
-    router.push(`/laureats/${encodeURIComponent(identifiantProjet)}/${selectedTabId}`);
-  }, [selectedTabId]);
+  const selectedTabId = getTabIdFromPath();
+
+  const baseURL = `/laureats/${encodeURIComponent(identifiantProjet)}`;
 
   return (
-    <Tabs selectedTabId={selectedTabId} tabs={tabs} onTabChange={setSelectedTabId}>
-      {children}
-    </Tabs>
+    <div className="flex flex-col gap-2 fr-container">
+      <div className="flex flex-row">
+        <SideMenu
+          align="left"
+          className="max-w-64"
+          burgerMenuButtonText="Menu"
+          items={mapMenuItemsToSideMenuItems(menuItems, baseURL, selectedTabId)}
+          title="Votre projet"
+        />
+        {children}
+      </div>
+    </div>
   );
 }

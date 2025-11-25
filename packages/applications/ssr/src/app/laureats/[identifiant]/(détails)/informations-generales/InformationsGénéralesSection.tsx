@@ -1,50 +1,32 @@
-import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnTemplate } from '@/components/templates/Column.templace';
 
 import { Section } from '../(components)/Section';
+import { ColumnPageTemplate } from '../../../../../components/templates/ColumnPage.template';
 
 // Site de production
-// GFs
-// Raccordement
 // Puissance
 // Prix
 // Ajouter infos sur le CDC
+// puissance
+// autorisation d'urbanisme
+// GFs
+// Raccordement
 
 export const InformationsGénéralesSection = () => (
-  <ColumnTemplate
+  <ColumnPageTemplate
     heading={<Heading2>Informations Générales</Heading2>}
     leftColumn={{
-      children: <InformationGénérales />,
+      children: <InformationGénéralesLeft />,
     }}
     rightColumn={{
-      children: (
-        <ButtonsGroup
-          buttonsSize="medium"
-          buttonsEquisized
-          alignment="center"
-          inlineLayoutWhen="always"
-          className="flex flex-col gap-1"
-          buttons={[
-            {
-              children: 'Modifier les garanties financières',
-              iconId: 'fr-icon-mail-line',
-              priority: 'secondary',
-            },
-            {
-              children: 'Modifier le site de production',
-              iconId: 'fr-icon-mail-line',
-              priority: 'secondary',
-            },
-          ]}
-        />
-      ),
+      children: <InformationGénéralesRight />,
     }}
   />
 );
 
-const InformationGénérales = () => (
+const InformationGénéralesLeft = () => (
   <div className="flex flex-col gap-4">
     <Section title="Informations du projet">
       <>
@@ -64,6 +46,29 @@ const InformationGénérales = () => (
         </div>
       </>
     </Section>
+    <Section title="Performances">
+      <span>Puissance installée : 5 MWc</span>
+      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+        Modifier la puissance
+      </Button>
+    </Section>
+    <Section title="Autorisation d'urbanisme">
+      <ul className="list-none m-0 pl-0">
+        <li>Numéro : PC 084 088 24 A0029</li>
+        <li>Date d'obtention : 22/09/2025</li>
+      </ul>
+    </Section>
+    <Section title="Nature de l'exploitation">
+      <span>Vente avec injection en totalité</span>
+      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+        Modifier la nature de l'exploitation
+      </Button>
+    </Section>
+  </div>
+);
+
+const InformationGénéralesRight = () => (
+  <div className="flex flex-col gap-4">
     <Section title="Raccordement au réseau">
       <>
         <div className="flex flex-col gap-2">

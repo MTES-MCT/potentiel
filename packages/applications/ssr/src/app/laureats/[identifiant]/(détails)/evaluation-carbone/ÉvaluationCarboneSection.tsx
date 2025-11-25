@@ -1,50 +1,36 @@
 'use client';
 
-import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnTemplate } from '@/components/templates/Column.templace';
 
 import { Section } from '../(components)/Section';
+import { ColumnPageTemplate } from '../../../../../components/templates/ColumnPage.template';
 
 export const ÉvaluationCarboneSection = () => (
-  <ColumnTemplate
+  <ColumnPageTemplate
     heading={<Heading2>Évaluation Carbone</Heading2>}
     leftColumn={{
       children: <ÉvaluationCarbone />,
     }}
     rightColumn={{
-      children: (
-        <ButtonsGroup
-          buttonsSize="medium"
-          buttonsEquisized
-          alignment="center"
-          inlineLayoutWhen="always"
-          className="flex flex-col gap-1"
-          buttons={[
-            {
-              children: 'Modifier les fournisseurs',
-              iconId: 'fr-icon-mail-line',
-              priority: 'secondary',
-            },
-            {
-              children: "Modifier l'évaluation carbone",
-              iconId: 'fr-icon-mail-line',
-              priority: 'secondary',
-            },
-          ]}
-        />
-      ),
+      children: <Fournisseurs />,
     }}
   />
 );
 
 const ÉvaluationCarbone = () => (
-  <div className="flex flex-col gap-4">
-    <Section title="Évaluation carbone simplifiée">
-      <span>55 kg eq CO2/kWc</span>
-    </Section>
-    <Section title="Fournisseurs">
+  <Section title="Évaluation carbone simplifiée">
+    <span>55 kg eq CO2/kWc</span>
+    <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+      Modifier l'évaluation carbone
+    </Button>
+  </Section>
+);
+
+const Fournisseurs = () => (
+  <Section title="Fournisseurs">
+    <>
       <ul className="flex flex-col gap-2">
         <li key={1}>
           <span>Postes de conversion : Samsung</span>
@@ -53,6 +39,9 @@ const ÉvaluationCarbone = () => (
           <span>Autres : Apple</span>
         </li>
       </ul>
-    </Section>
-  </div>
+      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+        Modifier les fournisseurs
+      </Button>
+    </>
+  </Section>
 );

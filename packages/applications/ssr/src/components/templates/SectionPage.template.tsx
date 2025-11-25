@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-type ColumnTemplateProps = {
+type SectionPageTemplateProps = {
   children?: React.ReactNode;
   heading?: React.ReactNode;
   leftColumn: {
@@ -13,7 +13,7 @@ type ColumnTemplateProps = {
   };
 };
 
-export const ColumnTemplate: FC<ColumnTemplateProps> = ({
+export const SectionPageTemplate: FC<SectionPageTemplateProps> = ({
   children,
   heading,
   leftColumn,
