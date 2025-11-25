@@ -8,8 +8,15 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 export const mapToNomProjetModifiéTimelineItemProps = (
   event: Lauréat.NomProjetModifiéEvent,
 ): TimelineItemProps => {
-  const { nomProjet, modifiéLe, modifiéPar, raison, identifiantProjet, pièceJustificative } =
-    event.payload;
+  const {
+    nomProjet,
+    modifiéLe,
+    modifiéPar,
+    raison,
+    identifiantProjet,
+    pièceJustificative,
+    ancienNomProjet,
+  } = event.payload;
 
   return {
     date: modifiéLe,
@@ -19,6 +26,9 @@ export const mapToNomProjetModifiéTimelineItemProps = (
       <div className="flex flex-col gap-2">
         <div>
           Nouveau nom : <span className="font-semibold">{nomProjet}</span>
+        </div>
+        <div>
+          Ancien nom : <span className="font-semibold">{ancienNomProjet}</span>
         </div>
         {raison && (
           <div>

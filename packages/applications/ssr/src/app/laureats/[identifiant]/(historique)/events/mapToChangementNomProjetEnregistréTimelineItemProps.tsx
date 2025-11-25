@@ -9,8 +9,15 @@ import { ReadMore } from '../../../../../components/atoms/ReadMore';
 export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   event: Lauréat.ChangementNomProjetEnregistréEvent,
 ): TimelineItemProps => {
-  const { nomProjet, enregistréLe, enregistréPar, raison, pièceJustificative, identifiantProjet } =
-    event.payload;
+  const {
+    nomProjet,
+    enregistréLe,
+    enregistréPar,
+    raison,
+    pièceJustificative,
+    identifiantProjet,
+    ancienNomProjet,
+  } = event.payload;
 
   return {
     date: enregistréLe,
@@ -20,6 +27,9 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
       <div className="flex flex-col gap-2">
         <div>
           Nouveau nom : <span className="font-semibold">{nomProjet}</span>
+        </div>
+        <div>
+          Ancien nom : <span className="font-semibold">{ancienNomProjet}</span>
         </div>
         <div>
           Raison : <ReadMore text={raison} className="font-semibold" />
