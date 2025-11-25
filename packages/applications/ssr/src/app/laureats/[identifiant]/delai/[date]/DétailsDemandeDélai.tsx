@@ -12,6 +12,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 
 import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
@@ -111,7 +112,7 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) =>
     <div className="text-xs italic">
       Demandé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
-      <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
+      <DisplayAuteur email={Email.bind(demandéPar)} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">
