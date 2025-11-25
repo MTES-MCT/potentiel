@@ -5,6 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import { AbstractFixture } from '../../../../fixture';
+import { LauréatWorld } from '../../lauréat.world';
 
 interface TransmettreDateAchèvement {
   readonly dateAchèvement: string;
@@ -33,10 +34,20 @@ export class TransmettreDateAchèvementFixture
   get transmisePar(): string {
     return this.#transmisePar;
   }
+  constructor(public readonly lauréatWorld: LauréatWorld) {
+    super();
+  }
 
   créer(partialFixture?: Partial<TransmettreDateAchèvement>): TransmettreDateAchèvement {
     const fixture: TransmettreDateAchèvement = {
-      dateAchèvement: faker.date.past().toISOString(),
+      dateAchèvement: faker.date
+        .between({
+          from: new Date(
+            new Date(this.lauréatWorld.notifierLauréatFixture.notifiéLe).getTime() + 1,
+          ),
+          to: new Date(),
+        })
+        .toISOString(),
       transmiseLe: faker.date.recent().toISOString(),
       transmisePar: faker.internet.email(),
       ...partialFixture,
