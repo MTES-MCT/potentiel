@@ -16,11 +16,17 @@ import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
 
 type SignInPageProps = {
   providers: Array<string>;
+  providersKO: Array<string>;
   callbackUrl: string;
   forceProConnect?: boolean;
 };
 
-export default function SignInPage({ providers, callbackUrl, forceProConnect }: SignInPageProps) {
+export default function SignInPage({
+  providers,
+  providersKO,
+  callbackUrl,
+  forceProConnect,
+}: SignInPageProps) {
   const { status, data } = useSession();
 
   const onlyKeycloak = providers.length === 1 && providers.includes('keycloak');
@@ -61,6 +67,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
               {providers.includes('proconnect') && (
                 <Tile
                   title="ProConnect"
+                  disabled={providersKO.includes('proconnect')}
                   desc={
                     <div className="flex flex-col">
                       <ProfilesBadge
@@ -72,11 +79,25 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                         }}
                         title="Profils pouvant se connecter avec ProConnect, la solution d'identité de l'État pour les professionnels"
                       />
-                      Connectez-vous facilement à l'aide de votre adresse professionnelle
+                      {providersKO.includes('proconnect') ? (
+                        <div>
+                          <strong>
+                            Le service de connexion par Proconnect est temporairement indisponible.
+                          </strong>{' '}
+                          Nos équipes travaillent à la résolution de ce problème. Nous vous invitons
+                          à utiliser une autre méthode de connexion en attendant.
+                        </div>
+                      ) : (
+                        <div>
+                          Connectez-vous facilement à l'aide de votre adresse professionnelle
+                        </div>
+                      )}
                     </div>
                   }
                   detail={
-                    <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                    !providersKO.includes('proconnect') && (
+                      <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                    )
                   }
                   className="flex-1"
                 />
@@ -85,6 +106,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
               {providers.includes('email') && (
                 <Tile
                   title="Lien magique"
+                  disabled={providersKO.includes('email')}
                   desc={
                     <div className="flex flex-col">
                       <ProfilesBadge
@@ -96,11 +118,26 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
                         }}
                         title="Profils pouvant se connecter avec un lien de connexion envoyé par email"
                       />
-                      Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui
-                      sera envoyé sur votre adresse de courriel
+                      {providersKO.includes('email') ? (
+                        <div>
+                          <strong>
+                            Le service de connexion par lien magique est temporairement
+                            indisponible.
+                          </strong>{' '}
+                          Nos équipes travaillent à la résolution de ce problème. Nous vous invitons
+                          à utiliser une autre méthode de connexion en attendant.
+                        </div>
+                      ) : (
+                        <div>
+                          Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui
+                          sera envoyé sur votre adresse de courriel
+                        </div>
+                      )}
                     </div>
                   }
-                  detail={<MagicLinkForm callbackUrl={callbackUrl} />}
+                  detail={
+                    !providersKO.includes('email') && <MagicLinkForm callbackUrl={callbackUrl} />
+                  }
                   className="flex-1"
                 />
               )}
