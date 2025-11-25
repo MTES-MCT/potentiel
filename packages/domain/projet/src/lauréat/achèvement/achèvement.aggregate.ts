@@ -82,6 +82,12 @@ export class AchèvementAggregate extends AbstractAggregate<
     );
   }
 
+  private vérifierDateAchèvementPostérieureDateNotification(dateAchèvement: DateTime.ValueType) {
+    if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
+      throw new DateAchèvementAntérieureÀDateNotificationError();
+    }
+  }
+
   async getDateAchèvementPrévisionnelCalculée(
     options: CalculerDateAchèvementPrévisionnelOptions,
   ): Promise<DateAchèvementPrévisionnel.RawType> {
@@ -115,6 +121,8 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     const date = await this.getDateAchèvementPrévisionnelCalculée(options);
 
+    this.vérifierDateAchèvementPostérieureDateNotification(DateTime.convertirEnValueType(date));
+
     const event: DateAchèvementPrévisionnelCalculéeEvent = {
       type: 'DateAchèvementPrévisionnelCalculée-V1',
       payload: {
@@ -143,6 +151,8 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();
     }
+
+    this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
 
     if (
       Option.isSome(this.attestationConformité) &&
@@ -182,6 +192,8 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new DateDeTransmissionAuCoContractantFuturError();
     }
 
+    this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
+
     if (Option.isNone(this.attestationConformité)) {
       throw new AucuneAttestationDeConformitéÀCorrigerError();
     }
@@ -217,9 +229,7 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new ProjetAbandonnéError();
     }
 
-    if (dateAchèvement.estAntérieurÀ(this.lauréat.notifiéLe)) {
-      throw new DateAchèvementAntérieureÀDateNotificationError();
-    }
+    this.vérifierDateAchèvementPostérieureDateNotification(dateAchèvement);
 
     if (dateAchèvement.estDansLeFutur()) {
       throw new DateAchèvementDansLeFuturError();
