@@ -12,6 +12,7 @@ import { Timeline } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 
 import {
   TransmettrePreuveRecandidature,
@@ -58,70 +59,66 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   informations,
   projetsÀSélectionner,
   historique,
-}) => {
-  const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
-  const demandéPar = Email.bind(abandon.demande.demandéPar).formatter();
-
-  return (
-    <ColumnPageTemplate
-      heading={<Heading1>Demande d'abandon</Heading1>}
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-row gap-4">
-              <Heading2>Détails</Heading2>
-              <StatutDemandeBadge statut={abandon.statut.statut} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="text-xs italic gap-2 font-semibold">
-                Demandé le <FormattedDate date={demandéLe} /> par{' '}
-                <span className="font-semibold">{demandéPar}</span>
-              </div>
-              {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
-                <div>
-                  Abandon avec recandidature :{' '}
-                  <StatutPreuveRecandidatureBadge
-                    statut={abandon.demande.recandidature.statut.statut}
-                  />
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <div className="whitespace-nowrap font-semibold">
-                Autorité compétente pour l'instruction :
-              </div>
-              {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
-            </div>
-            <div className="flex gap-2">
-              <div className="whitespace-nowrap font-semibold">Raison :</div>
-              <blockquote>"{abandon.demande.raison}"</blockquote>
-            </div>
-            <div className="mb-4">
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
-            </div>
+}) => (
+  <ColumnPageTemplate
+    heading={<Heading1>Demande d'abandon</Heading1>}
+    leftColumn={{
+      children: (
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-row gap-4">
+            <Heading2>Détails</Heading2>
+            <StatutDemandeBadge statut={abandon.statut.statut} />
           </div>
-        ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {mapToActionComponents({
-              actions,
-              identifiantProjet,
-              projetsÀSélectionner,
-            })}
-            {mapToInformationsComponents({
-              informations,
-              identifiantProjet,
-            })}
-          </>
-        ),
-      }}
-    />
-  );
-};
+          <div className="flex flex-col gap-2">
+            <div className="text-xs italic gap-2 font-semibold">
+              Demandé le{' '}
+              <FormattedDate date={DateTime.bind(abandon.demande.demandéLe).formatter()} />
+              <DisplayAuteur email={Email.bind(abandon.demande.demandéPar)} />
+            </div>
+            {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
+              <div>
+                Abandon avec recandidature :{' '}
+                <StatutPreuveRecandidatureBadge
+                  statut={abandon.demande.recandidature.statut.statut}
+                />
+              </div>
+            )}
+          </div>
+          <div className="flex gap-2">
+            <div className="whitespace-nowrap font-semibold">
+              Autorité compétente pour l'instruction :
+            </div>
+            {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+          </div>
+          <div className="flex gap-2">
+            <div className="whitespace-nowrap font-semibold">Raison :</div>
+            <blockquote>"{abandon.demande.raison}"</blockquote>
+          </div>
+          <div className="mb-4">
+            <Heading2>Historique</Heading2>
+            <Timeline items={historique} />
+          </div>
+        </div>
+      ),
+    }}
+    rightColumn={{
+      className: 'flex flex-col gap-8',
+      children: (
+        <>
+          {mapToActionComponents({
+            actions,
+            identifiantProjet,
+            projetsÀSélectionner,
+          })}
+          {mapToInformationsComponents({
+            informations,
+            identifiantProjet,
+          })}
+        </>
+      ),
+    }}
+  />
+);
 
 type MapToActionsComponentsProps = {
   actions: AvailableActions;
