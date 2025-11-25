@@ -204,6 +204,7 @@ export const ProjectActions = ({
             dispositifDeStockageAffichage,
             natureDeLExploitationAffichage,
             siteDeProductionAffichage,
+            nomProjet.affichage,
           ]}
         />
       )}
@@ -240,6 +241,7 @@ export const ProjectActions = ({
             typologieInstallationAffichage,
             dispositifDeStockageAffichage,
             natureDeLExploitationAffichage,
+            nomProjet.affichage,
           ]}
         />
       )}

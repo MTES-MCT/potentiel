@@ -9,9 +9,9 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../historique/ma
 
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
-import { mapToNomProjetModifiéTimelineItemProps } from './events/mapToLauréatModifiéTimelineItemProps';
 import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToSiteDeProductionModifiéTimelineItemProps';
 import { mapToChangementNomProjetEnregistréTimelineItemProps } from './events/mapToChangementNomProjetEnregistréTimelineItemProps';
+import { mapToNomProjetModifiéTimelineItemProps } from './events/mapToNomProjetModifiéTimelineItemProps';
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 

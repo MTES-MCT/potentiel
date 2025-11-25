@@ -50,6 +50,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
       'LauréatNotifié-V2',
       'ChangementNomProjetEnregistré-V1',
       'CahierDesChargesChoisi-V1',
+      'NomProjetModifié-V1',
     ],
     messageType: 'System.Notification.Lauréat',
   });

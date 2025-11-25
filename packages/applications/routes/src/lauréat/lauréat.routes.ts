@@ -28,6 +28,9 @@ export const détails = (
 export const modifierSiteDeProduction = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/site-de-production/modifier`;
 
+export const modifierNomProjet = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/nom-projet/modifier`;
+
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/modifier`;
 

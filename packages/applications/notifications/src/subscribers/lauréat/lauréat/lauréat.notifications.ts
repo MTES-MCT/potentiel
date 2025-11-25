@@ -8,11 +8,13 @@ import { SendEmail } from '#sendEmail';
 import { handleCahierDesChargesChoisi } from './handlers/cahierDesChargesChoisi.handler.js';
 import { handleChangementNomProjetEnregistré } from './handlers/changementNomProjetEnregistré.handler.js';
 import { handleLauréatNotifié } from './handlers/lauréatNotifié.handler.js';
+import { handleNomProjetModifié } from './handlers/nomProjetModifié.handler.js';
 
 export type SubscriptionEvent =
   | Lauréat.CahierDesChargesChoisiEvent
   | Lauréat.ChangementNomProjetEnregistréEvent
-  | Lauréat.LauréatNotifiéEvent;
+  | Lauréat.LauréatNotifiéEvent
+  | Lauréat.NomProjetModifiéEvent;
 
 export type Execute = Message<'System.Notification.Lauréat', SubscriptionEvent>;
 
@@ -29,6 +31,9 @@ export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies
       )
       .with({ type: 'ChangementNomProjetEnregistré-V1' }, (event) =>
         handleChangementNomProjetEnregistré({ sendEmail, event }),
+      )
+      .with({ type: 'NomProjetModifié-V1' }, (event) =>
+        handleNomProjetModifié({ sendEmail, event }),
       )
       .exhaustive();
   };
