@@ -39,28 +39,28 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
 
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
-  if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
-    if (!SEND_EMAILS_FROM) {
-      throw new Error('SEND_EMAILS_FROM must be set to send emails');
-    }
-    const {
-      templateId,
-      messageSubject,
-      recipients: allTo,
-      cc: allCc = [],
-      bcc: allBcc = [],
-      variables,
-    } = sendEmailArgs;
+  const {
+    templateId,
+    messageSubject,
+    recipients: allTo,
+    cc: allCc = [],
+    bcc: allBcc = [],
+    variables,
+  } = sendEmailArgs;
 
-    if (allTo.length === 0 && allCc.length === 0 && allBcc.length === 0) {
-      logger.error('No recipients provided for email', sendEmailArgs);
-      return;
-    }
+  if (allTo.length === 0 && allCc.length === 0 && allBcc.length === 0) {
+    logger.error('No recipients provided for email', sendEmailArgs);
+    return;
+  }
 
-    while (allTo.length > 0 || allCc.length > 0 || allBcc.length > 0) {
-      const to = allTo.splice(0, MAX_RECIPIENTS);
-      const cc = allCc.splice(0, MAX_RECIPIENTS);
-      const bcc = allBcc.splice(0, MAX_RECIPIENTS);
+  while (allTo.length > 0 || allCc.length > 0 || allBcc.length > 0) {
+    const to = allTo.splice(0, MAX_RECIPIENTS);
+    const cc = allCc.splice(0, MAX_RECIPIENTS);
+    const bcc = allBcc.splice(0, MAX_RECIPIENTS);
+    if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
+      if (!SEND_EMAILS_FROM) {
+        throw new Error('SEND_EMAILS_FROM must be set to send emails');
+      }
       await getMailjetClient()
         .post('send', { version: 'v3.1' })
         .request({
@@ -81,13 +81,13 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
           ],
           SandboxMode: mode === 'sandbox',
         });
-    }
 
-    logger.info('Email sent', sendEmailArgs);
-  } else {
-    logger.info(
-      '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
-      sendEmailArgs,
-    );
+      logger.info('Email sent', sendEmailArgs);
+    } else {
+      logger.info(
+        '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
+        sendEmailArgs,
+      );
+    }
   }
 };
