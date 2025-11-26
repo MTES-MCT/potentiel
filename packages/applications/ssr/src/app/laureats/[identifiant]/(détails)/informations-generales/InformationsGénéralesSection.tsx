@@ -72,6 +72,18 @@ const InformationGénéralesLeft = () => (
   </div>
 );
 
+// const AdministratifRight = () => (
+//   <Section title="Contacts">
+//     <div className="flex flex-col gap-2">
+//       <span className="mb-0 font-semibold">Nom du candidat</span>
+//       <span>Michel Berger</span>
+//     </div>
+//     <div className="flex flex-col gap-2">
+//       <span className="mb-0 font-semibold">Adresse email de candidature</span>
+//       <span>berber@gmail.com</span>
+//     </div>
+//   </Section>
+
 const InformationGénéralesRight = () => (
   <div className="flex flex-col gap-4">
     <Section title="Raccordement au réseau">
@@ -93,6 +105,18 @@ const InformationGénéralesRight = () => (
           validité jusqu'à six mois après achèvement du projet.
         </span>
       </>
+    </Section>
+    <Section title="Représentant légal">
+      <span>Michel Berger #1</span>
+      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+        Modifier le représentant légal
+      </Button>
+    </Section>
+    <Section title="Producteur">
+      <span>Manoir de Hérouville</span>
+      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+        Modifier le producteur
+      </Button>
     </Section>
   </div>
 );

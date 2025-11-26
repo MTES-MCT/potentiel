@@ -12,15 +12,11 @@ export const menuItems: Array<MenuItem> = [
     label: "Vue d'ensemble",
   },
   {
-    label: 'Informations Générales',
+    label: 'Détails du projet',
     children: [
       {
         href: `informations-generales`,
         label: 'Informations générales',
-      },
-      {
-        href: `administratif`,
-        label: 'Administratif',
       },
       {
         href: `evaluation-carbone`,
@@ -32,11 +28,11 @@ export const menuItems: Array<MenuItem> = [
       },
       {
         href: `raccordements`,
-        label: 'Raccordement',
+        label: 'Page raccordement',
       },
       {
         href: `garanties-financieres`,
-        label: 'Garanties financières',
+        label: 'Page garanties financières',
       },
     ],
   },
