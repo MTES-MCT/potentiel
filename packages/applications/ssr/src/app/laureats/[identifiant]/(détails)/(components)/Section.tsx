@@ -12,7 +12,7 @@ type SectionProps = ComponentProps<'div'> & {
 export const Section = ({ title, children, className = '' }: SectionProps) => (
   <section
     className={clsx(
-      'flex flex-col gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px] print:p-0 print:border-none',
+      'w-full flex flex-col gap-2 p-3 border-solid border border-dsfr-border-default-grey-default rounded-[3px]',
       className,
     )}
   >

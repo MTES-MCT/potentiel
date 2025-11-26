@@ -8,6 +8,7 @@ import { ColumnPageTemplate } from '../../../../../components/templates/ColumnPa
 // Site de production
 // Puissance
 // Prix
+// Type d'actionnariat
 // Ajouter infos sur le CDC
 // puissance
 // autorisation d'urbanisme
@@ -39,6 +40,10 @@ const InformationGénéralesLeft = () => (
         <div>
           <div className="mb-0 font-semibold">Actionnaire</div>
           <span>Groupe Bolloré</span>
+        </div>
+        <div>
+          <div className="mb-0 font-semibold">Type d'actionnariat</div>
+          <span>Financement collectif</span>
         </div>
         <div>
           <div className="mb-0 font-semibold">Prix</div>
