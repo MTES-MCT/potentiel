@@ -23,8 +23,9 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
 
     Scénario: Un porteur annule l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | période        | 1                        |
+            | appel d'offres    | PPE2 - Petit PV Bâtiment |
+            | période           | 1                        |
+            | date notification | 2025-11-26               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule l'abandon pour le projet lauréat
