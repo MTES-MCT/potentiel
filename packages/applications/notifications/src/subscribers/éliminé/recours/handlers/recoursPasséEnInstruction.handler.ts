@@ -14,7 +14,7 @@ export const handleRecoursPasséEnInstruction = async ({
   const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
 
   await sendEmail({
-    templateId: recoursNotificationTemplateId.accorder,
+    templateId: recoursNotificationTemplateId.passerEnInstruction,
     messageSubject: `Potentiel - La demande de recours pour le projet ${projet.nom} est en instruction`,
     recipients: porteursRecipients,
     variables: {
