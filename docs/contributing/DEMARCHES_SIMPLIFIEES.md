@@ -62,7 +62,7 @@ Pour tester l'intégration à Démarches Simplifiées :
 - (optionnel) Utiliser la ligne de commande potentiel pour générer un fichier d'instruction (statuts aléatoires) :
 
 ```bash
-export DS_API_URL=https://demarches.numerique.gouv.fr/api/v2/graphql
+export DS_API_URL=https://www.demarches-simplifiees.fr/api/v2/graphql
 export DS_API_TOKEN=JETON API
 potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE --instruction
 ```
