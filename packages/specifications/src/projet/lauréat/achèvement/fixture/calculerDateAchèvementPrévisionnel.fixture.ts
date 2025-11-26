@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { DateTime } from '@potentiel-domain/common';
+
 import { AbstractFixture } from '../../../../fixture';
 import { LauréatWorld } from '../../lauréat.world';
 
@@ -27,10 +29,10 @@ export class CalculerDateAchèvementPrévisionnelFixture
     const fixture: CalculerDateAchèvementPrévisionnel = {
       dateAchèvementPrévisionnel: faker.date
         .between({
-          from: new Date(
-            new Date(this.lauréatWorld.notifierLauréatFixture.notifiéLe).getTime() + 1,
-          ),
-          to: new Date(),
+          from: DateTime.convertirEnValueType(
+            this.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          ).ajouterNombreDeJours(1).date,
+          to: DateTime.now().date,
         })
         .toISOString(),
       ...partialFixture,

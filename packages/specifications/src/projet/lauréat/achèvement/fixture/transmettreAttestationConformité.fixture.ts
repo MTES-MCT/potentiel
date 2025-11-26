@@ -77,10 +77,10 @@ export class TransmettreAttestationConformitéFixture
     const fixture: TransmettreAttestationConformité = {
       dateTransmissionAuCocontractant: faker.date
         .between({
-          from: new Date(
-            new Date(this.lauréatWorld.notifierLauréatFixture.notifiéLe).getTime() + 1,
-          ),
-          to: new Date(),
+          from: DateTime.convertirEnValueType(
+            this.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          ).ajouterNombreDeJours(1).date,
+          to: DateTime.now().date,
         })
         .toISOString(),
       date: faker.date.soon().toISOString(),

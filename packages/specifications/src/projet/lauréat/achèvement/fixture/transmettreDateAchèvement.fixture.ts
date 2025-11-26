@@ -42,10 +42,10 @@ export class TransmettreDateAchèvementFixture
     const fixture: TransmettreDateAchèvement = {
       dateAchèvement: faker.date
         .between({
-          from: new Date(
-            new Date(this.lauréatWorld.notifierLauréatFixture.notifiéLe).getTime() + 1,
-          ),
-          to: new Date(),
+          from: DateTime.convertirEnValueType(
+            this.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          ).ajouterNombreDeJours(1).date,
+          to: DateTime.now().date,
         })
         .toISOString(),
       transmiseLe: faker.date.recent().toISOString(),
