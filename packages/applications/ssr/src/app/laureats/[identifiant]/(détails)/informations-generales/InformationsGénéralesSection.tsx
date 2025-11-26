@@ -29,33 +29,48 @@ export const InformationsGénéralesSection = () => (
 
 const InformationGénéralesLeft = () => (
   <div className="flex flex-col gap-4">
-    <Section title="Informations du projet">
+    <Section title="Administratif">
+      <div className="flex flex-col">
+        <span className="mb-0 font-semibold">Site de Production</span>
+        <span>3 rue du beurre</span>
+        <span>69008 LYON</span>
+        <span>Région Rhônes Alpes</span>
+      </div>
+      <div>
+        <div className="mb-0 font-semibold">Nom du candidat</div>
+        <span>Michel Berger</span>
+      </div>
+      <div>
+        <div className="mb-0 font-semibold">Adresse email de candidature</div>
+        <span>berber@gmail.com</span>
+      </div>
+    </Section>
+    <Section title="Actionnariat">
       <>
-        <div className="flex flex-col">
-          <span className="mb-0 font-semibold">Site de Production</span>
-          <span>3 rue du beurre</span>
-          <span>69008 LYON</span>
-          <span>Région Rhônes Alpes</span>
-        </div>
         <div>
-          <div className="mb-0 font-semibold">Actionnaire</div>
+          <div className="mb-0 font-semibold">Actionnaire (société mère)</div>
           <span>Groupe Bolloré</span>
         </div>
         <div>
           <div className="mb-0 font-semibold">Type d'actionnariat</div>
           <span>Financement collectif</span>
         </div>
+      </>
+    </Section>
+    <Section title="Contractualisation">
+      <>
+        <div>
+          <div className="mb-0 font-semibold">Performances</div>
+          <span>Puissance installée : 5 MWc</span>
+          <Button priority="tertiary no outline" className="p-0 m-0" size="small">
+            Modifier la puissance
+          </Button>
+        </div>
         <div>
           <div className="mb-0 font-semibold">Prix</div>
           <span>78 €/MWh</span>
         </div>
       </>
-    </Section>
-    <Section title="Performances">
-      <span>Puissance installée : 5 MWc</span>
-      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
-        Modifier la puissance
-      </Button>
     </Section>
     <Section title="Autorisation d'urbanisme">
       <ul className="list-none m-0 pl-0">
@@ -71,18 +86,6 @@ const InformationGénéralesLeft = () => (
     </Section>
   </div>
 );
-
-// const AdministratifRight = () => (
-//   <Section title="Contacts">
-//     <div className="flex flex-col gap-2">
-//       <span className="mb-0 font-semibold">Nom du candidat</span>
-//       <span>Michel Berger</span>
-//     </div>
-//     <div className="flex flex-col gap-2">
-//       <span className="mb-0 font-semibold">Adresse email de candidature</span>
-//       <span>berber@gmail.com</span>
-//     </div>
-//   </Section>
 
 const InformationGénéralesRight = () => (
   <div className="flex flex-col gap-4">

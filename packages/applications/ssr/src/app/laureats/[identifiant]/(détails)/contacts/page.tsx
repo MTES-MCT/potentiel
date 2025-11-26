@@ -15,7 +15,6 @@ import { AccèsListPage, AccèsListPageProps } from '@/components/organisms/acc�
 
 type PageProps = IdentifiantParameter;
 
-// Pourrait remplacer la page /accès :)
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
