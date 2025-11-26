@@ -30,12 +30,12 @@ export default function LauréatDétailsLayout({ children, params: { identifiant
       <div className="flex flex-row">
         <SideMenu
           align="left"
-          className="max-w-64"
+          className="w-64 sticky ml-0 pt-4 top-0 bg-theme-white z-10 h-fit"
           burgerMenuButtonText="Menu"
           items={mapMenuItemsToSideMenuItems(menuItems, baseURL, selectedTabId)}
           title="Votre projet"
         />
-        {children}
+        <div className="flex-1">{children}</div>
       </div>
     </div>
   );
