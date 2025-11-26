@@ -121,8 +121,6 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     const date = await this.getDateAchèvementPrévisionnelCalculée(options);
 
-    this.vérifierDateAchèvementPostérieureDateNotification(DateTime.convertirEnValueType(date));
-
     const event: DateAchèvementPrévisionnelCalculéeEvent = {
       type: 'DateAchèvementPrévisionnelCalculée-V1',
       payload: {

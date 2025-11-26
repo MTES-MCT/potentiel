@@ -105,7 +105,6 @@ Fonctionnalité: Transmettre une attestation de conformité
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
-    @select
     Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est antérieure à la date de désignation
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | date notification | 2025-11-01 |
