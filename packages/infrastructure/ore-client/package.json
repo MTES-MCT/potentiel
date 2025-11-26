@@ -16,6 +16,6 @@
     "@potentiel-libraries/http-client": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "zod": "^4.1.9"
+    "zod": "4.1.9"
   }
 }

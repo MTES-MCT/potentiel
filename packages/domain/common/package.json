@@ -9,14 +9,14 @@
     "test": "tsx --test src/**/*.spec.ts"
   },
   "dependencies": {
-    "@date-fns/utc": "^2.1.0",
+    "@date-fns/utc": "2.1.0",
     "@potentiel-domain/core": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monads": "*",
-    "date-fns": "^4.1.0"
+    "date-fns": "4.1.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "tsx": "^4.19.3"
+    "tsx": "4.20.4"
   }
 }

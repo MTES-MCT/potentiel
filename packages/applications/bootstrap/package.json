@@ -17,7 +17,7 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
-    "mediateur": "^0.3.0"
+    "mediateur": "0.3.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

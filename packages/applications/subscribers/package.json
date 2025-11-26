@@ -20,7 +20,7 @@
     "@potentiel-infrastructure/ore-client": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monitoring": "*",
-    "mediateur": "^0.3.0"
+    "mediateur": "0.3.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

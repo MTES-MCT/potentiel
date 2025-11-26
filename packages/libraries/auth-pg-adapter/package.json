@@ -9,7 +9,7 @@
     "build": "esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
   },
   "dependencies": {
-    "@auth/pg-adapter": "^1.8.0"
+    "@auth/pg-adapter": "1.8.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

@@ -7,10 +7,10 @@
     "build": "tsp compile ./src && tsc"
   },
   "devDependencies": {
-    "@typespec/compiler": "^1.5.0",
-    "@typespec/http": "^1.5.0",
-    "@typespec/openapi3": "^1.5.0",
-    "@typespec/rest": "^0.75.0"
+    "@typespec/compiler": "1.5.0",
+    "@typespec/http": "1.5.0",
+    "@typespec/openapi3": "1.5.0",
+    "@typespec/rest": "0.75.0"
   },
   "private": true
 }

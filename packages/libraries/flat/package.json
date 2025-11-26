@@ -9,7 +9,7 @@
     "build": "esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
   },
   "dependencies": {
-    "flat": "^6.0.1"
+    "flat": "6.0.1"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

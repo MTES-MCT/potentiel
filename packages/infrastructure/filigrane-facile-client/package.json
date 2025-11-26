@@ -13,6 +13,6 @@
   "dependencies": {
     "@potentiel-libraries/http-client": "*",
     "@potentiel-libraries/monads": "*",
-    "zod": "^4.1.9"
+    "zod": "4.1.9"
   }
 }

@@ -11,17 +11,16 @@
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/projet": "*",
-    "@react-pdf/renderer": "^3.4.5",
-    "docxtemplater": "^3.61.0",
-    "pizzip": "^3.1.8"
+    "@react-pdf/renderer": "3.4.5",
+    "docxtemplater": "3.61.0",
+    "pizzip": "3.1.8"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-links": "^8.6.12",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.6",
-    "@storybook/react-webpack5": "^8.6.12",
-    "@storybook/test": "^8.5.8",
-    "copyfiles": "^2.4.1"
+    "@storybook/addon-essentials": "8.6.12",
+    "@storybook/addon-links": "8.6.12",
+    "@storybook/addon-webpack5-compiler-swc": "1.0.6",
+    "@storybook/react-webpack5": "8.6.12",
+    "copyfiles": "2.4.1"
   }
 }

@@ -14,8 +14,8 @@
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "chardet": "^2.0.0",
-    "iconv-lite": "^0.6.3"
+    "chardet": "2.1.0",
+    "iconv-lite": "0.6.3"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

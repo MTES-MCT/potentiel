@@ -11,6 +11,6 @@
     "@potentiel-config/tsconfig": "*"
   },
   "dependencies": {
-    "cockatiel": "^3.2.1"
+    "cockatiel": "3.2.1"
   }
 }
