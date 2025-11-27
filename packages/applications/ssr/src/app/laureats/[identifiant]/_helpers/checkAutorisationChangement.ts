@@ -1,43 +1,41 @@
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
+import { checkLauréatSansAbandonOuAchèvement } from './checkLauréatSansAbandonOuAchèvement';
 
 type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
+  identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement[TDomain];
   nécessiteInstruction?: boolean;
   domain: TDomain;
-  aUnAbandonEnCours: boolean;
-  estAbandonné: boolean;
-  estAchevé: boolean;
 };
 
 export const checkAutorisationChangement = async <
   TDomain extends keyof AppelOffre.RèglesDemandesChangement,
 >({
+  identifiantProjet,
   rôle,
   règlesChangementPourAppelOffres,
   nécessiteInstruction,
   domain,
-  aUnAbandonEnCours,
-  estAbandonné,
-  estAchevé,
 }: Props<TDomain>) => {
+  const estUnLauréatSansAbandonOuAchèvement =
+    await checkLauréatSansAbandonOuAchèvement(identifiantProjet);
+
   const peutModifier = rôle.aLaPermission(`${domain}.modifier` as Role.Policy);
 
   const peutFaireUneDemandeDeChangement =
     nécessiteInstruction !== false &&
     rôle.aLaPermission(`${domain}.demanderChangement` as Role.Policy) &&
-    !aUnAbandonEnCours &&
-    !estAbandonné &&
-    !estAchevé &&
+    estUnLauréatSansAbandonOuAchèvement &&
     règlesChangementPourAppelOffres.demande;
 
   const peutEnregistrerChangement =
     nécessiteInstruction !== true &&
     rôle.aLaPermission(`${domain}.enregistrerChangement` as Role.Policy) &&
-    !aUnAbandonEnCours &&
-    !estAbandonné &&
-    !estAchevé &&
+    estUnLauréatSansAbandonOuAchèvement &&
     règlesChangementPourAppelOffres.informationEnregistrée;
 
   return {

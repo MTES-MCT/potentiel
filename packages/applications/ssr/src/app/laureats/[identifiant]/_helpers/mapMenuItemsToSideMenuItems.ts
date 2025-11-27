@@ -46,7 +46,7 @@ export const menuItems: Array<MenuItem> = [
   },
   {
     href: `documents`,
-    label: 'Documents',
+    label: 'Documents (V2)',
   },
 ];
 
