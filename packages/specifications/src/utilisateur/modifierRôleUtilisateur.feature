@@ -18,10 +18,18 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
             | ademe             | cre               |
             | cre               | caisse-des-dépôts |
             | caisse-des-dépôts | dreal             |
-            | dreal             | dgec-validateur   |
             | dgec-validateur   | grd               |
             | grd               | cocontractant     |
             | cocontractant     | admin             |
+
+    Scénario: Modifier le rôle en DGEC Validateur
+        Etant donné un utilisateur invité avec le rôle "admin"
+        Quand un administrateur modifie le rôle de l'utilisateur en "dgec-validateur"
+        Alors l'utilisateur devrait être modifié
+        Et un email a été envoyé à l'administrateur avec :
+            | sujet | Nouvel utilisateur DGEC Validateur sur Potentiel |
+            | url   | https://potentiel.beta.gouv.fr/utilisateurs      |
+            | email | admin.*@.*                                       |
 
     Scénario: Impossible de modifier un utilisateur en porteur de projet
         Etant donné un utilisateur invité avec le rôle "admin"
