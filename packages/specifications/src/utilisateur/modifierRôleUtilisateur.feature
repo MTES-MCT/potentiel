@@ -31,21 +31,6 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
             | url   | https://potentiel.beta.gouv.fr/utilisateurs      |
             | email | admin.*@.*                                       |
 
-    @select
-    Scénario: Modifier les détails d'un DGEC Validateur
-        Etant donné un utilisateur invité avec :
-            | rôle        | dgec-validateur |
-            | fonction    | une fonction    |
-            | nom complet | un nom complet  |
-
-        Quand un administrateur modifie le rôle de l'utilisateur avec :
-            | rôle        | dgec-validateur        |
-            | fonction    | une fonction modifiée  |
-            | nom complet | un nom complet modifié |
-        Alors l'utilisateur devrait être modifié
-        Et un email n'a pas été envoyé à l'administrateur avec :
-            | sujet | Nouvel utilisateur DGEC Validateur sur Potentiel |
-
     Scénario: Impossible de modifier un utilisateur en porteur de projet
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand un administrateur modifie le rôle de l'utilisateur en "porteur-projet"

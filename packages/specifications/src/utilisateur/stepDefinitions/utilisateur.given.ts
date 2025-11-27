@@ -1,4 +1,4 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -56,13 +56,6 @@ EtantDonné(
     await inviterUtilisateur.call(this, payload);
   },
 );
-
-EtantDonné('un utilisateur invité avec :', async function (this: PotentielWorld, data: DataTable) {
-  await inviterUtilisateur.call(
-    this,
-    this.utilisateurWorld.mapExempleToFixtureData(data.rowsHash()),
-  );
-});
 
 EtantDonné(
   'un utilisateur désactivé avec le rôle {string}',

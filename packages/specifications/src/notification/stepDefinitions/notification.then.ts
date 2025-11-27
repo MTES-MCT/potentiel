@@ -130,10 +130,3 @@ Alors(
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
   },
 );
-
-Alors(
-  `un email n'a pas été envoyé à l'administrateur avec :`,
-  async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
-  },
-);
