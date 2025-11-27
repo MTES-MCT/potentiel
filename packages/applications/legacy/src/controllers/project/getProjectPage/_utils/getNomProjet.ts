@@ -42,20 +42,24 @@ export const getNomProjet = async ({
     domain: 'nomProjet',
   });
 
+  // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO
+  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
   return {
     nom: project.nomProjet,
-    affichage: peutModifier
-      ? {
-          url: Routes.Lauréat.modifierNomProjet(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le nom du projet',
-        }
-      : peutEnregistrerChangement
+    affichage:
+      estPetitPV && peutModifier
         ? {
-            url: Routes.Lauréat.changement.nomProjet.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer le nom du projet',
-            labelActions: 'Changer le nom du projet',
+            url: Routes.Lauréat.modifierNomProjet(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: 'Modifier le nom du projet',
           }
-        : undefined,
+        : peutEnregistrerChangement
+          ? {
+              url: Routes.Lauréat.changement.nomProjet.enregistrer(identifiantProjet.formatter()),
+              label: 'Changer le nom du projet',
+              labelActions: 'Changer le nom du projet',
+            }
+          : undefined,
   };
 };
