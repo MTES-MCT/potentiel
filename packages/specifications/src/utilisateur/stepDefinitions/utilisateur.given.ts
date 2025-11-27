@@ -1,4 +1,4 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -99,6 +99,22 @@ EtantDonné(
       statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer();
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet.formatter()],
+      identifiantUtilisateur: porteur.email,
+    });
+  },
+);
+
+EtantDonné(
+  'un porteur invité sur le projet {lauréat-éliminé} avec :',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    const { identifiantProjet } =
+      statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+
+    const porteur = this.utilisateurWorld.porteurFixture.créer({ email: exemple['email'] });
 
     await inviterPorteur.call(this, {
       identifiantsProjet: [identifiantProjet.formatter()],

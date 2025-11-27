@@ -30,12 +30,9 @@ Quand(
     const { email: porteurInvité } =
       utilisateurInvité === "l'administrateur"
         ? this.utilisateurWorld.adminFixture
-        : this.utilisateurWorld.inviterUtilisateur.aÉtéCréé &&
-            this.utilisateurWorld.inviterUtilisateur.rôle === Role.porteur.nom
-          ? this.utilisateurWorld.inviterUtilisateur
-          : this.utilisateurWorld.inviterUtilisateur.créer({
-              rôle: Role.porteur.nom,
-            });
+        : this.utilisateurWorld.inviterPorteur.aÉtéCréé
+          ? this.utilisateurWorld.inviterPorteur
+          : this.utilisateurWorld.inviterPorteur.créer({});
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
     await inviterPorteur.call(this, {

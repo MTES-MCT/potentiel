@@ -32,9 +32,16 @@ Alors(
 );
 
 Alors(
-  /un email a été envoyé au (nouvel utilisateur|nouveau porteur) avec :/,
-  async function (this: PotentielWorld, _: string, data: DataTable) {
+  'un email a été envoyé au nouvel utilisateur avec :',
+  async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.inviterUtilisateur.email, data);
+  },
+);
+
+Alors(
+  'un email a été envoyé au nouveau porteur avec :',
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.inviterPorteur.email, data);
   },
 );
 

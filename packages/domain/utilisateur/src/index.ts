@@ -18,7 +18,6 @@ import {
   UtilisateurInvitéEventV1,
 } from './inviter/inviterUtilisateur.event';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
-import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
@@ -45,8 +44,7 @@ export type UtilisateurUseCase =
   | InviterPorteurUseCase
   | DésactiverUtilisateurUseCase
   | RéactiverUtilisateurUseCase
-  | ModifierRôleUtilisateurUseCase
-  | CréerPorteurUseCase;
+  | ModifierRôleUtilisateurUseCase;
 
 export {
   InviterUtilisateurUseCase,
@@ -54,7 +52,6 @@ export {
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
   ModifierRôleUtilisateurUseCase,
-  CréerPorteurUseCase,
 };
 
 // Events
@@ -80,3 +77,5 @@ export * from './utilisateur.entity';
 
 // readmodel
 export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, TrouverUtilisateurReadModel };
+
+export * as UtilisateurSaga from './saga/utilisateur.saga';

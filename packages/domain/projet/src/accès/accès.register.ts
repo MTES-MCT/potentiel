@@ -11,6 +11,8 @@ import {
   ListerProjetsÀRéclamerDependencies,
   registerListerProjetsÀRéclamerQuery,
 } from './lister/listerProjetsÀRéclamer.query';
+import { registerRemplacerAccèsProjetCommand } from './remplacer/remplacerAccèsProjet.command';
+import { registerRemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase';
 import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import { registerRéclamerAccèsProjetCommand } from './réclamer/réclamerAccèsProjet.command';
@@ -33,6 +35,9 @@ export const registerAccèsUseCases = (dependencies: AccèsCommandDependencies) 
 
   registerRetirerAccèsProjetCommand(dependencies.getProjetAggregateRoot);
   registerRetirerAccèsProjetUseCase();
+
+  registerRemplacerAccèsProjetCommand(dependencies.getProjetAggregateRoot);
+  registerRemplacerAccèsProjetUseCase();
 };
 
 export type AccèsQueryDependencies = ListerAccèsDependencies &
