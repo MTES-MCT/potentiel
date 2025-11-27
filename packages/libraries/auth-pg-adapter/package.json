@@ -5,8 +5,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "prebuild": "npm run prebuild && tsc --emitDeclarationOnly --declaration --project tsconfig.json",
-    "build": "esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
+    "prebuild": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
+    "build": "npm run prebuild && esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
   },
   "dependencies": {
     "@auth/pg-adapter": "1.8.0"
