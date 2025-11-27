@@ -1,8 +1,10 @@
+const instructionChangementTemplateId = 6619256;
+
 export const actionnaireNotificationTemplateId = {
   changement: {
-    accorder: 6619256,
-    annuler: 6619256,
-    rejeter: 6619256,
+    accorder: instructionChangementTemplateId,
+    annuler: instructionChangementTemplateId,
+    rejeter: instructionChangementTemplateId,
     demander: 6619284,
     enregistrer: 6677623,
   },

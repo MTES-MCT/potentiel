@@ -8,13 +8,13 @@ export const garantiesFinancièresNotificationTemplateId = {
     attestationEnregistréePourDreal: 5765406,
     miseÀJourPourPorteur: 5765519,
     miseÀJourPourDreal: 5765536,
+    échues: {
+      pourPorteur: 6154951,
+      pourDreal: 6155012,
+    },
   },
   mainlevée: {
     demandéePourDreal: 6025932,
     modifiéePourPorteur: 6051452,
-  },
-  échues: {
-    pourPorteur: 6154951,
-    pourDreal: 6155012,
   },
 };

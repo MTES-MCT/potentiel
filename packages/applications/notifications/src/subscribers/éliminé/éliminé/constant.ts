@@ -1,3 +1,5 @@
+import { projetNotifiéTemplateId } from '../../lauréat/lauréat/constant.js';
+
 export const éliminéNotificationTemplateId = {
-  projetNotifié: 1350523,
+  projetNotifié: projetNotifiéTemplateId,
 };

@@ -1,3 +1,5 @@
+export const projetNotifiéTemplateId = 1350523;
+
 export const lauréatNotificationTemplateId = {
   cahierDesCharges: {
     modifiéChoisi: 4237729,
@@ -7,5 +9,5 @@ export const lauréatNotificationTemplateId = {
     enregistrerChangement: 7463935,
     modifier: 7519796,
   },
-  projetNotifié: 1350523,
+  projetNotifié: projetNotifiéTemplateId,
 };

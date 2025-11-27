@@ -27,14 +27,14 @@ export const handleGarantiesFinancièresÉchues = async ({
   };
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.échues.pourDreal,
+    templateId: garantiesFinancièresNotificationTemplateId.actuelles.échues.pourDreal,
     messageSubject,
     recipients: dreals,
     variables,
   });
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.échues.pourPorteur,
+    templateId: garantiesFinancièresNotificationTemplateId.actuelles.échues.pourPorteur,
     messageSubject,
     recipients: porteurs,
     variables,
