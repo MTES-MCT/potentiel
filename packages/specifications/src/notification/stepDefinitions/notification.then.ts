@@ -29,22 +29,7 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
 
 export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string) {
   await sleep(500);
-<<<<<<< HEAD
   this.notificationWorld.vérifierAucunEmailsEnvoyés(email);
-=======
-  const exemple = data.rowsHash();
-  const destinataires = this.notificationWorld
-    .récupérerDestinataires(exemple.sujet)
-    .map(({ recipients, cc, bcc }) =>
-      [...recipients, ...(cc ?? []), ...(bcc ?? [])].map((r) => r.email),
-    )
-    .flat();
-
-  expect(destinataires).not.to.contain(
-    Email.convertirEnValueType(email).email,
-    'Un email non désiré a été envoyé',
-  );
->>>>>>> da5504900 (✨ Notifier les administrateurs en cas de nouveau DGEC Validateur)
 }
 
 Alors(
