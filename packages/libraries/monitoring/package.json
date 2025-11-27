@@ -9,9 +9,9 @@
     "test": "tsx --test ./**/*.test.ts"
   },
   "dependencies": {
-    "@sentry/core": "^8.48.0",
-    "@sentry/nextjs": "^8.55.0",
-    "winston": "^3.17.0"
+    "@sentry/core": "8.55.0",
+    "@sentry/nextjs": "8.55.0",
+    "winston": "3.17.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

@@ -18,14 +18,14 @@
     "@potentiel-libraries/auth-pg-adapter": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/pg-helpers": "*",
-    "mediateur": "^0.3.0",
-    "next-auth": "^4.24.11",
-    "nodemailer": "^7.0.10",
-    "pg": "^8.14.1"
+    "mediateur": "0.3.0",
+    "next-auth": "4.24.13",
+    "nodemailer": "7.0.10",
+    "pg": "8.16.3"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg": "^8.11.11",
-    "tsx": "^4.19.3"
+    "@types/pg": "8.15.5",
+    "tsx": "4.20.4"
   }
 }

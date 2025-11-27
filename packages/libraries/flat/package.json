@@ -5,11 +5,11 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "prebuild": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
+    "prebuild": "npm run prebuild && tsc --emitDeclarationOnly --declaration --project tsconfig.json",
     "build": "esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
   },
   "dependencies": {
-    "flat": "^6.0.1"
+    "flat": "6.0.1"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

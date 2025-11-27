@@ -13,10 +13,10 @@
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/flat": "*",
     "@potentiel-libraries/pg-helpers": "*",
-    "pg-format": "^1.0.4"
+    "pg-format": "1.0.4"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg-format": "^1.0.5"
+    "@types/pg-format": "1.0.5"
   }
 }
