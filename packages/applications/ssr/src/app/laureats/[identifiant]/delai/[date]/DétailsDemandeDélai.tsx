@@ -111,7 +111,7 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) =>
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Demandé le{' '}
-      <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
+      <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
       <DisplayAuteur email={Email.bind(demandéPar)} />
     </div>
     <div className="flex gap-2">
