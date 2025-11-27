@@ -377,6 +377,43 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
               href: Routes.Fournisseur.changement.lister,
             },
           },
+          {
+            text: 'Délai',
+            linkProps: {
+              href: Routes.Délai.lister({
+                statut: ['demandé', 'en-instruction'],
+                autoriteCompetente: utilisateur.rôle.estDGEC()
+                  ? 'dgec'
+                  : utilisateur.rôle.estDreal()
+                    ? 'dreal'
+                    : undefined,
+              }),
+            },
+          },
+          {
+            text: "Nature de l'exploitation",
+            linkProps: {
+              href: Routes.NatureDeLExploitation.changement.lister,
+            },
+          },
+          {
+            text: 'Installateur',
+            linkProps: {
+              href: Routes.Installation.changement.installateur.lister,
+            },
+          },
+          {
+            text: 'Dispositif de stockage',
+            linkProps: {
+              href: Routes.Installation.changement.dispositifDeStockage.lister,
+            },
+          },
+          {
+            text: 'Nom du projet',
+            linkProps: {
+              href: Routes.Lauréat.changement.nomProjet.lister,
+            },
+          },
         ],
       },
     ])
