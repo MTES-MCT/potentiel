@@ -61,10 +61,12 @@ export class NotifierLauréatFixture
   créer(partialFixture: NotifierLauréatProps): Readonly<NotifierLauréat> {
     const fixture = {
       nomProjet: faker.person.fullName(),
+      // une date de notification dans un passé assez proche pour ne pas dépasser les délais de réalisation du projet
+      // et assez loin pour permettre d'avoir une date d'achèvement (passée) postérieure à la date de notification
       notifiéLe: faker.date
         .between({
-          from: new Date(0), //aucune limite min
-          to: DateTime.now().ajouterNombreDeJours(5).date,
+          from: DateTime.now().retirerNombreDeMois(1).date,
+          to: DateTime.now().retirerNombreDeJours(5).date,
         })
         .toISOString(),
       localité: {

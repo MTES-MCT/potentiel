@@ -21,9 +21,8 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: Une dreal peut rejeter l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offres    | PPE2 - Petit PV Bâtiment |
-            | période           | 1                        |
-            | date notification | 2025-11-26               |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL rejette l'abandon pour le projet lauréat
