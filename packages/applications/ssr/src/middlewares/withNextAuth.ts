@@ -1,17 +1,16 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
+import NextAuthMiddleware, { NextRequestWithAuth } from 'next-auth/middleware';
 
 import { CustomMiddleware } from './middleware';
 
-export function withNextAuth(middleware: CustomMiddleware) {
+export function withNextAuth(nextMiddleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-    if (!token) {
-      const redirectUrl = new URL('/auth/signIn', request.url);
-      redirectUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
-      return NextResponse.redirect(redirectUrl);
+    const result = await NextAuthMiddleware(request as NextRequestWithAuth, event);
+    // redirect if not authenticated
+    if (result) {
+      return result;
     }
 
-    return middleware(request, event, NextResponse.next());
+    return nextMiddleware(request, event, NextResponse.next());
   };
 }

@@ -8,10 +8,6 @@ describe('checkAllowedCallbackURL', () => {
   const allowedBaseURL = 'http://localhost:3000';
 
   describe('Cas nominal', () => {
-    it('URL relative', () => {
-      expect(checkAllowedCallbackURL(allowedBaseURL), '/laureats').to.equal(true);
-    });
-
     it('URL absolue, racine', () => {
       expect(checkAllowedCallbackURL(allowedBaseURL, `${allowedBaseURL}`)).to.equal(true);
     });
@@ -26,6 +22,12 @@ describe('checkAllowedCallbackURL', () => {
 
     it('undefined', () => {
       expect(checkAllowedCallbackURL(allowedBaseURL, undefined)).to.equal(true);
+    });
+  });
+
+  describe("Renvoie false en cas d'URL relative", () => {
+    it('URL relative', () => {
+      expect(checkAllowedCallbackURL(allowedBaseURL, '/laureats')).to.equal(false);
     });
   });
 
