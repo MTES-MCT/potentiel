@@ -1,5 +1,4 @@
 type SignInProps = {
-  callbackUrl?: string;
   forceProConnect?: true;
 };
 
@@ -11,11 +10,7 @@ export const signIn = (options?: SignInProps) => {
   }
 
   const params = new URLSearchParams();
-  const { callbackUrl, forceProConnect } = options;
-
-  if (callbackUrl) {
-    params.set('callbackUrl', callbackUrl);
-  }
+  const { forceProConnect } = options;
 
   if (forceProConnect) {
     params.set('forceProConnect', 'true');

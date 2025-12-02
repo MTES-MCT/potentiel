@@ -18,7 +18,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     if (req.user) {
       return next();
     }
-    return res.redirect(Routes.Auth.signIn({ callbackUrl: req.path }));
+    return res.redirect(Routes.Auth.signIn());
   };
 
   const ensureRole: EnsureRole = (roles) => {

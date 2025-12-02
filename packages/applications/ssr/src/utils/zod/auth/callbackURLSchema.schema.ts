@@ -5,20 +5,14 @@ export const callbackURLSchema = z.string().refine((url) => {
   return checkAllowedCallbackURL(allowedBaseURL, url);
 }, "L'URL de redirection n'est pas valide");
 
-export const checkAllowedCallbackURL = (allowedBaseURL: string, url?: string) => {
+export const checkAllowedCallbackURL = (allowedBaseURL: string, url: string | undefined) => {
   if (!url) {
     return true;
   }
-  if (url.startsWith('/') && !url.startsWith('//')) {
-    return true;
+  try {
+    const parsedUrl = new URL(url);
+    return new URL(allowedBaseURL).hostname === parsedUrl.hostname;
+  } catch {
+    return false;
   }
-  if (url.startsWith(allowedBaseURL)) {
-    try {
-      const parsedUrl = new URL(url);
-      return new URL(allowedBaseURL).hostname === parsedUrl.hostname;
-    } catch {
-      return false;
-    }
-  }
-  return false;
 };

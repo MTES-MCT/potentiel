@@ -1,6 +1,8 @@
 import z from 'zod';
+import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
@@ -19,14 +21,15 @@ const searchParamsSchema = z.object({
 
 export default function SignUp({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const { callbackUrl, error } = searchParamsSchema.parse(searchParams);
+    const { callbackUrl = Routes.Auth.redirectToDashboard(), error } =
+      searchParamsSchema.parse(searchParams);
     const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
-    return (
-      <SignUpPage
-        providers={providers}
-        callbackUrl={callbackUrl ?? Routes.Auth.redirectToDashboard()}
-        error={error}
-      />
-    );
+
+    const context = getContext();
+
+    if (context?.utilisateur) {
+      redirect(callbackUrl);
+    }
+    return <SignUpPage providers={providers} callbackUrl={callbackUrl} error={error} />;
   });
 }
