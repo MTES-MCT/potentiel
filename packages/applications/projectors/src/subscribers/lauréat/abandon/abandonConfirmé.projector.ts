@@ -1,17 +1,25 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonConfirméProjector = async ({
   payload: { identifiantProjet, confirméLe, confirméPar },
 }: Lauréat.Abandon.AbandonConfirméEvent) => {
-  await updateOneProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-    demande: {
-      confirmation: {
-        confirméLe,
-        confirméPar,
-      },
+  await updateManyProjections<Lauréat.Abandon.DemandeAbandonEntity>(
+    'demande-abandon',
+    {
+      identifiantProjet: Where.equal(identifiantProjet),
+      statut: Where.matchAny(Lauréat.Abandon.StatutAbandon.statutsEnCours),
     },
-    statut: Lauréat.Abandon.StatutAbandon.confirmé.statut,
-    miseÀJourLe: confirméLe,
-  });
+    {
+      demande: {
+        confirmation: {
+          confirméLe,
+          confirméPar,
+        },
+      },
+      statut: Lauréat.Abandon.StatutAbandon.confirmé.statut,
+      miseÀJourLe: confirméLe,
+    },
+  );
 };
