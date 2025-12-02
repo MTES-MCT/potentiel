@@ -3,6 +3,10 @@ import {
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query';
+import {
+  ListerAchèvementEnAttenteQuery,
+  ListerAchèvementEnAttenteReadModel,
+} from './lister/listerAchèvementEnAttente.query';
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase';
@@ -20,12 +24,16 @@ export {
 };
 
 // Query
-export type AchèvementQuery = ConsulterAchèvementQuery;
+export type AchèvementQuery = ConsulterAchèvementQuery | ListerAchèvementEnAttenteQuery;
 
-export type { ConsulterAchèvementQuery };
+export type { ConsulterAchèvementQuery, ListerAchèvementEnAttenteQuery };
 
 // ReadModel
-export type { ConsulterAchèvementReadModel, ConsulterAchèvementAchevéReadModel };
+export type {
+  ConsulterAchèvementReadModel,
+  ConsulterAchèvementAchevéReadModel,
+  ListerAchèvementEnAttenteReadModel,
+};
 
 // Entity
 export { AchèvementEntity } from './achèvement.entity';
