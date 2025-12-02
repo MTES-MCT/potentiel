@@ -1,9 +1,17 @@
 import React, { FC, ReactNode } from 'react';
-import { CalendarIcon, Section, CheckIcon } from '../../../components';
-import { afficherDate } from '../../../helpers';
-import { ClockIcon, DownloadLink, Link } from '../../../components/UI';
-import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
+import clsx from 'clsx';
+import Link from 'next/link';
+import Success from '@codegouvfr/react-dsfr/picto/Success';
+import Warning from '@codegouvfr/react-dsfr/picto/Warning';
+
+import { DateTime } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
+
+import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
+import { DownloadDocument } from '../../../../../components/atoms/form/document/DownloadDocument';
+
+import { Section } from './Section';
 
 export type EtapesProjetProps = {
   identifiantProjet: string;
@@ -16,7 +24,7 @@ export type EtapesProjetProps = {
       | 'achèvement-réel'
       | 'abandon'
       | 'recours';
-    date: number;
+    date: DateTime.RawType;
   }>;
 };
 
@@ -25,11 +33,11 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   doitAfficherAttestationDésignation,
   étapes,
 }) => (
-  <Section title="Étapes du projet" icon={<CalendarIcon />} className="flex-auto min-w-0">
+  <Section title="Étapes du projet" className="flex-auto min-w-0">
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
         {étapes
-          .sort((a, b) => a.date - b.date)
+          .sort((a, b) => a.date.localeCompare(b.date))
           .map((étape, index) => {
             const isLastItem = index === étapes.length - 1;
 
@@ -37,11 +45,12 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
               .with({ type: 'designation' }, ({ type, date }) => (
                 <ÉtapeTerminée key={`project-step-${type}`} titre="Notification" date={date}>
                   {doitAfficherAttestationDésignation && (
-                    <DownloadLink
-                      fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-                    >
-                      Télécharger attestation
-                    </DownloadLink>
+                    <DownloadDocument
+                      className="mb-0"
+                      label="Télécharger l'attestation"
+                      format="pdf"
+                      url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                    />
                   )}
                 </ÉtapeTerminée>
               ))
@@ -78,7 +87,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                 <ÉtapeTerminée
                   isLastItem={isLastItem}
                   key={`project-step-${type}`}
-                  titre="Date d'achèvement réelle"
+                  titre="Date d'achèvement réel"
                   date={date}
                 />
               ))
@@ -99,27 +108,23 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
               <ÉtapeÀTransmettre
                 isLastItem
                 key={`project-step-achèvement-réel`}
-                titre="Date d'achèvement réelle"
+                titre="Date d'achèvement réel"
               />
             )}
           </>
         )}
       </ol>
     </aside>
-    <div>
-      <Link href={Routes.Historique.afficher(identifiantProjet)}>
-        Afficher l'historique complet du projet
-      </Link>
-    </div>
   </Section>
 );
 
 type ÉtapeTerminéeProps = {
   titre: string;
-  date: number;
+  date: DateTime.RawType;
   isLastItem?: boolean;
   children?: ReactNode;
 };
+
 const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false, children }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
@@ -142,7 +147,7 @@ const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }
     <TimelineItem isLastItem={isLastItem}>
       <NextUpIcon />
       <ContentArea>
-        À transmettre
+        Données à transmettre
         <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>
@@ -155,7 +160,7 @@ type TimelineItemProps = {
 };
 
 export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
-  <li className={classNames(isLastItem ? '' : 'pb-6 print:pb-3', 'relative')}>
+  <li className={clsx(isLastItem ? '' : 'pb-6 print:pb-3', 'relative')}>
     {isLastItem ? null : (
       <div
         className="print:hidden -ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300 "
@@ -166,13 +171,11 @@ export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
   </li>
 );
 
-const classNames = (...classes) => classes.filter(Boolean).join(' ');
-
 const PastIcon = () => (
   <div className="flex flex-col print:min-w-[90px]" title="étape validée">
     <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape validée</div>
     <span className="relative z-2 w-8 h-8 flex items-center justify-center bg-green-700 print:bg-transparent print:border-solid print:border-2 print:border-green-700 rounded-full group-hover:bg-green-900">
-      <CheckIcon className="w-5 h-5 text-white print:text-green-700" />
+      <Success color="green-emeraude" />
     </span>
   </div>
 );
@@ -185,20 +188,17 @@ const NextUpIcon = () => (
         'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 print:bg-none print:border-solid print:border-2 print:border-gray-400 rounded-full'
       }
     >
-      <ClockIcon className="h-5 w-5 text-white print:text-gray-400" />
+      <Warning />
     </span>
   </div>
 );
 
-const ContentArea = (props: { children: any }) => (
+const ContentArea = (props: { children: React.ReactNode }) => (
   <div className="ml-4 min-w-0 flex flex-col">{props.children}</div>
 );
 
-const ItemDate = (props: { date: number }) => (
-  <span className="text-sm font-semibold tracking-wide uppercase">{afficherDate(props.date)}</span>
-);
+const ItemDate = (props: { date: DateTime.RawType }) => <FormattedDate date={props.date} />;
 
 const ItemTitle = (props: { title: string }) => (
   <span className="text-sm font-semibold tracking-wide uppercase">{props.title}</span>
 );
-

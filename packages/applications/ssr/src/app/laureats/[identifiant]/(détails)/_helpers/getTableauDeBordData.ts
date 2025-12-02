@@ -23,6 +23,22 @@ type Props = {
   rôle: Role.ValueType;
 };
 
+// DATA
+// Cahier des charges
+
+// garanties financières
+
+// Raccordement
+// Alerte moins violente, dans sa section
+
+// Alerte Achèvement (la retrouver ?)
+// est achevé => demandes pas possible
+// transmission docs sinon
+
+// Abandon alerte
+// A une demande d'abandon en cours
+// Est abandonnée
+
 export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) => {
   // cahier des charges
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
@@ -51,41 +67,23 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
   const recours = await getRecours(identifiantProjet);
 
   const étapes = getÉtapesData({
-    dateNotification: lauréat.notifiéLe,
-    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime,
-    dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe,
-    dateRecoursAccordé: recours && recours.demande.accord?.accordéLe,
+    dateNotification: lauréat.notifiéLe.formatter(),
+    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime.formatter(),
+    dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe.formatter(),
+    dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
     dateMiseEnService:
       raccordement.value && raccordement.value !== 'Champs non renseigné'
-        ? raccordement.value.dateMiseEnService
+        ? raccordement.value.dateMiseEnService?.formatter()
         : undefined,
-    dateAchèvementRéel: achèvement.estAchevé ? achèvement.dateAchèvementRéel : undefined,
+    dateAchèvementRéel: achèvement.estAchevé
+      ? achèvement.dateAchèvementRéel.formatter()
+      : undefined,
   });
 
-  console.log(étapes);
-
-  // Cahier des charges
-
-  // garanties financières
-
-  // Raccordement
-  // Alerte moins violente, dans sa section
-
-  // Alerte Achèvement (la retrouver ?)
-  // est achevé => demandes pas possible
-  // transmission docs sinon
-
-  // Abandon alerte
-  // A une demande d'abandon en cours
-  // Est abandonnée
-
-  // Frise Besoin
-  // Date notification
-  // Date abandon accordée
-  // Date demande recours accordée
-  // Date achèvement prévisionnel
-  // Dossiers raccordement
-  // Achèvement réel
+  return {
+    étapes,
+    doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
+  };
 };
 
 const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {

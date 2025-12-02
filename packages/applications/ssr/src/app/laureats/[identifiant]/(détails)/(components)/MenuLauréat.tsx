@@ -38,7 +38,6 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
         priority="tertiary no outline"
         title="Fermer le menu"
-        size="small"
       />
       <SideMenu
         align="left"
