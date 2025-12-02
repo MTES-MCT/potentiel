@@ -51,8 +51,8 @@ export default async function Page({ searchParams }: PageProps) {
         autorite,
       } = paramsSchema.parse(searchParams);
 
-      const abandons = await mediator.send<Lauréat.Abandon.ListerAbandonsQuery>({
-        type: 'Lauréat.Abandon.Query.ListerAbandons',
+      const abandons = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
@@ -141,7 +141,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: Lauréat.Abandon.ListerAbandonReadModel,
+  readModel: Lauréat.Abandon.ListerDemandesAbandonReadModel,
 ): AbandonListPageProps['list'] => {
   const items = readModel.items.map(
     ({
