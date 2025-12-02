@@ -35,9 +35,9 @@ const Installation = ({
             ) : (
               <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
             )}
-            {typologieInstallation.affichage && (
-              <Link className="w-fit" href={typologieInstallation.affichage.url}>
-                {typologieInstallation.affichage.label}
+            {typologieInstallation.action && (
+              <Link className="w-fit" href={typologieInstallation.action.url}>
+                {typologieInstallation.action.label}
               </Link>
             )}
           </div>
@@ -46,9 +46,9 @@ const Installation = ({
       {installateur && (
         <Section title="Installateur">
           <div className="m-0">{installateur?.value}</div>
-          {installateur.affichage && (
-            <Link className="w-fit" href={installateur.affichage.url}>
-              {installateur.affichage.label}
+          {installateur.action && (
+            <Link className="w-fit" href={installateur.action.url}>
+              {installateur.action.label}
             </Link>
           )}
         </Section>
@@ -78,9 +78,9 @@ const Installation = ({
               ) : null}
             </div>
           )}
-          {dispositifDeStockage.affichage && (
-            <Link className="w-fit" href={dispositifDeStockage.affichage.url}>
-              {dispositifDeStockage.affichage.label}
+          {dispositifDeStockage.action && (
+            <Link className="w-fit" href={dispositifDeStockage.action.url}>
+              {dispositifDeStockage.action.label}
             </Link>
           )}
         </Section>
@@ -106,7 +106,7 @@ const Installation = ({
           {natureDeLExploitation.value === 'Champs non renseigné' ? (
             <div>{natureDeLExploitation.value}</div>
           ) : (
-            <div>
+            <div className="flex flex-col">
               <span>
                 {getNatureDeLExploitationTypeLabel(
                   natureDeLExploitation.value.typeNatureDeLExploitation,
@@ -120,9 +120,9 @@ const Installation = ({
               ) : null}
             </div>
           )}
-          {natureDeLExploitation.affichage && (
-            <Link className="w-fit" href={natureDeLExploitation.affichage.url}>
-              {natureDeLExploitation.affichage.label}
+          {natureDeLExploitation.action && (
+            <Link className="w-fit" href={natureDeLExploitation.action.url}>
+              {natureDeLExploitation.action.label}
             </Link>
           )}
         </Section>

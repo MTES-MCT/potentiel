@@ -122,7 +122,7 @@ const getNatureDeLExploitation = async (
         domain: 'natureDeLExploitation',
       });
 
-    const affichage = peutModifier
+    const action = peutModifier
       ? {
           url: Routes.NatureDeLExploitation.modifier(identifiantProjet.formatter()),
           label: 'Modifier',
@@ -142,7 +142,7 @@ const getNatureDeLExploitation = async (
           projection.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
         tauxPrévisionnelACI: projection.natureDeLExploitation.tauxPrévisionnelACI,
       },
-      affichage,
+      action,
     };
   }
 };
@@ -163,7 +163,7 @@ const getInstallateur = (
   const data: ChampsAvecAction<string> = { value };
 
   if (rôle.aLaPermission('installation.installateur.modifier')) {
-    data.affichage = {
+    data.action = {
       url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
       label: "Modifier l'installateur",
     };
@@ -172,7 +172,7 @@ const getInstallateur = (
     estUnLauréatSansAbandonOuAchèvement &&
     règlesChangementInformationEnregistrée
   ) {
-    data.affichage = {
+    data.action = {
       url: Routes.Installation.changement.installateur.enregistrer(identifiantProjet.formatter()),
       label: "Changer l'installateur",
     };
@@ -198,7 +198,7 @@ const getDispositifDeStockage = (
   };
 
   if (rôle.aLaPermission('installation.dispositifDeStockage.modifier')) {
-    data.affichage = {
+    data.action = {
       url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
       label: 'Modifier le dispositif de stockage',
     };
@@ -207,7 +207,7 @@ const getDispositifDeStockage = (
     estUnLauréatSansAbandonOuAchèvement &&
     règlesChangementInformationEnregistrée
   ) {
-    data.affichage = {
+    data.action = {
       url: Routes.Installation.changement.dispositifDeStockage.enregistrer(
         identifiantProjet.formatter(),
       ),
@@ -230,7 +230,7 @@ const getTypologieInstallation = (
   const data: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]> = { value };
 
   if (rôle.aLaPermission('installation.typologieInstallation.modifier')) {
-    data.affichage = {
+    data.action = {
       url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
       label: 'Modifier la typologie du projet',
     };

@@ -1,24 +1,18 @@
-// cahier des charges
-// abandon en cours
-// abandon tout court
-// garanties fianncière
-// raccordement
-// la frise
-
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
-import { Lauréat, IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet, Candidature, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import {
-  getTypologieInstallation,
-  getDispositifDeStockage,
-} from '@potentiel-infrastructure/ds-api-client/src/_helpers';
-import { getCahierDesCharges } from '../../../../_helpers';
-import { checkLauréatSansAbandonOuAchèvement } from '../../_helpers/checkLauréatSansAbandonOuAchèvement';
-import { ChampsAvecAction } from '../../_helpers/types';
 
-export type GetInstallationForProjectPage = {
+import { getCahierDesCharges } from '../../../../_helpers';
+import { ChampsAvecAction } from '../../_helpers/types';
+import { getLauréatInfos } from '../../_helpers/getLauréat';
+
+import { getRaccordementData } from './getRaccordementData';
+import { getÉtapesData } from './getÉtapesData';
+
+export type GetTableauDeBordDataForProjectPage = {
   typologieInstallation?: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]>;
   installateur?: ChampsAvecAction<string>;
   dispositifDeStockage?: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType>;
@@ -29,18 +23,72 @@ type Props = {
   rôle: Role.ValueType;
 };
 
-export const getTableauDeBordData = async ({
-  identifiantProjet,
-  rôle,
-}: Props): Promise<GetInstallationForProjectPage> => {
-  // utiliser ça, avec un objet, à voir si il faut toucher à cette fonction
-  const estUnLauréatSansAbandonOuAchèvement =
-    await checkLauréatSansAbandonOuAchèvement(identifiantProjet);
-
+export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) => {
   // cahier des charges
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
+  console.log(cahierDesCharges);
+
+  // Lauréat
+  const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+
   // Abandon
+  const abandon = await getAbandon(identifiantProjet);
+
+  // Achèvement
+  const achèvement = await getAchèvement(identifiantProjet);
+
+  // Raccordement
+  const raccordement = await getRaccordementData({
+    role: rôle,
+    identifiantProjet,
+    estAbandonné: !!abandon?.statut.estAccordé(),
+    aUnAbandonEnCours: !!abandon?.statut.estEnCours(),
+  });
+
+  console.log(raccordement);
+
+  const recours = await getRecours(identifiantProjet);
+
+  const étapes = getÉtapesData({
+    dateNotification: lauréat.notifiéLe,
+    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime,
+    dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe,
+    dateRecoursAccordé: recours && recours.demande.accord?.accordéLe,
+    dateMiseEnService:
+      raccordement.value && raccordement.value !== 'Champs non renseigné'
+        ? raccordement.value.dateMiseEnService
+        : undefined,
+    dateAchèvementRéel: achèvement.estAchevé ? achèvement.dateAchèvementRéel : undefined,
+  });
+
+  console.log(étapes);
+
+  // Cahier des charges
+
+  // garanties financières
+
+  // Raccordement
+  // Alerte moins violente, dans sa section
+
+  // Alerte Achèvement (la retrouver ?)
+  // est achevé => demandes pas possible
+  // transmission docs sinon
+
+  // Abandon alerte
+  // A une demande d'abandon en cours
+  // Est abandonnée
+
+  // Frise Besoin
+  // Date notification
+  // Date abandon accordée
+  // Date demande recours accordée
+  // Date achèvement prévisionnel
+  // Dossiers raccordement
+  // Achèvement réel
+};
+
+const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ConsulterAbandon',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
@@ -55,97 +103,32 @@ export const getTableauDeBordData = async ({
   if (statut.estEnCours() || statut.estRejeté() || statut.estAccordé()) {
     return abandon;
   }
+};
 
-  // Achèvement
+const getAchèvement = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
     type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  Option.isSome(achèvement) && achèvement.dateAchèvementPrévisionnel && achèvement.estAchevé && achèvement.dateAchèvementRéel
+  if (Option.isNone(achèvement)) {
+    return notFound();
+  }
 
-  // Raccordement
-  const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-    type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-    data: {
-      identifiantProjetValue: identifiantProjet.formatter(),
-    },
-  });
-
-  if (Option.isNone(raccordement)) {
-    throw new Error('Raccordement non trouvé');
-  
-
-
-
-  return data;
+  return achèvement;
 };
 
-// Cahier des charges
-
-
-// Raccordement
-// Alerte moins violente, dans sa section
-
-// Alerte Achèvement (la retrouver ?)
-// est achevé => demandes pas possible
-// transmission docs sinon 
-
-// Abandon alerte
-// A une demande d'abandon en cours
-// Est abandonnée
-
-// Frise Besoin
-// Date notification
-// Date abandon accordée
-// Date demande recours accordée
-// Date achèvement prévisionnel
-// Dossiers raccordement
-// Achèvement réel
-const étapes: EtapesProjetProps['étapes'] = [
-  {
-    type: 'designation',
-    date: project.notifiedOn,
-  },
-];
-
-if (abandon?.demande.accord) {
-  étapes.push({
-    type: 'abandon',
-    date: DateTime.bind(abandon.demande.accord?.accordéLe).date.getTime(),
-  });
-} else {
-  if (demandeRecours?.demande.accord) {
-    étapes.push({
-      type: 'recours',
-      date: DateTime.bind(demandeRecours.demande.accord?.accordéLe).date.getTime(),
-    });
-  }
-
-  étapes.push({
-    type: 'achèvement-prévisionel',
-    date: dateAchèvementPrévisionnel,
+export const getRecours = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  const dernierDossierRaccordement = Option.match(raccordement.raccordement)
-    .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
-    .none(() => undefined);
-
-  if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
-    étapes.push({
-      type: 'mise-en-service',
-      date: DateTime.bind(
-        dernierDossierRaccordement.miseEnService.dateMiseEnService,
-      ).date.getTime(),
-    });
+  if (Option.isNone(recours)) {
+    return undefined;
   }
 
-  if (achèvementRéel) {
-    étapes.push({
-      type: 'achèvement-réel',
-      date: achèvementRéel.date,
-    });
-  }
-}
-
-
+  return recours;
+};

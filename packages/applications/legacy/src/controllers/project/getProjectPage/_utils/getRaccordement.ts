@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
+// viovio raccordement
 type GetRaccordementProps = {
   role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
