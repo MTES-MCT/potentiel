@@ -660,6 +660,22 @@ describe('listProjection', () => {
 
       actual.items.length.should.eq(0);
     });
+
+    it("should find projections joined on a different key than the entity's key", async () => {
+      const expectedItems = [
+        {
+          type: category2,
+          ...fakeData2,
+          [category3]: fakeData3,
+        },
+      ];
+
+      const actual = await listProjection<FakeProjection2, FakeProjection3>(category2, {
+        join: { on: 'moreData2', entity: category3, joinKey: 'moreData3' },
+      });
+
+      actual.items.should.have.deep.members(expectedItems);
+    });
   });
 
   describe('multiple join', () => {
