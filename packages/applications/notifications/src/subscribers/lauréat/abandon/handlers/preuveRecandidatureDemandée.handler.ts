@@ -1,7 +1,6 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, getBaseUrl } from '#helpers';
+import { listerPorteursRecipients } from '#helpers';
 
 import { AbandonNotificationsProps } from '../type.js';
 import { abandonNotificationTemplateId } from '../constant.js';
@@ -21,9 +20,7 @@ export const handlePreuveRecandidatureDemandée = async ({
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
-      lien_transmettre_preuve_recandidature: `${getBaseUrl()}${Routes.Abandon.détail(
-        identifiantProjet.formatter(),
-      )}/`,
+      lien_transmettre_preuve_recandidature: projet.url,
     },
   });
 };

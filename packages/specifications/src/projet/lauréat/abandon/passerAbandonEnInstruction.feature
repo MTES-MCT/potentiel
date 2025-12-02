@@ -13,7 +13,7 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
         Et un email a été envoyé au porteur avec :
             | sujet       | Potentiel - La demande d'abandon pour le projet Du boulodrome de Marseille est en instruction |
             | nom_projet  | Du boulodrome de Marseille                                                                    |
-            | abandon_url | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                            |
+            | abandon_url | https://potentiel.beta.gouv.fr/projets/.*                                                     |
 
     Scénario: Un administrateur reprend l'instruction de l'abandon du projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat

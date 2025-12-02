@@ -1,7 +1,6 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { listerPorteursRecipients } from '#helpers';
 
 import { abandonNotificationTemplateId } from '../constant.js';
 import { AbandonNotificationsProps } from '../type.js';
@@ -22,7 +21,7 @@ export const handleAbandonPasséEnInstruction = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'en instruction',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: projet.url,
     },
   });
 };

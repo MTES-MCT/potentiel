@@ -1,7 +1,6 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getAppelOffre, getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { getAppelOffre, listerPorteursRecipients } from '#helpers';
 
 import { abandonNotificationTemplateId } from '../constant.js';
 import { AbandonNotificationsProps } from '../type.js';
@@ -24,7 +23,7 @@ export const handleConfirmationAbandonDemandée = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'en attente de confirmation',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: projet.url,
     },
   });
 };

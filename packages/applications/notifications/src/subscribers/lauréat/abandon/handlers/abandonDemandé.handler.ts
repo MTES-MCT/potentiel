@@ -1,11 +1,6 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
-import {
-  getBaseUrl,
-  listerPorteursRecipients,
-  listerRecipientsAutoritéInstructrice,
-} from '#helpers';
+import { listerPorteursRecipients, listerRecipientsAutoritéInstructrice } from '#helpers';
 
 import { AbandonNotificationsProps } from '../type.js';
 import { abandonNotificationTemplateId } from '../constant.js';
@@ -20,6 +15,7 @@ export const handleAbandonDemandé = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const { appelOffre, période } = identifiantProjet;
   const porteurs = await listerPorteursRecipients(identifiantProjet);
+
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet,
     région: projet.région,
@@ -35,7 +31,7 @@ export const handleAbandonDemandé = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'envoyée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: projet.url,
     },
   });
 };
