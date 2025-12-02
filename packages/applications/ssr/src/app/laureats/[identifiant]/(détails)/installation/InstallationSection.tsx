@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Section } from '../(components)/Section';
 import { DétailTypologieInstallation } from '../../installation/(historique)/events/DétailTypologieInstallation';
 import { SectionPage } from '../(components)/SectionPage';
+import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
+import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 
 import { GetInstallationForProjectPage } from './_helpers/getInstallation';
 
@@ -15,7 +17,13 @@ export const InstallationSection = ({ installation }: Props) => (
 );
 
 const Installation = ({
-  installation: { typologieInstallation, installateur, dispositifDeStockage },
+  installation: {
+    typologieInstallation,
+    installateur,
+    dispositifDeStockage,
+    natureDeLExploitation,
+    autorisationDUrbanisme,
+  },
 }: Props) => {
   return (
     <>
@@ -23,7 +31,7 @@ const Installation = ({
         <Section title="Typologie du projet">
           <div className="flex flex-col gap-2">
             {typologieInstallation.value === 'Champs non renseigné' ? (
-              <span>Champs non renseigné</span>
+              <span>{typologieInstallation.value}</span>
             ) : (
               <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
             )}
@@ -77,18 +85,48 @@ const Installation = ({
           )}
         </Section>
       )}
-      <Section title="Autorisation d'urbanisme">
-        <ul className="list-none m-0 pl-0">
-          <li>Numéro : PC 084 088 24 A0029</li>
-          <li>Date d'obtention : 22/09/2025</li>
-        </ul>
-      </Section>
-      <Section title="Nature de l'exploitation">
-        <span>Vente avec injection en totalité</span>
-        <Link className="w-fit" href="">
-          Modifier la nature de l'exploitation
-        </Link>
-      </Section>
+      {autorisationDUrbanisme && (
+        <Section title="Autorisation d'urbanisme">
+          {autorisationDUrbanisme.value === 'Champs non renseigné' ? (
+            <div>{autorisationDUrbanisme.value}</div>
+          ) : (
+            <ul className="list-none m-0 pl-0">
+              <li>Numéro : {autorisationDUrbanisme.value?.numéro}</li>
+              {autorisationDUrbanisme.value?.date && (
+                <li>
+                  Date d'obtention : {<FormattedDate date={autorisationDUrbanisme.value?.date} />}
+                </li>
+              )}
+            </ul>
+          )}
+        </Section>
+      )}
+      {natureDeLExploitation && (
+        <Section title="Nature de l'exploitation">
+          {natureDeLExploitation.value === 'Champs non renseigné' ? (
+            <div>{natureDeLExploitation.value}</div>
+          ) : (
+            <div>
+              <span>
+                {getNatureDeLExploitationTypeLabel(
+                  natureDeLExploitation.value.typeNatureDeLExploitation,
+                ) || 'Non renseigné'}
+              </span>
+              {natureDeLExploitation.value.tauxPrévisionnelACI !== undefined ? (
+                <span>
+                  Taux d'autoconsommation individuelle prévisionnel :{' '}
+                  {natureDeLExploitation.value.tauxPrévisionnelACI} %
+                </span>
+              ) : null}
+            </div>
+          )}
+          {natureDeLExploitation.affichage && (
+            <Link className="w-fit" href={natureDeLExploitation.affichage.url}>
+              {natureDeLExploitation.affichage.label}
+            </Link>
+          )}
+        </Section>
+      )}
     </>
   );
 };
