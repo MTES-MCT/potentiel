@@ -15,7 +15,7 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = [
+export const statutsEnCours: Array<RawType> = [
   'confirmation-demandée',
   'confirmé',
   'demandé',

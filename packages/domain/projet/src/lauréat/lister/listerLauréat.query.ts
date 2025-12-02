@@ -135,9 +135,9 @@ export const registerListerLauréatQuery = ({
           type: 'left',
           where:
             statut === 'abandonné'
-              ? { statut: Where.equal('accordé') }
+              ? { estAbandonné: Where.equal(true) }
               : statut === 'actif'
-                ? { statut: Where.notEqual('accordé') }
+                ? { estAbandonné: Where.equal(false) }
                 : undefined,
         },
       ],
@@ -201,11 +201,10 @@ const mapToReadModel: MapToReadModelProps = ({
     typeActionnariat: actionnariat
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
-    statut:
-      abandon?.statut === 'accordé'
-        ? StatutLauréat.abandonné
-        : achèvement.estAchevé
-          ? StatutLauréat.achevé
-          : StatutLauréat.actif,
+    statut: abandon?.estAbandonné
+      ? StatutLauréat.abandonné
+      : achèvement.estAchevé
+        ? StatutLauréat.achevé
+        : StatutLauréat.actif,
   };
 };

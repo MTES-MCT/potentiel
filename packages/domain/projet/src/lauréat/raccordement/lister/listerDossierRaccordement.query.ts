@@ -147,9 +147,9 @@ export const registerListerDossierRaccordementQuery = ({
           type: 'left',
           where:
             statutProjet === 'abandonné'
-              ? { statut: Where.equal('accordé') }
+              ? { estAbandonné: Where.equal(true) }
               : statutProjet === 'actif'
-                ? { statut: Where.notEqual('accordé') }
+                ? { estAbandonné: Where.equal(false) }
                 : undefined,
         },
       ],
@@ -224,11 +224,10 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomCandidat,
     siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,
     sociétéMère,
-    statutProjet:
-      abandon?.statut === 'accordé'
-        ? StatutLauréat.abandonné
-        : achèvement.estAchevé
-          ? StatutLauréat.achevé
-          : StatutLauréat.actif,
+    statutProjet: abandon?.estAbandonné
+      ? StatutLauréat.abandonné
+      : achèvement.estAchevé
+        ? StatutLauréat.achevé
+        : StatutLauréat.actif,
   };
 };

@@ -1,69 +1,26 @@
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
-
-import { AutoritéCompétente, StatutAbandon } from '.';
 
 export type AbandonEntity = Entity<
   'abandon',
   {
+    // @TODO : mettre des conditions ?
     identifiantProjet: string;
+    demandéLe: DateTime.RawType;
+    accordéLe?: DateTime.RawType;
+    estAbandonné: boolean;
+    demandeEnCours: boolean;
 
-    demande: {
-      demandéPar: string;
-      demandéLe: string;
-      raison: string;
-      pièceJustificative?: {
-        format: string;
+    // @TODO : à garder recandidature ?
+    estUneRecandidature: boolean;
+    recandidature?: {
+      statut: string;
+      preuve?: {
+        demandéeLe: DateTime.RawType;
+        identifiantProjet?: string;
+        transmiseLe?: DateTime.RawType;
+        transmisePar?: string;
       };
-
-      estUneRecandidature: boolean;
-
-      recandidature?: {
-        statut: string;
-        preuve?: {
-          demandéeLe: string;
-          identifiantProjet?: string;
-          transmiseLe?: string;
-          transmisePar?: string;
-        };
-      };
-
-      confirmation?: {
-        demandéePar: string;
-        demandéeLe: string;
-
-        réponseSignée: {
-          format: string;
-        };
-
-        confirméLe?: string;
-        confirméPar?: string;
-      };
-
-      instruction?: {
-        passéEnInstructionLe: string;
-        passéEnInstructionPar: string;
-      };
-
-      accord?: {
-        réponseSignée: {
-          format: string;
-        };
-        accordéPar: string;
-        accordéLe: string;
-      };
-
-      rejet?: {
-        réponseSignée: {
-          format: string;
-        };
-        rejetéPar: string;
-        rejetéLe: string;
-      };
-
-      autoritéCompétente: AutoritéCompétente.RawType;
     };
-
-    statut: StatutAbandon.RawType;
-    miseÀJourLe: string;
   }
 >;

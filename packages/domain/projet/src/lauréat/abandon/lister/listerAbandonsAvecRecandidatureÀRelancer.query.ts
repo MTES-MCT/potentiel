@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { AbandonEntity } from '../abandon.entity';
 import { IdentifiantProjet } from '../../..';
-import { StatutPreuveRecandidature } from '..';
+import { AbandonEntity, StatutPreuveRecandidature } from '..';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
   résultats: Array<{
@@ -30,11 +29,9 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
   const handler: MessageHandler<ListerAbandonsAvecRecandidatureÀRelancerQuery> = async () => {
     const result = await list<AbandonEntity>('abandon', {
       where: {
-        demande: {
-          estUneRecandidature: Where.equal(true),
-          recandidature: {
-            statut: Where.equal(StatutPreuveRecandidature.enAttente.statut),
-          },
+        estUneRecandidature: Where.equal(true),
+        recandidature: {
+          statut: Where.equal(StatutPreuveRecandidature.enAttente.statut),
         },
       },
     });
@@ -43,8 +40,8 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
       résultats: result.items
         .map((item) => ({
           identifiantProjet: IdentifiantProjet.convertirEnValueType(item.identifiantProjet),
-          demandéeLe: item.demande.recandidature?.preuve?.demandéeLe
-            ? DateTime.convertirEnValueType(item.demande.recandidature?.preuve?.demandéeLe)
+          demandéeLe: item.recandidature?.preuve?.demandéeLe
+            ? DateTime.convertirEnValueType(item.recandidature?.preuve?.demandéeLe)
             : DateTime.now(), // TODO : devrait être undefined et filter aprés, mais l'inférence n'est pas bonne. A faire quand on switch sur TS 5.5
         }))
         .filter(({ demandéeLe }) => demandéeLe.nombreJoursÉcartAvec(DateTime.now()) >= 90),
