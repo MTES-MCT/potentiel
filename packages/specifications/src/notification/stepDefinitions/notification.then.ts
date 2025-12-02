@@ -123,3 +123,10 @@ Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld)
   await sleep(200);
   this.notificationWorld.vérifierToutesNotificationsPointées();
 });
+
+Alors(
+  `un email a été envoyé à l'administrateur avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
+  },
+);
