@@ -2,7 +2,6 @@
 
 import { redirect } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
@@ -24,17 +23,11 @@ type SignUpPageProps = {
 export default function SignUpPage({ providers, callbackUrl, error }: SignUpPageProps) {
   const { status, data } = useSession();
 
-  useEffect(() => {
-    switch (status) {
-      case 'authenticated':
-        // This checks that the session is up to date with the necessary requirements
-        // it's useful when changing what's inside the cookie for instance
-        if (!data.utilisateur) {
-          redirect(Routes.Auth.signOut());
-        }
-        redirect(callbackUrl);
-    }
-  }, [status, callbackUrl, data]);
+  // This checks that the session is up to date with the necessary requirements
+  // it's useful when changing what's inside the cookie for instance
+  if (status === 'authenticated' && !data.utilisateur) {
+    redirect(Routes.Auth.signOut());
+  }
 
   return (
     <PageTemplate>
