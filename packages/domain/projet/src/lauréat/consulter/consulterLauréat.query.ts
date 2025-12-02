@@ -54,8 +54,6 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
       ],
     });
 
-    console.log('lauréat', lauréat);
-
     if (Option.isNone(lauréat)) {
       return lauréat;
     }
