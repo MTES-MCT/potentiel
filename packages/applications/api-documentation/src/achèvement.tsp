@@ -5,15 +5,15 @@ using Http;
 namespace PotentielApi;
 
 model ProjetAvecAchevementEnAttente {
-  referenceDossierRaccordement: string;
   identifiantProjet: string;
-  appelOffre: string;
-  dateDCR: string;
-  codePostalInstallation: string;
-  periode: string;
   identifiantGestionnaireRéseau: string;
+  referenceDossierRaccordement: string;
+  dateDCR?: string;
+  appelOffre: string;
+  période: string;
+  codePostalInstallation: string;
   prix: integer;
-  souhaitIndexationCoefficientK: string;
+  souhaitIndexationCoefficientK: boolean;
 }
 
 model TransmettreDateAchevementBody {

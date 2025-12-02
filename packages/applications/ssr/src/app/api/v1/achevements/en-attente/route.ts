@@ -21,12 +21,12 @@ type AchèvementEnAttenteApiResponse = {
   referenceDossierRaccordement: string;
   identifiantProjet: string;
   appelOffre: string;
-  dateDCR: string;
+  dateDCR?: string;
   codePostalInstallation: string;
-  periode: string;
+  période: string;
   identifiantGestionnaireRéseau: string;
   prix: number;
-  souhaitIndexationCoefficientK: string;
+  souhaitIndexationCoefficientK: boolean;
 };
 
 type ApiResponse = {
@@ -68,15 +68,27 @@ type MapToApiResponse = (
 const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
   total,
   range,
-  items: items.map((item) => ({
-    appelOffre: item.appelOffre,
-    codePostalInstallation: item.codePostalInstallation,
-    dateDCR: item.dateDCR?.formatterDate() ?? '',
-    identifiantGestionnaireRéseau: item.identifiantGestionnaireRéseau.formatter(),
-    identifiantProjet: item.identifiantProjet.formatter(),
-    periode: item.période,
-    prix: item.prix,
-    referenceDossierRaccordement: item.referenceDossierRaccordement,
-    souhaitIndexationCoefficientK: item.souhaitIndexationCoefficientK ? 'oui' : '',
-  })),
+  items: items.map(
+    ({
+      appelOffre,
+      codePostalInstallation,
+      dateDCR,
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
+      prix,
+      période,
+      referenceDossierRaccordement,
+      souhaitIndexationCoefficientK,
+    }) => ({
+      appelOffre,
+      codePostalInstallation,
+      dateDCR: dateDCR?.formatterDate(),
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+      identifiantProjet: identifiantProjet.formatter(),
+      période,
+      prix,
+      referenceDossierRaccordement,
+      souhaitIndexationCoefficientK,
+    }),
+  ),
 });

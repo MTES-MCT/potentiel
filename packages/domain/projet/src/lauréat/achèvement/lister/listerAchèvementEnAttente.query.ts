@@ -11,15 +11,15 @@ import { CandidatureEntity } from '../../../candidature';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement';
 
 type AchèvementEnAttente = {
-  referenceDossierRaccordement: string;
   identifiantProjet: IdentifiantProjet.ValueType;
-  appelOffre: string;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  referenceDossierRaccordement: string;
   dateDCR?: DateTime.ValueType;
+  appelOffre: string;
   codePostalInstallation: string;
   période: string;
-  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   prix: number;
-  souhaitIndexationCoefficientK?: true;
+  souhaitIndexationCoefficientK: boolean;
 };
 
 export type ListerAchèvementEnAttenteReadModel = {
@@ -100,8 +100,12 @@ export const registerListerAchèvementEnAttenteQuery = ({
       },
     });
 
+    const items = projets
+      .map((projet) => mapToReadModel(projet, [...dossiers]))
+      .filter((item) => item !== undefined);
+
     return {
-      items: projets.map((projet) => mapToReadModel(projet, [...dossiers])),
+      items,
       range: {
         endPosition,
         startPosition,
@@ -116,7 +120,7 @@ export const registerListerAchèvementEnAttenteQuery = ({
 type MapToReadModelProps = (
   projet: LauréatEntity & Joined<AchèvementEnAttenteJoins>,
   dossiers: Array<DossierRaccordementEntity>,
-) => AchèvementEnAttente;
+) => AchèvementEnAttente | undefined;
 
 export const mapToReadModel: MapToReadModelProps = (
   {
@@ -135,14 +139,19 @@ export const mapToReadModel: MapToReadModelProps = (
       d.identifiantProjet === identifiantProjet &&
       d.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau,
   );
+
+  if (!dossier) {
+    return;
+  }
+
   const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
   return {
     identifiantProjet: idProjet,
     appelOffre: idProjet.appelOffre,
     période: idProjet.période,
-    referenceDossierRaccordement: dossier?.référence ?? 'référence dossier non trouvée',
-    dateDCR: dossier?.demandeComplèteRaccordement?.dateQualification
+    referenceDossierRaccordement: dossier.référence,
+    dateDCR: dossier.demandeComplèteRaccordement?.dateQualification
       ? DateTime.convertirEnValueType(dossier.demandeComplèteRaccordement.dateQualification)
       : undefined,
     codePostalInstallation: codePostal,
@@ -151,6 +160,6 @@ export const mapToReadModel: MapToReadModelProps = (
         identifiantGestionnaireRéseau,
       ),
     prix: prixReference,
-    souhaitIndexationCoefficientK: coefficientKChoisi ? true : undefined,
+    souhaitIndexationCoefficientK: !!coefficientKChoisi,
   };
 };
