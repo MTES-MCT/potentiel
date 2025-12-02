@@ -35,14 +35,16 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
       }
 
-      const { étapes, doitAfficherAttestationDésignation } = await getTableauDeBordData({
-        rôle: utilisateur.rôle,
-        identifiantProjet,
-      });
+      const { étapes, doitAfficherAttestationDésignation, raccordement } =
+        await getTableauDeBordData({
+          rôle: utilisateur.rôle,
+          identifiantProjet,
+        });
 
       return (
         <TableauDeBordSection
           frise={{ étapes, doitAfficherAttestationDésignation }}
+          raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
         />
       );

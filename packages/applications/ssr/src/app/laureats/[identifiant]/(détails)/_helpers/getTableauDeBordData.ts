@@ -62,8 +62,6 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     aUnAbandonEnCours: !!abandon?.statut.estEnCours(),
   });
 
-  console.log(raccordement);
-
   const recours = await getRecours(identifiantProjet);
 
   const étapes = getÉtapesData({
@@ -83,6 +81,7 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
   return {
     étapes,
     doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
+    raccordement,
   };
 };
 

@@ -2,10 +2,12 @@
 
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Link from 'next/link';
 
 import { Section } from './(components)/Section';
 import { SectionPage } from './(components)/SectionPage';
 import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjet';
+import { GetRaccordementForProjectPage } from './_helpers/getRaccordementData';
 
 type TableauDeBordSectionProps = {
   identifiantProjet: string;
@@ -13,11 +15,13 @@ type TableauDeBordSectionProps = {
     étapes: EtapesProjetProps['étapes'];
     doitAfficherAttestationDésignation: boolean;
   };
+  raccordement: GetRaccordementForProjectPage;
 };
 
 export const TableauDeBordSection = ({
   identifiantProjet,
   frise: { étapes, doitAfficherAttestationDésignation },
+  raccordement,
 }: TableauDeBordSectionProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -52,18 +56,28 @@ export const TableauDeBordSection = ({
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
         />
         <div className="flex flex-col gap-4">
-          <Section title="Raccordement au réseau">
-            <>
-              <div className="flex flex-col gap-2">
-                <span className="mb-0 font-semibold">Gestionnaire de réseau</span>
-                <span>SICAP</span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="mb-0 font-semibold">Dossiers de raccordement</span>
-                <span>Un dossier renseigné</span>
-              </div>
-            </>
-          </Section>
+          {raccordement.value && (
+            <Section title="Raccordement au réseau">
+              {raccordement.value === 'Champs non renseigné' ? (
+                raccordement.value
+              ) : (
+                <>
+                  <div>
+                    <span className="mb-0 font-semibold">Gestionnaire de réseau</span> :{' '}
+                    {raccordement.value.gestionnaireDeRéseau}{' '}
+                  </div>
+                  <div className="mb-0 font-semibold">
+                    {raccordement.value.nombreDeDossiers} dossier(s) de raccordement renseigné(s)
+                  </div>
+                  {raccordement.action && (
+                    <Link className="w-fit" href={raccordement.action.url}>
+                      {raccordement.action.label}
+                    </Link>
+                  )}
+                </>
+              )}
+            </Section>
+          )}
           <Section title="Garanties financières">
             <>
               <span>
