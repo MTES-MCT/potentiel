@@ -36,6 +36,7 @@ export const menuItems: Array<MenuItem> = [
       },
     ],
   },
+  // TODO: à travailler
   {
     label: 'Actions',
     children: [],
@@ -48,6 +49,11 @@ export const menuItems: Array<MenuItem> = [
     href: `utilisateurs`,
     label: 'Utilisateurs',
   },
+  // TODO: V2
+  // {
+  //   href: `mes-documents`,
+  //   label: 'Mes Documents',
+  // },
 ];
 
 export const mapMenuItemsToSideMenuItems = (
@@ -73,7 +79,3 @@ export const mapMenuItemsToSideMenuItems = (
     }
   });
 };
-
-// Définir les actions
-// Pour hors porteur
-// Ajouter : Imprimer la page (ouvre une nouvelle route) et Modifier Lauréat
