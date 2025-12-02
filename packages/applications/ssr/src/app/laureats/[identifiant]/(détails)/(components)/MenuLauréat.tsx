@@ -21,10 +21,16 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
   const currentMenuId = pathname.split('/')[3] || '';
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  // Exemple de filtrage basé sur le cahier des charges
+  // ce n'est pas exactement ça, voir pour typologie projet
+  const showInstallation =
+    cahierDesCharges.appelOffre.champsSupplémentaires?.autorisationDUrbanisme ||
+    cahierDesCharges.appelOffre.champsSupplémentaires?.natureDeLExploitation ||
+    cahierDesCharges.appelOffre.champsSupplémentaires?.installateur ||
+    cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage;
+
   const filteredMenuItems = menuItems.filter((item) => {
-    if (item.label === 'Informations Générales') {
-      return cahierDesCharges.appelOffre.champsSupplémentaires?.installateur;
+    if (item.label === 'Installation') {
+      return showInstallation;
     }
     return true;
   });
