@@ -19,6 +19,7 @@ export type GetLauréat = {
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
+  abandon?: Lauréat.Abandon.ConsulterAbandonReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
@@ -28,6 +29,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
   const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
+  const abandonInfo = await getAbandonInfos({ identifiantProjet });
 
   return {
     actionnaire: actionnaireInfos,
@@ -35,6 +37,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     puissance: puissanceInfos,
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
+    abandon: abandonInfo,
     lauréat,
   };
 });
@@ -156,4 +159,15 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return fournisseur;
+};
+
+export const getAbandonInfos = async ({ identifiantProjet }: Props) => {
+  const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
+    type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  return Option.isSome(abandon) ? abandon : undefined;
 };

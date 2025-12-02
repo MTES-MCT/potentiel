@@ -24,14 +24,24 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat({
+      const {
+        lauréat,
+        puissance,
+        représentantLégal,
+        abandon: abandonInfo,
+      } = await getLauréat({
         identifiantProjet,
       });
 
-      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+      if (!abandonInfo) {
+        return notFound();
+      }
+
+      const abandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
+          demandéLeValue: abandonInfo.demandéLe.formatter(),
         },
       });
 
