@@ -35,11 +35,17 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
       }
 
-      const data = getTableauDeBordData({ rôle: utilisateur.rôle, identifiantProjet });
+      const { étapes, doitAfficherAttestationDésignation } = await getTableauDeBordData({
+        rôle: utilisateur.rôle,
+        identifiantProjet,
+      });
 
-      console.log(data);
-
-      return <TableauDeBordSection />;
+      return (
+        <TableauDeBordSection
+          frise={{ étapes, doitAfficherAttestationDésignation }}
+          identifiantProjet={identifiantProjet.formatter()}
+        />
+      );
     }),
   );
 }

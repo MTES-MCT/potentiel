@@ -45,8 +45,6 @@ export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
   | 'demandeComplèteRaccordementManquante';
 
-// viovio
-
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
