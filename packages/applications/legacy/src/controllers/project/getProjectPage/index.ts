@@ -201,8 +201,8 @@ v1Router.get(
         achèvement.dateAchèvementPrévisionnel.dateTime.date.getTime();
 
       const abandon = await getAbandon(identifiantProjetValueType);
-      const aUnAbandonEnCours = !!abandon?.statut.estEnCours();
-      const estAbandonné = !!abandon?.statut.estAccordé();
+      const aUnAbandonEnCours = !!abandon?.demandeEnCours;
+      const estAbandonné = !!abandon?.estAbandonné;
 
       const raccordement = await getRaccordement({
         role,
