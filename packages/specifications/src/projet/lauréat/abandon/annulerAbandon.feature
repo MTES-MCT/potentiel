@@ -13,7 +13,8 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule l'abandon pour le projet lauréat
-        Alors l'abandon du projet lauréat ne devrait plus exister
+        Alors le projet ne devrait plus avoir d'abandon en cours
+        Et l'abandon du projet lauréat devrait être annulé
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                         |
@@ -28,7 +29,8 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule l'abandon pour le projet lauréat
-        Alors l'abandon du projet lauréat ne devrait plus exister
+        Alors le projet ne devrait plus avoir d'abandon en cours
+        Et l'abandon du projet lauréat devrait être annulé
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                         |
@@ -42,7 +44,8 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
     Scénario: Un porteur annule l'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le porteur annule l'abandon pour le projet lauréat
-        Alors l'abandon du projet lauréat ne devrait plus exister
+        Alors le projet ne devrait plus avoir d'abandon en cours
+        Et l'abandon du projet lauréat devrait être annulé
 
     Scénario: Impossible d'annuler l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat

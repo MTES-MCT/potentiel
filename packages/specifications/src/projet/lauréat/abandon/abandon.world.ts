@@ -93,17 +93,17 @@ export class AbandonWord {
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
 
-  mapToExpected(
+  mapToDemandeAbandonExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Lauréat.Abandon.StatutAbandon.ValueType,
-  ): Lauréat.Abandon.ConsulterAbandonReadModel {
+  ): Lauréat.Abandon.ConsulterDemandeAbandonReadModel {
     if (!this.#demanderAbandonFixture.aÉtéCréé) {
       throw new Error(`Aucune demande d'abandon n'a été créée dans AbandonWorld`);
     }
 
     const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
 
-    const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
+    const expected: Lauréat.Abandon.ConsulterDemandeAbandonReadModel = {
       statut,
       identifiantProjet,
       demande: {
