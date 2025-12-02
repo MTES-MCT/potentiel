@@ -1,5 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 
@@ -20,6 +21,13 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
   const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
 
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+
+  const { features } = getContext() ?? {};
+
+  // Redirection vers la page projet legacy
+  if (!features?.includes('page-projet')) {
+    return children;
+  }
 
   return (
     <div className="flex flex-col gap-2">
