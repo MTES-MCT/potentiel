@@ -10,11 +10,13 @@ import { passerAbandonEnInstructionAction } from './passerAbandonEnInstruction.a
 type PasserAbandonEnInstructionFormProps = {
   identifiantProjet: string;
   estUneReprise: boolean;
+  dateDemande: string;
 };
 
 export const PasserAbandonEnInstruction = ({
   identifiantProjet,
   estUneReprise,
+  dateDemande,
 }: PasserAbandonEnInstructionFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const label = estUneReprise
@@ -45,6 +47,7 @@ export const PasserAbandonEnInstruction = ({
             <>
               <p className="mt-3">{label}</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}

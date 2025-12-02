@@ -119,9 +119,15 @@ export const ProjectDetails = ({
 
   const affichageInfobox = abandonEnCours ? (
     user.role === 'porteur-projet' ? (
-      <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+      <DemandeImpossibleSiAbandonEnCoursInfoBox
+        identifiantProjet={identifiantProjet}
+        dateDemande={abandon.demandéLe.date}
+      />
     ) : user.role === 'admin' || user.role === 'dreal' ? (
-      <DemandeAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+      <DemandeAbandonEnCoursInfoBox
+        identifiantProjet={identifiantProjet}
+        dateDemande={abandon.demandéLe.date}
+      />
     ) : undefined
   ) : undefined;
 
@@ -136,6 +142,7 @@ export const ProjectDetails = ({
     étapes.push({
       type: 'abandon',
       date: DateTime.bind(abandon.accordéLe).date.getTime(),
+      dateDemande: DateTime.bind(abandon.demandéLe).formatter(),
     });
   } else {
     if (demandeRecours?.demande.accord) {

@@ -14,9 +14,10 @@ import { rejeterAbandonAction, RejeterAbandonFormKeys } from './rejeterAbandon.a
 
 type RejeterAbandonFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
-export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) => {
+export const RejeterAbandon = ({ identifiantProjet, dateDemande }: RejeterAbandonFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterAbandonFormKeys>
   >({});
@@ -43,6 +44,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

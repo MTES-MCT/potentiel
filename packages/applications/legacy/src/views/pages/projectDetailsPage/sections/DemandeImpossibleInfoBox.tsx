@@ -4,15 +4,17 @@ import { Routes } from '@potentiel-applications/routes';
 
 type DemandeImpossibleSiAbandonEnCoursInfoBoxProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 export const DemandeImpossibleSiAbandonEnCoursInfoBox = ({
   identifiantProjet,
+  dateDemande,
 }: DemandeImpossibleSiAbandonEnCoursInfoBoxProps) => (
   <InfoBox>
     <span>
       Vous ne pouvez pas faire de demande ou de déclaration sur Potentiel car vous avez une demande
       d'abandon en cours pour ce projet. Si celle-ci n'est plus d'actualité, merci de l'annuler sur{' '}
-      <a href={Routes.Abandon.détail(identifiantProjet)}>la page de la demande</a>.
+      <a href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>la page de la demande</a>.
     </span>
   </InfoBox>
 );

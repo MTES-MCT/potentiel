@@ -18,6 +18,7 @@ type DemandeAbandonListItemReadModel = {
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
+  dateDemande: DateTime.ValueType;
   miseÀJourLe: DateTime.ValueType;
 };
 
@@ -116,5 +117,6 @@ const mapToReadModel = (
     preuveRecandidatureStatut: entity.demande.recandidature
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
+    dateDemande: DateTime.convertirEnValueType(entity.demande.demandéLe),
   };
 };

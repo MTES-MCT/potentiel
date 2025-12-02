@@ -23,12 +23,13 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, raison, pieceJustificative },
 ) => {
   return withUtilisateur(async (utilisateur) => {
+    const dateDemande = new Date().toISOString();
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateDemandeValue: new Date().toISOString(),
+        dateDemandeValue: dateDemande,
         raisonValue: raison,
         pièceJustificativeValue: pieceJustificative,
       },
@@ -36,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Abandon.détail(identifiantProjet) },
+      redirection: { url: Routes.Abandon.détail(identifiantProjet, dateDemande) },
     };
   });
 };

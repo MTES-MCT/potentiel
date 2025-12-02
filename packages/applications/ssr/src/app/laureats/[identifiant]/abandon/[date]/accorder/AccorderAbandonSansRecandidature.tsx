@@ -17,6 +17,7 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
 export const AccorderAbandonSansRecandidature = ({
@@ -49,6 +50,7 @@ export const AccorderAbandonSansRecandidature = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={identifiantProjet} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

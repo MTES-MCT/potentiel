@@ -59,7 +59,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Abandon.détail(identifiantProjet),
+        url: Routes.Abandon.détail(identifiantProjet, dateDemande),
       },
     };
   });

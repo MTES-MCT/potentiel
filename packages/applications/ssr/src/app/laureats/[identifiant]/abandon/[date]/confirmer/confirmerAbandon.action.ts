@@ -11,11 +11,12 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet },
+  { identifiantProjet, dateDemande },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Abandon.ConfirmerAbandonUseCase>({
@@ -30,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Abandon.détail(identifiantProjet),
+        url: Routes.Abandon.détail(identifiantProjet, dateDemande),
       },
     };
   });

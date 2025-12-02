@@ -109,7 +109,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             actions,
             identifiantProjet,
             projetsÀSélectionner,
-            dateDemandeAbandon: abandon.demande.demandéLe.date,
+            dateDemande: abandon.demande.demandéLe.date,
           })}
           {mapToInformationsComponents({
             informations,
@@ -125,20 +125,21 @@ type MapToActionsComponentsProps = {
   actions: AvailableActions;
   identifiantProjet: string;
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
-  dateDemandeAbandon: string;
+  dateDemande: string;
 };
 
 const mapToActionComponents = ({
   actions,
   identifiantProjet,
   projetsÀSélectionner,
-  dateDemandeAbandon,
+  dateDemande,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
       <PasserAbandonEnInstruction
         identifiantProjet={identifiantProjet}
         estUneReprise={actions.includes('reprendre-instruction')}
+        dateDemande={dateDemande}
       />
     )}
     {actions.includes('demander-confirmation') && (
@@ -147,18 +148,26 @@ const mapToActionComponents = ({
     {actions.includes('accorder-avec-recandidature') && (
       <AccorderAbandonAvecRecandidature
         identifiantProjet={identifiantProjet}
-        dateDemande={dateDemandeAbandon}
+        dateDemande={dateDemande}
       />
     )}
     {actions.includes('accorder-sans-recandidature') && (
-      <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
+      <AccorderAbandonSansRecandidature
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemande}
+      />
     )}
-    {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
-    {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
+    {actions.includes('rejeter') && (
+      <RejeterAbandon identifiantProjet={identifiantProjet} dateDemande={dateDemande} />
+    )}
+    {actions.includes('confirmer') && (
+      <ConfirmerAbandon identifiantProjet={identifiantProjet} dateDemande={dateDemande} />
+    )}
     {actions.includes('transmettre-preuve-recandidature') && (
       <TransmettrePreuveRecandidature
         identifiantProjet={identifiantProjet}
         projetsÀSélectionner={projetsÀSélectionner}
+        dateDemande={dateDemande}
       />
     )}
     {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}

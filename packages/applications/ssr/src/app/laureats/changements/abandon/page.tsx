@@ -151,6 +151,7 @@ const mapToListProps = (
       miseÀJourLe,
       recandidature,
       preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
+      dateDemande,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -158,6 +159,7 @@ const mapToListProps = (
       miseÀJourLe: miseÀJourLe.formatter(),
       recandidature,
       preuveRecandidatureStatut,
+      dateDemande: dateDemande.formatter(),
     }),
   );
 

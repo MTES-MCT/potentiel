@@ -13,13 +13,14 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  dateDemande: zod.string().min(1),
 });
 
 export type DemanderConfirmationAbandonFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee },
+  { identifiantProjet, reponseSignee, dateDemande },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
@@ -36,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Abandon.détail(identifiantProjet),
+        url: Routes.Abandon.détail(identifiantProjet, dateDemande),
       },
     };
   });
