@@ -4,20 +4,23 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { getCahierDesCharges, getCandidature } from '../../../../../_helpers';
+import { getCahierDesCharges } from '../../../../../_helpers';
 import { checkLauréatSansAbandonOuAchèvement } from '../../../_helpers/checkLauréatSansAbandonOuAchèvement';
 import { ChampsAvecAction } from '../../../_helpers/types';
-import { PlainType } from '@potentiel-domain/core';
-import { getLauréat, getLauréatInfos } from '../../../_helpers/getLauréat';
+import { getLauréatInfos } from '../../../_helpers/getLauréat';
+import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 
 export type GetInstallationForProjectPage = {
   typologieInstallation?: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]>;
   installateur?: ChampsAvecAction<string>;
   dispositifDeStockage?: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType>;
-  natureDeLExploitation?: ChampsAvecAction<    {typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
-      tauxPrévisionnelACI?: number}>;
-      autorisationDUrbanisme?: ChampsAvecAction<Candidature.Dépôt.RawType['autorisationDUrbanisme']>
+  natureDeLExploitation?: ChampsAvecAction<{
+    typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+    tauxPrévisionnelACI?: number;
+  }>;
+  autorisationDUrbanisme?: ChampsAvecAction<Candidature.Dépôt.RawType['autorisationDUrbanisme']>;
 };
 
 type Props = {
@@ -33,32 +36,34 @@ export const getInstallation = async ({
     await checkLauréatSansAbandonOuAchèvement(identifiantProjet);
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-    const {
+  const {
     installateur: champSupplémentaireInstallateur,
     dispositifDeStockage: champSupplémentaireDispositifDeStockage,
     natureDeLExploitation: champsSupplémentaireNatureDeLExploitation,
     autorisationDUrbanisme: champsSupplémentaireAutorisationDUrbanisme,
   } = cahierDesCharges.getChampsSupplémentaires();
 
-    const data: GetInstallationForProjectPage = {
-  };
+  const data: GetInstallationForProjectPage = {};
 
-  if(champsSupplémentaireAutorisationDUrbanisme){
-  const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
-  data.autorisationDUrbanisme = {
-    value: lauréat.autorisationDUrbanisme
-      ? { numéro: lauréat.autorisationDUrbanisme.numéro, date: lauréat.autorisationDUrbanisme.date.formatter() }
-      : 'Champs non renseigné',
-  };
+  if (champsSupplémentaireAutorisationDUrbanisme) {
+    const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+    data.autorisationDUrbanisme = {
+      value: lauréat.autorisationDUrbanisme
+        ? {
+            numéro: lauréat.autorisationDUrbanisme.numéro,
+            date: lauréat.autorisationDUrbanisme.date.formatter(),
+          }
+        : 'Champs non renseigné',
+    };
   }
 
-  if(champsSupplémentaireNatureDeLExploitation){
-    
+  if (champsSupplémentaireNatureDeLExploitation) {
+    data.natureDeLExploitation = await getNatureDeLExploitation(
+      rôle,
+      identifiantProjet,
+      cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
+    );
   }
-
-
-        data.natureDeLExploitation = 
-
 
   const installationProjection =
     await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
@@ -72,9 +77,11 @@ export const getInstallation = async ({
 
   const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
 
-  data.typologieInstallation = getTypologieInstallation(typologieInstallation, rôle, identifiantProjet),
-  
-
+  data.typologieInstallation = getTypologieInstallation(
+    typologieInstallation,
+    rôle,
+    identifiantProjet,
+  );
   data.dispositifDeStockage = getDispositifDeStockage(
     dispositifDeStockage,
     !!champSupplémentaireDispositifDeStockage,
@@ -83,7 +90,6 @@ export const getInstallation = async ({
     estUnLauréatSansAbandonOuAchèvement,
     !!cahierDesCharges.getRèglesChangements('dispositifDeStockage').informationEnregistrée,
   );
-
   data.installateur = getInstallateur(
     installateur,
     !!champSupplémentaireInstallateur,
@@ -96,51 +102,50 @@ export const getInstallation = async ({
   return data;
 };
 
-const getNatureDeLExploitation = () => {
-      const projection =
-      await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
-        type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
-        data: { identifiantProjet: identifiantProjet.formatter() },
+const getNatureDeLExploitation = async (
+  rôle: Role.ValueType,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['natureDeLExploitation'],
+): Promise<GetInstallationForProjectPage['natureDeLExploitation']> => {
+  const projection =
+    await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
+      type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+      data: { identifiantProjet: identifiantProjet.formatter() },
+    });
+
+  if (Option.isSome(projection)) {
+    const { peutModifier, peutEnregistrerChangement } =
+      await checkAutorisationChangement<'natureDeLExploitation'>({
+        identifiantProjet,
+        rôle,
+        règlesChangementPourAppelOffres,
+        domain: 'natureDeLExploitation',
       });
 
-    if (Option.isSome(projection)) {
-      const natureDeLExploitation = {
-        type: projection.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
-        taux: projection.natureDeLExploitation.tauxPrévisionnelACI,
-      };
-
-      const { peutModifier, peutEnregistrerChangement } =
-        await checkAutorisationChangement<'natureDeLExploitation'>({
-          rôle: Role.convertirEnValueType(rôle),
-          aUnAbandonEnCours,
-          estAbandonné,
-          estAchevé,
-          règlesChangementPourAppelOffres,
-          domain: 'natureDeLExploitation',
-        });
-
-      const affichage = peutModifier
+    const affichage = peutModifier
+      ? {
+          url: Routes.NatureDeLExploitation.modifier(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: "Modifier la nature de l'exploitation",
+        }
+      : peutEnregistrerChangement
         ? {
-            url: Routes.NatureDeLExploitation.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-            labelActions: "Modifier la nature de l'exploitation",
+            url: Routes.NatureDeLExploitation.changement.enregistrer(identifiantProjet.formatter()),
+            label: "Changer la nature de l'exploitation",
+            labelActions: "Changer la nature de l'exploitation",
           }
-        : peutEnregistrerChangement
-          ? {
-              url: Routes.NatureDeLExploitation.changement.enregistrer(
-                identifiantProjet.formatter(),
-              ),
-              label: "Changer la nature de l'exploitation",
-              labelActions: "Changer la nature de l'exploitation",
-            }
-          : undefined;
+        : undefined;
 
-      return {
-        natureDeLExploitation,
-        affichage,
-      };
-    }
-}
+    return {
+      value: {
+        typeNatureDeLExploitation:
+          projection.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
+        tauxPrévisionnelACI: projection.natureDeLExploitation.tauxPrévisionnelACI,
+      },
+      affichage,
+    };
+  }
+};
 
 const getInstallateur = (
   installateur: string,
