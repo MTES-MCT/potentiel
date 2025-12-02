@@ -48,8 +48,8 @@ export const registerListerAchèvementEnAttenteQuery = ({
   list,
 }: ListerAchèvementEnAttenteDependencies) => {
   const handler: MessageHandler<ListerAchèvementEnAttenteQuery> = async ({
-    // appelOffreId,
-    // periodeId,
+    appelOffreId,
+    periodeId,
     range,
   }) => {
     const {
@@ -57,10 +57,10 @@ export const registerListerAchèvementEnAttenteQuery = ({
       range: { endPosition, startPosition },
       total: totalProjet,
     } = await list<LauréatEntity, AchèvementEnAttenteJoins>('lauréat', {
-      // where: {
-      //   appelOffre: Where.equal(appelOffreId),
-      //   période: Where.equal(periodeId),
-      // },
+      where: {
+        appelOffre: Where.equal(appelOffreId),
+        période: Where.equal(periodeId),
+      },
       join: [
         {
           entity: 'raccordement',
