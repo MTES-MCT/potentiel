@@ -10,6 +10,7 @@ import { buildDocument, DonnéesDocument } from '@potentiel-applications/documen
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,17 +19,19 @@ import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet },
+  { identifiantProjet, dateDemande },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+    const abandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
+        demandéLeValue: DateTime.convertirEnValueType(dateDemande).formatter(),
       },
     });
 
@@ -65,7 +68,7 @@ const action: FormAction<FormState, typeof schema> = async (
 export const accorderAbandonAvecRecandidatureAction = formAction(action, schema);
 
 const buildReponseSignee = async (
-  abandon: Lauréat.Abandon.ConsulterAbandonReadModel,
+  abandon: Lauréat.Abandon.ConsulterDemandeAbandonReadModel,
   utilisateur: Omit<Utilisateur.RôleDgecValidateurPayload, 'rôle'>,
 ): Promise<Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const identifiantProjet = abandon.identifiantProjet;

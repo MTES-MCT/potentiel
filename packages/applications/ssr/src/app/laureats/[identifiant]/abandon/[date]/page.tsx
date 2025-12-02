@@ -11,7 +11,7 @@ import { Option } from '@potentiel-libraries/monads';
 import {
   DétailsAbandonPage,
   DétailsAbandonPageProps,
-} from '@/app/laureats/[identifiant]/abandon/(détails)/DétailsAbandon.page';
+} from '@/app/laureats/[identifiant]/abandon/[date]/DétailsAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -19,7 +19,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimelineItemProps';
 
-type PageProps = IdentifiantParameter;
+type PageProps = { params: { identifiant: string; date: string } };
 
 export async function generateMetadata(
   _: IdentifiantParameter,
@@ -28,19 +28,21 @@ export async function generateMetadata(
   const { other } = await parent;
   return {
     title: `Détail abandon du projet ${other?.nomProjet} - Potentiel`,
-    description: "Détail de l'abandon d'un projet",
+    description: "Détail de la demande d'abandon d'un projet",
   };
 }
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
+      const demandéLe = decodeParameter(date);
 
-      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+      const abandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
+          demandéLeValue: demandéLe,
         },
       });
 
@@ -90,7 +92,7 @@ type AvailableActions = DétailsAbandonPageProps['actions'];
 
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
-  abandon: Lauréat.Abandon.ConsulterAbandonReadModel;
+  abandon: Lauréat.Abandon.ConsulterDemandeAbandonReadModel;
 };
 
 const mapToActions = ({

@@ -45,7 +45,7 @@ type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-reca
 
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
-  abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  abandon: PlainType<Lauréat.Abandon.ConsulterDemandeAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
   historique: Array<TimelineItemProps>;
@@ -109,6 +109,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             actions,
             identifiantProjet,
             projetsÀSélectionner,
+            dateDemandeAbandon: abandon.demande.demandéLe.date,
           })}
           {mapToInformationsComponents({
             informations,
@@ -124,12 +125,14 @@ type MapToActionsComponentsProps = {
   actions: AvailableActions;
   identifiantProjet: string;
   projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
+  dateDemandeAbandon: string;
 };
 
 const mapToActionComponents = ({
   actions,
   identifiantProjet,
   projetsÀSélectionner,
+  dateDemandeAbandon,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
@@ -142,7 +145,10 @@ const mapToActionComponents = ({
       <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('accorder-avec-recandidature') && (
-      <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
+      <AccorderAbandonAvecRecandidature
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemandeAbandon}
+      />
     )}
     {actions.includes('accorder-sans-recandidature') && (
       <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />

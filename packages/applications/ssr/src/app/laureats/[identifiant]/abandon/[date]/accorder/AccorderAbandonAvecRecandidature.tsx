@@ -9,10 +9,12 @@ import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRec
 
 type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
 export const AccorderAbandonAvecRecandidature = ({
   identifiantProjet,
+  dateDemande,
 }: AccorderAbandonAvecRecandidatureFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -39,6 +41,7 @@ export const AccorderAbandonAvecRecandidature = ({
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}
