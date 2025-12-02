@@ -10,7 +10,6 @@ type PageTemplateProps = {
   children: React.ReactNode;
   banner?: React.ReactNode;
   feature?: string;
-  heading?: React.ReactNode;
 };
 
 export const PageTemplate: FC<PageTemplateProps> = ({ banner, children, feature }) => {
