@@ -1,27 +1,14 @@
 import { DateTime } from '@potentiel-domain/common';
 
-type GetÉtapesData = {
-  dateNotification: DateTime.ValueType;
-  dateAchèvementPrévisionnel: DateTime.ValueType;
-  dateAbandonAccordé?: DateTime.ValueType;
-  dateRecoursAccordé?: DateTime.ValueType;
-  dateMiseEnService?: DateTime.ValueType;
-  dateAchèvementRéel?: DateTime.ValueType;
-};
+import { EtapesProjetProps } from '../(components)/EtapesProjet';
 
-type EtapesProjetProps = {
-  identifiantProjet: string;
-  doitAfficherAttestationDésignation: boolean;
-  étapes: Array<{
-    type:
-      | 'designation'
-      | 'achèvement-prévisionel'
-      | 'mise-en-service'
-      | 'achèvement-réel'
-      | 'abandon'
-      | 'recours';
-    date: DateTime.ValueType;
-  }>;
+type GetÉtapesData = {
+  dateNotification: DateTime.RawType;
+  dateAchèvementPrévisionnel: DateTime.RawType;
+  dateAbandonAccordé?: DateTime.RawType;
+  dateRecoursAccordé?: DateTime.RawType;
+  dateMiseEnService?: DateTime.RawType;
+  dateAchèvementRéel?: DateTime.RawType;
 };
 
 export const getÉtapesData = ({
