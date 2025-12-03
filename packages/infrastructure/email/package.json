@@ -5,7 +5,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsx --test **/*.test.ts"
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/node-mailjet": "3.3.12"
+    "@types/node-mailjet": "3.3.12",
+    "tsx": "4.19.3"
   }
 }
