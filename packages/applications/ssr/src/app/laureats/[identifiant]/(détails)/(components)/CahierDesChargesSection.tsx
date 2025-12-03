@@ -16,7 +16,8 @@ export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSecti
           ? 'initial (en vigueur à la candidature)'
           : `${
               value.estAlternatif ? 'alternatif' : ''
-            } modifié rétroactivement et publié le ${value.dateParution}}`}{' '}
+            } modifié rétroactivement et publié le ${value.dateParution}`}
+        {', '}
         <Link target="_blank" className="w-fit" href={value.cahierDesChargesURL}>
           voir le cahier des charges
         </Link>

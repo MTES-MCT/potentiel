@@ -32,91 +32,79 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   identifiantProjet,
   doitAfficherAttestationDésignation,
   étapes,
-}) => (
-  <Section title="Étapes du projet" className="flex-auto min-w-0">
-    <aside aria-label="Progress">
-      <ol className="pl-0 overflow-hidden list-none">
-        {étapes
-          .sort((a, b) => a.date.localeCompare(b.date))
-          .map((étape, index) => {
-            const isLastItem = index === étapes.length - 1;
+}) => {
+  const étapesTriées = étapes.sort((a, b) => a.date.localeCompare(b.date));
+  const estAchevé = étapesTriées.some((étape) => étape.type === 'achèvement-réel');
 
-            return match(étape)
-              .with({ type: 'designation' }, ({ type, date }) => (
-                <ÉtapeTerminée key={`project-step-${type}`} titre="Notification" date={date}>
-                  {doitAfficherAttestationDésignation && (
-                    <DownloadDocument
-                      className="mb-0"
-                      label="Télécharger l'attestation"
-                      format="pdf"
-                      url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+  return (
+    <Section title="Étapes du projet" className="flex-auto min-w-0">
+      <aside aria-label="Progress">
+        <ol className="pl-0 overflow-hidden list-none">
+          {étapesTriées.map((étape, index) => {
+            const isLastItem = index === étapesTriées.length - 1;
+            return (
+              <div key={`project-step-${étape.type}`}>
+                {match(étape)
+                  .with({ type: 'designation' }, () => (
+                    <ÉtapeTerminée titre="Notification" date={étape.date}>
+                      {doitAfficherAttestationDésignation && (
+                        <DownloadDocument
+                          className="mb-0"
+                          label="Télécharger l'attestation"
+                          format="pdf"
+                          url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                        />
+                      )}
+                    </ÉtapeTerminée>
+                  ))
+                  .with({ type: 'recours' }, () => (
+                    <ÉtapeTerminée titre="Recours accordé" date={étape.date}>
+                      <Link href={Routes.Recours.détail(identifiantProjet)}>
+                        Voir les détails du recours
+                      </Link>
+                    </ÉtapeTerminée>
+                  ))
+                  .with({ type: 'abandon' }, () => (
+                    <ÉtapeTerminée
+                      titre="Abandon accordé"
+                      date={étape.date}
+                      isLastItem={isLastItem}
+                    >
+                      <Link href={Routes.Abandon.détail(identifiantProjet)}>
+                        Voir les détails de l'abandon
+                      </Link>
+                    </ÉtapeTerminée>
+                  ))
+                  .with({ type: 'achèvement-prévisionel' }, () => (
+                    <ÉtapeTerminée titre="Date d'achèvement prévisionnel" date={étape.date} />
+                  ))
+                  .with({ type: 'mise-en-service' }, () => (
+                    <ÉtapeTerminée titre="Mise en service" date={étape.date} />
+                  ))
+                  .with({ type: 'achèvement-réel' }, () => (
+                    <ÉtapeTerminée
+                      titre="Date d'achèvement réel"
+                      date={étape.date}
+                      isLastItem={isLastItem}
                     />
-                  )}
-                </ÉtapeTerminée>
-              ))
-              .with({ type: 'recours' }, ({ type, date }) => (
-                <ÉtapeTerminée key={`project-step-${type}`} titre="Recours accordé" date={date}>
-                  <Link href={Routes.Recours.détail(identifiantProjet)}>
-                    Voir les détails du recours
-                  </Link>
-                </ÉtapeTerminée>
-              ))
-              .with({ type: 'abandon' }, ({ type, date }) => (
-                <ÉtapeTerminée
-                  isLastItem={isLastItem}
-                  key={`project-step-${type}`}
-                  titre="Abandon accordé"
-                  date={date}
-                >
-                  <Link href={Routes.Abandon.détail(identifiantProjet)}>
-                    Voir les détails de l'abandon
-                  </Link>
-                </ÉtapeTerminée>
-              ))
-              .with({ type: 'achèvement-prévisionel' }, ({ type, date }) => (
-                <ÉtapeTerminée
-                  key={`project-step-${type}`}
-                  titre="date d'achèvement prévisionnel"
-                  date={date}
-                />
-              ))
-              .with({ type: 'mise-en-service' }, ({ type, date }) => (
-                <ÉtapeTerminée key={`project-step-${type}`} titre="Mise en service" date={date} />
-              ))
-              .with({ type: 'achèvement-réel' }, ({ type, date }) => (
-                <ÉtapeTerminée
-                  isLastItem={isLastItem}
-                  key={`project-step-${type}`}
-                  titre="Date d'achèvement réel"
-                  date={date}
-                />
-              ))
-              .exhaustive();
+                  ))
+                  .exhaustive()}
+              </div>
+            );
           })}
-
-        {!étapes.find((étape) => étape.type === 'abandon') && (
-          <>
-            {!étapes.find((étape) => étape.type === 'mise-en-service') && (
-              <ÉtapeÀTransmettre
-                isLastItem={!!étapes.find((étape) => étape.type === 'achèvement-réel')}
-                key={`project-step-mise-en-service`}
-                titre="Mise en service"
-              />
-            )}
-
-            {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
-              <ÉtapeÀTransmettre
-                isLastItem
-                key={`project-step-achèvement-réel`}
-                titre="Date d'achèvement réel"
-              />
-            )}
-          </>
-        )}
-      </ol>
-    </aside>
-  </Section>
-);
+          {!étapesTriées.some((étape) => étape.type === 'abandon') && (
+            <>
+              {!étapesTriées.some((étape) => étape.type === 'mise-en-service') && (
+                <ÉtapeÀTransmettre titre="Mise en service" isLastItem={estAchevé} />
+              )}
+              {!estAchevé && <ÉtapeÀTransmettre titre="Date d'achèvement réel" isLastItem />}
+            </>
+          )}
+        </ol>
+      </aside>
+    </Section>
+  );
+};
 
 type ÉtapeTerminéeProps = {
   titre: string;
@@ -142,6 +130,7 @@ type ÉtapeÀTransmettreProps = {
   titre: string;
   isLastItem: boolean;
 };
+
 const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
