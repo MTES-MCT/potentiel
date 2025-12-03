@@ -5,12 +5,12 @@ import { Lauréat, IdentifiantProjet, Candidature, Éliminé } from '@potentiel-
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getCahierDesCharges } from '../../../../_helpers';
 import { ChampsAvecAction } from '../../_helpers/types';
 import { getLauréatInfos } from '../../_helpers/getLauréat';
 
 import { getRaccordementData } from './getRaccordementData';
 import { getÉtapesData } from './getÉtapesData';
+import { getCahierDesChargesData } from './getCahierDesChargesData';
 
 export type GetTableauDeBordDataForProjectPage = {
   typologieInstallation?: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]>;
@@ -23,13 +23,7 @@ type Props = {
   rôle: Role.ValueType;
 };
 
-// DATA
-// Cahier des charges
-
 // garanties financières
-
-// Raccordement
-// Alerte moins violente, dans sa section
 
 // Alerte Achèvement (la retrouver ?)
 // est achevé => demandes pas possible
@@ -40,11 +34,6 @@ type Props = {
 // Est abandonnée
 
 export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) => {
-  // cahier des charges
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
-
-  console.log(cahierDesCharges);
-
   // Lauréat
   const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
@@ -64,6 +53,8 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
 
   const recours = await getRecours(identifiantProjet);
 
+  const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
+
   const étapes = getÉtapesData({
     dateNotification: lauréat.notifiéLe.formatter(),
     dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime.formatter(),
@@ -80,6 +71,7 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
 
   return {
     étapes,
+    cahierDesChargesData,
     doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
     raccordement,
   };
