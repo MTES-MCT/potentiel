@@ -8,7 +8,7 @@ import { Section } from './Section';
 export type CahierDesChargesSectionProps = CahierDesChargesData;
 
 export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSectionProps) =>
-  value === 'Champs non renseigné' ? null : (
+  value && (
     <Section title="Cahier des charges">
       <div>
         Instruction selon le cahier des charges{' '}

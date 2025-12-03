@@ -49,7 +49,7 @@ export const getRaccordementData = async ({
     });
 
   const value = Option.isNone(raccordement)
-    ? 'Champs non renseigné'
+    ? undefined
     : {
         nombreDeDossiers: raccordement.dossiers.length,
         gestionnaireDeRéseau: Option.isSome(gestionnaireRéseau)

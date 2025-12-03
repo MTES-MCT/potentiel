@@ -1,9 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 'use client';
 
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
-import Link from 'next/link';
 
-import { Section } from './(components)/Section';
 import { SectionPage } from './(components)/SectionPage';
 import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjetSection';
 import { GetRaccordementForProjectPage } from './_helpers/getRaccordementData';
@@ -13,6 +12,9 @@ import {
 } from './(components)/CahierDesChargesSection';
 import { AbandonAlertData } from './_helpers/getAbandonAlert';
 import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
+import { GetGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
+import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièresSection';
+import { RaccordementSection } from './(components)/RaccordementSection';
 
 type TableauDeBordSectionProps = {
   identifiantProjet: string;
@@ -24,6 +26,8 @@ type TableauDeBordSectionProps = {
   raccordement: GetRaccordementForProjectPage;
   abandonAlert: AbandonAlertData;
   achèvementAlert: AchèvementAlertData;
+  garantiesFinancièresData: GetGarantiesFinancièresData | undefined;
+  estAchevé: boolean;
 };
 
 export const TableauDeBordSection = ({
@@ -33,6 +37,8 @@ export const TableauDeBordSection = ({
   raccordement,
   abandonAlert,
   achèvementAlert,
+  garantiesFinancièresData,
+  estAchevé,
 }: TableauDeBordSectionProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -46,14 +52,16 @@ export const TableauDeBordSection = ({
       {abandonAlert && (
         <Notice
           description={abandonAlert.label}
-          link={{
-            linkProps: {
-              href: abandonAlert.url,
-            },
-            text: 'Voir la page de la demande',
-          }}
           title="Abandon"
           severity="info"
+          {...(abandonAlert.url && {
+            link: {
+              linkProps: {
+                href: abandonAlert.url,
+              },
+              text: 'Voir la page de la demande',
+            },
+          })}
         />
       )}
       <CahierDesChargesSection value={cahierDesCharges.value} action={cahierDesCharges.action} />
@@ -64,36 +72,14 @@ export const TableauDeBordSection = ({
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
         />
         <div className="flex flex-col gap-4">
-          {raccordement.value && (
-            <Section title="Raccordement au réseau">
-              {raccordement.value === 'Champs non renseigné' ? (
-                raccordement.value
-              ) : (
-                <>
-                  <div>
-                    <span className="mb-0 font-semibold">Gestionnaire de réseau</span> :{' '}
-                    {raccordement.value.gestionnaireDeRéseau}{' '}
-                  </div>
-                  <div className="mb-0 font-semibold">
-                    {raccordement.value.nombreDeDossiers} dossier(s) de raccordement renseigné(s)
-                  </div>
-                  {raccordement.action && (
-                    <Link className="w-fit" href={raccordement.action.url}>
-                      {raccordement.action.label}
-                    </Link>
-                  )}
-                </>
-              )}
-            </Section>
+          {raccordement.value && <RaccordementSection raccordement={raccordement} />}
+          {garantiesFinancièresData && (
+            <GarantiesFinancièresSection
+              estAchevé={estAchevé}
+              identifiantProjet={identifiantProjet}
+              garantiesFinancières={garantiesFinancièresData}
+            />
           )}
-          <Section title="Garanties financières">
-            <>
-              <span>
-                Le projet dispose actuellement de garanties financières validées, avec une durée de
-                validité jusqu'à six mois après achèvement du projet.
-              </span>
-            </>
-          </Section>
         </div>
       </div>
     </div>

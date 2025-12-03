@@ -30,10 +30,10 @@ const Installation = ({
       {typologieInstallation && (
         <Section title="Typologie du projet">
           <div className="flex flex-col gap-2">
-            {typologieInstallation.value === 'Champs non renseigné' ? (
-              <span>{typologieInstallation.value}</span>
-            ) : (
+            {typologieInstallation.value ? (
               <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
+            ) : (
+              <span>Champs non renseigné</span>
             )}
             {typologieInstallation.action && (
               <Link className="w-fit" href={typologieInstallation.action.url}>
@@ -55,9 +55,7 @@ const Installation = ({
       )}
       {dispositifDeStockage && (
         <Section title="Dispositif de stockage">
-          {dispositifDeStockage.value === 'Champs non renseigné' ? (
-            <div>{dispositifDeStockage.value}</div>
-          ) : (
+          {dispositifDeStockage.value ? (
             <div>
               <div>
                 {dispositifDeStockage.value.installationAvecDispositifDeStockage
@@ -77,6 +75,8 @@ const Installation = ({
                 </div>
               ) : null}
             </div>
+          ) : (
+            <div>Champs non renseigné</div>
           )}
           {dispositifDeStockage.action && (
             <Link className="w-fit" href={dispositifDeStockage.action.url}>
@@ -87,9 +87,7 @@ const Installation = ({
       )}
       {autorisationDUrbanisme && (
         <Section title="Autorisation d'urbanisme">
-          {autorisationDUrbanisme.value === 'Champs non renseigné' ? (
-            <div>{autorisationDUrbanisme.value}</div>
-          ) : (
+          {autorisationDUrbanisme.value ? (
             <ul className="list-none m-0 pl-0">
               <li>Numéro : {autorisationDUrbanisme.value?.numéro}</li>
               {autorisationDUrbanisme.value?.date && (
@@ -98,14 +96,14 @@ const Installation = ({
                 </li>
               )}
             </ul>
+          ) : (
+            <div>Champs non renseigné</div>
           )}
         </Section>
       )}
       {natureDeLExploitation && (
         <Section title="Nature de l'exploitation">
-          {natureDeLExploitation.value === 'Champs non renseigné' ? (
-            <div>{natureDeLExploitation.value}</div>
-          ) : (
+          {natureDeLExploitation.value ? (
             <div className="flex flex-col">
               <span>
                 {getNatureDeLExploitationTypeLabel(
@@ -119,6 +117,8 @@ const Installation = ({
                 </span>
               ) : null}
             </div>
+          ) : (
+            <div>{natureDeLExploitation.value}</div>
           )}
           {natureDeLExploitation.action && (
             <Link className="w-fit" href={natureDeLExploitation.action.url}>
