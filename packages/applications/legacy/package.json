@@ -17,6 +17,7 @@
     "@hqoss/monads": "0.5.0",
     "@json2csv/plainjs": "7.0.6",
     "@potentiel-applications/bootstrap": "*",
+    "@potentiel-applications/api": "*",
     "@potentiel-applications/request-context": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-applications/subscribers": "*",
