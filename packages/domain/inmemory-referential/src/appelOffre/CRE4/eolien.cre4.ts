@@ -14,6 +14,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   changement: {
     puissance: {
       demande: true,
+      informationEnregistrée: true,
       ratios: {
         min: 0.9,
         max: 1.4,

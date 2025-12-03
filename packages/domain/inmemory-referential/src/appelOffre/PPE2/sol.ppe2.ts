@@ -30,6 +30,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     puissance: {
       demande: true,
+      informationEnregistrée: true,
       ratios: {
         min: 0.9,
         max: 1.4,
