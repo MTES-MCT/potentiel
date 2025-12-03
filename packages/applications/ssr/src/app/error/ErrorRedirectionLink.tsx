@@ -6,6 +6,8 @@ import { useParams, usePathname } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { decodeParameter } from '@/utils/decodeParameter';
+
 export const ErrorRedirectionLink = () => {
   const { identifiant } = useParams<{ identifiant?: string }>();
   const pathname = usePathname();
@@ -17,7 +19,10 @@ export const ErrorRedirectionLink = () => {
     <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
       <li>
         {identifiantProjet ? (
-          <Link className={fr.cx('fr-btn')} href={Routes.Projet.details(identifiantProjet)}>
+          <Link
+            className={fr.cx('fr-btn')}
+            href={Routes.Projet.details(decodeParameter(identifiantProjet))}
+          >
             Retour à la page projet
           </Link>
         ) : (
