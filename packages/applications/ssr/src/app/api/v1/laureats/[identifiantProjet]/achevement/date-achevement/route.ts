@@ -42,9 +42,9 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
         type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet,
-          dateAchèvementValue: DateTime.convertirEnValueType(new Date(dateAchevement).toISOString())
-            .définirHeureÀMidi()
-            .formatter(),
+          dateAchèvementValue: DateTime.convertirEnValueType(
+            new Date(dateAchevement).toISOString(),
+          ).formatter(),
           transmiseLeValue: new Date().toISOString(),
           transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
         },
