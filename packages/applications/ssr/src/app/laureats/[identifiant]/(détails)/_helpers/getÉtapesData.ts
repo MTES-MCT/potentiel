@@ -1,6 +1,6 @@
 import { DateTime } from '@potentiel-domain/common';
 
-import { EtapesProjetProps } from '../(components)/EtapesProjet';
+import { EtapesProjetProps } from '../(components)/EtapesProjetSection';
 
 type GetÉtapesData = {
   dateNotification: DateTime.RawType;

@@ -35,7 +35,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
       }
 
-      const { étapes, doitAfficherAttestationDésignation, raccordement } =
+      const { étapes, doitAfficherAttestationDésignation, raccordement, cahierDesChargesData } =
         await getTableauDeBordData({
           rôle: utilisateur.rôle,
           identifiantProjet,
@@ -46,6 +46,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           frise={{ étapes, doitAfficherAttestationDésignation }}
           raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
+          cahierDesCharges={cahierDesChargesData}
         />
       );
     }),

@@ -1,0 +1,63 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+
+import { ChampsAvecAction } from '../../_helpers/types';
+import { getCahierDesCharges } from '../../../../_helpers';
+
+type Props = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  rôle: Role.ValueType;
+};
+
+export type CahierDesChargesData = ChampsAvecAction<
+  | {
+      estInitial: true;
+      estAlternatif: false;
+      doitChoisirUnCahierDesChargesModificatif: boolean;
+      cahierDesChargesURL: string;
+    }
+  | {
+      estInitial: false;
+      estAlternatif: boolean;
+      doitChoisirUnCahierDesChargesModificatif: false;
+      dateParution: AppelOffre.CahierDesChargesModifié['paruLe'];
+      cahierDesChargesURL: string;
+    }
+>;
+
+export const getCahierDesChargesData = async ({
+  identifiantProjet,
+  rôle,
+}: Props): Promise<CahierDesChargesData> => {
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+
+  const value = cahierDesCharges.cahierDesChargesModificatif
+    ? {
+        estInitial: false as const,
+        estAlternatif: !!cahierDesCharges.cahierDesChargesModificatif.alternatif,
+        doitChoisirUnCahierDesChargesModificatif: false as const,
+        dateParution: cahierDesCharges.cahierDesChargesModificatif?.paruLe,
+        cahierDesChargesURL: cahierDesCharges.appelOffre.cahiersDesChargesUrl,
+      }
+    : {
+        estInitial: true as const,
+        estAlternatif: false as const,
+        doitChoisirUnCahierDesChargesModificatif:
+          cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
+        cahierDesChargesURL: cahierDesCharges.appelOffre.cahiersDesChargesUrl,
+      };
+
+  const action = rôle.aLaPermission('cahierDesCharges.choisir')
+    ? {
+        label: 'Accéder au choix du cahier des charges',
+        url: Routes.CahierDesCharges.choisir(identifiantProjet.formatter()),
+      }
+    : undefined;
+
+  return {
+    value,
+    action,
+  };
+};

@@ -1,13 +1,16 @@
 'use client';
 
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Link from 'next/link';
 
 import { Section } from './(components)/Section';
 import { SectionPage } from './(components)/SectionPage';
-import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjet';
+import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjetSection';
 import { GetRaccordementForProjectPage } from './_helpers/getRaccordementData';
+import {
+  CahierDesChargesSection,
+  CahierDesChargesSectionProps,
+} from './(components)/CahierDesChargesSection';
 
 type TableauDeBordSectionProps = {
   identifiantProjet: string;
@@ -15,12 +18,14 @@ type TableauDeBordSectionProps = {
     étapes: EtapesProjetProps['étapes'];
     doitAfficherAttestationDésignation: boolean;
   };
+  cahierDesCharges: CahierDesChargesSectionProps;
   raccordement: GetRaccordementForProjectPage;
 };
 
 export const TableauDeBordSection = ({
   identifiantProjet,
   frise: { étapes, doitAfficherAttestationDésignation },
+  cahierDesCharges,
   raccordement,
 }: TableauDeBordSectionProps) => (
   <SectionPage title="Tableau de bord">
@@ -32,23 +37,7 @@ export const TableauDeBordSection = ({
         title="Abandon"
         severity="info"
       />
-      <Section title="Cahier des charges">
-        <span>Instruction selon le cahier des charges en vigueur</span>
-        <Button priority="tertiary no outline" className="p-0 m-0" size="small">
-          Voir le cahier des charges
-        </Button>
-        <Notice
-          description="Faut changer de cahier des charges wesh."
-          title="Cahier des charges"
-          severity="info"
-          link={{
-            linkProps: {
-              href: '#',
-            },
-            text: 'Veuillez en changer ici',
-          }}
-        />
-      </Section>
+      <CahierDesChargesSection value={cahierDesCharges.value} action={cahierDesCharges.action} />
       <div className="flex flex-row gap-4">
         <EtapesProjet
           identifiantProjet={identifiantProjet}
