@@ -12,7 +12,7 @@ model ProjetAvecAchevementEnAttente {
   appelOffre: string;
   periode: string;
   codePostal: string;
-  prix: integer;
+  prix: float32;
   coefficientKChoisi: boolean;
 }
 
@@ -46,33 +46,33 @@ interface AchevementV1 {
    *
    * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
    */
-  @route("/laureats/{identifiantProjet}/achevement/date-achevement")
-  @post
-  transmettreDateDAchevement(
-    @path identifiantProjet: string,
-    @body body: TransmettreDateAchevementBody,
-  ): {} | Error;
+  // @route("/laureats/{identifiantProjet}/achevement/date-achevement")
+  // @post
+  // transmettreDateDAchevement(
+  //   @path identifiantProjet: string,
+  //   @body body: TransmettreDateAchevementBody,
+  // ): {} | Error;
 }
 
-@useAuth(BearerAuth)
-@tag("Achèvement V2")
-interface AchevementV2 {
-  /**
-   * Liste les projets pour lesquels une attestation a été transmise, mais non encore confirmée.
-   */
-  @route("/achevements/en-attente-confirmation")
-  @get
-  listerEnAttenteConfirmation(
-    @query
-    page?: uint16,
-  ): ListResult<ProjetAvecAchevementEnAttente> | Error;
+// @useAuth(BearerAuth)
+// @tag("Achèvement V2")
+// interface AchevementV2 {
+//   /**
+//    * Liste les projets pour lesquels une attestation a été transmise, mais non encore confirmée.
+//    */
+//   @route("/achevements/en-attente-confirmation")
+//   @get
+//   listerEnAttenteConfirmation(
+//     @query
+//     page?: uint16,
+//   ): ListResult<ProjetAvecAchevementEnAttente> | Error;
 
-  /**
-   * Confirmer l'achèvement d'un projet
-   *
-   * _NB: Dans un premier temps, ce endpoint n'est pas disponible. A terme, il remplacera /laureats/{identifiantProjet}/achevement/date-achevement:transmettre_
-   */
-  @route("/laureats/{identifiantProjet}/achevement/confirmer")
-  @post
-  confirmer(@path identifiantProjet: string): {} | Error;
-}
+//   /**
+//    * Confirmer l'achèvement d'un projet
+//    *
+//    * _NB: Dans un premier temps, ce endpoint n'est pas disponible. A terme, il remplacera /laureats/{identifiantProjet}/achevement/date-achevement:transmettre_
+//    */
+//   @route("/laureats/{identifiantProjet}/achevement/confirmer")
+//   @post
+//   confirmer(@path identifiantProjet: string): {} | Error;
+// }

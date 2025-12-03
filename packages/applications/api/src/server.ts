@@ -5,9 +5,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { raccordementHandlers } from './handlers/raccordement/index.js';
 import { ApiError } from './errors.js';
+import { achevementHandlers } from './handlers/achevement/index.js';
 
 export const createApiServer = (basePath: string) => {
-  const router = createPotentielApiRouter(raccordementHandlers, {
+  const router = createPotentielApiRouter(raccordementHandlers, achevementHandlers, {
     basePath,
     onInternalError: ({ request, response }, error) => {
       getLogger().error('Internal server error:', { error, url: request.url });
