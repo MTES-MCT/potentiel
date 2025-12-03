@@ -18,7 +18,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
-      instructionAutomatique: 'rejet',
+      instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
@@ -135,6 +135,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '2',
@@ -161,6 +167,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '3',
@@ -187,6 +199,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '4',
@@ -212,12 +230,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'accord',
-        },
-      },
     },
   ],
 };
