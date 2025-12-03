@@ -11,6 +11,7 @@ import { getRaccordementData } from './getRaccordementData';
 import { getÉtapesData } from './getÉtapesData';
 import { getCahierDesChargesData } from './getCahierDesChargesData';
 import { getAbandonAlert } from './getAbandonAlert';
+import { getAchèvementAlert } from './getAchèvementAlert';
 
 // type
 
@@ -24,10 +25,6 @@ type Props = {
 // Alerte Achèvement (la retrouver ?)
 // est achevé => demandes pas possible
 // transmission docs sinon
-
-// Abandon alerte
-// A une demande d'abandon en cours
-// Est abandonnée
 
 export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) => {
   // Lauréat
@@ -71,12 +68,15 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     identifiantProjet.formatter(),
   );
 
+  const achèvementAlert = getAchèvementAlert(achèvement.estAchevé, rôle);
+
   return {
     étapes,
     cahierDesChargesData,
     doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
     raccordement,
     abandonAlert,
+    achèvementAlert,
   };
 };
 
