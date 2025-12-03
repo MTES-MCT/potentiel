@@ -13,20 +13,20 @@ export const dynamic = 'force-dynamic';
 
 const routeParamsSchema = z.object({
   page: z.coerce.number().int().optional(),
-  appelOffreId: z.string().optional(),
-  periodeId: z.string().optional(),
+  appelOffre: z.string().optional(),
+  periode: z.string().optional(),
 });
 
 type AchèvementEnAttenteApiResponse = {
-  referenceDossierRaccordement: string;
   identifiantProjet: string;
-  appelOffre: string;
+  identifiantGestionnaireReseau: string;
+  referenceDossierRaccordement: string;
   dateDCR?: string;
-  codePostalInstallation: string;
-  période: string;
-  identifiantGestionnaireRéseau: string;
+  appelOffre: string;
+  periode: string;
+  codePostal: string;
   prix: number;
-  souhaitIndexationCoefficientK: boolean;
+  coefficientKChoisi: boolean;
 };
 
 type ApiResponse = {
@@ -39,15 +39,15 @@ export const GET = (request: NextRequest) =>
   apiAction(async () =>
     withUtilisateur(async () => {
       const { searchParams } = new URL(request.url);
-      const { page, appelOffreId, periodeId } = routeParamsSchema.parse(
+      const { page, appelOffre, periode } = routeParamsSchema.parse(
         Object.fromEntries(searchParams.entries()),
       );
 
       const result = await mediator.send<Lauréat.Achèvement.ListerAchèvementEnAttenteQuery>({
         type: 'Lauréat.Achèvement.Query.ListerAchèvementEnAttente',
         data: {
-          appelOffreId,
-          periodeId,
+          appelOffre,
+          periode,
           range: page
             ? mapToRangeOptions({
                 currentPage: page,
@@ -70,25 +70,25 @@ const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
   range,
   items: items.map(
     ({
-      appelOffre,
-      codePostalInstallation,
-      dateDCR,
-      identifiantGestionnaireRéseau,
       identifiantProjet,
-      prix,
-      période,
-      referenceDossierRaccordement,
-      souhaitIndexationCoefficientK,
-    }) => ({
+      identifiantGestionnaireReseau,
       appelOffre,
-      codePostalInstallation,
-      dateDCR: dateDCR?.formatterDate(),
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      identifiantProjet: identifiantProjet.formatter(),
-      période,
-      prix,
+      periode,
+      codePostal,
       referenceDossierRaccordement,
-      souhaitIndexationCoefficientK,
+      dateDCR,
+      prix,
+      coefficientKChoisi,
+    }) => ({
+      identifiantProjet: identifiantProjet.formatter(),
+      identifiantGestionnaireReseau: identifiantGestionnaireReseau.formatter(),
+      appelOffre,
+      periode,
+      referenceDossierRaccordement,
+      dateDCR: dateDCR?.formatterDate(),
+      codePostal,
+      prix,
+      coefficientKChoisi,
     }),
   ),
 });

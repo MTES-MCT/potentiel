@@ -12,14 +12,14 @@ import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordemen
 
 type AchèvementEnAttente = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireReseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   referenceDossierRaccordement: string;
   dateDCR?: DateTime.ValueType;
   appelOffre: string;
-  codePostalInstallation: string;
-  période: string;
+  periode: string;
+  codePostal: string;
   prix: number;
-  souhaitIndexationCoefficientK: boolean;
+  coefficientKChoisi: boolean;
 };
 
 export type ListerAchèvementEnAttenteReadModel = {
@@ -31,8 +31,8 @@ export type ListerAchèvementEnAttenteReadModel = {
 export type ListerAchèvementEnAttenteQuery = Message<
   'Lauréat.Achèvement.Query.ListerAchèvementEnAttente',
   {
-    appelOffreId?: string;
-    periodeId?: string;
+    appelOffre?: string;
+    periode?: string;
     range?: RangeOptions;
   },
   ListerAchèvementEnAttenteReadModel
@@ -48,8 +48,8 @@ export const registerListerAchèvementEnAttenteQuery = ({
   list,
 }: ListerAchèvementEnAttenteDependencies) => {
   const handler: MessageHandler<ListerAchèvementEnAttenteQuery> = async ({
-    appelOffreId,
-    periodeId,
+    appelOffre,
+    periode,
     range,
   }) => {
     const {
@@ -58,8 +58,8 @@ export const registerListerAchèvementEnAttenteQuery = ({
       total: totalProjet,
     } = await list<LauréatEntity, AchèvementEnAttenteJoins>('lauréat', {
       where: {
-        appelOffre: Where.equal(appelOffreId),
-        période: Where.equal(periodeId),
+        appelOffre: Where.equal(appelOffre),
+        période: Where.equal(periode),
       },
       join: [
         {
@@ -148,18 +148,18 @@ export const mapToReadModel: MapToReadModelProps = (
 
   return {
     identifiantProjet: idProjet,
+    identifiantGestionnaireReseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      ),
     appelOffre: idProjet.appelOffre,
-    période: idProjet.période,
+    periode: idProjet.période,
     referenceDossierRaccordement: dossier.référence,
     dateDCR: dossier.demandeComplèteRaccordement?.dateQualification
       ? DateTime.convertirEnValueType(dossier.demandeComplèteRaccordement.dateQualification)
       : undefined,
-    codePostalInstallation: codePostal,
-    identifiantGestionnaireRéseau:
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseau,
-      ),
+    codePostal,
     prix: prixReference,
-    souhaitIndexationCoefficientK: !!coefficientKChoisi,
+    coefficientKChoisi: !!coefficientKChoisi,
   };
 };

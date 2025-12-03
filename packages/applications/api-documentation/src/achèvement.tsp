@@ -6,14 +6,14 @@ namespace PotentielApi;
 
 model ProjetAvecAchevementEnAttente {
   identifiantProjet: string;
-  identifiantGestionnaireRéseau: string;
+  identifiantGestionnaireReseau: string;
   referenceDossierRaccordement: string;
   dateDCR?: string;
   appelOffre: string;
-  période: string;
-  codePostalInstallation: string;
+  periode: string;
+  codePostal: string;
   prix: integer;
-  souhaitIndexationCoefficientK: boolean;
+  coefficientKChoisi: boolean;
 }
 
 model TransmettreDateAchevementBody {
@@ -35,10 +35,10 @@ interface AchevementV1 {
     page?: uint16,
 
     @query
-    appelOffreId?: string,
+    appelOffre?: string,
 
     @query
-    periodeId?: string,
+    periode?: string,
   ): ListResult<ProjetAvecAchevementEnAttente> | Error;
 
   /**
