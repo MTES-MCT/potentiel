@@ -1,6 +1,7 @@
 import http from 'node:http';
 
 import { createPotentielApiRouter } from '@potentiel-applications/api-documentation';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { raccordementHandlers } from './handlers/raccordement/index.js';
 import { ApiError } from './errors.js';
@@ -8,8 +9,8 @@ import { ApiError } from './errors.js';
 export const createApiServer = (basePath: string) => {
   const router = createPotentielApiRouter(raccordementHandlers, {
     basePath,
-    onInternalError: ({ response }, error) => {
-      console.error('Internal server error:', error);
+    onInternalError: ({ request, response }, error) => {
+      getLogger().error('Internal server error:', { error, url: request.url });
       response.setHeader('Content-Type', 'text/plain;charset=utf-8');
       if (error instanceof ApiError) {
         response.statusCode = error.code;

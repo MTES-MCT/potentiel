@@ -67,13 +67,13 @@ interface Raccordement {
    *
    * _NB: un projet peut avoir plusieurs dossiers de raccordement._
    */
-  // @route("/laureats/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre")
-  // @post
-  // transmettreDateMiseEnService(
-  //   @path identifiantProjet: string,
-  //   @path reference: string,
-  //   @body body: TransmettreDateMiseEnServiceBody,
-  // ): {} | Error;
+  @route("/laureats/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre")
+  @post
+  transmettreDateMiseEnService(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: TransmettreDateMiseEnServiceBody,
+  ): {} | Error;
 
   // /**
   //  * Modifie la référence du dossier de raccordement
