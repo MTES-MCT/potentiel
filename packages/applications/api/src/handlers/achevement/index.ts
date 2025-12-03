@@ -1,7 +1,7 @@
 import { AchevementV1 } from '@potentiel-applications/api-documentation';
 
-import { listerAchevementEnAttenteHandler } from './listerAchevementEnAttente.handler.js';
+import { listerProjetAvecAchevementATransmettreHandler } from './listerProjetAvecAchevementATransmettre.handler.js';
 
 export const achevementHandlers: AchevementV1 = {
-  listerEnAttente: listerAchevementEnAttenteHandler,
+  listerProjetAvecAchevementATransmettre: listerProjetAvecAchevementATransmettreHandler,
 };

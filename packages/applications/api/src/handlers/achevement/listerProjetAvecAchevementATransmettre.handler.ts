@@ -3,25 +3,28 @@ import { mediator } from 'mediateur';
 import { AchevementV1, HttpContext } from '@potentiel-applications/api-documentation';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { mapToRangeOptions } from '#helpers';
+import { getUtilisateur, mapToRangeOptions } from '#helpers';
 
-export const listerAchevementEnAttenteHandler: AchevementV1<HttpContext>['listerEnAttente'] =
+export const listerProjetAvecAchevementATransmettreHandler: AchevementV1<HttpContext>['listerProjetAvecAchevementATransmettre'] =
   async (_, options) => {
     const { page, appelOffre, periode } = options ?? {};
+    const utilisateur = getUtilisateur();
 
-    const result = await mediator.send<Lauréat.Achèvement.ListerAchèvementEnAttenteQuery>({
-      type: 'Lauréat.Achèvement.Query.ListerAchèvementEnAttente',
-      data: {
-        appelOffre,
-        periode,
-        range: page
-          ? mapToRangeOptions({
-              currentPage: page,
-              itemsPerPage: 50,
-            })
-          : undefined,
-      },
-    });
+    const result =
+      await mediator.send<Lauréat.Achèvement.ListerProjetAvecAchevementATransmettreQuery>({
+        type: 'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
+        data: {
+          appelOffre,
+          periode,
+          identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+          range: page
+            ? mapToRangeOptions({
+                currentPage: page,
+                itemsPerPage: 50,
+              })
+            : undefined,
+        },
+      });
 
     return {
       range: result.range,

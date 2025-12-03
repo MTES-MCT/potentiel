@@ -254,7 +254,8 @@ const référencielPermissions = {
       },
       query: {
         consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-        listerAchèvementEnAttente: 'Lauréat.Achèvement.Query.ListerAchèvementEnAttente',
+        listerProjetAvecAchevementATransmettre:
+          'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
       },
     },
     représentantLégal: {
@@ -944,8 +945,8 @@ const policies = {
       référencielPermissions.lauréat.achèvement.command.modifierAttestationConformité,
       référencielPermissions.document.command.enregister,
     ],
-    listerAchèvementEnAttente: [
-      référencielPermissions.lauréat.achèvement.query.listerAchèvementEnAttente,
+    listerProjetAvecAchevementATransmettre: [
+      référencielPermissions.lauréat.achèvement.query.listerProjetAvecAchevementATransmettre,
     ],
   },
   candidature: {
@@ -2095,7 +2096,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Achèvement
   'achèvement.transmettreDate',
-  'achèvement.listerAchèvementEnAttente',
+  'achèvement.listerProjetAvecAchevementATransmettre',
 
   // Actionnaire
   'actionnaire.consulterChangement',

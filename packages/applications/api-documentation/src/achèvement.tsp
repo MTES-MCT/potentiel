@@ -4,7 +4,7 @@ import "./shared.tsp";
 using Http;
 namespace PotentielApi;
 
-model ProjetAvecAchevementEnAttente {
+model ProjetAvecAchevementATransmettre {
   identifiantProjet: string;
   identifiantGestionnaireReseau: string;
   referenceDossierRaccordement: string;
@@ -28,9 +28,9 @@ interface AchevementV1 {
    *
    * _NB: Dans un premier temps, ce endpoint retourne tous les projets lauréats non achevés et non abandonnés. A terme, il sera remplacé par /achevements/en-attente-confirmation_
    */
-  @route("/achevements/en-attente")
+  @route("/achevements/a-transmettre")
   @get
-  listerEnAttente(
+  listerProjetAvecAchevementATransmettre(
     @query
     page?: uint16,
 
@@ -39,7 +39,7 @@ interface AchevementV1 {
 
     @query
     periode?: string,
-  ): ListResult<ProjetAvecAchevementEnAttente> | Error;
+  ): ListResult<ProjetAvecAchevementATransmettre> | Error;
 
   /**
    * Transmettre la date d'achèvement d'un projet

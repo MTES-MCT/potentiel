@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { IdentifiantProjet } from '../../..';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity } from '../..';
-import { AchèvementEntity } from '../achèvement.entity';
 import { CandidatureEntity } from '../../../candidature';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement';
+import { AchèvementEntity } from '../achèvement.entity';
 
-type AchèvementEnAttente = {
+type ProjetAvecAchevementATransmettre = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireReseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   referenceDossierRaccordement: string;
@@ -22,49 +22,71 @@ type AchèvementEnAttente = {
   coefficientKChoisi: boolean;
 };
 
-export type ListerAchèvementEnAttenteReadModel = {
-  items: Array<AchèvementEnAttente>;
+export type ListerProjetAvecAchevementATransmettreReadModel = {
+  items: Array<ProjetAvecAchevementATransmettre>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerAchèvementEnAttenteQuery = Message<
-  'Lauréat.Achèvement.Query.ListerAchèvementEnAttente',
+export type ListerProjetAvecAchevementATransmettreQuery = Message<
+  'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
   {
     appelOffre?: string;
     periode?: string;
     range?: RangeOptions;
+    identifiantUtilisateur: Email.RawType;
   },
-  ListerAchèvementEnAttenteReadModel
+  ListerProjetAvecAchevementATransmettreReadModel
 >;
 
-export type ListerAchèvementEnAttenteDependencies = {
+export type ListerProjetAvecAchevementATransmettreDependencies = {
   list: List;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
-type AchèvementEnAttenteJoins = [RaccordementEntity, CandidatureEntity, AchèvementEntity];
-
-export const registerListerAchèvementEnAttenteQuery = ({
+type ProjetAvecAchevementATransmettreJoins = [
+  RaccordementEntity,
+  CandidatureEntity,
+  AchèvementEntity,
+];
+export const registerListerProjetAvecAchevementATransmettreQuery = ({
   list,
-}: ListerAchèvementEnAttenteDependencies) => {
-  const handler: MessageHandler<ListerAchèvementEnAttenteQuery> = async ({
+  getScopeProjetUtilisateur,
+}: ListerProjetAvecAchevementATransmettreDependencies) => {
+  const handler: MessageHandler<ListerProjetAvecAchevementATransmettreQuery> = async ({
     appelOffre,
     periode,
     range,
+    identifiantUtilisateur,
   }) => {
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(identifiantUtilisateur),
+    );
+
     const {
       items: projets,
       range: { endPosition, startPosition },
       total: totalProjet,
-    } = await list<LauréatEntity, AchèvementEnAttenteJoins>('lauréat', {
+    } = await list<LauréatEntity, ProjetAvecAchevementATransmettreJoins>('lauréat', {
       where: {
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(periode),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        localité: {
+          région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+        },
       },
       join: [
         {
           entity: 'raccordement',
           on: 'identifiantProjet',
+          where: {
+            identifiantGestionnaireRéseau:
+              scope.type === 'gestionnaire-réseau'
+                ? Where.equal(scope.identifiantGestionnaireRéseau)
+                : undefined,
+          },
         },
         {
           entity: 'candidature',
@@ -114,13 +136,13 @@ export const registerListerAchèvementEnAttenteQuery = ({
     };
   };
 
-  mediator.register('Lauréat.Achèvement.Query.ListerAchèvementEnAttente', handler);
+  mediator.register('Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre', handler);
 };
 
 type MapToReadModelProps = (
-  projet: LauréatEntity & Joined<AchèvementEnAttenteJoins>,
+  projet: LauréatEntity & Joined<ProjetAvecAchevementATransmettreJoins>,
   dossiers: Array<DossierRaccordementEntity>,
-) => AchèvementEnAttente | undefined;
+) => ProjetAvecAchevementATransmettre | undefined;
 
 export const mapToReadModel: MapToReadModelProps = (
   {
