@@ -7,7 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { getUtilisateur } from '#helpers';
 
 export const transmettreDateMiseEnServiceHandler: Raccordement['transmettreDateMiseEnService'] =
-  async (ctx, identifiantProjet, reference, { dateMiseEnService }) => {
+  async (_, identifiantProjet, reference, { dateMiseEnService }) => {
     const utilisateur = getUtilisateur();
 
     await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({

@@ -75,14 +75,14 @@ interface Raccordement {
     @body body: TransmettreDateMiseEnServiceBody,
   ): {} | Error;
 
-  // /**
-  //  * Modifie la référence du dossier de raccordement
-  //  */
-  // @route("/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier")
-  // @post
-  // modifierReference(
-  //   @path identifiantProjet: string,
-  //   @path reference: string,
-  //   @body body: TransmettreDateMiseEnServiceBody,
-  // ): {} | Error;
+  /**
+   * Modifie la référence du dossier de raccordement
+   */
+  @route("/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier")
+  @post
+  modifierReference(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: ModifierReferenceBody,
+  ): {} | Error;
 }
