@@ -19,11 +19,13 @@ import {
 type RejeterChangementPuissanceFormProps = {
   identifiantProjet: string;
   dateDemande: string;
+  estÀLaBaisse: boolean;
 };
 
 export const RejeterChangementPuissance = ({
   identifiantProjet,
   dateDemande,
+  estÀLaBaisse,
 }: RejeterChangementPuissanceFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterChangementPuissanceFormKeys>
@@ -71,20 +73,22 @@ export const RejeterChangementPuissance = ({
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
-              <Checkbox
-                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
-                options={[
-                  {
-                    label:
-                      "La demande de changement de puissance fait suite à une décision de l'État",
-                    nativeInputProps: {
-                      value: 'true',
-                      name: 'estUneDecisionDEtat',
+              {estÀLaBaisse && (
+                <Checkbox
+                  state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                  options={[
+                    {
+                      label:
+                        "La demande de changement de puissance fait suite à une décision de l'État",
+                      nativeInputProps: {
+                        value: 'true',
+                        name: 'estUneDecisionDEtat',
+                      },
                     },
-                  },
-                ]}
-              />
+                  ]}
+                />
+              )}
             </>
           ),
         }}
