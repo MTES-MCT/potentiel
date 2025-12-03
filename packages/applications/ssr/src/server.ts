@@ -19,7 +19,7 @@ async function main() {
   const dev = process.env.NODE_ENV !== 'production';
   const app = next({ dev });
 
-  const handleNextJs = app.getRequestHandler();
+  const nextHandler = app.getRequestHandler();
   await app.prepare();
 
   await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
@@ -27,12 +27,17 @@ async function main() {
   // remove bootstrap messages from sentry's breadcrumbs
   Sentry.getCurrentScope().clearBreadcrumbs();
 
-  const handleAPI = createApiServer('/api/v1');
+  const apiHandler = createApiServer('/api/v1');
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
 
     if (parsedUrl.pathname?.startsWith('/api/v1')) {
-      return await runWebWithContext({ app: 'api', req, res, callback: () => handleAPI(req, res) });
+      return await runWebWithContext({
+        app: 'api',
+        req,
+        res,
+        callback: () => apiHandler(req, res),
+      });
     }
 
     await runWebWithContext({
@@ -46,7 +51,7 @@ async function main() {
             scope.setUser({ email: utilisateur.identifiantUtilisateur.email });
           }
           // Handle incoming HTTP request
-          return handleNextJs(req, res, parsedUrl);
+          return nextHandler(req, res, parsedUrl);
         }),
     });
   });
