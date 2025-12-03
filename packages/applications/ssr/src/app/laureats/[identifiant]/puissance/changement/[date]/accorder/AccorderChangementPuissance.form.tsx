@@ -19,11 +19,13 @@ import {
 type AccorderChangementPuissanceFormProps = {
   identifiantProjet: string;
   dateDemande: string;
+  estÀLaBaisse: boolean;
 };
 
 export const AccorderChangementPuissance = ({
   identifiantProjet,
   dateDemande,
+  estÀLaBaisse,
 }: AccorderChangementPuissanceFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderChangementPuissanceFormKeys>
@@ -75,19 +77,21 @@ export const AccorderChangementPuissance = ({
                 value={estUneDecisionDEtat ? 'true' : 'false'}
                 name="estUneDecisionDEtat"
               />
-              <Checkbox
-                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
-                options={[
-                  {
-                    label:
-                      "La demande de changement de puissance fait suite à une décision de l'État",
-                    nativeInputProps: {
-                      onChange: (e) => setEstUneDecisionDEtat(e.target.checked),
+              {estÀLaBaisse && (
+                <Checkbox
+                  state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                  options={[
+                    {
+                      label:
+                        "La demande de changement de puissance fait suite à une décision de l'État",
+                      nativeInputProps: {
+                        onChange: (e) => setEstUneDecisionDEtat(e.target.checked),
+                      },
                     },
-                  },
-                ]}
-              />
+                  ]}
+                />
+              )}
             </>
           ),
         }}
