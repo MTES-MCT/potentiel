@@ -128,9 +128,9 @@ type ÉtapeTerminéeProps = {
 const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false, children }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
-      <PastIcon />
+      <Success color="green-emeraude" fontSize="medium" />
       <ContentArea>
-        <ItemDate date={date} />
+        <FormattedDate date={date} />
         <ItemTitle title={titre} />
         {children}
       </ContentArea>
@@ -145,7 +145,7 @@ type ÉtapeÀTransmettreProps = {
 const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
-      <NextUpIcon />
+      <Warning fontSize="medium" />
       <ContentArea>
         Données à transmettre
         <ItemTitle title={titre} />
@@ -171,33 +171,9 @@ export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
   </li>
 );
 
-const PastIcon = () => (
-  <div className="flex flex-col print:min-w-[90px]" title="étape validée">
-    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape validée</div>
-    <span className="relative z-2 w-8 h-8 flex items-center justify-center bg-green-700 print:bg-transparent print:border-solid print:border-2 print:border-green-700 rounded-full group-hover:bg-green-900">
-      <Success color="green-emeraude" fontSize="medium" />
-    </span>
-  </div>
-);
-
-const NextUpIcon = () => (
-  <div className="flex flex-col print:min-w-[90px]" title="étape à venir">
-    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape à venir</div>
-    <span
-      className={
-        'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 print:bg-none print:border-solid print:border-2 print:border-gray-400 rounded-full'
-      }
-    >
-      <Warning />
-    </span>
-  </div>
-);
-
 const ContentArea = (props: { children: React.ReactNode }) => (
   <div className="ml-4 min-w-0 flex flex-col">{props.children}</div>
 );
-
-const ItemDate = (props: { date: DateTime.RawType }) => <FormattedDate date={props.date} />;
 
 const ItemTitle = (props: { title: string }) => (
   <span className="text-sm font-semibold tracking-wide uppercase">{props.title}</span>
