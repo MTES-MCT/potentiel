@@ -53,7 +53,7 @@ export const getInstallation = async ({
             numéro: lauréat.autorisationDUrbanisme.numéro,
             date: lauréat.autorisationDUrbanisme.date.formatter(),
           }
-        : 'Champs non renseigné',
+        : undefined,
     };
   }
 
@@ -159,7 +159,7 @@ const getInstallateur = (
     return undefined;
   }
 
-  const value = installateur !== '' ? installateur : 'Champs non renseigné';
+  const value = installateur !== '' ? installateur : undefined;
   const data: ChampsAvecAction<string> = { value };
 
   if (rôle.aLaPermission('installation.installateur.modifier')) {
@@ -194,7 +194,7 @@ const getDispositifDeStockage = (
   }
 
   const data: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType> = {
-    value: dispositifDeStockage ? dispositifDeStockage.formatter() : 'Champs non renseigné',
+    value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
   };
 
   if (rôle.aLaPermission('installation.dispositifDeStockage.modifier')) {
@@ -225,7 +225,7 @@ const getTypologieInstallation = (
 ): ChampsAvecAction<Candidature.TypologieInstallation.RawType[]> => {
   const value = typologieInstallation.length
     ? typologieInstallation.map((typologie) => typologie.formatter())
-    : 'Champs non renseigné';
+    : undefined;
 
   const data: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]> = { value };
 

@@ -12,6 +12,7 @@ import { getÉtapesData } from './getÉtapesData';
 import { getCahierDesChargesData } from './getCahierDesChargesData';
 import { getAbandonAlert } from './getAbandonAlert';
 import { getAchèvementAlert } from './getAchèvementAlert';
+import { getGarantiesFinancièresData } from './getGarantiesFinancièresData';
 
 // type
 
@@ -53,10 +54,9 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime.formatter(),
     dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe.formatter(),
     dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
-    dateMiseEnService:
-      raccordement.value && raccordement.value !== 'Champs non renseigné'
-        ? raccordement.value.dateMiseEnService?.formatter()
-        : undefined,
+    dateMiseEnService: raccordement.value
+      ? raccordement.value.dateMiseEnService?.formatter()
+      : undefined,
     dateAchèvementRéel: achèvement.estAchevé
       ? achèvement.dateAchèvementRéel.formatter()
       : undefined,
@@ -64,11 +64,19 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
 
   const abandonAlert = getAbandonAlert(
     !!abandon?.statut.estEnCours(),
+    !!abandon?.statut.estAccordé(),
     rôle,
     identifiantProjet.formatter(),
   );
 
   const achèvementAlert = getAchèvementAlert(achèvement.estAchevé, rôle);
+
+  const garantiesFinancièresData = await getGarantiesFinancièresData({
+    identifiantProjet,
+    rôle,
+    estSoumisAuxGarantiesFinancières:
+      !!cahierDesChargesData.value?.estSoumisAuxGarantiesFinancières,
+  });
 
   return {
     étapes,
@@ -77,6 +85,8 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     raccordement,
     abandonAlert,
     achèvementAlert,
+    garantiesFinancièresData,
+    estAchevé: achèvement.estAchevé,
   };
 };
 
