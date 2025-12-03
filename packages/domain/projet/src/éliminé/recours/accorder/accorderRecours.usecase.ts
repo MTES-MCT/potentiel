@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
-import { ArchiverÉliminéCommand } from '../../archiver/archiverÉliminé.command';
 import { DocumentProjet, IdentifiantProjet } from '../../..';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
@@ -55,15 +54,6 @@ export const registerAccorderRecoursUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
-      },
-    });
-
-    await mediator.send<ArchiverÉliminéCommand>({
-      type: 'Éliminé.Recours.Command.ArchiverÉliminé',
-      data: {
-        dateArchive: dateAccord,
-        identifiantUtilisateur,
-        identifiantProjet,
       },
     });
   };
