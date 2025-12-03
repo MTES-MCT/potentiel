@@ -17,6 +17,7 @@ export type CahierDesChargesData = ChampsAvecAction<
       estAlternatif: false;
       doitChoisirUnCahierDesChargesModificatif: boolean;
       cahierDesChargesURL: string;
+      estSoumisAuxGarantiesFinancières: boolean;
     }
   | {
       estInitial: false;
@@ -24,6 +25,7 @@ export type CahierDesChargesData = ChampsAvecAction<
       doitChoisirUnCahierDesChargesModificatif: false;
       dateParution: AppelOffre.CahierDesChargesModifié['paruLe'];
       cahierDesChargesURL: string;
+      estSoumisAuxGarantiesFinancières: boolean;
     }
 >;
 
@@ -40,6 +42,7 @@ export const getCahierDesChargesData = async ({
         doitChoisirUnCahierDesChargesModificatif: false as const,
         dateParution: cahierDesCharges.cahierDesChargesModificatif?.paruLe,
         cahierDesChargesURL: cahierDesCharges.appelOffre.cahiersDesChargesUrl,
+        estSoumisAuxGarantiesFinancières: cahierDesCharges.estSoumisAuxGarantiesFinancières(),
       }
     : {
         estInitial: true as const,
@@ -47,6 +50,7 @@ export const getCahierDesChargesData = async ({
         doitChoisirUnCahierDesChargesModificatif:
           cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
         cahierDesChargesURL: cahierDesCharges.appelOffre.cahiersDesChargesUrl,
+        estSoumisAuxGarantiesFinancières: cahierDesCharges.estSoumisAuxGarantiesFinancières(),
       };
 
   const action = rôle.aLaPermission('cahierDesCharges.choisir')

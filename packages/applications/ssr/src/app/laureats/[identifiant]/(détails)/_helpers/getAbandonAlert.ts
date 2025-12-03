@@ -6,15 +6,22 @@ export type AbandonAlertData =
   | undefined
   | {
       label: string;
-      url: string;
+      url?: string;
     };
 
 export const getAbandonAlert = (
-  abandonEnCours: boolean,
+  aUnAbandonEnCours: boolean,
+  estAbandonné: boolean,
   rôle: Role.ValueType,
   identifiantProjet: IdentifiantProjet.RawType,
 ): AbandonAlertData => {
-  if (!abandonEnCours || !(rôle.estDreal() || rôle.estDGEC() || rôle.estPorteur())) {
+  if (estAbandonné) {
+    return {
+      label: "L'abandon de ce projet a été accordé.",
+    };
+  }
+
+  if (!aUnAbandonEnCours || !(rôle.estDreal() || rôle.estDGEC() || rôle.estPorteur())) {
     return undefined;
   }
 

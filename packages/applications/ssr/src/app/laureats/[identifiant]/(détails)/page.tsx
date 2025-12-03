@@ -42,6 +42,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         cahierDesChargesData,
         abandonAlert,
         achèvementAlert,
+        garantiesFinancièresData,
+        estAchevé,
       } = await getTableauDeBordData({
         rôle: utilisateur.rôle,
         identifiantProjet,
@@ -55,6 +57,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           cahierDesCharges={cahierDesChargesData}
           abandonAlert={abandonAlert}
           achèvementAlert={achèvementAlert}
+          garantiesFinancièresData={garantiesFinancièresData}
+          estAchevé={estAchevé}
         />
       );
     }),

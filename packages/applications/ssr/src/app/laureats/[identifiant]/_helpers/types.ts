@@ -4,6 +4,6 @@ type Action = {
 };
 
 export type ChampsAvecAction<T> = {
-  value: T | 'Champs non renseigné';
+  value: T | undefined;
   action?: Action;
 };
