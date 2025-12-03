@@ -46,12 +46,12 @@ interface AchevementV1 {
    *
    * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
    */
-  // @route("/laureats/{identifiantProjet}/achevement/date-achevement")
-  // @post
-  // transmettreDateDAchevement(
-  //   @path identifiantProjet: string,
-  //   @body body: TransmettreDateAchevementBody,
-  // ): {} | Error;
+  @route("/laureats/{identifiantProjet}/achevement/date-achevement")
+  @post
+  transmettreDateDAchevement(
+    @path identifiantProjet: string,
+    @body body: TransmettreDateAchevementBody,
+  ): {} | Error;
 }
 
 // @useAuth(BearerAuth)
