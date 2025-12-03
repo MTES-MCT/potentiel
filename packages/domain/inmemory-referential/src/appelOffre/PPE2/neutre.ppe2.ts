@@ -188,9 +188,36 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
     },
-    // ℹ️ penser à mettre à jour le logo pour la prochaine période
-    // ℹ️ à partir de la P4, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}
-    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
-    // ℹ️ représentation légal sera réputé accordé à partir de la P4
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2025/S 125-430892',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      champsSupplémentaires: { coefficientKChoisi: 'requis' },
+      familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon: {
+          référenceParagraphe: '6.2',
+          dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
+Par exception, le Candidat est délié de cette obligation :
+˗ en cas de retrait de l’autorisation par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés.
+˗ en cas de non obtention ou de retrait de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
+Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
+Le Candidat peut également être délié de cette obligation selon l’appréciation du Ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
+        },
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'accord',
+        },
+      },
+    },
   ],
 };
