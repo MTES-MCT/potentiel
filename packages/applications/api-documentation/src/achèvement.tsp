@@ -17,10 +17,7 @@ model ProjetAvecAchevementEnAttente {
 }
 
 model TransmettreDateAchevementBody {
-  /**
-   * Date d'achèvement du projet : string au format YYYY-MM-JJ
-   */
-  dateAchevement: string;
+  dateAchevement: plainDate;
 }
 
 @useAuth(BearerAuth)
