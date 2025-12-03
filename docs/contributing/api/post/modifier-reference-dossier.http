@@ -1,6 +1,6 @@
 POST http://localhost:3000/api/v1/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier HTTP/1.1
 content-type: application/json
-authorization: Bearer 
+authorization: Bearer {{token}}
 
 {
     "nouvelleReference": ""

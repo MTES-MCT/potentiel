@@ -4,6 +4,10 @@ import {
   ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query';
+import {
+  ListerAchèvementEnAttenteDependencies,
+  registerListerAchèvementEnAttenteQuery,
+} from './lister/listerAchèvementEnAttente.query';
 import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command';
 import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
@@ -26,8 +30,10 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
   registerTransmettreDateAchèvementUseCase();
 };
 
-export type AchèvementQueryDependencies = ConsulterAchèvementDependencies;
+export type AchèvementQueryDependencies = ConsulterAchèvementDependencies &
+  ListerAchèvementEnAttenteDependencies;
 
 export const registerAchèvementQueries = (dependencies: AchèvementQueryDependencies) => {
   registerConsulterAchèvementQuery(dependencies);
+  registerListerAchèvementEnAttenteQuery(dependencies);
 };

@@ -4,23 +4,23 @@ import "./shared.tsp";
 using Http;
 namespace PotentielApi;
 
-model ProjetEnAttenteAchevement {
+model ProjetAvecAchevementEnAttente {
   identifiantProjet: string;
-  nomProjet: string;
+  identifiantGestionnaireReseau: string;
+  referenceDossierRaccordement: string;
+  dateDCR?: string;
   appelOffre: string;
   periode: string;
-  famille: string;
-  numeroCRE: string;
-  referenceDossier: string;
-  prix: string;
-  dateDCR: string;
-  attestationConformiteUrl: url;
+  codePostal: string;
+  prix: integer;
+  coefficientKChoisi: boolean;
 }
 
 model TransmettreDateAchevementBody {
   dateAchevement: string;
 }
 
+@useAuth(BearerAuth)
 @tag("Achèvement V1")
 interface AchevementV1 {
   /**
@@ -33,7 +33,13 @@ interface AchevementV1 {
   listerEnAttente(
     @query
     page?: uint16,
-  ): ListResult<ProjetEnAttenteAchevement> | Error;
+
+    @query
+    appelOffre?: string,
+
+    @query
+    periode?: string,
+  ): ListResult<ProjetAvecAchevementEnAttente> | Error;
 
   /**
    * Transmettre la date d'achèvement d'un projet
@@ -59,7 +65,7 @@ interface AchevementV2 {
   listerEnAttenteConfirmation(
     @query
     page?: uint16,
-  ): ListResult<ProjetEnAttenteAchevement> | Error;
+  ): ListResult<ProjetAvecAchevementEnAttente> | Error;
 
   /**
    * Confirmer l'achèvement d'un projet
