@@ -21,7 +21,7 @@ import { registerPasserEnInstructionAbandonUseCase } from './demande/instruire/p
 import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
-} from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
+} from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { registerRejeterAbandonCommand } from './demande/rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.usecase';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command';

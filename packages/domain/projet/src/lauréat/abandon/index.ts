@@ -10,7 +10,7 @@ import {
   ListerHistoriqueAbandonProjetReadModel,
 } from './lister/listerHistoriqueAbandonProjet.query';
 import { PasserEnInstructionAbandonUseCase } from './demande/instruire/passerAbandonEnInstruction.usecase';
-import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { RejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
 import {
