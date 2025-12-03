@@ -11,6 +11,7 @@ import {
   CahierDesChargesSection,
   CahierDesChargesSectionProps,
 } from './(components)/CahierDesChargesSection';
+import { AbandonAlertData } from './_helpers/getAbandonAlert';
 
 type TableauDeBordSectionProps = {
   identifiantProjet: string;
@@ -20,6 +21,7 @@ type TableauDeBordSectionProps = {
   };
   cahierDesCharges: CahierDesChargesSectionProps;
   raccordement: GetRaccordementForProjectPage;
+  abandonAlert: AbandonAlertData;
 };
 
 export const TableauDeBordSection = ({
@@ -27,16 +29,23 @@ export const TableauDeBordSection = ({
   frise: { étapes, doitAfficherAttestationDésignation },
   cahierDesCharges,
   raccordement,
+  abandonAlert,
 }: TableauDeBordSectionProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
-      <Notice
-        description="Vous ne pouvez pas faire de demande ou de déclaration sur Potentiel car vous avez une
-            demande d'abandon en cours pour ce projet. Si celle-ci n'est plus d'actualité, merci de
-            l'annuler sur la page de la demande ."
-        title="Abandon"
-        severity="info"
-      />
+      {abandonAlert && (
+        <Notice
+          description={abandonAlert.label}
+          link={{
+            linkProps: {
+              href: abandonAlert.url,
+            },
+            text: 'Voir la page de la demande',
+          }}
+          title="Abandon"
+          severity="info"
+        />
+      )}
       <CahierDesChargesSection value={cahierDesCharges.value} action={cahierDesCharges.action} />
       <div className="flex flex-row gap-4">
         <EtapesProjet

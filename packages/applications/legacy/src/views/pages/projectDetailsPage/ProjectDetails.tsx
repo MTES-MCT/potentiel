@@ -118,6 +118,7 @@ export const ProjectDetails = ({
   const abandonEnCoursOuAccordé = !!abandon && abandon.statut.statut !== 'rejeté';
   const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut.statut !== 'accordé';
 
+  // viovio ok
   const affichageInfobox = abandonEnCours ? (
     user.role === 'porteur-projet' ? (
       <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
@@ -288,6 +289,7 @@ export const ProjectDetails = ({
   );
 };
 
+// viovio ok
 type CDCInfoProps = Pick<ProjectDataForProjectPage, 'isClasse' | 'cahierDesChargesActuel'> & {
   user: Request['user'];
   urlChoixCdc: string;
@@ -319,6 +321,7 @@ const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc, isClasse }: CDCInf
   </>
 );
 
+// viovio
 const AlerteBoxRaccordement: FC<{
   dcrDueOn: ProjectDataForProjectPage['dcrDueOn'];
   alertes: AlerteRaccordement[];

@@ -35,11 +35,16 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
       }
 
-      const { étapes, doitAfficherAttestationDésignation, raccordement, cahierDesChargesData } =
-        await getTableauDeBordData({
-          rôle: utilisateur.rôle,
-          identifiantProjet,
-        });
+      const {
+        étapes,
+        doitAfficherAttestationDésignation,
+        raccordement,
+        cahierDesChargesData,
+        abandonAlert,
+      } = await getTableauDeBordData({
+        rôle: utilisateur.rôle,
+        identifiantProjet,
+      });
 
       return (
         <TableauDeBordSection
@@ -47,6 +52,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
           cahierDesCharges={cahierDesChargesData}
+          abandonAlert={abandonAlert}
         />
       );
     }),
