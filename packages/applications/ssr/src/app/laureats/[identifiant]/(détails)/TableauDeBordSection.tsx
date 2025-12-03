@@ -12,6 +12,7 @@ import {
   CahierDesChargesSectionProps,
 } from './(components)/CahierDesChargesSection';
 import { AbandonAlertData } from './_helpers/getAbandonAlert';
+import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
 
 type TableauDeBordSectionProps = {
   identifiantProjet: string;
@@ -22,6 +23,7 @@ type TableauDeBordSectionProps = {
   cahierDesCharges: CahierDesChargesSectionProps;
   raccordement: GetRaccordementForProjectPage;
   abandonAlert: AbandonAlertData;
+  achèvementAlert: AchèvementAlertData;
 };
 
 export const TableauDeBordSection = ({
@@ -30,9 +32,17 @@ export const TableauDeBordSection = ({
   cahierDesCharges,
   raccordement,
   abandonAlert,
+  achèvementAlert,
 }: TableauDeBordSectionProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
+      {achèvementAlert && (
+        <Notice
+          description={achèvementAlert.label}
+          title="Modification du projet"
+          severity="info"
+        />
+      )}
       {abandonAlert && (
         <Notice
           description={abandonAlert.label}

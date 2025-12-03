@@ -41,6 +41,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         raccordement,
         cahierDesChargesData,
         abandonAlert,
+        achèvementAlert,
       } = await getTableauDeBordData({
         rôle: utilisateur.rôle,
         identifiantProjet,
@@ -53,6 +54,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           identifiantProjet={identifiantProjet.formatter()}
           cahierDesCharges={cahierDesChargesData}
           abandonAlert={abandonAlert}
+          achèvementAlert={achèvementAlert}
         />
       );
     }),
