@@ -1,22 +1,18 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Lauréat, IdentifiantProjet, Candidature, Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { ChampsAvecAction } from '../../_helpers/types';
 import { getLauréatInfos } from '../../_helpers/getLauréat';
 
 import { getRaccordementData } from './getRaccordementData';
 import { getÉtapesData } from './getÉtapesData';
 import { getCahierDesChargesData } from './getCahierDesChargesData';
+import { getAbandonAlert } from './getAbandonAlert';
 
-export type GetTableauDeBordDataForProjectPage = {
-  typologieInstallation?: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]>;
-  installateur?: ChampsAvecAction<string>;
-  dispositifDeStockage?: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType>;
-};
+// type
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -69,11 +65,18 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
       : undefined,
   });
 
+  const abandonAlert = getAbandonAlert(
+    !!abandon?.statut.estEnCours(),
+    rôle,
+    identifiantProjet.formatter(),
+  );
+
   return {
     étapes,
     cahierDesChargesData,
     doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
     raccordement,
+    abandonAlert,
   };
 };
 
