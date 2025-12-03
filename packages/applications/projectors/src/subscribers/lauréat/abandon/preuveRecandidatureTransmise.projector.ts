@@ -1,9 +1,6 @@
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import {
-  updateManyProjections,
-  updateOneProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 
 export const preuveCandidatureTransmiseProjector = async ({
   payload: { identifiantProjet, preuveRecandidature, transmiseLe, transmisePar },
@@ -16,9 +13,6 @@ export const preuveCandidatureTransmiseProjector = async ({
       transmisePar,
     },
   };
-  await updateOneProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-    recandidature,
-  });
   await updateManyProjections<Lauréat.Abandon.DemandeAbandonEntity>(
     'demande-abandon',
     {

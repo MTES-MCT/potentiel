@@ -29,7 +29,6 @@ export const abandonDemandéProjector = async (
     demandéLe: event.payload.demandéLe,
     demandeEnCours: true,
     estAbandonné: false,
-    estUneRecandidature,
   });
 
   await upsertProjection<Lauréat.Abandon.DemandeAbandonEntity>(

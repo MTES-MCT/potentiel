@@ -1,7 +1,4 @@
-import {
-  updateManyProjections,
-  updateOneProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 
@@ -14,9 +11,7 @@ export const preuveCandidatureDemandéeProjector = async ({
       demandéeLe,
     },
   };
-  await updateOneProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-    recandidature,
-  });
+
   await updateManyProjections<Lauréat.Abandon.DemandeAbandonEntity>(
     'demande-abandon',
     {
