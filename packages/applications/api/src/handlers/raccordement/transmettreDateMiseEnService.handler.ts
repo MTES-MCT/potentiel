@@ -10,7 +10,7 @@ export const transmettreDateMiseEnServiceHandler: Raccordement['transmettreDateM
   async (_, identifiantProjet, reference, { dateMiseEnService }) => {
     const utilisateur = getUtilisateur();
 
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: decodeURIComponent(identifiantProjet),
