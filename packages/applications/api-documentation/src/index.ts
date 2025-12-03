@@ -9,11 +9,6 @@ export const getOpenApiSpecs = async () => {
 };
 
 export { createPotentielApiRouter, PotentielApiRouter } from './generated/http/router';
-export {
-  ProjetEnAttenteAchevementListResult,
-  DossierRaccordementListResult,
-} from './generated/models/all';
-export {
-  DossierRaccordement,
-  ProjetEnAttenteAchevement,
-} from './generated/models/all/potentiel-api';
+export { HttpContext } from './generated/helpers/router';
+export * from './generated/models/all';
+export * from './generated/models/all/potentiel-api';

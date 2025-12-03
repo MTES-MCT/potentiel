@@ -1,0 +1,27 @@
+{
+  "name": "@potentiel-applications/api",
+  "description": "Potentiel API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/run.js",
+    "dev": "tsx ./src/run.ts"
+  },
+  "imports": {
+    "#helpers": "./dist/helpers/index.js"
+  },
+  "dependencies": {
+    "@potentiel-applications/api-documentation": "*",
+    "@potentiel-applications/request-context": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/projet": "*",
+    "mediateur": "0.3.0"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}
