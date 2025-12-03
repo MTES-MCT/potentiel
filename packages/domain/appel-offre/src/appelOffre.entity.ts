@@ -75,7 +75,7 @@ type ChangementPuissance =
   | { demande?: undefined; informationEnregistrée?: undefined; paragrapheAlerte?: undefined }
   | ({
       demande: true;
-      informationEnregistrée?: boolean;
+      informationEnregistrée: true;
       paragrapheAlerte?: string;
     } & RatiosChangementPuissance);
 
