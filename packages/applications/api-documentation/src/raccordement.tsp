@@ -62,6 +62,13 @@ interface Raccordement {
     avecDateMiseEnService?: boolean,
   ): ListResult<DossierRaccordement> | Error;
 
+  @route("/reseaux/raccordements/manquants")
+  @get
+  listerManquants(
+    @query
+    page?: uint16,
+  ): ListResult<DossierRaccordement> | Error;
+
   /**
    * Transmet la date de mise en service pour un dossier de raccordement.
    *

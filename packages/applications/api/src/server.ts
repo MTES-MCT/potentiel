@@ -34,9 +34,13 @@ export const createApiServer = (basePath: string) => {
     onRequestNotFound: (ctx) => writeErrorResponse(ctx, 404, 'Not Found'),
   });
   return (request: http.IncomingMessage, response: http.ServerResponse) => {
-    // Hack because `basePath` is not used by the router to strip the path
     if (request.url) {
-      request.url = request.url.replace(basePath, '');
+      const url = new URL(request.url, `http://${request.headers.host}`);
+      // Hack because `basePath` is not used by the router to strip the path
+      url.pathname = url.pathname.replace(basePath, '');
+      // strip trailing slash
+      url.pathname = url.pathname.replace(/\/+$/, '');
+      request.url = url.toString();
     }
     router.dispatch(request, response);
   };

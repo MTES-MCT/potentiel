@@ -6,7 +6,7 @@ export const mapToRangeOptions = (
   page: number | undefined,
   itemsPerPage = defaultItemsPerPage,
 ): RangeOptions => {
-  const currentPage = page ?? 0;
+  const currentPage = page || 0;
 
   return {
     startPosition: currentPage * itemsPerPage,
