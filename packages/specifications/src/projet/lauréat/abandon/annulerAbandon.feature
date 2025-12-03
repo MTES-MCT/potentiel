@@ -21,7 +21,6 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                         |
 
-    @select
     Scénario: Un porteur annule l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
