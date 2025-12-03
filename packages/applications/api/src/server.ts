@@ -29,7 +29,8 @@ export const createApiServer = (basePath: string) => {
       const { statusCode, message } = handleError(error);
       writeErrorResponse(ctx, statusCode, message);
     },
-    onInvalidRequest: (ctx, errors) => writeErrorResponse(ctx, 400, 'Bad Request', { errors }),
+    onInvalidRequest: (ctx, route, errors) =>
+      writeErrorResponse(ctx, 400, 'Bad Request', { route, errors }),
     onRequestNotFound: (ctx) => writeErrorResponse(ctx, 404, 'Not Found'),
   });
   return (request: http.IncomingMessage, response: http.ServerResponse) => {

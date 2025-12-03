@@ -1,32 +1,15 @@
 import { RangeOptions } from '@potentiel-domain/entity';
 
-export type Pagination = {
-  currentPage: number;
-  itemsPerPage: number;
-};
+export const defaultItemsPerPage = 50;
 
-export const mapToPagination = (
-  { startPosition }: RangeOptions,
-  itemsPerPage: number = defaultItemsPerPage,
-): Pagination => {
-  return {
-    currentPage: Math.trunc(startPosition / itemsPerPage) + 1,
-    itemsPerPage,
-  };
-};
-
-export const mapToRangeOptions = ({
-  currentPage,
+export const mapToRangeOptions = (
+  page: number | undefined,
   itemsPerPage = defaultItemsPerPage,
-}: Omit<Pagination, 'itemsPerPage'> & {
-  itemsPerPage?: Pagination['itemsPerPage'];
-}): RangeOptions => {
-  const nextPage = currentPage + 1;
+): RangeOptions => {
+  const currentPage = page ?? 0;
 
   return {
-    endPosition: (nextPage - 1) * itemsPerPage - 1,
-    startPosition: (currentPage - 1) * itemsPerPage,
+    startPosition: currentPage * itemsPerPage,
+    endPosition: (currentPage + 1) * itemsPerPage - 1,
   };
 };
-
-export const defaultItemsPerPage = 10;

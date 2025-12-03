@@ -32,12 +32,7 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
           : avecDateMiseEnService === 'false'
             ? false
             : undefined,
-      range: page
-        ? mapToRangeOptions({
-            currentPage: page,
-            itemsPerPage: 50,
-          })
-        : undefined,
+      range: mapToRangeOptions(page),
     },
   });
 

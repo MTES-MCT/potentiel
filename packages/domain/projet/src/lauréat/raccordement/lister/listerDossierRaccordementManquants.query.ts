@@ -32,7 +32,7 @@ type DossierRaccordementManquant = {
   sociétéMère: string;
   emailContact: string;
   siteProduction: string;
-  dateNotification: string;
+  dateNotification: DateTime.ValueType;
 };
 
 export type ListerDossierRaccordementManquantsReadModel = {
@@ -145,17 +145,10 @@ type MapToReadModelProps = (
 
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
-  candidature: {
-    unitéPuissance,
-    nomProjet,
-    nomCandidat,
-    sociétéMère,
-    localité,
-    emailContact,
-    notification,
-  },
+  candidature: { unitéPuissance, nomCandidat, sociétéMère, emailContact },
   identifiantGestionnaireRéseau,
   puissance: { puissance },
+  lauréat: { notifiéLe, nomProjet, localité },
   'gestionnaire-réseau': gestionnaireRéseau,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -180,7 +173,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     siteProduction: `${localité.adresse1} ${localité.adresse2} ${localité.codePostal} ${localité.commune} (${localité.département}, ${localité.région})`,
     département: localité.département,
     région: localité.région,
-    dateNotification: notification?.notifiéeLe || '',
+    dateNotification: DateTime.convertirEnValueType(notifiéLe),
     dateMiseEnService: undefined,
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(

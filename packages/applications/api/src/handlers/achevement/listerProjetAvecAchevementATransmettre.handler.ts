@@ -17,12 +17,7 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1<HttpCon
           appelOffre,
           periode,
           identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-          range: page
-            ? mapToRangeOptions({
-                currentPage: page,
-                itemsPerPage: 50,
-              })
-            : undefined,
+          range: mapToRangeOptions(page),
         },
       });
 
