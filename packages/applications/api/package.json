@@ -16,10 +16,11 @@
   "dependencies": {
     "@potentiel-applications/api-documentation": "*",
     "@potentiel-applications/request-context": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/monitoring": "*",
-    "@potentiel-domain/projet": "*",
-    "mediateur": "0.3.0"
+    "mediateur": "0.3.0",
+    "ajv": "8.17.1"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

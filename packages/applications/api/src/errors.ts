@@ -1,4 +1,5 @@
 import { match, P } from 'ts-pattern';
+// eslint-disable-next-line no-restricted-imports
 
 import {
   AggregateNotFoundError,
@@ -17,7 +18,10 @@ export class ApiError extends Error {
 }
 
 export class BadRequestError extends ApiError {
-  constructor(message: string) {
+  constructor(
+    message: string,
+    public readonly errors?: unknown,
+  ) {
     super(message, 400);
     this.name = BadRequestError.name;
   }
@@ -47,13 +51,19 @@ const mapDomainErrorToApiError = (error: DomainError): ApiError => {
   return new ApiError(error.message, code);
 };
 
-export const handleError = (error: unknown): { statusCode: number; message: string } => {
+export const handleError = (
+  error: unknown,
+): { statusCode: number; message: string; body?: Record<string, unknown> } => {
   if (error instanceof DomainError) {
     return handleError(mapDomainErrorToApiError(error));
   }
 
   if (error instanceof ApiError) {
-    return { statusCode: error.code, message: error.message };
+    const result = { statusCode: error.code, message: error.message };
+    if (error instanceof BadRequestError) {
+      return { ...result, body: { errors: error.errors } };
+    }
+    return result;
   }
 
   return { statusCode: 500, message: 'Internal Server Error' };

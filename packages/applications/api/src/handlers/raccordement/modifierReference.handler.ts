@@ -4,15 +4,17 @@ import { Raccordement } from '@potentiel-applications/api-documentation';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getUtilisateur } from '#helpers';
+import { getUtilisateur, validate } from '#helpers';
 
 export const modifierReferenceHandler: Raccordement['modifierReference'] = async (
   _,
   identifiantProjet,
   reference,
-  { nouvelleReference },
+  body,
 ) => {
   const utilisateur = getUtilisateur();
+
+  const { nouvelleReference } = validate('ModifierReferenceBody', body);
 
   await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
