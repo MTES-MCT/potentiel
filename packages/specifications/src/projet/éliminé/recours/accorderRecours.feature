@@ -11,6 +11,7 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
+        Et le projet éliminé ne devrait plus être consultable
         Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
@@ -31,6 +32,8 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
+        Et le projet lauréat devrait être consultable
+        Et le projet éliminé ne devrait plus être consultable
         Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |

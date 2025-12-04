@@ -66,6 +66,11 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
         dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
       });
     }
+
+    await this.éliminé.archiver({
+      dateArchive: dateAccord,
+      identifiantUtilisateur,
+    });
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {

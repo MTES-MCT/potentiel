@@ -1,4 +1,3 @@
-import { registerArchiverÉliminéCommand } from './archiver/archiverÉliminé.command';
 import {
   ConsulterÉliminéDependencies,
   registerConsulterÉliminéQuery,
@@ -22,7 +21,6 @@ export type EliminéQueryDependencies = ConsulterÉliminéDependencies &
 export type EliminéCommandDependencies = RecoursCommandDependencies;
 
 export const registerEliminéUseCases = (dependencies: EliminéCommandDependencies) => {
-  registerArchiverÉliminéCommand(dependencies.getProjetAggregateRoot);
   registerNotifierÉliminéCommand(dependencies.getProjetAggregateRoot);
 
   registerRecoursUseCases(dependencies);
