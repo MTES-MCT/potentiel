@@ -68,12 +68,14 @@ export const TableauDeBordPage = ({
       )}
       <CahierDesChargesSection value={cahierDesCharges.value} action={cahierDesCharges.action} />
       <div className="flex flex-row gap-4">
-        <EtapesProjet
-          identifiantProjet={identifiantProjet}
-          étapes={étapes}
-          doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
-        />
-        <div className="flex flex-col gap-4">
+        <div className="flex-1">
+          <EtapesProjet
+            identifiantProjet={identifiantProjet}
+            étapes={étapes}
+            doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
+          />
+        </div>
+        <div className="flex flex-col gap-4 flex-1">
           <AchèvementSection achèvement={achèvementData} />
           {raccordement.value && <RaccordementSection raccordement={raccordement} />}
           {garantiesFinancièresData && (
