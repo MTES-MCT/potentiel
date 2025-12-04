@@ -8,19 +8,19 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '../../../../../_helpers';
 import { checkLauréatSansAbandonOuAchèvement } from '../../../_helpers/checkLauréatSansAbandonOuAchèvement';
-import { ChampsAvecAction } from '../../../_helpers/types';
+import { ChampAvecAction } from '../../../_helpers/types';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 
 export type GetInstallationForProjectPage = {
-  typologieInstallation?: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]>;
-  installateur?: ChampsAvecAction<string>;
-  dispositifDeStockage?: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType>;
-  natureDeLExploitation?: ChampsAvecAction<{
+  typologieInstallation?: ChampAvecAction<Candidature.TypologieInstallation.RawType[]>;
+  installateur?: ChampAvecAction<string>;
+  dispositifDeStockage?: ChampAvecAction<Lauréat.Installation.DispositifDeStockage.RawType>;
+  natureDeLExploitation?: ChampAvecAction<{
     typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
     tauxPrévisionnelACI?: number;
   }>;
-  autorisationDUrbanisme?: ChampsAvecAction<Candidature.Dépôt.RawType['autorisationDUrbanisme']>;
+  autorisationDUrbanisme?: ChampAvecAction<Candidature.Dépôt.RawType['autorisationDUrbanisme']>;
 };
 
 type Props = {
@@ -154,13 +154,13 @@ const getInstallateur = (
   identifiantProjet: IdentifiantProjet.ValueType,
   estUnLauréatSansAbandonOuAchèvement: boolean,
   règlesChangementInformationEnregistrée: boolean,
-): ChampsAvecAction<string> | undefined => {
+): ChampAvecAction<string> | undefined => {
   if (!champSupplémentaireInstallateur) {
     return undefined;
   }
 
   const value = installateur !== '' ? installateur : undefined;
-  const data: ChampsAvecAction<string> = { value };
+  const data: ChampAvecAction<string> = { value };
 
   if (rôle.aLaPermission('installation.installateur.modifier')) {
     data.action = {
@@ -188,12 +188,12 @@ const getDispositifDeStockage = (
   identifiantProjet: IdentifiantProjet.ValueType,
   estUnLauréatSansAbandonOuAchèvement: boolean,
   règlesChangementInformationEnregistrée: boolean,
-): ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType> | undefined => {
+): ChampAvecAction<Lauréat.Installation.DispositifDeStockage.RawType> | undefined => {
   if (!champSupplémentaireDispositifDeStockage) {
     return undefined;
   }
 
-  const data: ChampsAvecAction<Lauréat.Installation.DispositifDeStockage.RawType> = {
+  const data: ChampAvecAction<Lauréat.Installation.DispositifDeStockage.RawType> = {
     value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
   };
 
@@ -222,12 +222,12 @@ const getTypologieInstallation = (
   typologieInstallation: Candidature.TypologieInstallation.ValueType[],
   rôle: Role.ValueType,
   identifiantProjet: IdentifiantProjet.ValueType,
-): ChampsAvecAction<Candidature.TypologieInstallation.RawType[]> => {
+): ChampAvecAction<Candidature.TypologieInstallation.RawType[]> => {
   const value = typologieInstallation.length
     ? typologieInstallation.map((typologie) => typologie.formatter())
     : undefined;
 
-  const data: ChampsAvecAction<Candidature.TypologieInstallation.RawType[]> = { value };
+  const data: ChampAvecAction<Candidature.TypologieInstallation.RawType[]> = { value };
 
   if (rôle.aLaPermission('installation.typologieInstallation.modifier')) {
     data.action = {

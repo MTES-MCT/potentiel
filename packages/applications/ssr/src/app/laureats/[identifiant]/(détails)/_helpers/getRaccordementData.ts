@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { ChampsAvecAction } from '../../_helpers/types';
+import { ChampAvecAction } from '../../_helpers/types';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
@@ -16,7 +16,7 @@ type GetRaccordementProps = {
   aUnAbandonEnCours: boolean;
 };
 
-export type GetRaccordementForProjectPage = ChampsAvecAction<
+export type GetRaccordementForProjectPage = ChampAvecAction<
   | {
       nombreDeDossiers: number;
       gestionnaireDeRéseau: string;

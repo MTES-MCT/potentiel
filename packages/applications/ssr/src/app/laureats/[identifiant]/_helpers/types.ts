@@ -3,12 +3,12 @@ type Action = {
   url: string;
 };
 
-export type ChampsAvecAction<T> = {
+export type ChampAvecAction<T> = {
   value?: T;
   action?: Action;
 };
 
-export type ChampsAvecMultiplesActions<T> = {
+export type ChampAvecMultiplesActions<T> = {
   value: T;
   actions: Array<Action>;
 };
