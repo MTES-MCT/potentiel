@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "codegen": "tsp compile ./src && ./scripts/patch-openapi.ts",
+    "codegen": "tsp compile ./src && ./scripts/patch-openapi.sh",
     "build": "npm run codegen && tsc"
   },
   "devDependencies": {
