@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { Temporal } from 'temporal-polyfill';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { HttpContext, Raccordement } from '@potentiel-applications/api-documentation';
@@ -55,7 +54,7 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
       puissance: dossier.puissance,
       sociétéMère: dossier.sociétéMère,
       emailContact: dossier.emailContact,
-      dateNotification: Temporal.PlainDate.from(dossier.dateNotification.formatterDate()),
+      dateNotification: dossier.dateNotification.formatterDate(),
       referenceDossier: dossier.référenceDossier.formatter(),
       statutDgec: dossier.statutDGEC,
     })),

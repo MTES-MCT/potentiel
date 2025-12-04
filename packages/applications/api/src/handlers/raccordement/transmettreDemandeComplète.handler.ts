@@ -3,14 +3,19 @@ import { mediator } from 'mediateur';
 import { Raccordement } from '@potentiel-applications/api-documentation';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getUtilisateur } from '#helpers';
+import { getUtilisateur, validate } from '#helpers';
 
 export const transmettreDemandeComplèteHandler: Raccordement['transmettreDemandeComplète'] = async (
   _,
   identifiantProjet,
-  { dateAccuseReception, reference },
+  body,
 ) => {
   const utilisateur = getUtilisateur();
+
+  const { reference, dateAccuseReception } = validate(
+    'TransmettreDemandeCompleteRaccordementBody',
+    body,
+  );
 
   await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',

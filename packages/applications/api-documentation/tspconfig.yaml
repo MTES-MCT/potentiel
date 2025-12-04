@@ -8,3 +8,4 @@ options:
     file-type: json
   '@typespec/http-server-js':
     emitter-output-dir: '{cwd}'
+    datetime: date-duration

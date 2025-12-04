@@ -7,6 +7,7 @@ import {
   InvalidOperationError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export class ApiError extends Error {
   constructor(
@@ -66,5 +67,10 @@ export const handleError = (
     return result;
   }
 
+  if (error instanceof Error) {
+    getLogger().error('Unhandled error in API', { message: error.message, stack: error.stack });
+  } else {
+    getLogger().error('Unhandled unknown error in API', { error });
+  }
   return { statusCode: 500, message: 'Internal Server Error' };
 };

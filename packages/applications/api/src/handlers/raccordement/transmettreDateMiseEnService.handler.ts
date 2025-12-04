@@ -4,11 +4,13 @@ import { Raccordement } from '@potentiel-applications/api-documentation';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getUtilisateur } from '#helpers';
+import { getUtilisateur, validate } from '#helpers';
 
 export const transmettreDateMiseEnServiceHandler: Raccordement['transmettreDateMiseEnService'] =
-  async (_, identifiantProjet, reference, { dateMiseEnService }) => {
+  async (_, identifiantProjet, reference, body) => {
     const utilisateur = getUtilisateur();
+
+    const { dateMiseEnService } = validate('TransmettreDateMiseEnServiceBody', body);
 
     await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',

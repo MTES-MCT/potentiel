@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { Temporal } from 'temporal-polyfill';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { HttpContext, Raccordement } from '@potentiel-applications/api-documentation';
@@ -36,7 +35,7 @@ export const listerManquantsHandlers: Raccordement<HttpContext>['listerManquants
       statutDgec: dossier.statutDGEC,
       referenceDossier: '',
       puissance: dossier.puissance,
-      dateNotification: Temporal.PlainDate.from(dossier.dateNotification.formatterDate()),
+      dateNotification: dossier.dateNotification.formatterDate(),
       emailContact: dossier.emailContact,
       nomCandidat: dossier.nomCandidat,
       siteProduction: dossier.siteProduction,

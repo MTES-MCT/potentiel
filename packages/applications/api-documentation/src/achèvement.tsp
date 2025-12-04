@@ -8,7 +8,10 @@ model ProjetAvecAchevementATransmettre {
   identifiantProjet: string;
   identifiantGestionnaireReseau: string;
   referenceDossierRaccordement: string;
+
+  @format("date")
   dateDCR?: string;
+
   appelOffre: string;
   periode: string;
   codePostal: string;
@@ -17,7 +20,8 @@ model ProjetAvecAchevementATransmettre {
 }
 
 model TransmettreDateAchevementBody {
-  dateAchevement: plainDate;
+  @format("date")
+  dateAchevement: string;
 }
 
 @useAuth(BearerAuth)

@@ -35,11 +35,13 @@ model DossierRaccordement {
   siteProduction: string;
 
   /** La date où le projet a été notifié */
-  dateNotification: plainDate;
+  @format("date")
+  dateNotification: string;
 }
 
 model TransmettreDateMiseEnServiceBody {
-  dateMiseEnService: plainDate;
+  @format("date")
+  dateMiseEnService: string;
 }
 
 model ModifierReferenceBody {
@@ -51,7 +53,8 @@ model TransmettreDemandeCompleteRaccordementBody {
   @minLength(1)
   reference: string;
 
-  dateAccuseReception: plainDate;
+  @format("date")
+  dateAccuseReception: string;
 }
 
 @tag("Raccordement")
