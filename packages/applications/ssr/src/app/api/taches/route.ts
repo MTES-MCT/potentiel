@@ -7,7 +7,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const dynamic = 'force-dynamic';
 
-/** @@deprecated uniquement pour utilisation dans le legacy */
+/** @deprecated uniquement pour utilisation dans le legacy */
 export const GET = () =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
