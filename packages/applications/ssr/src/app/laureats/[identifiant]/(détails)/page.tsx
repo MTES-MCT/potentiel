@@ -125,7 +125,7 @@ const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   }
 };
 
-export const getRecours = async (
+const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
   const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({

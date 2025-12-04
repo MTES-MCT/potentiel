@@ -6,7 +6,7 @@ import { Section } from './Section';
 
 type RaccordementSectionProps = { raccordement: GetRaccordementForProjectPage };
 
-export const RaccordementSection = ({ raccordement }: RaccordementSectionProps) => (
+export const RaccordementSection = async ({ raccordement }: RaccordementSectionProps) => (
   <Section title="Raccordement au réseau">
     {raccordement.value ? (
       <>

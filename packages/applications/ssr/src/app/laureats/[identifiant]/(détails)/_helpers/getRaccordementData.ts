@@ -56,7 +56,10 @@ export const getRaccordementData = async ({
           ? gestionnaireRéseau.raisonSociale
           : 'Aucun raccordement pour ce projet',
         dateMiseEnService: raccordement.dossiers.length
-          ? raccordement.dossiers.reverse()[0].miseEnService?.dateMiseEnService
+          ? raccordement.dossiers
+              .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+              .filter(Boolean)
+              .sort()[0]
           : undefined,
       };
 
