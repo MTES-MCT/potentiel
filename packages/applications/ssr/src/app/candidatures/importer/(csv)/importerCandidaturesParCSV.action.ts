@@ -56,7 +56,7 @@ const action: FormAction<FormState, typeof schema> = async (
       );
       for (const line of parsedData) {
         const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
-          `${line.appelOffre}#${line.période})`,
+          `${line.appelOffre}#${line.période}`,
         );
         if (!identifiantPériode.estÉgaleÀ(périodeCible)) {
           errors.push({

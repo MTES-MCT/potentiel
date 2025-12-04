@@ -15,11 +15,13 @@ import {
   ImporterCandidaturesParCSVFormKeys,
 } from './importerCandidaturesParCSV.action';
 
-export type ImporterCandidaturesParCSVFormProps = {
-  appelOffre: string;
-  période: string;
-  modeMultiple: boolean;
-};
+export type ImporterCandidaturesParCSVFormProps =
+  | { modeMultiple: true; appelOffre?: undefined; période?: undefined }
+  | {
+      modeMultiple?: false;
+      appelOffre: string;
+      période: string;
+    };
 
 export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormProps> = ({
   appelOffre,

@@ -37,7 +37,9 @@ export default async function Page({ searchParams }: PageProps) {
         <ImporterCandidaturesPage
           périodes={mapToPlainObject(
             périodes.items.toSorted((a, b) =>
-              a.identifiantPériode.formatter().localeCompare(b.identifiantPériode.formatter()),
+              getPériodeLabelForSorting(a.identifiantPériode).localeCompare(
+                getPériodeLabelForSorting(b.identifiantPériode),
+              ),
             ),
           )}
           importMultipleAOEtPeriodesPossible={process.env.APPLICATION_STAGE !== 'production'}
@@ -46,3 +48,6 @@ export default async function Page({ searchParams }: PageProps) {
     }),
   );
 }
+
+const getPériodeLabelForSorting = (identifiantPériode: Période.IdentifiantPériode.ValueType) =>
+  `${identifiantPériode.appelOffre}#${identifiantPériode.période.padStart(2)}`;
