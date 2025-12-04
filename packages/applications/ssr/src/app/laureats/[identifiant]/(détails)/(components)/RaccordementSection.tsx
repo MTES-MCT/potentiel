@@ -15,7 +15,11 @@ export const RaccordementSection = ({ raccordement }: RaccordementSectionProps) 
           {raccordement.value.gestionnaireDeRéseau}{' '}
         </div>
         <div className="mb-0 font-semibold">
-          {raccordement.value.nombreDeDossiers} dossier(s) de raccordement renseigné(s)
+          {raccordement.value.nombreDeDossiers === 0
+            ? 'Aucun dossier de raccordement renseigné'
+            : raccordement.value.nombreDeDossiers === 1
+              ? 'Un dossier de raccordement renseigné'
+              : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
         </div>
         {raccordement.action && (
           <Link className="w-fit" href={raccordement.action.url}>

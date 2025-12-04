@@ -118,6 +118,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
               title: '',
               searchParamKey: 'categorie',
               options,
+              canUnselect: true,
             },
           ]}
           historique={historiqueFilteredAndSorted}
