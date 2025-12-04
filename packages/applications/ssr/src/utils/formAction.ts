@@ -100,11 +100,11 @@ export const formAction =
 
       /**
        * Attendre un certain délai avant de faire la redirection pour laisser le temps à la projection d'update
-       * La durée est configurable via la variable d'environnement DELAI_REDIRECTION_MS
+       * La durée est configurable via la variable d'environnement FORM_REDIRECTION_DELAY_MS
        * En l'absence de variable d'environnement, pas de délai
        */
       await new Promise((resolve) =>
-        setTimeout(resolve, Number(process.env.DELAI_REDIRECTION_MS ?? '0')),
+        setTimeout(resolve, Number(process.env.FORM_REDIRECTION_DELAY_MS ?? '0')),
       );
 
       if (result.status === 'success' && result.redirection) {
