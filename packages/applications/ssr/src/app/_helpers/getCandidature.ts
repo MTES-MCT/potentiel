@@ -18,7 +18,6 @@ export const getCandidature = cache(async (identifiantProjet: string) => {
 
   if (Option.isNone(candidature)) {
     logger.warn(`Candidature non trouvée`, { identifiantProjet });
-
     return notFound();
   }
 

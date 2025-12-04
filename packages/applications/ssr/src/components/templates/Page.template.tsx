@@ -7,8 +7,8 @@ import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
 import { FeatureFlaggedComponent } from '@/utils/feature-flag/FeatureFlaggedComponent.template';
 
 type PageTemplateProps = {
-  banner?: React.ReactNode;
   children: React.ReactNode;
+  banner?: React.ReactNode;
   feature?: string;
 };
 
