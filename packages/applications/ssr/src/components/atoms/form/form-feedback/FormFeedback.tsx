@@ -4,10 +4,11 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useFormStatus } from 'react-dom';
 import Link from 'next/link';
+import { match, P } from 'ts-pattern';
 
 import { FormState } from '@/utils/formAction';
 
-import { FormAlertError } from './FormAlertError';
+import { FormAlertError } from '../FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
@@ -20,8 +21,8 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     return undefined;
   }
 
-  switch (formState.status) {
-    case 'success':
+  return match(formState)
+    .with({ status: 'success' }, (formState) => {
       if (formState.result) {
         const {
           result: { successMessage, errors, link },
@@ -70,20 +71,17 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
       }
 
       return <Alert closable small severity="success" description="L'opération est un succès" />;
-
-    case 'rate-limit-error':
-    case 'domain-error':
+    })
+    .with({ status: P.union('rate-limit-error', 'domain-error') }, (formState) => {
       return <FormAlertError description={formState.message} />;
+    })
 
-    case 'unknown-error':
-      return <FormAlertError description="Une erreur est survenue" />;
+    .with({ status: 'validation-error' }, () => (
+      <FormAlertError description="Erreur lors de la validation des données du formulaire" />
+    ))
 
-    case 'validation-error':
-      return (
-        <FormAlertError description="Erreur lors de la validation des données du formulaire" />
-      );
-
-    default:
-      return null;
-  }
+    .with({ status: 'unknown-error' }, () => (
+      <FormAlertError description="Une erreur est survenue" />
+    ))
+    .otherwise(() => null);
 };

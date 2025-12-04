@@ -14,7 +14,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { candidatureCsvSchema } from '@/utils/candidature';
+import { candidatureCsvSchema, candidatureCsvHeadersMapping } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
@@ -32,14 +32,15 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await parseCsv(
-      fichierImportCandidature.content,
-      candidatureCsvSchema,
-      {
+    const { parsedData, rawData } = await parseCsv({
+      fileStream: fichierImportCandidature.content,
+      lineSchema: candidatureCsvSchema,
+      columnsToVerify: Object.values(candidatureCsvHeadersMapping),
+      parseOptions: {
         encoding: 'win1252',
         delimiter: ';',
       },
-    );
+    });
 
     if (parsedData.length === 0) {
       return {
