@@ -7,14 +7,14 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 
-import { ChampsAvecMultiplesActions } from '../../_helpers/types';
+import { ChampAvecMultiplesActions } from '../../_helpers/types';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
 };
 
-export type GetAchèvementData = ChampsAvecMultiplesActions<{
+export type GetAchèvementData = ChampAvecMultiplesActions<{
   estAchevé: boolean;
   dateAchèvementPrévisionnel: DateTime.RawType;
   dateAchèvementRéel?: DateTime.RawType;
