@@ -3,4 +3,4 @@ import { Candidature } from '@potentiel-domain/projet';
 import { encodeParameter } from '../encodeParameter';
 
 export const lister = (identifiantProjet: string, statut: Candidature.StatutCandidature.RawType) =>
-  `/${statut === 'classé' ? 'laureats' : 'elimines'}/${encodeParameter(identifiantProjet)}/acces`;
+  `/${statut === 'classé' ? 'laureats' : 'elimines'}/${encodeParameter(identifiantProjet)}/utilisateurs`;
