@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Lauréat, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -13,6 +12,7 @@ import { getCahierDesChargesData } from './getCahierDesChargesData';
 import { getAbandonAlert } from './getAbandonAlert';
 import { getAchèvementAlert } from './getAchèvementAlert';
 import { getGarantiesFinancièresData } from './getGarantiesFinancièresData';
+import { getAchèvementData } from './getAchèvementData';
 
 // type
 
@@ -35,7 +35,7 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
   const abandon = await getAbandon(identifiantProjet);
 
   // Achèvement
-  const achèvement = await getAchèvement(identifiantProjet);
+  const achèvementData = await getAchèvementData({ identifiantProjet, rôle });
 
   // Raccordement
   const raccordement = await getRaccordementData({
@@ -51,15 +51,13 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
 
   const étapes = getÉtapesData({
     dateNotification: lauréat.notifiéLe.formatter(),
-    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.dateTime.formatter(),
+    dateAchèvementPrévisionnel: achèvementData.value.dateAchèvementPrévisionnel,
     dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe.formatter(),
     dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
     dateMiseEnService: raccordement.value
       ? raccordement.value.dateMiseEnService?.formatter()
       : undefined,
-    dateAchèvementRéel: achèvement.estAchevé
-      ? achèvement.dateAchèvementRéel.formatter()
-      : undefined,
+    dateAchèvementRéel: achèvementData.value.dateAchèvementRéel,
   });
 
   const abandonAlert = getAbandonAlert(
@@ -69,7 +67,7 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     identifiantProjet.formatter(),
   );
 
-  const achèvementAlert = getAchèvementAlert(achèvement.estAchevé, rôle);
+  const achèvementAlert = getAchèvementAlert(achèvementData.value.estAchevé, rôle);
 
   const garantiesFinancièresData = await getGarantiesFinancièresData({
     identifiantProjet,
@@ -86,7 +84,7 @@ export const getTableauDeBordData = async ({ identifiantProjet, rôle }: Props) 
     abandonAlert,
     achèvementAlert,
     garantiesFinancièresData,
-    estAchevé: achèvement.estAchevé,
+    achèvementData,
   };
 };
 
@@ -105,19 +103,6 @@ const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   if (statut.estEnCours() || statut.estRejeté() || statut.estAccordé()) {
     return abandon;
   }
-};
-
-const getAchèvement = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-    type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-    data: { identifiantProjetValue: identifiantProjet.formatter() },
-  });
-
-  if (Option.isNone(achèvement)) {
-    return notFound();
-  }
-
-  return achèvement;
 };
 
 export const getRecours = async (
