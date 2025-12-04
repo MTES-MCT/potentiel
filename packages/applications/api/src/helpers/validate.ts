@@ -2,12 +2,24 @@
 import { Ajv2020, ValidationError, ValidateFunction } from 'ajv/dist/2020.js';
 // eslint-disable-next-line no-restricted-imports
 import type { JTDDataType } from 'ajv/dist/core.js';
+import { Temporal } from 'temporal-polyfill';
 
 import { schemas } from '@potentiel-applications/api-documentation';
 
 import { BadRequestError } from '../errors.js';
 
-const ajv = new Ajv2020();
+const ajv = new Ajv2020({
+  formats: {
+    date: (value) => {
+      try {
+        Temporal.PlainDate.from(value);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+  },
+});
 
 for (const [name, schema] of Object.entries(schemas)) {
   ajv.addSchema(schema, name);
