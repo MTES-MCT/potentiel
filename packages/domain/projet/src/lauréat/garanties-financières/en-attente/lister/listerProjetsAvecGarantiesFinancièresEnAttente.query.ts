@@ -111,7 +111,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
             statut === 'abandonné'
               ? { estAbandonné: Where.equal(true) }
               : statut === 'actif'
-                ? { estAbandonné: Where.equal(false) }
+                ? { estAbandonné: Where.notEqual(true) }
                 : undefined,
         },
       ],
