@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react';
 import clsx from 'clsx';
 
-import { Heading3 } from '../../../../../components/atoms/headings';
+import { Heading3 } from '@/components/atoms/headings';
 
 type SectionProps = ComponentProps<'div'> & {
   title: string;

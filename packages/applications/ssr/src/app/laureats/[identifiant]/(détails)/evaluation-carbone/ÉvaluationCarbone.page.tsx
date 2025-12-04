@@ -5,7 +5,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Section } from '../(components)/Section';
 import { SectionPage } from '../(components)/SectionPage';
 
-export const ÉvaluationCarboneSection = () => (
+export const ÉvaluationCarbonePage = () => (
   <SectionPage title="Évaluation Carbone">
     <ÉvaluationCarbone />
   </SectionPage>

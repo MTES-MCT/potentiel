@@ -22,11 +22,12 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   // ce n'est pas exactement ça, voir pour typologie projet
-  const showInstallation =
+  const showInstallation = !!(
     cahierDesCharges.appelOffre.champsSupplémentaires?.autorisationDUrbanisme ||
     cahierDesCharges.appelOffre.champsSupplémentaires?.natureDeLExploitation ||
     cahierDesCharges.appelOffre.champsSupplémentaires?.installateur ||
-    cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage;
+    cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage
+  );
 
   const filteredMenuItems = menuItems.filter((item) => {
     if (item.label === 'Installation') {

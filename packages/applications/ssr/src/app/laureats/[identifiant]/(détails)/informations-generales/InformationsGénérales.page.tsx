@@ -3,7 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Section } from '../(components)/Section';
 import { SectionPage } from '../(components)/SectionPage';
 
-export const InformationsGénéralesSection = () => (
+export const InformationsGénéralesPage = () => (
   <SectionPage title="Informations Générales">
     <InformationsGénérales />
   </SectionPage>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { GetRaccordementForProjectPage } from '../_helpers/getRaccordementData';
 
@@ -22,9 +22,7 @@ export const RaccordementSection = ({ raccordement }: RaccordementSectionProps) 
               : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
         </div>
         {raccordement.action && (
-          <Link className="w-fit" href={raccordement.action.url}>
-            {raccordement.action.label}
-          </Link>
+          <TertiaryLink href={raccordement.action.url}>{raccordement.action.label}</TertiaryLink>
         )}
       </>
     ) : (

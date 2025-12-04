@@ -6,7 +6,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
-import { ÉvaluationCarboneSection } from './ÉvaluationCarboneSection';
+import { ÉvaluationCarbonePage } from './ÉvaluationCarbone.page';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -27,5 +27,5 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
     redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
   }
 
-  return <ÉvaluationCarboneSection />;
+  return <ÉvaluationCarbonePage />;
 }

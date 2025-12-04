@@ -16,7 +16,7 @@ import { GetGarantiesFinancièresData } from './_helpers/getGarantiesFinancière
 import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièresSection';
 import { RaccordementSection } from './(components)/RaccordementSection';
 
-type TableauDeBordSectionProps = {
+type TableauDeBordPageProps = {
   identifiantProjet: string;
   frise: {
     étapes: EtapesProjetProps['étapes'];
@@ -30,7 +30,7 @@ type TableauDeBordSectionProps = {
   estAchevé: boolean;
 };
 
-export const TableauDeBordSection = ({
+export const TableauDeBordPage = ({
   identifiantProjet,
   frise: { étapes, doitAfficherAttestationDésignation },
   cahierDesCharges,
@@ -39,7 +39,7 @@ export const TableauDeBordSection = ({
   achèvementAlert,
   garantiesFinancièresData,
   estAchevé,
-}: TableauDeBordSectionProps) => (
+}: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
       {achèvementAlert && (

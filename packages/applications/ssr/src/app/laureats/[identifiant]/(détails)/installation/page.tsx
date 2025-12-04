@@ -9,7 +9,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '../../../../../utils/PageWithErrorHandling';
 import { withUtilisateur } from '../../../../../utils/withUtilisateur';
 
-import { InstallationSection } from './InstallationSection';
+import { InstallationPage } from './Installation.page';
 import { getInstallation } from './_helpers/getInstallation';
 
 type PageProps = IdentifiantParameter & {
@@ -37,7 +37,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const installation = await getInstallation({ rôle: utilisateur.rôle, identifiantProjet });
 
-      return <InstallationSection installation={installation} />;
+      return <InstallationPage installation={installation} />;
     }),
   );
 }

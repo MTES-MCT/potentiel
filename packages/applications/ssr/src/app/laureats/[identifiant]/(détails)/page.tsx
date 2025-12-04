@@ -9,7 +9,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '../../../../utils/PageWithErrorHandling';
 import { withUtilisateur } from '../../../../utils/withUtilisateur';
 
-import { TableauDeBordSection } from './TableauDeBordSection';
+import { TableauDeBordPage } from './TableauDeBord.page';
 import { getTableauDeBordData } from './_helpers/getTableauDeBordData';
 
 type PageProps = IdentifiantParameter & {
@@ -50,7 +50,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       });
 
       return (
-        <TableauDeBordSection
+        <TableauDeBordPage
           frise={{ étapes, doitAfficherAttestationDésignation }}
           raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
