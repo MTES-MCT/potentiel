@@ -1,4 +1,3 @@
-import { Temporal } from 'temporal-polyfill';
 // eslint-disable-next-line no-restricted-imports
 import { Ajv2020, ValidationError, ValidateFunction } from 'ajv/dist/2020.js';
 // eslint-disable-next-line no-restricted-imports
@@ -8,19 +7,7 @@ import { schemas } from '@potentiel-applications/api-documentation';
 
 import { BadRequestError } from '../errors.js';
 
-// TODO validation par date ne fonctionne pas
-const ajv = new Ajv2020({
-  formats: {
-    date: (value) => {
-      try {
-        Temporal.PlainDate.from(value);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-  },
-});
+const ajv = new Ajv2020();
 
 for (const [name, schema] of Object.entries(schemas)) {
   ajv.addSchema(schema, name);
