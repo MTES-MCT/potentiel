@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import clsx from 'clsx';
 import Link from 'next/link';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
-import Warning from '@codegouvfr/react-dsfr/picto/Warning';
+import Information from '@codegouvfr/react-dsfr/picto/Information';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
@@ -134,9 +134,9 @@ type ÉtapeÀTransmettreProps = {
 const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
-      <Warning fontSize="medium" />
+      <Information color="blue-ecume" fontSize="medium" />
       <ContentArea>
-        Données à transmettre
+        <span>Donnée à transmettre</span>
         <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>
