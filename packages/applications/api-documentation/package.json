@@ -5,15 +5,6 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./schema": {
-      "import": "./dist/api-schema.json"
-    }
-  },
   "scripts": {
     "codegen": "tsp compile ./src && ./scripts/patch-openapi.sh",
     "build": "npm run codegen && tsc"
