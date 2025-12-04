@@ -4,6 +4,6 @@ type Action = {
 };
 
 export type ChampsAvecAction<T> = {
-  value: T | undefined;
+  value?: T;
   action?: Action;
 };

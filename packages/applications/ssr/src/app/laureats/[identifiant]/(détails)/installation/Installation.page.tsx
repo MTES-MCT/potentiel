@@ -1,16 +1,16 @@
-import Link from 'next/link';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { Section } from '../(components)/Section';
 import { DétailTypologieInstallation } from '../../installation/(historique)/events/DétailTypologieInstallation';
 import { SectionPage } from '../(components)/SectionPage';
 import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
-import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 
 import { GetInstallationForProjectPage } from './_helpers/getInstallation';
 
 type Props = { installation: GetInstallationForProjectPage };
 
-export const InstallationSection = ({ installation }: Props) => (
+export const InstallationPage = ({ installation }: Props) => (
   <SectionPage title="Installation">
     <Installation installation={installation} />
   </SectionPage>
@@ -36,9 +36,9 @@ const Installation = ({
               <span>Champs non renseigné</span>
             )}
             {typologieInstallation.action && (
-              <Link className="w-fit" href={typologieInstallation.action.url}>
+              <TertiaryLink href={typologieInstallation.action.url}>
                 {typologieInstallation.action.label}
-              </Link>
+              </TertiaryLink>
             )}
           </div>
         </Section>
@@ -47,9 +47,7 @@ const Installation = ({
         <Section title="Installateur">
           <div className="m-0">{installateur?.value}</div>
           {installateur.action && (
-            <Link className="w-fit" href={installateur.action.url}>
-              {installateur.action.label}
-            </Link>
+            <TertiaryLink href={installateur.action.url}>{installateur.action.label}</TertiaryLink>
           )}
         </Section>
       )}
@@ -79,9 +77,9 @@ const Installation = ({
             <div>Champs non renseigné</div>
           )}
           {dispositifDeStockage.action && (
-            <Link className="w-fit" href={dispositifDeStockage.action.url}>
+            <TertiaryLink href={dispositifDeStockage.action.url}>
               {dispositifDeStockage.action.label}
-            </Link>
+            </TertiaryLink>
           )}
         </Section>
       )}
@@ -121,9 +119,9 @@ const Installation = ({
             <div>{natureDeLExploitation.value}</div>
           )}
           {natureDeLExploitation.action && (
-            <Link className="w-fit" href={natureDeLExploitation.action.url}>
+            <TertiaryLink href={natureDeLExploitation.action.url}>
               {natureDeLExploitation.action.label}
-            </Link>
+            </TertiaryLink>
           )}
         </Section>
       )}
