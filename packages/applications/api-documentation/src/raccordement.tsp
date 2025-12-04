@@ -43,7 +43,15 @@ model TransmettreDateMiseEnServiceBody {
 }
 
 model ModifierReferenceBody {
+  @minLength(1)
   nouvelleReference: string;
+}
+
+model TransmettreDemandeCompleteRaccordementBody {
+  @minLength(1)
+  reference: string;
+
+  dateAccuseReception: plainDate;
 }
 
 @tag("Raccordement")
@@ -91,5 +99,14 @@ interface Raccordement {
     @path identifiantProjet: string,
     @path reference: string,
     @body body: ModifierReferenceBody,
+  ): {} | Error;
+
+  @route("/laureats/{identifiantProjet}/raccordements/demande-complete-raccordement:transmettre")
+  @post
+  transmettreDemandeComplète(
+    @path
+    identifiantProjet: string,
+
+    @body body: TransmettreDemandeCompleteRaccordementBody,
   ): {} | Error;
 }
