@@ -30,6 +30,10 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     if (appelOffre && période) {
       return Période.IdentifiantPériode.bind({ appelOffre, période });
     }
+
+    if (périodes.length === 1) {
+      return Période.IdentifiantPériode.bind(périodes[0].identifiantPériode);
+    }
   });
 
   const [modeMultiple, setModeMultiple] = useState(false);
@@ -83,6 +87,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
           <Select
             label="Période"
             state={période ? 'default' : 'error'}
+            className="mb-4"
             stateRelatedMessage={période ? undefined : `Veuillez saisir une période`}
             options={périodes
               .map(({ identifiantPériode }) => Période.IdentifiantPériode.bind(identifiantPériode))
