@@ -8,8 +8,8 @@ import Information from '@codegouvfr/react-dsfr/picto/Information';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
-import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
-import { DownloadDocument } from '../../../../../components/atoms/form/document/DownloadDocument';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { Section } from './Section';
 
@@ -134,9 +134,9 @@ type ÉtapeÀTransmettreProps = {
 const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
-      <Information color="blue-ecume" fontSize="medium" />
+      <Information color="red-marianne" fontSize="medium" />
       <ContentArea>
-        <span>Donnée à transmettre</span>
+        <span className="italic">Donnée à transmettre</span>
         <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>

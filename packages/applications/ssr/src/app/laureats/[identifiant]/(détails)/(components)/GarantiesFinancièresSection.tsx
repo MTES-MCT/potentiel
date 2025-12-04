@@ -1,10 +1,12 @@
-import Link from 'next/link';
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, Candidature } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
 import { GetGarantiesFinancièresData } from '../_helpers/getGarantiesFinancièresData';
 
 import { Section } from './Section';
@@ -98,37 +100,33 @@ export const GarantiesFinancièresSection = ({
           sont à traiter par l'autorité compétente
         </div>
       )}
-      <Link className="w-fit" href={Routes.GarantiesFinancières.détail(identifiantProjet)}>
+      <TertiaryLink href={Routes.GarantiesFinancières.détail(identifiantProjet)}>
         Consulter la page garanties financières
-      </Link>
+      </TertiaryLink>
     </Section>
   );
 };
 
-const getGarantiesFinancièresLabel = (type?: Candidature.TypeGarantiesFinancières.RawType) => {
-  switch (type) {
-    case 'consignation':
-      return 'de type consignation';
-    case 'avec-date-échéance':
-      return "avec date d'échéance";
-    case 'six-mois-après-achèvement':
-      return "avec une durée de validité jusqu'à six mois après achèvement du projet";
-    default:
-      return '';
-  }
-};
+const getGarantiesFinancièresLabel = (type?: Candidature.TypeGarantiesFinancières.RawType) =>
+  match(type)
+    .with('consignation', () => 'de type consignation')
+    .with('avec-date-échéance', () => "avec date d'échéance")
+    .with(
+      'six-mois-après-achèvement',
+      () => "avec une durée de validité jusqu'à six mois après achèvement du projet",
+    )
+    .with(P.union('type-inconnu', 'exemption', undefined), () => '')
+    .exhaustive();
 
 const getMotifGarantiesFinancièresEnAttente = (
-  motif?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
-) => {
-  switch (motif) {
-    case 'recours-accordé':
-      return 'recours accordé';
-    case 'changement-producteur':
-      return 'changement de producteur';
-    case 'échéance-garanties-financières-actuelles':
-      return 'garanties financières arrivant à échéance';
-    default:
-      return '';
-  }
-};
+  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+) =>
+  match(motif)
+    .with('recours-accordé', () => 'recours accordé')
+    .with('changement-producteur', () => 'changement de producteur')
+    .with(
+      'échéance-garanties-financières-actuelles',
+      () => 'garanties financières arrivant à échéance',
+    )
+    .with(P.union('motif-inconnu'), () => '')
+    .exhaustive();

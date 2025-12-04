@@ -1,6 +1,8 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Link from 'next/link';
 
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
 import { CahierDesChargesData } from '../_helpers/getCahierDesChargesData';
 
 import { Section } from './Section';
@@ -30,10 +32,6 @@ export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSecti
           severity="warning"
         />
       )}
-      {action && (
-        <Link href={action.url} className="w-fit">
-          {action.label}
-        </Link>
-      )}
+      {action && <TertiaryLink href={action.url}> {action.label}</TertiaryLink>}
     </Section>
   );
