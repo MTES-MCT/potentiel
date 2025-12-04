@@ -12,5 +12,6 @@
     { "path": "../../infrastructure/domain-adapters" },
     { "path": "../../libraries/monitoring" },
     { "path": "../../domain/projet" }
-  ]
+  ],
+  "include": ["src/"]
 }

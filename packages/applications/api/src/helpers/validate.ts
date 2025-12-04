@@ -8,10 +8,12 @@ import { schemas } from '@potentiel-applications/api-documentation';
 
 import { BadRequestError } from '../errors.js';
 
+// TODO validation par date ne fonctionne pas
 const ajv = new Ajv2020({
   formats: {
     date: (value) => {
       try {
+        console.log(value);
         Temporal.PlainDate.from(value);
         return true;
       } catch {
