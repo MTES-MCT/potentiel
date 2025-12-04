@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
-import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
+import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 export type HistoriqueLauréatAction = 'imprimer';
@@ -25,7 +25,6 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
         {filters.length ? (
           <div className="print:hidden flex flex-col gap-1 w-[300px]">
             <ListFilters filters={filters} />
-            <FiltersTagList filters={filters} />
           </div>
         ) : null}
         {actions?.includes('imprimer') && <ImprimerPage />}

@@ -10,6 +10,7 @@ export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
   multiple?: true;
+  canUnselect?: true;
   title?: string;
   options: Array<{
     label: string;
@@ -41,17 +42,24 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
     const newSearchParams = new URLSearchParams(searchParams);
 
-    newSearchParams.delete(searchParamKey);
-
-    if (value.length === 0) {
+    if (value.includes(`aucun-${searchParamKey}`)) {
+      newSearchParams.delete(searchParamKey);
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
       }
     } else {
-      newSearchParams.delete('page');
+      newSearchParams.delete(searchParamKey);
 
-      for (const v of value) {
-        newSearchParams.append(searchParamKey, v);
+      if (value.length === 0) {
+        for (const affected of affects ?? []) {
+          newSearchParams.delete(affected);
+        }
+      } else {
+        newSearchParams.delete('page');
+
+        for (const v of value) {
+          newSearchParams.append(searchParamKey, v);
+        }
       }
     }
 
@@ -60,11 +68,18 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col">
-      {filters.map(({ label, searchParamKey, options, affects, multiple, title }) => {
+      {filters.map(({ label, searchParamKey, options, affects, multiple, title, canUnselect }) => {
         const disabled =
           filters.some(
             (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
           ) || options.length === 0;
+        const optionsWithUnselect = [
+          {
+            label: `Aucun(e) ${label}`,
+            value: `aucun-${searchParamKey}`,
+          },
+          ...options,
+        ];
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
@@ -90,7 +105,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             disabled={disabled}
             label={label}
             title={title}
-            options={options}
+            options={canUnselect ? optionsWithUnselect : options}
             value={searchParams.get(searchParamKey) ?? ''}
             onChange={(value) =>
               handleOnChange({
