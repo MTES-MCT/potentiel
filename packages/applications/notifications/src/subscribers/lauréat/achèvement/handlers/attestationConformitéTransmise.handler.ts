@@ -15,7 +15,7 @@ export const handleAttestationConformitéTransmise = async ({
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   await sendEmail({
-    templateId: achèvementNotificationTemplateId.transmettreAttestationConformité,
+    templateId: achèvementNotificationTemplateId.transmettreAttestationConformité.porteur,
     messageSubject: `Potentiel - Mise à jour de la date d'achèvement du projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
@@ -29,7 +29,7 @@ export const handleAttestationConformitéTransmise = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   await sendEmail({
-    templateId: 5945568,
+    templateId: achèvementNotificationTemplateId.transmettreAttestationConformité.dreal,
     messageSubject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
