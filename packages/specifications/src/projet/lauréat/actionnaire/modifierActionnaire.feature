@@ -25,7 +25,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | la DREAL associée au projet |
 
     Scénario: Modifier l'actionnaire d'un projet lauréat achevé par une dreal ou un admin
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :

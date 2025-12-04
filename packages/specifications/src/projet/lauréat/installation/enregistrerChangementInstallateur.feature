@@ -25,7 +25,7 @@ Fonctionnalité: Enregistrer un changement d'installateur d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/installateur/changement/.*                                       |
 
     Scénario: Impossible d'enregistrer un changement d'installateur pour un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement d'installateur du projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

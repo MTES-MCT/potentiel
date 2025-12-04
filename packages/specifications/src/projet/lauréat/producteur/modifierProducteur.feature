@@ -22,7 +22,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
 
     Scénario: Modifier le producteur d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :

@@ -31,7 +31,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Alors le porteur devrait être informé que "Le représentant légal ne peut pas avoir de type inconnu"
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur demande le changement de représentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

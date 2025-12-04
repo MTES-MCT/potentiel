@@ -44,7 +44,7 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat après un rejet
-        Etant donné un abandon rejeté pour le projet lauréat
+        Etant donné une demande d'abandon rejetée pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être de nouveau demandé
         Et le projet devrait avoir un abandon en cours
@@ -59,10 +59,10 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
 
-    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est accordé
-        Etant donné un abandon accordé pour le projet lauréat
+    Scénario: Impossible de demander l'abandon d'un projet si une demande d'abandon est déjà accordée
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
-        Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
+        Alors le porteur devrait être informé que "La demande d'abandon a déjà été accordée"
 
     Scénario: Impossible de demander l'abandon d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat

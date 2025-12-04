@@ -38,11 +38,11 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | date d'échéance | 2024-07-17         |
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
-        Alors l'abandon du projet lauréat devrait être accordé
+        Alors la demande d'abandon du projet lauréat devrait être accordée
         Et il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde la demande de mainlevée d'un projet lauréat avec garanties financières à échoir
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |

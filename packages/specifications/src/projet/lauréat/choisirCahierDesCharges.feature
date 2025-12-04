@@ -54,7 +54,7 @@ Fonctionnalité: Choisir un cahier des charges
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Eolien |
             | période        | 1             |
-        Et un abandon accordé pour le projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors l'utilisateur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

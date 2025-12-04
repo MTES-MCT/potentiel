@@ -35,29 +35,32 @@ Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (th
   }
 });
 
-Quand(`le porteur annule l'abandon pour le projet lauréat`, async function (this: PotentielWorld) {
-  try {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+Quand(
+  `le porteur annule la demande d'abandon pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { annuléeLe, annuléePar } = this.lauréatWorld.abandonWorld.annulerAbandonFixture.créer({
-      annuléePar: this.utilisateurWorld.porteurFixture.email,
-    });
+      const { annuléeLe, annuléePar } = this.lauréatWorld.abandonWorld.annulerAbandonFixture.créer({
+        annuléePar: this.utilisateurWorld.porteurFixture.email,
+      });
 
-    await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({
-      type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        dateAnnulationValue: annuléeLe,
-        identifiantUtilisateurValue: annuléePar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
+      await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateAnnulationValue: annuléeLe,
+          identifiantUtilisateurValue: annuléePar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 
 Quand(
-  /(.*) rejette l'abandon pour le projet lauréat/,
+  /(.*) rejette la demande d'abandon du projet lauréat/,
   async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -86,7 +89,7 @@ Quand(
 );
 
 Quand(
-  /(.*) accorde l'abandon pour le projet lauréat/,
+  /(.*) accorde la demande d'abandon pour le projet lauréat/,
   async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -121,7 +124,7 @@ Quand(
 );
 
 Quand(
-  /(.*) demande une confirmation d'abandon pour le projet lauréat/,
+  /(.*) demande une confirmation de la demande d'abandon pour le projet lauréat/,
   async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -150,7 +153,7 @@ Quand(
 );
 
 Quand(
-  `le porteur confirme l'abandon pour le projet lauréat`,
+  `le porteur confirme sa demande d'abandon pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -175,7 +178,7 @@ Quand(
 );
 
 Quand(
-  /(.*) passe en instruction l'abandon pour le projet lauréat/,
+  /(.*) passe la demande d'abandon du projet lauréat en instruction/,
   async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
