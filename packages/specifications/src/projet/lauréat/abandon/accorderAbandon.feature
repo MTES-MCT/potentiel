@@ -12,8 +12,10 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
         Et le statut du projet lauréat devrait être "abandonné"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                       |
+            | sujet          | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet     | Du boulodrome de Marseille                                                       |
+            | nouveau_statut | accordée                                                                         |
+            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                               |
 
     Scénario: Une dreal peut accorder l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

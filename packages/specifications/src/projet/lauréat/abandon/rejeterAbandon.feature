@@ -12,8 +12,10 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
         Et le projet ne devrait plus avoir d'abandon en cours
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande d'abandon rejetée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                      |
+            | sujet          | Potentiel - Demande d'abandon rejetée pour le projet Du boulodrome de Marseille |
+            | nom_projet     | Du boulodrome de Marseille                                                      |
+            | nouveau_statut | rejetée                                                                         |
+            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                              |
 
     Scénario: La DGEC rejette l'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat

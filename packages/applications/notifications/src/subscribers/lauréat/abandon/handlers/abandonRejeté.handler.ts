@@ -1,6 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, listerPorteursRecipients } from '#helpers';
 
 import { abandonNotificationTemplateId } from '../constant.js';
 import { AbandonNotificationsProps } from '../type.js';
@@ -22,7 +23,7 @@ export const handleAbandonRejeté = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'rejetée',
-      abandon_url: projet.url,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
     },
   });
 };

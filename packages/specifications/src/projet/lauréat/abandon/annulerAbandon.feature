@@ -32,11 +32,15 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
         Alors le projet ne devrait plus avoir d'abandon en cours
         Et l'abandon du projet lauréat devrait être annulé
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                         |
+            | sujet          | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet     | Du boulodrome de Marseille                                                         |
+            | nouveau_statut | annulée                                                                            |
+            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                         |
+            | sujet          | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet     | Du boulodrome de Marseille                                                         |
+            | nouveau_statut | annulée                                                                            |
+            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée pour le projet lauréat
