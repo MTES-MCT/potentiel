@@ -73,13 +73,16 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           filters.some(
             (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
           ) || options.length === 0;
-        const optionsWithUnselect = [
-          {
-            label: `Aucun(e) ${label}`,
-            value: `aucun-${searchParamKey}`,
-          },
-          ...options,
-        ];
+        const optionsWithUnselect =
+          searchParams.get(searchParamKey) && canUnselect
+            ? [
+                {
+                  label: `Retirer le filtre ${label}`,
+                  value: `aucun-${searchParamKey}`,
+                },
+                ...options,
+              ]
+            : options;
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
@@ -105,7 +108,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             disabled={disabled}
             label={label}
             title={title}
-            options={canUnselect ? optionsWithUnselect : options}
+            options={optionsWithUnselect}
             value={searchParams.get(searchParamKey) ?? ''}
             onChange={(value) =>
               handleOnChange({

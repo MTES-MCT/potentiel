@@ -15,6 +15,8 @@ import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
 import { GetGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
 import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièresSection';
 import { RaccordementSection } from './(components)/RaccordementSection';
+import { AchèvementSection } from './(components)/AchèvementSection';
+import { GetAchèvementData } from './_helpers/getAchèvementData';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
@@ -27,7 +29,7 @@ type TableauDeBordPageProps = {
   abandonAlert: AbandonAlertData;
   achèvementAlert: AchèvementAlertData;
   garantiesFinancièresData: GetGarantiesFinancièresData | undefined;
-  estAchevé: boolean;
+  achèvementData: GetAchèvementData;
 };
 
 export const TableauDeBordPage = ({
@@ -38,7 +40,7 @@ export const TableauDeBordPage = ({
   abandonAlert,
   achèvementAlert,
   garantiesFinancièresData,
-  estAchevé,
+  achèvementData,
 }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -72,10 +74,11 @@ export const TableauDeBordPage = ({
           doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
         />
         <div className="flex flex-col gap-4">
+          <AchèvementSection achèvement={achèvementData} />
           {raccordement.value && <RaccordementSection raccordement={raccordement} />}
           {garantiesFinancièresData && (
             <GarantiesFinancièresSection
-              estAchevé={estAchevé}
+              estAchevé={achèvementData.value.estAchevé}
               identifiantProjet={identifiantProjet}
               garantiesFinancières={garantiesFinancièresData}
             />
