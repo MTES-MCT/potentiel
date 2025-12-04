@@ -668,12 +668,14 @@ const policies = {
     },
   },
   abandon: {
-    consulter: {
-      listeDemandes: [
+    lister: {
+      demandes: [
         référencielPermissions.lauréat.abandon.query.listerDemandes,
         référencielPermissions.appelOffre.query.lister,
       ],
-      détailDemande: [
+    },
+    consulter: {
+      demande: [
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.query.consulterDemande,
@@ -1566,7 +1568,7 @@ const commonPolicies: ReadonlyArray<Policy> = [
 const pageProjetPolicies: Policy[] = [
   ...commonPolicies,
   // Abandon
-  'abandon.consulter.détailDemande',
+  'abandon.consulter.demande',
 
   // Recours
   'recours.consulter.détail',
@@ -1613,7 +1615,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'historique.imprimer',
 
   // Abandon
-  'abandon.consulter.listeDemandes',
+  'abandon.lister.demandes',
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
@@ -1772,7 +1774,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   'projet.accèsDonnées.prix',
 
   // Abandon
-  'abandon.consulter.listeDemandes',
+  'abandon.lister.demandes',
 
   // Recours
   'recours.consulter.liste',
@@ -1839,7 +1841,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'historique.imprimer',
 
   // Abandon
-  'abandon.consulter.listeDemandes',
+  'abandon.lister.demandes',
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
@@ -1967,7 +1969,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'historique.imprimer',
 
   // Abandon
-  'abandon.consulter.listeDemandes',
+  'abandon.lister.demandes',
   'abandon.demander',
   'abandon.annuler',
   'abandon.confirmer',
