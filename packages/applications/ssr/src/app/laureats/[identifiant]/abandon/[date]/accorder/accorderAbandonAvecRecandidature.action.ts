@@ -2,12 +2,10 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
-import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
@@ -27,23 +25,15 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, dateDemande },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    const abandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        demandéLeValue: DateTime.convertirEnValueType(dateDemande).formatter(),
-      },
-    });
-
-    if (Option.isNone(abandon)) {
-      return notFound();
-    }
-
     if (!utilisateur.estValidateur()) {
       throw new Error('Utilisateur non autorisé à accorder un abandon.');
     }
 
-    const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
+    const réponseSignéeValue = await buildReponseSignee({
+      utilisateur,
+      dateDemandeAbandon: DateTime.convertirEnValueType(dateDemande),
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    });
 
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
@@ -67,11 +57,18 @@ const action: FormAction<FormState, typeof schema> = async (
 
 export const accorderAbandonAvecRecandidatureAction = formAction(action, schema);
 
-const buildReponseSignee = async (
-  abandon: Lauréat.Abandon.ConsulterDemandeAbandonReadModel,
-  utilisateur: Omit<Utilisateur.RôleDgecValidateurPayload, 'rôle'>,
-): Promise<Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
-  const identifiantProjet = abandon.identifiantProjet;
+type BuildResponseSigneeProps = {
+  utilisateur: Omit<Utilisateur.RôleDgecValidateurPayload, 'rôle'>;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  dateDemandeAbandon: DateTime.ValueType;
+};
+const buildReponseSignee = async ({
+  utilisateur,
+  dateDemandeAbandon,
+  identifiantProjet,
+}: BuildResponseSigneeProps): Promise<
+  Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']
+> => {
   const candidature = await getCandidature(identifiantProjet.formatter());
   const { lauréat, représentantLégal, puissance } = await getLauréat({
     identifiantProjet: identifiantProjet.formatter(),
@@ -81,7 +78,7 @@ const buildReponseSignee = async (
   const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
-      identifiantProjet: formatIdentifiantProjetForDocument(abandon.identifiantProjet),
+      identifiantProjet: formatIdentifiantProjetForDocument(identifiantProjet),
       nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
       nomCandidat: candidature.dépôt.nomCandidat,
       email: candidature.dépôt.emailContact.formatter(),
@@ -103,7 +100,7 @@ const buildReponseSignee = async (
       },
     },
     demandeAbandon: {
-      date: abandon.demande.demandéLe.date.toISOString(),
+      date: dateDemandeAbandon.date.toISOString(),
       instructeur: {
         nom: utilisateur.nomComplet,
         fonction: utilisateur.fonction,
