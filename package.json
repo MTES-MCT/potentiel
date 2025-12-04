@@ -21,7 +21,7 @@
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
     "build": "turbo run build",
-    "build:dev": "turbo run build --filter=@potentiel-applications/subscribers --filter=@potentiel-applications/ssr... --filter=!@potentiel-applications/ssr",
+    "build:dev": "turbo run build --filter=@potentiel-applications/subscribers",
     "build:cli": "turbo run build --filter=@potentiel/cli...",
     "predev": "npm run up && npm run build:dev",
     "dev": "npx --offline foreman start --procfile Procfile.dev --port 3000",
