@@ -7,8 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/run.js",
-    "dev": "tsx ./src/run.ts"
+    "test": "tsx --test **/*.test.ts"
   },
   "imports": {
     "#helpers": "./dist/helpers/index.js"
