@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "./raccordement.tsp";
-import "./achèvement.tsp";
-// import "./lauréat.tsp";
+import "./achèvementV1.tsp";
 
 using Http;
 
