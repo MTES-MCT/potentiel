@@ -81,7 +81,7 @@ export default async function Page({ searchParams }: PageProps) {
           multiple: true,
           searchParamKey: 'statut',
           options: Lauréat.Abandon.StatutAbandon.statuts
-            .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .filter((s) => s !== 'inconnu')
             .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
