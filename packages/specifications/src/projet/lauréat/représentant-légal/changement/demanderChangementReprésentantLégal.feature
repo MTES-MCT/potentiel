@@ -84,7 +84,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec une demande de changement de représentant légal en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
-        Quand le DGEC validateur accorde l'abandon pour le projet lauréat
+        Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
         Alors il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
 
