@@ -38,7 +38,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

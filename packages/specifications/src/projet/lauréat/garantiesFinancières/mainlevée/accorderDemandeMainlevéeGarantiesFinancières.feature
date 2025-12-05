@@ -8,7 +8,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-abandonné |

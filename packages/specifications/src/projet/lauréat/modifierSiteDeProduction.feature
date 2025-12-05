@@ -11,7 +11,7 @@ Fonctionnalité: Modifier le site de production d'un projet lauréat
         Alors le projet lauréat devrait être consultable
 
     Scénario: Modifier le site de production d'un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand un administrateur modifie le site de production du projet
         Alors le projet lauréat devrait être consultable
 

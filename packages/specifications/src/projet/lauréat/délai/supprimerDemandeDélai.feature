@@ -11,5 +11,5 @@ Fonctionnalité: Supprimer la demande de délai
     Scénario: Accorder un abandon annule la demande de délai en cours d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
-        Quand l'administrateur accorde l'abandon pour le projet lauréat
+        Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
         Alors la demande de délai ne devrait plus être consultable

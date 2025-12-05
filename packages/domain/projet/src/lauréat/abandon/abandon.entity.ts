@@ -1,69 +1,13 @@
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, StatutAbandon } from '.';
+import { StatutAbandon } from '.';
 
 export type AbandonEntity = Entity<
   'abandon',
   {
     identifiantProjet: string;
-
-    demande: {
-      demandéPar: string;
-      demandéLe: string;
-      raison: string;
-      pièceJustificative?: {
-        format: string;
-      };
-
-      estUneRecandidature: boolean;
-
-      recandidature?: {
-        statut: string;
-        preuve?: {
-          demandéeLe: string;
-          identifiantProjet?: string;
-          transmiseLe?: string;
-          transmisePar?: string;
-        };
-      };
-
-      confirmation?: {
-        demandéePar: string;
-        demandéeLe: string;
-
-        réponseSignée: {
-          format: string;
-        };
-
-        confirméLe?: string;
-        confirméPar?: string;
-      };
-
-      instruction?: {
-        passéEnInstructionLe: string;
-        passéEnInstructionPar: string;
-      };
-
-      accord?: {
-        réponseSignée: {
-          format: string;
-        };
-        accordéPar: string;
-        accordéLe: string;
-      };
-
-      rejet?: {
-        réponseSignée: {
-          format: string;
-        };
-        rejetéPar: string;
-        rejetéLe: string;
-      };
-
-      autoritéCompétente: AutoritéCompétente.RawType;
-    };
-
-    statut: StatutAbandon.RawType;
-    miseÀJourLe: string;
+    estAbandonné: boolean;
+    dernièreDemande: { date: DateTime.RawType; statut: StatutAbandon.RawType };
   }
 >;

@@ -26,22 +26,31 @@ export const abandonDemandéProjector = async (
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     identifiantProjet,
-    demande: {
-      pièceJustificative: event.payload.pièceJustificative,
-      demandéLe: event.payload.demandéLe,
-      demandéPar: event.payload.demandéPar,
-      raison: event.payload.raison,
-      estUneRecandidature,
-      autoritéCompétente:
-        cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
-        Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,
-      recandidature: estUneRecandidature
-        ? {
-            statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
-          }
-        : undefined,
-    },
-    statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
-    miseÀJourLe: event.payload.demandéLe,
+    estAbandonné: false,
+    dernièreDemande: { date: event.payload.demandéLe, statut: 'demandé' },
   });
+
+  await upsertProjection<Lauréat.Abandon.DemandeAbandonEntity>(
+    `demande-abandon|${identifiantProjet}#${event.payload.demandéLe}`,
+    {
+      identifiantProjet,
+      demande: {
+        pièceJustificative: event.payload.pièceJustificative,
+        demandéLe: event.payload.demandéLe,
+        demandéPar: event.payload.demandéPar,
+        raison: event.payload.raison,
+        estUneRecandidature,
+        autoritéCompétente:
+          cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
+          Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,
+        recandidature: estUneRecandidature
+          ? {
+              statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
+            }
+          : undefined,
+      },
+      statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
+      miseÀJourLe: event.payload.demandéLe,
+    },
+  );
 };

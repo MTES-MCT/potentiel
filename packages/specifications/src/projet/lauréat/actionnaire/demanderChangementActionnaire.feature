@@ -68,7 +68,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible de demander le changement de l'actionnaire d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

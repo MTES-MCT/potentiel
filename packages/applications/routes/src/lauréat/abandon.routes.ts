@@ -10,11 +10,14 @@ type ListerFilters = {
 
 export const lister = withFilters<ListerFilters>(`/laureats/changements/abandon`);
 
-export const détail = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/abandon`;
+export const détail = (identifiantProjet: string, demandéLe: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon/${demandéLe}`;
 
 export const demander = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/demander`;
 
 export const téléchargerModèleRéponse = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon/modele-reponse`;
+
+export const détailRedirection = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/abandon`;

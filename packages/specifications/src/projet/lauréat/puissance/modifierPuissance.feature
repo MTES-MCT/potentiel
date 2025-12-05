@@ -42,7 +42,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projets/.*                                                      |
 
     Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :

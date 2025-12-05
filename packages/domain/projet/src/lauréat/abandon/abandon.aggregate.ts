@@ -18,11 +18,14 @@ import {
 } from '.';
 
 import { AbandonEvent } from './abandon.event';
-import { AbandonDemandéEvent, AbandonDemandéEventV1 } from './demander/demanderAbandon.event';
-import { AbandonAccordéEvent } from './accorder/accorderAbandon.event';
-import { AbandonRejetéEvent } from './rejeter/rejeterAbandon.event';
-import { AbandonAnnuléEvent } from './annuler/annulerAbandon.event';
-import { DemanderOptions } from './demander/demanderAbandon.option';
+import {
+  AbandonDemandéEvent,
+  AbandonDemandéEventV1,
+} from './demande/demander/demanderAbandon.event';
+import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event';
+import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event';
+import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event';
+import { DemanderOptions } from './demande/demander/demanderAbandon.option';
 import {
   AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError,
   AbandonPasDansUnContexteDeRecandidatureError,
@@ -36,16 +39,16 @@ import {
   ProjetNotifiéAvantLaDateMinimumError,
   TranmissionPreuveRecandidatureImpossibleError,
 } from './abandon.error';
-import { AccorderOptions } from './accorder/accorderAbandon.option';
-import { AbandonPasséEnInstructionEvent } from './instruire/instruireAbandon.event';
+import { AccorderOptions } from './demande/accorder/accorderAbandon.option';
+import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event';
 import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option';
 import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
 import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
-import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConfirmation.option';
-import { ConfirmerOptions } from './confirmer/confirmerAbandon.option';
-import { InstruireOptions } from './instruire/instruireAbandon.option';
-import { AnnulerOptions } from './annuler/annulerAbandon.option';
-import { RejeterOptions } from './rejeter/rejeterAbandon.option';
+import { DemanderConfirmationOptions } from './demande/demanderConfirmation/demanderConfirmation.option';
+import { ConfirmerOptions } from './demande/confirmer/confirmerAbandon.option';
+import { InstruireOptions } from './demande/instruire/instruireAbandon.option';
+import { AnnulerOptions } from './demande/annuler/annulerAbandon.option';
+import { RejeterOptions } from './demande/rejeter/rejeterAbandon.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;

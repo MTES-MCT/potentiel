@@ -15,7 +15,7 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = [
+export const statutsEnCours: Array<RawType> = [
   'confirmation-demandée',
   'confirmé',
   'demandé',
@@ -187,13 +187,13 @@ class StatutAbandonInvalideError extends InvalidOperationError {
 
 class AbandonDéjàAccordéError extends InvalidOperationError {
   constructor() {
-    super(`L'abandon a déjà été accordé`);
+    super(`La demande d'abandon a déjà été accordée`);
   }
 }
 
 class AbandonDéjàRejetéError extends InvalidOperationError {
   constructor() {
-    super(`L'abandon a déjà été rejeté`);
+    super(`La demande d'abandon a déjà été rejetée`);
   }
 }
 
@@ -205,32 +205,34 @@ class AbandonEnCoursErreur extends InvalidOperationError {
 
 class AbandonDéjàConfirméError extends InvalidOperationError {
   constructor() {
-    super(`L'abandon a déjà été confirmé`);
+    super(`La demande d'abandon a déjà été confirmée`);
   }
 }
 
 class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
   constructor() {
-    super(`La confirmation de l'abandon a déjà été demandée`);
+    super(`La demande d'abandon est déjà en attente de confirmation`);
   }
 }
 
 class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
   constructor() {
-    super(`Aucune demande de confirmation d'abandon en attente`);
+    super(`Il n'y a aucune confirmation de demande d'abandon en attente`);
   }
 }
 
 class DemandeConfirmationAbandonEnCoursInstructionError extends InvalidOperationError {
   constructor() {
     super(
-      `Une demande de confirmation d'abandon est en cours et ne peut être passé en instruction`,
+      `La demande d'abandon ne peut être passée "en instruction" car une confirmation a déjà été demandée`,
     );
   }
 }
 
 class AbandonConfirméInstructionError extends InvalidOperationError {
   constructor() {
-    super(`L'abandon est confirmé et ne peut être passé en instruction`);
+    super(
+      `La demande d'abandon est déjà confirmée et ne peut donc pas être passée "en instruction"`,
+    );
   }
 }

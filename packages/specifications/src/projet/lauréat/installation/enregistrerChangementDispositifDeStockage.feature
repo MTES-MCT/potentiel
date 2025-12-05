@@ -28,7 +28,7 @@ Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                                      |
 
     Scénario: Impossible d'enregistrer un changement de dispositif de stockage d'un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement de dispositif de stockage du projet lauréat avec :
             | installation avec dispositif de stockage | non |
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"

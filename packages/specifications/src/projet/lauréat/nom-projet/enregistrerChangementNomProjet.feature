@@ -20,7 +20,7 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
             | url               | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
 
     Scénario: Impossible d'enregistrer un changement de nom d'un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand un porteur enregistre un changement de nom du projet
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

@@ -1,5 +1,5 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
@@ -18,6 +18,7 @@ export const handleAbandonConfirmé = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const { appelOffre, période } = identifiantProjet;
   const porteurs = await listerPorteursRecipients(identifiantProjet);
+
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet,
     région: projet.région,
@@ -33,7 +34,7 @@ export const handleAbandonConfirmé = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'confirmée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
     },
   });
 };

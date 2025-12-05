@@ -96,7 +96,7 @@ const mapToReadModel: MapToReadModel = (
   }),
   statut: achèvement.estAchevé
     ? StatutLauréat.achevé
-    : abandon && Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
+    : abandon && abandon.estAbandonné
       ? StatutLauréat.abandonné
       : StatutLauréat.actif,
   technologie: candidature.technologie,

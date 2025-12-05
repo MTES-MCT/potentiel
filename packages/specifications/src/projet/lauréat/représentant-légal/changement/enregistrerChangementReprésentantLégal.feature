@@ -34,7 +34,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Alors le porteur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
 
     Scénario: Impossible d'enregistrer un changement de représentant légal d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement de représentant légal
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

@@ -19,6 +19,7 @@ export type AbandonListItemProps = {
   statut: Lauréat.Abandon.StatutAbandon.RawType;
   recandidature: boolean;
   preuveRecandidatureStatut: Lauréat.Abandon.StatutPreuveRecandidature.RawType;
+  dateDemande: string;
   miseÀJourLe: Iso8601DateTime;
 };
 
@@ -29,6 +30,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   miseÀJourLe,
   recandidature,
   preuveRecandidatureStatut,
+  dateDemande,
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
@@ -42,7 +44,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
     actions={
       <Button
         linkProps={{
-          href: Routes.Abandon.détail(identifiantProjet),
+          href: Routes.Abandon.détail(identifiantProjet, dateDemande),
         }}
         aria-label={`voir le détail de l'abandon pour le projet ${nomProjet}`}
       >

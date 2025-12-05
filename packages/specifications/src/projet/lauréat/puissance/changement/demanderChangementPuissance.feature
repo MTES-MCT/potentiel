@@ -57,7 +57,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"

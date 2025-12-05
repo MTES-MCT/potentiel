@@ -27,7 +27,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
 
     Scénario: Modifier le dispositif de stockage d'un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
             | installation avec dispositif de stockage | oui |
             | capacité du dispositif                   | 3   |
