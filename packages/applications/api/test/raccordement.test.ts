@@ -3,7 +3,30 @@ import { describe, it, before, after } from 'node:test';
 import { expect } from 'chai';
 
 import { createTestServer, TestServer } from './testServer.js';
-import { getAccessToken } from './getAccessToken.js';
+
+async function getToken(): Promise<string> {
+  const clientId = 'integration-grd-enedis';
+  const clientSecret = 'aWLTypom26xaQEhRjWoraV6GJcuCQRMs';
+  const issuerUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}`;
+  const response = await fetch(`${issuerUrl}/protocol/openid-connect/token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'client_credentials',
+      client_id: clientId,
+      client_secret: clientSecret,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to get token: ${response.status}`);
+  }
+
+  const data = (await response.json()) as { access_token: string };
+  return data.access_token;
+}
 
 describe('Raccordement API', () => {
   let server: TestServer;
@@ -12,7 +35,7 @@ describe('Raccordement API', () => {
 
   before(async () => {
     server = await createTestServer();
-    token = await getAccessToken('enedis');
+    token = await getToken();
     defaultHeaders = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` };
   });
 
