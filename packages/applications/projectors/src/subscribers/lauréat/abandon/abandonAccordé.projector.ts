@@ -9,9 +9,8 @@ export const abandonAccordéProjector = async ({
   payload: { identifiantProjet, accordéLe, accordéPar, réponseSignée },
 }: Lauréat.Abandon.AbandonAccordéEvent) => {
   await updateOneProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-    accordéLe,
-    demandeEnCours: false,
     estAbandonné: true,
+    dernièreDemande: { statut: 'accordé' },
   });
   await updateManyProjections<Lauréat.Abandon.DemandeAbandonEntity>(
     'demande-abandon',

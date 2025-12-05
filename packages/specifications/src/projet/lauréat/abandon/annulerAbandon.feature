@@ -13,7 +13,6 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
-        Alors le projet ne devrait plus avoir d'abandon en cours
         Et la demande d'abandon du projet lauréat devrait être annulée
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
@@ -29,7 +28,6 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
-        Alors le projet ne devrait plus avoir d'abandon en cours
         Et la demande d'abandon du projet lauréat devrait être annulée
         Et un email a été envoyé au porteur avec :
             | sujet          | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
@@ -48,7 +46,6 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
     Scénario: Un porteur annule la demande d'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
-        Alors le projet ne devrait plus avoir d'abandon en cours
         Et la demande d'abandon du projet lauréat devrait être annulée
 
     Scénario: Impossible d'annuler la demande d'abandon d'un projet lauréat si l'abandon a déjà été accordé

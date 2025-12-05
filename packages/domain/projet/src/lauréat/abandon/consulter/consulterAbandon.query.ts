@@ -6,6 +6,7 @@ import { Find } from '@potentiel-domain/entity';
 
 import { AbandonEntity } from '../abandon.entity';
 import { IdentifiantProjet } from '../../..';
+import { DemandeAbandonEntity, StatutAbandon } from '..';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,17 +34,35 @@ export const registerConsulterAbandonQuery = ({ find }: ConsulterAbandonDependen
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const result = await find<AbandonEntity>(`abandon|${identifiantProjet.formatter()}`);
 
+    if (Option.isNone(result)) {
+      return Option.none;
+    }
+
+    if (result.estAbandonné) {
+      const détail = await find<DemandeAbandonEntity>(
+        `demande-abandon|${identifiantProjet.formatter()}#${result.dernièreDemande.date}`,
+      );
+      return Option.match(détail)
+        .some((détail) =>
+          mapToReadModel({ ...result, accordéLe: détail.demande.accord?.accordéLe }),
+        )
+        .none();
+    }
+
     return Option.match(result).some(mapToReadModel).none();
   };
   mediator.register('Lauréat.Abandon.Query.ConsulterAbandon', handler);
 };
 
-const mapToReadModel = (result: AbandonEntity) => {
+const mapToReadModel = (
+  result: AbandonEntity & { readonly accordéLe?: string },
+): ConsulterAbandonReadModel => {
+  const statutAbandon = StatutAbandon.convertirEnValueType(result.dernièreDemande.statut);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    demandeEnCours: result.demandeEnCours,
+    demandeEnCours: statutAbandon.estEnCours(),
     estAbandonné: result.estAbandonné,
-    accordéLe: result.accordéLe && DateTime.convertirEnValueType(result.accordéLe),
-    demandéLe: DateTime.convertirEnValueType(result.demandéLe),
-  } satisfies ConsulterAbandonReadModel;
+    demandéLe: DateTime.convertirEnValueType(result.dernièreDemande.date),
+    accordéLe: result.accordéLe ? DateTime.convertirEnValueType(result.accordéLe) : undefined,
+  };
 };

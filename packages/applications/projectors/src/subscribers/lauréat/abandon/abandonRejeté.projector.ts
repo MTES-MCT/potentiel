@@ -1,14 +1,16 @@
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import {
-  removeProjection,
   updateManyProjections,
+  updateOneProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonRejetéProjector = async ({
   payload: { identifiantProjet, rejetéLe, rejetéPar, réponseSignée },
 }: Lauréat.Abandon.AbandonRejetéEvent) => {
-  await removeProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`);
+  await updateOneProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
+    dernièreDemande: { statut: 'rejeté' },
+  });
   await updateManyProjections<Lauréat.Abandon.DemandeAbandonEntity>(
     'demande-abandon',
     {

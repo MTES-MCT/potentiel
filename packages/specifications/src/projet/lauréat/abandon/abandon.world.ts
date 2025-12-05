@@ -226,4 +226,25 @@ export class AbandonWord {
 
     return expected;
   }
+
+  mapToAbandonExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    statut: Lauréat.Abandon.StatutAbandon.ValueType,
+  ): Lauréat.Abandon.ConsulterAbandonReadModel {
+    if (!this.#demanderAbandonFixture.aÉtéCréé) {
+      throw new Error(`Aucune demande d'abandon n'a été créée dans AbandonWorld`);
+    }
+
+    const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
+      identifiantProjet,
+      demandeEnCours: statut.estEnCours(),
+      demandéLe: DateTime.convertirEnValueType(this.#demanderAbandonFixture.demandéLe),
+      estAbandonné: this.#accorderAbandonFixture.aÉtéCréé,
+      accordéLe: this.#accorderAbandonFixture.accordéeLe
+        ? DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéeLe)
+        : undefined,
+    };
+
+    return expected;
+  }
 }

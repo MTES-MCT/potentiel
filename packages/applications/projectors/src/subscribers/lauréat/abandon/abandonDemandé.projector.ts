@@ -26,9 +26,8 @@ export const abandonDemandéProjector = async (
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     identifiantProjet,
-    demandéLe: event.payload.demandéLe,
-    demandeEnCours: true,
     estAbandonné: false,
+    dernièreDemande: { date: event.payload.demandéLe, statut: 'demandé' },
   });
 
   await upsertProjection<Lauréat.Abandon.DemandeAbandonEntity>(

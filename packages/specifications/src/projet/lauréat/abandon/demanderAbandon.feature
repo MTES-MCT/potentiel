@@ -13,7 +13,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
-        Et le projet devrait avoir un abandon en cours
         Et un email a été envoyé au porteur avec :
             | sujet          | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
             | nom_projet     | Du boulodrome de Marseille                                                          |
@@ -32,7 +31,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
-        Et le projet devrait avoir un abandon en cours
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                          |
@@ -47,7 +45,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Etant donné une demande d'abandon rejetée pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être de nouveau demandé
-        Et le projet devrait avoir un abandon en cours
 
     Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours (demandé)
         Etant donné une demande d'abandon en cours pour le projet lauréat

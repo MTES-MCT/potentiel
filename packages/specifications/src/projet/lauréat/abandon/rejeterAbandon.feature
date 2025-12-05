@@ -10,7 +10,6 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
-        Et le projet ne devrait plus avoir d'abandon en cours
         Et un email a été envoyé au porteur avec :
             | sujet          | Potentiel - Demande d'abandon rejetée pour le projet Du boulodrome de Marseille |
             | nom_projet     | Du boulodrome de Marseille                                                      |
@@ -21,7 +20,6 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand l'administrateur rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
-        Et le projet ne devrait plus avoir d'abandon en cours
 
     Scénario: Une dreal peut rejeter la demande d'abandon d'un projet si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -31,7 +29,6 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
-        Et le projet ne devrait plus avoir d'abandon en cours
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée pour le projet lauréat
@@ -44,7 +41,6 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
-        Et le projet ne devrait plus avoir d'abandon en cours
 
     Scénario: Impossible de rejetter une demande d'abandon déjà accordée
         Etant donné une demande d'abandon accordée pour le projet lauréat
