@@ -16,7 +16,6 @@
     "@potentiel-applications/api-documentation": "*",
     "@potentiel-applications/request-context": "*",
     "@potentiel-domain/projet": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/monitoring": "*",
     "mediateur": "0.3.0",
     "ajv": "8.17.1"

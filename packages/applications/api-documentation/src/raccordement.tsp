@@ -73,6 +73,9 @@ interface Raccordement {
     avecDateMiseEnService?: boolean,
   ): ListResult<DossierRaccordement> | Error;
 
+  /**
+   * Récupère la liste des projets sans dossier de raccordement.
+   */
   @route("/reseaux/raccordements/manquants")
   @get
   listerManquants(
@@ -104,6 +107,9 @@ interface Raccordement {
     @body body: ModifierReferenceBody,
   ): {} | Error;
 
+  /**
+   * Transmet une demande complète de raccordement
+   */
   @route("/laureats/{identifiantProjet}/raccordements/demande-complete-raccordement:transmettre")
   @post
   transmettreDemandeComplète(
