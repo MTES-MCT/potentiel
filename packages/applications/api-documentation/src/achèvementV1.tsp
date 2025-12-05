@@ -35,8 +35,11 @@ interface AchevementV1 {
   @route("/achevements/a-transmettre")
   @get
   listerProjetAvecAchevementATransmettre(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
     @query
-    page?: uint16,
+    after?: uint16,
 
     @query
     appelOffre?: string,

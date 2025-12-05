@@ -14,7 +14,7 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
       'Cette opération ne peut être réalisée que par un gestionnaire de réseau.',
     );
   }
-  const { page } = options ?? {};
+  const { after } = options ?? {};
 
   // FIXME: typespec ne gère pas bien le booléen opetionnel dans les query params
   const avecDateMiseEnService =
@@ -31,7 +31,7 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
           : avecDateMiseEnService === 'false'
             ? false
             : undefined,
-      range: mapToRangeOptions(page),
+      range: mapToRangeOptions(after),
     },
   });
 

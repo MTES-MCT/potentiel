@@ -1,22 +1,19 @@
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { HttpContext, Raccordement } from '@potentiel-applications/api-documentation';
+import { Raccordement } from '@potentiel-applications/api-documentation';
 
 import { getUtilisateur, mapToRangeOptions } from '#helpers';
 
-export const listerManquantsHandlers: Raccordement<HttpContext>['listerManquants'] = async (
-  _,
-  options,
-) => {
+export const listerManquantsHandlers: Raccordement['listerManquants'] = async (_, options) => {
   const utilisateur = getUtilisateur();
-  const { page } = options ?? {};
+  const { after } = options ?? {};
 
   const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementManquantsQuery>({
     type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery',
     data: {
       identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-      range: mapToRangeOptions(page),
+      range: mapToRangeOptions(after),
     },
   });
 

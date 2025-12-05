@@ -1,13 +1,13 @@
 import { mediator } from 'mediateur';
 
-import { AchevementV1, HttpContext } from '@potentiel-applications/api-documentation';
+import { AchevementV1 } from '@potentiel-applications/api-documentation';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, mapToRangeOptions } from '#helpers';
 
-export const listerProjetAvecAchevementATransmettreHandler: AchevementV1<HttpContext>['listerProjetAvecAchevementATransmettre'] =
+export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['listerProjetAvecAchevementATransmettre'] =
   async (_, options) => {
-    const { page, appelOffre, periode } = options ?? {};
+    const { after, appelOffre, periode } = options ?? {};
     const utilisateur = getUtilisateur();
 
     const result =
@@ -17,7 +17,7 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1<HttpCon
           appelOffre,
           periode,
           identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-          range: mapToRangeOptions(page),
+          range: mapToRangeOptions(after),
         },
       });
 

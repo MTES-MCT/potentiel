@@ -65,8 +65,11 @@ interface Raccordement {
   @route("/reseaux/raccordements")
   @get
   lister(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
     @query
-    page?: uint16,
+    after?: uint16,
 
     @doc("Ne lister que les dossier de raccordement avec, ou sans, date de mise en service.")
     @query
@@ -79,8 +82,11 @@ interface Raccordement {
   @route("/reseaux/raccordements/manquants")
   @get
   listerManquants(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
     @query
-    page?: uint16,
+    after?: uint16,
   ): ListResult<DossierRaccordement> | Error;
 
   /**
