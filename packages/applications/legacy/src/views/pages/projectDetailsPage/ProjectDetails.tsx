@@ -115,7 +115,7 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCours = abandon && abandon.demandeEnCours;
+  const abandonEnCours = abandon?.demandeEnCours;
 
   const affichageInfobox = abandonEnCours ? (
     user.role === 'porteur-projet' ? (

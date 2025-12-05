@@ -16,7 +16,7 @@ export const getAbandon: GetAbandon = async (identifiantProjet: IdentifiantProje
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-    return Option.isNone(abandon) ? undefined : abandon;
+    return Option.isSome(abandon) ? abandon : undefined;
   } catch (error) {
     getLogger('Legacy|getProjectPage|getAbandonStatut').error(`Impossible de consulter l'abandon`, {
       identifiantProjet: identifiantProjet.formatter(),
