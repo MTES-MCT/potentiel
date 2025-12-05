@@ -65,7 +65,7 @@ export const AdminMenuLegacy = (
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
-      <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.importer()}>
         Nouveaux candidats
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem

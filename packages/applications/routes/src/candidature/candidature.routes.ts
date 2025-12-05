@@ -1,7 +1,19 @@
 import { encodeParameter } from '../encodeParameter';
 
-export const importer = '/candidatures/importer';
-export const importerDS = '/candidatures/importer/ds';
+type ImporterParams = {
+  reimport?: boolean;
+};
+
+export const importer = (params?: ImporterParams) => {
+  const searchParams = new URLSearchParams();
+
+  if (params?.reimport) {
+    searchParams.set('reimport', 'true');
+  }
+
+  return `/candidatures/importer${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};
+
 export const corrigerParLot = '/candidatures/corriger-par-lot';
 
 type ListerFilters = {
