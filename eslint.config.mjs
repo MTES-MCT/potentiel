@@ -43,7 +43,6 @@ export default eslintTs.config(
     files: ['**/*.ts'],
     ignores: [
       '.github/**/*',
-      '**/test/*.ts',
       '**/*.test*.ts',
       '**/*.integration.ts',
       '**/*.spec*.ts',
