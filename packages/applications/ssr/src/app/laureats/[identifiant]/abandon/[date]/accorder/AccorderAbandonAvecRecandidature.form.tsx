@@ -5,13 +5,17 @@ import { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { annulerAbandonAction } from './annulerAbandon.action';
+import { accorderAbandonAvecRecandidatureAction } from './accorderAbandonAvecRecandidature.action';
 
-type AnnulerAbandonFormProps = {
+type AccorderAbandonAvecRecandidatureFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
-export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) => {
+export const AccorderAbandonAvecRecandidatureForm = ({
+  identifiantProjet,
+  dateDemande,
+}: AccorderAbandonAvecRecandidatureFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -21,22 +25,23 @@ export const AnnulerAbandon = ({ identifiantProjet }: AnnulerAbandonFormProps) =
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Annuler
+        Accorder
       </Button>
 
       <ModalWithForm
-        id="annuler-abandon"
-        title="Annuler l'abandon"
+        id="accorder-abandon-avec-recandidature"
+        title="Accorder l'abandon"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: annulerAbandonAction,
-          id: 'annuler-abandon-form',
+          id: 'accorder-abandon-avec-recandidature-form',
+          action: accorderAbandonAvecRecandidatureAction,
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir annuler cet abandon ?</p>
+              <p className="mt-3">Êtes-vous sûr de vouloir accorder cet abandon ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}

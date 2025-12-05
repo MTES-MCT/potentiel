@@ -10,23 +10,17 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import {
-  demanderConfirmationAbandonAction,
-  DemanderConfirmationAbandonFormKeys,
-} from './demanderConfirmationAbandon.action';
+import { rejeterAbandonAction, RejeterAbandonFormKeys } from './rejeterAbandon.action';
 
-type DemanderConfirmationAbandonFormProps = {
+type RejeterAbandonFormProps = {
   identifiantProjet: string;
 };
 
-export const DemanderConfirmationAbandon = ({
-  identifiantProjet,
-}: DemanderConfirmationAbandonFormProps) => {
+export const RejeterAbandonForm = ({ identifiantProjet }: RejeterAbandonFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<DemanderConfirmationAbandonFormKeys>
+    ValidationErrors<RejeterAbandonFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
       <Button
@@ -34,17 +28,17 @@ export const DemanderConfirmationAbandon = ({
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Demander la confirmation
+        Rejeter
       </Button>
 
       <ModalWithForm
-        id="demander-confirmation-abandon"
-        title="Demander la confirmation de l'abandon"
+        id="rejeter-abandon"
+        title="Rejeter l'abandon"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          id: 'demande-confirmation-abandon-form',
-          action: demanderConfirmationAbandonAction,
+          action: rejeterAbandonAction,
+          id: 'rejeter-abandon-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
@@ -56,12 +50,12 @@ export const DemanderConfirmationAbandon = ({
                 stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
-                className="mb-8"
+                className="mb-4"
                 formats={['pdf']}
               />
 
               <DownloadDocument
-                className="mb-4"
+                className="mt-4"
                 url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"

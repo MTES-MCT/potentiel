@@ -17,12 +17,10 @@ import {
 
 type AccorderAbandonSansRecandidatureFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const AccorderAbandonSansRecandidature = ({
+export const AccorderAbandonSansRecandidatureForm = ({
   identifiantProjet,
-  dateDemande,
 }: AccorderAbandonSansRecandidatureFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderAbandonSansRecandidatureFormKeys>
@@ -51,7 +49,6 @@ export const AccorderAbandonSansRecandidature = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

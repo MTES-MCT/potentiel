@@ -140,7 +140,7 @@ Quand(
         type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
-          dateDemandeValue: confirmationDemandéeLe,
+          dateDemandeDeConfirmationValue: confirmationDemandéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: confirmationDemandéePar,
           rôleUtilisateurValue: rôle,

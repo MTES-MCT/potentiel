@@ -10,18 +10,23 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterAbandonAction, RejeterAbandonFormKeys } from './rejeterAbandon.action';
+import {
+  demanderConfirmationAbandonAction,
+  DemanderConfirmationAbandonFormKeys,
+} from './demanderConfirmationAbandon.action';
 
-type RejeterAbandonFormProps = {
+type DemanderConfirmationAbandonFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const RejeterAbandon = ({ identifiantProjet, dateDemande }: RejeterAbandonFormProps) => {
+export const DemanderConfirmationAbandonForm = ({
+  identifiantProjet,
+}: DemanderConfirmationAbandonFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<RejeterAbandonFormKeys>
+    ValidationErrors<DemanderConfirmationAbandonFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <Button
@@ -29,22 +34,21 @@ export const RejeterAbandon = ({ identifiantProjet, dateDemande }: RejeterAbando
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Rejeter
+        Demander la confirmation
       </Button>
 
       <ModalWithForm
-        id="rejeter-abandon"
-        title="Rejeter l'abandon"
+        id="demander-confirmation-abandon"
+        title="Demander la confirmation de l'abandon"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: rejeterAbandonAction,
-          id: 'rejeter-abandon-form',
+          id: 'demande-confirmation-abandon-form',
+          action: demanderConfirmationAbandonAction,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
@@ -52,12 +56,12 @@ export const RejeterAbandon = ({ identifiantProjet, dateDemande }: RejeterAbando
                 stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
-                className="mb-4"
+                className="mb-8"
                 formats={['pdf']}
               />
 
               <DownloadDocument
-                className="mt-4"
+                className="mb-4"
                 url={Routes.Abandon.téléchargerModèleRéponse(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"

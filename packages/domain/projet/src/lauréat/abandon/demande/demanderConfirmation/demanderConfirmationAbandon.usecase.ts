@@ -12,7 +12,7 @@ import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbando
 export type DemanderConfirmationAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
   {
-    dateDemandeValue: string;
+    dateDemandeDeConfirmationValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
     rôleUtilisateurValue: string;
@@ -25,18 +25,18 @@ export type DemanderConfirmationAbandonUseCase = Message<
 
 export const registerDemanderConfirmationAbandonUseCase = () => {
   const runner: MessageHandler<DemanderConfirmationAbandonUseCase> = async ({
-    dateDemandeValue,
+    dateDemandeDeConfirmationValue,
     identifiantProjetValue,
     réponseSignéeValue: { content, format },
     identifiantUtilisateurValue,
     rôleUtilisateurValue,
   }) => {
-    const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
+    const dateDemande = DateTime.convertirEnValueType(dateDemandeDeConfirmationValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentAbandon.abandonÀConfirmer.formatter(),
-      dateDemandeValue,
+      dateDemandeDeConfirmationValue,
       format,
     );
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);

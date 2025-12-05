@@ -15,19 +15,19 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { DisplayAuteur } from '@/components/atoms/demande/DisplayAuteur';
 
 import {
-  TransmettrePreuveRecandidature,
+  TransmettrePreuveRecandidatureForm,
   TransmettrePreuveRecandidatureFormProps,
-} from '../transmettre-preuve-recandidature/TransmettrePreuveRecandidature';
+} from '../transmettre-preuve-recandidature/TransmettrePreuveRecandidature.form';
 import { StatutPreuveRecandidatureBadge } from '../transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
-import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
-import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
-import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
-import { AnnulerAbandon } from './annuler/AnnulerAbandon';
-import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
-import { RejeterAbandon } from './rejeter/RejeterAbandon';
-import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction.form';
+import { DemanderConfirmationAbandonForm } from './demanderConfirmation/DemanderConfirmationAbandon.form';
+import { AccorderAbandonAvecRecandidatureForm } from './accorder/AccorderAbandonAvecRecandidature.form';
+import { AccorderAbandonSansRecandidatureForm } from './accorder/AccorderAbandonSansRecandidature.form';
+import { AnnulerAbandonForm } from './annuler/AnnulerAbandon.form';
+import { RejeterAbandonForm } from './rejeter/RejeterAbandon.form';
+import { PasserAbandonEnInstructionForm } from './passerEnInstruction/PasserAbandonEnInstruction.form';
 import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
+import { ConfirmerAbandonForm } from './confirmer/ConfirmerAbandon.form';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -136,41 +136,34 @@ const mapToActionComponents = ({
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-      <PasserAbandonEnInstruction
+      <PasserAbandonEnInstructionForm
         identifiantProjet={identifiantProjet}
         estUneReprise={actions.includes('reprendre-instruction')}
-        dateDemande={dateDemande}
       />
     )}
     {actions.includes('demander-confirmation') && (
-      <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
+      <DemanderConfirmationAbandonForm identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('accorder-avec-recandidature') && (
-      <AccorderAbandonAvecRecandidature
+      <AccorderAbandonAvecRecandidatureForm
         identifiantProjet={identifiantProjet}
         dateDemande={dateDemande}
       />
     )}
     {actions.includes('accorder-sans-recandidature') && (
-      <AccorderAbandonSansRecandidature
-        identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
-      />
+      <AccorderAbandonSansRecandidatureForm identifiantProjet={identifiantProjet} />
     )}
-    {actions.includes('rejeter') && (
-      <RejeterAbandon identifiantProjet={identifiantProjet} dateDemande={dateDemande} />
-    )}
+    {actions.includes('rejeter') && <RejeterAbandonForm identifiantProjet={identifiantProjet} />}
     {actions.includes('confirmer') && (
-      <ConfirmerAbandon identifiantProjet={identifiantProjet} dateDemande={dateDemande} />
+      <ConfirmerAbandonForm identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('transmettre-preuve-recandidature') && (
-      <TransmettrePreuveRecandidature
+      <TransmettrePreuveRecandidatureForm
         identifiantProjet={identifiantProjet}
         projetsÀSélectionner={projetsÀSélectionner}
-        dateDemande={dateDemande}
       />
     )}
-    {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
+    {actions.includes('annuler') && <AnnulerAbandonForm identifiantProjet={identifiantProjet} />}
   </ActionsList>
 );
 

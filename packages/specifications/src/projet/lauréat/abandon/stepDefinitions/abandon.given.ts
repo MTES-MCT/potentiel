@@ -210,7 +210,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: réponseSignée,
-      dateDemandeValue: confirmationDemandéeLe,
+      dateDemandeDeConfirmationValue: confirmationDemandéeLe,
       identifiantUtilisateurValue: confirmationDemandéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },

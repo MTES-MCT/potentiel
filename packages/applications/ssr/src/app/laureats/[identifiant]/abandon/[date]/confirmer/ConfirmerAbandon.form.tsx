@@ -9,10 +9,9 @@ import { confirmerAbandonAction } from './confirmerAbandon.action';
 
 type ConfirmerAbandonFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const ConfirmerAbandon = ({ identifiantProjet, dateDemande }: ConfirmerAbandonFormProps) => {
+export const ConfirmerAbandonForm = ({ identifiantProjet }: ConfirmerAbandonFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -38,7 +37,6 @@ export const ConfirmerAbandon = ({ identifiantProjet, dateDemande }: ConfirmerAb
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir confirmer cet abandon ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}

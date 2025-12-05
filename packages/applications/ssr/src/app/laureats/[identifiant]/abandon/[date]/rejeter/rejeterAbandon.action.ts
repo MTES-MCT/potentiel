@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -12,7 +13,6 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateDemande: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
@@ -20,9 +20,11 @@ export type RejeterAbandonFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, dateDemande },
-) => {
-  return withUtilisateur(async (utilisateur) => {
+  { identifiantProjet, reponseSignee },
+) =>
+  withUtilisateur(async (utilisateur) => {
+    const { url } = getContext() ?? {};
+
     await mediator.send<Lauréat.Abandon.RejeterAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
       data: {
@@ -37,10 +39,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Abandon.détail(identifiantProjet, dateDemande),
+        url: url ?? Routes.Abandon.détailRedirection(identifiantProjet),
       },
     };
   });
-};
 
 export const rejeterAbandonAction = formAction(action, schema);

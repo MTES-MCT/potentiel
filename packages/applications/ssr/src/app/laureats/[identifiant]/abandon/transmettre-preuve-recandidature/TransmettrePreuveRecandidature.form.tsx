@@ -18,7 +18,6 @@ import {
 export type TransmettrePreuveRecandidatureFormProps = {
   identifiantProjet: string;
   projetsÀSélectionner: Array<ProjetÀSélectionner>;
-  dateDemande: string;
 };
 
 type ProjetÀSélectionner = {
@@ -30,10 +29,9 @@ type ProjetÀSélectionner = {
   nom: string;
 };
 
-export const TransmettrePreuveRecandidature = ({
+export const TransmettrePreuveRecandidatureForm = ({
   identifiantProjet,
   projetsÀSélectionner,
-  dateDemande,
 }: TransmettrePreuveRecandidatureFormProps) => {
   // trick to reset the form when re-opening the modal
   const id = uuid();
@@ -100,7 +98,6 @@ export const TransmettrePreuveRecandidature = ({
           />
 
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          <input type={'hidden'} value={dateDemande} name="dateDemande" />
         </Form>
       </modal.Component>
     </>
