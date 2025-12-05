@@ -6,7 +6,7 @@ import { requestContextStorage } from './request-context';
 type RunWithAuthContextProps = {
   req: IncomingMessage;
   res: ServerResponse;
-  app: 'web' | 'legacy';
+  app: 'web' | 'legacy' | 'api';
   callback: () => void | Promise<void>;
 };
 

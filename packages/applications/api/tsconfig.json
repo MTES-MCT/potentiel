@@ -1,0 +1,16 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "nodenext",
+    "moduleResolution": "node16"
+  },
+  "references": [
+    { "path": "../api-documentation" },
+    { "path": "../request-context" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../../domain/projet" }
+  ],
+  "include": ["src/"]
+}

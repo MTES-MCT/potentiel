@@ -51,3 +51,5 @@ curl -X POST \
 ### Utiliser le token
 
 Le token généré ci-dessus doit-être passé au format `Bearer TOKEN` dans le header `Authorization` de toutes les requêtes passées à l'API.
+
+Pour tester l'API, le token peut être utilisé dans le [playground](https://potentiel-dev.osc-fr1.scalingo.io/api/doc)

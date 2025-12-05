@@ -149,3 +149,6 @@ test-results/
 
 # Generated Graphql client
 packages/infrastructure/ds-api-client/src/graphql/client.ts
+
+# Generated Typespec Server
+packages/applications/api-documentation/src/generated/

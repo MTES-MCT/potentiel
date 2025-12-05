@@ -33,6 +33,9 @@
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
+      "path": "../api"
+    },
+    {
       "path": "../routes"
     },
     {

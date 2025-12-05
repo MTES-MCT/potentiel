@@ -4,7 +4,7 @@ import { type PotentielUtilisateur } from './types';
 
 export type RequestContext = {
   correlationId: string;
-  app?: 'web' | 'legacy' | 'subscribers' | 'cli';
+  app?: 'web' | 'legacy' | 'subscribers' | 'cli' | 'api';
   features: Array<string>;
   utilisateur?: PotentielUtilisateur;
   url?: string;
