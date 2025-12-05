@@ -26,6 +26,7 @@ export default async function Page({ searchParams }: PageProps) {
       );
 
       const { reimport } = paramsSchema.parse(searchParams);
+
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
         data: {
@@ -43,6 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
             ),
           )}
           importMultipleAOEtPeriodesPossible={process.env.APPLICATION_STAGE !== 'production'}
+          reimport={!!reimport}
         />
       ));
     }),

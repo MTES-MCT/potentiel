@@ -168,7 +168,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           {
             text: 'Nouveaux candidats',
             linkProps: {
-              href: Routes.Candidature.importer,
+              href: Routes.Candidature.importer(),
             },
           },
           {
