@@ -36,7 +36,7 @@ export const handleAbandonDemandé = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'envoyée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter(), event.payload.demandéLe)}`,
     },
   });
 };
