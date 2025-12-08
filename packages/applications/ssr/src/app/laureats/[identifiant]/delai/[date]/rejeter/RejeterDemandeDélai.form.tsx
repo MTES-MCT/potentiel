@@ -22,7 +22,7 @@ type RejeterDemandeDélaiFormProps = {
   dateDemande: DateTime.RawType;
 };
 
-export const RejeterDemandeDélai = ({
+export const RejeterDemandeDélaiForm = ({
   identifiantProjet,
   dateDemande,
 }: RejeterDemandeDélaiFormProps) => {
@@ -56,7 +56,6 @@ export const RejeterDemandeDélai = ({
               <p className="mt-3">Êtes-vous sûr de vouloir rejeter la demande de délai ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

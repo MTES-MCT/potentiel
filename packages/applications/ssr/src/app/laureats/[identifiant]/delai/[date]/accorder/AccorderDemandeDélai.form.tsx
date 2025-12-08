@@ -27,7 +27,7 @@ type AccorderDemandeDélaiFormProps = {
   nombreDeMois: number;
 };
 
-export const AccorderDemandeDélai = ({
+export const AccorderDemandeDélaiForm = ({
   identifiantProjet,
   dateDemande,
   nombreDeMois,
