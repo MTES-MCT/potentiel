@@ -11,7 +11,7 @@ type AnnulerChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
 };
 
-export const AnnulerChangementReprésentantLégal = ({
+export const AnnulerChangementReprésentantLégalForm = ({
   identifiantProjet,
 }: AnnulerChangementReprésentantLégalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);

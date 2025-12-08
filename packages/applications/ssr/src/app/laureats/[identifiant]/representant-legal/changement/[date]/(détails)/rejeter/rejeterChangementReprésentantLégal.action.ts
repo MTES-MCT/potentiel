@@ -5,13 +5,13 @@ import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateDemande: zod.string().min(1),
   motifRejet: zod.string().min(1),
 });
 
@@ -19,7 +19,7 @@ export type RejeterChangementReprésentantLégalFormKeys = keyof zod.infer<typeo
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, dateDemande, motifRejet },
+  { identifiantProjet, motifRejet },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
@@ -33,10 +33,12 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, dateDemande),
+        url: url ?? Routes.Lauréat.détails(identifiantProjet),
         message: 'Le changement de représentant légal a bien été rejeté',
       },
     };

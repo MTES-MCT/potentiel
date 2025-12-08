@@ -14,12 +14,10 @@ import {
 
 type RejeterChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const RejeterChangementReprésentantLégal = ({
+export const RejeterChangementReprésentantLégalForm = ({
   identifiantProjet,
-  dateDemande,
 }: RejeterChangementReprésentantLégalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -50,7 +48,6 @@ export const RejeterChangementReprésentantLégal = ({
           children: (
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <Input
                 className="mt-3"

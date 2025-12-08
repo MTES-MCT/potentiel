@@ -6,13 +6,13 @@ import * as zod from 'zod';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateDemande: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
     error: 'Ce type de représentant légal est invalide',
   }),
@@ -23,7 +23,7 @@ export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<type
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, dateDemande, nomRepresentantLegal, typeRepresentantLegal },
+  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
@@ -38,11 +38,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, dateDemande),
-        message: 'Le changement de représentant légal a bien été pris en compte',
+        url: url ?? Routes.Lauréat.détails(identifiantProjet),
+        message: 'Le changement de représentant légal a bien été accordé',
       },
     };
   });
