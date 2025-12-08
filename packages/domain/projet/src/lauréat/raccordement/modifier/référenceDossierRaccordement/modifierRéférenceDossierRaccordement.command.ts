@@ -31,7 +31,7 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.raccordement.modifierRéférenceDossierRacordement({
+    await projet.lauréat.raccordement.modifierRéférenceDossierRaccordement({
       nouvelleRéférenceDossierRaccordement,
       référenceDossierRaccordementActuelle,
       modifiéeLe,

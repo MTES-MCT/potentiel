@@ -200,16 +200,17 @@ export class RaccordementAggregate extends AbstractAggregate<
     return false;
   }
 
-  private nouvelleDateDeMiseEnServiceIdentiqueÀExistante(
+  private nouvelleDateMiseEnServiceIdentiqueÀActuelle(
     { référence }: RéférenceDossierRaccordement.ValueType,
     nouvelleDateMiseEnService: DateTime.ValueType,
   ) {
     const dossier = this.récupérerDossier(référence);
+
     if (
       !dossier.miseEnService?.dateMiseEnService ||
       Option.isNone(dossier.miseEnService.dateMiseEnService)
     ) {
-      return true;
+      return false;
     }
     return nouvelleDateMiseEnService.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
@@ -717,7 +718,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
     }
 
-    if (this.nouvelleDateDeMiseEnServiceIdentiqueÀExistante(référenceDossier, dateMiseEnService)) {
+    if (this.nouvelleDateMiseEnServiceIdentiqueÀActuelle(référenceDossier, dateMiseEnService)) {
       throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
     }
 
