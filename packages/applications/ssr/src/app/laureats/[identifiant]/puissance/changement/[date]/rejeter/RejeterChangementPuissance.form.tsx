@@ -18,13 +18,11 @@ import {
 
 type RejeterChangementPuissanceFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
   estÀLaBaisse: boolean;
 };
 
-export const RejeterChangementPuissance = ({
+export const RejeterChangementPuissanceForm = ({
   identifiantProjet,
-  dateDemande,
   estÀLaBaisse,
 }: RejeterChangementPuissanceFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -56,7 +54,6 @@ export const RejeterChangementPuissance = ({
               <p className="mt-3">Êtes-vous sûr de vouloir rejeter ce changement de puissance ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

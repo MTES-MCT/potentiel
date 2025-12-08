@@ -6,6 +6,7 @@ import * as zod from 'zod';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -19,7 +20,6 @@ const schema = zod.union([
       optional: true,
     }),
     estUneDecisionDEtat: zod.literal('true'),
-    dateDemande: zod.string().min(1),
   }),
   zod.object({
     identifiantProjet: zod.string().min(1),
@@ -33,7 +33,7 @@ export type AccorderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, estUneDecisionDEtat, dateDemande },
+  { identifiantProjet, reponseSignee, estUneDecisionDEtat },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Puissance.AccorderChangementPuissanceUseCase>({
@@ -54,11 +54,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
-        url: Routes.Puissance.changement.détails(identifiantProjet, dateDemande),
-        message: 'Le changement de puissance a été pris en compte',
+        url: url ?? Routes.Lauréat.détails(identifiantProjet),
+        message: 'Le changement de puissance bien été accordé',
       },
     };
   });

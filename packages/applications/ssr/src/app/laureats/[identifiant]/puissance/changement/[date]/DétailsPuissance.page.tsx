@@ -12,10 +12,8 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
-import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
+import { AnnulerChangementPuissanceForm } from './annuler/AnnulerChangementPuissance.form';
 import { DétailsChangementPuissance } from './DétailsChangementPuissance';
-import { AccorderChangementPuissance } from './accorder/AccorderChangementPuissance.form';
-import { RejeterChangementPuissance } from './rejeter/RejeterChangementPuissance.form';
 
 export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | 'rejeter';
 
@@ -67,7 +65,6 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-            dateDemande: demande.demandéeLe.date,
             estÀLaBaisse: demande.nouvellePuissance < puissanceInitiale,
           })}
         </>
@@ -78,7 +75,6 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementPuissanceActions>;
-  dateDemande: DétailsPuissancePageProps['demande']['demandéeLe']['date'];
   identifiantProjet: string;
   estÀLaBaisse: boolean;
 };
@@ -86,21 +82,18 @@ type MapToActionsComponentsProps = {
 const mapToActionComponents = ({
   actions,
   identifiantProjet,
-  dateDemande,
   estÀLaBaisse,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {actions.includes('accorder') && (
       <AccorderChangementPuissance
         identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
         estÀLaBaisse={estÀLaBaisse}
       />
     )}
     {actions.includes('rejeter') && (
       <RejeterChangementPuissance
         identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
         estÀLaBaisse={estÀLaBaisse}
       />
     )}
@@ -115,7 +108,7 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
+      <AnnulerChangementPuissanceForm identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );

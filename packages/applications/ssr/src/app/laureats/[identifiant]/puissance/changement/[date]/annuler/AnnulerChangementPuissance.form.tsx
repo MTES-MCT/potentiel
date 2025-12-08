@@ -11,7 +11,7 @@ type AnnulerChangementPuissanceFormProps = {
   identifiantProjet: string;
 };
 
-export const AnnulerChangementPuissance = ({
+export const AnnulerChangementPuissanceForm = ({
   identifiantProjet,
 }: AnnulerChangementPuissanceFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
