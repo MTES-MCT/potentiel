@@ -59,6 +59,9 @@
       "path": "../../infrastructure/geo-api-client"
     },
     {
+      "path": "../api"
+    },
+    {
       "path": "../api-documentation"
     },
     {

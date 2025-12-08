@@ -285,18 +285,16 @@ const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
 
 const CentreDesTâches = () => {
   const [nombreTâches, setNombreDeTâches] = useState(0);
-  const [showNombreDeTâches, setShowNombreDeTâches] = useState(false);
   useEffect(() => {
     const récupérerLeNombreDeTâches = async () => {
       try {
-        const response = await fetch('/api/v1/taches');
+        const response = await fetch('/api/taches');
         if (!response.ok) {
           throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
         const { nombreTâches } = await response.json();
         setNombreDeTâches(nombreTâches);
-        setShowNombreDeTâches(true);
       } catch (error) {
         console.error('Erreur lors de la récupération du nombre de tâches : ', error);
       }

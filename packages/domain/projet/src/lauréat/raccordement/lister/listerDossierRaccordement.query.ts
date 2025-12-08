@@ -33,7 +33,7 @@ type DossierRaccordement = {
   sociétéMère: string;
   emailContact: string;
   siteProduction: string;
-  dateNotification: string;
+  dateNotification: DateTime.ValueType;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -219,7 +219,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
     puissance: `${puissance} ${unitéPuissance}`,
 
-    dateNotification: notifiéLe,
+    dateNotification: DateTime.convertirEnValueType(notifiéLe),
     emailContact,
     nomCandidat,
     siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,

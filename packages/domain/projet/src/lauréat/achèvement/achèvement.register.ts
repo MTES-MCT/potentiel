@@ -5,9 +5,9 @@ import {
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query';
 import {
-  ListerAchèvementEnAttenteDependencies,
-  registerListerAchèvementEnAttenteQuery,
-} from './lister/listerAchèvementEnAttente.query';
+  ListerProjetAvecAchevementATransmettreDependencies,
+  registerListerProjetAvecAchevementATransmettreQuery,
+} from './lister/listerProjetAvecAchevementATransmettre.query';
 import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command';
 import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
@@ -31,9 +31,9 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
 };
 
 export type AchèvementQueryDependencies = ConsulterAchèvementDependencies &
-  ListerAchèvementEnAttenteDependencies;
+  ListerProjetAvecAchevementATransmettreDependencies;
 
 export const registerAchèvementQueries = (dependencies: AchèvementQueryDependencies) => {
   registerConsulterAchèvementQuery(dependencies);
-  registerListerAchèvementEnAttenteQuery(dependencies);
+  registerListerProjetAvecAchevementATransmettreQuery(dependencies);
 };

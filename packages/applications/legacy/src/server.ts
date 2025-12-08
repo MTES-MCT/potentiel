@@ -14,6 +14,7 @@ import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
+import { createApiServer } from '@potentiel-applications/api';
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -126,13 +127,17 @@ export async function makeServer(port: number) {
     });
 
     /////// Custom server next
+
     const isDebug = !__dirname.includes('dist');
     const nextApp = next({
       dev: false,
       dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
     });
+    const apiHandler = createApiServer('/api/v1');
 
     const nextHandler = nextApp.getRequestHandler();
+
+    app.use('/api/v1/', apiHandler);
 
     app.get('*', (req, res) => {
       return nextHandler(req, res);

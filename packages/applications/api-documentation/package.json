@@ -1,16 +1,19 @@
 {
   "name": "@potentiel-applications/api-documentation",
+  "private": true,
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "tsp compile ./src && tsc"
+    "codegen": "tsp compile ./src && ./scripts/patch-openapi.sh",
+    "build": "npm run codegen && tsc"
   },
   "devDependencies": {
-    "@typespec/compiler": "1.5.0",
-    "@typespec/http": "1.5.0",
-    "@typespec/openapi3": "1.5.0",
-    "@typespec/rest": "0.75.0"
-  },
-  "private": true
+    "@typespec/compiler": "1.6.0",
+    "@typespec/http": "1.6.0",
+    "@typespec/http-server-js": "0.58.0-alpha.21",
+    "@typespec/openapi3": "1.6.0",
+    "@typespec/rest": "0.76.0"
+  }
 }

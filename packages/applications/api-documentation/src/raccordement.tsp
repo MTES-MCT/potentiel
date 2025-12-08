@@ -15,29 +15,46 @@ model DossierRaccordement {
   appelOffre: string;
   periode: string;
   famille: string;
-  numeroCRE: string;
+
+  @encodedName("application/json", "numeroCRE")
+  numeroCre: string;
+
   commune: string;
   codePostal: string;
   referenceDossier: string;
-  statutDGEC: string;
+
+  @encodedName("application/json", "statutDGEC")
+  statutDgec: string;
+
   puissance: string;
   nomCandidat: string;
-  societeMère: string;
+  sociétéMère: string;
   emailContact: string;
 
-  /**  */
+  /** Adresse complète du site de production */
   siteProduction: string;
 
   /** La date où le projet a été notifié */
+  @format("date")
   dateNotification: string;
 }
 
 model TransmettreDateMiseEnServiceBody {
+  @format("date")
   dateMiseEnService: string;
 }
 
 model ModifierReferenceBody {
+  @minLength(1)
   nouvelleReference: string;
+}
+
+model TransmettreDemandeCompleteRaccordementBody {
+  @minLength(1)
+  reference: string;
+
+  @format("date")
+  dateAccuseReception: string;
 }
 
 @tag("Raccordement")
@@ -48,12 +65,28 @@ interface Raccordement {
   @route("/reseaux/raccordements")
   @get
   lister(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
     @query
-    page?: uint16,
+    after?: uint16,
 
     @doc("Ne lister que les dossier de raccordement avec, ou sans, date de mise en service.")
     @query
     avecDateMiseEnService?: boolean,
+  ): ListResult<DossierRaccordement> | Error;
+
+  /**
+   * Récupère la liste des projets sans dossier de raccordement.
+   */
+  @route("/reseaux/raccordements/manquants")
+  @get
+  listerManquants(
+    /**
+     * L'index du dernier élément (`endPosition`) de la page précédente.
+     */
+    @query
+    after?: uint16,
   ): ListResult<DossierRaccordement> | Error;
 
   /**
@@ -77,6 +110,18 @@ interface Raccordement {
   modifierReference(
     @path identifiantProjet: string,
     @path reference: string,
-    @body body: TransmettreDateMiseEnServiceBody,
+    @body body: ModifierReferenceBody,
+  ): {} | Error;
+
+  /**
+   * Transmet une demande complète de raccordement
+   */
+  @route("/laureats/{identifiantProjet}/raccordements/demande-complete-raccordement:transmettre")
+  @post
+  transmettreDemandeComplète(
+    @path
+    identifiantProjet: string,
+
+    @body body: TransmettreDemandeCompleteRaccordementBody,
   ): {} | Error;
 }
