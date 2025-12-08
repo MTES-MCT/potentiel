@@ -11,9 +11,9 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
-import { AccorderChangementActionnaire } from './accorder/AccorderChangementActionnaire.form';
-import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
-import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
+import { AccorderChangementActionnaireForm } from './accorder/AccorderChangementActionnaire.form';
+import { RejeterChangementActionnaireForm } from './rejeter/RejeterChangementActionnaire.form';
+import { AnnulerChangementActionnaireForm } from './annuler/AnnulerChangementActionnaire.form';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
 
@@ -59,7 +59,6 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-            dateDemande: demande.demandéeLe.date,
             dateDemandeEnCoursSiDifférente,
           })}
         </>
@@ -71,27 +70,16 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
-  dateDemande: DétailsActionnairePageProps['demande']['demandéeLe']['date'];
   dateDemandeEnCoursSiDifférente?: string;
 };
 
-const mapToActionComponents = ({
-  actions,
-  identifiantProjet,
-  dateDemande,
-}: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {actions.includes('accorder') && (
-      <AccorderChangementActionnaire
-        identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
-      />
+      <AccorderChangementActionnaireForm identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementActionnaire
-        identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
-      />
+      <RejeterChangementActionnaireForm identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('demander') && (
       <Button
@@ -104,7 +92,7 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerChangementActionnaire identifiantProjet={identifiantProjet} />
+      <AnnulerChangementActionnaireForm identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );
