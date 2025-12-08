@@ -160,6 +160,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     return this.#gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière;
   }
 
+  //#region Utilitaires
   private contientLeDossier({ référence }: RéférenceDossierRaccordement.ValueType) {
     return this.#dossiers.has(référence);
   }
@@ -199,9 +200,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     return false;
   }
 
-  private dateModifiée(
+  private nouvelleDateDeMiseEnServiceIdentiqueÀExistante(
     { référence }: RéférenceDossierRaccordement.ValueType,
-    date: DateTime.ValueType,
+    nouvelleDateMiseEnService: DateTime.ValueType,
   ) {
     const dossier = this.récupérerDossier(référence);
     if (
@@ -210,12 +211,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     ) {
       return true;
     }
-    return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
+    return nouvelleDateMiseEnService.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
   private async planifierRelanceDemandeComplèteRaccordement(àExécuterLe: DateTime.ValueType) {
     if (
-      !this.lauréat.parent.appelOffre
+      !this.lauréat.projet.appelOffre
         .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
     ) {
       return;
@@ -235,335 +236,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       `gestionnaire-réseau|${codeEIC}`,
     );
   }
+  //#endregion Utilitaires
 
-  async attribuerGestionnaireRéseau({
-    identifiantGestionnaireRéseau,
-  }: AttribuerGestionnaireRéseauOptions) {
-    const gestionnaireRéseauDéjàAttribué = !this.#identifiantGestionnaireRéseau.estInconnu();
-
-    if (gestionnaireRéseauDéjàAttribué) {
-      throw new GestionnaireRéseauDéjàExistantError(this.identifiantProjet.formatter());
-    }
-
-    if (identifiantGestionnaireRéseau.estInconnu()) {
-      const event: GestionnaireRéseauInconnuAttribuéEvent = {
-        type: 'GestionnaireRéseauInconnuAttribué-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-        },
-      };
-
-      await this.publish(event);
-
-      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
-    } else {
-      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
-        identifiantGestionnaireRéseau.codeEIC,
-      );
-      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
-
-      const event: GestionnaireRéseauAttribuéEvent = {
-        type: 'GestionnaireRéseauAttribué-V1',
-        payload: {
-          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-          identifiantProjet: this.identifiantProjet.formatter(),
-        },
-      };
-
-      await this.publish(event);
-    }
-    await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-
-    if (
-      this.parent.projet.appelOffre
-        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-    ) {
-      await this.planifierRelanceDemandeComplèteRaccordement(
-        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
-      );
-    }
-  }
-
-  async supprimerDossier({ référenceDossier }: SupprimerDossierDuRaccordementOptions) {
-    const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
-
-    if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
-      throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
-    }
-
-    const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
-      type: 'DossierDuRaccordementSupprimé-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        référenceDossier: référenceDossier.formatter(),
-      },
-    };
-
-    await this.publish(dossierDuRaccordementSupprimé);
-
-    const dossiersRestants = [...this.#dossiers.values()];
-
-    if (dossiersRestants.length === 0) {
-      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-    }
-    const dossiersSansAccuséDeRéception = dossiersRestants.filter((dossier) =>
-      Option.isSome(dossier.demandeComplèteRaccordement.format),
-    );
-
-    if (dossiersSansAccuséDeRéception.length > 0) {
-      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
-    }
-  }
-
-  async modifierPropositionTechniqueEtFinancière({
-    dateSignature,
-    référenceDossierRaccordement,
-    formatPropositionTechniqueEtFinancièreSignée,
-  }: ModifierPropositionTechniqueEtFinancièreOptions) {
-    this.lauréat.vérifierPasEnCoursAbandon();
-
-    if (dateSignature.estDansLeFutur()) {
-      throw new DateDansLeFuturError();
-    }
-
-    if (!this.contientLeDossier(référenceDossierRaccordement)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
-    const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
-      type: 'PropositionTechniqueEtFinancièreModifiée-V2',
-      payload: {
-        dateSignature: dateSignature.formatter(),
-        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
-        identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: {
-          format: formatPropositionTechniqueEtFinancièreSignée,
-        },
-      },
-    };
-
-    await this.publish(event);
-  }
-
-  async modifierDemandeComplèteRaccordement({
-    dateQualification,
-    formatAccuséRéception,
-    référenceDossierRaccordement,
-    rôle,
-  }: ModifierDemandeComplèteOptions) {
-    if (dateQualification.estDansLeFutur()) {
-      throw new DateDansLeFuturError();
-    }
-
-    if (!this.référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
-      throw new FormatRéférenceDossierRaccordementInvalideError();
-    }
-
-    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
-
-    if (
-      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
-      Option.isSome(dossier.miseEnService.dateMiseEnService)
-    ) {
-      throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
-        référenceDossierRaccordement.formatter(),
-      );
-    }
-
-    const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
-      type: 'DemandeComplèteRaccordementModifiée-V3',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
-        dateQualification: dateQualification.formatter(),
-        accuséRéception: {
-          format: formatAccuséRéception,
-        },
-      },
-    };
-
-    await this.publish(demandeComplèteRaccordementModifiée);
-
-    await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
-  }
-
-  async transmettrePropositionTechniqueEtFinancière({
-    dateSignature,
-    référenceDossierRaccordement,
-    formatPropositionTechniqueEtFinancièreSignée,
-  }: TransmettrePropositionTechniqueEtFinancièreOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNonAbandonné();
-
-    if (dateSignature.estDansLeFutur()) {
-      throw new DateDansLeFuturError();
-    }
-
-    if (!this.contientLeDossier(référenceDossierRaccordement)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
-    const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
-      type: 'PropositionTechniqueEtFinancièreTransmise-V2',
-      payload: {
-        dateSignature: dateSignature.formatter(),
-        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
-        identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: {
-          format: formatPropositionTechniqueEtFinancièreSignée,
-        },
-      },
-    };
-
-    await this.publish(event);
-  }
-
-  async transmettreDemandeComplèteDeRaccordement({
-    dateQualification,
-    référenceDossier,
-    formatAccuséRéception,
-    transmisePar,
-    transmiseLe,
-  }: TransmettreDemandeOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
-
-    if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
-      throw new FormatRéférenceDossierRaccordementInvalideError();
-    }
-
-    if (this.contientLeDossier(référenceDossier)) {
-      throw new RéférenceDossierRaccordementDéjàExistantePourLeProjetError();
-    }
-
-    if (dateQualification.estDansLeFutur()) {
-      throw new DateDansLeFuturError();
-    }
-
-    const event: DemandeComplèteRaccordementTransmiseEvent = {
-      type: 'DemandeComplèteDeRaccordementTransmise-V3',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        dateQualification: dateQualification?.formatter(),
-        identifiantGestionnaireRéseau: this.#identifiantGestionnaireRéseau.formatter(),
-        référenceDossierRaccordement: référenceDossier.formatter(),
-        accuséRéception: formatAccuséRéception
-          ? {
-              format: formatAccuséRéception,
-            }
-          : undefined,
-        transmisePar: transmisePar.formatter(),
-        transmiseLe: transmiseLe.formatter(),
-      },
-    };
-
-    await this.publish(event);
-
-    await this.#tâcheTransmettreRéférenceRaccordement.achever();
-    if (!event.payload.accuséRéception) {
-      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
-    }
-
-    await this.annulerTâchePlanifiéeRelanceDCR();
-  }
-
-  async transmettreDateMiseEnService({
-    dateMiseEnService,
-    dateDésignation,
-    référenceDossier,
-    transmiseLe,
-    transmisePar,
-  }: TransmettreDateMiseEnServiceOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNonAbandonné();
-
-    if (dateMiseEnService.estDansLeFutur()) {
-      throw new DateDansLeFuturError();
-    }
-
-    if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
-      throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
-    }
-
-    if (!this.contientLeDossier(référenceDossier)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
-    if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
-      throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
-    }
-
-    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-      type: 'DateMiseEnServiceTransmise-V2',
-      payload: {
-        dateMiseEnService: dateMiseEnService.formatter(),
-        identifiantProjet: this.identifiantProjet.formatter(),
-        référenceDossierRaccordement: référenceDossier.formatter(),
-        transmiseLe: transmiseLe.formatter(),
-        transmisePar: transmisePar.formatter(),
-      },
-    };
-
-    await this.publish(dateMiseEnServiceTransmise);
-
-    const délaiApplicable =
-      this.lauréat.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable;
-
-    if (délaiApplicable) {
-      const { intervaleDateMiseEnService, délaiEnMois } = délaiApplicable;
-
-      if (
-        dateMiseEnService.estDansIntervalle({
-          min: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.min)),
-          max: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.max)),
-        })
-      ) {
-        return this.lauréat.achèvement.calculerDateAchèvementPrévisionnel({
-          type: 'ajout-délai-cdc-30_08_2022',
-          nombreDeMois: délaiEnMois,
-        });
-      }
-    }
-  }
-
-  async supprimerDateMiseEnService({
-    référenceDossier,
-    suppriméeLe,
-    suppriméePar,
-  }: SupprimerDateMiseEnServiceOptions) {
-    const { miseEnService } = this.récupérerDossier(référenceDossier.formatter());
-    if (Option.isNone(miseEnService.dateMiseEnService)) {
-      throw new DossierRaccordementPasEnServiceError();
-    }
-
-    const dateMiseEnServiceSupprimée: DateMiseEnServiceSuppriméeEvent = {
-      type: 'DateMiseEnServiceSupprimée-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        référenceDossierRaccordement: référenceDossier.formatter(),
-        suppriméeLe: suppriméeLe.formatter(),
-        suppriméePar: suppriméePar.formatter(),
-      },
-    };
-
-    await this.publish(dateMiseEnServiceSupprimée);
-  }
-
-  async supprimerRaccordement() {
-    const raccordementSupprimé: RaccordementSuppriméEvent = {
-      type: 'RaccordementSupprimé-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-      },
-    };
-
-    await this.publish(raccordementSupprimé);
-
-    await this.#tâcheTransmettreRéférenceRaccordement.achever();
-    await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
-  }
-
-  async modifierRéférenceDossierRacordement({
+  //#region Dossier
+  async modifierRéférenceDossierRaccordement({
     nouvelleRéférenceDossierRaccordement,
     référenceDossierRaccordementActuelle,
     modifiéeLe,
@@ -613,155 +289,48 @@ export class RaccordementAggregate extends AbstractAggregate<
     await this.#tâcheTransmettreRéférenceRaccordement.achever();
   }
 
-  async modifierGestionnaireRéseau({
-    identifiantGestionnaireRéseau,
-    rôle,
-  }: ModifierGestionnaireRéseauOptions) {
-    if (!identifiantGestionnaireRéseau.estInconnu()) {
-      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
-        identifiantGestionnaireRéseau.codeEIC,
-      );
-      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
-    }
+  private applyRéférenceDossierRacordementModifiéeEvent({
+    payload: { nouvelleRéférenceDossierRaccordement, référenceDossierRaccordementActuelle },
+  }: RéférenceDossierRacordementModifiéeEvent | RéférenceDossierRacordementModifiéeEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle);
 
-    if (this.#identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
-      throw new GestionnaireRéseauIdentiqueError(
-        this.identifiantProjet,
-        identifiantGestionnaireRéseau,
-      );
-    }
+    dossier.référence = RéférenceDossierRaccordement.convertirEnValueType(
+      nouvelleRéférenceDossierRaccordement,
+    );
 
-    if (
-      this.aUneDateDeMiseEnService() &&
-      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal))
-    ) {
-      throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
-    }
-
-    if (identifiantGestionnaireRéseau.estInconnu()) {
-      const event: GestionnaireRéseauInconnuAttribuéEvent = {
-        type: 'GestionnaireRéseauInconnuAttribué-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-        },
-      };
-
-      await this.publish(event);
-
-      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
-    } else {
-      const event: GestionnaireRéseauRaccordementModifiéEvent = {
-        type: 'GestionnaireRéseauRaccordementModifié-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-        },
-      };
-
-      await this.publish(event);
-
-      await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
-    }
+    this.#dossiers.delete(référenceDossierRaccordementActuelle);
+    this.#dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
   }
 
-  apply(event: RaccordementEvent) {
-    return match(event)
-      .with(
-        { type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' },
-        this.applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteDeRaccordementTransmise-V1' },
-        this.applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteDeRaccordementTransmise-V2' },
-        this.applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteDeRaccordementTransmise-V3' },
-        this.applyDemandeComplèteDeRaccordementTransmiseEventV3.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteRaccordementModifiée-V1' },
-        this.applyDemandeComplèteRaccordementModifiéeEventV1.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteRaccordementModifiée-V2' },
-        this.applyDemandeComplèteRaccordementModifiéeEventV2.bind(this),
-      )
-      .with(
-        { type: 'DemandeComplèteRaccordementModifiée-V3' },
-        this.applyDemandeComplèteRaccordementModifiéeEventV3.bind(this),
-      )
-      .with(
-        {
-          type: P.union(
-            'RéférenceDossierRacordementModifiée-V1',
-            'RéférenceDossierRacordementModifiée-V2',
-          ),
-        },
-        this.applyRéférenceDossierRacordementModifiéeEvent.bind(this),
-      )
-      .with(
-        { type: 'PropositionTechniqueEtFinancièreTransmise-V1' },
-        this.applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this),
-      )
-      .with(
-        { type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' },
-        this.applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this),
-      )
-      .with(
-        { type: 'PropositionTechniqueEtFinancièreTransmise-V2' },
-        this.applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this),
-      )
-      .with(
-        { type: 'PropositionTechniqueEtFinancièreModifiée-V1' },
-        this.applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this),
-      )
-      .with(
-        { type: 'PropositionTechniqueEtFinancièreModifiée-V2' },
-        this.applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this),
-      )
-      .with(
-        { type: 'DateMiseEnServiceTransmise-V1' },
-        this.applyDateMiseEnServiceTransmiseEventV1.bind(this),
-      )
-      .with(
-        { type: 'DateMiseEnServiceTransmise-V2' },
-        this.applyDateMiseEnServiceTransmiseEventV2.bind(this),
-      )
-      .with(
-        { type: 'GestionnaireRéseauRaccordementModifié-V1' },
-        this.applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this),
-      )
-      .with(
-        { type: 'GestionnaireRéseauInconnuAttribué-V1' },
-        this.applyGestionnaireRéseauRaccordemenInconnuEventV1.bind(this),
-      )
-      .with(
-        { type: 'GestionnaireRéseauAttribué-V1' },
-        this.applyAttribuerGestionnaireRéseauEventV1.bind(this),
-      )
-      .with(
-        { type: 'DossierDuRaccordementSupprimé-V1' },
-        this.applyDossierDuRaccordementSuppriméEventV1.bind(this),
-      )
-      .with({ type: 'RaccordementSupprimé-V1' }, this.applyRaccordementSuppriméEventV1.bind(this))
-      .with(
-        { type: 'DateMiseEnServiceSupprimée-V1' },
-        this.applyDateMiseEnServiceSuppriméeEventV1.bind(this),
-      )
-      .exhaustive();
-  }
+  async supprimerDossierRaccordement({ référenceDossier }: SupprimerDossierDuRaccordementOptions) {
+    const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
-  private applyAttribuerGestionnaireRéseauEventV1({
-    payload: { identifiantGestionnaireRéseau },
-  }: GestionnaireRéseauAttribuéEvent) {
-    this.#identifiantGestionnaireRéseau =
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseau,
-      );
+    if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
+      throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
+    }
+
+    const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
+      type: 'DossierDuRaccordementSupprimé-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        référenceDossier: référenceDossier.formatter(),
+      },
+    };
+
+    await this.publish(dossierDuRaccordementSupprimé);
+
+    const dossiersRestants = [...this.#dossiers.values()];
+
+    if (dossiersRestants.length === 0) {
+      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+    }
+    const dossiersSansAccuséDeRéception = dossiersRestants.filter((dossier) =>
+      Option.isSome(dossier.demandeComplèteRaccordement.format),
+    );
+
+    if (dossiersSansAccuséDeRéception.length > 0) {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+    }
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
@@ -770,112 +339,56 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.#dossiers.delete(payload.référenceDossier);
   }
 
-  private applyPropositionTechniqueEtFinancièreModifiéeEventV1({
-    payload: { dateSignature, référenceDossierRaccordement },
-  }: PropositionTechniqueEtFinancièreModifiéeEventV1) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+  //#endregion Dossier
 
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
-  }
+  //#region DCR
+  async transmettreDemandeComplèteDeRaccordement({
+    dateQualification,
+    référenceDossier,
+    formatAccuséRéception,
+    transmisePar,
+    transmiseLe,
+  }: TransmettreDemandeOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
 
-  private applyPropositionTechniqueEtFinancièreModifiéeEventV2({
-    payload: {
-      dateSignature,
-      propositionTechniqueEtFinancièreSignée: { format },
-      référenceDossierRaccordement,
-    },
-  }: PropositionTechniqueEtFinancièreModifiéeEvent) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
+      throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
 
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
-    dossier.propositionTechniqueEtFinancière.format = format;
-  }
+    if (this.contientLeDossier(référenceDossier)) {
+      throw new RéférenceDossierRaccordementDéjàExistantePourLeProjetError();
+    }
 
-  private applyDemandeComplèteRaccordementModifiéeEventV1({
-    payload: { dateQualification, nouvelleReference, referenceActuelle },
-  }: DemandeComplèteRaccordementModifiéeEventV1) {
-    const dossier = this.récupérerDossier(referenceActuelle);
+    if (dateQualification.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
 
-    dossier.demandeComplèteRaccordement.dateQualification =
-      DateTime.convertirEnValueType(dateQualification);
-    dossier.référence = RéférenceDossierRaccordement.convertirEnValueType(nouvelleReference);
-
-    this.#dossiers.delete(referenceActuelle);
-    this.#dossiers.set(nouvelleReference, dossier);
-  }
-
-  private applyDemandeComplèteRaccordementModifiéeEventV2({
-    payload: { dateQualification, référenceDossierRaccordement },
-  }: DemandeComplèteRaccordementModifiéeEventV2) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
-
-    dossier.demandeComplèteRaccordement.dateQualification =
-      DateTime.convertirEnValueType(dateQualification);
-  }
-
-  private applyDemandeComplèteRaccordementModifiéeEventV3({
-    payload: {
-      accuséRéception: { format },
-      dateQualification,
-      référenceDossierRaccordement,
-    },
-  }: DemandeComplèteRaccordementModifiéeEvent) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
-
-    dossier.demandeComplèteRaccordement.dateQualification =
-      DateTime.convertirEnValueType(dateQualification);
-    dossier.demandeComplèteRaccordement.format = format;
-  }
-
-  private applyPropositionTechniqueEtFinancièreTransmiseEventV1({
-    payload: { dateSignature, référenceDossierRaccordement },
-  }: PropositionTechniqueEtFinancièreTransmiseEventV1) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
-    dossier.propositionTechniqueEtFinancière.dateSignature =
-      DateTime.convertirEnValueType(dateSignature);
-  }
-
-  private applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1({
-    payload: { référenceDossierRaccordement, format },
-  }: PropositionTechniqueEtFinancièreSignéeTransmiseEventV1) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
-    dossier.propositionTechniqueEtFinancière.format = format;
-  }
-
-  private applyPropositionTechniqueEtFinancièreTransmiseEventV2({
-    payload: {
-      identifiantProjet,
-      dateSignature,
-      référenceDossierRaccordement,
-      propositionTechniqueEtFinancièreSignée: { format },
-    },
-  }: PropositionTechniqueEtFinancièreTransmiseEvent) {
-    this.applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)({
-      type: 'PropositionTechniqueEtFinancièreTransmise-V1',
+    const event: DemandeComplèteRaccordementTransmiseEvent = {
+      type: 'DemandeComplèteDeRaccordementTransmise-V3',
       payload: {
-        dateSignature,
-        identifiantProjet,
-        référenceDossierRaccordement,
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateQualification: dateQualification?.formatter(),
+        identifiantGestionnaireRéseau: this.#identifiantGestionnaireRéseau.formatter(),
+        référenceDossierRaccordement: référenceDossier.formatter(),
+        accuséRéception: formatAccuséRéception
+          ? {
+              format: formatAccuséRéception,
+            }
+          : undefined,
+        transmisePar: transmisePar.formatter(),
+        transmiseLe: transmiseLe.formatter(),
       },
-    });
-    this.applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)({
-      type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
-      payload: {
-        format,
-        identifiantProjet,
-        référenceDossierRaccordement,
-      },
-    });
-  }
+    };
 
-  private applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1({
-    payload: { référenceDossierRaccordement, format },
-  }: AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+    await this.publish(event);
 
-    dossier.demandeComplèteRaccordement.format = format;
+    await this.#tâcheTransmettreRéférenceRaccordement.achever();
+    if (!event.payload.accuséRéception) {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
+    }
+
+    await this.annulerTâchePlanifiéeRelanceDCR();
   }
 
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
@@ -967,6 +480,280 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
   }
 
+  async modifierDemandeComplèteRaccordement({
+    dateQualification,
+    formatAccuséRéception,
+    référenceDossierRaccordement,
+    rôle,
+  }: ModifierDemandeComplèteOptions) {
+    if (dateQualification.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
+      throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+
+    if (
+      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
+      Option.isSome(dossier.miseEnService.dateMiseEnService)
+    ) {
+      throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
+        référenceDossierRaccordement.formatter(),
+      );
+    }
+
+    const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
+      type: 'DemandeComplèteRaccordementModifiée-V3',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        dateQualification: dateQualification.formatter(),
+        accuséRéception: {
+          format: formatAccuséRéception,
+        },
+      },
+    };
+
+    await this.publish(demandeComplèteRaccordementModifiée);
+
+    await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+  }
+
+  private applyDemandeComplèteRaccordementModifiéeEventV1({
+    payload: { dateQualification, nouvelleReference, referenceActuelle },
+  }: DemandeComplèteRaccordementModifiéeEventV1) {
+    const dossier = this.récupérerDossier(referenceActuelle);
+
+    dossier.demandeComplèteRaccordement.dateQualification =
+      DateTime.convertirEnValueType(dateQualification);
+    dossier.référence = RéférenceDossierRaccordement.convertirEnValueType(nouvelleReference);
+
+    this.#dossiers.delete(referenceActuelle);
+    this.#dossiers.set(nouvelleReference, dossier);
+  }
+
+  private applyDemandeComplèteRaccordementModifiéeEventV2({
+    payload: { dateQualification, référenceDossierRaccordement },
+  }: DemandeComplèteRaccordementModifiéeEventV2) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    dossier.demandeComplèteRaccordement.dateQualification =
+      DateTime.convertirEnValueType(dateQualification);
+  }
+
+  private applyDemandeComplèteRaccordementModifiéeEventV3({
+    payload: {
+      accuséRéception: { format },
+      dateQualification,
+      référenceDossierRaccordement,
+    },
+  }: DemandeComplèteRaccordementModifiéeEvent) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    dossier.demandeComplèteRaccordement.dateQualification =
+      DateTime.convertirEnValueType(dateQualification);
+    dossier.demandeComplèteRaccordement.format = format;
+  }
+
+  private applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1({
+    payload: { référenceDossierRaccordement, format },
+  }: AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    dossier.demandeComplèteRaccordement.format = format;
+  }
+  //#endregion DCR
+
+  //#region PTF
+  async transmettrePropositionTechniqueEtFinancière({
+    dateSignature,
+    référenceDossierRaccordement,
+    formatPropositionTechniqueEtFinancièreSignée,
+  }: TransmettrePropositionTechniqueEtFinancièreOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNonAbandonné();
+
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (!this.contientLeDossier(référenceDossierRaccordement)) {
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
+      type: 'PropositionTechniqueEtFinancièreTransmise-V2',
+      payload: {
+        dateSignature: dateSignature.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        propositionTechniqueEtFinancièreSignée: {
+          format: formatPropositionTechniqueEtFinancièreSignée,
+        },
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  private applyPropositionTechniqueEtFinancièreTransmiseEventV1({
+    payload: { dateSignature, référenceDossierRaccordement },
+  }: PropositionTechniqueEtFinancièreTransmiseEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+    dossier.propositionTechniqueEtFinancière.dateSignature =
+      DateTime.convertirEnValueType(dateSignature);
+  }
+
+  private applyPropositionTechniqueEtFinancièreTransmiseEventV2({
+    payload: {
+      identifiantProjet,
+      dateSignature,
+      référenceDossierRaccordement,
+      propositionTechniqueEtFinancièreSignée: { format },
+    },
+  }: PropositionTechniqueEtFinancièreTransmiseEvent) {
+    this.applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)({
+      type: 'PropositionTechniqueEtFinancièreTransmise-V1',
+      payload: {
+        dateSignature,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
+    this.applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)({
+      type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
+      payload: {
+        format,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
+  }
+
+  private applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1({
+    payload: { référenceDossierRaccordement, format },
+  }: PropositionTechniqueEtFinancièreSignéeTransmiseEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+    dossier.propositionTechniqueEtFinancière.format = format;
+  }
+
+  async modifierPropositionTechniqueEtFinancière({
+    dateSignature,
+    référenceDossierRaccordement,
+    formatPropositionTechniqueEtFinancièreSignée,
+  }: ModifierPropositionTechniqueEtFinancièreOptions) {
+    this.lauréat.vérifierPasEnCoursAbandon();
+
+    if (dateSignature.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (!this.contientLeDossier(référenceDossierRaccordement)) {
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
+      type: 'PropositionTechniqueEtFinancièreModifiée-V2',
+      payload: {
+        dateSignature: dateSignature.formatter(),
+        référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        propositionTechniqueEtFinancièreSignée: {
+          format: formatPropositionTechniqueEtFinancièreSignée,
+        },
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  private applyPropositionTechniqueEtFinancièreModifiéeEventV1({
+    payload: { dateSignature, référenceDossierRaccordement },
+  }: PropositionTechniqueEtFinancièreModifiéeEventV1) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    dossier.propositionTechniqueEtFinancière.dateSignature =
+      DateTime.convertirEnValueType(dateSignature);
+  }
+
+  private applyPropositionTechniqueEtFinancièreModifiéeEventV2({
+    payload: {
+      dateSignature,
+      propositionTechniqueEtFinancièreSignée: { format },
+      référenceDossierRaccordement,
+    },
+  }: PropositionTechniqueEtFinancièreModifiéeEvent) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+
+    dossier.propositionTechniqueEtFinancière.dateSignature =
+      DateTime.convertirEnValueType(dateSignature);
+    dossier.propositionTechniqueEtFinancière.format = format;
+  }
+  //#endregion PTF
+
+  //#region Mise en service
+  async transmettreDateMiseEnService({
+    dateMiseEnService,
+    dateDésignation,
+    référenceDossier,
+    transmiseLe,
+    transmisePar,
+  }: TransmettreDateMiseEnServiceOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNonAbandonné();
+
+    if (dateMiseEnService.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
+      throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
+    }
+
+    if (!this.contientLeDossier(référenceDossier)) {
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    if (this.nouvelleDateDeMiseEnServiceIdentiqueÀExistante(référenceDossier, dateMiseEnService)) {
+      throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
+    }
+
+    const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
+      type: 'DateMiseEnServiceTransmise-V2',
+      payload: {
+        dateMiseEnService: dateMiseEnService.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        référenceDossierRaccordement: référenceDossier.formatter(),
+        transmiseLe: transmiseLe.formatter(),
+        transmisePar: transmisePar.formatter(),
+      },
+    };
+
+    await this.publish(dateMiseEnServiceTransmise);
+
+    const délaiApplicable =
+      this.lauréat.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable;
+
+    if (délaiApplicable) {
+      const { intervaleDateMiseEnService, délaiEnMois } = délaiApplicable;
+
+      if (
+        dateMiseEnService.estDansIntervalle({
+          min: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.min)),
+          max: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.max)),
+        })
+      ) {
+        return this.lauréat.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'ajout-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
+    }
+  }
+
   private applyDateMiseEnServiceTransmiseEventV1({
     payload: { dateMiseEnService, référenceDossierRaccordement },
   }: DateMiseEnServiceTransmiseV1Event) {
@@ -981,9 +768,27 @@ export class RaccordementAggregate extends AbstractAggregate<
     dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
   }
 
-  private applyRaccordementSuppriméEventV1() {
-    this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
-    this.#dossiers = new Map();
+  async supprimerDateMiseEnService({
+    référenceDossier,
+    suppriméeLe,
+    suppriméePar,
+  }: SupprimerDateMiseEnServiceOptions) {
+    const { miseEnService } = this.récupérerDossier(référenceDossier.formatter());
+    if (Option.isNone(miseEnService.dateMiseEnService)) {
+      throw new DossierRaccordementPasEnServiceError();
+    }
+
+    const dateMiseEnServiceSupprimée: DateMiseEnServiceSuppriméeEvent = {
+      type: 'DateMiseEnServiceSupprimée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        référenceDossierRaccordement: référenceDossier.formatter(),
+        suppriméeLe: suppriméeLe.formatter(),
+        suppriméePar: suppriméePar.formatter(),
+      },
+    };
+
+    await this.publish(dateMiseEnServiceSupprimée);
   }
 
   private applyDateMiseEnServiceSuppriméeEventV1({
@@ -995,17 +800,115 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
   }
 
-  private applyRéférenceDossierRacordementModifiéeEvent({
-    payload: { nouvelleRéférenceDossierRaccordement, référenceDossierRaccordementActuelle },
-  }: RéférenceDossierRacordementModifiéeEvent | RéférenceDossierRacordementModifiéeEventV1) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle);
+  //#endregion Mise en service
 
-    dossier.référence = RéférenceDossierRaccordement.convertirEnValueType(
-      nouvelleRéférenceDossierRaccordement,
-    );
+  //#region Gestionnaire réseau
+  async attribuerGestionnaireRéseau({
+    identifiantGestionnaireRéseau,
+  }: AttribuerGestionnaireRéseauOptions) {
+    const gestionnaireRéseauDéjàAttribué = !this.#identifiantGestionnaireRéseau.estInconnu();
 
-    this.#dossiers.delete(référenceDossierRaccordementActuelle);
-    this.#dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
+    if (gestionnaireRéseauDéjàAttribué) {
+      throw new GestionnaireRéseauDéjàExistantError(this.identifiantProjet.formatter());
+    }
+
+    if (identifiantGestionnaireRéseau.estInconnu()) {
+      const event: GestionnaireRéseauInconnuAttribuéEvent = {
+        type: 'GestionnaireRéseauInconnuAttribué-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+        },
+      };
+
+      await this.publish(event);
+
+      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    } else {
+      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
+        identifiantGestionnaireRéseau.codeEIC,
+      );
+      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
+
+      const event: GestionnaireRéseauAttribuéEvent = {
+        type: 'GestionnaireRéseauAttribué-V1',
+        payload: {
+          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+          identifiantProjet: this.identifiantProjet.formatter(),
+        },
+      };
+
+      await this.publish(event);
+    }
+    await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+
+    if (
+      this.parent.projet.appelOffre
+        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
+    ) {
+      await this.planifierRelanceDemandeComplèteRaccordement(
+        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
+      );
+    }
+  }
+
+  private applyAttribuerGestionnaireRéseauEventV1({
+    payload: { identifiantGestionnaireRéseau },
+  }: GestionnaireRéseauAttribuéEvent) {
+    this.#identifiantGestionnaireRéseau =
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      );
+  }
+
+  async modifierGestionnaireRéseau({
+    identifiantGestionnaireRéseau,
+    rôle,
+  }: ModifierGestionnaireRéseauOptions) {
+    if (!identifiantGestionnaireRéseau.estInconnu()) {
+      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
+        identifiantGestionnaireRéseau.codeEIC,
+      );
+      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
+    }
+
+    if (this.#identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
+      throw new GestionnaireRéseauIdentiqueError(
+        this.identifiantProjet,
+        identifiantGestionnaireRéseau,
+      );
+    }
+
+    if (
+      this.aUneDateDeMiseEnService() &&
+      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal))
+    ) {
+      throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
+    }
+
+    if (identifiantGestionnaireRéseau.estInconnu()) {
+      const event: GestionnaireRéseauInconnuAttribuéEvent = {
+        type: 'GestionnaireRéseauInconnuAttribué-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+        },
+      };
+
+      await this.publish(event);
+
+      await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+    } else {
+      const event: GestionnaireRéseauRaccordementModifiéEvent = {
+        type: 'GestionnaireRéseauRaccordementModifié-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+        },
+      };
+
+      await this.publish(event);
+
+      await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
+    }
   }
 
   private applyGestionnaireRéseauRaccordementModifiéEventV1({
@@ -1022,4 +925,119 @@ export class RaccordementAggregate extends AbstractAggregate<
   ) {
     this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
   }
+  //#endregion Gestionnaire réseau
+
+  //#region Raccordement projet
+  async supprimerRaccordement() {
+    const raccordementSupprimé: RaccordementSuppriméEvent = {
+      type: 'RaccordementSupprimé-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+      },
+    };
+
+    await this.publish(raccordementSupprimé);
+
+    await this.#tâcheTransmettreRéférenceRaccordement.achever();
+    await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
+  }
+
+  private applyRaccordementSuppriméEventV1() {
+    this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
+    this.#dossiers = new Map();
+  }
+  //#endregion Raccordement projet
+
+  //#region Apply
+  apply(event: RaccordementEvent) {
+    return match(event)
+      .with(
+        { type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' },
+        this.applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteDeRaccordementTransmise-V1' },
+        this.applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteDeRaccordementTransmise-V2' },
+        this.applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteDeRaccordementTransmise-V3' },
+        this.applyDemandeComplèteDeRaccordementTransmiseEventV3.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteRaccordementModifiée-V1' },
+        this.applyDemandeComplèteRaccordementModifiéeEventV1.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteRaccordementModifiée-V2' },
+        this.applyDemandeComplèteRaccordementModifiéeEventV2.bind(this),
+      )
+      .with(
+        { type: 'DemandeComplèteRaccordementModifiée-V3' },
+        this.applyDemandeComplèteRaccordementModifiéeEventV3.bind(this),
+      )
+      .with(
+        {
+          type: P.union(
+            'RéférenceDossierRacordementModifiée-V1',
+            'RéférenceDossierRacordementModifiée-V2',
+          ),
+        },
+        this.applyRéférenceDossierRacordementModifiéeEvent.bind(this),
+      )
+      .with(
+        { type: 'PropositionTechniqueEtFinancièreTransmise-V1' },
+        this.applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this),
+      )
+      .with(
+        { type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' },
+        this.applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this),
+      )
+      .with(
+        { type: 'PropositionTechniqueEtFinancièreTransmise-V2' },
+        this.applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this),
+      )
+      .with(
+        { type: 'PropositionTechniqueEtFinancièreModifiée-V1' },
+        this.applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this),
+      )
+      .with(
+        { type: 'PropositionTechniqueEtFinancièreModifiée-V2' },
+        this.applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this),
+      )
+      .with(
+        { type: 'DateMiseEnServiceTransmise-V1' },
+        this.applyDateMiseEnServiceTransmiseEventV1.bind(this),
+      )
+      .with(
+        { type: 'DateMiseEnServiceTransmise-V2' },
+        this.applyDateMiseEnServiceTransmiseEventV2.bind(this),
+      )
+      .with(
+        { type: 'GestionnaireRéseauRaccordementModifié-V1' },
+        this.applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this),
+      )
+      .with(
+        { type: 'GestionnaireRéseauInconnuAttribué-V1' },
+        this.applyGestionnaireRéseauRaccordemenInconnuEventV1.bind(this),
+      )
+      .with(
+        { type: 'GestionnaireRéseauAttribué-V1' },
+        this.applyAttribuerGestionnaireRéseauEventV1.bind(this),
+      )
+      .with(
+        { type: 'DossierDuRaccordementSupprimé-V1' },
+        this.applyDossierDuRaccordementSuppriméEventV1.bind(this),
+      )
+      .with({ type: 'RaccordementSupprimé-V1' }, this.applyRaccordementSuppriméEventV1.bind(this))
+      .with(
+        { type: 'DateMiseEnServiceSupprimée-V1' },
+        this.applyDateMiseEnServiceSuppriméeEventV1.bind(this),
+      )
+      .exhaustive();
+  }
+  //#endregion Apply
 }
