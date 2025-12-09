@@ -4,7 +4,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '../../../../../_helpers';
 import { checkLauréatSansAbandonOuAchèvement } from '../../../_helpers/checkLauréatSansAbandonOuAchèvement';
@@ -58,11 +57,7 @@ export const getInstallation = async ({
   }
 
   if (champsSupplémentaireNatureDeLExploitation) {
-    data.natureDeLExploitation = await getNatureDeLExploitation(
-      rôle,
-      identifiantProjet,
-      cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
-    );
+    data.natureDeLExploitation = await getNatureDeLExploitation(rôle, identifiantProjet);
   }
 
   const installationProjection =
@@ -105,7 +100,6 @@ export const getInstallation = async ({
 const getNatureDeLExploitation = async (
   rôle: Role.ValueType,
   identifiantProjet: IdentifiantProjet.ValueType,
-  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['natureDeLExploitation'],
 ): Promise<GetInstallationForProjectPage['natureDeLExploitation']> => {
   const projection =
     await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
@@ -118,7 +112,6 @@ const getNatureDeLExploitation = async (
       await checkAutorisationChangement<'natureDeLExploitation'>({
         identifiantProjet,
         rôle,
-        règlesChangementPourAppelOffres,
         domain: 'natureDeLExploitation',
       });
 
