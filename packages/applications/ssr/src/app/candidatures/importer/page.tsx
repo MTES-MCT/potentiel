@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ImporterCandidaturesPage } from './ImporterCandidatures.page';
 
 const paramsSchema = z.object({
-  reimport: z.stringbool().optional(),
+  estUnReimport: z.stringbool().optional(),
 });
 
 type PageProps = {
@@ -25,11 +25,12 @@ export default async function Page({ searchParams }: PageProps) {
         'Candidature.UseCase.ImporterCandidature',
       );
 
-      const { reimport } = paramsSchema.parse(searchParams);
+      const { estUnReimport } = paramsSchema.parse(searchParams);
+
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
         data: {
-          estNotifiée: reimport ? true : false,
+          estNotifiée: estUnReimport ? true : false,
         },
       });
 
@@ -43,6 +44,7 @@ export default async function Page({ searchParams }: PageProps) {
             ),
           )}
           importMultipleAOEtPeriodesPossible={process.env.APPLICATION_STAGE !== 'production'}
+          estUnReimport={!!estUnReimport}
         />
       ));
     }),

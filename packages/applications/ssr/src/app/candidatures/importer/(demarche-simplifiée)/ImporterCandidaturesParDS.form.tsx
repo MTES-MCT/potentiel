@@ -105,10 +105,6 @@ export const ImporterCandidaturesParDSForm: FC<ImporterCandidaturesParDSFormProp
                   ],
                 ]}
               />
-              <p>
-                Pour importer des candidats oubliés sur une période déjà notifiée, cliquer{' '}
-                <Link href={`?reimport=true`}>ici</Link>
-              </p>
             </div>
           }
         />
