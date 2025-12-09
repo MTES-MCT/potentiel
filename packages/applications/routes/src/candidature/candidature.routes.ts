@@ -1,14 +1,14 @@
 import { encodeParameter } from '../encodeParameter';
 
 type ImporterParams = {
-  reimport?: boolean;
+  estUnReimport?: boolean;
 };
 
 export const importer = (params?: ImporterParams) => {
   const searchParams = new URLSearchParams();
 
-  if (params?.reimport) {
-    searchParams.set('reimport', 'true');
+  if (params?.estUnReimport) {
+    searchParams.set('estUnReimport', 'true');
   }
 
   return `/candidatures/importer${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

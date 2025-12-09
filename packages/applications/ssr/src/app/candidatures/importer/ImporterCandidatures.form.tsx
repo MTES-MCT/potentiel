@@ -1,12 +1,11 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { match } from 'ts-pattern';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { useRouter } from 'next/navigation';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
@@ -17,14 +16,16 @@ import { ImporterCandidaturesParDSForm } from './(demarche-simplifiée)/Importer
 export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
   importMultipleAOEtPeriodesPossible: boolean;
-  reimport: boolean;
+  estUnReimport: boolean;
 };
 
 export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
   périodes,
   importMultipleAOEtPeriodesPossible,
-  reimport,
+  estUnReimport,
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const getDefaultPériode = () => {
@@ -50,11 +51,15 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     période?.estÉgaleÀ(Période.IdentifiantPériode.bind(identifiantPériode)),
   )?.typeImport;
 
-  useEffect(() => {
-    setPériode(getDefaultPériode);
-  }, [reimport]);
+  const setReimportUrlParams = useCallback(
+    (estUnReimport: boolean) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('estUnReimport', estUnReimport.toString());
 
-  const router = useRouter();
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   return (
     <div>
@@ -86,7 +91,6 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
                     checked: modeMultiple,
                     onChange: (ev) => {
                       setModeMultiple(ev.target.checked);
-                      setPériode(getDefaultPériode);
                     },
                   },
                 },
@@ -124,8 +128,11 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
               {
                 label: "Permettre l'import de candidats oubliés sur une période déjà notifiée",
                 nativeInputProps: {
-                  onChange: (event) => router.push(`?reimport=${event.target.checked}`),
-                  checked: reimport,
+                  onChange: (event) => {
+                    router.push(`${pathname}?${setReimportUrlParams(event.target.checked)}`);
+                    router.refresh();
+                  },
+                  checked: estUnReimport,
                 },
               },
             ]}
