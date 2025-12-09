@@ -40,7 +40,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Projet.details(identifiantProjet),
+        url: url ?? Routes.Lauréat.details(identifiantProjet),
         message: 'Le changement de puissance a bien été rejeté',
       },
     };
