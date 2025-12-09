@@ -4,6 +4,7 @@ import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/p
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../../fixture';
+import { LauréatWorld } from '../../lauréat.world';
 
 interface TransmettreAttestationConformitéDocument {
   readonly content: string;
@@ -60,6 +61,10 @@ export class TransmettreAttestationConformitéFixture
     return this.#utilisateur;
   }
 
+  constructor(public readonly lauréatWorld: LauréatWorld) {
+    super();
+  }
+
   créer(
     partialFixture?: Partial<TransmettreAttestationConformité>,
   ): TransmettreAttestationConformité {
@@ -70,7 +75,14 @@ export class TransmettreAttestationConformitéFixture
     const formatPreuve = 'application/pdf';
 
     const fixture: TransmettreAttestationConformité = {
-      dateTransmissionAuCocontractant: faker.date.past().toISOString(),
+      dateTransmissionAuCocontractant: faker.date
+        .between({
+          from: DateTime.convertirEnValueType(
+            this.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          ).ajouterNombreDeJours(1).date,
+          to: DateTime.now().date,
+        })
+        .toISOString(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       attestation: {

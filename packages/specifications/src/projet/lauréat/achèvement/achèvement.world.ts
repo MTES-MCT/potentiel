@@ -30,11 +30,14 @@ export class AchèvementWorld {
   }
 
   constructor(private lauréat: LauréatWorld) {
-    this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture();
-    this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture();
-    this.#calculerDateAchèvementPrévisionnelFixture =
-      new CalculerDateAchèvementPrévisionnelFixture();
-    this.#transmettreDateAchèvementFixture = new TransmettreDateAchèvementFixture();
+    this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture(
+      lauréat,
+    );
+    this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture(lauréat);
+    this.#calculerDateAchèvementPrévisionnelFixture = new CalculerDateAchèvementPrévisionnelFixture(
+      lauréat,
+    );
+    this.#transmettreDateAchèvementFixture = new TransmettreDateAchèvementFixture(lauréat);
   }
 
   get dateAchèvementPrévisionnelCalculée() {

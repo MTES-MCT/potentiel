@@ -16,5 +16,6 @@ export const InfoBoxAttestationConformité = () => (
         </span>
       </p>
     }
+    className="mb-2"
   />
 );
