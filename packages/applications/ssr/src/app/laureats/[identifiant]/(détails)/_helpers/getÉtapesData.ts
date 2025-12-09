@@ -5,6 +5,10 @@ import { EtapesProjetProps } from '../(components)/EtapesProjetSection';
 type GetÉtapesData = {
   dateNotification: DateTime.RawType;
   dateAchèvementPrévisionnel: DateTime.RawType;
+  abandon?: {
+    dateAbandonAccordé: DateTime.RawType;
+    dateDemandeAbandon: DateTime.RawType;
+  };
   dateAbandonAccordé?: DateTime.RawType;
   dateRecoursAccordé?: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
@@ -14,7 +18,7 @@ type GetÉtapesData = {
 export const getÉtapesData = ({
   dateNotification,
   dateAchèvementPrévisionnel,
-  dateAbandonAccordé,
+  abandon,
   dateRecoursAccordé,
   dateAchèvementRéel,
   dateMiseEnService,
@@ -26,10 +30,11 @@ export const getÉtapesData = ({
     },
   ];
 
-  if (dateAbandonAccordé) {
+  if (abandon) {
     étapes.push({
       type: 'abandon',
-      date: dateAbandonAccordé,
+      date: abandon.dateAbandonAccordé,
+      dateDemande: abandon.dateDemandeAbandon,
     });
 
     return étapes;

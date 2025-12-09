@@ -44,21 +44,17 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
       }
 
-      // Lauréat
       const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
-      // Abandon
       const abandon = await getAbandon(identifiantProjet);
 
-      // Achèvement
       const achèvementData = await getAchèvementData({ identifiantProjet, rôle });
 
-      // Raccordement
       const raccordement = await getRaccordementData({
         role: rôle,
         identifiantProjet,
-        estAbandonné: !!abandon?.statut.estAccordé(),
-        aUnAbandonEnCours: !!abandon?.statut.estEnCours(),
+        estAbandonné: !!abandon?.estAbandonné,
+        aUnAbandonEnCours: !!abandon?.demandeEnCours,
       });
 
       const recours = await getRecours(identifiantProjet);
@@ -68,7 +64,13 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const étapes = getÉtapesData({
         dateNotification: lauréat.notifiéLe.formatter(),
         dateAchèvementPrévisionnel: achèvementData.value.dateAchèvementPrévisionnel,
-        dateAbandonAccordé: abandon && abandon.demande.accord?.accordéLe.formatter(),
+        abandon:
+          abandon && abandon.accordéLe
+            ? {
+                dateAbandonAccordé: abandon.accordéLe.formatter(),
+                dateDemandeAbandon: abandon.demandéLe.formatter(),
+              }
+            : undefined,
         dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
         dateMiseEnService: raccordement.value
           ? raccordement.value.dateMiseEnService?.formatter()
@@ -76,12 +78,16 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         dateAchèvementRéel: achèvementData.value.dateAchèvementRéel,
       });
 
-      const abandonAlert = getAbandonAlert(
-        !!abandon?.statut.estEnCours(),
-        !!abandon?.statut.estAccordé(),
+      const abandonAlert = getAbandonAlert({
+        estAbandonné: !!abandon?.estAbandonné,
         rôle,
-        identifiantProjet.formatter(),
-      );
+        identifiantProjet: identifiantProjet.formatter(),
+        demandeEnCours: abandon?.demandeEnCours
+          ? {
+              dateDemandeEnCours: abandon.demandéLe.formatter(),
+            }
+          : undefined,
+      });
 
       const achèvementAlert = getAchèvementAlert(achèvementData.value.estAchevé, rôle);
 
@@ -114,15 +120,7 @@ const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  if (Option.isNone(abandon)) {
-    return undefined;
-  }
-
-  const { statut } = abandon;
-
-  if (statut.estEnCours() || statut.estRejeté() || statut.estAccordé()) {
-    return abandon;
-  }
+  return Option.isNone(abandon) ? undefined : abandon;
 };
 
 const getRecours = async (
@@ -133,9 +131,5 @@ const getRecours = async (
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
 
-  if (Option.isNone(recours)) {
-    return undefined;
-  }
-
-  return recours;
+  return Option.isNone(recours) ? undefined : recours;
 };
