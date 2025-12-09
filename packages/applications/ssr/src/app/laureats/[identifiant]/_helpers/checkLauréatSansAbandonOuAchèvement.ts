@@ -14,7 +14,7 @@ export const checkLauréatSansAbandonOuAchèvement = cache(
     });
 
     const estAbandonOuAUneDemandeEnCours =
-      Option.isSome(abandon) && (abandon.statut.estEnCours() || abandon.statut.estAccordé());
+      Option.isSome(abandon) && (abandon.demandeEnCours || abandon.estAbandonné);
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
       type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',

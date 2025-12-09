@@ -16,16 +16,22 @@ import { Section } from './Section';
 export type EtapesProjetProps = {
   identifiantProjet: string;
   doitAfficherAttestationDésignation: boolean;
-  étapes: Array<{
-    type:
-      | 'designation'
-      | 'achèvement-prévisionel'
-      | 'mise-en-service'
-      | 'achèvement-réel'
-      | 'abandon'
-      | 'recours';
-    date: DateTime.RawType;
-  }>;
+  étapes: Array<
+    | {
+        type:
+          | 'designation'
+          | 'achèvement-prévisionel'
+          | 'mise-en-service'
+          | 'achèvement-réel'
+          | 'recours';
+        date: DateTime.RawType;
+      }
+    | {
+        type: 'abandon';
+        date: DateTime.RawType;
+        dateDemande: DateTime.RawType;
+      }
+  >;
 };
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({
@@ -70,7 +76,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                       date={étape.date}
                       isLastItem={isLastItem}
                     >
-                      <Link href={Routes.Abandon.détail(identifiantProjet)}>
+                      <Link href={Routes.Abandon.détail(identifiantProjet, étape.date)}>
                         Voir les détails de l'abandon
                       </Link>
                     </ÉtapeTerminée>
