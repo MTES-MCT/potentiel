@@ -9,7 +9,11 @@ import clsx from 'clsx';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { mapMenuItemsToSideMenuItems, menuItems } from '../../_helpers/mapMenuItemsToSideMenuItems';
+import {
+  baseMenuItems,
+  mapMenuItemsToSideMenuItems,
+  MenuItem,
+} from '../../_helpers/mapMenuItemsToSideMenuItems';
 
 type Props = {
   baseURL: string;
@@ -21,7 +25,7 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
   const currentMenuId = pathname.split('/')[3] || '';
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  // ce n'est pas exactement ça, voir pour typologie projet
+  // TODO: ajouter typologieInstallation
   const showInstallation = !!(
     cahierDesCharges.appelOffre.champsSupplémentaires?.autorisationDUrbanisme ||
     cahierDesCharges.appelOffre.champsSupplémentaires?.natureDeLExploitation ||
@@ -29,11 +33,9 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
     cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage
   );
 
-  const filteredMenuItems = menuItems.filter((item) => {
-    if (item.label === 'Installation') {
-      return showInstallation;
-    }
-    return true;
+  const filteredMenuItems = filterMenuItems({
+    menu: baseMenuItems,
+    filters: [{ label: 'Installation', show: showInstallation }],
   });
 
   const items = mapMenuItemsToSideMenuItems(filteredMenuItems, baseURL, currentMenuId);
@@ -55,4 +57,28 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
       />
     </div>
   );
+};
+
+type FilterMenuProps = {
+  menu: MenuItem[];
+  filters: Array<{
+    label: string;
+    show: boolean;
+  }>;
+};
+
+const filterMenuItems = ({ menu, filters }: FilterMenuProps): MenuItem[] => {
+  return menu
+    .map((item) => {
+      if (item.children) {
+        return { ...item, children: filterMenuItems({ menu: item.children, filters }) };
+      } else {
+        const filter = filters.find((f) => f.label === item.label);
+        if (filter) {
+          return filter.show ? item : undefined;
+        }
+        return item;
+      }
+    })
+    .filter((item): item is MenuItem => !!item);
 };

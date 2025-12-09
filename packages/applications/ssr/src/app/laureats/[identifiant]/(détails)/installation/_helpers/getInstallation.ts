@@ -223,9 +223,7 @@ const getTypologieInstallation = (
   rôle: Role.ValueType,
   identifiantProjet: IdentifiantProjet.ValueType,
 ): ChampAvecAction<Candidature.TypologieInstallation.RawType[]> => {
-  const value = typologieInstallation.length
-    ? typologieInstallation.map((typologie) => typologie.formatter())
-    : undefined;
+  const value = typologieInstallation.map((typologie) => typologie.formatter());
 
   const data: ChampAvecAction<Candidature.TypologieInstallation.RawType[]> = { value };
 
