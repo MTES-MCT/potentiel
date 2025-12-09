@@ -14,6 +14,8 @@ import { ActionsList } from '@/components/templates/ActionsList.template';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissanceForm } from './annuler/AnnulerChangementPuissance.form';
 import { DétailsChangementPuissance } from './DétailsChangementPuissance';
+import { AccorderChangementPuissanceForm } from './accorder/AccorderChangementPuissance.form';
+import { RejeterChangementPuissanceForm } from './rejeter/RejeterChangementPuissance.form';
 
 export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | 'rejeter';
 
@@ -86,13 +88,13 @@ const mapToActionComponents = ({
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {actions.includes('accorder') && (
-      <AccorderChangementPuissance
+      <AccorderChangementPuissanceForm
         identifiantProjet={identifiantProjet}
         estÀLaBaisse={estÀLaBaisse}
       />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementPuissance
+      <RejeterChangementPuissanceForm
         identifiantProjet={identifiantProjet}
         estÀLaBaisse={estÀLaBaisse}
       />
