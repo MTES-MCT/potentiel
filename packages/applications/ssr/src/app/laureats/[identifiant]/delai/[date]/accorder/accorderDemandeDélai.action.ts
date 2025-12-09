@@ -42,7 +42,6 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: url ?? Routes.Lauréat.détails(identifiantProjet),
-
         message: `La demande de délai a bien été accordée`,
       },
     };
