@@ -122,6 +122,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   #tâcheTransmettreRéférenceRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheGestionnaireRéseauInconnuAttribué!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettrePropositionTechniqueEtFinancière!: AggregateType<TâcheAggregate>;
 
   // Tâches planifiées
   #tâchePlanifiéeRelanceDemandeComplèteRaccordement!: AggregateType<TâchePlanifiéeAggregate>;
@@ -133,6 +134,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement = await this.lauréat.loadTâche(
       TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement.type,
+    );
+
+    this.#tâcheTransmettrePropositionTechniqueEtFinancière = await this.lauréat.loadTâche(
+      TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancièreRaccordement.type,
     );
 
     this.#tâcheTransmettreRéférenceRaccordement = await this.lauréat.loadTâche(
@@ -734,6 +739,15 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dateMiseEnServiceTransmise);
+
+    const dossier = this.récupérerDossier(référenceDossier.formatter());
+
+    if (
+      Option.isNone(dossier.propositionTechniqueEtFinancière.format) ||
+      Option.isNone(dossier.propositionTechniqueEtFinancière.dateSignature)
+    ) {
+      await this.#tâcheTransmettrePropositionTechniqueEtFinancière.ajouter();
+    }
 
     const délaiApplicable =
       this.lauréat.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable;
