@@ -25,7 +25,6 @@ const schema = zod.union([
     identifiantProjet: zod.string().min(1),
     reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
     estUneDecisionDEtat: zod.literal('false'),
-    dateDemande: zod.string().min(1),
   }),
 ]);
 
