@@ -1,13 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
-import { AbandonEntity } from '../../abandon';
 import { AchèvementEntity } from '../../achèvement';
 
 type DossierRaccordement = {
@@ -68,7 +67,6 @@ type DossierRaccordementJoins = [
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
   AchèvementEntity,
-  LeftJoin<AbandonEntity>,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -141,17 +139,6 @@ export const registerListerDossierRaccordementQuery = ({
                 ? { estAchevé: Where.equal(false) }
                 : undefined,
         },
-        {
-          entity: 'abandon',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statutProjet === 'abandonné'
-              ? { statut: Where.equal('accordé') }
-              : statutProjet === 'actif'
-                ? { statut: Where.notEqual('accordé') }
-                : undefined,
-        },
       ],
       orderBy: {
         référence: 'ascending',
@@ -190,7 +177,6 @@ export const mapToReadModel: MapToReadModelProps = ({
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
-  abandon,
   achèvement,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -224,11 +210,6 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomCandidat,
     siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,
     sociétéMère,
-    statutProjet:
-      abandon?.statut === 'accordé'
-        ? StatutLauréat.abandonné
-        : achèvement.estAchevé
-          ? StatutLauréat.achevé
-          : StatutLauréat.actif,
+    statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
   };
 };

@@ -17,6 +17,7 @@ export type EtapesProjetProps = {
       | 'abandon'
       | 'recours';
     date: number;
+    dateDemande?: string;
   }>;
 };
 
@@ -52,14 +53,14 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                   </Link>
                 </ÉtapeTerminée>
               ))
-              .with({ type: 'abandon' }, ({ type, date }) => (
+              .with({ type: 'abandon' }, ({ type, date, dateDemande }) => (
                 <ÉtapeTerminée
                   isLastItem={isLastItem}
                   key={`project-step-${type}`}
                   titre="Abandon accordé"
                   date={date}
                 >
-                  <Link href={Routes.Abandon.détail(identifiantProjet)}>
+                  <Link href={Routes.Abandon.détail(identifiantProjet, dateDemande!)}>
                     Voir les détails de l'abandon
                   </Link>
                 </ÉtapeTerminée>

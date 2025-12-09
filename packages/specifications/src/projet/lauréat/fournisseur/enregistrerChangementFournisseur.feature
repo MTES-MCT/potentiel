@@ -45,7 +45,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 1               |
-        Et un abandon accordé pour le projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat
         Quand le porteur enregistre un changement de fournisseur
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 

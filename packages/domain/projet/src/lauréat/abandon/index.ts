@@ -1,42 +1,52 @@
-import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
-import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
-import {
-  ConsulterAbandonQuery,
-  ConsulterAbandonReadModel,
-} from './consulter/consulterAbandon.query';
-import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
-import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
+import { AccorderAbandonUseCase } from './demande/accorder/accorderAbandon.usecase';
+import { AnnulerAbandonUseCase } from './demande/annuler/annulerAbandon.usecase';
+import { ConfirmerAbandonUseCase } from './demande/confirmer/confirmerAbandon.usecase';
+import { DemanderAbandonUseCase } from './demande/demander/demanderAbandon.usecase';
+import { DemanderConfirmationAbandonUseCase } from './demande/demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import {
   HistoriqueAbandonProjetListItemReadModel,
   ListerHistoriqueAbandonProjetQuery,
   ListerHistoriqueAbandonProjetReadModel,
 } from './lister/listerHistoriqueAbandonProjet.query';
-import { PasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
-import { ListerAbandonReadModel, ListerAbandonsQuery } from './lister/listerAbandons.query';
-import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
-import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
+import { PasserEnInstructionAbandonUseCase } from './demande/instruire/passerAbandonEnInstruction.usecase';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './demande/lister/listerAbandonsAvecRecandidatureÀRelancer.query';
+import { RejeterAbandonUseCase } from './demande/rejeter/rejeterAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
+import {
+  ConsulterDemandeAbandonQuery,
+  ConsulterDemandeAbandonReadModel,
+} from './demande/consulter/consulterDemandeAbandon.query';
+import {
+  ConsulterAbandonQuery,
+  ConsulterAbandonReadModel,
+} from './consulter/consulterAbandon.query';
+import {
+  ListerDemandesAbandonQuery,
+  ListerDemandesAbandonReadModel,
+} from './demande/lister/listerDemandesAbandon.query';
 
 // Query
 export type AbandonQuery =
+  | ConsulterDemandeAbandonQuery
   | ConsulterAbandonQuery
-  | ListerAbandonsQuery
+  | ListerDemandesAbandonQuery
   | ListerAbandonsAvecRecandidatureÀRelancerQuery
   | ListerHistoriqueAbandonProjetQuery;
 
 export type {
+  ConsulterDemandeAbandonQuery,
   ConsulterAbandonQuery,
-  ListerAbandonsQuery,
+  ListerDemandesAbandonQuery,
   ListerAbandonsAvecRecandidatureÀRelancerQuery,
   ListerHistoriqueAbandonProjetQuery,
 };
 
 // ReadModel
 export type {
+  ConsulterDemandeAbandonReadModel,
   ConsulterAbandonReadModel,
-  ListerAbandonReadModel,
+  ListerDemandesAbandonReadModel,
   ListerHistoriqueAbandonProjetReadModel,
   HistoriqueAbandonProjetListItemReadModel,
 };
@@ -66,20 +76,21 @@ export {
 };
 
 // Events
-export * from './accorder/accorderAbandon.event';
-export * from './annuler/annulerAbandon.event';
-export * from './demander/demanderAbandon.event';
-export * from './rejeter/rejeterAbandon.event';
-export * from './instruire/instruireAbandon.event';
+export * from './demande/accorder/accorderAbandon.event';
+export * from './demande/annuler/annulerAbandon.event';
+export * from './demande/demander/demanderAbandon.event';
+export * from './demande/rejeter/rejeterAbandon.event';
+export * from './demande/instruire/instruireAbandon.event';
 export * from './demanderPreuveRecandidature/demanderPreuveRecandidature.event';
 export * from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.event';
-export * from './demanderConfirmation/demanderConfirmation.event';
-export * from './confirmer/confirmerAbandon.event';
+export * from './demande/demanderConfirmation/demanderConfirmation.event';
+export * from './demande/confirmer/confirmerAbandon.event';
 
 export { AbandonEvent } from './abandon.event';
 
 // Entity
 
+export { DemandeAbandonEntity } from './demande/demandeAbandon.entity';
 export { AbandonEntity } from './abandon.entity';
 
 // ValueTypes

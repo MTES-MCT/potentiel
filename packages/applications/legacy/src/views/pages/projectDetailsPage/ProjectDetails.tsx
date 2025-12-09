@@ -115,14 +115,19 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCoursOuAccordé = !!abandon && abandon.statut.statut !== 'rejeté';
-  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut.statut !== 'accordé';
+  const abandonEnCours = abandon?.demandeEnCours;
 
   const affichageInfobox = abandonEnCours ? (
     user.role === 'porteur-projet' ? (
-      <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+      <DemandeImpossibleSiAbandonEnCoursInfoBox
+        identifiantProjet={identifiantProjet}
+        dateDemande={abandon.demandéLe.date}
+      />
     ) : user.role === 'admin' || user.role === 'dreal' ? (
-      <DemandeAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+      <DemandeAbandonEnCoursInfoBox
+        identifiantProjet={identifiantProjet}
+        dateDemande={abandon.demandéLe.date}
+      />
     ) : undefined
   ) : undefined;
 
@@ -133,10 +138,11 @@ export const ProjectDetails = ({
     },
   ];
 
-  if (abandon?.demande.accord) {
+  if (abandon?.accordéLe) {
     étapes.push({
       type: 'abandon',
-      date: DateTime.bind(abandon.demande.accord?.accordéLe).date.getTime(),
+      date: DateTime.bind(abandon.accordéLe).date.getTime(),
+      dateDemande: DateTime.bind(abandon.demandéLe).formatter(),
     });
   } else {
     if (demandeRecours?.demande.accord) {
@@ -183,7 +189,7 @@ export const ProjectDetails = ({
         user={user}
         identifiantProjet={identifiantProjet}
         project={project}
-        abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
+        abandonEnCoursOuAccordé={!!(abandon?.demandeEnCours || abandon?.estAbandonné)}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={!!achèvementRéel}
         statutLauréat={statutLauréat}

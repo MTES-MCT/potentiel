@@ -1,5 +1,5 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { getBaseUrl, listerPorteursRecipients } from '#helpers';
 
@@ -23,7 +23,7 @@ export const handleAbandonRejeté = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       nouveau_statut: 'rejetée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
     },
   });
 };

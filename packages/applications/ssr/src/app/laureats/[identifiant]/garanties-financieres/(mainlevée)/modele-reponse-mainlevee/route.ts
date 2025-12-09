@@ -105,7 +105,7 @@ export const GET = async (
             .some(({ motif }) => motif.estProjetAbandonné())
             .none(() => false),
           dateAbandonAccordé: formatDateForDocument(
-            Option.isSome(abandon) ? abandon.demande.accord?.accordéLe.date : undefined,
+            Option.isSome(abandon) ? abandon.accordéLe?.date : undefined,
           ),
           estAccordée,
           dateMainlevée: Option.match(mainlevéeEnCours)

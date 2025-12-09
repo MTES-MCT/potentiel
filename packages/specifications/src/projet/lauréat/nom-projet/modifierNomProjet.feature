@@ -20,7 +20,7 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
             | url               | https://potentiel.beta.gouv.fr/projets/.*                                                    |
 
     Scénario: Modifier le nom d'un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand un administrateur modifie le nom du projet
         Alors le projet lauréat devrait être consultable
 

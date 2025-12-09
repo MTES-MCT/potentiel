@@ -25,7 +25,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /un abandon accordé(.*)pour le projet lauréat/,
+  /une demande d'abandon accordée(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     const recandidature = etat.includes('avec recandidature');
 
@@ -49,7 +49,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /un abandon rejeté(.*)pour le projet lauréat/,
+  /une demande d'abandon rejetée(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     if (etat.includes('avec recandidature')) {
       await créerDemandeAbandonAvecRecandidature.call(this);
@@ -73,7 +73,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /un abandon confirmé(.*)pour le projet lauréat/,
+  /une demande d'abandon confirmée(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     if (etat.includes('avec recandidature')) {
       await créerDemandeAbandonAvecRecandidature.call(this);
@@ -210,7 +210,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: réponseSignée,
-      dateDemandeValue: confirmationDemandéeLe,
+      dateDemandeDeConfirmationValue: confirmationDemandéeLe,
       identifiantUtilisateurValue: confirmationDemandéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },

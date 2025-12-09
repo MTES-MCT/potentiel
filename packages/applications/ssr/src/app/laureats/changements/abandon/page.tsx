@@ -51,8 +51,8 @@ export default async function Page({ searchParams }: PageProps) {
         autorite,
       } = paramsSchema.parse(searchParams);
 
-      const abandons = await mediator.send<Lauréat.Abandon.ListerAbandonsQuery>({
-        type: 'Lauréat.Abandon.Query.ListerAbandons',
+      const abandons = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ListerDemandesAbandon',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
@@ -81,7 +81,7 @@ export default async function Page({ searchParams }: PageProps) {
           multiple: true,
           searchParamKey: 'statut',
           options: Lauréat.Abandon.StatutAbandon.statuts
-            .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .filter((s) => s !== 'inconnu')
             .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -141,7 +141,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: Lauréat.Abandon.ListerAbandonReadModel,
+  readModel: Lauréat.Abandon.ListerDemandesAbandonReadModel,
 ): AbandonListPageProps['list'] => {
   const items = readModel.items.map(
     ({
@@ -151,6 +151,7 @@ const mapToListProps = (
       miseÀJourLe,
       recandidature,
       preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
+      dateDemande,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -158,6 +159,7 @@ const mapToListProps = (
       miseÀJourLe: miseÀJourLe.formatter(),
       recandidature,
       preuveRecandidatureStatut,
+      dateDemande: dateDemande.formatter(),
     }),
   );
 

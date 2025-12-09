@@ -8,7 +8,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un porteur demande la mainlevée des garanties financières de son projet abandonné
-        Etant donnée un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donnée une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif        | projet-abandonné  |
@@ -44,7 +44,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au co-contractant et dans Potentiel)"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si les garanties financières sont manquantes pour un projet abandonné
-        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-abandonné |
         Alors le porteur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
@@ -94,7 +94,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet abandonné
         Etant donné le projet lauréat "Du boulodrome de Lyon"
         Et un cahier des charges permettant la modification du projet
-        Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Lyon"
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-abandonné |
         Alors le porteur devrait être informé que "L'attestation et la date de prise d'effet des garanties financières sont requises"
@@ -113,7 +113,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | type GF              | exemption  |
             | date de constitution | 2025-01-01 |
         Et un cahier des charges permettant la modification du projet
-        Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Lyon"
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-abandonné |
         Alors le porteur devrait être informé que "Le projet est exempt de garanties financières"

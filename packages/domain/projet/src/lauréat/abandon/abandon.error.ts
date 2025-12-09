@@ -2,7 +2,7 @@ import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain
 
 export class AucunAbandonEnCours extends AggregateNotFoundError {
   constructor() {
-    super(`Aucun abandon n'est en cours`);
+    super(`Aucune demande d'abandon n'est en cours`);
   }
 }
 
@@ -68,7 +68,7 @@ export class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationErro
 
 export class AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError extends InvalidOperationError {
   constructor() {
-    super("L'abandon est déjà en instruction avec le même administrateur");
+    super("La demande d'abandon est déjà en instruction avec le même administrateur");
   }
 }
 
