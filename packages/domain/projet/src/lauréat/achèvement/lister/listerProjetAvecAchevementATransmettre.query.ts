@@ -48,6 +48,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   RaccordementEntity,
   CandidatureEntity,
   AchèvementEntity,
+  DossierRaccordementEntity,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
   list,
@@ -99,6 +100,11 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             estAchevé: Where.equal(false),
           },
         },
+        {
+          entity: 'dossier-raccordement',
+          on: 'identifiantProjet',
+          joinKey: 'identifiantProjet',
+        },
       ],
       range,
     });
@@ -114,16 +120,8 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       };
     }
 
-    const { items: dossiers } = await list<DossierRaccordementEntity>('dossier-raccordement', {
-      where: {
-        identifiantProjet: Where.matchAny(
-          projets.map(({ identifiantProjet }) => identifiantProjet),
-        ),
-      },
-    });
-
     const items = projets
-      .map((projet) => mapToReadModel(projet, [...dossiers]))
+      .map((projet) => mapToReadModel(projet))
       .filter((item) => item !== undefined);
 
     return {
@@ -141,31 +139,18 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
 
 type MapToReadModelProps = (
   projet: LauréatEntity & Joined<ProjetAvecAchevementATransmettreJoins>,
-  dossiers: Array<DossierRaccordementEntity>,
 ) => ProjetAvecAchevementATransmettre | undefined;
 
-export const mapToReadModel: MapToReadModelProps = (
-  {
-    identifiantProjet,
-    candidature: {
-      localité: { codePostal },
-      prixReference,
-      coefficientKChoisi,
-    },
-    raccordement: { identifiantGestionnaireRéseau },
+export const mapToReadModel: MapToReadModelProps = ({
+  identifiantProjet,
+  candidature: {
+    localité: { codePostal },
+    prixReference,
+    coefficientKChoisi,
   },
-  dossiers,
-) => {
-  const dossier = dossiers.find(
-    (d) =>
-      d.identifiantProjet === identifiantProjet &&
-      d.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau,
-  );
-
-  if (!dossier) {
-    return;
-  }
-
+  raccordement: { identifiantGestionnaireRéseau },
+  'dossier-raccordement': dossier,
+}) => {
   const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
   return {
