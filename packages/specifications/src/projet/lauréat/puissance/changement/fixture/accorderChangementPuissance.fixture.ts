@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
-interface AccorderChangementPuissance {
+export interface AccorderChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly accordéeLe: string;
   readonly accordéePar: string;

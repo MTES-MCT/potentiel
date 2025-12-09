@@ -4,6 +4,9 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture';
+import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple';
+import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet lauréat avec :',
@@ -58,6 +61,24 @@ Quand(
 );
 
 Quand(
+  'la DREAL associée au projet accorde le changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      await accorderChangementPuissance.call(
+        this,
+        mapToExemple<Partial<AccorderChangementPuissance>>(exemple, {
+          estUneDécisionDEtat: ["décision d'état", mapBoolean],
+        }),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   'la DREAL associée au projet rejette le changement de puissance pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
@@ -68,6 +89,22 @@ Quand(
   },
 );
 
+Quand(
+  'la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    try {
+      await rejeterChangementPuissance.call(
+        this,
+        mapToExemple<Partial<AccorderChangementPuissance>>(exemple, {
+          estUneDécisionDEtat: ["décision d'état", mapBoolean],
+        }),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 export async function demanderChangementPuissance(
   this: PotentielWorld,
   ratioPuissanceValue: number,
@@ -156,13 +193,17 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
   });
 }
 
-export async function accorderChangementPuissance(this: PotentielWorld) {
+export async function accorderChangementPuissance(
+  this: PotentielWorld,
+  props?: Partial<AccorderChangementPuissance>,
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { accordéeLe, accordéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
       {
         accordéePar: this.utilisateurWorld.drealFixture.email,
+        ...props,
       },
     );
 
@@ -181,12 +222,16 @@ export async function accorderChangementPuissance(this: PotentielWorld) {
   });
 }
 
-export async function rejeterChangementPuissance(this: PotentielWorld) {
+export async function rejeterChangementPuissance(
+  this: PotentielWorld,
+  props?: Partial<RejeterChangementPuissance>,
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { rejetéeLe, rejetéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture.créer(
       {
+        ...props,
         rejetéePar: this.utilisateurWorld.drealFixture.email,
       },
     );

@@ -11,6 +11,7 @@ export type ValueType = {
   puissanceMaxFamille: number | undefined;
   volumeRéservé: VolumeRéservé.ValueType | undefined;
   vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
+  vérifierQueLaDécisionDÉtatEstPossible: () => void;
   dépasseRatiosChangementPuissance: () => boolean;
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
@@ -61,6 +62,11 @@ export const bind = ({
         }
       }
     },
+    vérifierQueLaDécisionDÉtatEstPossible() {
+      if (ratio > 1) {
+        throw new DécisionDÉtatPourChangementÀLaHausseError();
+      }
+    },
   };
 };
 
@@ -91,5 +97,13 @@ class PuissanceDépassePuissanceMaxFamille extends InvalidOperationError {
 class PuissanceDépasseVolumeRéservéAO extends InvalidOperationError {
   constructor() {
     super('La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé');
+  }
+}
+
+class DécisionDÉtatPourChangementÀLaHausseError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Impossible d'instruire un changement de puissance à la hausse comme une décision d'état",
+    );
   }
 }

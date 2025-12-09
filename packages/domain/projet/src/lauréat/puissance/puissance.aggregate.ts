@@ -213,6 +213,12 @@ export class PuissanceAggregate extends AbstractAggregate<
       throw new RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError();
     }
 
+    if (estUneDécisionDEtat) {
+      this.getRatioChangement(
+        this.#demande.nouvellePuissance,
+      ).vérifierQueLaDécisionDÉtatEstPossible();
+    }
+
     const event: ChangementPuissanceAccordéEvent = {
       type: 'ChangementPuissanceAccordé-V1',
       payload: {
@@ -244,6 +250,12 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementPuissance.rejeté,
     );
+
+    if (estUneDécisionDEtat) {
+      this.getRatioChangement(
+        this.#demande.nouvellePuissance,
+      ).vérifierQueLaDécisionDÉtatEstPossible();
+    }
 
     const event: ChangementPuissanceRejetéEvent = {
       type: 'ChangementPuissanceRejeté-V1',
@@ -281,19 +293,23 @@ export class PuissanceAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  private getRatioChangement(nouvellePuissance: number) {
+    return RatioChangementPuissance.bind({
+      ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
+      puissanceInitiale: this.lauréat.projet.candidature.puissanceProductionAnnuelle,
+      puissanceMaxFamille: this.lauréat.projet.famille?.puissanceMax,
+      nouvellePuissance,
+      volumeRéservé: this.lauréat.projet.candidature.volumeRéservé,
+    });
+  }
+
   private vérifierChangementPossible(
     type: 'demande' | 'information-enregistrée',
     nouvellePuissance: number,
   ) {
     this.lauréat.vérifierQueLeChangementEstPossible(type, 'puissance');
 
-    RatioChangementPuissance.bind({
-      ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
-      puissanceInitiale: this.lauréat.projet.candidature.puissanceProductionAnnuelle,
-      puissanceMaxFamille: this.lauréat.projet.famille?.puissanceMax,
-      nouvellePuissance,
-      volumeRéservé: this.lauréat.projet.candidature.volumeRéservé,
-    }).vérifierQueLaDemandeEstPossible(type);
+    this.getRatioChangement(nouvellePuissance).vérifierQueLaDemandeEstPossible(type);
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
