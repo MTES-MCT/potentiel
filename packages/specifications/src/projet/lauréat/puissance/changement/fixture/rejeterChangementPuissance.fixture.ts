@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
-interface RejeterChangementPuissance {
+export interface RejeterChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
@@ -49,7 +49,7 @@ export class RejeterChangementPuissanceFixture
       },
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),
-      estUneDécisionDEtat: faker.datatype.boolean(),
+      estUneDécisionDEtat: false,
       ...partialData,
     };
 

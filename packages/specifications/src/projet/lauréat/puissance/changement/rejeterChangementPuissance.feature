@@ -32,6 +32,13 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
             | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                         |
             | type       | rejet                                                                                                                             |
 
+    Scénario: la DREAL associée rejette un changement de puissance à la baisse pour décision de l'État
+        Etant donné une demande de changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
+        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :
+            | décision de l'État | oui |
+        Alors la demande de changement de la puissance devrait être rejetée
+
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
@@ -53,3 +60,10 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
             | ratio puissance | 0.75 |
         Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
+
+    Scénario: Impossible de rejeter le changement de puissance à la hausse d'un projet lauréat pour décision de l'État
+        Etant donné une demande de changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.45 |
+        Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat avec :
+            | décision de l'État | oui |
+        Alors l'utilisateur DREAL devrait être informé que "Un changement de puissance à la hausse ne peut être une décision de l'État"

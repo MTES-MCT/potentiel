@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
-interface AccorderChangementPuissance {
+export interface AccorderChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly accordéeLe: string;
   readonly accordéePar: string;
@@ -49,7 +49,7 @@ export class AccorderChangementPuissanceFixture
       },
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),
-      estUneDécisionDEtat: faker.datatype.boolean(),
+      estUneDécisionDEtat: false,
       ...partialData,
     };
 
