@@ -1,12 +1,12 @@
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 
-type MenuItem = {
+export type MenuItem = {
   label: string;
   children?: MenuItem[];
   href?: string;
 };
 
-export const menuItems: Array<MenuItem> = [
+export const baseMenuItems: Array<MenuItem> = [
   {
     href: '',
     label: 'Tableau de bord',
@@ -26,17 +26,8 @@ export const menuItems: Array<MenuItem> = [
         href: `installation`,
         label: 'Installation',
       },
-      {
-        href: `raccordements`,
-        label: 'Page raccordement',
-      },
-      {
-        href: `garanties-financieres`,
-        label: 'Page garanties financières',
-      },
     ],
   },
-  // TODO: à travailler
   {
     label: 'Actions',
     children: [],
@@ -49,11 +40,6 @@ export const menuItems: Array<MenuItem> = [
     href: `utilisateurs`,
     label: 'Utilisateurs',
   },
-  // TODO: V2
-  // {
-  //   href: `mes-documents`,
-  //   label: 'Mes Documents',
-  // },
 ];
 
 export const mapMenuItemsToSideMenuItems = (
