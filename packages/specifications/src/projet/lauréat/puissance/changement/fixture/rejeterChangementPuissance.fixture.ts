@@ -49,7 +49,7 @@ export class RejeterChangementPuissanceFixture
       },
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),
-      estUneDécisionDEtat: faker.datatype.boolean(),
+      estUneDécisionDEtat: false,
       ...partialData,
     };
 
