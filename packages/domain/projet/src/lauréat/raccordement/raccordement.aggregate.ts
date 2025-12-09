@@ -603,6 +603,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâcheTransmettrePropositionTechniqueEtFinancière.achever();
   }
 
   private applyPropositionTechniqueEtFinancièreTransmiseEventV1({
