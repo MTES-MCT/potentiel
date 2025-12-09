@@ -69,7 +69,7 @@ Quand(
       await accorderChangementPuissance.call(
         this,
         mapToExemple<Partial<AccorderChangementPuissance>>(exemple, {
-          estUneDécisionDEtat: ["décision d'état", mapBoolean],
+          estUneDécisionDEtat: ["décision de l'État", mapBoolean],
         }),
       );
     } catch (error) {
@@ -97,7 +97,7 @@ Quand(
       await rejeterChangementPuissance.call(
         this,
         mapToExemple<Partial<AccorderChangementPuissance>>(exemple, {
-          estUneDécisionDEtat: ["décision d'état", mapBoolean],
+          estUneDécisionDEtat: ["décision de l'État", mapBoolean],
         }),
       );
     } catch (error) {

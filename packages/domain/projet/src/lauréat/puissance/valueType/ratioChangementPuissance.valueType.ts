@@ -102,8 +102,6 @@ class PuissanceDépasseVolumeRéservéAO extends InvalidOperationError {
 
 class DécisionDÉtatPourChangementÀLaHausseError extends InvalidOperationError {
   constructor() {
-    super(
-      "Impossible d'instruire un changement de puissance à la hausse comme une décision d'état",
-    );
+    super("Un changement de puissance à la hausse ne peut être une décision de l'État");
   }
 }

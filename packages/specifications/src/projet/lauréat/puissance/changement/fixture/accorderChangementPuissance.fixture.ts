@@ -49,7 +49,7 @@ export class AccorderChangementPuissanceFixture
       },
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),
-      estUneDécisionDEtat: faker.datatype.boolean(),
+      estUneDécisionDEtat: false,
       ...partialData,
     };
 
