@@ -34,7 +34,7 @@ export type JoinOptions<TEntity extends Entity = Entity, TJoin extends Entity = 
   where?: WhereOptions<Omit<TJoin, 'type' | '__joinType'>>;
 
   /**
-   * If omitted, the join key is the the key of the entity
+   * If omitted, the join key is the key of the entity
    **/
   joinKey?: keyof Omit<TJoin, 'type'>;
 } & (TJoin extends LeftJoin<TJoin> ? { type: 'left' } : { type?: 'inner' });
