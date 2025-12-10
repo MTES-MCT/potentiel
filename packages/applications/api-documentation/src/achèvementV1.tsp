@@ -6,15 +6,34 @@ namespace PotentielApi;
 
 model ProjetAvecAchevementATransmettre {
   identifiantProjet: string;
-  identifiantGestionnaireReseau: string;
-  referenceDossierRaccordement: string;
-
-  @format("date")
-  dateDCR?: string;
-
   appelOffre: string;
   periode: string;
-  codePostal: string;
+  nomProjet: string;
+  siteDeProduction: Addresse;
+
+  /** La date où le projet a été notifié */
+  @format("date")
+  dateNotification: string;
+
+  /**
+   * L'identifiant du gestionnaire de réseau gérant le raccordement du projet.
+   * Tous les dossiers d'un même projet sont gérés par le même gestionnaire de réseau.
+   */
+  identifiantGestionnaireReseau: string;
+
+  /**
+   * La référence du dossier de raccordement.
+   * Un projet peut avoir plusieurs dossiers de raccordement (une ligne = un dossier)
+   */
+  referenceDossierRaccordement: string;
+
+  /**
+   * La date de qualification de la Demande Complète de Raccordement.
+   */
+  @format("date")
+  @encodedName("application/json", "dateDCR")
+  dateDcr?: string;
+
   prix: float32;
   coefficientKChoisi: boolean;
 }

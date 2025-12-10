@@ -37,7 +37,9 @@ export const bind = <Type extends RawType = RawType>({
   };
 };
 
-export const convertirEnValueType = <Type extends RawType = RawType>(statut: string): ValueType => {
+export const convertirEnValueType = <Type extends RawType = RawType>(
+  statut: string,
+): ValueType<Type> => {
   estValide(statut);
   return bind<Type>({ statut });
 };

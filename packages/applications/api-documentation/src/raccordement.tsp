@@ -10,29 +10,25 @@ namespace PotentielApi;
  * _NB: un projet peut avoir plusieurs dossiers de raccordement._
  */
 model DossierRaccordement {
-  nomProjet: string;
   identifiantProjet: string;
+  nomProjet: string;
   appelOffre: string;
   periode: string;
   famille: string;
 
+  /** Adresse complète du site de production */
+  siteDeProduction: Addresse;
+
   @encodedName("application/json", "numeroCRE")
   numeroCre: string;
 
-  commune: string;
-  codePostal: string;
   referenceDossier: string;
-
-  @encodedName("application/json", "statutDGEC")
-  statutDgec: string;
-
-  puissance: string;
+  statut: "actif" | "achevé";
+  puissance: float32;
+  unitePuissance: string;
   nomCandidat: string;
-  sociétéMère: string;
+  societeMere: string;
   emailContact: string;
-
-  /** Adresse complète du site de production */
-  siteProduction: string;
 
   /** La date où le projet a été notifié */
   @format("date")

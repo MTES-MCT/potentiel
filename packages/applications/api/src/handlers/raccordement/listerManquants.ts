@@ -36,7 +36,7 @@ export const listerManquantsHandlers: Raccordement['listerManquants'] = async (_
       emailContact: dossier.emailContact,
       nomCandidat: dossier.nomCandidat,
       siteProduction: dossier.siteProduction,
-      sociétéMère: dossier.sociétéMère,
+      societeMere: dossier.sociétéMère,
     })),
   };
 };

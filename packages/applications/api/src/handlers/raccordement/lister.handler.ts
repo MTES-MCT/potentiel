@@ -40,23 +40,29 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
     items: result.items.map((dossier) => ({
       identifiantProjet: dossier.identifiantProjet.formatter(),
 
-      appelOffre: dossier.appelOffre,
-      periode: dossier.période,
-      famille: dossier.famille,
-      numeroCre: dossier.numéroCRE,
+      appelOffre: dossier.identifiantProjet.appelOffre,
+      periode: dossier.identifiantProjet.période,
+      famille: dossier.identifiantProjet.famille,
+      numeroCre: dossier.identifiantProjet.numéroCRE,
 
       nomProjet: dossier.nomProjet,
-      commune: dossier.commune,
-      codePostal: dossier.codePostal,
-      siteProduction: dossier.siteProduction,
 
       nomCandidat: dossier.nomCandidat,
       puissance: dossier.puissance,
-      sociétéMère: dossier.sociétéMère,
+      unitePuissance: dossier.unitéPuissance.formatter(),
+      societeMere: dossier.sociétéMère,
       emailContact: dossier.emailContact,
       dateNotification: dossier.dateNotification.formatterDate(),
       referenceDossier: dossier.référenceDossier.formatter(),
-      statutDgec: dossier.statutDGEC,
+      statut: dossier.statutProjet.formatter(),
+      siteDeProduction: {
+        adresse1: dossier.localité.adresse1,
+        adresse2: dossier.localité.adresse2,
+        codePostal: dossier.localité.codePostal,
+        commune: dossier.localité.commune,
+        departement: dossier.localité.département,
+        region: dossier.localité.région,
+      },
     })),
   };
 };

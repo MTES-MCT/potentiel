@@ -13,3 +13,12 @@ model ListResult<T> {
   range: RangeOptions;
   total: uint16;
 }
+
+model Addresse {
+  adresse1: string;
+  adresse2: string;
+  codePostal: string;
+  commune: string;
+  departement: string;
+  region: string;
+}
