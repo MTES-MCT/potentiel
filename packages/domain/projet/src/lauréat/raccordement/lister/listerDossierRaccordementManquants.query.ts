@@ -1,37 +1,28 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity';
-import { LauréatEntity, Puissance, StatutLauréat } from '../..';
+import { Achèvement, LauréatEntity, Puissance, StatutLauréat } from '../..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
+import { Localité, UnitéPuissance } from '../../../candidature';
 
 type DossierRaccordementManquant = {
-  référenceDossier: Option.None;
-
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
-  commune: string;
-  département: string;
-  région: string;
-  codePostal: string;
-  statutDGEC: StatutLauréat.RawType;
-  dateMiseEnService?: DateTime.ValueType;
+  localité: Localité.ValueType;
+
+  statut: StatutLauréat.ValueType<'actif' | 'achevé'>;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
-  puissance: string;
+  puissance: number;
+  unitéPuissance: UnitéPuissance.ValueType;
 
   nomCandidat: string;
   sociétéMère: string;
   emailContact: string;
-  siteProduction: string;
   dateNotification: DateTime.ValueType;
 };
 
@@ -61,6 +52,7 @@ type ListerDossierRaccordementManquantJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
+  Achèvement.AchèvementEntity,
   LeftJoin<DossierRaccordementEntity>,
 ];
 export const registerListerDossierRaccordementManquantsQuery = ({
@@ -116,6 +108,10 @@ export const registerListerDossierRaccordementManquantsQuery = ({
           on: 'identifiantGestionnaireRéseau',
         },
         {
+          entity: 'achèvement',
+          on: 'identifiantProjet',
+        },
+        {
           entity: 'dossier-raccordement',
           on: 'identifiantProjet',
           type: 'left',
@@ -150,35 +146,23 @@ export const mapToReadModel: MapToReadModelProps = ({
   puissance: { puissance },
   lauréat: { notifiéLe, nomProjet, localité },
   'gestionnaire-réseau': gestionnaireRéseau,
+  achèvement,
 }) => {
-  const { appelOffre, famille, numéroCRE, période } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   return {
-    appelOffre,
-    famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    numéroCRE,
-    période,
-    référenceDossier: Option.none,
-    statutDGEC: StatutLauréat.actif.statut,
-    puissance: `${puissance} ${unitéPuissance}`,
-    codePostal: localité.codePostal,
-    commune: localité.commune,
+    statut: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
+    puissance,
+    unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
     nomProjet,
-
     nomCandidat,
     sociétéMère,
     emailContact,
-    siteProduction: `${localité.adresse1} ${localité.adresse2} ${localité.codePostal} ${localité.commune} (${localité.département}, ${localité.région})`,
-    département: localité.département,
-    région: localité.région,
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
-    dateMiseEnService: undefined,
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
     raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
+    localité: Localité.bind(localité),
   };
 };
