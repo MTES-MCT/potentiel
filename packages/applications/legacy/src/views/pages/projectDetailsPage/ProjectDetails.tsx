@@ -51,7 +51,7 @@ type ProjectDetailsProps = {
   raccordement: GetRaccordementForProjectPage;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
-  demandeRecours?: PlainType<Éliminé.Recours.ConsulterDemandeRecoursReadModel>;
+  demandeRecours?: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
@@ -145,10 +145,10 @@ export const ProjectDetails = ({
       dateDemande: DateTime.bind(abandon.demandéLe).formatter(),
     });
   } else {
-    if (demandeRecours?.demande.accord) {
+    if (demandeRecours?.dateAccord) {
       étapes.push({
         type: 'recours',
-        date: DateTime.bind(demandeRecours.demande.accord?.accordéLe).date.getTime(),
+        date: DateTime.bind(demandeRecours.dateAccord).date.getTime(),
       });
     }
 

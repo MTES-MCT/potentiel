@@ -4,6 +4,10 @@ import {
   ConsulterDemandeRecoursQuery,
   ConsulterDemandeRecoursReadModel,
 } from './consulter/consulterDemandeRecours.query';
+import {
+  ConsulterRecoursQuery,
+  ConsulterRecoursReadModel,
+} from './consulter/consulterRecours.query';
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import {
@@ -20,11 +24,13 @@ import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 // Query
 export type RecoursQuery =
   | ConsulterDemandeRecoursQuery
+  | ConsulterRecoursQuery
   | ListerDemandeRecoursQuery
   | ListerHistoriqueRecoursProjetQuery;
 
 export {
   ConsulterDemandeRecoursQuery,
+  ConsulterRecoursQuery,
   ListerDemandeRecoursQuery,
   ListerHistoriqueRecoursProjetQuery,
 };
@@ -32,6 +38,7 @@ export {
 // ReadModel
 export {
   ConsulterDemandeRecoursReadModel,
+  ConsulterRecoursReadModel,
   ListerDemandeRecoursReadModel,
   HistoriqueRecoursProjetListItemReadModel,
   ListerHistoriqueRecoursProjetReadModel,

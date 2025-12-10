@@ -14,8 +14,8 @@ export const handleLauréatNotifié = async (
   { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,
   récupererConstitutionGarantiesFinancières: RécupererConstitutionGarantiesFinancièresPort,
 ) => {
-  const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
-    type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
     },

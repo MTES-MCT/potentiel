@@ -22,8 +22,13 @@ import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command'
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
+import {
+  ConsulterRecoursDependencies,
+  registerConsulterRecoursQuery,
+} from './consulter/consulterRecours.query';
 
 export type RecoursQueryDependencies = ConsulterDemandeRecoursDependencies &
+  ConsulterRecoursDependencies &
   ListerDemandeRecoursDependencies &
   ListerHistoriqueRecoursProjetDependencies;
 
@@ -47,6 +52,7 @@ export const registerRecoursUseCases = ({ getProjetAggregateRoot }: RecoursComma
 
 export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
   registerConsulterDemandeRecoursQuery(dependencies);
+  registerConsulterRecoursQuery(dependencies);
   registerListerDemandeRecoursQuery(dependencies);
   registerListerHistoriqueRecoursProjetQuery(dependencies);
 };
