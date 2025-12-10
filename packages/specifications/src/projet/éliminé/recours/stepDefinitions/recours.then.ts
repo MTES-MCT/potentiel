@@ -34,7 +34,7 @@ Alors(
     const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
     await waitForExpect(async () => {
-      const result = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+      const result = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -85,7 +85,7 @@ async function vérifierRecours(
   identifiantProjet: IdentifiantProjet.ValueType,
   statut: Éliminé.Recours.StatutRecours.ValueType,
 ) {
-  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+  const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
     type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

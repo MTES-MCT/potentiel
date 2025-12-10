@@ -4,7 +4,7 @@ import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-w
 import { Where } from '@potentiel-domain/entity';
 
 export const recoursRebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
-  await removeProjectionWhere<Éliminé.Recours.RecoursEntity>('demande-recours', {
+  await removeProjectionWhere<Éliminé.Recours.DemandeRecoursEntity>('demande-recours', {
     identifiantProjet: Where.equal(id),
   });
 };

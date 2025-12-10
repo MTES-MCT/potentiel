@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type RecoursEntity = Entity<
+export type DemandeRecoursEntity = Entity<
   'demande-recours',
   {
     identifiantProjet: string;

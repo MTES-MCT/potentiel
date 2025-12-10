@@ -5,7 +5,7 @@ import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-w
 export const recoursPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },
 }: Éliminé.Recours.RecoursPasséEnInstructionEvent) => {
-  await updateManyProjections<Éliminé.Recours.RecoursEntity>(
+  await updateManyProjections<Éliminé.Recours.DemandeRecoursEntity>(
     `demande-recours`,
     {
       identifiantProjet: Where.equal(identifiantProjet),
