@@ -1,10 +1,19 @@
-import { redirect } from 'next/navigation';
-
-import { getContext } from '@potentiel-applications/request-context';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
+import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
+
+import {
+  getActionnaireData,
+  getLauréatData,
+  getProducteurData,
+  getPuissanceData,
+  getReprésentantLégalData,
+} from './_helpers/getInformationsGénéralesData';
 import { InformationsGénéralesPage } from './InformationsGénérales.page';
 
 type PageProps = IdentifiantParameter & {
@@ -12,21 +21,52 @@ type PageProps = IdentifiantParameter & {
 };
 
 export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
-  const identifiantProjet = decodeParameter(identifiant);
-  const urlSearchParams = new URLSearchParams(searchParams);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const rôle = utilisateur.rôle;
 
-  const { features } = getContext() ?? {};
+      checkFeatureFlag(identifiantProjet, searchParams);
 
-  // Redirection vers la page projet legacy
-  if (!features?.includes('page-projet')) {
-    const legacyUrl = `/projet/${encodeURIComponent(identifiantProjet)}/details.html`;
-    if (urlSearchParams.size === 0) {
-      redirect(legacyUrl);
-    }
-    redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
-  }
+      const producteur = await getProducteurData({
+        identifiantProjet: identifiantProjet,
+        rôle,
+      });
 
-  // const lauréat = await getLauréat({ identifiantProjet });
+      const représentantLégal = await getReprésentantLégalData({
+        identifiantProjet: identifiantProjet,
+        rôle,
+      });
 
-  return <InformationsGénéralesPage />;
+      const puissance = await getPuissanceData({
+        identifiantProjet: identifiantProjet,
+        rôle,
+      });
+
+      const { siteDeProduction, coefficientKChoisi, prixRéférence, emailContact, actionnariat } =
+        await getLauréatData({ identifiantProjet, rôle });
+
+      const actionnaire = await getActionnaireData({
+        identifiantProjet,
+        rôle,
+        nécessiteInstruction: false,
+      });
+
+      return (
+        <InformationsGénéralesPage
+          siteDeProduction={siteDeProduction}
+          emailContact={emailContact}
+          représentantLégal={représentantLégal}
+          producteur={producteur}
+          actionnaire={actionnaire}
+          prixRéférence={prixRéférence}
+          actionnariat={actionnariat}
+          puissance={puissance}
+          coefficientKChoisi={coefficientKChoisi}
+        />
+      );
+    }),
+  );
 }

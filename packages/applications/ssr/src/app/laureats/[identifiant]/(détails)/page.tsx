@@ -1,15 +1,13 @@
-import { redirect } from 'next/navigation';
 import { mediator } from 'mediateur';
 
-import { getContext } from '@potentiel-applications/request-context';
 import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { PageWithErrorHandling } from '../../../../utils/PageWithErrorHandling';
-import { withUtilisateur } from '../../../../utils/withUtilisateur';
 import { getLauréatInfos } from '../_helpers/getLauréat';
 
 import { TableauDeBordPage } from './TableauDeBord.page';
@@ -20,6 +18,7 @@ import { getCahierDesChargesData } from './_helpers/getCahierDesChargesData';
 import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
 import { getRaccordementData } from './_helpers/getRaccordementData';
 import { getÉtapesData } from './_helpers/getÉtapesData';
+import { checkFeatureFlag } from './_helpers/checkFeatureFlag';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -32,17 +31,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         decodeParameter(identifiant),
       );
       const { rôle } = utilisateur;
-      const urlSearchParams = new URLSearchParams(searchParams);
 
-      const { features } = getContext() ?? {};
-
-      if (!features?.includes('page-projet')) {
-        const legacyUrl = `/projet/${encodeURIComponent(identifiantProjet.formatter())}/details.html`;
-        if (urlSearchParams.size === 0) {
-          redirect(legacyUrl);
-        }
-        redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
-      }
+      checkFeatureFlag(identifiantProjet, searchParams);
 
       const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
