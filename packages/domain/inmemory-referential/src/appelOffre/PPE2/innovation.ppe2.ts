@@ -156,6 +156,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
+  champsSupplémentaires: { typologieInstallation: 'optionnel' },
   periodes: [
     {
       id: '1',

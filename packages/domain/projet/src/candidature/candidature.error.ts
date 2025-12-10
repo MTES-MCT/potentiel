@@ -109,6 +109,12 @@ export class InstallateurNonAttenduError extends InvalidOperationError {
   }
 }
 
+export class TypologieInstallationNonAttendueError extends InvalidOperationError {
+  constructor() {
+    super(`La typologie du projet ne peut être renseignée pour cet appel d'offres`);
+  }
+}
+
 export class NatureDeLExploitationRequiseError extends InvalidOperationError {
   constructor() {
     super(`La nature de l'exploitation est requise pour cet appel d'offres`);

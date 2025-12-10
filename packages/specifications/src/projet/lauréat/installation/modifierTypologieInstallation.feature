@@ -4,7 +4,8 @@
 Fonctionnalité: Modifier la typologie d'un projet
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -26,6 +27,7 @@ Fonctionnalité: Modifier la typologie d'un projet
         Quand le DGEC validateur modifie la typologie avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La nouvelle typologie est identique à celle du projet"
 
+    @select
     Scénario: Impossible de modifier la typologie d'un projet avec un jeu de typologies identiques
         Quand le DGEC validateur modifie la typologie du projet avec un jeu de typologies identiques
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas sélectionner deux fois la même typologie pour le projet"

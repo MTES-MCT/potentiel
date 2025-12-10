@@ -17,7 +17,7 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
-  typologieInstallation: {
+  typologieInstallation?: {
     value: Candidature.TypologieInstallation.RawType[];
     affichage?: {
       labelActions?: string;
@@ -68,20 +68,23 @@ export const getInstallation = async ({
       const {
         installateur: champSupplémentaireInstallateur,
         dispositifDeStockage: champSupplémentaireDispositifDeStockage,
+        typologieInstallation: champSupplémentaireTypologieInstallation,
       } = champsSupplémentairesCahierDesCharges;
 
+      const data: GetInstallationForProjectPage = {};
+
       // TYPOLOGIE INSTALLATION
-      const data: GetInstallationForProjectPage = {
-        typologieInstallation: {
+      if (champSupplémentaireTypologieInstallation) {
+        data.typologieInstallation = {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
-        },
-      };
-      if (role.aLaPermission('installation.typologieInstallation.modifier')) {
-        data.typologieInstallation.affichage = {
-          url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier la typologie du projet',
         };
+        if (role.aLaPermission('installation.typologieInstallation.modifier')) {
+          data.typologieInstallation.affichage = {
+            url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: 'Modifier la typologie du projet',
+          };
+        }
       }
 
       // DISPOSITIF DE STOCKAGE

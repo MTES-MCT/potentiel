@@ -8,6 +8,7 @@ import { Candidature, Lauréat } from '../..';
 import {
   DispositifDeStockageNonAttenduError,
   InstallateurNonAttenduError,
+  TypologieInstallationNonAttendueError,
 } from '../../candidature/candidature.error';
 
 import {
@@ -116,6 +117,13 @@ export class InstallationAggregate extends AbstractAggregate<
     identifiantUtilisateur,
   }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
+
+    const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentaireTypologieInstallation) {
+      throw new TypologieInstallationNonAttendueError();
+    }
 
     this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
 
