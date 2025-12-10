@@ -10,7 +10,7 @@ export const recoursRejetéProjector = async ({
     réponseSignée: { format },
   },
 }: Éliminé.Recours.RecoursRejetéEvent) => {
-  await updateManyProjections<Éliminé.Recours.RecoursEntity>(
+  await updateManyProjections<Éliminé.Recours.DemandeRecoursEntity>(
     `demande-recours`,
     {
       identifiantProjet: Where.equal(identifiantProjet),

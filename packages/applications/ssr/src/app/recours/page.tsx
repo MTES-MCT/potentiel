@@ -39,7 +39,7 @@ export default async function Page({ searchParams }: PageProps) {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
       const { items, range, total } = await mediator.send<Éliminé.Recours.ListerRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ListerRecours',
+        type: 'Éliminé.Recours.Query.ListerDemandeRecours',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({

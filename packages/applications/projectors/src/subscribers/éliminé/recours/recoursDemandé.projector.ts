@@ -4,7 +4,7 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const recoursDemandéProjector = async ({
   payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },
 }: Éliminé.Recours.RecoursDemandéEvent) => {
-  await upsertProjection<Éliminé.Recours.RecoursEntity>(
+  await upsertProjection<Éliminé.Recours.DemandeRecoursEntity>(
     `demande-recours|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,

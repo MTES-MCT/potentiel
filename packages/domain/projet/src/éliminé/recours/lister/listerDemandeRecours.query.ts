@@ -4,11 +4,11 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { StatutRecours } from '..';
-import { RecoursEntity } from '../recours.entity';
+import { DemandeRecoursEntity } from '../demandeRecours.entity';
 import { Candidature, IdentifiantProjet } from '../../..';
 import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port';
 
-type RecoursListItemReadModel = {
+type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
   période: string;
@@ -19,14 +19,14 @@ type RecoursListItemReadModel = {
   miseÀJourLe: DateTime.ValueType;
 };
 
-export type ListerRecoursReadModel = {
-  items: Array<RecoursListItemReadModel>;
+export type ListerDemandeRecoursReadModel = {
+  items: Array<DemandeRecoursListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerRecoursQuery = Message<
-  'Éliminé.Recours.Query.ListerRecours',
+export type ListerDemandeRecoursQuery = Message<
+  'Éliminé.Recours.Query.ListerDemandeRecours',
   {
     utilisateur: Email.RawType;
     statut?: Array<StatutRecours.RawType>;
@@ -34,19 +34,19 @@ export type ListerRecoursQuery = Message<
     nomProjet?: string;
     range?: RangeOptions;
   },
-  ListerRecoursReadModel
+  ListerDemandeRecoursReadModel
 >;
 
-export type ListerRecoursDependencies = {
+export type ListerDemandeRecoursDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
-export const registerListerRecoursQuery = ({
+export const registerListerDemandeRecoursQuery = ({
   list,
   getScopeProjetUtilisateur,
-}: ListerRecoursDependencies) => {
-  const handler: MessageHandler<ListerRecoursQuery> = async ({
+}: ListerDemandeRecoursDependencies) => {
+  const handler: MessageHandler<ListerDemandeRecoursQuery> = async ({
     statut,
     appelOffre,
     nomProjet,
@@ -55,26 +55,29 @@ export const registerListerRecoursQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const recours = await list<RecoursEntity, Candidature.CandidatureEntity>('demande-recours', {
-      orderBy: { miseÀJourLe: 'descending' },
-      range,
-      where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        statut: Where.matchAny(statut),
-      },
-      join: {
-        entity: 'candidature',
-        on: 'identifiantProjet',
+    const recours = await list<DemandeRecoursEntity, Candidature.CandidatureEntity>(
+      'demande-recours',
+      {
+        orderBy: { miseÀJourLe: 'descending' },
+        range,
         where: {
-          appelOffre: Where.equal(appelOffre),
-          nomProjet: Where.like(nomProjet),
-          localité: {
-            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          statut: Where.matchAny(statut),
+        },
+        join: {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            nomProjet: Where.like(nomProjet),
+            localité: {
+              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            },
           },
         },
       },
-    });
+    );
 
     return {
       ...recours,
@@ -82,12 +85,12 @@ export const registerListerRecoursQuery = ({
     };
   };
 
-  mediator.register('Éliminé.Recours.Query.ListerRecours', handler);
+  mediator.register('Éliminé.Recours.Query.ListerDemandeRecours', handler);
 };
 
 const mapToReadModel = (
-  entity: RecoursEntity & Joined<Candidature.CandidatureEntity>,
-): RecoursListItemReadModel => {
+  entity: DemandeRecoursEntity & Joined<Candidature.CandidatureEntity>,
+): DemandeRecoursListItemReadModel => {
   const { appelOffre, période, famille } = IdentifiantProjet.convertirEnValueType(
     entity.identifiantProjet,
   );

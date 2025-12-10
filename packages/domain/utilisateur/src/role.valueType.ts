@@ -513,7 +513,7 @@ const référencielPermissions = {
     recours: {
       query: {
         consulter: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
-        lister: 'Éliminé.Recours.Query.ListerRecours',
+        lister: 'Éliminé.Recours.Query.ListerDemandeRecours',
         listerHistoriqueRecours: 'Éliminé.Query.ListerHistoriqueRecoursProjet',
       },
       usecase: {

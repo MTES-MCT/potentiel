@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import * as StatutRecours from '../statutRecours.valueType';
-import { RecoursEntity } from '../recours.entity';
+import { DemandeRecoursEntity } from '../demandeRecours.entity';
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { DocumentProjet, IdentifiantProjet } from '../../..';
 
@@ -53,7 +53,7 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
     dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const result = await find<RecoursEntity>(
+    const result = await find<DemandeRecoursEntity>(
       `demande-recours|${identifiantProjet.formatter()}#${dateDemandeValue}`,
     );
 
@@ -62,7 +62,7 @@ export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependen
   mediator.register('Éliminé.Recours.Query.ConsulterDemandeRecours', handler);
 };
 
-const mapToReadModel = (result: RecoursEntity) => {
+const mapToReadModel = (result: DemandeRecoursEntity) => {
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
