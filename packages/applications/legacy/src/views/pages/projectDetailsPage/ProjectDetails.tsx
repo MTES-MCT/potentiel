@@ -51,7 +51,7 @@ type ProjectDetailsProps = {
   raccordement: GetRaccordementForProjectPage;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
-  demandeRecours?: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
+  demandeRecours?: PlainType<Éliminé.Recours.ConsulterDemandeRecoursReadModel>;
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];

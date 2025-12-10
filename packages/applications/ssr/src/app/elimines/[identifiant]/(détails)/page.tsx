@@ -93,7 +93,7 @@ const mapToProps: MapToProps = ({ éliminé, role }) => ({
 
 type MapToActions = (args: {
   role: Role.ValueType;
-  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
+  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterDemandeRecoursReadModel>;
   cahierDesChargesPermetDemandeRecours: boolean;
 }) => Array<DétailsProjetÉliminéActions>;
 

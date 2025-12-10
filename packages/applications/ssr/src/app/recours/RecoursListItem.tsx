@@ -12,7 +12,7 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { StatutDemandeBadge } from '../../components/organisms/demande/StatutDemandeBadge';
 
 export type RecoursListItemProps = PlainType<
-  Éliminé.Recours.ListerRecoursReadModel['items'][number]
+  Éliminé.Recours.ListerDemandeRecoursReadModel['items'][number]
 >;
 
 export const RecoursListItem: FC<RecoursListItemProps> = ({
