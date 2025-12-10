@@ -24,7 +24,6 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
 
   const { features } = getContext() ?? {};
 
-  // Redirection vers la page projet legacy
   if (!features?.includes('page-projet')) {
     return children;
   }

@@ -7,7 +7,7 @@ import { SectionPage } from '../(components)/SectionPage';
 import { ListeFournisseurs } from '../../fournisseur/changement/ListeFournisseurs';
 import { TertiaryLink } from '../../../../../components/atoms/form/TertiaryLink';
 
-import { GetÉvaluationCarboneForProjectPage } from './_helpers/getEvaluationCarbone';
+import { GetÉvaluationCarboneForProjectPage } from './_helpers/getEvaluationCarboneData';
 
 type Props = { évaluationCarbone: GetÉvaluationCarboneForProjectPage };
 

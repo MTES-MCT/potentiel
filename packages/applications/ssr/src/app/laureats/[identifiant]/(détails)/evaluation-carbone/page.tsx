@@ -9,7 +9,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ÉvaluationCarbonePage } from './ÉvaluationCarbone.page';
-import { getÉvaluationCarbone } from './_helpers/getEvaluationCarbone';
+import { getÉvaluationCarbone } from './_helpers/getEvaluationCarboneData';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
