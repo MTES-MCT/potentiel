@@ -1,6 +1,9 @@
 import { Where } from '@potentiel-domain/entity';
 import { Éliminé } from '@potentiel-domain/projet';
-import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateManyProjections,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },
@@ -22,4 +25,9 @@ export const recoursPasséEnInstructionProjector = async ({
       miseÀJourLe: passéEnInstructionLe,
     },
   );
+
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+    identifiantProjet,
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.enInstruction.value },
+  });
 };

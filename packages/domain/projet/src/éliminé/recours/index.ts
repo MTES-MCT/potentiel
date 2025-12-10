@@ -70,3 +70,4 @@ export * as TypeDocumentRecours from './typeDocumentRecours.valueType';
 
 // Entities
 export * from './demandeRecours.entity';
+export * from './recours.entity';
