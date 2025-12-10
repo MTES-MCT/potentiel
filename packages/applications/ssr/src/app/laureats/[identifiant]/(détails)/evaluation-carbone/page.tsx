@@ -39,9 +39,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         identifiantProjet,
       });
 
-      console.log(évaluationCarbone);
-
-      return <ÉvaluationCarbonePage />;
+      return <ÉvaluationCarbonePage évaluationCarbone={évaluationCarbone} />;
     }),
   );
 }
