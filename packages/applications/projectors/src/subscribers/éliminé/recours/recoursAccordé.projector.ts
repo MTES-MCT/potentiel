@@ -1,5 +1,6 @@
+import { Where } from '@potentiel-domain/entity';
 import { Éliminé } from '@potentiel-domain/projet';
-import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursAccordéProjector = async ({
   payload: {
@@ -9,17 +10,24 @@ export const recoursAccordéProjector = async ({
     réponseSignée: { format },
   },
 }: Éliminé.Recours.RecoursAccordéEvent) => {
-  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`demande-recours|${identifiantProjet}`, {
-    demande: {
-      accord: {
-        accordéLe,
-        accordéPar,
-        réponseSignée: {
-          format,
+  await updateManyProjections<Éliminé.Recours.RecoursEntity>(
+    `demande-recours`,
+    {
+      identifiantProjet: Where.equal(identifiantProjet),
+      statut: Where.matchAny(Éliminé.Recours.StatutRecours.statutsEnCours),
+    },
+    {
+      demande: {
+        accord: {
+          accordéLe,
+          accordéPar,
+          réponseSignée: {
+            format,
+          },
         },
       },
+      statut: Éliminé.Recours.StatutRecours.accordé.value,
+      miseÀJourLe: accordéLe,
     },
-    statut: Éliminé.Recours.StatutRecours.accordé.value,
-    miseÀJourLe: accordéLe,
-  });
+  );
 };

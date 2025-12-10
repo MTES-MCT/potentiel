@@ -38,6 +38,7 @@ Alors(
         type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
+          dateDemandeValue: this.éliminéWorld.recoursWorld.demanderRecoursFixture.demandéLe,
         },
       });
 
@@ -88,6 +89,7 @@ async function vérifierRecours(
     type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
+      dateDemandeValue: this.éliminéWorld.recoursWorld.demanderRecoursFixture.demandéLe,
     },
   });
 
