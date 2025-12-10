@@ -36,6 +36,11 @@ export type DemandeRecoursEntity = Entity<
         rejetéPar: string;
         rejetéLe: string;
       };
+
+      annulation?: {
+        annuléLe: string;
+        annuléPar: string;
+      };
     };
   }
 >;

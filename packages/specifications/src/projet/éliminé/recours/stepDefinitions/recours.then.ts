@@ -28,24 +28,15 @@ Alors(
   },
 );
 
-Alors(
-  `le recours du projet éliminé ne devrait plus exister`,
-  async function (this: PotentielWorld) {
-    const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
-    await waitForExpect(async () => {
-      const result = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          dateDemandeValue: this.éliminéWorld.recoursWorld.demanderRecoursFixture.demandéLe,
-        },
-      });
-
-      expect(Option.isNone(result)).to.be.true;
-    });
-  },
-);
+Alors(`le recours du projet éliminé devrait être annulé`, async function (this: PotentielWorld) {
+  await waitForExpect(async () =>
+    vérifierRecours.call(
+      this,
+      this.éliminéWorld.identifiantProjet,
+      Éliminé.Recours.StatutRecours.annulé,
+    ),
+  );
+});
 
 Alors(`le recours du projet éliminé devrait être rejeté`, async function (this: PotentielWorld) {
   await waitForExpect(async () =>

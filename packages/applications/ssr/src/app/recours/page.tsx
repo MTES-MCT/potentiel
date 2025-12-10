@@ -66,7 +66,7 @@ export default async function Page({ searchParams }: PageProps) {
           searchParamKey: 'statut',
           multiple: true,
           options: Éliminé.Recours.StatutRecours.statuts
-            .filter((statut) => statut !== 'inconnu' && statut !== 'annulé')
+            .filter((statut) => statut !== 'inconnu')
             .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
