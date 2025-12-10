@@ -8,14 +8,12 @@ import { DateTime } from '@potentiel-domain/common';
 
 export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  dateDemande: DateTime.ValueType,
-): Promise<Éliminé.Recours.ConsulterDemandeRecoursReadModel | undefined> => {
+): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-      type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+      type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        dateDemandeValue: dateDemande.formatter(),
       },
     });
 

@@ -5,13 +5,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import {
   DétailsProjetÉliminéActions,
@@ -19,26 +19,24 @@ import {
   DétailsProjetÉliminéPageProps,
 } from './DétailsProjetÉliminé.page';
 
-type PageProps = { params: { identifiant: string; date: string } };
+type PageProps = IdentifiantParameter;
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
-      const dateDemande = DateTime.convertirEnValueType(decodeParameter(date));
 
       const éliminé = await getÉliminé(identifiantProjet.formatter());
       if (!éliminé) {
         notFound();
       }
 
-      const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          dateDemandeValue: dateDemande.formatter(),
         },
       });
 
@@ -69,7 +67,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             .none(() => [])}
           actions={mapToActions({
             role: utilisateur.rôle,
-            demandeRecoursEnCours,
+            demandeRecoursEnCours: recours,
             cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
               'demande',
               'recours',
@@ -93,7 +91,7 @@ const mapToProps: MapToProps = ({ éliminé, role }) => ({
 
 type MapToActions = (args: {
   role: Role.ValueType;
-  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterDemandeRecoursReadModel>;
+  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
   cahierDesChargesPermetDemandeRecours: boolean;
 }) => Array<DétailsProjetÉliminéActions>;
 
