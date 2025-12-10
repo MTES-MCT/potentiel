@@ -105,6 +105,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
     dispositifDeStockage: 'requis',
     natureDeLExploitation: 'requis',
     coefficientKChoisi: 'requis',
+    typologieInstallation: 'requis',
   },
   periodes: [
     {

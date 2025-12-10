@@ -163,6 +163,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  champsSupplémentaires: { typologieInstallation: 'optionnel' },
   periodes: [
     {
       id: '1',

@@ -3,6 +3,7 @@ import { Heading3, Heading4, Link } from '../../../../components';
 
 import { GetInstallationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallation';
 import { match } from 'ts-pattern';
+import { Candidature } from '@potentiel-domain/projet';
 
 export type InfoInstallationProps = {
   installation: GetInstallationForProjectPage;
@@ -12,7 +13,7 @@ export const InfoInstallation = ({
   installation: { installateur, typologieInstallation, dispositifDeStockage },
 }: InfoInstallationProps) => {
   const getTypologieLabels = (
-    typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
+    typologie: (typeof Candidature.TypologieInstallation.typologies)[number],
   ) => {
     return match(typologie)
       .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')
@@ -43,31 +44,33 @@ export const InfoInstallation = ({
   return (
     <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Installation</Heading3>
-      <div>
-        <Heading4 className="m-0">Typologie du projet</Heading4>
+      {typologieInstallation && (
         <div>
-          {typologieInstallation.value.length > 0 ? (
-            <>
-              {typologieInstallation.value.map((t) => (
-                <div key={t.typologie}>
-                  <div>{getTypologieLabels(t.typologie)}</div>
-                  {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
-                </div>
-              ))}
-            </>
-          ) : (
-            <span>Typologie du projet non renseignée</span>
+          <Heading4 className="m-0">Typologie du projet</Heading4>
+          <div>
+            {typologieInstallation.value.length > 0 ? (
+              <>
+                {typologieInstallation.value.map((t) => (
+                  <div key={t.typologie}>
+                    <div>{getTypologieLabels(t.typologie)}</div>
+                    {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
+                  </div>
+                ))}
+              </>
+            ) : (
+              <span>Typologie du projet non renseignée</span>
+            )}
+          </div>
+          {typologieInstallation.affichage && (
+            <Link
+              href={typologieInstallation.affichage.url}
+              aria-label={typologieInstallation.affichage.label}
+            >
+              {typologieInstallation.affichage.label}
+            </Link>
           )}
         </div>
-        {typologieInstallation.affichage && (
-          <Link
-            href={typologieInstallation.affichage.url}
-            aria-label={typologieInstallation.affichage.label}
-          >
-            {typologieInstallation.affichage.label}
-          </Link>
-        )}
-      </div>
+      )}
       {installateur && (
         <div>
           <Heading4 className="mb-0">Installateur</Heading4>
