@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -12,7 +11,7 @@ import { ChampAvecAction } from '../../../_helpers/types';
 import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 
-export type GetProducteurForProjectPage = ChampAvecAction<{
+export type GetProducteurData = ChampAvecAction<{
   producteur: string;
 }>;
 
@@ -21,10 +20,10 @@ type Props = {
   rôle: Role.ValueType;
 };
 
-export const getProducteur = async ({
+export const getProducteurData = async ({
   identifiantProjet,
   rôle,
-}: Props): Promise<GetProducteurForProjectPage | undefined> => {
+}: Props): Promise<GetProducteurData> => {
   const projection = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
     type: 'Lauréat.Producteur.Query.ConsulterProducteur',
     data: { identifiantProjet: identifiantProjet.formatter() },
@@ -60,17 +59,17 @@ export const getProducteur = async ({
     };
   }
 
-  return undefined;
+  return {};
 };
 
-export type GetReprésentantLégalForProjectPage = ChampAvecAction<{
+export type GetReprésentantLégalData = ChampAvecAction<{
   nom: string;
 }>;
 
-export const getReprésentantLégal = async ({
+export const getReprésentantLégalData = async ({
   identifiantProjet,
   rôle,
-}: Props): Promise<GetReprésentantLégalForProjectPage | undefined> => {
+}: Props): Promise<GetReprésentantLégalData> => {
   const représentantLégal =
     await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
@@ -78,26 +77,16 @@ export const getReprésentantLégal = async ({
     });
 
   if (Option.isSome(représentantLégal)) {
-    const demandeEnCours =
-      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
-        {
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        },
-      );
-
     const value = { nom: représentantLégal.nomReprésentantLégal };
 
-    if (Option.isSome(demandeEnCours)) {
+    if (représentantLégal.demandeEnCours) {
       return {
         value,
         action: rôle.aLaPermission('représentantLégal.consulterChangement')
           ? {
               url: Routes.ReprésentantLégal.changement.détails(
                 identifiantProjet.formatter(),
-                demandeEnCours.demandéLe.formatter(),
+                représentantLégal.demandeEnCours.demandéLe,
               ),
               label: 'Voir la demande de modification',
             }
@@ -134,27 +123,29 @@ export const getReprésentantLégal = async ({
     };
   }
 
-  return undefined;
+  return {};
 };
 
-export type GetPuissanceForProjectPage = ChampAvecAction<{
+export type GetPuissanceData = ChampAvecAction<{
   puissance: number;
+  unitéPuissance: string;
   puissanceDeSite?: number;
 }>;
 
-export const getPuissance = async ({
+export const getPuissanceData = async ({
   identifiantProjet,
   rôle,
-}: Props): Promise<GetPuissanceForProjectPage | undefined> => {
-  const puissanceProjection = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
+}: Props): Promise<GetPuissanceData> => {
+  const projection = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ConsulterPuissance',
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(puissanceProjection)) {
-    const { puissance, dateDemandeEnCours, puissanceDeSite } = puissanceProjection;
+  if (Option.isSome(projection)) {
+    const { puissance, dateDemandeEnCours, puissanceDeSite, unitéPuissance } = projection;
     const value = {
       puissance,
+      unitéPuissance: unitéPuissance.formatter(),
       puissanceDeSite,
     };
 
@@ -198,47 +189,21 @@ export const getPuissance = async ({
     };
   }
 
-  return undefined;
+  return {};
 };
 
-export type GetCandidatureForProjectPage = {
-  prix: number;
-  nomCandidat: string;
-  emailContact: string;
-  typeActionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
-};
-
-export const getCandidatureData = async ({
-  identifiantProjet,
-}: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-}): Promise<GetCandidatureForProjectPage> => {
-  const projection = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: { identifiantProjet: identifiantProjet.formatter() },
-  });
-
-  if (Option.isNone(projection)) {
-    return notFound();
-  }
-
-  return {
-    prix: projection.dépôt.prixReference,
-    nomCandidat: projection.dépôt.nomCandidat,
-    emailContact: projection.dépôt.emailContact.email,
-    typeActionnariat: mapToPlainObject(projection.dépôt.actionnariat),
-  };
-};
-
-export type GetLauréatDataForProjectPage = {
+export type GetLauréatData = {
   siteDeProduction: ChampAvecAction<PlainType<Candidature.Localité.ValueType>>;
+  prixRéférence: number;
+  emailContact: string;
+  actionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   coefficientKChoisi?: boolean;
 };
 
 export const getLauréatData = async ({
   identifiantProjet,
   rôle,
-}: Props): Promise<GetLauréatDataForProjectPage> => {
+}: Props): Promise<GetLauréatData> => {
   const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
   return {
@@ -252,5 +217,85 @@ export const getLauréatData = async ({
         : undefined,
     },
     coefficientKChoisi: lauréat.coefficientKChoisi,
+    prixRéférence: lauréat.prixReference,
+    emailContact: lauréat.emailContact.email,
+    actionnariat: lauréat.actionnariat ? mapToPlainObject(lauréat.actionnariat) : undefined,
   };
 };
+
+export type GetActionnaireData = ChampAvecAction<{
+  nom: string;
+}>;
+
+export const getActionnaireData = async ({
+  identifiantProjet,
+  rôle,
+  nécessiteInstruction,
+}: Props & {
+  nécessiteInstruction: boolean;
+}): Promise<GetActionnaireData> => {
+  const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  if (Option.isSome(actionnaire)) {
+    const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
+    const value = { nom };
+
+    if (dateDemandeEnCours) {
+      return {
+        value,
+        action: rôle.aLaPermission('actionnaire.consulterChangement')
+          ? {
+              url: Routes.Actionnaire.changement.détails(
+                identifiantProjet.formatter(),
+                dateDemandeEnCours.formatter(),
+              ),
+              label: 'Voir la demande de modification',
+            }
+          : undefined,
+      };
+    }
+
+    const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+      await checkAutorisationChangement<'actionnaire'>({
+        identifiantProjet,
+        rôle,
+        nécessiteInstruction,
+        domain: 'actionnaire',
+      });
+
+    // TODO:
+    // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+    const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
+    const action = estPetitPV
+      ? undefined
+      : peutModifier
+        ? {
+            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+            label: 'Modifier',
+          }
+        : peutEnregistrerChangement
+          ? {
+              url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+              label: 'Faire un changement',
+            }
+          : peutFaireUneDemandeDeChangement
+            ? {
+                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                label: 'Faire une demande de changement',
+              }
+            : undefined;
+
+    return {
+      value,
+      action,
+    };
+  }
+
+  return {};
+};
+
+// TODO: ajouter note innovation

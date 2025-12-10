@@ -2,10 +2,11 @@
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
 import { Section } from '../(components)/Section';
 import { SectionPage } from '../(components)/SectionPage';
 import { ListeFournisseurs } from '../../fournisseur/changement/ListeFournisseurs';
-import { TertiaryLink } from '../../../../../components/atoms/form/TertiaryLink';
 
 import { GetÉvaluationCarboneForProjectPage } from './_helpers/getEvaluationCarboneData';
 
