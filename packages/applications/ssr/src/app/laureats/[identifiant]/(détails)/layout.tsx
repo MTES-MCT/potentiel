@@ -31,7 +31,7 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-row">
+      <div className="flex flex-col md:flex-row">
         <MenuLauréat baseURL={baseURL} cahierDesCharges={mapToPlainObject(cahierDesCharges)} />
         <div className="flex-1">{children}</div>
       </div>

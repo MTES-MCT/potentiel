@@ -21,7 +21,7 @@ export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) 
   return (
     <ul className="list-disc pl-4">
       {Object.entries(fournisseursParType).map(([typeFournisseur, fournisseurs]) => (
-        <li key={typeFournisseur} className="font-semibold">
+        <li key={typeFournisseur}>
           {typeFournisseurLabel[typeFournisseur as Lauréat.Fournisseur.TypeFournisseur.RawType]} :{' '}
           {fournisseurs
             .map(({ nomDuFabricant, lieuDeFabrication }) =>

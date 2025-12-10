@@ -5,14 +5,15 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
+import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
 import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 import { ChampAvecAction } from '../../../_helpers/types';
 
-export type GetFournisseurForProjectPage = ChampAvecAction<{
-  évaluationCarboneSimplifiée: number;
-  fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.ValueType>;
-}>;
+export type GetÉvaluationCarboneForProjectPage = {
+  évaluationCarboneSimplifiée?: ChampAvecAction<number>;
+  fournisseurs?: ChampAvecAction<PlainType<Array<Lauréat.Fournisseur.Fournisseur.ValueType>>>;
+};
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -22,7 +23,7 @@ type Props = {
 export const getÉvaluationCarbone = async ({
   identifiantProjet,
   rôle,
-}: Props): Promise<GetFournisseurForProjectPage | undefined> => {
+}: Props): Promise<GetÉvaluationCarboneForProjectPage> => {
   const projection = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
     type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
     data: { identifiantProjet: identifiantProjet.formatter() },
@@ -42,7 +43,7 @@ export const getÉvaluationCarbone = async ({
     // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
     const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
 
-    const action = estPetitPV
+    const actionFournisseur = estPetitPV
       ? undefined
       : peutModifier
         ? {
@@ -59,13 +60,10 @@ export const getÉvaluationCarbone = async ({
           : undefined;
 
     return {
-      value: {
-        fournisseurs,
-        évaluationCarboneSimplifiée,
-      },
-      action,
+      fournisseurs: { value: mapToPlainObject(fournisseurs), action: actionFournisseur },
+      évaluationCarboneSimplifiée: { value: évaluationCarboneSimplifiée },
     };
   }
 
-  return undefined;
+  return {};
 };

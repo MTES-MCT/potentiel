@@ -1,38 +1,56 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Section } from '../(components)/Section';
 import { SectionPage } from '../(components)/SectionPage';
+import { ListeFournisseurs } from '../../fournisseur/changement/ListeFournisseurs';
+import { TertiaryLink } from '../../../../../components/atoms/form/TertiaryLink';
 
-export const ÉvaluationCarbonePage = () => (
+import { GetÉvaluationCarboneForProjectPage } from './_helpers/getEvaluationCarbone';
+
+type Props = { évaluationCarbone: GetÉvaluationCarboneForProjectPage };
+
+export const ÉvaluationCarbonePage = ({ évaluationCarbone }: Props) => (
   <SectionPage title="Évaluation Carbone">
-    <ÉvaluationCarbone />
+    <ÉvaluationCarbone évaluationCarbone={évaluationCarbone} />
   </SectionPage>
 );
 
-const ÉvaluationCarbone = () => (
-  <>
-    <Section title="Évaluation carbone simplifiée">
-      <span>55 kg eq CO2/kWc</span>
-      <Button priority="tertiary no outline" className="p-0 m-0" size="small">
-        Modifier l'évaluation carbone
-      </Button>
-    </Section>
-    <Section title="Fournisseurs">
-      <>
-        <ul className="flex flex-col gap-2">
-          <li key={1}>
-            <span>Postes de conversion : Samsung</span>
-          </li>
-          <li key={2}>
-            <span>Autres : Apple</span>
-          </li>
-        </ul>
-        <Button priority="tertiary no outline" className="p-0 m-0" size="small">
-          Modifier les fournisseurs
-        </Button>
-      </>
-    </Section>
-  </>
-);
+const ÉvaluationCarbone = ({ évaluationCarbone }: Props) => {
+  const { évaluationCarboneSimplifiée, fournisseurs } = évaluationCarbone;
+
+  return (
+    <>
+      <Section title="Évaluation carbone simplifiée">
+        {évaluationCarboneSimplifiée?.value === undefined ? (
+          <span>Champs non renseigné</span>
+        ) : (
+          <span>{évaluationCarboneSimplifiée.value} kg eq CO2/kWc</span>
+        )}
+      </Section>
+      <Section title="Fournisseurs">
+        {!fournisseurs?.value?.length ? (
+          <span>Champs non renseigné</span>
+        ) : (
+          <>
+            <ListeFournisseurs
+              fournisseurs={fournisseurs.value.map((fournisseur) =>
+                Lauréat.Fournisseur.Fournisseur.convertirEnValueType({
+                  typeFournisseur: fournisseur.typeFournisseur.typeFournisseur,
+                  nomDuFabricant: fournisseur.nomDuFabricant,
+                  lieuDeFabrication: fournisseur.lieuDeFabrication,
+                }),
+              )}
+            />
+            {fournisseurs.action && (
+              <TertiaryLink href={fournisseurs.action.url}>
+                {fournisseurs.action.label}
+              </TertiaryLink>
+            )}
+          </>
+        )}
+      </Section>
+    </>
+  );
+};
