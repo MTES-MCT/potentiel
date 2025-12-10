@@ -1,6 +1,9 @@
 import { Where } from '@potentiel-domain/entity';
 import { Éliminé } from '@potentiel-domain/projet';
-import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateManyProjections,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursRejetéProjector = async ({
   payload: {
@@ -30,4 +33,8 @@ export const recoursRejetéProjector = async ({
       miseÀJourLe: rejetéLe,
     },
   );
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+    identifiantProjet,
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.rejeté.value },
+  });
 };
