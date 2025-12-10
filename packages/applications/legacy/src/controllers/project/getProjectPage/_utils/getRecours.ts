@@ -4,14 +4,19 @@ import { Éliminé } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DateTime } from '@potentiel-domain/common';
 
 export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
+  dateDemande: DateTime.ValueType,
 ): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        dateDemandeValue: dateDemande.formatter(),
+      },
     });
 
     if (Option.isNone(recours)) {

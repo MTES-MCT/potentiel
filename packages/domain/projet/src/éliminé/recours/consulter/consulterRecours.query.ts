@@ -38,6 +38,7 @@ export type ConsulterDemandeRecoursQuery = Message<
   'Éliminé.Recours.Query.ConsulterDemandeRecours',
   {
     identifiantProjetValue: string;
+    dateDemandeValue: string;
   },
   Option.Type<ConsulterRecoursReadModel>
 >;
@@ -49,9 +50,12 @@ export type ConsulterRecoursDependencies = {
 export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependencies) => {
   const handler: MessageHandler<ConsulterDemandeRecoursQuery> = async ({
     identifiantProjetValue,
+    dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const result = await find<RecoursEntity>(`demande-recours|${identifiantProjet.formatter()}`);
+    const result = await find<RecoursEntity>(
+      `demande-recours|${identifiantProjet.formatter()}#${dateDemandeValue}`,
+    );
 
     return Option.match(result).some(mapToReadModel).none();
   };
