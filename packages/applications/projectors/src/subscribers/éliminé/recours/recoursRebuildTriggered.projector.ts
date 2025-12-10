@@ -4,5 +4,5 @@ import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { clearProjection } from '../../../helpers';
 
 export const recoursRebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
-  await clearProjection<Éliminé.Recours.RecoursEntity>(`recours`, id);
+  await clearProjection<Éliminé.Recours.RecoursEntity>(`demande-recours`, id);
 };

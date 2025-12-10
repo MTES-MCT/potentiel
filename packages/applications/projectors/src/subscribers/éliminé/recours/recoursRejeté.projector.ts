@@ -9,7 +9,7 @@ export const recoursRejetéProjector = async ({
     réponseSignée: { format },
   },
 }: Éliminé.Recours.RecoursRejetéEvent) => {
-  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`demande-recours|${identifiantProjet}`, {
     demande: {
       rejet: {
         rejetéLe,

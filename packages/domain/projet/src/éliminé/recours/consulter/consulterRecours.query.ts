@@ -34,8 +34,8 @@ export type ConsulterRecoursReadModel = {
   };
 };
 
-export type ConsulterRecoursQuery = Message<
-  'Éliminé.Recours.Query.ConsulterRecours',
+export type ConsulterDemandeRecoursQuery = Message<
+  'Éliminé.Recours.Query.ConsulterDemandeRecours',
   {
     identifiantProjetValue: string;
   },
@@ -47,13 +47,15 @@ export type ConsulterRecoursDependencies = {
 };
 
 export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependencies) => {
-  const handler: MessageHandler<ConsulterRecoursQuery> = async ({ identifiantProjetValue }) => {
+  const handler: MessageHandler<ConsulterDemandeRecoursQuery> = async ({
+    identifiantProjetValue,
+  }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const result = await find<RecoursEntity>(`recours|${identifiantProjet.formatter()}`);
+    const result = await find<RecoursEntity>(`demande-recours|${identifiantProjet.formatter()}`);
 
     return Option.match(result).some(mapToReadModel).none();
   };
-  mediator.register('Éliminé.Recours.Query.ConsulterRecours', handler);
+  mediator.register('Éliminé.Recours.Query.ConsulterDemandeRecours', handler);
 };
 
 const mapToReadModel = (result: RecoursEntity) => {

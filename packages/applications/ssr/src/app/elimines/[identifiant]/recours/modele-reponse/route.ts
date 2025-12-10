@@ -26,7 +26,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const candidature = await getCandidature(identifiantProjetValue);
 
       const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterRecours',
+        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
           identifiantProjetValue,
         },

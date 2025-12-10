@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const identifiantProjet = decodeParameter(identifiant);
 
       const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterRecours',
+        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
         },

@@ -4,7 +4,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 export const recoursPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },
 }: Éliminé.Recours.RecoursPasséEnInstructionEvent) => {
-  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`demande-recours|${identifiantProjet}`, {
     demande: {
       instruction: {
         passéEnInstructionLe,
