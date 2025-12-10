@@ -9,7 +9,7 @@ import { DateTime } from '@potentiel-domain/common';
 export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   dateDemande: DateTime.ValueType,
-): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
+): Promise<Éliminé.Recours.ConsulterDemandeRecoursReadModel | undefined> => {
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',

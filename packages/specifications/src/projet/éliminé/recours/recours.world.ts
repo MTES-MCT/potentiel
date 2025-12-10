@@ -57,12 +57,12 @@ export class RecoursWord {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Éliminé.Recours.StatutRecours.ValueType,
-  ): Éliminé.Recours.ConsulterRecoursReadModel {
+  ): Éliminé.Recours.ConsulterDemandeRecoursReadModel {
     if (!this.#demanderRecoursFixture.aÉtéCréé) {
       throw new Error(`Aucune demande de recours n'a été créée dans RecoursWorld`);
     }
 
-    const expected: Éliminé.Recours.ConsulterRecoursReadModel = {
+    const expected: Éliminé.Recours.ConsulterDemandeRecoursReadModel = {
       statut,
       identifiantProjet,
       demande: {

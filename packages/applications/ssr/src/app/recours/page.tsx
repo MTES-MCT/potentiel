@@ -38,21 +38,22 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const { items, range, total } = await mediator.send<Éliminé.Recours.ListerRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ListerDemandeRecours',
-        data: {
-          utilisateur: utilisateur.identifiantUtilisateur.email,
-          range: mapToRangeOptions({
-            currentPage: page,
-            itemsPerPage: 10,
-          }),
-          statut: statut?.length
-            ? statut.map((s) => Éliminé.Recours.StatutRecours.convertirEnValueType(s).value)
-            : undefined,
-          appelOffre,
-          nomProjet,
-        },
-      });
+      const { items, range, total } =
+        await mediator.send<Éliminé.Recours.ListerDemandeRecoursQuery>({
+          type: 'Éliminé.Recours.Query.ListerDemandeRecours',
+          data: {
+            utilisateur: utilisateur.identifiantUtilisateur.email,
+            range: mapToRangeOptions({
+              currentPage: page,
+              itemsPerPage: 10,
+            }),
+            statut: statut?.length
+              ? statut.map((s) => Éliminé.Recours.StatutRecours.convertirEnValueType(s).value)
+              : undefined,
+            appelOffre,
+            nomProjet,
+          },
+        });
 
       const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',

@@ -2,8 +2,8 @@ import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
 import {
   ConsulterDemandeRecoursQuery,
-  ConsulterRecoursReadModel,
-} from './consulter/consulterRecours.query';
+  ConsulterDemandeRecoursReadModel,
+} from './consulter/consulterDemandeRecours.query';
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import {
@@ -25,14 +25,14 @@ export type RecoursQuery =
 
 export {
   ConsulterDemandeRecoursQuery,
-  ListerDemandeRecoursQuery as ListerRecoursQuery,
+  ListerDemandeRecoursQuery,
   ListerHistoriqueRecoursProjetQuery,
 };
 
 // ReadModel
 export {
-  ConsulterRecoursReadModel,
-  ListerDemandeRecoursReadModel as ListerRecoursReadModel,
+  ConsulterDemandeRecoursReadModel,
+  ListerDemandeRecoursReadModel,
   HistoriqueRecoursProjetListItemReadModel,
   ListerHistoriqueRecoursProjetReadModel,
 };

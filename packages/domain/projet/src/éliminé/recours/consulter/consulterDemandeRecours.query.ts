@@ -9,7 +9,7 @@ import { DemandeRecoursEntity } from '../demandeRecours.entity';
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { DocumentProjet, IdentifiantProjet } from '../../..';
 
-export type ConsulterRecoursReadModel = {
+export type ConsulterDemandeRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutRecours.ValueType;
   demande: {
@@ -40,14 +40,16 @@ export type ConsulterDemandeRecoursQuery = Message<
     identifiantProjetValue: string;
     dateDemandeValue: string;
   },
-  Option.Type<ConsulterRecoursReadModel>
+  Option.Type<ConsulterDemandeRecoursReadModel>
 >;
 
-export type ConsulterRecoursDependencies = {
+export type ConsulterDemandeRecoursDependencies = {
   find: Find;
 };
 
-export const registerConsulterRecoursQuery = ({ find }: ConsulterRecoursDependencies) => {
+export const registerConsulterDemandeRecoursQuery = ({
+  find,
+}: ConsulterDemandeRecoursDependencies) => {
   const handler: MessageHandler<ConsulterDemandeRecoursQuery> = async ({
     identifiantProjetValue,
     dateDemandeValue,
@@ -111,5 +113,5 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
     },
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     statut: StatutRecours.convertirEnValueType(result.statut),
-  } satisfies ConsulterRecoursReadModel;
+  } satisfies ConsulterDemandeRecoursReadModel;
 };

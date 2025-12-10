@@ -5,15 +5,15 @@ import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.useca
 import { registerAnnulerRecoursCommand } from './annuler/annulerRecours.command';
 import { registerAnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
 import {
-  ConsulterRecoursDependencies,
-  registerConsulterRecoursQuery,
-} from './consulter/consulterRecours.query';
+  ConsulterDemandeRecoursDependencies,
+  registerConsulterDemandeRecoursQuery,
+} from './consulter/consulterDemandeRecours.query';
 import { registerDemanderRecoursCommand } from './demander/demanderRecours.command';
 import { registerDemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import {
-  ListerRecoursDependencies,
-  registerListerRecoursQuery,
-} from './lister/listerRecours.query';
+  ListerDemandeRecoursDependencies,
+  registerListerDemandeRecoursQuery,
+} from './lister/listerDemandeRecours.query';
 import {
   ListerHistoriqueRecoursProjetDependencies,
   registerListerHistoriqueRecoursProjetQuery,
@@ -23,8 +23,8 @@ import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase'
 import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
 
-export type RecoursQueryDependencies = ConsulterRecoursDependencies &
-  ListerRecoursDependencies &
+export type RecoursQueryDependencies = ConsulterDemandeRecoursDependencies &
+  ListerDemandeRecoursDependencies &
   ListerHistoriqueRecoursProjetDependencies;
 
 export type RecoursCommandDependencies = {
@@ -46,7 +46,7 @@ export const registerRecoursUseCases = ({ getProjetAggregateRoot }: RecoursComma
 };
 
 export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
-  registerConsulterRecoursQuery(dependencies);
-  registerListerRecoursQuery(dependencies);
+  registerConsulterDemandeRecoursQuery(dependencies);
+  registerListerDemandeRecoursQuery(dependencies);
   registerListerHistoriqueRecoursProjetQuery(dependencies);
 };
