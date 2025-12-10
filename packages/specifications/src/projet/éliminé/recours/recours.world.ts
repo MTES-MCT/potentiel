@@ -54,7 +54,7 @@ export class RecoursWord {
     this.#passerRecoursEnInstructionFixture = new PasserRecoursEnInstructionFixture();
   }
 
-  mapToExpected(
+  mapToDemandeRecoursExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Éliminé.Recours.StatutRecours.ValueType,
   ): Éliminé.Recours.ConsulterDemandeRecoursReadModel {
@@ -117,6 +117,26 @@ export class RecoursWord {
         ),
       };
     }
+
+    return expected;
+  }
+
+  mapToRecoursExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    statut: Éliminé.Recours.StatutRecours.ValueType,
+  ): Éliminé.Recours.ConsulterRecoursReadModel {
+    if (!this.#demanderRecoursFixture.aÉtéCréé) {
+      throw new Error(`Aucune demande de recours n'a été créée dans RecoursWorld`);
+    }
+
+    const expected: Éliminé.Recours.ConsulterRecoursReadModel = {
+      statut,
+      identifiantProjet,
+      dateDemande: DateTime.convertirEnValueType(this.#demanderRecoursFixture.demandéLe),
+      dateAccord: this.#accorderRecoursFixture.accordéLe
+        ? DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe)
+        : undefined,
+    };
 
     return expected;
   }

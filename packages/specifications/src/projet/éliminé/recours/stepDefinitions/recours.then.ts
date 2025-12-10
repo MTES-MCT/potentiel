@@ -76,7 +76,21 @@ async function vérifierRecours(
   identifiantProjet: IdentifiantProjet.ValueType,
   statut: Éliminé.Recours.StatutRecours.ValueType,
 ) {
-  const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+    },
+  });
+
+  const actuelRecours = mapToPlainObject(recours);
+  const expectedRecours = mapToPlainObject(
+    this.éliminéWorld.recoursWorld.mapToRecoursExpected(identifiantProjet, statut),
+  );
+
+  actuelRecours.should.be.deep.equal(expectedRecours);
+
+  const demandeRecours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
     type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
@@ -84,17 +98,17 @@ async function vérifierRecours(
     },
   });
 
-  const actual = mapToPlainObject(recours);
-  const expected = mapToPlainObject(
-    this.éliminéWorld.recoursWorld.mapToExpected(identifiantProjet, statut),
+  const actualDemandeRecours = mapToPlainObject(demandeRecours);
+  const expectedDemandeRecours = mapToPlainObject(
+    this.éliminéWorld.recoursWorld.mapToDemandeRecoursExpected(identifiantProjet, statut),
   );
 
-  actual.should.be.deep.equal(expected);
+  actualDemandeRecours.should.be.deep.equal(expectedDemandeRecours);
 
   const pièceJustificative = await mediator.send<Document.ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
-      documentKey: Option.match(recours)
+      documentKey: Option.match(demandeRecours)
         .some<string>(({ demande: { pièceJustificative: piéceJustificative } }) =>
           piéceJustificative.formatter(),
         )
@@ -117,7 +131,7 @@ async function vérifierRecours(
     const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(recours)
+        documentKey: Option.match(demandeRecours)
           .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },
@@ -137,7 +151,7 @@ async function vérifierRecours(
     const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(recours)
+        documentKey: Option.match(demandeRecours)
           .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },
