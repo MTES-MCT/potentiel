@@ -65,7 +65,7 @@ const getAttestation = async (identifiantProjet: string) => {
       };
     }
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-      type: 'Éliminé.Recours.Query.ConsulterRecours',
+      type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
       },

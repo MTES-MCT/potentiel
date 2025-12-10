@@ -10,7 +10,7 @@ export const getRecours = async (
 ): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-      type: 'Éliminé.Recours.Query.ConsulterRecours',
+      type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
