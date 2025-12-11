@@ -1,7 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { match } from 'ts-pattern';
 import clsx from 'clsx';
-import Link from 'next/link';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
 import Information from '@codegouvfr/react-dsfr/picto/Information';
 
@@ -12,6 +11,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { Section } from './Section';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 export type EtapesProjetProps = {
   identifiantProjet: string;
@@ -65,9 +65,9 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                   ))
                   .with({ type: 'recours' }, () => (
                     <ÉtapeTerminée titre="Recours accordé" date={étape.date}>
-                      <Link href={Routes.Recours.détail(identifiantProjet)}>
+                      <TertiaryLink href={Routes.Recours.détail(identifiantProjet)}>
                         Voir les détails du recours
-                      </Link>
+                      </TertiaryLink>
                     </ÉtapeTerminée>
                   ))
                   .with({ type: 'abandon' }, () => (
@@ -76,9 +76,9 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                       date={étape.date}
                       isLastItem={isLastItem}
                     >
-                      <Link href={Routes.Abandon.détail(identifiantProjet, étape.date)}>
+                      <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, étape.date)}>
                         Voir les détails de l'abandon
-                      </Link>
+                      </TertiaryLink>
                     </ÉtapeTerminée>
                   ))
                   .with({ type: 'achèvement-prévisionel' }, () => (

@@ -3,30 +3,31 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { Section } from '../(components)/Section';
 import { DétailTypologieInstallation } from '../../installation/(historique)/events/DétailTypologieInstallation';
-import { SectionPage } from '../(components)/SectionPage';
 import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
 
 import { GetInstallationForProjectPage } from './_helpers/getInstallation';
+import { Heading2 } from '@/components/atoms/headings';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 type Props = { installation: GetInstallationForProjectPage };
 
 export const InstallationPage = ({ installation }: Props) => (
-  <SectionPage title="Installation">
-    <Installation installation={installation} />
-  </SectionPage>
+  <ColumnPageTemplate
+    heading={<Heading2>Installation</Heading2>}
+    leftColumn={{
+      children: <InstallationLeft installation={installation} />,
+    }}
+    rightColumn={{
+      children: <InstallationRight installation={installation} />,
+    }}
+  />
 );
 
-const Installation = ({
-  installation: {
-    typologieInstallation,
-    installateur,
-    dispositifDeStockage,
-    natureDeLExploitation,
-    autorisationDUrbanisme,
-  },
+const InstallationLeft = ({
+  installation: { typologieInstallation, installateur, dispositifDeStockage },
 }: Props) => {
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {typologieInstallation && (
         <Section title="Typologie du projet">
           {typologieInstallation.value ? (
@@ -81,6 +82,15 @@ const Installation = ({
           )}
         </Section>
       )}
+    </div>
+  );
+};
+
+const InstallationRight = ({
+  installation: { natureDeLExploitation, autorisationDUrbanisme },
+}: Props) => {
+  return (
+    <div className="flex flex-col gap-4">
       {autorisationDUrbanisme && (
         <Section title="Autorisation d'urbanisme">
           {autorisationDUrbanisme.value ? (
@@ -123,6 +133,6 @@ const Installation = ({
           )}
         </Section>
       )}
-    </>
+    </div>
   );
 };
