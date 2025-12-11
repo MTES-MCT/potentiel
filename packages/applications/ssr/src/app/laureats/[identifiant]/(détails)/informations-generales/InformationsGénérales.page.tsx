@@ -1,5 +1,5 @@
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading2 } from '@/components/atoms/headings';
+import { Heading2, Heading6 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { Section } from '../(components)/Section';
@@ -70,8 +70,8 @@ const InformationsGénéralesLeft = ({
 }: Pick<Props, 'siteDeProduction' | 'emailContact' | 'producteur' | 'représentantLégal'>) => (
   <div className="flex flex-col gap-4">
     <Section title="Candidat">
-      <div className="flex flex-col">
-        <span className="mb-0 font-semibold">Site de Production</span>
+      <div className="flex flex-col gap-1">
+        <Heading6>Site de Production</Heading6>
         <span>{siteDeProduction.value.adresse1}</span>
         {siteDeProduction.value.adresse2 && <span>{siteDeProduction.value.adresse2}</span>}
         <span>
@@ -86,24 +86,28 @@ const InformationsGénéralesLeft = ({
           </TertiaryLink>
         )}
       </div>
-      <div>
-        <div className="mb-0 font-semibold">Adresse email de candidature</div>
+      <div className="flex flex-col gap-1">
+        <Heading6>Adresse email de candidature</Heading6>
         <span>{emailContact}</span>
       </div>
     </Section>
     <Section title="Représentant légal">
-      <span>{représentantLégal.value.nom || 'Champ non renseigné'}</span>
-      {représentantLégal.action && (
-        <TertiaryLink href={représentantLégal.action.url}>
-          {représentantLégal.action.label}
-        </TertiaryLink>
-      )}
+      <div className="flex flex-col gap-1">
+        <span>{représentantLégal.value.nom || 'Champ non renseigné'}</span>
+        {représentantLégal.action && (
+          <TertiaryLink href={représentantLégal.action.url}>
+            {représentantLégal.action.label}
+          </TertiaryLink>
+        )}
+      </div>
     </Section>
     <Section title="Producteur">
-      <span>{producteur.value.producteur || 'Champ non renseigné'}</span>
-      {producteur.action && (
-        <TertiaryLink href={producteur.action.url}>{producteur.action.label}</TertiaryLink>
-      )}
+      <div className="flex flex-col gap-1">
+        <span>{producteur.value.producteur || 'Champ non renseigné'}</span>
+        {producteur.action && (
+          <TertiaryLink href={producteur.action.url}>{producteur.action.label}</TertiaryLink>
+        )}
+      </div>
     </Section>
   </div>
 );
@@ -121,38 +125,35 @@ const InformationsGénéralesRight = ({
   <div className="flex flex-col gap-4">
     <Section title="Contractualisation">
       <div className="flex flex-col gap-1">
-        <div className="mb-0 font-semibold">Performances</div>
-        <>
+        <Heading6>Performances</Heading6>
+        <span>
+          Puissance installée : {puissance.value.puissance} {puissance.value.unitéPuissance}
+        </span>
+        {puissance.value.puissanceDeSite !== undefined && (
           <span>
-            Puissance installée : {puissance.value.puissance} {puissance.value.unitéPuissance}
+            Puissance sur site : {puissance.value.puissanceDeSite} {puissance.value.unitéPuissance}
           </span>
-          {puissance.value.puissanceDeSite !== undefined && (
-            <span>
-              Puissance sur site : {puissance.value.puissanceDeSite}{' '}
-              {puissance.value.unitéPuissance}
-            </span>
-          )}
-        </>
+        )}
         {puissance.action && (
           <TertiaryLink href={puissance.action.url}>{puissance.action.label}</TertiaryLink>
         )}
       </div>
-      <div>
-        <div className="mb-0 font-semibold">Prix</div>
+      <div className="flex flex-col gap-1">
+        <Heading6>Prix</Heading6>
         <span>{prixRéférence} €/MWh</span>
       </div>
     </Section>
     <Section title="Actionnariat">
-      <div>
-        <div className="mb-0 font-semibold">Actionnaire (société mère)</div>
+      <div className="flex flex-col gap-1">
+        <Heading6>Actionnaire (société mère)</Heading6>
         <span>{actionnaire.value.nom || 'Champ non renseigné'}</span>
         {actionnaire.action && (
           <TertiaryLink href={actionnaire.action.url}>{actionnaire.action.label}</TertiaryLink>
         )}
       </div>
       {actionnariat && (
-        <div>
-          <div className="mb-0 font-semibold">Type d'actionnariat</div>
+        <div className="flex flex-col gap-1">
+          <Heading6>Type d'actionnariat</Heading6>
           <span>{getActionnariatTypeLabel(actionnariat.type)}</span>
         </div>
       )}

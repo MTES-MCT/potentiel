@@ -29,18 +29,16 @@ const Installation = ({
     <>
       {typologieInstallation && (
         <Section title="Typologie du projet">
-          <div className="flex flex-col gap-2">
-            {typologieInstallation.value ? (
-              <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
-            ) : (
-              <span>Champs non renseigné</span>
-            )}
-            {typologieInstallation.action && (
-              <TertiaryLink href={typologieInstallation.action.url}>
-                {typologieInstallation.action.label}
-              </TertiaryLink>
-            )}
-          </div>
+          {typologieInstallation.value ? (
+            <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
+          ) : (
+            <span>Champs non renseigné</span>
+          )}
+          {typologieInstallation.action && (
+            <TertiaryLink href={typologieInstallation.action.url}>
+              {typologieInstallation.action.label}
+            </TertiaryLink>
+          )}
         </Section>
       )}
       {installateur && (
@@ -54,7 +52,7 @@ const Installation = ({
       {dispositifDeStockage && (
         <Section title="Dispositif de stockage">
           {dispositifDeStockage.value ? (
-            <div>
+            <>
               <div>
                 {dispositifDeStockage.value.installationAvecDispositifDeStockage
                   ? 'Installation couplée à un dispositif de stockage'
@@ -72,7 +70,7 @@ const Installation = ({
                   {dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh} kWh
                 </div>
               ) : null}
-            </div>
+            </>
           ) : (
             <div>Champs non renseigné</div>
           )}
