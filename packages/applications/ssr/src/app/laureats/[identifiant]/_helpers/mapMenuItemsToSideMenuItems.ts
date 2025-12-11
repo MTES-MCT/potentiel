@@ -33,6 +33,10 @@ export const baseMenuItems: Array<MenuItem> = [
     children: [],
   },
   {
+    label: 'Tâches',
+    href: 'taches',
+  },
+  {
     href: `historique`,
     label: 'Historique',
   },
@@ -46,17 +50,18 @@ export const mapMenuItemsToSideMenuItems = (
   menuItems: Array<MenuItem>,
   baseUrl: string,
   currentPath: string,
+  nombreTâches: number,
 ): SideMenuProps.Item[] => {
   return menuItems.map((item) => {
     if (item.children) {
       return {
         text: item.label,
-        items: mapMenuItemsToSideMenuItems(item.children, baseUrl, currentPath),
+        items: mapMenuItemsToSideMenuItems(item.children, baseUrl, currentPath, nombreTâches),
         isActive: item.href === currentPath,
       };
     } else {
       return {
-        text: item.label,
+        text: item.label === 'Tâches' ? `${item.label} (${nombreTâches})` : item.label,
         linkProps: {
           href: `${baseUrl}/${item.href}`,
         },

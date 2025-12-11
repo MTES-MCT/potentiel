@@ -7,6 +7,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { getCahierDesCharges } from '../../../_helpers';
 
 import { MenuLauréat } from './(components)/MenuLauréat';
+import { getTâches } from './taches/_helpers/getTâches';
+import { withUtilisateur } from '../../../../utils/withUtilisateur';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -14,26 +16,36 @@ type LayoutProps = {
 };
 
 export default async function LauréatDétailsLayout({ children, params }: LayoutProps) {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-    decodeParameter(params.identifiant),
-  );
+  return withUtilisateur(async (utilisateur) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      decodeParameter(params.identifiant),
+    );
 
-  const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
+    const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
 
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const tâches = await getTâches({
+      identifiantProjet,
+      email: utilisateur.identifiantUtilisateur.email,
+    });
 
-  const { features } = getContext() ?? {};
+    const { features } = getContext() ?? {};
 
-  if (!features?.includes('page-projet')) {
-    return children;
-  }
+    if (!features?.includes('page-projet')) {
+      return children;
+    }
 
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col md:flex-row">
-        <MenuLauréat baseURL={baseURL} cahierDesCharges={mapToPlainObject(cahierDesCharges)} />
-        <div className="flex-1">{children}</div>
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col md:flex-row">
+          <MenuLauréat
+            baseURL={baseURL}
+            cahierDesCharges={mapToPlainObject(cahierDesCharges)}
+            nombreTâches={tâches.total}
+          />
+          <div className="flex-1">{children}</div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  });
 }

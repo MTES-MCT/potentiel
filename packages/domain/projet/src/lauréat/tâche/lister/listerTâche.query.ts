@@ -30,6 +30,7 @@ export type ListerTâchesQuery = Message<
     catégorieTâche?: string;
     cycle?: string;
     nomProjet?: string;
+    identifiantProjet?: IdentifiantProjet.RawType;
   },
   ListerTâchesReadModel
 >;
@@ -50,6 +51,7 @@ export const registerListerTâchesQuery = ({
     catégorieTâche,
     cycle,
     nomProjet,
+    identifiantProjet,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
@@ -70,7 +72,9 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        identifiantProjet: identifiantProjet
+          ? Where.equal(identifiantProjet)
+          : Where.matchAny(scope.identifiantProjets),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,

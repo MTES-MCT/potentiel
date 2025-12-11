@@ -18,9 +18,10 @@ import {
 type Props = {
   baseURL: string;
   cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesReadModel>;
+  nombreTâches: number;
 };
 
-export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
+export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props) => {
   const pathname = usePathname();
   const currentMenuId = pathname.split('/')[3] || '';
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -38,7 +39,12 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
     filters: [{ label: 'Installation', show: showInstallation }],
   });
 
-  const items = mapMenuItemsToSideMenuItems(filteredMenuItems, baseURL, currentMenuId);
+  const items = mapMenuItemsToSideMenuItems(
+    filteredMenuItems,
+    baseURL,
+    currentMenuId,
+    nombreTâches,
+  );
 
   return (
     <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden">
