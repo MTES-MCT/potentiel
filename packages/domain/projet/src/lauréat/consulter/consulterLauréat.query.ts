@@ -26,9 +26,9 @@ export type ConsulterLauréatReadModel = {
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
 } & Pick<
   Candidature.Dépôt.ValueType,
-  // on ne sélectionne que des propriétés non modifiables de Candidature
+  // on ne sélectionne que des propriétés non modifiable dans la vie du projet, issues de Candidature
   // Pour des propriétés modifiables comme la puissance, on utilisera ConsulterPuissance
-  'emailContact' | 'nomCandidat' | 'prixReference' | 'coefficientKChoisi'
+  'emailContact' | 'nomCandidat' | 'prixReference' | 'coefficientKChoisi' | 'actionnariat'
 >;
 
 export type ConsulterLauréatQuery = Message<
@@ -109,4 +109,5 @@ const mapToReadModel: MapToReadModel = (
     ? candidature.notification?.attestation
     : undefined,
   autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme,
+  actionnariat: candidature.dépôt.actionnariat,
 });

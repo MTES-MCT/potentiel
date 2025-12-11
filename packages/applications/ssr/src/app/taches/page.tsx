@@ -100,7 +100,13 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         redirect(`${Routes.Tache.lister}?${newSearchParams}`, RedirectType.replace);
       }
 
-      return <TâcheListPage list={mapToPlainObject(tâches)} filters={filters} />;
+      return (
+        <TâcheListPage
+          list={mapToPlainObject(tâches)}
+          filters={filters}
+          search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+        />
+      );
     }),
   );
 }

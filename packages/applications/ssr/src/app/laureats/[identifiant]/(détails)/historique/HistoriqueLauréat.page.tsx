@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
-import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
+import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 export type HistoriqueLauréatAction = 'imprimer';
@@ -20,19 +20,23 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   filters,
 }) => (
   <>
-    <div className="flex flex-col gap-6">
-      <div className="flex print:hidden">
-        <FiltersTagList filters={filters} />
-        {actions?.includes('imprimer') && <ImprimerPage />}
-      </div>
-
-      <div className="flex flex-row gap-4">
+    <div className="flex flex-col gap-6 w-full">
+      <div className="flex flex-row gap-6 w-full">
         {filters.length ? (
-          <div className="print:hidden">
+          <div className="print:hidden flex flex-col gap-1 w-[300px]">
             <ListFilters filters={filters} />
           </div>
         ) : null}
-        {historique.length > 0 ? <Timeline items={historique} /> : <>Aucun élément à afficher</>}
+        {actions?.includes('imprimer') && <ImprimerPage />}
+      </div>
+      <div className="flex flex-row gap-2">
+        {historique.length > 0 ? (
+          <Timeline items={historique} />
+        ) : (
+          <div className="w-full flex justify-center mt-4">
+            <span>Aucun élément à afficher</span>
+          </div>
+        )}
       </div>
     </div>
   </>

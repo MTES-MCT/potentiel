@@ -74,6 +74,7 @@ export const getGarantiesFinancières = async (
         identifiantProjet: identifiantProjet.formatter(),
       },
     );
+    console.log(error);
     return undefined;
   }
 };

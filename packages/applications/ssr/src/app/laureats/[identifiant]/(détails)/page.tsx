@@ -1,60 +1,134 @@
-import { redirect } from 'next/navigation';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { mediator } from 'mediateur';
 
-import { getContext } from '@potentiel-applications/request-context';
-import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { getLauréat } from '../_helpers/getLauréat';
+import { getLauréatInfos } from '../_helpers/getLauréat';
+
+import { TableauDeBordPage } from './TableauDeBord.page';
+import { getAbandonAlert } from './_helpers/getAbandonAlert';
+import { getAchèvementAlert } from './_helpers/getAchèvementAlert';
+import { getAchèvementData } from './_helpers/getAchèvementData';
+import { getCahierDesChargesData } from './_helpers/getCahierDesChargesData';
+import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
+import { getRaccordementData } from './_helpers/getRaccordementData';
+import { getÉtapesData } from './_helpers/getÉtapesData';
+import { checkFeatureFlag } from './_helpers/checkFeatureFlag';
+import { getAlertesRaccordement } from './_helpers/getRaccordementAlert';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
 };
 
 export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
-  const identifiantProjet = decodeParameter(identifiant);
-  const urlSearchParams = new URLSearchParams(searchParams);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const { rôle } = utilisateur;
 
-  const { features } = getContext() ?? {};
+      checkFeatureFlag(identifiantProjet, searchParams);
 
-  // Redirection vers la page projet legacy
-  if (!features?.includes('page-projet')) {
-    const legacyUrl = `/projet/${encodeURIComponent(identifiantProjet)}/details.html`;
-    if (urlSearchParams.size === 0) {
-      redirect(legacyUrl);
-    }
-    redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
-  }
+      const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
 
-  const lauréat = await getLauréat({ identifiantProjet });
-  return (
-    <ColumnPageTemplate
-      leftColumn={{
-        children: (
-          <ul>
-            <li>Email à la candidature : {lauréat.lauréat.emailContact.formatter()}</li>
-            <li>Prix : {lauréat.lauréat.prixReference}</li>
-            <li>ECS : {lauréat.fournisseur.évaluationCarboneSimplifiée}</li>
-            <li>Actionnaire : {lauréat.actionnaire.actionnaire}</li>
-            <li>Producteur : {lauréat.producteur.producteur}</li>
-          </ul>
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <div>
-            <Button
-              priority="secondary"
-              linkProps={{ href: Routes.Accès.lister(identifiantProjet, 'classé') }}
-            >
-              Gérer les accès des utilisateurs au projet
-            </Button>
-          </div>
-        ),
-      }}
-    />
+      const abandon = await getAbandon(identifiantProjet);
+
+      const achèvementData = await getAchèvementData({ identifiantProjet, rôle });
+
+      const recours = await getRecours(identifiantProjet);
+
+      const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
+
+      const raccordement = await getRaccordementData({
+        role: rôle,
+        identifiantProjet,
+        estAbandonné: !!abandon?.estAbandonné,
+        aUnAbandonEnCours: !!abandon?.demandeEnCours,
+      });
+
+      const raccordementAlerts = getAlertesRaccordement({
+        CDC2022Choisi:
+          !cahierDesChargesData.value.estInitial &&
+          cahierDesChargesData.value.dateParution === '30/08/2022',
+        raccordement,
+      });
+
+      const étapes = getÉtapesData({
+        dateNotification: lauréat.notifiéLe.formatter(),
+        dateAchèvementPrévisionnel: achèvementData.value.dateAchèvementPrévisionnel,
+        abandon:
+          abandon && abandon.accordéLe
+            ? {
+                dateAbandonAccordé: abandon.accordéLe.formatter(),
+                dateDemandeAbandon: abandon.demandéLe.formatter(),
+              }
+            : undefined,
+        dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
+        dateMiseEnService: raccordement.value
+          ? raccordement.value.dateMiseEnService?.formatter()
+          : undefined,
+        dateAchèvementRéel: achèvementData.value.dateAchèvementRéel,
+      });
+
+      const abandonAlert = getAbandonAlert({
+        estAbandonné: !!abandon?.estAbandonné,
+        rôle,
+        identifiantProjet: identifiantProjet.formatter(),
+        demandeEnCours: abandon?.demandeEnCours
+          ? {
+              dateDemandeEnCours: abandon.demandéLe.formatter(),
+            }
+          : undefined,
+      });
+
+      const achèvementAlert = getAchèvementAlert(achèvementData.value.estAchevé, rôle);
+
+      const garantiesFinancièresData = await getGarantiesFinancièresData({
+        identifiantProjet,
+        rôle,
+        estSoumisAuxGarantiesFinancières:
+          !!cahierDesChargesData.value?.estSoumisAuxGarantiesFinancières,
+      });
+
+      return (
+        <TableauDeBordPage
+          frise={{ étapes, doitAfficherAttestationDésignation: !!lauréat.attestationDésignation }}
+          raccordement={raccordement}
+          identifiantProjet={identifiantProjet.formatter()}
+          cahierDesCharges={cahierDesChargesData}
+          garantiesFinancièresData={garantiesFinancièresData}
+          achèvementData={achèvementData}
+          raccordementAlerts={raccordementAlerts}
+          abandonAlert={abandonAlert}
+          achèvementAlert={achèvementAlert}
+        />
+      );
+    }),
   );
 }
+
+const getAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+  const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
+    type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
+  });
+
+  return Option.isNone(abandon) ? undefined : abandon;
+};
+
+const getRecours = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
+  });
+
+  return Option.isNone(recours) ? undefined : recours;
+};
