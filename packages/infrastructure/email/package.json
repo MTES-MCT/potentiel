@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/node-mailjet": "3.3.12",
-    "tsx": "4.19.3"
+    "tsx": "4.20.4"
   }
 }

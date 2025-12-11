@@ -1,8 +1,17 @@
+import {
+  circuitBreaker,
+  handleAll,
+  ConsecutiveBreaker,
+  ExponentialBackoff,
+  retry,
+  wrap,
+} from 'cockatiel';
+import { SendEmailV3_1 } from 'node-mailjet';
+
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { mapToSendEmailMode } from './sendEmailMode';
 import { getMailjetClient } from './getMailjetClient';
-import { MailjetContact, MailjetEmail, prepareMessages } from './prepareMessages';
 
 type Recipient = {
   email: string;
@@ -20,14 +29,18 @@ type SendEmailArgs = {
 
 type SendEmail = (email: SendEmailArgs) => Promise<void>;
 
-const formatRecipients = (recipients: Array<Recipient>): Array<MailjetContact> | undefined =>
+const formatRecipients = (recipients: Array<Recipient>): Array<SendEmailV3_1.EmailAddressTo> =>
   recipients.map(({ email, fullName }) => ({
     Email: email,
     Name: fullName,
   }));
-// Mailjet has a limit of 50 recipients per email: https://dev.mailjet.com/email/guides/send-api-V3/#send-in-bulk
-// To be safe, we use a limit of 30 recipients per email.
-const MAX_RECIPIENTS = 30;
+
+// circuit breaker that opens (stops futher calls) after 3 consecutive failures
+// and uses exponential backoff to gradually close the circuit again.
+const globalCircuitBreaker = circuitBreaker(handleAll, {
+  halfOpenAfter: new ExponentialBackoff(),
+  breaker: new ConsecutiveBreaker(3),
+});
 
 export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const {
@@ -54,49 +67,56 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
     variables,
   } = sendEmailArgs;
 
-  if (to.length + cc.length + bcc.length === 0) {
+  const totalRecipients = to.length + cc.length + bcc.length;
+  if (totalRecipients === 0) {
     logger.error('No recipients provided for email', sendEmailArgs);
     return;
   }
 
-  const message: MailjetEmail = {
-    From: {
-      Email: SEND_EMAILS_FROM,
-      Name: SEND_EMAILS_FROM_NAME,
-    },
-    To: formatRecipients(to),
-    Cc: formatRecipients(cc),
-    Bcc: formatRecipients(bcc),
-    TemplateID: templateId,
-    TemplateLanguage: true,
-    Subject: messageSubject,
-    Variables: variables,
-  };
+  // Retry policy with exponential backoff for individual calls
+  const retryPolicy = retry(handleAll, {
+    maxAttempts: 5,
+    backoff: new ExponentialBackoff(),
+  });
 
-  const messages = prepareMessages(message, MAX_RECIPIENTS);
+  // Combined policy
+  const emailPolicy = wrap(retryPolicy, globalCircuitBreaker);
 
-  if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
-    for (const message of messages) {
+  await emailPolicy.execute(async () => {
+    if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
       await getMailjetClient()
         .post('send', { version: 'v3.1' })
         .request({
-          Messages: [message],
+          Messages: [
+            {
+              From: {
+                Email: SEND_EMAILS_FROM,
+                Name: SEND_EMAILS_FROM_NAME,
+              },
+              To: formatRecipients(to),
+              Cc: formatRecipients(cc),
+              Bcc: formatRecipients(bcc),
+              TemplateID: templateId,
+              TemplateLanguage: true,
+              Subject: messageSubject,
+              Variables: variables,
+            } satisfies SendEmailV3_1.Message,
+          ],
           SandboxMode: mode === 'sandbox',
-        })
-        .catch((error) => {
-          console.log(message);
-          console.log(Object.keys(error));
-          console.log(error.config.data);
-          console.log(error.response.data.Messages[0].Errors);
-          throw error;
         });
-    }
 
-    logger.info('Email sent', { messages });
-  } else {
-    logger.info(
-      '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
-      { messages },
-    );
-  }
+      logger.info('Email sent', sendEmailArgs);
+    } else {
+      if (totalRecipients > 50) {
+        throw new Error(
+          'Sending emails too more than 50 recipients, which would be prevented in non-logging mode',
+        );
+      }
+
+      logger.info(
+        '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
+        sendEmailArgs,
+      );
+    }
+  });
 };

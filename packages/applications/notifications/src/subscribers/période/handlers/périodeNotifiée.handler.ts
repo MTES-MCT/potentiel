@@ -18,27 +18,32 @@ export const handlePériodeNotifiée = async ({
   const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',
     data: {
-      roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+      roles: [
+        'admin',
+        'dreal',
+        'cocontractant',
+        'ademe',
+        'dgec-validateur',
+        'caisse-des-dépôts',
+        'cre',
+      ],
       actif: true,
     },
   });
 
   const baseUrl = getBaseUrl();
-  const teamEmail = process.env.TEAM_EMAIL;
 
-  await sendEmail({
-    templateId: périodeNotificationTemplateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
-    recipients: [],
-    bcc: [
-      ...usersOthersThanDGECOrPorteur.items.map(({ email }) => ({ email })),
-      ...(teamEmail ? [{ email: teamEmail }] : []),
-    ],
-    messageSubject: `Potentiel - Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
-    variables: {
-      appel_offre: identifiantPériode.appelOffre,
-      periode: identifiantPériode.période,
-      date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-      redirect_url: baseUrl,
-    },
-  });
+  for (const { email } of usersOthersThanDGECOrPorteur.items) {
+    await sendEmail({
+      templateId: périodeNotificationTemplateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
+      recipients: [{ email }],
+      messageSubject: `Potentiel - Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
+      variables: {
+        appel_offre: identifiantPériode.appelOffre,
+        periode: identifiantPériode.période,
+        date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
+        redirect_url: baseUrl,
+      },
+    });
+  }
 };
