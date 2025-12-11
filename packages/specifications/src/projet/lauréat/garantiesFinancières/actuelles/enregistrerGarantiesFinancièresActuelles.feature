@@ -14,6 +14,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et les garanties financières en attente du projet ne devraient plus être consultables
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
+        Et une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
             | sujet              | Potentiel - Garanties financières mises à jour pour le projet Du boulodrome de Marseille dans le département .* |
             | nom_projet         | Du boulodrome de Marseille                                                                                      |
@@ -54,6 +55,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
+        Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières sont enregisrées par l'administration
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
