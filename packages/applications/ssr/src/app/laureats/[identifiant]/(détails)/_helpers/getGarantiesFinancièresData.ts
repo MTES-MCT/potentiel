@@ -11,6 +11,7 @@ type Props = {
   estSoumisAuxGarantiesFinancières: boolean;
 };
 
+// TODO: à simplifier
 export type GetGarantiesFinancièresData = {
   motifGfEnAttente?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
   actuelles?: {

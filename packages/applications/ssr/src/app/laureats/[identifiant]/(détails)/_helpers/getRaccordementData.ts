@@ -54,7 +54,7 @@ export const getRaccordementData = async ({
         nombreDeDossiers: raccordement.dossiers.length,
         gestionnaireDeRéseau: Option.isSome(gestionnaireRéseau)
           ? gestionnaireRéseau.raisonSociale
-          : 'Aucun raccordement pour ce projet',
+          : 'Aucun gestionnaire de réseau pour ce projet',
         dateMiseEnService: raccordement.dossiers.length
           ? raccordement.dossiers
               .map((dossier) => dossier.miseEnService?.dateMiseEnService)

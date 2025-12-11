@@ -70,47 +70,41 @@ const InformationsGénéralesLeft = ({
 }: Pick<Props, 'siteDeProduction' | 'emailContact' | 'producteur' | 'représentantLégal'>) => (
   <div className="flex flex-col gap-4">
     <Section title="Candidat">
-      {siteDeProduction.value && (
-        <div className="flex flex-col">
-          <span className="mb-0 font-semibold">Site de Production</span>
-          <span>{siteDeProduction.value.adresse1}</span>
-          {siteDeProduction.value.adresse2 && <span>{siteDeProduction.value.adresse2}</span>}
-          <span>
-            {siteDeProduction.value.codePostal} {siteDeProduction.value.commune}
-          </span>
-          <span>
-            {siteDeProduction.value.département} {siteDeProduction.value.région}
-          </span>
-          {siteDeProduction.action && (
-            <TertiaryLink href={siteDeProduction.action.url}>
-              {siteDeProduction.action.label}
-            </TertiaryLink>
-          )}
-        </div>
-      )}
+      <div className="flex flex-col">
+        <span className="mb-0 font-semibold">Site de Production</span>
+        <span>{siteDeProduction.value.adresse1}</span>
+        {siteDeProduction.value.adresse2 && <span>{siteDeProduction.value.adresse2}</span>}
+        <span>
+          {siteDeProduction.value.codePostal} {siteDeProduction.value.commune}
+        </span>
+        <span>
+          {siteDeProduction.value.département} {siteDeProduction.value.région}
+        </span>
+        {siteDeProduction.action && (
+          <TertiaryLink href={siteDeProduction.action.url}>
+            {siteDeProduction.action.label}
+          </TertiaryLink>
+        )}
+      </div>
       <div>
         <div className="mb-0 font-semibold">Adresse email de candidature</div>
         <span>{emailContact}</span>
       </div>
     </Section>
-    {représentantLégal.value && (
-      <Section title="Représentant légal">
-        <span>{représentantLégal.value.nom}</span>
-        {représentantLégal.action && (
-          <TertiaryLink href={représentantLégal.action.url}>
-            {représentantLégal.action.label}
-          </TertiaryLink>
-        )}
-      </Section>
-    )}
-    {producteur.value && (
-      <Section title="Producteur">
-        <span>{producteur.value.producteur}</span>
-        {producteur.action && (
-          <TertiaryLink href={producteur.action.url}>{producteur.action.label}</TertiaryLink>
-        )}
-      </Section>
-    )}
+    <Section title="Représentant légal">
+      <span>{représentantLégal.value.nom || 'Champ non renseigné'}</span>
+      {représentantLégal.action && (
+        <TertiaryLink href={représentantLégal.action.url}>
+          {représentantLégal.action.label}
+        </TertiaryLink>
+      )}
+    </Section>
+    <Section title="Producteur">
+      <span>{producteur.value.producteur || 'Champ non renseigné'}</span>
+      {producteur.action && (
+        <TertiaryLink href={producteur.action.url}>{producteur.action.label}</TertiaryLink>
+      )}
+    </Section>
   </div>
 );
 
@@ -128,21 +122,17 @@ const InformationsGénéralesRight = ({
     <Section title="Contractualisation">
       <div className="flex flex-col gap-1">
         <div className="mb-0 font-semibold">Performances</div>
-        {puissance.value ? (
-          <>
+        <>
+          <span>
+            Puissance installée : {puissance.value.puissance} {puissance.value.unitéPuissance}
+          </span>
+          {puissance.value.puissanceDeSite !== undefined && (
             <span>
-              Puissance installée : {puissance.value?.puissance} {puissance.value?.unitéPuissance}
+              Puissance sur site : {puissance.value.puissanceDeSite}{' '}
+              {puissance.value.unitéPuissance}
             </span>
-            {puissance.value?.puissanceDeSite && (
-              <span>
-                Puissance sur site : {puissance.value.puissanceDeSite}{' '}
-                {puissance.value.unitéPuissance}
-              </span>
-            )}
-          </>
-        ) : (
-          <span>Champs non renseigné</span>
-        )}
+          )}
+        </>
         {puissance.action && (
           <TertiaryLink href={puissance.action.url}>{puissance.action.label}</TertiaryLink>
         )}
@@ -155,11 +145,7 @@ const InformationsGénéralesRight = ({
     <Section title="Actionnariat">
       <div>
         <div className="mb-0 font-semibold">Actionnaire (société mère)</div>
-        <span>
-          {actionnaire.value && actionnaire.value.nom !== ''
-            ? actionnaire.value.nom
-            : 'Champs non renseigné'}
-        </span>
+        <span>{actionnaire.value.nom || 'Champ non renseigné'}</span>
         {actionnaire.action && (
           <TertiaryLink href={actionnaire.action.url}>{actionnaire.action.label}</TertiaryLink>
         )}

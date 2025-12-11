@@ -8,6 +8,11 @@ export type ChampAvecAction<T> = {
   action?: Action;
 };
 
+export type ChampObligatoireAvecAction<T> = {
+  value: T;
+  action?: Action;
+};
+
 export type ChampAvecMultiplesActions<T> = {
   value: T;
   actions: Array<Action>;

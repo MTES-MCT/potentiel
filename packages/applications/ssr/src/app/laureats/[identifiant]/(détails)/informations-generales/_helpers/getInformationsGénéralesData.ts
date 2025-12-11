@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -7,11 +8,11 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
-import { ChampAvecAction } from '../../../_helpers/types';
+import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 
-export type GetProducteurData = ChampAvecAction<{
+export type GetProducteurData = ChampObligatoireAvecAction<{
   producteur: string;
 }>;
 
@@ -29,40 +30,40 @@ export const getProducteurData = async ({
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(projection)) {
-    const { producteur } = projection;
-
-    const { peutModifier, peutEnregistrerChangement } =
-      await checkAutorisationChangement<'producteur'>({
-        identifiantProjet,
-        rôle,
-        domain: 'producteur',
-      });
-
-    const action = peutModifier
-      ? {
-          url: Routes.Producteur.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le producteur',
-        }
-      : peutEnregistrerChangement
-        ? {
-            url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer de producteur',
-            labelActions: 'Changer de producteur',
-          }
-        : undefined;
-
-    return {
-      value: { producteur },
-      action,
-    };
+  if (Option.isNone(projection)) {
+    return notFound();
   }
 
-  return {};
+  const { producteur } = projection;
+
+  const { peutModifier, peutEnregistrerChangement } =
+    await checkAutorisationChangement<'producteur'>({
+      identifiantProjet,
+      rôle,
+      domain: 'producteur',
+    });
+
+  const action = peutModifier
+    ? {
+        url: Routes.Producteur.modifier(identifiantProjet.formatter()),
+        label: 'Modifier',
+        labelActions: 'Modifier le producteur',
+      }
+    : peutEnregistrerChangement
+      ? {
+          url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
+          label: 'Changer de producteur',
+          labelActions: 'Changer de producteur',
+        }
+      : undefined;
+
+  return {
+    value: { producteur },
+    action,
+  };
 };
 
-export type GetReprésentantLégalData = ChampAvecAction<{
+export type GetReprésentantLégalData = ChampObligatoireAvecAction<{
   nom: string;
 }>;
 
@@ -70,63 +71,64 @@ export const getReprésentantLégalData = async ({
   identifiantProjet,
   rôle,
 }: Props): Promise<GetReprésentantLégalData> => {
-  const représentantLégal =
-    await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+  const projection = await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>(
+    {
       type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
       data: { identifiantProjet: identifiantProjet.formatter() },
-    });
+    },
+  );
 
-  if (Option.isSome(représentantLégal)) {
-    const value = { nom: représentantLégal.nomReprésentantLégal };
+  if (Option.isNone(projection)) {
+    return notFound();
+  }
 
-    if (représentantLégal.demandeEnCours) {
-      return {
-        value,
-        action: rôle.aLaPermission('représentantLégal.consulterChangement')
-          ? {
-              url: Routes.ReprésentantLégal.changement.détails(
-                identifiantProjet.formatter(),
-                représentantLégal.demandeEnCours.demandéLe,
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined,
-      };
-    }
+  const value = { nom: projection.nomReprésentantLégal };
 
-    const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
-      await checkAutorisationChangement<'représentantLégal'>({
-        identifiantProjet,
-        rôle,
-        domain: 'représentantLégal',
-      });
-
-    const action = peutModifier
-      ? {
-          url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le représentant légal',
-        }
-      : peutFaireUneDemandeDeChangement || peutEnregistrerChangement
-        ? {
-            url: peutFaireUneDemandeDeChangement
-              ? Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter())
-              : Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer de représentant légal',
-            labelActions: 'Changer de représentant légal',
-          }
-        : undefined;
-
+  if (projection.demandeEnCours) {
     return {
-      value: { nom: représentantLégal.nomReprésentantLégal },
-      action,
+      value,
+      action: rôle.aLaPermission('représentantLégal.consulterChangement')
+        ? {
+            url: Routes.ReprésentantLégal.changement.détails(
+              identifiantProjet.formatter(),
+              projection.demandeEnCours.demandéLe,
+            ),
+            label: 'Voir la demande de modification',
+          }
+        : undefined,
     };
   }
 
-  return {};
+  const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+    await checkAutorisationChangement<'représentantLégal'>({
+      identifiantProjet,
+      rôle,
+      domain: 'représentantLégal',
+    });
+
+  const action = peutModifier
+    ? {
+        url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
+        label: 'Modifier',
+        labelActions: 'Modifier le représentant légal',
+      }
+    : peutFaireUneDemandeDeChangement || peutEnregistrerChangement
+      ? {
+          url: peutFaireUneDemandeDeChangement
+            ? Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter())
+            : Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
+          label: 'Changer de représentant légal',
+          labelActions: 'Changer de représentant légal',
+        }
+      : undefined;
+
+  return {
+    value,
+    action,
+  };
 };
 
-export type GetPuissanceData = ChampAvecAction<{
+export type GetPuissanceData = ChampObligatoireAvecAction<{
   puissance: number;
   unitéPuissance: string;
   puissanceDeSite?: number;
@@ -141,59 +143,59 @@ export const getPuissanceData = async ({
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(projection)) {
-    const { puissance, dateDemandeEnCours, puissanceDeSite, unitéPuissance } = projection;
-    const value = {
-      puissance,
-      unitéPuissance: unitéPuissance.formatter(),
-      puissanceDeSite,
-    };
+  if (Option.isNone(projection)) {
+    return notFound();
+  }
 
-    if (dateDemandeEnCours) {
-      return {
-        value,
-        action: rôle.aLaPermission('puissance.consulterChangement')
-          ? {
-              url: Routes.Puissance.changement.détails(
-                identifiantProjet.formatter(),
-                dateDemandeEnCours.formatter(),
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined,
-      };
-    }
+  const { puissance, dateDemandeEnCours, puissanceDeSite, unitéPuissance } = projection;
+  const value = {
+    puissance,
+    unitéPuissance: unitéPuissance.formatter(),
+    puissanceDeSite,
+  };
 
-    const { peutModifier, peutFaireUneDemandeDeChangement } =
-      await checkAutorisationChangement<'puissance'>({
-        identifiantProjet,
-        rôle,
-        domain: 'puissance',
-      });
-
-    const action = peutModifier
-      ? {
-          url: Routes.Puissance.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-        }
-      : peutFaireUneDemandeDeChangement
-        ? {
-            url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-            label: 'Changer de puissance',
-          }
-        : undefined;
-
+  if (dateDemandeEnCours) {
     return {
       value,
-      action,
+      action: rôle.aLaPermission('puissance.consulterChangement')
+        ? {
+            url: Routes.Puissance.changement.détails(
+              identifiantProjet.formatter(),
+              dateDemandeEnCours.formatter(),
+            ),
+            label: 'Voir la demande de modification',
+          }
+        : undefined,
     };
   }
 
-  return {};
+  const { peutModifier, peutFaireUneDemandeDeChangement } =
+    await checkAutorisationChangement<'puissance'>({
+      identifiantProjet,
+      rôle,
+      domain: 'puissance',
+    });
+
+  const action = peutModifier
+    ? {
+        url: Routes.Puissance.modifier(identifiantProjet.formatter()),
+        label: 'Modifier',
+      }
+    : peutFaireUneDemandeDeChangement
+      ? {
+          url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+          label: 'Changer de puissance',
+        }
+      : undefined;
+
+  return {
+    value,
+    action,
+  };
 };
 
 export type GetLauréatData = {
-  siteDeProduction: ChampAvecAction<PlainType<Candidature.Localité.ValueType>>;
+  siteDeProduction: ChampObligatoireAvecAction<PlainType<Candidature.Localité.ValueType>>;
   prixRéférence: number;
   emailContact: string;
   actionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
@@ -223,7 +225,7 @@ export const getLauréatData = async ({
   };
 };
 
-export type GetActionnaireData = ChampAvecAction<{
+export type GetActionnaireData = ChampObligatoireAvecAction<{
   nom: string;
 }>;
 
@@ -234,68 +236,67 @@ export const getActionnaireData = async ({
 }: Props & {
   nécessiteInstruction: boolean;
 }): Promise<GetActionnaireData> => {
-  const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+  const projection = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(actionnaire)) {
-    const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
-    const value = { nom };
+  if (Option.isNone(projection)) {
+    return notFound();
+  }
 
-    if (dateDemandeEnCours) {
-      return {
-        value,
-        action: rôle.aLaPermission('actionnaire.consulterChangement')
-          ? {
-              url: Routes.Actionnaire.changement.détails(
-                identifiantProjet.formatter(),
-                dateDemandeEnCours.formatter(),
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined,
-      };
-    }
+  const value = { nom: projection.actionnaire };
 
-    const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
-      await checkAutorisationChangement<'actionnaire'>({
-        identifiantProjet,
-        rôle,
-        nécessiteInstruction,
-        domain: 'actionnaire',
-      });
-
-    // TODO:
-    // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
-    const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
-
-    const action = estPetitPV
-      ? undefined
-      : peutModifier
-        ? {
-            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-          }
-        : peutEnregistrerChangement
-          ? {
-              url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Faire un changement',
-            }
-          : peutFaireUneDemandeDeChangement
-            ? {
-                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                label: 'Faire une demande de changement',
-              }
-            : undefined;
-
+  if (projection.dateDemandeEnCours) {
     return {
       value,
-      action,
+      action: rôle.aLaPermission('actionnaire.consulterChangement')
+        ? {
+            url: Routes.Actionnaire.changement.détails(
+              identifiantProjet.formatter(),
+              projection.dateDemandeEnCours.formatter(),
+            ),
+            label: 'Voir la demande de modification',
+          }
+        : undefined,
     };
   }
 
-  return {};
+  const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+    await checkAutorisationChangement<'actionnaire'>({
+      identifiantProjet,
+      rôle,
+      nécessiteInstruction,
+      domain: 'actionnaire',
+    });
+
+  // TODO:
+  // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
+  const action = estPetitPV
+    ? undefined
+    : peutModifier
+      ? {
+          url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+          label: 'Modifier',
+        }
+      : peutEnregistrerChangement
+        ? {
+            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+            label: 'Faire un changement',
+          }
+        : peutFaireUneDemandeDeChangement
+          ? {
+              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+              label: 'Faire une demande de changement',
+            }
+          : undefined;
+
+  return {
+    value,
+    action,
+  };
 };
 
 // TODO: ajouter note innovation
