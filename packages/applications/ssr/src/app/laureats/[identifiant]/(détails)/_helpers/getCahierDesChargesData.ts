@@ -3,7 +3,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ChampAvecAction } from '../../_helpers/types';
+import { ChampObligatoireAvecAction } from '../../_helpers/types';
 import { getCahierDesCharges } from '../../../../_helpers';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   rôle: Role.ValueType;
 };
 
-export type CahierDesChargesData = ChampAvecAction<
+export type CahierDesChargesData = ChampObligatoireAvecAction<
   | {
       estInitial: true;
       estAlternatif: false;

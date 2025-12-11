@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -8,11 +9,13 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
 import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
-import { ChampAvecAction } from '../../../_helpers/types';
+import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 
 export type GetÉvaluationCarboneForProjectPage = {
-  évaluationCarboneSimplifiée?: ChampAvecAction<number>;
-  fournisseurs?: ChampAvecAction<PlainType<Array<Lauréat.Fournisseur.Fournisseur.ValueType>>>;
+  évaluationCarboneSimplifiée: ChampObligatoireAvecAction<number>;
+  fournisseurs: ChampObligatoireAvecAction<
+    PlainType<Array<Lauréat.Fournisseur.Fournisseur.ValueType>>
+  >;
 };
 
 type Props = {
@@ -29,41 +32,41 @@ export const getÉvaluationCarbone = async ({
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  if (Option.isSome(projection)) {
-    const { fournisseurs, évaluationCarboneSimplifiée } = projection;
-
-    const { peutModifier, peutEnregistrerChangement } =
-      await checkAutorisationChangement<'fournisseur'>({
-        identifiantProjet,
-        rôle,
-        domain: 'fournisseur',
-      });
-
-    // TODO:
-    // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
-    const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
-
-    const actionFournisseur = estPetitPV
-      ? undefined
-      : peutModifier
-        ? {
-            url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-            labelActions: 'Modifier le fournisseur',
-          }
-        : peutEnregistrerChangement
-          ? {
-              url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Changer de fournisseur',
-              labelActions: 'Changer de fournisseur',
-            }
-          : undefined;
-
-    return {
-      fournisseurs: { value: mapToPlainObject(fournisseurs), action: actionFournisseur },
-      évaluationCarboneSimplifiée: { value: évaluationCarboneSimplifiée },
-    };
+  if (Option.isNone(projection)) {
+    return notFound();
   }
 
-  return {};
+  const { fournisseurs, évaluationCarboneSimplifiée } = projection;
+
+  const { peutModifier, peutEnregistrerChangement } =
+    await checkAutorisationChangement<'fournisseur'>({
+      identifiantProjet,
+      rôle,
+      domain: 'fournisseur',
+    });
+
+  // TODO:
+  // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
+  const actionFournisseur = estPetitPV
+    ? undefined
+    : peutModifier
+      ? {
+          url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: 'Modifier le fournisseur',
+        }
+      : peutEnregistrerChangement
+        ? {
+            url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+            label: 'Changer de fournisseur',
+            labelActions: 'Changer de fournisseur',
+          }
+        : undefined;
+
+  return {
+    fournisseurs: { value: mapToPlainObject(fournisseurs), action: actionFournisseur },
+    évaluationCarboneSimplifiée: { value: évaluationCarboneSimplifiée },
+  };
 };

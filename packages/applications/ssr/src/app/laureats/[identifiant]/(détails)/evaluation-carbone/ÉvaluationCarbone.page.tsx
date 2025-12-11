@@ -24,14 +24,10 @@ const ÉvaluationCarbone = ({ évaluationCarbone }: Props) => {
   return (
     <>
       <Section title="Évaluation carbone simplifiée">
-        {évaluationCarboneSimplifiée?.value === undefined ? (
-          <span>Champs non renseigné</span>
-        ) : (
-          <span>{évaluationCarboneSimplifiée.value} kg eq CO2/kWc</span>
-        )}
+        <span>{évaluationCarboneSimplifiée.value} kg eq CO2/kWc</span>
       </Section>
       <Section title="Fournisseurs">
-        {!fournisseurs?.value?.length ? (
+        {fournisseurs.value.length === 0 ? (
           <span>Champs non renseigné</span>
         ) : (
           <>
