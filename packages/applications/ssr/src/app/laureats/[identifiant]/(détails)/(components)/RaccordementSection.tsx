@@ -11,10 +11,10 @@ export const RaccordementSection = async ({ raccordement }: RaccordementSectionP
     {raccordement.value ? (
       <>
         <div>
-          <span className="mb-0 font-semibold">Gestionnaire de réseau</span> :{' '}
+          <span className="mb-0">Gestionnaire de réseau</span> :{' '}
           {raccordement.value.gestionnaireDeRéseau}{' '}
         </div>
-        <div className="mb-0 font-semibold">
+        <div className="mb-0">
           {raccordement.value.nombreDeDossiers === 0
             ? 'Aucun dossier de raccordement renseigné'
             : raccordement.value.nombreDeDossiers === 1

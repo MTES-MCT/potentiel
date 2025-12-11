@@ -5,8 +5,8 @@ import { Heading3 } from '@/components/atoms/headings';
 
 type SectionProps = ComponentProps<'div'> & {
   title: string;
-  icon?: React.ReactNode;
   children: React.ReactNode;
+  icon?: React.ReactNode;
 };
 
 export const Section = ({ title, children, className = '' }: SectionProps) => (
@@ -16,9 +16,7 @@ export const Section = ({ title, children, className = '' }: SectionProps) => (
       className,
     )}
   >
-    <div>
-      <Heading3 className="flex items-center">{title}</Heading3>
-    </div>
+    <Heading3 className="flex items-center mb-1">{title}</Heading3>
     {children}
   </section>
 );

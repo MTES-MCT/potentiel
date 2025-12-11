@@ -51,9 +51,7 @@ export const GarantiesFinancièresSection = ({
                   </span>
                 )}
                 {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
-                  <span className="font-semibold">
-                    , {getGarantiesFinancièresLabel(garantiesFinancières.actuelles.type)}
-                  </span>
+                  <span>, {getGarantiesFinancièresLabel(garantiesFinancières.actuelles.type)}</span>
                 )}
                 {garantiesFinancières.actuelles.dateÉchéance &&
                   garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
@@ -84,19 +82,16 @@ export const GarantiesFinancièresSection = ({
 
       {garantiesFinancières.dépôtÀTraiter && (
         <div>
-          De{' '}
-          <span className="font-semibold">
-            nouvelles garanties financières{' '}
-            {getGarantiesFinancièresLabel(garantiesFinancières.dépôtÀTraiter?.type)}, constituées le{' '}
-            <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateConstitution} />
-            {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
-              <span>
-                {' '}
-                et avec échéance au{' '}
-                <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateÉchéance} />
-              </span>
-            )}
-          </span>{' '}
+          De nouvelles garanties financières{' '}
+          {getGarantiesFinancièresLabel(garantiesFinancières.dépôtÀTraiter?.type)}, constituées le{' '}
+          <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateConstitution} />
+          {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
+            <span>
+              {' '}
+              et avec échéance au{' '}
+              <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateÉchéance} />
+            </span>
+          )}{' '}
           sont à traiter par l'autorité compétente
         </div>
       )}
