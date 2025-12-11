@@ -30,7 +30,14 @@ export const baseMenuItems: Array<MenuItem> = [
   },
   {
     label: 'Actions',
-    children: [],
+    children: [
+      // seulement pour porteur, admin et dreal
+      // est ce nécessaire de restreindre pour les autres rôles ?
+      {
+        href: `imprimer`,
+        label: 'Imprimer la page',
+      },
+    ],
   },
   {
     label: 'Tâches',
