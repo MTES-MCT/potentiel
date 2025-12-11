@@ -157,22 +157,6 @@ Alors(
   },
 );
 
-Alors(
-  `l'équipe Potentiel a été prévenue de la notification de la période`,
-  async function (this: PotentielWorld) {
-    const { identifiantPériode } = this.périodeWorld;
-
-    await waitForExpect(async () => {
-      const notif = this.notificationWorld.récupérerNotification(
-        process.env.TEAM_EMAIL || '_no_email_',
-        `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
-      );
-
-      expect(notif).to.not.be.undefined;
-    });
-  },
-);
-
 async function vérifierPériode(
   this: PotentielWorld,
   identifiantPériode: Période.IdentifiantPériode.ValueType,
