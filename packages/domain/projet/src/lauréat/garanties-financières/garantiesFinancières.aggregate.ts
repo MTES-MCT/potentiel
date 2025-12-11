@@ -469,6 +469,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
     await this.échoirOuPlanifierÉchéance(enregistréLe);
 
+    /**
+     * Dans le cas où les nouvelles garanties financières ne sont pas déjà échues,
+     * on doit annuler les tâches planifiées et la tâche porteur concernant la demande de nouvelles GFs
+     */
     if (!this.estÉchu) {
       await this.#tâchePlanifiéeRappelEnAttente.annuler();
       await this.annulerTâchePorteurDemanderGarantiesFinancières();
