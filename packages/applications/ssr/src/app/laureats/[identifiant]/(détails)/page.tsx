@@ -19,6 +19,7 @@ import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancière
 import { getRaccordementData } from './_helpers/getRaccordementData';
 import { getÉtapesData } from './_helpers/getÉtapesData';
 import { checkFeatureFlag } from './_helpers/checkFeatureFlag';
+import { getAlertesRaccordement } from './_helpers/getRaccordementAlert';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -40,6 +41,10 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const achèvementData = await getAchèvementData({ identifiantProjet, rôle });
 
+      const recours = await getRecours(identifiantProjet);
+
+      const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
+
       const raccordement = await getRaccordementData({
         role: rôle,
         identifiantProjet,
@@ -47,9 +52,12 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         aUnAbandonEnCours: !!abandon?.demandeEnCours,
       });
 
-      const recours = await getRecours(identifiantProjet);
-
-      const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
+      const raccordementAlerts = getAlertesRaccordement({
+        CDC2022Choisi:
+          !cahierDesChargesData.value.estInitial &&
+          cahierDesChargesData.value.dateParution === '30/08/2022',
+        raccordement,
+      });
 
       const étapes = getÉtapesData({
         dateNotification: lauréat.notifiéLe.formatter(),
@@ -94,10 +102,11 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
           cahierDesCharges={cahierDesChargesData}
-          abandonAlert={abandonAlert}
-          achèvementAlert={achèvementAlert}
           garantiesFinancièresData={garantiesFinancièresData}
           achèvementData={achèvementData}
+          raccordementAlerts={raccordementAlerts}
+          abandonAlert={abandonAlert}
+          achèvementAlert={achèvementAlert}
         />
       );
     }),

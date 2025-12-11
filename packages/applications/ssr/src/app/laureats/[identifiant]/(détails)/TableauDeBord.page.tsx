@@ -1,6 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-'use client';
-
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 import { SectionPage } from './(components)/SectionPage';
@@ -17,6 +15,7 @@ import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièr
 import { RaccordementSection } from './(components)/RaccordementSection';
 import { AchèvementSection } from './(components)/AchèvementSection';
 import { GetAchèvementData } from './_helpers/getAchèvementData';
+import { RaccordementAlertesData } from './_helpers/getRaccordementAlert';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
@@ -26,10 +25,11 @@ type TableauDeBordPageProps = {
   };
   cahierDesCharges: CahierDesChargesSectionProps;
   raccordement: GetRaccordementForProjectPage;
-  abandonAlert: AbandonAlertData;
-  achèvementAlert: AchèvementAlertData;
   garantiesFinancièresData: GetGarantiesFinancièresData | undefined;
   achèvementData: GetAchèvementData;
+  abandonAlert: AbandonAlertData;
+  achèvementAlert: AchèvementAlertData;
+  raccordementAlerts: RaccordementAlertesData;
 };
 
 export const TableauDeBordPage = ({
@@ -41,6 +41,7 @@ export const TableauDeBordPage = ({
   achèvementAlert,
   garantiesFinancièresData,
   achèvementData,
+  raccordementAlerts,
 }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -77,7 +78,9 @@ export const TableauDeBordPage = ({
         </div>
         <div className="flex flex-col gap-4 flex-1">
           <AchèvementSection achèvement={achèvementData} />
-          {raccordement.value && <RaccordementSection raccordement={raccordement} />}
+          {raccordement.value && (
+            <RaccordementSection raccordement={raccordement} raccordementAlerts={raccordementAlerts}/>
+          )}
           {garantiesFinancièresData && (
             <GarantiesFinancièresSection
               estAchevé={achèvementData.value.estAchevé}

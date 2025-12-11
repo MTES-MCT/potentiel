@@ -21,6 +21,7 @@ export type GetRaccordementForProjectPage = ChampAvecAction<
       nombreDeDossiers: number;
       gestionnaireDeRéseau: string;
       dateMiseEnService?: DateTime.ValueType;
+      aTransmisAccuséRéceptionDemandeRaccordement?: boolean;
     }
   | undefined
 >;
@@ -60,6 +61,9 @@ export const getRaccordementData = async ({
               .map((dossier) => dossier.miseEnService?.dateMiseEnService)
               .filter(Boolean)
               .sort()[0]
+          : undefined,
+        aTransmisAccuséRéceptionDemandeRaccordement: raccordement.dossiers.length
+          ? !!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception
           : undefined,
       };
 
