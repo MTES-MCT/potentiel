@@ -3,12 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
 import { DélaiEvent } from '../délai.event';
-import { LegacyDélaiAccordéEvent } from '../accorder/accorderDélai.event';
 
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
-  'délai',
-  DélaiEvent | LegacyDélaiAccordéEvent
->;
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', DélaiEvent>;
 
 export type ListerHistoriqueDélaiProjetReadModel = {
   items: ReadonlyArray<HistoriqueDélaiProjetListItemReadModel>;
