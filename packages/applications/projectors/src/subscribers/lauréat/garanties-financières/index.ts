@@ -38,10 +38,10 @@ export type Execute = Message<'System.Projector.Lauréat.GarantiesFinancières',
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
-      //////////// Rebuild
+      //#region Rebuild
       .with({ type: 'RebuildTriggered' }, garantiesFinancièresRebuildTriggeredProjector)
-
-      //////////// Dépôt
+      //#endregion Rebuild
+      //#region Dépôt
       .with(
         { type: 'DépôtGarantiesFinancièresSoumis-V1' },
         dépôtGarantiesFinancièresSoumisProjector,
@@ -70,7 +70,8 @@ export const register = () => {
         },
         dépôtGarantiesFinancièresEnCoursValidéProjector,
       )
-      //////////// Garanties financières actuelles
+      //#endregion Dépôt
+      //#region Actuelles
       .with(
         {
           type: 'GarantiesFinancièresDemandées-V1',
@@ -117,7 +118,8 @@ export const register = () => {
         { type: 'HistoriqueGarantiesFinancièresEffacé-V1' },
         historiqueGarantiesFinancièresEffacéProjector,
       )
-      //////////// Mainlevée
+      //#endregion Actuelles
+      //#region Mainlevée
       .with(
         {
           type: 'MainlevéeGarantiesFinancièresDemandée-V1',
@@ -148,6 +150,7 @@ export const register = () => {
         },
         demandeMainlevéeGarantiesFinancièresRejetéeProjector,
       )
+      //#endregion Mainlevée
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.GarantiesFinancières', handler);
