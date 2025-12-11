@@ -359,6 +359,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
     await this.planifierÉchéance(modifiéLe);
+
+    await this.#tâcheDemanderGarantiesFinancières.achever();
+    await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
   async enregistrerAttestation({

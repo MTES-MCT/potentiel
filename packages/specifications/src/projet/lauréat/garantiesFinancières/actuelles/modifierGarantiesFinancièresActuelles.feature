@@ -51,6 +51,14 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à trois mois" est planifiée à la date du "2050-07-01" pour le projet lauréat
 
+    Scénario: Un admin modifie des garanties financières actuelles pour un projet en attente de garanties financières
+        Etant donné des garanties financières en attente pour le projet lauréat
+        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
+            | type GF              | consignation |
+            | date de constitution | 2024-01-01   |
+        Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
+
     Scénario: Un admin modifie des garanties financières actuelles pour un projet qui en est exempté
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
