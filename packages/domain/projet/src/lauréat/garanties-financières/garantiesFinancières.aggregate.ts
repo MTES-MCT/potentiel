@@ -240,7 +240,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  private async planifierÉchéance(échuLe: DateTime.ValueType) {
+  private async échoirOuPlanifierÉchéance(échuLe: DateTime.ValueType) {
     const garantiesFinancières = this.#actuelles?.garantiesFinancières;
     if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.statut.estAchevé()) {
       return;
@@ -312,7 +312,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.publish(eventTypeGFImporté);
     }
 
-    await this.planifierÉchéance(importéLe);
+    await this.échoirOuPlanifierÉchéance(importéLe);
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
@@ -355,7 +355,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.planifierÉchéance(modifiéLe);
+    await this.échoirOuPlanifierÉchéance(modifiéLe);
 
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
     await this.annulerTâchePorteurGarantiesFinancièresDemandée();
@@ -408,7 +408,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.planifierÉchéance(enregistréLe);
+    await this.échoirOuPlanifierÉchéance(enregistréLe);
 
     if (!this.estÉchu) {
       await this.#tâchePlanifiéeRappelEnAttente.annuler();
@@ -562,7 +562,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.planifierÉchéance(validéLe);
+    await this.échoirOuPlanifierÉchéance(validéLe);
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
@@ -594,7 +594,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       });
     }
     // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-    await this.planifierÉchéance(suppriméLe);
+    await this.échoirOuPlanifierÉchéance(suppriméLe);
   }
 
   //#endregion Behavior Dépôt
