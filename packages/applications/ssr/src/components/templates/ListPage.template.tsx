@@ -10,6 +10,7 @@ import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
 import { ListAction } from '../molecules/ListAction';
 
 import { PageTemplate } from './Page.template';
+import clsx from 'clsx';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;
@@ -53,7 +54,12 @@ export const ListPageTemplate = <TItem,>({
           {legend.symbols.length ? <ListLegend symbols={legend.symbols} /> : null}
         </div>
 
-        <div className="flex flex-col gap-3 flex-grow md:w-3/4">
+        <div
+          className={clsx(
+            (actions.length || filters.length || legend.symbols.length) && 'md:w-3/4',
+            'flex flex-col gap-3 flex-grow',
+          )}
+        >
           <ListHeader searchBarParams={search?.params} filters={filters} totalCount={totalItems} />
           {items.length ? (
             <List
