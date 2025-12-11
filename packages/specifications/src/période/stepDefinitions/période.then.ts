@@ -143,6 +143,8 @@ Alors(
         },
       });
 
+      expect(usersOthersThanDGECOrPorteur.items).to.have.length.greaterThan(0);
+
       for (const { email } of usersOthersThanDGECOrPorteur.items) {
         const notif = this.notificationWorld.récupérerNotification(
           email,
