@@ -25,12 +25,12 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges }: Props) => {
   const currentMenuId = pathname.split('/')[3] || '';
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
-  // TODO: ajouter typologieInstallation
   const showInstallation = !!(
     cahierDesCharges.appelOffre.champsSupplémentaires?.autorisationDUrbanisme ||
     cahierDesCharges.appelOffre.champsSupplémentaires?.natureDeLExploitation ||
     cahierDesCharges.appelOffre.champsSupplémentaires?.installateur ||
-    cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage
+    cahierDesCharges.appelOffre.champsSupplémentaires?.dispositifDeStockage ||
+    cahierDesCharges.appelOffre.champsSupplémentaires?.typologieInstallation
   );
 
   const filteredMenuItems = filterMenuItems({
