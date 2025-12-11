@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
@@ -315,6 +315,32 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.échoirOuPlanifierÉchéance(importéLe);
   }
 
+  private applyGarantiesFinancièresImportéesV1({
+    payload: { dateÉchéance, type, attestation, dateConstitution },
+  }: GarantiesFinancièresImportéesEvent) {
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+    };
+  }
+
+  private applyTypeGarantiesFinancièresImportéV1({
+    payload: { type, dateÉchéance },
+  }: TypeGarantiesFinancièresImportéEvent) {
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        dateConstitution: undefined,
+        attestation: undefined,
+      }),
+    };
+  }
+
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
     const event: GarantiesFinancièresDemandéesEvent = {
       type: 'GarantiesFinancièresDemandées-V1',
@@ -332,6 +358,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     });
 
     await this.#tâcheDemanderGarantiesFinancières.ajouter();
+  }
+
+  private applyGarantiesFinancièresDemandéesV1({
+    payload: { motif, dateLimiteSoumission },
+  }: GarantiesFinancièresDemandéesEvent) {
+    this.#motifDemande = MotifDemandeGarantiesFinancières.convertirEnValueType(motif);
+    this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
   }
 
   async modifier({ garantiesFinancières, modifiéLe, modifiéPar }: ModifierActuellesOptions) {
@@ -361,6 +394,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
+  private applyGarantiesFinancièresModifiéesV1({
+    payload: { type, dateÉchéance, attestation, dateConstitution },
+  }: GarantiesFinancièresModifiéesEvent) {
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+    };
+  }
+
   async enregistrerAttestation({
     attestation,
     dateConstitution,
@@ -384,6 +430,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  private applyAttestationGarantiesFinancièresEnregistréeV1({
+    payload: { attestation, dateConstitution },
+  }: AttestationGarantiesFinancièresEnregistréeEvent) {
+    if (this.#actuelles) {
+      this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+        dateÉchéance: undefined,
+        ...this.#actuelles.garantiesFinancières.formatter(),
+        attestation,
+        dateConstitution,
+      });
+    }
   }
 
   async enregistrer({ garantiesFinancières, enregistréLe, enregistréPar }: EnregistrerOptions) {
@@ -414,6 +473,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.#tâchePlanifiéeRappelEnAttente.annuler();
       await this.annulerTâchePorteurDemanderGarantiesFinancières();
     }
+  }
+
+  private applyGarantiesFinancièresEnregistréesV1({
+    payload: { dateÉchéance, type, attestation, dateConstitution },
+  }: GarantiesFinancièresEnregistréesEvent) {
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+    };
   }
 
   async échoir({ échuLe }: ÉchoirOptions) {
@@ -457,6 +529,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     });
   }
 
+  private applyGarantiesFinancièresÉchuesV1(_: GarantiesFinancièresÉchuesEvent) {
+    this.#estÉchu = true;
+  }
+
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
     if (this.aDesGarantiesFinancières || this.aUnDépôtEnCours) {
       const event: HistoriqueGarantiesFinancièresEffacéEvent = {
@@ -472,6 +548,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
 
     await this.annulerTâchesPlanififées();
+  }
+
+  private applyHistoriqueGarantiesFinancièresEffacéV1(
+    _: HistoriqueGarantiesFinancièresEffacéEvent,
+  ) {
+    this.#actuelles = undefined;
+    this.#dépôtEnCours = undefined;
   }
 
   //#endregion Behavior Actuelles
@@ -515,6 +598,20 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
+  private applyDépôtGarantiesFinancièresSoumisV1({
+    payload: { type, dateÉchéance, attestation, dateConstitution, soumisLe },
+  }: DépôtGarantiesFinancièresSoumisEvent) {
+    this.#dépôtEnCours = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+      soumisLe: DateTime.convertirEnValueType(soumisLe),
+    };
+  }
+
   async modifierDépôt({ modifiéLe, garantiesFinancières, modifiéPar }: ModifierDépôtOptions) {
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
@@ -535,6 +632,20 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursModifiéV1({
+    payload: { type, dateÉchéance, attestation, dateConstitution, modifiéLe },
+  }: DépôtGarantiesFinancièresEnCoursModifiéEvent) {
+    this.#dépôtEnCours = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+      soumisLe: DateTime.convertirEnValueType(modifiéLe),
+    };
   }
 
   async validerDépôt({ validéLe, validéPar }: ValiderDépôtOptions) {
@@ -563,6 +674,28 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
     await this.échoirOuPlanifierÉchéance(validéLe);
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursValidéV1(
+    _: DépôtGarantiesFinancièresEnCoursValidéEventV1,
+  ) {
+    // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
+    this.#actuelles = this.#dépôtEnCours;
+    this.#dépôtEnCours = undefined;
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursValidéV2({
+    payload: { dateÉchéance, type, attestation, dateConstitution },
+  }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
+    this.#dépôtEnCours = undefined;
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+    };
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
@@ -595,6 +728,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
     // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
     await this.échoirOuPlanifierÉchéance(suppriméLe);
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursSupprimé(
+    _:
+      | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
+      | DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+  ) {
+    this.#dépôtEnCours = undefined;
   }
 
   //#endregion Behavior Dépôt
@@ -639,6 +780,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  private applyMainlevéeGarantiesFinancièresDemandéeV1(
+    _: MainlevéeGarantiesFinancièresDemandéeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.demandé;
+  }
+
   async annulerMainlevée({ annuléLe, annuléPar }: AnnulerMainlevéeOption) {
     if (!this.#statutMainlevée) {
       throw new MainlevéeNonTrouvéeError();
@@ -667,6 +814,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  private applyDemandeMainlevéeGarantiesFinancièresAnnuléeV1(
+    _: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
+  ) {
+    this.#statutMainlevée = undefined;
+  }
+
   async démarrerInstructionMainlevée({
     démarréLe,
     démarréPar,
@@ -689,6 +842,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  private applyInstructionDemandeMainlevéeGarantiesFinancièresDémarréeV1(
+    _: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.enInstruction;
   }
 
   async accorderMainlevée({
@@ -720,6 +879,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.annulerTâchesPlanififées();
   }
 
+  private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
+    _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
+  }
+
   async rejeterMainlevée({ rejetéLe, rejetéPar, réponseSignée }: RejeterMainlevéeOptions) {
     if (!this.#statutMainlevée) {
       throw new MainlevéeNonTrouvéeError();
@@ -744,18 +909,26 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  private applyDemandeMainlevéeGarantiesFinancièresRejetéeV1(
+    _: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.rejeté;
+  }
+
   //#endregion Behavior Mainlevée
 
   apply(event: GarantiesFinancièresEvent): void {
     match(event)
       .with(
-        { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1' },
-        this.applyDépôtGarantiesFinancièresEnCoursSuppriméV1.bind(this),
+        {
+          type: P.union(
+            'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+            'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+          ),
+        },
+        this.applyDépôtGarantiesFinancièresEnCoursSupprimé.bind(this),
       )
-      .with(
-        { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2' },
-        this.applyDépôtGarantiesFinancièresEnCoursSuppriméV2.bind(this),
-      )
+
       .with(
         { type: 'DépôtGarantiesFinancièresSoumis-V1' },
         this.applyDépôtGarantiesFinancièresSoumisV1.bind(this),
@@ -826,190 +999,4 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       )
       .exhaustive();
   }
-
-  //#region Apply Dépôt
-
-  private applyDépôtGarantiesFinancièresEnCoursSuppriméV1(
-    _: DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
-  ) {
-    this.#dépôtEnCours = undefined;
-  }
-
-  private applyDépôtGarantiesFinancièresEnCoursSuppriméV2(
-    _: DépôtGarantiesFinancièresEnCoursSuppriméEvent,
-  ) {
-    this.#dépôtEnCours = undefined;
-  }
-
-  private applyDépôtGarantiesFinancièresSoumisV1({
-    payload: { type, dateÉchéance, attestation, dateConstitution, soumisLe },
-  }: DépôtGarantiesFinancièresSoumisEvent) {
-    this.#dépôtEnCours = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-      soumisLe: DateTime.convertirEnValueType(soumisLe),
-    };
-  }
-
-  private applyDépôtGarantiesFinancièresEnCoursModifiéV1({
-    payload: { type, dateÉchéance, attestation, dateConstitution, modifiéLe },
-  }: DépôtGarantiesFinancièresEnCoursModifiéEvent) {
-    this.#dépôtEnCours = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-      soumisLe: DateTime.convertirEnValueType(modifiéLe),
-    };
-  }
-
-  private applyDépôtGarantiesFinancièresEnCoursValidéV1(
-    _: DépôtGarantiesFinancièresEnCoursValidéEventV1,
-  ) {
-    // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
-    this.#actuelles = this.#dépôtEnCours;
-    this.#dépôtEnCours = undefined;
-  }
-
-  private applyDépôtGarantiesFinancièresEnCoursValidéV2({
-    payload: { dateÉchéance, type, attestation, dateConstitution },
-  }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
-    this.#dépôtEnCours = undefined;
-    this.#actuelles = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-    };
-  }
-
-  //#endregion Apply Dépôt
-
-  //#region Apply Actuelles
-
-  private applyGarantiesFinancièresEnregistréesV1({
-    payload: { dateÉchéance, type, attestation, dateConstitution },
-  }: GarantiesFinancièresEnregistréesEvent) {
-    this.#actuelles = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-    };
-  }
-
-  private applyGarantiesFinancièresImportéesV1({
-    payload: { dateÉchéance, type, attestation, dateConstitution },
-  }: GarantiesFinancièresImportéesEvent) {
-    this.#actuelles = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-    };
-  }
-
-  private applyGarantiesFinancièresModifiéesV1({
-    payload: { type, dateÉchéance, attestation, dateConstitution },
-  }: GarantiesFinancièresModifiéesEvent) {
-    this.#actuelles = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        attestation,
-        dateConstitution,
-      }),
-    };
-  }
-
-  private applyHistoriqueGarantiesFinancièresEffacéV1(
-    _: HistoriqueGarantiesFinancièresEffacéEvent,
-  ) {
-    this.#actuelles = undefined;
-    this.#dépôtEnCours = undefined;
-  }
-
-  private applyTypeGarantiesFinancièresImportéV1({
-    payload: { type, dateÉchéance },
-  }: TypeGarantiesFinancièresImportéEvent) {
-    this.#actuelles = {
-      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-        dateConstitution: undefined,
-        attestation: undefined,
-      }),
-    };
-  }
-
-  private applyGarantiesFinancièresDemandéesV1({
-    payload: { motif, dateLimiteSoumission },
-  }: GarantiesFinancièresDemandéesEvent) {
-    this.#motifDemande = MotifDemandeGarantiesFinancières.convertirEnValueType(motif);
-    this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
-  }
-
-  private applyGarantiesFinancièresÉchuesV1(_: GarantiesFinancièresÉchuesEvent) {
-    this.#estÉchu = true;
-  }
-
-  private applyAttestationGarantiesFinancièresEnregistréeV1({
-    payload: { attestation, dateConstitution },
-  }: AttestationGarantiesFinancièresEnregistréeEvent) {
-    if (this.#actuelles) {
-      this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
-        dateÉchéance: undefined,
-        ...this.#actuelles.garantiesFinancières.formatter(),
-        attestation,
-        dateConstitution,
-      });
-    }
-  }
-  //#endregion Apply GF Actuelles
-
-  //#region Apply Mainlevée
-
-  private applyMainlevéeGarantiesFinancièresDemandéeV1(
-    _: MainlevéeGarantiesFinancièresDemandéeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.demandé;
-  }
-
-  private applyDemandeMainlevéeGarantiesFinancièresAnnuléeV1(
-    _: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
-  ) {
-    this.#statutMainlevée = undefined;
-  }
-
-  private applyInstructionDemandeMainlevéeGarantiesFinancièresDémarréeV1(
-    _: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.enInstruction;
-  }
-
-  private applyDemandeMainlevéeGarantiesFinancièresRejetéeV1(
-    _: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.rejeté;
-  }
-
-  private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
-    _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
-  }
-
-  //#endregion Apply Mainlevée
 }
