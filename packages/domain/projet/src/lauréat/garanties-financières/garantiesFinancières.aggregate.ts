@@ -275,7 +275,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRappel3mois.annuler();
   }
 
-  async annulerTâchePorteurGarantiesFinancièresDemandée() {
+  async annulerTâchePorteurDemanderGarantiesFinancières() {
     await this.#tâcheDemanderGarantiesFinancières.achever();
   }
 
@@ -358,7 +358,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.échoirOuPlanifierÉchéance(modifiéLe);
 
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
-    await this.annulerTâchePorteurGarantiesFinancièresDemandée();
+    await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
   async enregistrerAttestation({
@@ -412,7 +412,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     if (!this.estÉchu) {
       await this.#tâchePlanifiéeRappelEnAttente.annuler();
-      await this.annulerTâchePorteurGarantiesFinancièresDemandée();
+      await this.annulerTâchePorteurDemanderGarantiesFinancières();
     }
   }
 
@@ -512,7 +512,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.annulerTâchesPlanififées();
-    await this.annulerTâchePorteurGarantiesFinancièresDemandée();
+    await this.annulerTâchePorteurDemanderGarantiesFinancières();
   }
 
   async modifierDépôt({ modifiéLe, garantiesFinancières, modifiéPar }: ModifierDépôtOptions) {
