@@ -8,10 +8,24 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    Scénario: Le gestionnaire de réseau transmet une date de mise en service pour un dossier de raccordement
+    Scénario: Le gestionnaire de réseau transmet une date de mise en service pour un dossier de raccordement complet
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Le gestionnaire de réseau transmet une date de mise en service pour un dossier de raccordement incomplet (sans accusé de réception)
+        Etant donné une demande complète de raccordement sans accusé de réception pour le projet lauréat
+        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Mais une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" est consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Transmettre une date de mise en service pour un dossier incomplet (sans PTF)
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Mais une tâche indiquant de "transmettre la proposition technique et financière" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Impossible de transmettre une date de mise en service pour un projet sans dossier de raccordement
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :

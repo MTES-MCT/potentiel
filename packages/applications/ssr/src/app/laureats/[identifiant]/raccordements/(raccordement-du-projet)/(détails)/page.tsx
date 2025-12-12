@@ -81,7 +81,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     }),
   );
 }
-
+/**
+ * TODO : Définir les actions possible  par dossier dans un premier temps (en fonction de son état)
+ * et filtrer ensuite en fonction des permissions du rôle utilisateur
+ */
 const mapToActions = (
   { rôle }: Utilisateur.ValueType,
   raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel,
@@ -89,6 +92,7 @@ const mapToActions = (
   const isGestionnaireInconnu =
     raccordement.identifiantGestionnaireRéseau &&
     raccordement.identifiantGestionnaireRéseau.estInconnu();
+
   if (isGestionnaireInconnu) {
     return {
       supprimer: true,
@@ -110,6 +114,7 @@ const mapToActions = (
       },
     };
   }
+
   return {
     supprimer: rôle.aLaPermission('raccordement.dossier.supprimer'),
     demandeComplèteRaccordement: {

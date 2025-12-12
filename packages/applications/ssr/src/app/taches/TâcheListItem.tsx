@@ -98,6 +98,13 @@ const getDescriptionTâche = (
       action: 'Voir le raccordement',
       ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
     }))
+    .with('raccordement.transmettre-proposition-technique-et-financière-raccordement', () => ({
+      titre: 'Proposition technique et financière manquante',
+      description: `La proposition technique et financière de raccordement est manquante pour ce projet`,
+      lien: Routes.Raccordement.détail(identifiant),
+      action: 'Voir le raccordement',
+      ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
+    }))
     .with('inconnue', () => ({
       titre: '',
       description: '',

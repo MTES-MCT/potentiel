@@ -8,10 +8,16 @@ Fonctionnalité: Transmettre une proposition technique et financière
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    Scénario: Un porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement
+    Scénario: Un porteur de projet transmet une proposition technique et financière pour un dossier de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Un porteur de projet transmet une proposition technique et financière pour un dossier de raccordement incomplet
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Alors une tâche indiquant de "transmettre la proposition technique et financière" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Impossible de transmettre une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :
@@ -29,8 +35,3 @@ Fonctionnalité: Transmettre une proposition technique et financière
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :
             | La date de signature | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
-
-
-# Cas impossibles à tester car il n'y a pas de DCR pour un projet éliminé ou abandonné
-# Scénario: Impossible de transmettre une proposition technique et financière si le projet est abandonné
-# Scénario: Impossible de transmettre une proposition technique et financière si le projet est éliminé

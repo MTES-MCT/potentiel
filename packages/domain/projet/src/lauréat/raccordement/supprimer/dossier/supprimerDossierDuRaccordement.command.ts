@@ -20,7 +20,7 @@ export const registerSupprimerDossierDuRaccordementCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.raccordement.supprimerDossier({ référenceDossier });
+    await projet.lauréat.raccordement.supprimerDossierRaccordement({ référenceDossier });
   };
 
   mediator.register('Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement', handler);
