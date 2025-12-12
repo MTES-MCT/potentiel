@@ -56,3 +56,9 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand la dreal modifie la demande complète de raccordement
         Alors la dreal devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"
+
+    Scénario: Impossible pour un porteur de modifier une demande complète de raccordement si le projet est achevé
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Et une demande complète de raccordement pour le projet lauréat
+        Quand le porteur modifie la demande complète de raccordement
+        Alors le porteur devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car le projet est achevé"
