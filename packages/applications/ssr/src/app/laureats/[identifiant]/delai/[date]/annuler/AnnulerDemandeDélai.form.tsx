@@ -13,7 +13,7 @@ type AnnulerDemandeDélaiFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export const AnnulerDemandeDélai = ({ identifiantProjet }: AnnulerDemandeDélaiFormProps) => {
+export const AnnulerDemandeDélaiForm = ({ identifiantProjet }: AnnulerDemandeDélaiFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

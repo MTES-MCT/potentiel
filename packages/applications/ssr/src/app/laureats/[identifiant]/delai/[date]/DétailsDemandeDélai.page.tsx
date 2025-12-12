@@ -13,11 +13,11 @@ import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { InfoBoxDemandeDélai } from '../InfoBoxDemandeDélai';
 
-import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
-import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
-import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
-import { AccorderDemandeDélai } from './accorder/AccorderDemandeDélai';
 import { DétailsDemandeDélai } from './DétailsDemandeDélai';
+import { PasserEnInstructionDemandeDélaiForm } from './passer-en-instruction/PasserEnInstructionDemandeDélai.form';
+import { AccorderDemandeDélaiForm } from './accorder/AccorderDemandeDélai.form';
+import { AnnulerDemandeDélaiForm } from './annuler/AnnulerDemandeDélai.form';
+import { RejeterDemandeDélaiForm } from './rejeter/RejeterDemandeDélai.form';
 
 export type DemandeDélaiActions =
   | 'annuler'
@@ -97,14 +97,13 @@ const mapToActionComponents = ({
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-      <PasserEnInstructionDemandeDélai
+      <PasserEnInstructionDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
-        dateDemande={dateDemande.formatter()}
         estUneReprise={actions.includes('reprendre-instruction')}
       />
     )}
     {actions.includes('accorder') && (
-      <AccorderDemandeDélai
+      <AccorderDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
         nombreDeMois={nombreDeMois}
@@ -112,7 +111,7 @@ const mapToActionComponents = ({
       />
     )}
     {actions.includes('rejeter') && (
-      <RejeterDemandeDélai
+      <RejeterDemandeDélaiForm
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
       />
@@ -129,7 +128,7 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+      <AnnulerDemandeDélaiForm identifiantProjet={identifiantProjet.formatter()} />
     )}
   </ActionsList>
 );

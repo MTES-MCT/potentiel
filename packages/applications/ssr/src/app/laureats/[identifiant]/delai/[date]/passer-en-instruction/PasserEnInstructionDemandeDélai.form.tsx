@@ -4,7 +4,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -12,13 +11,11 @@ import { passerEnInstructionDemandeDélaiAction } from './passerEnInstructionDem
 
 type PasserEnInstructionDemandeDélaiFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  dateDemande: DateTime.RawType;
   estUneReprise: boolean;
 };
 
-export const PasserEnInstructionDemandeDélai = ({
+export const PasserEnInstructionDemandeDélaiForm = ({
   identifiantProjet,
-  dateDemande,
   estUneReprise,
 }: PasserEnInstructionDemandeDélaiFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +47,6 @@ export const PasserEnInstructionDemandeDélai = ({
             <>
               <p className="mt-3">{label}</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}

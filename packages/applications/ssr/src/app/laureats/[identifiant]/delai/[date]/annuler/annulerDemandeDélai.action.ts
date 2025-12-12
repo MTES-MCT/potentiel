@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -24,13 +25,14 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet, {
-          type: 'success',
-          message: 'La demande de délai a bien été annulée',
-        }),
+        url: url ?? Routes.Lauréat.détails(identifiantProjet),
+        type: 'success',
+        message: 'La demande de délai a bien été annulée',
       },
     };
   });

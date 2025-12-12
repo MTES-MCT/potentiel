@@ -17,12 +17,10 @@ import {
 
 type RejeterChangementActionnaireFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const RejeterChangementActionnaire = ({
+export const RejeterChangementActionnaireForm = ({
   identifiantProjet,
-  dateDemande,
 }: RejeterChangementActionnaireFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterChangementActionnaireFormKeys>
@@ -55,7 +53,6 @@ export const RejeterChangementActionnaire = ({
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"

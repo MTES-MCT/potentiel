@@ -26,7 +26,10 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
 
     return {
       status: 'success',
-      redirection: { url: Routes.Éliminé.détails(identifiantProjet) },
+      redirection: {
+        url: Routes.Éliminé.détails(identifiantProjet),
+        message: 'La demande de recours a bien été annulée',
+      },
     };
   });
 };

@@ -11,7 +11,7 @@ type AnnulerChangementActionnaireFormProps = {
   identifiantProjet: string;
 };
 
-export const AnnulerChangementActionnaire = ({
+export const AnnulerChangementActionnaireForm = ({
   identifiantProjet,
 }: AnnulerChangementActionnaireFormProps) => {
   const [isOpen, setIsOpen] = useState(false);

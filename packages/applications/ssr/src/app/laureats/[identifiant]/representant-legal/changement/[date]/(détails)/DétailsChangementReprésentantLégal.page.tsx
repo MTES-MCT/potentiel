@@ -14,9 +14,9 @@ import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
-import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
-import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
-import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
+import { AccorderChangementReprésentantLégalForm } from './accorder/AccorderChangementReprésentantLégal.form';
+import { RejeterChangementReprésentantLégalForm } from './rejeter/RejeterChangementReprésentantLégal.form';
+import { AnnulerChangementReprésentantLégalForm } from './annuler/AnnulerChangementReprésentantLégal.form';
 import { DétailsChangementReprésentantLégal } from './DétailsChangementReprésentantLégal';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
@@ -109,18 +109,14 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('accorder') && (
-      <AccorderChangementReprésentantLégal
+      <AccorderChangementReprésentantLégalForm
         identifiantProjet={identifiantProjet}
         typeReprésentantLégal={typeReprésentantLégal}
         nomReprésentantLégal={nomReprésentantLégal}
-        dateDemande={dateDemande}
       />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementReprésentantLégal
-        identifiantProjet={identifiantProjet}
-        dateDemande={dateDemande}
-      />
+      <RejeterChangementReprésentantLégalForm identifiantProjet={identifiantProjet} />
     )}
     {actions.includes('corriger') && (
       <Button
@@ -134,7 +130,7 @@ const mapToActionComponents = ({
       </Button>
     )}
     {actions.includes('annuler') && (
-      <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+      <AnnulerChangementReprésentantLégalForm identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );

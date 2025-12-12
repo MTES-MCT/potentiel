@@ -17,12 +17,10 @@ import {
 
 type AccorderChangementActionnaireFormProps = {
   identifiantProjet: string;
-  dateDemande: string;
 };
 
-export const AccorderChangementActionnaire = ({
+export const AccorderChangementActionnaireForm = ({
   identifiantProjet,
-  dateDemande,
 }: AccorderChangementActionnaireFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderChangementActionnaireFormKeys>
@@ -55,7 +53,6 @@ export const AccorderChangementActionnaire = ({
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
