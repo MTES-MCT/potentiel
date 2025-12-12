@@ -21,6 +21,11 @@ import { getJwks } from './openid';
 import { getProviderAccountUrl } from './getProviderConfiguration';
 import { PotentielUtilisateur } from './types';
 
+export type GetUtilisateur = (
+  req: IncomingMessage,
+  res: ServerResponse,
+) => Promise<PotentielUtilisateur | undefined>;
+
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);
   const cookieHeader = req.headers.cookie ?? '';
@@ -33,7 +38,7 @@ const parseRequest = (req: IncomingMessage) => {
 };
 
 // users are authenticated by cookie
-async function getUserSession(req: IncomingMessage, res: ServerResponse) {
+export const getSessionUser: GetUtilisateur = async (req: IncomingMessage, res: ServerResponse) => {
   const session = await getServerSession(parseRequest(req), res, authOptions);
   if (session?.utilisateur) {
     const utilisateur = Utilisateur.bind(session.utilisateur);
@@ -45,38 +50,19 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
       nom: session.utilisateur.nom,
     };
   }
-}
+};
 
 // API clients are authenticated by Authorization header
-async function getApiUser(req: IncomingMessage) {
+export const getApiUser: GetUtilisateur = async (req) => {
   const authHeader = req.headers.authorization ?? '';
   if (authHeader.toLowerCase().startsWith('bearer ')) {
     const accessToken = authHeader.slice('bearer '.length);
     const utilisateur = await getUtilisateurFromAccessToken(accessToken);
     return Utilisateur.bind(utilisateur);
   }
-}
+};
 
-/** Returns the logged-in user, if any */
-export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) {
-  try {
-    const user = await getUserSession(req, res);
-    if (user) {
-      return user;
-    }
-    if (req.url?.startsWith('/api')) {
-      const apiUser = await getApiUser(req);
-      if (apiUser) {
-        return { ...apiUser, accountUrl: '' };
-      }
-    }
-  } catch (e) {
-    const error = e as Error;
-    getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
-  }
-}
-
-export const getUtilisateurFromAccessToken = async (
+const getUtilisateurFromAccessToken = async (
   accessToken: string,
 ): Promise<PotentielUtilisateur> => {
   const jwtSchema = z.object({

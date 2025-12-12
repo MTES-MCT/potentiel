@@ -41,14 +41,11 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       });
   };
 
-  const registerAuth: RegisterAuth = ({ app }) => {
-    app.use(
-      makeAttachUserToRequestMiddleware({
-        getUserByEmail,
-        createUser,
-      }),
-    );
-  };
+  const registerAuth = () =>
+    makeAttachUserToRequestMiddleware({
+      getUserByEmail,
+      createUser,
+    });
 
   return {
     registerAuth,
