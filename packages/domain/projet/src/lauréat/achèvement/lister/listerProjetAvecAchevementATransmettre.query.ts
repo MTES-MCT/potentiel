@@ -5,21 +5,21 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { LauréatEntity } from '../..';
-import { CandidatureEntity } from '../../../candidature';
+import { LauréatEntity, Raccordement } from '../..';
+import { CandidatureEntity, Localité } from '../../../candidature';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement';
 import { AchèvementEntity } from '../achèvement.entity';
 
 type ProjetAvecAchevementATransmettre = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireReseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
-  referenceDossierRaccordement: string;
+  référenceDossierRaccordement: Raccordement.RéférenceDossierRaccordement.ValueType;
   dateDCR?: DateTime.ValueType;
-  appelOffre: string;
-  periode: string;
-  codePostal: string;
+  nomProjet: string;
   prix: number;
   coefficientKChoisi: boolean;
+  dateNotification: DateTime.ValueType;
+  localité: Localité.ValueType;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -143,30 +143,29 @@ type MapToReadModelProps = (
 
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
-  candidature: {
-    localité: { codePostal },
-    prixReference,
-    coefficientKChoisi,
-  },
+  candidature: { prixReference, coefficientKChoisi },
+  localité,
+  nomProjet,
+  notifiéLe,
   raccordement: { identifiantGestionnaireRéseau },
   'dossier-raccordement': dossier,
 }) => {
-  const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   return {
-    identifiantProjet: idProjet,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    nomProjet,
     identifiantGestionnaireReseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
-    appelOffre: idProjet.appelOffre,
-    periode: idProjet.période,
-    referenceDossierRaccordement: dossier.référence,
+    référenceDossierRaccordement: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+      dossier.référence,
+    ),
     dateDCR: dossier.demandeComplèteRaccordement?.dateQualification
       ? DateTime.convertirEnValueType(dossier.demandeComplèteRaccordement.dateQualification)
       : undefined,
-    codePostal,
+    localité: Localité.bind(localité),
     prix: prixReference,
     coefficientKChoisi: !!coefficientKChoisi,
+    dateNotification: DateTime.convertirEnValueType(notifiéLe),
   };
 };

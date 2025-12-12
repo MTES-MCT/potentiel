@@ -20,10 +20,7 @@ export type DossierRaccordementListItemProps = PlainType<
 export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> = ({
   identifiantProjet,
   nomProjet,
-  codePostal,
-  commune,
-  département,
-  région,
+  localité: { codePostal, commune, département, région },
   référenceDossier,
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,

@@ -8,30 +8,23 @@ import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
 import { AchèvementEntity } from '../../achèvement';
+import { Localité, UnitéPuissance } from '../../../candidature';
 
 type DossierRaccordement = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
-  statutProjet: StatutLauréat.ValueType;
-  appelOffre: string;
-  période: string;
-  famille: string;
-  numéroCRE: string;
-  commune: string;
-  département: string;
-  région: string;
-  codePostal: string;
+  statutProjet: StatutLauréat.ValueType<'actif' | 'achevé'>;
+  localité: Localité.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  statutDGEC: StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
-  puissance: string;
+  puissance: number;
+  unitéPuissance: UnitéPuissance.ValueType;
 
   nomCandidat: string;
   sociétéMère: string;
   emailContact: string;
-  siteProduction: string;
   dateNotification: DateTime.ValueType;
 };
 
@@ -169,32 +162,17 @@ export const mapToReadModel: MapToReadModelProps = ({
   identifiantGestionnaireRéseau,
   référence,
   miseEnService,
-  lauréat: {
-    nomProjet,
-    localité: { codePostal, commune, département, région, adresse1, adresse2 },
-    notifiéLe,
-  },
+  lauréat: { nomProjet, localité, notifiéLe },
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
   achèvement,
 }) => {
-  const { appelOffre, famille, numéroCRE, période } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   return {
-    appelOffre,
-    codePostal,
-    commune,
-    département,
-    région,
-    famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     nomProjet,
-    numéroCRE,
-    période,
+    localité: Localité.bind(localité),
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: StatutLauréat.actif.statut,
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
@@ -203,12 +181,11 @@ export const mapToReadModel: MapToReadModelProps = ({
         identifiantGestionnaireRéseau,
       ),
     raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
-    puissance: `${puissance} ${unitéPuissance}`,
-
+    puissance,
+    unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
     emailContact,
     nomCandidat,
-    siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,
     sociétéMère,
     statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
   };
