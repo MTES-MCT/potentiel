@@ -103,3 +103,11 @@ export class DossierRaccordementPasEnServiceError extends InvalidOperationError 
     super(`Le dossier de raccordement n'est pas en service`);
   }
 }
+
+export class DemandeComplèteRaccordementNonModifiableCarProjetAchevéError extends InvalidOperationError {
+  constructor() {
+    super(
+      `La demande complète de raccordement du dossier ne peut pas être modifiée car le projet est achevé`,
+    );
+  }
+}
