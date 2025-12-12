@@ -1,6 +1,6 @@
 import { openApiDocument } from './generated/http/openapi3.js';
 
-export const getOpenApiSpecs = (baseUrl: string) => {
+export const getOpenApiSpecs = (baseUrl: string | undefined) => {
   const server = openApiDocument.servers[0];
 
   return {
@@ -8,7 +8,7 @@ export const getOpenApiSpecs = (baseUrl: string) => {
     servers: [
       {
         ...server,
-        url: new URL(new URL(server.url).pathname, baseUrl).toString(),
+        url: baseUrl ? new URL(new URL(server.url).pathname, baseUrl).toString() : server.url,
       },
     ],
   };
