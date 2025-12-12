@@ -11,7 +11,6 @@ import {
   mapToDemandeDélaiRejetéeTimelineItemProps,
   mapToDélaiAccordéTimelineItemProps,
   mapToDélaiDemandéTimelineItemProps,
-  mapToLegacyDélaiAccordéTimelineItemProps,
 } from './events';
 import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDemandeDélaiSuppriméeTimelineItemProps';
 
@@ -50,12 +49,6 @@ export const mapToDélaiTimelineItemProps: MapToDélaiTimelineItemProps = (readm
         type: 'DélaiAccordé-V1',
       },
       mapToDélaiAccordéTimelineItemProps,
-    )
-    .with(
-      {
-        type: 'LegacyDélaiAccordé-V1',
-      },
-      mapToLegacyDélaiAccordéTimelineItemProps,
     )
     .with(
       {

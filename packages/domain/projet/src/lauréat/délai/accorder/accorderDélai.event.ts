@@ -15,13 +15,3 @@ export type DélaiAccordéEvent = DomainEvent<
     réponseSignée: { format: string };
   }
 >;
-
-export type LegacyDélaiAccordéEvent = DomainEvent<
-  'LegacyDélaiAccordé-V1',
-  {
-    raison: 'covid' | 'demande' | 'cdc-18-mois';
-    nombreDeMois: number;
-    accordéLe: DateTime.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
