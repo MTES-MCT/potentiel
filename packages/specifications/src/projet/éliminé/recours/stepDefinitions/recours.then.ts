@@ -28,23 +28,15 @@ Alors(
   },
 );
 
-Alors(
-  `le recours du projet éliminé ne devrait plus exister`,
-  async function (this: PotentielWorld) {
-    const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
-    await waitForExpect(async () => {
-      const result = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterRecours',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-        },
-      });
-
-      expect(Option.isNone(result)).to.be.true;
-    });
-  },
-);
+Alors(`le recours du projet éliminé devrait être annulé`, async function (this: PotentielWorld) {
+  await waitForExpect(async () =>
+    vérifierRecours.call(
+      this,
+      this.éliminéWorld.identifiantProjet,
+      Éliminé.Recours.StatutRecours.annulé,
+    ),
+  );
+});
 
 Alors(`le recours du projet éliminé devrait être rejeté`, async function (this: PotentielWorld) {
   await waitForExpect(async () =>
@@ -91,17 +83,32 @@ async function vérifierRecours(
     },
   });
 
-  const actual = mapToPlainObject(recours);
-  const expected = mapToPlainObject(
-    this.éliminéWorld.recoursWorld.mapToExpected(identifiantProjet, statut),
+  const actuelRecours = mapToPlainObject(recours);
+  const expectedRecours = mapToPlainObject(
+    this.éliminéWorld.recoursWorld.mapToRecoursExpected(identifiantProjet, statut),
   );
 
-  actual.should.be.deep.equal(expected);
+  actuelRecours.should.be.deep.equal(expectedRecours);
+
+  const demandeRecours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      dateDemandeValue: this.éliminéWorld.recoursWorld.demanderRecoursFixture.demandéLe,
+    },
+  });
+
+  const actualDemandeRecours = mapToPlainObject(demandeRecours);
+  const expectedDemandeRecours = mapToPlainObject(
+    this.éliminéWorld.recoursWorld.mapToDemandeRecoursExpected(identifiantProjet, statut),
+  );
+
+  actualDemandeRecours.should.be.deep.equal(expectedDemandeRecours);
 
   const pièceJustificative = await mediator.send<Document.ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
-      documentKey: Option.match(recours)
+      documentKey: Option.match(demandeRecours)
         .some<string>(({ demande: { pièceJustificative: piéceJustificative } }) =>
           piéceJustificative.formatter(),
         )
@@ -124,7 +131,7 @@ async function vérifierRecours(
     const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(recours)
+        documentKey: Option.match(demandeRecours)
           .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },
@@ -144,7 +151,7 @@ async function vérifierRecours(
     const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(recours)
+        documentKey: Option.match(demandeRecours)
           .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },

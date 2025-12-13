@@ -7,11 +7,11 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import {
   DétailsProjetÉliminéActions,
@@ -33,7 +33,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         notFound();
       }
 
-      const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -67,7 +67,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             .none(() => [])}
           actions={mapToActions({
             role: utilisateur.rôle,
-            demandeRecoursEnCours,
+            demandeRecoursEnCours: recours,
             cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
               'demande',
               'recours',

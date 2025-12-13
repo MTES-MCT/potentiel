@@ -1,41 +1,12 @@
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
+
+import { StatutRecours } from '.';
 
 export type RecoursEntity = Entity<
   'recours',
   {
     identifiantProjet: string;
-
-    statut: string;
-    miseÀJourLe: string;
-
-    demande: {
-      demandéPar: string;
-      demandéLe: string;
-      raison: string;
-      pièceJustificative: {
-        format: string;
-      };
-
-      instruction?: {
-        passéEnInstructionLe: string;
-        passéEnInstructionPar: string;
-      };
-
-      accord?: {
-        réponseSignée: {
-          format: string;
-        };
-        accordéPar: string;
-        accordéLe: string;
-      };
-
-      rejet?: {
-        réponseSignée: {
-          format: string;
-        };
-        rejetéPar: string;
-        rejetéLe: string;
-      };
-    };
+    dernièreDemande: { date: DateTime.RawType; statut: StatutRecours.RawType };
   }
 >;

@@ -4,6 +4,7 @@ import { Éliminé } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DateTime } from '@potentiel-domain/common';
 
 export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -11,7 +12,9 @@ export const getRecours = async (
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
     });
 
     if (Option.isNone(recours)) {

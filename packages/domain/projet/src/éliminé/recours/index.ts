@@ -1,12 +1,19 @@
 import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
 import {
+  ConsulterDemandeRecoursQuery,
+  ConsulterDemandeRecoursReadModel,
+} from './consulter/consulterDemandeRecours.query';
+import {
   ConsulterRecoursQuery,
   ConsulterRecoursReadModel,
 } from './consulter/consulterRecours.query';
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
-import { ListerRecoursQuery, ListerRecoursReadModel } from './lister/listerRecours.query';
+import {
+  ListerDemandeRecoursQuery,
+  ListerDemandeRecoursReadModel,
+} from './lister/listerDemandeRecours.query';
 import {
   ListerHistoriqueRecoursProjetQuery,
   HistoriqueRecoursProjetListItemReadModel,
@@ -16,16 +23,23 @@ import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 
 // Query
 export type RecoursQuery =
+  | ConsulterDemandeRecoursQuery
   | ConsulterRecoursQuery
-  | ListerRecoursQuery
+  | ListerDemandeRecoursQuery
   | ListerHistoriqueRecoursProjetQuery;
 
-export { ConsulterRecoursQuery, ListerRecoursQuery, ListerHistoriqueRecoursProjetQuery };
+export {
+  ConsulterDemandeRecoursQuery,
+  ConsulterRecoursQuery,
+  ListerDemandeRecoursQuery,
+  ListerHistoriqueRecoursProjetQuery,
+};
 
 // ReadModel
 export {
+  ConsulterDemandeRecoursReadModel,
   ConsulterRecoursReadModel,
-  ListerRecoursReadModel,
+  ListerDemandeRecoursReadModel,
   HistoriqueRecoursProjetListItemReadModel,
   ListerHistoriqueRecoursProjetReadModel,
 };
@@ -62,4 +76,5 @@ export * as StatutRecours from './statutRecours.valueType';
 export * as TypeDocumentRecours from './typeDocumentRecours.valueType';
 
 // Entities
+export * from './demandeRecours.entity';
 export * from './recours.entity';

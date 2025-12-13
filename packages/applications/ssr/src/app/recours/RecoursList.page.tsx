@@ -9,7 +9,7 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 import { Pagination } from '@/utils/pagination';
 
 export type RecoursListPageProps = {
-  items: PlainType<Éliminé.Recours.ListerRecoursReadModel['items']>;
+  items: PlainType<Éliminé.Recours.ListerDemandeRecoursReadModel['items']>;
   pagination: Pagination;
   total: number;
   filters: ListPageTemplateProps<typeof RecoursListItem>['filters'];
