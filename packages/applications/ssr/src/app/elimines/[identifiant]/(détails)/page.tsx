@@ -67,7 +67,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             .none(() => [])}
           actions={mapToActions({
             role: utilisateur.rôle,
-            demandeRecoursEnCours: recours,
+            recours: recours,
             cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
               'demande',
               'recours',
@@ -91,26 +91,18 @@ const mapToProps: MapToProps = ({ éliminé, role }) => ({
 
 type MapToActions = (args: {
   role: Role.ValueType;
-  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
+  recours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
   cahierDesChargesPermetDemandeRecours: boolean;
 }) => Array<DétailsProjetÉliminéActions>;
 
-const mapToActions: MapToActions = ({
-  role,
-  demandeRecoursEnCours,
-  cahierDesChargesPermetDemandeRecours,
-}) => {
+const mapToActions: MapToActions = ({ role, recours, cahierDesChargesPermetDemandeRecours }) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
-  if (Option.isSome(demandeRecoursEnCours)) {
-    if (
-      demandeRecoursEnCours.statut.estRejeté() &&
-      cahierDesChargesPermetDemandeRecours &&
-      role.aLaPermission('recours.demander')
-    ) {
-      actions.push('faire-demande-recours');
-    } else if (role.aLaPermission('recours.consulter.détail')) {
+  if (Option.isSome(recours)) {
+    if (recours.statut.estEnCours() && role.aLaPermission('recours.consulter.détail')) {
       actions.push('consulter-demande-recours');
+    } else if (role.aLaPermission('recours.demander')) {
+      actions.push('faire-demande-recours');
     }
   } else if (role.aLaPermission('recours.demander') && cahierDesChargesPermetDemandeRecours) {
     actions.push('faire-demande-recours');
