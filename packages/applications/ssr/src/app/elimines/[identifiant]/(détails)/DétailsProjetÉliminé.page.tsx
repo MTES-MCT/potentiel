@@ -179,7 +179,7 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       <Button
         priority="secondary"
         linkProps={{
-          href: Routes.Recours.détail(identifiantProjet),
+          href: Routes.Recours.détailPourRedirection(identifiantProjet),
         }}
       >
         Consulter la demande de recours

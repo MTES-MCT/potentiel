@@ -33,7 +33,7 @@ export const handleRecoursAccordé = async ({
     bcc: [...adminRecipients, ...creRecipients],
     variables: {
       nom_projet: projet.nom,
-      redirect_url: `${getBaseUrl()}${Routes.Recours.détail(identifiantProjet.formatter())}`,
+      redirect_url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(identifiantProjet.formatter())}`,
       departement_projet: projet.département,
     },
   });

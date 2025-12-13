@@ -20,6 +20,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
   nomProjet,
   statut,
   miseÀJourLe,
+  dateDemande,
 }) => {
   return (
     <ListItem
@@ -34,7 +35,10 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
       actions={
         <Button
           linkProps={{
-            href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+            href: Routes.Recours.détail(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+              dateDemande.date,
+            ),
           }}
           aria-label={`voir le détail du recours pour le projet ${nomProjet}`}
         >

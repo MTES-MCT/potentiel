@@ -48,7 +48,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
               ))
               .with({ type: 'recours' }, ({ type, date }) => (
                 <ÉtapeTerminée key={`project-step-${type}`} titre="Recours accordé" date={date}>
-                  <Link href={Routes.Recours.détail(identifiantProjet)}>
+                  <Link href={Routes.Recours.détailPourRedirection(identifiantProjet)}>
                     Voir les détails du recours
                   </Link>
                 </ÉtapeTerminée>

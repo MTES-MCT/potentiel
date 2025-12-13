@@ -9,7 +9,10 @@ type ListerFilters = {
 
 export const lister = withFilters<ListerFilters>(`/recours`);
 
-export const détail = (identifiantProjet: string) =>
+export const détail = (identifiantProjet: string, demandéLe: string) =>
+  `/elimines/${encodeParameter(identifiantProjet)}/recours/${demandéLe}`;
+
+export const détailPourRedirection = (identifiantProjet: string) =>
   `/elimines/${encodeParameter(identifiantProjet)}/recours`;
 
 export const demander = (identifiantProjet: string) =>

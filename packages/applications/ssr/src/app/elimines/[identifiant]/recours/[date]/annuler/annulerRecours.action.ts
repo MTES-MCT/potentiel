@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -16,21 +17,24 @@ const schema = zod.object({
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Éliminé.Recours.RecoursUseCase>({
-      type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
+      type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateInstructionValue: new Date().toISOString(),
+        dateAnnulationValue: new Date().toISOString(),
       },
     });
+
+    const { url } = getContext() ?? {};
 
     return {
       status: 'success',
       redirection: {
-        url: Routes.Recours.détail(identifiantProjet),
+        url: url ?? Routes.Éliminé.détails(identifiantProjet),
+        message: 'La demande de recours a bien été annulée',
       },
     };
   });
 };
 
-export const passerRecoursEnInstructionAction = formAction(action, schema);
+export const annulerRecoursAction = formAction(action, schema);

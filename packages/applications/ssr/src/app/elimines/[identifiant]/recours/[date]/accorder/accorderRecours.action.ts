@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,28 +16,30 @@ const schema = zod.object({
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
-export type RejeterRecoursFormKeys = keyof zod.infer<typeof schema>;
+export type AccorderRecoursFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<Éliminé.Recours.RecoursUseCase>({
-      type: 'Éliminé.Recours.UseCase.RejeterRecours',
+    await mediator.send<Éliminé.Recours.AccorderRecoursUseCase>({
+      type: 'Éliminé.Recours.UseCase.AccorderRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateRejetValue: new Date().toISOString(),
+        dateAccordValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
-      redirection: { url: Routes.Recours.détail(identifiantProjet) },
+      redirection: { url: url ?? Routes.Éliminé.détails(identifiantProjet) },
     };
   });
 };
 
-export const rejeterRecoursAction = formAction(action, schema);
+export const accorderRecoursAction = formAction(action, schema);

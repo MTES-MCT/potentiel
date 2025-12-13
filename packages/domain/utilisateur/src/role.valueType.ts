@@ -512,7 +512,8 @@ const référencielPermissions = {
     },
     recours: {
       query: {
-        consulter: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+        consulter: 'Éliminé.Recours.Query.ConsulterRecours',
+        consulterDétailDemande: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         lister: 'Éliminé.Recours.Query.ListerDemandeRecours',
         listerHistoriqueRecours: 'Éliminé.Query.ListerHistoriqueRecoursProjet',
       },
@@ -769,6 +770,7 @@ const policies = {
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.éliminé.recours.query.consulter,
+        référencielPermissions.éliminé.recours.query.consulterDétailDemande,
         référencielPermissions.document.query.consulter,
       ],
     },
@@ -791,6 +793,7 @@ const policies = {
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.éliminé.recours.query.consulter,
+      référencielPermissions.éliminé.recours.query.consulterDétailDemande,
       référencielPermissions.éliminé.recours.usecase.accorder,
       référencielPermissions.éliminé.recours.command.accorder,
     ],
@@ -798,6 +801,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.éliminé.recours.query.consulter,
+      référencielPermissions.éliminé.recours.query.consulterDétailDemande,
       référencielPermissions.document.command.enregister,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.éliminé.recours.usecase.rejeter,

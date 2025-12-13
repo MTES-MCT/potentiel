@@ -7,7 +7,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { DateTime } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -30,7 +29,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       ).formatter();
-      const dateDemande = DateTime.convertirEnValueType(decodeParameter(date)).formatter();
+      const dateDemande = decodeParameter(date);
 
       const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
