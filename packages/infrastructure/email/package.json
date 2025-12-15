@@ -5,15 +5,13 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "test": "tsx --test **/*.test.ts"
+    "build": "tsc"
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
     "node-mailjet": "6.0.8"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "tsx": "4.20.4"
+    "@potentiel-config/tsconfig": "*"
   }
 }
