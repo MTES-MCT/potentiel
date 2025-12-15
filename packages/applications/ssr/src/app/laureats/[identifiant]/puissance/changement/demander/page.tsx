@@ -28,7 +28,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       identifiantProjet: identifiantProjet.formatter(),
     });
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');
 
     const infosCahierDesChargesPuissanceDeSite =

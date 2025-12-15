@@ -49,7 +49,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         return notFound();
       }
 
-      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,

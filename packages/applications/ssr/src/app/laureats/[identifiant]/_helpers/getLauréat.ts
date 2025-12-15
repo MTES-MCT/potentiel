@@ -120,7 +120,7 @@ export const getCahierDesChargesPuissanceDeSiteInfos = async ({
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
 }) => {
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   return cahierDesCharges.getChampsSupplémentaires()['puissanceDeSite'];
 };

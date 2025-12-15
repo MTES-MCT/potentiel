@@ -26,7 +26,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     const demandéLe = decodeParameter(date);
 
     const { lauréat, représentantLégal, puissance } = await getLauréat({ identifiantProjet });
-    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
       type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',

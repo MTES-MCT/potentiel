@@ -29,7 +29,7 @@ export const GET = async (
 
     const { lauréat, représentantLégal } = await getLauréat({ identifiantProjet });
 
-    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
     const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',

@@ -30,7 +30,7 @@ export const GET = async (
         identifiantProjet,
       });
 
-      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
       if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
         return notFound();

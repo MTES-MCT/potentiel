@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
     const délai = await mediator.send<Lauréat.Délai.ConsulterDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDélai',

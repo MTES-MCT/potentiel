@@ -6,7 +6,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 export const vérifierProjetSoumisAuxGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   if (!cahierDesCharges.estSoumisAuxGarantiesFinancières()) {
     throw new InvalidOperationError(`Le projet n'est pas soumis aux garanties financières.`);

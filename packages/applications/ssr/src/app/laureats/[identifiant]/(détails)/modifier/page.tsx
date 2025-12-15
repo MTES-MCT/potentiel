@@ -25,7 +25,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const candidature = await getCandidature(identifiantProjet);
 
       const lauréat = await getLauréat({ identifiantProjet });
-      const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet.formatter());
 
       const props = mapToProps({ candidature, lauréat, cahierDesCharges });
 
