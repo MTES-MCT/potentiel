@@ -135,15 +135,45 @@ Alors(
     const { identifiantPériode } = this.périodeWorld;
 
     await waitForExpect(async () => {
-      const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
+      const partenaires = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
-          roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+          roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre'],
           actif: true,
         },
       });
 
-      for (const { email } of usersOthersThanDGECOrPorteur.items) {
+      expect(partenaires.items).to.have.length.greaterThan(0);
+
+      for (const { email } of partenaires.items) {
+        const notif = this.notificationWorld.récupérerNotification(
+          email,
+          `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
+        );
+
+        expect(notif).to.not.be.undefined;
+      }
+    });
+  },
+);
+
+Alors(
+  `l'administration a été prévenue de la notification de la période`,
+  async function (this: PotentielWorld) {
+    const { identifiantPériode } = this.périodeWorld;
+
+    await waitForExpect(async () => {
+      const administration = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: ['dgec-validateur', 'admin', 'dreal'],
+          actif: true,
+        },
+      });
+
+      expect(administration.items).to.have.length.greaterThan(0);
+
+      for (const { email } of administration.items) {
         const notif = this.notificationWorld.récupérerNotification(
           email,
           `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,

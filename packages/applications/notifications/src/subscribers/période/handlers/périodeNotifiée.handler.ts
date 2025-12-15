@@ -18,7 +18,15 @@ export const handlePériodeNotifiée = async ({
   const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',
     data: {
-      roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+      roles: [
+        'admin',
+        'dreal',
+        'cocontractant',
+        'ademe',
+        'dgec-validateur',
+        'caisse-des-dépôts',
+        'cre',
+      ],
       actif: true,
     },
   });
@@ -28,11 +36,7 @@ export const handlePériodeNotifiée = async ({
   for (const { email } of usersOthersThanDGECOrPorteur.items) {
     await sendEmail({
       templateId: périodeNotificationTemplateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
-      recipients: [
-        {
-          email,
-        },
-      ],
+      recipients: [{ email }],
       messageSubject: `Potentiel - Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
       variables: {
         appel_offre: identifiantPériode.appelOffre,
