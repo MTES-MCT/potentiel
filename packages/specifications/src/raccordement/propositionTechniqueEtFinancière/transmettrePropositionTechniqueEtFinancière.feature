@@ -17,7 +17,8 @@ Fonctionnalité: Transmettre une proposition technique et financière
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat
-        Alors une tâche indiquant de "transmettre la proposition technique et financière" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et une tâche indiquant de "transmettre la proposition technique et financière" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Impossible de transmettre une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :
