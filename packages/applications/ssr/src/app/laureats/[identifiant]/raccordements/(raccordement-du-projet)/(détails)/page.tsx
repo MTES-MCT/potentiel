@@ -74,7 +74,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
-          actions={mapToRaccordementActions(utilisateur, raccordement)}
+          actions={mapToRaccordementActions(utilisateur)}
           lienRetour={lienRetour}
         />
       );
@@ -113,20 +113,11 @@ const mapToDossierActions = (
     }),
   );
 
-const mapToRaccordementActions = (
-  { rôle }: Utilisateur.ValueType,
-  raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel,
-): DétailsRaccordementPageProps['actions'] => {
-  const isGestionnaireInconnu =
-    raccordement.identifiantGestionnaireRéseau &&
-    raccordement.identifiantGestionnaireRéseau.estInconnu();
-
-  return {
-    gestionnaireRéseau: {
-      modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
-    },
-    créerNouveauDossier: isGestionnaireInconnu
-      ? false
-      : rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-  };
-};
+const mapToRaccordementActions = ({
+  rôle,
+}: Utilisateur.ValueType): DétailsRaccordementPageProps['actions'] => ({
+  gestionnaireRéseau: {
+    modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
+  },
+  créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
+});
