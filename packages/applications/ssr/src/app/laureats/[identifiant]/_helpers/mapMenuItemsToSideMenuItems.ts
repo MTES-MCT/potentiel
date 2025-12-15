@@ -57,7 +57,7 @@ export const mapMenuItemsToSideMenuItems = (
   menuItems: Array<MenuItem>,
   baseUrl: string,
   currentPath: string,
-  nombreTâches: number,
+  nombreTâches?: number,
 ): SideMenuProps.Item[] => {
   return menuItems.map((item) => {
     if (item.children) {

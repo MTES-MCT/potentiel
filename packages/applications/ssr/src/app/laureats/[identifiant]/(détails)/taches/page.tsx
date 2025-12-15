@@ -1,26 +1,21 @@
-import z from 'zod';
-
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/pagination';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
-import { TâcheListPage } from '../../../../taches/TâcheList.page';
 
 import { getTâches } from './_helpers/getTâches';
+import { ListHeader } from '@/components/organisms/ListHeader';
+import { TâcheListItem } from '../../../../taches/TâcheListItem';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { Tile } from '@/components/organisms/Tile';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
 };
-
-const searchParamsSchema = z.object({
-  page: z.coerce.number().default(1),
-});
 
 export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -31,17 +26,31 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       checkFeatureFlag(identifiantProjet, searchParams);
 
-      const { page } = searchParamsSchema.parse(searchParams);
+      const tâches = await getTâches(
+        identifiantProjet.formatter(),
+        utilisateur.identifiantUtilisateur.email,
+      );
 
-      const tâches = await getTâches({
-        identifiantProjet,
-        email: utilisateur.identifiantUtilisateur.email,
-        range: mapToRangeOptions({
-          currentPage: page,
-        }),
-      });
-
-      return <TâcheListPage list={mapToPlainObject(tâches)} filters={[]} />;
+      return (
+        <div className="flex flex-col items-end">
+          <div className="flex flex-col gap-3 w-3/4">
+            <ListHeader filters={[]} totalCount={tâches.items.length} />
+            {tâches.items.length ? (
+              <ul>
+                {mapToPlainObject(tâches.items).map((item, index) => (
+                  <li className="mb-6" key={`${item.typeTâche}${index}`}>
+                    <Tile className="flex flex-col md:flex-row md:justify-between">
+                      <TâcheListItem {...item} />
+                    </Tile>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="flex flex-grow">Aucun résultat à afficher</div>
+            )}
+          </div>
+        </div>
+      );
     }),
   );
 }

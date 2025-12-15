@@ -24,10 +24,9 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
     const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-    const tâches = await getTâches({
-      identifiantProjet,
-      email: utilisateur.identifiantUtilisateur.email,
-    });
+    const tâches = utilisateur.rôle.aLaPermission('tâche.consulter')
+      ? await getTâches(identifiantProjet.formatter(), utilisateur.identifiantUtilisateur.email)
+      : undefined;
 
     const { features } = getContext() ?? {};
 
@@ -41,7 +40,7 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
           <MenuLauréat
             baseURL={baseURL}
             cahierDesCharges={mapToPlainObject(cahierDesCharges)}
-            nombreTâches={tâches.total}
+            nombreTâches={tâches?.total}
           />
           <div className="flex-1">{children}</div>
         </div>

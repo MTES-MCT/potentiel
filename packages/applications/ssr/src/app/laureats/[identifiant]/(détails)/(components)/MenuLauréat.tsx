@@ -18,7 +18,7 @@ import {
 type Props = {
   baseURL: string;
   cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesReadModel>;
-  nombreTâches: number;
+  nombreTâches?: number;
 };
 
 export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props) => {
@@ -36,7 +36,10 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props
 
   const filteredMenuItems = filterMenuItems({
     menu: baseMenuItems,
-    filters: [{ label: 'Installation', show: showInstallation }],
+    filters: [
+      { label: 'Installation', show: showInstallation },
+      { label: 'Tâches', show: nombreTâches !== undefined },
+    ],
   });
 
   const items = mapMenuItemsToSideMenuItems(

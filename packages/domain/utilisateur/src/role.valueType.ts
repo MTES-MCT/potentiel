@@ -1765,6 +1765,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'natureDeLExploitation.modifier',
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // Tâche
+  'tâche.consulter',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
