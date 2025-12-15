@@ -54,6 +54,7 @@ import {
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
+  DemandeComplèteRaccordementNonModifiableCarProjetAchevéError,
 } from './errors';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options';
 import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options';
@@ -351,6 +352,10 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossierRaccordement,
     rôle,
   }: ModifierDemandeComplèteOptions) {
+    if (this.lauréat.achèvement.estAchevé) {
+      throw new DemandeComplèteRaccordementNonModifiableCarProjetAchevéError();
+    }
+
     if (dateQualification.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }

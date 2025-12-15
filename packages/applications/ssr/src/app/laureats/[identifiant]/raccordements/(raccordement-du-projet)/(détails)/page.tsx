@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -35,7 +35,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
+      const projet = await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
       const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
@@ -73,7 +73,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsRaccordementDuProjetPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
-          dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
+          dossiers={mapToDossierActions({
+            rôle: utilisateur.rôle,
+            projetAchevé: projet.statut.estAchevé(),
+            dossiers: raccordement.dossiers,
+          })}
           actions={mapToRaccordementActions(utilisateur)}
           lienRetour={lienRetour}
         />
@@ -82,10 +86,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   );
 }
 
-const mapToDossierActions = (
-  { rôle }: Utilisateur.ValueType,
-  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'],
-): DétailsRaccordementPageProps['dossiers'] =>
+type MapToDossierActions = (args: {
+  rôle: Role.ValueType;
+  projetAchevé: boolean;
+  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
+}) => DétailsRaccordementPageProps['dossiers'];
+
+const mapToDossierActions: MapToDossierActions = ({ rôle, projetAchevé, dossiers }) =>
   dossiers.map((dossier) =>
     mapToPlainObject({
       ...dossier,
@@ -94,7 +101,9 @@ const mapToDossierActions = (
 
         demandeComplèteRaccordement: {
           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-          modifier: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+          modifier:
+            !projetAchevé &&
+            rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
           modifierRéférence:
             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
