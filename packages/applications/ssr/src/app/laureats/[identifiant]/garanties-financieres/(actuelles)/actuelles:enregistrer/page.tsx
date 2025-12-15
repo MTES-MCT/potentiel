@@ -28,7 +28,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+      identifiantProjet.formatter(),
+    );
     if (Option.isSome(garantiesFinancières)) {
       throw new Error('Le projet possède déjà des garanties financières.');
     }

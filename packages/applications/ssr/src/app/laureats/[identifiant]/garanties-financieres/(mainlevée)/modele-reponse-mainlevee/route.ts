@@ -38,7 +38,7 @@ export const GET = async (
         identifiantProjet.formatter(),
       );
 
-      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
 
       const mainlevéeEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({

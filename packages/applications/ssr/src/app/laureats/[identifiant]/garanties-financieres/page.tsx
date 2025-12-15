@@ -38,7 +38,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const { appelOffres } = await getPériodeAppelOffres(identifiantProjet.formatter());
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-      const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+      const actuelles = await récuperérerGarantiesFinancièresActuelles(
+        identifiantProjet.formatter(),
+      );
 
       const peutAccéderAuxArchivesDesGfs = utilisateur.rôle.aLaPermission(
         'garantiesFinancières.archives.lister',

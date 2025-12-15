@@ -32,7 +32,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+      identifiantProjet.formatter(),
+    );
 
     if (Option.isNone(garantiesFinancières)) {
       return notFound();

@@ -7,8 +7,9 @@ import { récuperérerGarantiesFinancièresActuelles } from './récupérerGarant
 export const vérifierProjetNonExemptDeGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
-  const garantiesFinancièresActuelles =
-    await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+  const garantiesFinancièresActuelles = await récuperérerGarantiesFinancièresActuelles(
+    identifiantProjet.formatter(),
+  );
 
   if (
     Option.isSome(garantiesFinancièresActuelles) &&
