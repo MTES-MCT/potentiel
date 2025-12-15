@@ -15,7 +15,11 @@ import { readFile } from 'node:fs/promises';
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
 import { createApiServer } from '@potentiel-applications/api';
-import { runWebWithContext } from '@potentiel-applications/request-context';
+import {
+  getApiUser,
+  getSessionUser,
+  runWebWithContext,
+} from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 
@@ -27,9 +31,6 @@ export async function makeServer(port: number) {
     setupLogger();
 
     const app = express();
-
-    // This handles the authentication
-    app.use((req, res, next) => runWebWithContext({ app: 'legacy', req, res, callback: next }));
 
     if (!isLocalEnv) {
       // generate a unique nonce per request, to use in the CSP header and in every <script> in the markup
@@ -109,10 +110,56 @@ export async function makeServer(port: number) {
       }
     });
 
-    registerAuth({ app });
-
-    app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));
+
+    /////// Custom server next
+
+    const isDebug = !__dirname.includes('dist');
+    const nextApp = next({
+      dev: false,
+      dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
+    });
+    const apiHandler = createApiServer('/api/v1');
+
+    const nextHandler = nextApp.getRequestHandler();
+    await nextApp.prepare();
+
+    const legacyAuthMiddleware = registerAuth();
+
+    await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
+    await registerSagas();
+    await executeSubscribersRetry();
+
+    // Main server handler
+    app.use((req, res, next) => {
+      if (req.path.startsWith('/api/v1')) {
+        return runWebWithContext({
+          app: 'api',
+          req,
+          res,
+          callback: () => apiHandler(req, res),
+          getUtilisateur: getApiUser,
+        });
+      }
+
+      if (req.path.endsWith('.html') || req.path.endsWith('.csv')) {
+        return runWebWithContext({
+          app: 'legacy',
+          req,
+          res,
+          callback: () => legacyAuthMiddleware(req, res, () => v1Router(req, res, next)),
+          getUtilisateur: getSessionUser,
+        });
+      }
+
+      return runWebWithContext({
+        app: 'web',
+        req,
+        res,
+        callback: () => nextHandler(req, res),
+        getUtilisateur: getSessionUser,
+      });
+    });
 
     Sentry.setupExpressErrorHandler(app);
 
@@ -125,33 +172,6 @@ export async function makeServer(port: number) {
           'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionnée. Merci de réessayer et de contacter l‘équipe si le problème persiste.',
         );
     });
-
-    /////// Custom server next
-
-    const isDebug = !__dirname.includes('dist');
-    const nextApp = next({
-      dev: false,
-      dir: join(__dirname, isDebug ? join('..', '..') : join('..', '..', '..'), 'ssr'),
-    });
-    const apiHandler = createApiServer('/api/v1');
-
-    const nextHandler = nextApp.getRequestHandler();
-
-    app.use('/api/v1/', apiHandler);
-
-    app.get('*', (req, res) => {
-      return nextHandler(req, res);
-    });
-
-    app.post('*', (req, res) => {
-      return nextHandler(req, res);
-    });
-
-    await nextApp.prepare();
-
-    await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
-    await registerSagas();
-    await executeSubscribersRetry();
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {

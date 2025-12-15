@@ -3,19 +3,19 @@
   "globalDependencies": ["package.json"],
   "tasks": {
     "build": {
-      "inputs": ["src/**/*.{ts,tsx}"],
+      "inputs": ["src/**/*.{ts,tsx,tsp}"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:dev", "^build"],
       "outputLogs": "new-only"
     },
     "build:dev": {
-      "inputs": ["src/**/*.{ts,tsx}"],
+      "inputs": ["src/**/*.{ts,tsx,tsp}"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:dev"],
       "outputLogs": "new-only"
     },
     "build:test": {
-      "inputs": ["src/**/*.{ts,tsx}"],
+      "inputs": ["src/**/*.{ts,tsx,tsp}"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:test"],
       "outputLogs": "new-only"

@@ -1,6 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
-import { getUtilisateur } from './getUtilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { GetUtilisateur } from './getUtilisateur';
 import { requestContextStorage } from './request-context';
 
 type RunWithAuthContextProps = {
@@ -8,11 +10,18 @@ type RunWithAuthContextProps = {
   res: ServerResponse;
   app: 'web' | 'legacy' | 'api';
   callback: () => void | Promise<void>;
+  getUtilisateur: GetUtilisateur;
 };
 
 const ignorePath = (path: string) => ['/_next', '/illustrations'].some((p) => path.startsWith(p));
 
-export function runWebWithContext({ app, req, res, callback }: RunWithAuthContextProps) {
+export function runWebWithContext({
+  app,
+  req,
+  res,
+  callback,
+  getUtilisateur,
+}: RunWithAuthContextProps) {
   if (ignorePath(req.url ?? '')) {
     return callback();
   }
@@ -21,10 +30,14 @@ export function runWebWithContext({ app, req, res, callback }: RunWithAuthContex
   return requestContextStorage.run(
     { app, correlationId, features: fetchFeatures(), url: req.url },
     async () => {
-      const utilisateur = await getUtilisateur(req, res);
-      const store = requestContextStorage.getStore()!;
-      // we could set `utilisateur` in the `run` parameters, but we wouldn't have correlationId in the context
-      store.utilisateur = utilisateur;
+      try {
+        const utilisateur = await getUtilisateur(req, res);
+        const store = requestContextStorage.getStore()!;
+        // we could set `utilisateur` in the `run` parameters, but we wouldn't have correlationId in the context
+        store.utilisateur = utilisateur;
+      } catch (e) {
+        getLogger().warn('Auth failed', { error: e });
+      }
 
       await callback();
     },

@@ -5,7 +5,12 @@ import next from 'next';
 import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import { getContext, runWebWithContext } from '@potentiel-applications/request-context';
+import {
+  getApiUser,
+  getContext,
+  getSessionUser,
+  runWebWithContext,
+} from '@potentiel-applications/request-context';
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
@@ -37,6 +42,7 @@ async function main() {
         req,
         res,
         callback: () => apiHandler(req, res),
+        getUtilisateur: getApiUser,
       });
     }
 
@@ -53,6 +59,7 @@ async function main() {
           // Handle incoming HTTP request
           return nextHandler(req, res, parsedUrl);
         }),
+      getUtilisateur: getSessionUser,
     });
   });
 
