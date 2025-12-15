@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const { période } = await getPériodeAppelOffres(identifiantProjet);
+      const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
       const gestionnaireRéseau =
         await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({

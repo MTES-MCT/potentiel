@@ -49,9 +49,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const puissance = await getPuissanceInfos({
-        identifiantProjet: identifiantProjet.formatter(),
-      });
+      const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
       const historique =
         await mediator.send<Lauréat.Puissance.ListerHistoriquePuissanceProjetQuery>({

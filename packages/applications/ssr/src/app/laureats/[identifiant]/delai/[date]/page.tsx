@@ -61,7 +61,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
       const règles = await cahierDesCharges.getRèglesChangements('délai');
 
       return (

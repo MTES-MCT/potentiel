@@ -8,6 +8,6 @@ export const vérifierQueLeCahierDesChargesPermetUnChangement = async (
   typeChangement: 'information-enregistrée' | 'demande',
   domaine: AppelOffre.DomainesConcernésParChangement,
 ) => {
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   cahierDesCharges.vérifierQueLeChangementEstPossible(typeChangement, domaine);
 };

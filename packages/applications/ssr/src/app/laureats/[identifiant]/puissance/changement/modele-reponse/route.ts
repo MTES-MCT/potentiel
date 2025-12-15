@@ -7,7 +7,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -27,9 +27,11 @@ export const GET = async (
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
-    const { lauréat, représentantLégal } = await getLauréat({ identifiantProjet });
+    const { lauréat, représentantLégal } = await getLauréat(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    );
 
-    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
     const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',

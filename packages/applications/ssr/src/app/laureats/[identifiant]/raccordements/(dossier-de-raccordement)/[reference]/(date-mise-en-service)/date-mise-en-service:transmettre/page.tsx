@@ -53,7 +53,9 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         return notFound();
       }
 
-      const { période } = await getPériodeAppelOffres(dossierRaccordement.identifiantProjet);
+      const { période } = await getPériodeAppelOffres(
+        dossierRaccordement.identifiantProjet.formatter(),
+      );
 
       const props = mapToProps({
         utilisateur,

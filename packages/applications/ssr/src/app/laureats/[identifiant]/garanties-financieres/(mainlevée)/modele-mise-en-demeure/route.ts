@@ -24,12 +24,12 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
     withUtilisateur(async (utilisateur) => {
       const identifiantProjetValue = decodeParameter(identifiant);
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat({
-        identifiantProjet: identifiantProjetValue,
-      });
+      const { lauréat, puissance, représentantLégal } = await getLauréat(
+        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+      );
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
-        IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
       );
 
       const projetAvecGarantiesFinancièresEnAttente =

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -20,7 +21,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
-      const lauréat = await getLauréatInfos({ identifiantProjet });
+      const lauréat = await getLauréatInfos(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
       return (
         <ModifierSiteDeProductionPage
           lauréat={mapToPlainObject(lauréat)}

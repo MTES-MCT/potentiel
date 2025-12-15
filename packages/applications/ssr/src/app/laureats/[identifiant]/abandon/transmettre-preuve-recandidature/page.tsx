@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -16,7 +17,9 @@ type PageProps = IdentifiantParameter;
  */
 export default async function Page({ params: { identifiant } }: PageProps) {
   const identifiantProjet = decodeParameter(identifiant);
-  const abandon = await getAbandonInfos({ identifiantProjet });
+  const abandon = await getAbandonInfos(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+  );
   if (!abandon) {
     return notFound();
   }

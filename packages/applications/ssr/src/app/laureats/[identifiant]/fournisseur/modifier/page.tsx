@@ -18,9 +18,7 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const fournisseur = await getFournisseurInfos({
-      identifiantProjet: identifiantProjet.formatter(),
-    });
+    const fournisseur = await getFournisseurInfos(identifiantProjet.formatter());
 
     return (
       <MettreÀJourFournisseurPage

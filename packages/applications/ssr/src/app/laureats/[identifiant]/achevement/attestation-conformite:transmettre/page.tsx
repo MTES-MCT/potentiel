@@ -27,7 +27,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
-      projet.identifiantProjet,
+      projet.identifiantProjet.formatter(),
     );
 
     const props = mapToProps({

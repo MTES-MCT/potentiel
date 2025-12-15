@@ -40,7 +40,9 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const { appelOffres, famille, période } = await getPériodeAppelOffres(identifiantProjet);
+      const { appelOffres, famille, période } = await getPériodeAppelOffres(
+        identifiantProjet.formatter(),
+      );
 
       const cahierDesCharges = CahierDesCharges.bind({
         appelOffre: appelOffres,

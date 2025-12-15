@@ -30,9 +30,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
     const enregistréLe = decodeParameter(date);
-    const fournisseur = await getFournisseurInfos({
-      identifiantProjet: identifiantProjet.formatter(),
-    });
+    const fournisseur = await getFournisseurInfos(identifiantProjet.formatter());
 
     const changement = await mediator.send<Lauréat.Fournisseur.ConsulterChangementFournisseurQuery>(
       {

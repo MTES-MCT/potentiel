@@ -30,13 +30,15 @@ export const GET = async (
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat({
-        identifiantProjet: identifiantProjetValue,
-      });
+      const { lauréat, puissance, représentantLégal } = await getLauréat(
+        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+      );
 
-      const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
+        identifiantProjet.formatter(),
+      );
 
-      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet.formatter());
 
       const mainlevéeEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({

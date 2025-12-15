@@ -31,7 +31,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     withUtilisateur(async (utilisateur) => {
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 

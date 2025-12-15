@@ -35,7 +35,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       if (Option.isNone(recours)) {
         return notFound();
       }
-      const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
+        identifiantProjet.formatter(),
+      );
 
       const { logo, data } = mapCandidatureToModèleRéponsePayload({
         identifiantProjet: identifiantProjetValue,

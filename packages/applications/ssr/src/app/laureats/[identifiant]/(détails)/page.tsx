@@ -3,6 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { getContext } from '@potentiel-applications/request-context';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -29,7 +30,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
     redirect(`${legacyUrl}?${urlSearchParams.toString()}`);
   }
 
-  const lauréat = await getLauréat({ identifiantProjet });
+  const lauréat = await getLauréat(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+  );
   return (
     <ColumnPageTemplate
       leftColumn={{

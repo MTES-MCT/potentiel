@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -26,11 +26,11 @@ export const GET = async (
       const identifiantProjet = decodeParameter(identifiant);
       const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
-      const { actionnaire, lauréat, puissance, représentantLégal } = await getLauréat({
-        identifiantProjet,
-      });
+      const { actionnaire, lauréat, puissance, représentantLégal } = await getLauréat(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
 
-      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
       if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
         return notFound();
