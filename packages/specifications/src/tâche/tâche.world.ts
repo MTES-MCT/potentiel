@@ -38,9 +38,7 @@ export class TâcheWorld {
       )
       .with(
         'transmettre la proposition technique et financière',
-        () =>
-          Lauréat.Tâche.TypeTâche
-            .raccordementTransmettrePropositionTechniqueEtFinancièreRaccordement,
+        () => Lauréat.Tâche.TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancière,
       )
       .exhaustive();
   }

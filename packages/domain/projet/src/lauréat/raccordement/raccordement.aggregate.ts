@@ -137,7 +137,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     );
 
     this.#tâcheTransmettrePropositionTechniqueEtFinancière = await this.lauréat.loadTâche(
-      TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancièreRaccordement.type,
+      TypeTâche.raccordementTransmettrePropositionTechniqueEtFinancière.type,
     );
 
     this.#tâcheTransmettreRéférenceRaccordement = await this.lauréat.loadTâche(
