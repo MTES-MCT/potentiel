@@ -73,8 +73,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsRaccordementDuProjetPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
-          raccordement={mapToPlainObject(raccordement)}
-          actions={mapToActions(utilisateur, raccordement)}
+          dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
+          actions={mapToRaccordementActions(utilisateur, raccordement)}
           lienRetour={lienRetour}
         />
       );
@@ -82,55 +82,51 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   );
 }
 
-const mapToActions = (
+const mapToDossierActions = (
+  { rôle }: Utilisateur.ValueType,
+  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'],
+): DétailsRaccordementPageProps['dossiers'] =>
+  dossiers.map((dossier) =>
+    mapToPlainObject({
+      ...dossier,
+      actions: {
+        supprimer: rôle.aLaPermission('raccordement.dossier.supprimer'),
+
+        demandeComplèteRaccordement: {
+          transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
+          modifier: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+          modifierRéférence:
+            rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
+            !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+        },
+        propositionTechniqueEtFinancière: {
+          transmettre: rôle.aLaPermission(
+            'raccordement.proposition-technique-et-financière.transmettre',
+          ),
+          modifier: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
+        },
+        miseEnService: {
+          transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
+          modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
+        },
+      },
+    }),
+  );
+
+const mapToRaccordementActions = (
   { rôle }: Utilisateur.ValueType,
   raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel,
 ): DétailsRaccordementPageProps['actions'] => {
   const isGestionnaireInconnu =
     raccordement.identifiantGestionnaireRéseau &&
     raccordement.identifiantGestionnaireRéseau.estInconnu();
-  if (isGestionnaireInconnu) {
-    return {
-      supprimer: true,
-      gestionnaireRéseau: {
-        modifier: true,
-      },
-      demandeComplèteRaccordement: {
-        modifierRéférence: false,
-        transmettre: false,
-        modifier: false,
-      },
-      miseEnService: {
-        transmettre: false,
-        modifier: false,
-      },
-      propositionTechniqueEtFinancière: {
-        transmettre: false,
-        modifier: false,
-      },
-    };
-  }
+
   return {
-    supprimer: rôle.aLaPermission('raccordement.dossier.supprimer'),
-    demandeComplèteRaccordement: {
-      modifierRéférence:
-        rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
-        !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
-      transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-      modifier: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
-    },
-    propositionTechniqueEtFinancière: {
-      transmettre: rôle.aLaPermission(
-        'raccordement.proposition-technique-et-financière.transmettre',
-      ),
-      modifier: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
-    },
-    miseEnService: {
-      transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
-      modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
-    },
     gestionnaireRéseau: {
       modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
     },
+    créerNouveauDossier: isGestionnaireInconnu
+      ? false
+      : rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
   };
 };
