@@ -4,7 +4,6 @@ import { Éliminé } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DateTime } from '@potentiel-domain/common';
 
 export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,

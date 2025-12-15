@@ -60,7 +60,6 @@ export type ConsulterDemandeAbandonReadModel = {
       rejetéPar: Email.ValueType;
       rejetéLe: DateTime.ValueType;
     };
-    //@TODO : ajouter détail si annulation
 
     autoritéCompétente: AutoritéCompétente.ValueType;
   };
