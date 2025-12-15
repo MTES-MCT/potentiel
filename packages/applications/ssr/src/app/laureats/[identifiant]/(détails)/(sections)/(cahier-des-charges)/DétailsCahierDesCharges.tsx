@@ -1,17 +1,33 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Link from 'next/link';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { CahierDesChargesData } from '../_helpers/getCahierDesChargesData';
+import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 
-import { Section } from './Section';
+export type CahierDesChargesProps = ChampObligatoireAvecAction<
+  | {
+      estInitial: true;
+      estAlternatif: false;
+      doitChoisirUnCahierDesChargesModificatif: boolean;
+      cahierDesChargesURL: string;
+      estSoumisAuxGarantiesFinancières: boolean;
+    }
+  | {
+      estInitial: false;
+      estAlternatif: boolean;
+      doitChoisirUnCahierDesChargesModificatif: false;
+      dateParution: AppelOffre.CahierDesChargesModifié['paruLe'];
+      cahierDesChargesURL: string;
+      estSoumisAuxGarantiesFinancières: boolean;
+    }
+>;
 
-export type CahierDesChargesSectionProps = CahierDesChargesData;
-
-export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSectionProps) =>
+export const DétailsCahierDesCharges = ({ value, action }: CahierDesChargesProps) =>
   value && (
-    <Section title="Cahier des charges">
+    <>
       <div>
         Instruction selon le cahier des charges{' '}
         {value.estInitial
@@ -33,5 +49,5 @@ export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSecti
         />
       )}
       {action && <TertiaryLink href={action.url}> {action.label}</TertiaryLink>}
-    </Section>
+    </>
   );

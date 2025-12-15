@@ -7,6 +7,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 
@@ -14,7 +15,6 @@ import { TableauDeBordPage } from './TableauDeBord.page';
 import { getAbandonAlert } from './_helpers/getAbandonAlert';
 import { getAchèvementAlert } from './_helpers/getAchèvementAlert';
 import { getAchèvementData } from './_helpers/getAchèvementData';
-import { getCahierDesChargesData } from './_helpers/getCahierDesChargesData';
 import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
 import { getRaccordementData } from './_helpers/getRaccordementData';
 import { getÉtapesData } from './_helpers/getÉtapesData';
@@ -43,8 +43,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const recours = await getRecours(identifiantProjet);
 
-      const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
-
       const raccordement = await getRaccordementData({
         role: rôle,
         identifiantProjet,
@@ -52,10 +50,10 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         aUnAbandonEnCours: !!abandon?.demandeEnCours,
       });
 
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+
       const raccordementAlerts = getAlertesRaccordement({
-        CDC2022Choisi:
-          !cahierDesChargesData.value.estInitial &&
-          cahierDesChargesData.value.dateParution === '30/08/2022',
+        CDC2022Choisi: cahierDesCharges.cahierDesChargesModificatif?.paruLe === '30/08/2022',
         raccordement,
       });
 
@@ -92,8 +90,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const garantiesFinancièresData = await getGarantiesFinancièresData({
         identifiantProjet,
         rôle,
-        estSoumisAuxGarantiesFinancières:
-          !!cahierDesChargesData.value?.estSoumisAuxGarantiesFinancières,
+        estSoumisAuxGarantiesFinancières: cahierDesCharges.estSoumisAuxGarantiesFinancières(),
       });
 
       return (
@@ -101,7 +98,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           frise={{ étapes, doitAfficherAttestationDésignation: !!lauréat.attestationDésignation }}
           raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
-          cahierDesCharges={cahierDesChargesData}
           garantiesFinancièresData={garantiesFinancièresData}
           achèvementData={achèvementData}
           raccordementAlerts={raccordementAlerts}

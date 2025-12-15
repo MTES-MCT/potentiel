@@ -5,10 +5,10 @@ import { getContext } from '@potentiel-applications/request-context';
 import { decodeParameter } from '@/utils/decodeParameter';
 
 import { getCahierDesCharges } from '../../../_helpers';
+import { withUtilisateur } from '../../../../utils/withUtilisateur';
 
 import { MenuLauréat } from './(components)/MenuLauréat';
 import { getTâches } from './taches/_helpers/getTâches';
-import { withUtilisateur } from '../../../../utils/withUtilisateur';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -23,7 +23,7 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
 
     const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     const tâches = await getTâches({
       identifiantProjet,
       email: utilisateur.identifiantUtilisateur.email,
