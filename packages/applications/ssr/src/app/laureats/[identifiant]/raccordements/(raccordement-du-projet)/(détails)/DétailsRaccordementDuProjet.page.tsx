@@ -24,8 +24,15 @@ export type DétailsRaccordementPageProps = {
   gestionnaireRéseau: PlainType<
     Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>
   >;
-  raccordement: PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>;
-  actions: DossierRaccordementProps['actions'] & { gestionnaireRéseau: { modifier: boolean } };
+  dossiers: Array<
+    PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel> & {
+      actions: DossierRaccordementProps['actions'];
+    }
+  >;
+  actions: {
+    gestionnaireRéseau: { modifier: boolean };
+    créerNouveauDossier: boolean;
+  };
   lienRetour: {
     label: string;
     href: string;
@@ -35,7 +42,7 @@ export type DétailsRaccordementPageProps = {
 export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps> = ({
   identifiantProjet,
   gestionnaireRéseau,
-  raccordement,
+  dossiers,
   actions,
   lienRetour: { label, href },
 }) => {
@@ -52,7 +59,7 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
               actions={actions.gestionnaireRéseau}
             />
           )}
-          {actions.demandeComplèteRaccordement.transmettre && (
+          {actions.créerNouveauDossier && (
             <Button
               priority="secondary"
               iconId="fr-icon-add-circle-line"
@@ -67,7 +74,7 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
           )}
         </div>
 
-        {actions.demandeComplèteRaccordement.transmettre && (
+        {actions.créerNouveauDossier && (
           <Alert
             severity="info"
             small
@@ -81,14 +88,14 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
         )}
 
         <div className={`my-8 flex flex-col gap-8 md:gap-3 ${fr.cx('fr-accordions-group')}`}>
-          {raccordement.dossiers.length === 1 ? (
+          {dossiers.length === 1 ? (
             <DossierRaccordement
-              dossier={raccordement.dossiers[0]}
+              dossier={dossiers[0]}
               identifiantProjet={identifiantProjetValue}
-              actions={actions}
+              actions={dossiers[0].actions}
             />
           ) : (
-            raccordement.dossiers.map((dossier) => (
+            dossiers.map((dossier) => (
               <Accordion
                 label={`Dossier avec la référence ${dossier.référence.référence}`}
                 key={dossier.référence.référence}
@@ -96,7 +103,7 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
                 <DossierRaccordement
                   dossier={dossier}
                   identifiantProjet={identifiantProjetValue}
-                  actions={actions}
+                  actions={dossier.actions}
                 />
               </Accordion>
             ))
