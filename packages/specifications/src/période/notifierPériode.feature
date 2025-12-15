@@ -12,6 +12,7 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Et les attestations de désignation des candidatures de la période notifiée devraient être consultables
         Et les porteurs ont été prévenu que leurs candidatures ont été notifiées
         Et les partenaires ont été prévenus de la notification de la période
+        Et l'administration a été prévenue de la notification de la période
         Et aucun autre email n'a été envoyé
 
     Scénario: Notifier les candidats oubliés d'une période d'un appel d'offres
