@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import clsx from 'clsx';
 
 import { LinkActionProps } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
@@ -10,7 +11,6 @@ import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
 import { ListAction } from '../molecules/ListAction';
 
 import { PageTemplate } from './Page.template';
-import clsx from 'clsx';
 
 export type ListPageTemplateProps<TItem> = {
   heading: string;

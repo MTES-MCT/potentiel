@@ -1,10 +1,10 @@
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { GetRaccordementForProjectPage } from '../_helpers/getRaccordementData';
 
-import { Section } from './Section';
 import { RaccordementAlertesData } from '../_helpers/getRaccordementAlert';
-import Notice from '@codegouvfr/react-dsfr/Notice';
+import { Section } from './Section';
 
 type RaccordementSectionProps = {
   raccordement: GetRaccordementForProjectPage;
@@ -29,8 +29,8 @@ export const RaccordementSection = async ({
               ? 'Un dossier de raccordement renseigné'
               : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
         </div>
-        {raccordementAlerts.map(({ label }) => (
-          <Notice description={label} title="" severity="info" />
+        {raccordementAlerts.map(({ label }, index) => (
+          <Notice description={label} title="" severity="info" key={label + index} />
         ))}
         {raccordement.action && (
           <TertiaryLink href={raccordement.action.url}>{raccordement.action.label}</TertiaryLink>

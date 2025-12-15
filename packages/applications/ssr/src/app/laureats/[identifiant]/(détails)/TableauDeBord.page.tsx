@@ -79,7 +79,10 @@ export const TableauDeBordPage = ({
         <div className="flex flex-col gap-4 flex-1">
           <AchèvementSection achèvement={achèvementData} />
           {raccordement.value && (
-            <RaccordementSection raccordement={raccordement} raccordementAlerts={raccordementAlerts}/>
+            <RaccordementSection
+              raccordement={raccordement}
+              raccordementAlerts={raccordementAlerts}
+            />
           )}
           {garantiesFinancièresData && (
             <GarantiesFinancièresSection
