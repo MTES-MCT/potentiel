@@ -19,7 +19,6 @@ import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancière
 import { getRaccordementData } from './_helpers/getRaccordementData';
 import { getÉtapesData } from './_helpers/getÉtapesData';
 import { checkFeatureFlag } from './_helpers/checkFeatureFlag';
-import { getAlertesRaccordement } from './_helpers/getRaccordementAlert';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -52,13 +51,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         aUnAbandonEnCours: !!abandon?.demandeEnCours,
       });
 
-      const raccordementAlerts = getAlertesRaccordement({
-        CDC2022Choisi:
-          !cahierDesChargesData.value.estInitial &&
-          cahierDesChargesData.value.dateParution === '30/08/2022',
-        raccordement,
-      });
-
       const étapes = getÉtapesData({
         dateNotification: lauréat.notifiéLe.formatter(),
         dateAchèvementPrévisionnel: achèvementData.value.dateAchèvementPrévisionnel,
@@ -70,6 +62,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
               }
             : undefined,
         dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
+        // y'a un petit sujet là
         dateMiseEnService: raccordement.value
           ? raccordement.value.dateMiseEnService?.formatter()
           : undefined,
@@ -99,12 +92,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       return (
         <TableauDeBordPage
           frise={{ étapes, doitAfficherAttestationDésignation: !!lauréat.attestationDésignation }}
-          raccordement={raccordement}
           identifiantProjet={identifiantProjet.formatter()}
-          cahierDesCharges={cahierDesChargesData}
           garantiesFinancièresData={garantiesFinancièresData}
           achèvementData={achèvementData}
-          raccordementAlerts={raccordementAlerts}
           abandonAlert={abandonAlert}
           achèvementAlert={achèvementAlert}
         />

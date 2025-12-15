@@ -3,19 +3,15 @@ import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 import { SectionPage } from './(components)/SectionPage';
 import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjetSection';
-import { GetRaccordementForProjectPage } from './_helpers/getRaccordementData';
-import {
-  CahierDesChargesSection,
-  CahierDesChargesSectionProps,
-} from './(components)/CahierDesChargesSection';
+
 import { AbandonAlertData } from './_helpers/getAbandonAlert';
 import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
 import { GetGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
 import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièresSection';
-import { RaccordementSection } from './(components)/RaccordementSection';
 import { AchèvementSection } from './(components)/AchèvementSection';
 import { GetAchèvementData } from './_helpers/getAchèvementData';
-import { RaccordementAlertesData } from './_helpers/getRaccordementAlert';
+import { CahierDesChargesSection } from './(sections)/(cahier-des-charges)/CahierDesCharges.section';
+import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.section';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
@@ -23,25 +19,19 @@ type TableauDeBordPageProps = {
     étapes: EtapesProjetProps['étapes'];
     doitAfficherAttestationDésignation: boolean;
   };
-  cahierDesCharges: CahierDesChargesSectionProps;
-  raccordement: GetRaccordementForProjectPage;
   garantiesFinancièresData: GetGarantiesFinancièresData | undefined;
   achèvementData: GetAchèvementData;
   abandonAlert: AbandonAlertData;
   achèvementAlert: AchèvementAlertData;
-  raccordementAlerts: RaccordementAlertesData;
 };
 
 export const TableauDeBordPage = ({
   identifiantProjet,
   frise: { étapes, doitAfficherAttestationDésignation },
-  cahierDesCharges,
-  raccordement,
   abandonAlert,
   achèvementAlert,
   garantiesFinancièresData,
   achèvementData,
-  raccordementAlerts,
 }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -67,7 +57,7 @@ export const TableauDeBordPage = ({
           })}
         />
       )}
-      <CahierDesChargesSection value={cahierDesCharges.value} action={cahierDesCharges.action} />
+      <CahierDesChargesSection identifiantProjet={identifiantProjet} />
       <div className="flex flex-row gap-4">
         <div className="flex-1">
           <EtapesProjet
@@ -78,12 +68,7 @@ export const TableauDeBordPage = ({
         </div>
         <div className="flex flex-col gap-4 flex-1">
           <AchèvementSection achèvement={achèvementData} />
-          {raccordement.value && (
-            <RaccordementSection
-              raccordement={raccordement}
-              raccordementAlerts={raccordementAlerts}
-            />
-          )}
+          <RaccordementSection identifiantProjet={identifiantProjet} />
           {garantiesFinancièresData && (
             <GarantiesFinancièresSection
               estAchevé={achèvementData.value.estAchevé}

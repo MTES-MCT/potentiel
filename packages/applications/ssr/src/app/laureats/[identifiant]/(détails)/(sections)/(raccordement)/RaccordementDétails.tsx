@@ -1,22 +1,26 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { DateTime } from '@potentiel-domain/common';
+import { ChampAvecAction } from '../../../_helpers/types';
 
-import { GetRaccordementForProjectPage } from '../_helpers/getRaccordementData';
-import { RaccordementAlertesData } from '../_helpers/getRaccordementAlert';
-
-import { Section } from './Section';
-
-type RaccordementSectionProps = {
-  raccordement: GetRaccordementForProjectPage;
-  raccordementAlerts: RaccordementAlertesData;
+export type RaccordementDétailsProps = {
+  raccordement: ChampAvecAction<
+    | {
+        nombreDeDossiers: number;
+        gestionnaireDeRéseau: string;
+        dateMiseEnService?: DateTime.ValueType;
+        aTransmisAccuséRéceptionDemandeRaccordement?: boolean;
+      }
+    | undefined
+  >;
+  alertes: Array<{
+    label: string;
+  }>;
 };
 
-export const RaccordementSection = async ({
-  raccordement,
-  raccordementAlerts,
-}: RaccordementSectionProps) => (
-  <Section title="Raccordement au réseau">
+export const RaccordementDétails = async ({ raccordement, alertes }: RaccordementDétailsProps) => (
+  <>
     {raccordement.value ? (
       <>
         <div>
@@ -30,7 +34,7 @@ export const RaccordementSection = async ({
               ? 'Un dossier de raccordement renseigné'
               : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
         </div>
-        {raccordementAlerts.map(({ label }, index) => (
+        {alertes.map(({ label }, index) => (
           <Notice description={label} title="" severity="info" key={label + index} />
         ))}
         {raccordement.action && (
@@ -40,5 +44,5 @@ export const RaccordementSection = async ({
     ) : (
       <div>Champs non renseigné</div>
     )}
-  </Section>
+  </>
 );

@@ -3,24 +3,28 @@ import Link from 'next/link';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { CahierDesChargesData } from '../_helpers/getCahierDesChargesData';
+import { PlainType } from '@potentiel-domain/core';
+import { ConsulterCahierDesChargesReadModel } from '@potentiel-domain/projet/src/lauréat';
+import { ChampAvecAction } from '../../../_helpers/types';
 
-import { Section } from './Section';
+export type CahierDesChargesDétailsProps = ChampAvecAction<
+  PlainType<ConsulterCahierDesChargesReadModel> & {
+    doitChoisirUnCahierDesChargesModificatif: boolean;
+  }
+>;
 
-export type CahierDesChargesSectionProps = CahierDesChargesData;
-
-export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSectionProps) =>
+export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDétailsProps) =>
   value && (
-    <Section title="Cahier des charges">
+    <>
       <div>
         Instruction selon le cahier des charges{' '}
-        {value.estInitial
+        {!value.cahierDesChargesModificatif
           ? 'initial (en vigueur à la candidature)'
           : `${
-              value.estAlternatif ? 'alternatif' : ''
-            } modifié rétroactivement et publié le ${value.dateParution}`}
+              value.cahierDesChargesModificatif.alternatif ? 'alternatif' : ''
+            } modifié rétroactivement et publié le ${value.cahierDesChargesModificatif.paruLe}`}
         {', '}
-        <Link target="_blank" className="w-fit" href={value.cahierDesChargesURL}>
+        <Link target="_blank" className="w-fit" href={value.appelOffre.cahiersDesChargesUrl}>
           voir le cahier des charges
         </Link>
       </div>
@@ -33,5 +37,5 @@ export const CahierDesChargesSection = ({ value, action }: CahierDesChargesSecti
         />
       )}
       {action && <TertiaryLink href={action.url}> {action.label}</TertiaryLink>}
-    </Section>
+    </>
   );

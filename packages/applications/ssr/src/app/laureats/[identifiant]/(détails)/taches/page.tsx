@@ -38,7 +38,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
             {tâches.items.length ? (
               <ul>
                 {mapToPlainObject(tâches.items).map((item, index) => (
-                  <li className="mb-6" key={`${item.typeTâche}${index}`}>
+                  <li key={`${item.typeTâche}${index}`}>
                     <Tile className="flex flex-col md:flex-row md:justify-between">
                       <TâcheListItem {...item} />
                     </Tile>
