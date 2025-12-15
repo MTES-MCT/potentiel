@@ -23,12 +23,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const puissance = await getPuissanceInfos({
-      identifiantProjet: identifiantProjet.formatter(),
-    });
-    const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos({
-      identifiantProjet,
-    });
+    const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+    const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos(
+      identifiantProjet.formatter(),
+    );
 
     return (
       <ModifierPuissancePage

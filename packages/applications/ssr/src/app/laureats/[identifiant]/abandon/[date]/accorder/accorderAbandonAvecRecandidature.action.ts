@@ -72,9 +72,7 @@ const buildReponseSignee = async ({
   Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']
 > => {
   const candidature = await getCandidature(identifiantProjet.formatter());
-  const { lauréat, représentantLégal, puissance } = await getLauréat({
-    identifiantProjet: identifiantProjet.formatter(),
-  });
+  const { lauréat, représentantLégal, puissance } = await getLauréat(identifiantProjet.formatter());
   const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
   const props: DonnéesDocument = {

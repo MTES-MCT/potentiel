@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -29,9 +29,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         puissance,
         représentantLégal,
         abandon: abandonInfo,
-      } = await getLauréat({
-        identifiantProjet,
-      });
+      } = await getLauréat(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter());
 
       if (!abandonInfo) {
         return notFound();

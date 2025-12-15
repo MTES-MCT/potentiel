@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -24,7 +24,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
 
-      const lauréat = await getLauréat({ identifiantProjet });
+      const lauréat = await getLauréat(
+        IdentifiantProjet.convertirEnValueType(identifiant).formatter(),
+      );
       const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet.formatter());
 
       const props = mapToProps({ candidature, lauréat, cahierDesCharges });

@@ -2,7 +2,7 @@
 
 import { mediator } from 'mediateur';
 
-import { Accès, Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Accès, Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -26,6 +26,8 @@ const schema = modifierLauréatEtCandidatureSchéma;
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
+    const rawIdentifiantProjet =
+      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
 
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
@@ -73,7 +75,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.nomRepresentantLegal) {
-        const représentantLégal = await getReprésentantLégalInfos({ identifiantProjet });
+        const représentantLégal = await getReprésentantLégalInfos(rawIdentifiantProjet);
 
         await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
           type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
@@ -88,7 +90,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.puissanceProductionAnnuelle || laureat.puissanceDeSite) {
-        const puissanceActuelle = await getPuissanceInfos({ identifiantProjet });
+        const puissanceActuelle = await getPuissanceInfos(rawIdentifiantProjet);
 
         await mediator.send<Lauréat.Puissance.ModifierPuissanceUseCase>({
           type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -135,7 +137,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         laureat.region != undefined;
 
       if (siteDeProductionModifié) {
-        const lauréatAModifier = await getLauréatInfos({ identifiantProjet });
+        const lauréatAModifier = await getLauréatInfos(rawIdentifiantProjet);
 
         await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
           type: 'Lauréat.UseCase.ModifierSiteDeProduction',

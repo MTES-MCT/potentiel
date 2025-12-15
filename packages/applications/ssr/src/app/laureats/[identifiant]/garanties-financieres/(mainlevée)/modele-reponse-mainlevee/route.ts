@@ -30,9 +30,9 @@ export const GET = async (
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat({
-        identifiantProjet: identifiantProjetValue,
-      });
+      const { lauréat, puissance, représentantLégal } = await getLauréat(
+        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+      );
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         identifiantProjet.formatter(),

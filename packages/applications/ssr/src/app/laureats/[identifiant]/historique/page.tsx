@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { match, P } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -53,7 +53,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const identifiantProjet = decodeParameter(identifiant);
       const { categorie } = paramsSchema.parse(searchParams);
 
-      const lauréat = await getLauréatInfos({ identifiantProjet });
+      const lauréat = await getLauréatInfos(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
 
       const historique = await mediator.send<Lauréat.ListerHistoriqueProjetQuery>({
         type: 'Lauréat.Query.ListerHistoriqueProjet',

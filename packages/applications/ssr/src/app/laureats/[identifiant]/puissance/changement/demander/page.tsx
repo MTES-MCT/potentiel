@@ -24,9 +24,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const puissance = await getPuissanceInfos({
-      identifiantProjet: identifiantProjet.formatter(),
-    });
+    const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');

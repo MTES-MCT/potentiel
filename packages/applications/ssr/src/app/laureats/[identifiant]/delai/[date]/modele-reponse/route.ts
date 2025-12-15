@@ -7,7 +7,7 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -25,7 +25,9 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
 
-    const { lauréat, représentantLégal, puissance } = await getLauréat({ identifiantProjet });
+    const { lauréat, représentantLégal, puissance } = await getLauréat(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    );
     const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({

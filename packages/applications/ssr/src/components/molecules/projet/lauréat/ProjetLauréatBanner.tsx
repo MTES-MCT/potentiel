@@ -23,7 +23,9 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = async ({
   noLink,
 }) =>
   withUtilisateur(async ({ rôle }) => {
-    const projet = await getLauréatInfos({ identifiantProjet });
+    const projet = await getLauréatInfos(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+    );
 
     const { nomProjet, localité, notifiéLe, statut } = projet;
 
