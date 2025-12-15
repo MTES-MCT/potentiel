@@ -29,7 +29,7 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
       });
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
-        IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
       );
 
       const projetAvecGarantiesFinancièresEnAttente =

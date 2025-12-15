@@ -35,7 +35,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const { statut } = await récupérerLauréat(identifiantProjet.formatter());
 
-      const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
+      const { appelOffres } = await getPériodeAppelOffres(identifiantProjet.formatter());
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
       const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);

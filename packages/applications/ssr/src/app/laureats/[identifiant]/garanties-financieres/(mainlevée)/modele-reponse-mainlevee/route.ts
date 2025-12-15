@@ -34,7 +34,9 @@ export const GET = async (
         identifiantProjet: identifiantProjetValue,
       });
 
-      const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
+        identifiantProjet.formatter(),
+      );
 
       const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 

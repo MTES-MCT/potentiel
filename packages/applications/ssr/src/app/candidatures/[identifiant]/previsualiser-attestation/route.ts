@@ -42,7 +42,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const notifiéPar =
         candidature.notification?.notifiéePar ?? utilisateur.identifiantUtilisateur;
 
-      const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
+      const { appelOffres, période } = await getPériodeAppelOffres(
+        candidature.identifiantProjet.formatter(),
+      );
 
       const modèleAttestationNonDisponible = période.type === 'legacy';
 

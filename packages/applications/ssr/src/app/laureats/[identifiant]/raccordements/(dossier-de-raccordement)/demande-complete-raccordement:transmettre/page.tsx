@@ -27,7 +27,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
     await récupérerLauréatSansAbandon(identifiantProjet.formatter());
 
-    const { période } = await getPériodeAppelOffres(identifiantProjet);
+    const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

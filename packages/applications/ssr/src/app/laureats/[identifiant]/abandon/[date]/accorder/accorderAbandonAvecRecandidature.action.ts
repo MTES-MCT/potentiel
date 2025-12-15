@@ -75,7 +75,7 @@ const buildReponseSignee = async ({
   const { lauréat, représentantLégal, puissance } = await getLauréat({
     identifiantProjet: identifiantProjet.formatter(),
   });
-  const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
+  const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
   const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),

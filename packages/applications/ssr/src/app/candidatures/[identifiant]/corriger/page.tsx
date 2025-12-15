@@ -43,7 +43,7 @@ export default async function Page({ params }: PageProps) {
     });
 
     const { appelOffres, période, famille } = await getPériodeAppelOffres(
-      candidature.identifiantProjet,
+      candidature.identifiantProjet.formatter(),
     );
     const cahierDesCharges = CahierDesCharges.bind({
       appelOffre: appelOffres,
