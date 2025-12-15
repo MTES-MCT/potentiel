@@ -6,6 +6,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { TâcheListItem } from '@/app/taches/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
+
 import { SearchProps } from '../../components/molecules/Search';
 
 export type TâcheListPageProps = {

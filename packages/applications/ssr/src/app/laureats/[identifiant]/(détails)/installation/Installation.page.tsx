@@ -1,13 +1,13 @@
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Heading2 } from '@/components/atoms/headings';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { Section } from '../(components)/Section';
 import { DétailTypologieInstallation } from '../../installation/(historique)/events/DétailTypologieInstallation';
 import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
 
 import { GetInstallationForProjectPage } from './_helpers/getInstallation';
-import { Heading2 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 type Props = { installation: GetInstallationForProjectPage };
 

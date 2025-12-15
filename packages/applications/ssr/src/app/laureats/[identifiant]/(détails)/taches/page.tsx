@@ -1,17 +1,18 @@
+import z from 'zod';
+
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToRangeOptions } from '@/utils/pagination';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
-
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { TâcheListPage } from '../../../../taches/TâcheList.page';
-import z from 'zod';
+
 import { getTâches } from './_helpers/getTâches';
-import { mapToRangeOptions } from '@/utils/pagination';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;

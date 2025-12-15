@@ -23,7 +23,7 @@ export const checkAutorisationChangement = async <
 }: Props<TDomain>) => {
   const estUnLauréatSansAbandonOuAchèvement =
     await checkLauréatSansAbandonOuAchèvement(identifiantProjet);
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   const peutModifier = rôle.aLaPermission(`${domain}.modifier` as Role.Policy);
 

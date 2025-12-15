@@ -1,9 +1,10 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
+
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { GetRaccordementForProjectPage } from '../_helpers/getRaccordementData';
-
 import { RaccordementAlertesData } from '../_helpers/getRaccordementAlert';
+
 import { Section } from './Section';
 
 type RaccordementSectionProps = {

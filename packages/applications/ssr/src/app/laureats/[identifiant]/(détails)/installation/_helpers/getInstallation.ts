@@ -33,7 +33,7 @@ export const getInstallation = async ({
 }: Props): Promise<GetInstallationForProjectPage> => {
   const estUnLauréatSansAbandonOuAchèvement =
     await checkLauréatSansAbandonOuAchèvement(identifiantProjet);
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   const {
     installateur: champSupplémentaireInstallateur,
@@ -45,7 +45,7 @@ export const getInstallation = async ({
   const data: GetInstallationForProjectPage = {};
 
   if (champsSupplémentaireAutorisationDUrbanisme) {
-    const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+    const lauréat = await getLauréatInfos(identifiantProjet.formatter());
     data.autorisationDUrbanisme = {
       value: lauréat.autorisationDUrbanisme
         ? {

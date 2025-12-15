@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { cache } from 'react';
+
 import { RangeOptions } from '@potentiel-domain/entity';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 

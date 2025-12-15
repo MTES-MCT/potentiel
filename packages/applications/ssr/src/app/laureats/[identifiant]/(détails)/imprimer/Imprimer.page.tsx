@@ -1,9 +1,10 @@
 'use client';
 
-import { Section } from '../(components)/Section';
-
 import { useEffect } from 'react';
+
 import { DateTime } from '@potentiel-domain/common';
+
+import { Section } from '../(components)/Section';
 import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { InstallationPage } from '../installation/Installation.page';

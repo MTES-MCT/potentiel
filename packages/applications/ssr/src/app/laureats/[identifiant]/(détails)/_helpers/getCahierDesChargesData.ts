@@ -33,7 +33,7 @@ export const getCahierDesChargesData = async ({
   identifiantProjet,
   rôle,
 }: Props): Promise<CahierDesChargesData> => {
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   const value = cahierDesCharges.cahierDesChargesModificatif
     ? {

@@ -206,7 +206,7 @@ export const getLauréatData = async ({
   identifiantProjet,
   rôle,
 }: Props): Promise<GetLauréatData> => {
-  const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
   return {
     siteDeProduction: {

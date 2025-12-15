@@ -35,7 +35,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       checkFeatureFlag(identifiantProjet, searchParams);
 
-      const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
       const abandon = await getAbandon(identifiantProjet);
 

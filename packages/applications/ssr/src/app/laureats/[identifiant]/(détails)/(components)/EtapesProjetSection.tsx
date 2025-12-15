@@ -9,9 +9,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { Section } from './Section';
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 export type EtapesProjetProps = {
   identifiantProjet: string;
