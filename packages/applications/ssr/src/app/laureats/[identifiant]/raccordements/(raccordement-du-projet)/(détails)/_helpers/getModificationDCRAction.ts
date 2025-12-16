@@ -3,7 +3,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 export const getModificationDCRAction = (
   rôle: Role.ValueType,
-  dossier: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'][number],
+  dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel,
 ) => {
   const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
   const dossierAvecDCRIncomplète =

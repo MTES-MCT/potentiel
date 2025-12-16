@@ -28,14 +28,14 @@ Fonctionnalité: Modifier une DCR
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Un porteur de projet modifie une DCR importée par le système sans accusé de réception
-        Etant donné une demande complète de raccordement sans "accusé de réception" pour le projet lauréat
+        Etant donné une demande complète de raccordement sans accusé de réception pour le projet lauréat
         Quand le porteur modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
         Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Plan du scénario: Ajouter une date de qualification à une DCR incomplète pour un projet en service
-        Etant donné une demande complète de raccordement sans "date de qualification" pour le projet lauréat
+        Etant donné une demande complète de raccordement sans date de qualification pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand <role> modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
@@ -47,7 +47,7 @@ Fonctionnalité: Modifier une DCR
             | la dreal   |
 
     Plan du scénario: Ajouter l'accusé de réception à une DCR incomplète pour un projet en service
-        Etant donné une demande complète de raccordement sans "accusé de réception" pour le projet lauréat
+        Etant donné une demande complète de raccordement sans accusé de réception pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand <role> modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat

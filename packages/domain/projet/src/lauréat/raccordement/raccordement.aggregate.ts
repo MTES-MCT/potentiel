@@ -353,9 +353,11 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
-    const dcrIncomplète =
-      Option.isNone(dossier.demandeComplèteRaccordement.dateQualification) ||
-      Option.isNone(dossier.demandeComplèteRaccordement.format);
+    const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
+
+    const dcrComplète =
+      Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
+      Option.isSome(dossier.demandeComplèteRaccordement.format);
 
     if (dateQualification.estDansLeFutur()) {
       throw new DateDansLeFuturError();
@@ -367,8 +369,8 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (
       (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
-      Option.isSome(dossier.miseEnService.dateMiseEnService) &&
-      !dcrIncomplète
+      dossierEnService &&
+      dcrComplète
     ) {
       throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),

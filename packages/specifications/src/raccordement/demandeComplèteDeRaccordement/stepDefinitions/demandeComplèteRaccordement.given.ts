@@ -1,5 +1,4 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { match } from 'ts-pattern';
 
 import { Email } from '@potentiel-domain/common';
 
@@ -35,25 +34,22 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande complète de raccordement sans {string} pour le projet lauréat',
-  async function (
-    this: PotentielWorld,
-    donnéeManquante: 'date de qualification' | 'accusé de réception',
-  ) {
-    return match(donnéeManquante)
-      .with('accusé de réception', async () =>
-        transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          Email.système,
-        ),
-      )
-      .with('date de qualification', async () =>
-        transmettreDemandeComplèteRaccordementSansDateDeQualification.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-        ),
-      )
-      .exhaustive();
+  'une demande complète de raccordement sans date de qualification pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordementSansDateDeQualification.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+    );
+  },
+);
+
+EtantDonné(
+  'une demande complète de raccordement sans accusé de réception pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      Email.système,
+    );
   },
 );
