@@ -6,12 +6,11 @@ import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjetSect
 
 import { AbandonAlertData } from './_helpers/getAbandonAlert';
 import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
-import { GetGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
-import { GarantiesFinancièresSection } from './(components)/GarantiesFinancièresSection';
-import { AchèvementSection } from './(components)/AchèvementSection';
-import { GetAchèvementData } from './_helpers/getAchèvementData';
+
 import { CahierDesChargesSection } from './(sections)/(cahier-des-charges)/CahierDesCharges.section';
 import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.section';
+import { AchèvementSection } from './(sections)/(achèvement)/Achèvement.section';
+import { GarantiesFinancièresSection } from './(sections)/(garanties-financières)/GarantiesFinancières.section';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
@@ -19,8 +18,6 @@ type TableauDeBordPageProps = {
     étapes: EtapesProjetProps['étapes'];
     doitAfficherAttestationDésignation: boolean;
   };
-  garantiesFinancièresData: GetGarantiesFinancièresData | undefined;
-  achèvementData: GetAchèvementData;
   abandonAlert: AbandonAlertData;
   achèvementAlert: AchèvementAlertData;
 };
@@ -30,8 +27,6 @@ export const TableauDeBordPage = ({
   frise: { étapes, doitAfficherAttestationDésignation },
   abandonAlert,
   achèvementAlert,
-  garantiesFinancièresData,
-  achèvementData,
 }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
@@ -67,15 +62,9 @@ export const TableauDeBordPage = ({
           />
         </div>
         <div className="flex flex-col gap-4 flex-1">
-          <AchèvementSection achèvement={achèvementData} />
+          <AchèvementSection identifiantProjet={identifiantProjet} />
           <RaccordementSection identifiantProjet={identifiantProjet} />
-          {garantiesFinancièresData && (
-            <GarantiesFinancièresSection
-              estAchevé={achèvementData.value.estAchevé}
-              identifiantProjet={identifiantProjet}
-              garantiesFinancières={garantiesFinancièresData}
-            />
-          )}
+          <GarantiesFinancièresSection identifiantProjet={identifiantProjet} />
         </div>
       </div>
     </div>

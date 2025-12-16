@@ -1,33 +1,41 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { match, P } from 'ts-pattern';
 
-import { Routes } from '@potentiel-applications/routes';
-import { Lauréat, Candidature } from '@potentiel-domain/projet';
-
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Routes } from '@potentiel-applications/routes';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { match, P } from 'ts-pattern';
+import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
+import { PlainType } from '@potentiel-domain/core';
+import { DateTime } from '@potentiel-domain/common';
 
-import { GetGarantiesFinancièresData } from '../_helpers/getGarantiesFinancièresData';
+type GarantiesFinancièresData = {
+  actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel> & {
+    dateÉchéance?: DateTime.RawType;
+  };
+  dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel> & {
+    dateÉchéance?: DateTime.RawType;
+  };
+  motifGarantiesFinancièresEnAttente?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
+};
 
-import { Section } from './Section';
-
-export type GarantiesFinancièresSectionProps = {
+type GarantiesFinancièresDétailsProps = {
+  garantiesFinancières: GarantiesFinancièresData;
   identifiantProjet: string;
-  garantiesFinancières: GetGarantiesFinancièresData;
   estAchevé: boolean;
 };
 
-export const GarantiesFinancièresSection = ({
+export const GarantiesFinancièresDétails = ({
   identifiantProjet,
   garantiesFinancières,
   estAchevé,
-}: GarantiesFinancièresSectionProps) => {
+}: GarantiesFinancièresDétailsProps) => {
+  const { motifGarantiesFinancièresEnAttente, dépôt, actuelles } = garantiesFinancières;
   const motifDemandeGarantiesFinancières =
-    garantiesFinancières.motifGfEnAttente &&
-    getMotifGarantiesFinancièresEnAttente(garantiesFinancières.motifGfEnAttente);
+    motifGarantiesFinancièresEnAttente &&
+    getMotifGarantiesFinancièresEnAttente(motifGarantiesFinancièresEnAttente);
 
   return (
-    <Section title="Garanties financières">
+    <>
       {!estAchevé && motifDemandeGarantiesFinancières && (
         <Notice
           description={`Des garanties financières sont en attente pour ce projet (
@@ -36,41 +44,42 @@ export const GarantiesFinancièresSection = ({
           severity="info"
         />
       )}
-      {garantiesFinancières.actuelles &&
-        (garantiesFinancières.actuelles.type === 'exemption' ? (
+      {actuelles &&
+        (actuelles.garantiesFinancières.type.type === 'exemption' ? (
           <div>Le projet bénéficie d'une exemption de garanties financières.</div>
         ) : (
           <>
             <div>
               <span>
                 Le projet dispose actuellement de garanties financières validées
-                {garantiesFinancières.actuelles.dateConstitution && (
+                {actuelles.garantiesFinancières.constitution?.date && (
                   <span>
                     , constituées le{' '}
-                    <FormattedDate date={garantiesFinancières.actuelles.dateConstitution} />
+                    <FormattedDate date={actuelles.garantiesFinancières.constitution.date.date} />
                   </span>
                 )}
-                {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
-                  <span>, {getGarantiesFinancièresLabel(garantiesFinancières.actuelles.type)}</span>
+                {actuelles.garantiesFinancières.type.type !== 'type-inconnu' && (
+                  <span>
+                    , {getGarantiesFinancièresLabel(actuelles.garantiesFinancières.type.type)}
+                  </span>
                 )}
-                {garantiesFinancières.actuelles.dateÉchéance &&
-                  garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
-                    <span>
-                      {' '}
-                      au <FormattedDate date={garantiesFinancières.actuelles.dateÉchéance} />
-                    </span>
-                  )}
+                {actuelles.dateÉchéance && (
+                  <span>
+                    {' '}
+                    au <FormattedDate date={actuelles.dateÉchéance} />
+                  </span>
+                )}
                 .
               </span>
             </div>
-            {!garantiesFinancières.actuelles?.attestation && (
+            {!actuelles?.document && (
               <Notice
                 description="L'attestation de constitution des garanties financières reste à transmettre."
                 title=""
                 severity="info"
               />
             )}
-            {garantiesFinancières.actuelles.type === 'type-inconnu' && (
+            {actuelles.garantiesFinancières.type.type === 'type-inconnu' && (
               <Notice
                 description="Le type de garanties financières reste à préciser."
                 title=""
@@ -80,16 +89,15 @@ export const GarantiesFinancièresSection = ({
           </>
         ))}
 
-      {garantiesFinancières.dépôtÀTraiter && (
+      {dépôt && dépôt.garantiesFinancières.constitution && (
         <div>
           De nouvelles garanties financières{' '}
-          {getGarantiesFinancièresLabel(garantiesFinancières.dépôtÀTraiter?.type)}, constituées le{' '}
-          <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateConstitution} />
-          {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
+          {getGarantiesFinancièresLabel(dépôt.garantiesFinancières.type.type)}, constituées le{' '}
+          <FormattedDate date={dépôt.garantiesFinancières.constitution.date.date} />
+          {dépôt.dateÉchéance && (
             <span>
               {' '}
-              et avec échéance au{' '}
-              <FormattedDate date={garantiesFinancières.dépôtÀTraiter.dateÉchéance} />
+              et avec échéance au <FormattedDate date={dépôt.dateÉchéance} />
             </span>
           )}{' '}
           sont à traiter par l'autorité compétente
@@ -98,7 +106,7 @@ export const GarantiesFinancièresSection = ({
       <TertiaryLink href={Routes.GarantiesFinancières.détail(identifiantProjet)}>
         Consulter la page garanties financières
       </TertiaryLink>
-    </Section>
+    </>
   );
 };
 

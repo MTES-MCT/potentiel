@@ -1,4 +1,4 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -7,9 +7,7 @@ import { AchèvementDétails } from './AchèvementDétails';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Section } from '../../(components)/Section';
 import { Role } from '@potentiel-domain/utilisateur';
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
-import { Option } from '@potentiel-libraries/monads';
+import { getAchèvement } from '../../_helpers/getAchèvement';
 
 type AchèvementSectionProps = {
   identifiantProjet: string;
@@ -21,7 +19,7 @@ export const AchèvementSection = ({
   withUtilisateur(async ({ rôle }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const achèvement = await getAchèvement(identifiantProjet.formatter(), rôle);
+    const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
 
     return (
       <Section title="Achèvement">
@@ -33,18 +31,11 @@ export const AchèvementSection = ({
     );
   });
 
-export const getAchèvement = async (
+export const getAchèvementData = async (
   identifiantProjet: IdentifiantProjet.RawType,
   rôle: Role.ValueType,
 ) => {
-  const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-    type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-    data: { identifiantProjetValue: identifiantProjet },
-  });
-
-  if (Option.isNone(achèvement)) {
-    return notFound();
-  }
+  const achèvement = await getAchèvement(identifiantProjet);
 
   const actions = [];
 

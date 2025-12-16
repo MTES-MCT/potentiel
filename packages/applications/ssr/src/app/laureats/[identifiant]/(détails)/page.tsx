@@ -14,8 +14,6 @@ import { TableauDeBordPage } from './TableauDeBord.page';
 import { getAbandonAlert } from './_helpers/getAbandonAlert';
 import { getAchèvementAlert } from './_helpers/getAchèvementAlert';
 import { getAchèvementData } from './_helpers/getAchèvementData';
-import { getCahierDesChargesData } from './_helpers/getCahierDesChargesData';
-import { getGarantiesFinancièresData } from './_helpers/getGarantiesFinancièresData';
 import { getRaccordementData } from './_helpers/getRaccordementData';
 import { getÉtapesData } from './_helpers/getÉtapesData';
 import { checkFeatureFlag } from './_helpers/checkFeatureFlag';
@@ -41,8 +39,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const achèvementData = await getAchèvementData({ identifiantProjet, rôle });
 
       const recours = await getRecours(identifiantProjet);
-
-      const cahierDesChargesData = await getCahierDesChargesData({ identifiantProjet, rôle });
 
       const raccordement = await getRaccordementData({
         role: rôle,
@@ -82,19 +78,10 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const achèvementAlert = getAchèvementAlert(achèvementData.value.estAchevé, rôle);
 
-      const garantiesFinancièresData = await getGarantiesFinancièresData({
-        identifiantProjet,
-        rôle,
-        estSoumisAuxGarantiesFinancières:
-          !!cahierDesChargesData.value?.estSoumisAuxGarantiesFinancières,
-      });
-
       return (
         <TableauDeBordPage
           frise={{ étapes, doitAfficherAttestationDésignation: !!lauréat.attestationDésignation }}
           identifiantProjet={identifiantProjet.formatter()}
-          garantiesFinancièresData={garantiesFinancièresData}
-          achèvementData={achèvementData}
           abandonAlert={abandonAlert}
           achèvementAlert={achèvementAlert}
         />

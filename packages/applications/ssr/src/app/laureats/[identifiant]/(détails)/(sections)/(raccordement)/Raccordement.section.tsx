@@ -39,23 +39,25 @@ export const RaccordementSection = ({
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const value = Option.isNone(raccordement)
-      ? undefined
-      : {
-          nombreDeDossiers: raccordement.dossiers.length,
-          gestionnaireDeRéseau: Option.isSome(gestionnaireRéseau)
-            ? gestionnaireRéseau.raisonSociale
-            : 'Aucun gestionnaire de réseau pour ce projet',
-          dateMiseEnService: raccordement.dossiers.length
-            ? raccordement.dossiers
-                .map((dossier) => dossier.miseEnService?.dateMiseEnService)
-                .filter(Boolean)
-                .sort()[0]
-            : undefined,
-          aTransmisAccuséRéceptionDemandeRaccordement: raccordement.dossiers.length
-            ? !!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception
-            : undefined,
-        };
+    if (Option.isNone(raccordement)) {
+      return null;
+    }
+
+    const value = {
+      nombreDeDossiers: raccordement.dossiers.length,
+      gestionnaireDeRéseau: Option.isSome(gestionnaireRéseau)
+        ? gestionnaireRéseau.raisonSociale
+        : 'Aucun gestionnaire de réseau pour ce projet',
+      dateMiseEnService: raccordement.dossiers.length
+        ? raccordement.dossiers
+            .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+            .filter(Boolean)
+            .sort()[0]
+        : undefined,
+      aTransmisAccuséRéceptionDemandeRaccordement: raccordement.dossiers.length
+        ? !!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception
+        : undefined,
+    };
 
     const action =
       abandon?.estAbandonné || abandon?.demandeEnCours

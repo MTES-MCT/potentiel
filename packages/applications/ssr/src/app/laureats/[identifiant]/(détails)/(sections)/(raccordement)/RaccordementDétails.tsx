@@ -2,18 +2,15 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { DateTime } from '@potentiel-domain/common';
-import { ChampAvecAction } from '../../../_helpers/types';
+import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 
 export type RaccordementDétailsProps = {
-  raccordement: ChampAvecAction<
-    | {
-        nombreDeDossiers: number;
-        gestionnaireDeRéseau: string;
-        dateMiseEnService?: DateTime.ValueType;
-        aTransmisAccuséRéceptionDemandeRaccordement?: boolean;
-      }
-    | undefined
-  >;
+  raccordement: ChampObligatoireAvecAction<{
+    nombreDeDossiers: number;
+    gestionnaireDeRéseau: string;
+    dateMiseEnService?: DateTime.ValueType;
+    aTransmisAccuséRéceptionDemandeRaccordement?: boolean;
+  }>;
   alertes: Array<{
     label: string;
   }>;
@@ -21,28 +18,22 @@ export type RaccordementDétailsProps = {
 
 export const RaccordementDétails = async ({ raccordement, alertes }: RaccordementDétailsProps) => (
   <>
-    {raccordement.value ? (
-      <>
-        <div>
-          <span className="mb-0">Gestionnaire de réseau</span> :{' '}
-          {raccordement.value.gestionnaireDeRéseau}{' '}
-        </div>
-        <div className="mb-0">
-          {raccordement.value.nombreDeDossiers === 0
-            ? 'Aucun dossier de raccordement renseigné'
-            : raccordement.value.nombreDeDossiers === 1
-              ? 'Un dossier de raccordement renseigné'
-              : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
-        </div>
-        {alertes.map(({ label }, index) => (
-          <Notice description={label} title="" severity="info" key={label + index} />
-        ))}
-        {raccordement.action && (
-          <TertiaryLink href={raccordement.action.url}>{raccordement.action.label}</TertiaryLink>
-        )}
-      </>
-    ) : (
-      <div>Champs non renseigné</div>
+    <div>
+      <span className="mb-0">Gestionnaire de réseau</span> :{' '}
+      {raccordement.value.gestionnaireDeRéseau}{' '}
+    </div>
+    <div className="mb-0">
+      {raccordement.value.nombreDeDossiers === 0
+        ? 'Aucun dossier de raccordement renseigné'
+        : raccordement.value.nombreDeDossiers === 1
+          ? 'Un dossier de raccordement renseigné'
+          : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
+    </div>
+    {alertes.map(({ label }, index) => (
+      <Notice description={label} title="" severity="info" key={label + index} />
+    ))}
+    {raccordement.action && (
+      <TertiaryLink href={raccordement.action.url}>{raccordement.action.label}</TertiaryLink>
     )}
   </>
 );
