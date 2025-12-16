@@ -33,7 +33,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /une demande complète de raccordement sans (date de qualification|accusé de réception) pour le projet lauréat/,
+  'une demande complète de raccordement sans "string" pour le projet lauréat',
   async function (this: PotentielWorld, _: 'date de qualification' | 'accusé de réception') {
     await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
       this,
