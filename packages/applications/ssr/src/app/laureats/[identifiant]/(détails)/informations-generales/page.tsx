@@ -39,7 +39,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const actionnaire = await getActionnaireData({
         identifiantProjet,
         rôle,
-        nécessiteInstruction: false,
       });
 
       return (
