@@ -5,6 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { RôleUtilisateur } from '../../../helpers';
 
 Quand(
   `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat`,
@@ -36,8 +37,8 @@ Quand(
 );
 
 Quand(
-  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière$/,
+  async function (this: PotentielWorld, _: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
@@ -46,8 +47,8 @@ Quand(
 );
 
 Quand(
-  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat avec :`,
-  async function (this: PotentielWorld, datatable: DataTable) {
+  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière avec :$/,
+  async function (this: PotentielWorld, _: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 

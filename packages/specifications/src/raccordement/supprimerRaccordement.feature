@@ -10,7 +10,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
