@@ -30,7 +30,7 @@ export const computeProjetLauréatParDépartement = async () => {
         laur.value->>'identifiantProjet'
       )
       left join domain_views.projection abandon on abandon.key = format('abandon|%s', laur.value->>'identifiantProjet')
-      and abandon.value->>'statut' = 'accordé'
+      and abandon.value->>'estAbandonné' = 'true'
     where laur.key like 'lauréat|%'
       and abandon.key is null;
     `,

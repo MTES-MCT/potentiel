@@ -10,7 +10,7 @@ export const getCountProjetsLauréatsNonAbandonnés = `
     )
   LEFT JOIN domain_views.projection abandon 
     ON abandon.key = format('abandon|%s', lau.value->>'identifiantProjet')
-    AND abandon.value->>'statut' = 'accordé'
+    AND abandon.value->>'estAbandonné' = 'true'
   WHERE lau.key like 'lauréat|%'
     AND abandon.key IS NULL`;
 
