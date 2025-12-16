@@ -9,7 +9,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
 import { ChampObligatoireAvecAction } from '../../../_helpers/types';
-import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 
 type Props = {
@@ -58,25 +57,31 @@ export const getPuissanceData = async ({
     };
   }
 
-  const { peutModifier, peutFaireUneDemandeDeChangement } =
-    await checkAutorisationChangement<'puissance'>({
-      identifiantProjet,
-      rôle,
-      domain: 'puissance',
-    });
+  // const { peutModifier, peutFaireUneDemandeDeChangement } = await checkAutorisationChangement({
+  //   identifiantProjet,
+  //   rôle,
+  //   domain: 'puissance',
+  //   policyMap: {
+  //     modifier: 'puissance.modifier',
+  //     demanderChangement: 'puissance.demanderChangement',
+  //     enregistrerChangement: 'puissance.enregistrerChangement',
+  //   },
+  // });
 
-  const action = peutModifier
-    ? {
-        url: Routes.Puissance.modifier(identifiantProjet.formatter()),
-        label: 'Modifier',
-      }
-    : peutFaireUneDemandeDeChangement
-      ? {
-          url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-          label: 'Changer de puissance',
-        }
-      : undefined;
+  // const action = peutModifier
+  //   ? {
+  //       url: Routes.Puissance.modifier(identifiantProjet.formatter()),
+  //       label: 'Modifier',
+  //     }
+  //   : peutFaireUneDemandeDeChangement
+  //     ? {
+  //         url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+  //         label: 'Changer de puissance',
+  //       }
+  //     : undefined;
 
+  // TODO
+  const action = undefined;
   return {
     value,
     action,
@@ -121,10 +126,7 @@ export type GetActionnaireData = ChampObligatoireAvecAction<{
 export const getActionnaireData = async ({
   identifiantProjet,
   rôle,
-  nécessiteInstruction,
-}: Props & {
-  nécessiteInstruction: boolean;
-}): Promise<GetActionnaireData> => {
+}: Props): Promise<GetActionnaireData> => {
   const projection = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: { identifiantProjet: identifiantProjet.formatter() },
@@ -151,36 +153,42 @@ export const getActionnaireData = async ({
     };
   }
 
-  const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
-    await checkAutorisationChangement<'actionnaire'>({
-      identifiantProjet,
-      rôle,
-      nécessiteInstruction,
-      domain: 'actionnaire',
-    });
+  // TODO
+  const action = undefined;
+  // const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+  //   await checkAutorisationChangement({
+  //     identifiantProjet,
+  //     rôle,
+  //     domain: 'actionnaire',
+  //     policyMap: {
+  //       modifier: 'actionnaire.modifier',
+  //       demanderChangement: 'actionnaire.demanderChangement',
+  //       enregistrerChangement: 'actionnaire.enregistrerChangement',
+  //     },
+  //   });
 
   // TODO:
   // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
-  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+  // const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
 
-  const action = estPetitPV
-    ? undefined
-    : peutModifier
-      ? {
-          url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-        }
-      : peutEnregistrerChangement
-        ? {
-            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Faire un changement',
-          }
-        : peutFaireUneDemandeDeChangement
-          ? {
-              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: 'Faire une demande de changement',
-            }
-          : undefined;
+  // const action = estPetitPV
+  //   ? undefined
+  //   : peutModifier
+  //     ? {
+  //         url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+  //         label: 'Modifier',
+  //       }
+  //     : peutEnregistrerChangement
+  //       ? {
+  //           url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+  //           label: 'Faire un changement',
+  //         }
+  //       : peutFaireUneDemandeDeChangement
+  //         ? {
+  //             url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+  //             label: 'Faire une demande de changement',
+  //           }
+  //         : undefined;
 
   return {
     value,

@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
-import { checkAutorisationChangement } from '../../../_helpers/checkAutorisationChangement';
+import { getAction } from '../../../_helpers/getAction';
 import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 
 export type GetÉvaluationCarboneForProjectPage = {
@@ -38,32 +38,24 @@ export const getÉvaluationCarbone = async ({
 
   const { fournisseurs, évaluationCarboneSimplifiée } = projection;
 
-  const { peutModifier, peutEnregistrerChangement } =
-    await checkAutorisationChangement<'fournisseur'>({
-      identifiantProjet,
-      rôle,
-      domain: 'fournisseur',
-    });
-
-  // TODO:
-  // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
-  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
-
-  const actionFournisseur = estPetitPV
-    ? undefined
-    : peutModifier
-      ? {
-          url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le fournisseur',
-        }
-      : peutEnregistrerChangement
-        ? {
-            url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer de fournisseur',
-            labelActions: 'Changer de fournisseur',
-          }
-        : undefined;
+  const actionFournisseur = await getAction({
+    identifiantProjet,
+    rôle,
+    domain: 'fournisseur',
+    modifier: {
+      permission: 'fournisseur.modifier',
+      url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
+      label: 'Modifier',
+      labelActions: 'Modifier le fournisseur',
+    },
+    demanderChangement: undefined,
+    enregistrerChangement: {
+      permission: 'fournisseur.enregistrerChangement',
+      url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+      label: 'Changer de fournisseur',
+      labelActions: 'Changer de fournisseur',
+    },
+  });
 
   return {
     fournisseurs: { value: mapToPlainObject(fournisseurs), action: actionFournisseur },
