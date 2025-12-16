@@ -3,9 +3,10 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../potentiel.world';
-import { RôleUtilisateur } from '../../../helpers';
+import { getRôle, RôleUtilisateur } from '../../../helpers';
 
 Quand(
   `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat`,
@@ -38,17 +39,7 @@ Quand(
 
 Quand(
   /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière$/,
-  async function (this: PotentielWorld, _: RôleUtilisateur) {
-    const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
-
-    await modifierPropositionTechniqueEtFinancière.call(this, identifiantProjet, référenceDossier);
-  },
-);
-
-Quand(
-  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière avec :$/,
-  async function (this: PotentielWorld, _: RôleUtilisateur, datatable: DataTable) {
+  async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
@@ -56,6 +47,22 @@ Quand(
       this,
       identifiantProjet,
       référenceDossier,
+      getRôle.call(this, rôleUtilisateur),
+    );
+  },
+);
+
+Quand(
+  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière avec :$/,
+  async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+
+    await modifierPropositionTechniqueEtFinancière.call(
+      this,
+      identifiantProjet,
+      référenceDossier,
+      getRôle.call(this, rôleUtilisateur),
       datatable.rowsHash(),
     );
   },
@@ -95,6 +102,7 @@ async function modifierPropositionTechniqueEtFinancière(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   référence: string,
+  role: Role.RawType,
   data: Record<string, string> = {},
 ) {
   const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
@@ -114,6 +122,7 @@ async function modifierPropositionTechniqueEtFinancière(
         référenceDossierRaccordementValue: référenceDossier,
         identifiantProjetValue: identifiantProjet.formatter(),
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        rôleValue: role,
       },
     });
   } catch (e) {

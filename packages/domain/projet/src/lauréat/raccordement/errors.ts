@@ -85,6 +85,14 @@ export class DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEn
   }
 }
 
+export class PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
+  constructor(public référenceDossier: string) {
+    super(
+      `La proposition technique et financière du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service`,
+    );
+  }
+}
+
 export class RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError extends InvalidOperationError {
   constructor(référenceDossier: string) {
     super(
