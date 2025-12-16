@@ -40,10 +40,12 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
     <div className="flex flex-col gap-4">
       <div>
         <div className="flex flex-row gap-4">
-          <div>
+          <div className="flex-shrink-0">
             <Heading2>{title}</Heading2>
           </div>
-          <StatutDemandeBadge statut={statut} />
+          <div className="flex-shrink-0">
+            <StatutDemandeBadge statut={statut} />
+          </div>
         </div>
       </div>
       <div className="flex flex-col">
