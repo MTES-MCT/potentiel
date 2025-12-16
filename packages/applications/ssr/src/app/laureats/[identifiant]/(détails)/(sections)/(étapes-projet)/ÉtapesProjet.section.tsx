@@ -10,7 +10,7 @@ import { getAbandon } from '../../_helpers/getAbandon';
 import { getAchèvement } from '../../_helpers/getAchèvement';
 import { getRaccordement } from '../../_helpers/getRaccordement';
 
-import { EtapesProjet, EtapesProjetProps } from './ÉtapesProjet';
+import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {
   identifiantProjet: string;
@@ -30,6 +30,14 @@ export const ÉtapesProjetSection = async ({
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
   const raccordement = await getRaccordement(identifiantProjet.formatter());
+  const dateMiseEnService =
+    raccordement && raccordement.dossiers.length
+      ? raccordement.dossiers
+          .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+          .filter(Boolean)
+          .sort()[0]
+          ?.formatter()
+      : undefined;
 
   const étapes = getÉtapesData({
     dateNotification: lauréat.notifiéLe.formatter(),
@@ -42,14 +50,7 @@ export const ÉtapesProjetSection = async ({
           }
         : undefined,
     dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
-    dateMiseEnService:
-      raccordement && raccordement.dossiers.length
-        ? raccordement.dossiers
-            .map((dossier) => dossier.miseEnService?.dateMiseEnService)
-            .filter(Boolean)
-            .sort()[0]
-            ?.formatter()
-        : undefined,
+    dateMiseEnService: dateMiseEnService,
     dateAchèvementRéel: achèvement.estAchevé
       ? achèvement.dateAchèvementRéel?.formatter()
       : undefined,
@@ -86,7 +87,7 @@ export const getÉtapesData = ({
   dateAchèvementRéel,
   dateMiseEnService,
 }: GetÉtapesData) => {
-  const étapes: EtapesProjetProps['étapes'] = [
+  const étapes: Array<ÉtapeProjet> = [
     {
       type: 'designation',
       date: dateNotification,
@@ -120,6 +121,8 @@ export const getÉtapesData = ({
       type: 'mise-en-service',
       date: dateMiseEnService,
     });
+  } else {
+    étapes.push({ type: 'mise-en-service' });
   }
 
   if (dateAchèvementRéel) {
@@ -127,9 +130,14 @@ export const getÉtapesData = ({
       type: 'achèvement-réel',
       date: dateAchèvementRéel,
     });
+  } else {
+    étapes.push({ type: 'achèvement-réel' });
   }
 
-  return étapes;
+  return étapes
+    .filter((a) => a.date)
+    .sort((a, b) => a.date!.localeCompare(b.date!))
+    .concat(étapes.filter((a) => !a.date));
 };
 
 const getRecours = async (

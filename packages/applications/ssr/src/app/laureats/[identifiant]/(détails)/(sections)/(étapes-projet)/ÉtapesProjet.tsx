@@ -11,25 +11,20 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
+export type ÉtapeProjet =
+  | {
+      type: 'designation' | 'achèvement-prévisionel' | 'recours';
+      date: DateTime.RawType;
+    }
+  | { type: 'abandon'; date: DateTime.RawType; dateDemande: DateTime.RawType }
+  | {
+      type: 'mise-en-service' | 'achèvement-réel';
+      date?: DateTime.RawType;
+    };
 export type EtapesProjetProps = {
   identifiantProjet: string;
   doitAfficherAttestationDésignation: boolean;
-  étapes: Array<
-    | {
-        type:
-          | 'designation'
-          | 'achèvement-prévisionel'
-          | 'mise-en-service'
-          | 'achèvement-réel'
-          | 'recours';
-        date: DateTime.RawType;
-      }
-    | {
-        type: 'abandon';
-        date: DateTime.RawType;
-        dateDemande: DateTime.RawType;
-      }
-  >;
+  étapes: Array<ÉtapeProjet>;
 };
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({
@@ -37,20 +32,17 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   doitAfficherAttestationDésignation,
   étapes,
 }) => {
-  const étapesTriées = étapes.sort((a, b) => a.date.localeCompare(b.date));
-  const estAchevé = étapesTriées.some((étape) => étape.type === 'achèvement-réel');
-
   return (
     <>
       <aside aria-label="Progress">
         <ol className="pl-0 overflow-hidden list-none">
-          {étapesTriées.map((étape, index) => {
-            const isLastItem = index === étapesTriées.length - 1;
+          {étapes.map((étape, index) => {
+            const isLastItem = index === étapes.length - 1;
             return (
               <div key={`project-step-${étape.type}`}>
                 {match(étape)
-                  .with({ type: 'designation' }, () => (
-                    <ÉtapeTerminée titre="Notification" date={étape.date}>
+                  .with({ type: 'designation' }, ({ date }) => (
+                    <ÉtapeProjet titre="Notification" date={date}>
                       {doitAfficherAttestationDésignation && (
                         <DownloadDocument
                           className="mb-0"
@@ -59,36 +51,32 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                           url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
                         />
                       )}
-                    </ÉtapeTerminée>
+                    </ÉtapeProjet>
                   ))
-                  .with({ type: 'recours' }, () => (
-                    <ÉtapeTerminée titre="Recours accordé" date={étape.date}>
+                  .with({ type: 'recours' }, ({ date }) => (
+                    <ÉtapeProjet titre="Recours accordé" date={date}>
                       <TertiaryLink href={Routes.Recours.détail(identifiantProjet)}>
                         Voir les détails du recours
                       </TertiaryLink>
-                    </ÉtapeTerminée>
+                    </ÉtapeProjet>
                   ))
-                  .with({ type: 'abandon' }, () => (
-                    <ÉtapeTerminée
-                      titre="Abandon accordé"
-                      date={étape.date}
-                      isLastItem={isLastItem}
-                    >
-                      <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, étape.date)}>
+                  .with({ type: 'abandon' }, ({ date, dateDemande }) => (
+                    <ÉtapeProjet titre="Abandon accordé" date={date} isLastItem={isLastItem}>
+                      <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
                         Voir les détails de l'abandon
                       </TertiaryLink>
-                    </ÉtapeTerminée>
+                    </ÉtapeProjet>
                   ))
-                  .with({ type: 'achèvement-prévisionel' }, () => (
-                    <ÉtapeTerminée titre="Date d'achèvement prévisionnel" date={étape.date} />
+                  .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
+                    <ÉtapeProjet titre="Date d'achèvement prévisionnel" date={date} />
                   ))
-                  .with({ type: 'mise-en-service' }, () => (
-                    <ÉtapeTerminée titre="Mise en service" date={étape.date} />
+                  .with({ type: 'mise-en-service' }, ({ date }) => (
+                    <ÉtapeProjet titre="Mise en service" date={date} isLastItem={isLastItem} />
                   ))
-                  .with({ type: 'achèvement-réel' }, () => (
-                    <ÉtapeTerminée
+                  .with({ type: 'achèvement-réel' }, ({ date }) => (
+                    <ÉtapeProjet
                       titre="Date d'achèvement réel"
-                      date={étape.date}
+                      date={date}
                       isLastItem={isLastItem}
                     />
                   ))
@@ -96,52 +84,35 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
               </div>
             );
           })}
-          {!étapesTriées.some((étape) => étape.type === 'abandon') && (
-            <>
-              {!étapesTriées.some((étape) => étape.type === 'mise-en-service') && (
-                <ÉtapeÀTransmettre titre="Mise en service" isLastItem={estAchevé} />
-              )}
-              {!estAchevé && <ÉtapeÀTransmettre titre="Date d'achèvement réel" isLastItem />}
-            </>
-          )}
         </ol>
       </aside>
     </>
   );
 };
 
-type ÉtapeTerminéeProps = {
+type ÉtapeProjetProps = {
   titre: string;
-  date: DateTime.RawType;
+  date: DateTime.RawType | undefined;
   isLastItem?: boolean;
   children?: ReactNode;
 };
 
-const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false, children }) => {
+const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, isLastItem = false, children }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
-      <Success color="green-emeraude" fontSize="medium" />
+      {date ? (
+        <Success color="green-emeraude" fontSize="medium" />
+      ) : (
+        <Information color="red-marianne" fontSize="medium" />
+      )}
       <ContentArea>
-        <FormattedDate date={date} />
+        {date ? (
+          <FormattedDate date={date} />
+        ) : (
+          <span className="italic">Donnée à transmettre</span>
+        )}
         <ItemTitle title={titre} />
         {children}
-      </ContentArea>
-    </TimelineItem>
-  );
-};
-
-type ÉtapeÀTransmettreProps = {
-  titre: string;
-  isLastItem: boolean;
-};
-
-const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
-  return (
-    <TimelineItem isLastItem={isLastItem}>
-      <Information color="red-marianne" fontSize="medium" />
-      <ContentArea>
-        <span className="italic">Donnée à transmettre</span>
-        <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>
   );
