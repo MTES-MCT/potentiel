@@ -1,14 +1,15 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import Link from 'next/link';
 
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { PlainType } from '@potentiel-domain/core';
-import { ConsulterCahierDesChargesReadModel } from '@potentiel-domain/projet/src/lauréat';
 import { ChampAvecAction } from '../../../_helpers/types';
 
 export type CahierDesChargesDétailsProps = ChampAvecAction<
-  PlainType<ConsulterCahierDesChargesReadModel> & {
+  PlainType<Lauréat.ConsulterCahierDesChargesReadModel> & {
     doitChoisirUnCahierDesChargesModificatif: boolean;
   }
 >;

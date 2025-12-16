@@ -1,12 +1,14 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
-
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { Routes } from '@potentiel-applications/routes';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { match, P } from 'ts-pattern';
-import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
+
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
+import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
 
 type GarantiesFinancièresData = {
   actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel> & {

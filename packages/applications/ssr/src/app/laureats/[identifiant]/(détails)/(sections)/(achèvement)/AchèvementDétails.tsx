@@ -1,16 +1,15 @@
 import { Routes } from '@potentiel-applications/routes';
-
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { ConsulterAchèvementReadModel } from '@potentiel-domain/projet/src/lauréat/achèvement';
-import { ChampAvecMultiplesActions } from '../../../_helpers/types';
 import { Option } from '@potentiel-libraries/monads';
 import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
+import { ChampAvecMultiplesActions } from '../../../_helpers/types';
 
 export type AchèvementDétailsProps = ChampAvecMultiplesActions<
-  PlainType<ConsulterAchèvementReadModel>
+  PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>
 >;
 
 export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps) => {

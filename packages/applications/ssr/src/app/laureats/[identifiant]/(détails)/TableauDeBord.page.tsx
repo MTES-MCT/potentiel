@@ -1,52 +1,19 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { Notice } from '@codegouvfr/react-dsfr/Notice';
-
 import { SectionPage } from './(components)/SectionPage';
-
-import { AbandonAlertData } from './_helpers/getAbandonAlert';
-import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
-
 import { CahierDesChargesSection } from './(sections)/(cahier-des-charges)/CahierDesCharges.section';
 import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.section';
 import { AchèvementSection } from './(sections)/(achèvement)/Achèvement.section';
 import { GarantiesFinancièresSection } from './(sections)/(garanties-financières)/GarantiesFinancières.section';
 import { ÉtapesProjetSection } from './(sections)/(étapes-projet)/ÉtapesProjet.section';
+import { AlertesTableauDeBordSection } from './(sections)/(alertes)/AlertesTableauDeBord.section.';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
-  abandonAlert: AbandonAlertData;
-  achèvementAlert: AchèvementAlertData;
 };
 
-export const TableauDeBordPage = ({
-  identifiantProjet,
-  abandonAlert,
-  achèvementAlert,
-}: TableauDeBordPageProps) => (
+export const TableauDeBordPage = ({ identifiantProjet }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
-      {achèvementAlert && (
-        <Notice
-          description={achèvementAlert.label}
-          title="Modification du projet"
-          severity="info"
-        />
-      )}
-      {abandonAlert && (
-        <Notice
-          description={abandonAlert.label}
-          title="Abandon"
-          severity="info"
-          {...(abandonAlert.url && {
-            link: {
-              linkProps: {
-                href: abandonAlert.url,
-              },
-              text: 'Voir la page de la demande',
-            },
-          })}
-        />
-      )}
+      <AlertesTableauDeBordSection identifiantProjet={identifiantProjet} />
       <CahierDesChargesSection identifiantProjet={identifiantProjet} />
       <div className="flex flex-row gap-4">
         <div className="flex-1">

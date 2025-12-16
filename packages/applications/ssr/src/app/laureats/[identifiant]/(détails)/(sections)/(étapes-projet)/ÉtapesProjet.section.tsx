@@ -1,14 +1,16 @@
+import { mediator } from 'mediateur';
+
+import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { Section } from '../../(components)/Section';
-import { DateTime } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
-import { mediator } from 'mediateur';
-import { EtapesProjet, EtapesProjetProps } from './ÉtapesProjet';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 import { getAbandon } from '../../_helpers/getAbandon';
 import { getAchèvement } from '../../_helpers/getAchèvement';
 import { getRaccordement } from '../../_helpers/getRaccordement';
+
+import { EtapesProjet, EtapesProjetProps } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {
   identifiantProjet: string;

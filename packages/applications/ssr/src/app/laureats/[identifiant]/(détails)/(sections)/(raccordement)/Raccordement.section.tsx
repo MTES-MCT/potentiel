@@ -1,15 +1,17 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { mediator } from 'mediateur';
 
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
 import { Section } from '../../(components)/Section';
-import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
-import { mediator } from 'mediateur';
 import { getAbandon } from '../../_helpers/getAbandon';
-import { Option } from '@potentiel-libraries/monads';
 import { getCahierDesCharges } from '../../../../../_helpers';
 import { getRaccordement } from '../../_helpers/getRaccordement';
+
+import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
   identifiantProjet: string;

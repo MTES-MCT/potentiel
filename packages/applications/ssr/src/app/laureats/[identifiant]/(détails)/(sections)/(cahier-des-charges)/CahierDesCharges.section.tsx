@@ -1,13 +1,13 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { CahierDesChargesDétails } from './CahierDesChargesDétails';
-import { mapToPlainObject } from '@potentiel-domain/core';
+
 import { Section } from '../../(components)/Section';
+
+import { CahierDesChargesDétails } from './CahierDesChargesDétails';
 
 type CahierDesChargesSectionProps = {
   identifiantProjet: string;

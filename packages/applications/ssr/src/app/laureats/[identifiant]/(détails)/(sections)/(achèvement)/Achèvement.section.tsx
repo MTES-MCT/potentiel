@@ -1,13 +1,14 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { AchèvementDétails } from './AchèvementDétails';
-import { mapToPlainObject } from '@potentiel-domain/core';
+
 import { Section } from '../../(components)/Section';
-import { Role } from '@potentiel-domain/utilisateur';
 import { getAchèvement } from '../../_helpers/getAchèvement';
+
+import { AchèvementDétails } from './AchèvementDétails';
 
 type AchèvementSectionProps = {
   identifiantProjet: string;

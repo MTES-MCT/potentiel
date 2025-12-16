@@ -1,7 +1,9 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { DateTime } from '@potentiel-domain/common';
+
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+
 import { ChampObligatoireAvecAction } from '../../../_helpers/types';
 
 export type RaccordementDétailsProps = {
