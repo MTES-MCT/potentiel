@@ -1,3 +1,4 @@
+import Badge from '@mui/material/Badge';
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 
 export type MenuItem = {
@@ -68,7 +69,14 @@ export const mapMenuItemsToSideMenuItems = (
       };
     } else {
       return {
-        text: item.label === 'Tâches' ? `${item.label} (${nombreTâches})` : item.label,
+        text:
+          item.href === 'taches' ? (
+            <Badge badgeContent={nombreTâches} max={99} color="primary" overlap="circular">
+              <div className="mr-6">{item.label}</div>
+            </Badge>
+          ) : (
+            item.label
+          ),
         linkProps: {
           href: `${baseUrl}/${item.href}`,
         },
