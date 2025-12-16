@@ -182,5 +182,32 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
     },
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2025/S 146-503744',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [
+        {
+          id: '1',
+          title: `Installations sur bâtiments, ombrières, ombrières agrivoltaïques et serres agrivoltaïques au sens du paragraphe 1.4, de puissance strictement supérieure à 500 kWc.`,
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
+        },
+        {
+          id: '2',
+          title: `Installations au sol : de puissance strictement supérieure à 500 kWc et inférieure ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe 2.5, de puissance strictement supérieure à 500 kWc et inférieure ou égale à 12 MWc pour les projets sur terrains correspondant au cas 2 bis du paragraphe 2.5 en Guadeloupe, en Guyane et à La Réunion uniquement ; et de puissance strictement supérieure à 500 kWc pour les projets sur terrains correspondant en totalité au cas 3 du paragraphe 2.5.`,
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
+        },
+      ],
+      cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
+      champsSupplémentaires: {
+        coefficientKChoisi: 'requis',
+      },
+    },
   ],
 };
