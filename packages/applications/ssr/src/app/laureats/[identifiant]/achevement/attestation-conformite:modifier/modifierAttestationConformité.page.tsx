@@ -16,6 +16,7 @@ export type ModifierAttestationConformitéPageProps = Pick<
   | 'dateTransmissionAuCocontractant'
   | 'attestationConformité'
   | 'preuveTransmissionAuCocontractant'
+  | 'lauréatNotifiéLe'
 >;
 
 export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
@@ -23,6 +24,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
   dateTransmissionAuCocontractant,
   attestationConformité,
   preuveTransmissionAuCocontractant,
+  lauréatNotifiéLe,
 }) => (
   <>
     <Heading1>Modifier l'attestation de conformité du projet</Heading1>
@@ -35,6 +37,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
       attestationConformité={attestationConformité}
       preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
       demanderMainlevée={{ visible: false, canBeDone: false }}
+      lauréatNotifiéLe={lauréatNotifiéLe}
     />
   </>
 );
