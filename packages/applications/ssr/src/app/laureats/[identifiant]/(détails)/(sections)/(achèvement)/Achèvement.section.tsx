@@ -32,7 +32,7 @@ export const AchèvementSection = ({
     );
   });
 
-export const getAchèvementData = async (
+const getAchèvementData = async (
   identifiantProjet: IdentifiantProjet.RawType,
   rôle: Role.ValueType,
 ) => {

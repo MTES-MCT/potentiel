@@ -17,13 +17,14 @@ import {
   DossierRaccordementProps,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 
-import { ModifierGestionnaireRéseauDuRaccordement } from './ModifierGestionnaireRéseauDuRaccordement';
+import {
+  ModifierGestionnaireRéseauDuRaccordement,
+  ModifierGestionnaireRéseauDuRaccordementProps,
+} from './ModifierGestionnaireRéseauDuRaccordement';
 
 export type DétailsRaccordementPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  gestionnaireRéseau: PlainType<
-    Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>
-  >;
+  gestionnaireRéseau: ModifierGestionnaireRéseauDuRaccordementProps['gestionnaireRéseau'];
   dossiers: Array<
     PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel> & {
       actions: DossierRaccordementProps['actions'];

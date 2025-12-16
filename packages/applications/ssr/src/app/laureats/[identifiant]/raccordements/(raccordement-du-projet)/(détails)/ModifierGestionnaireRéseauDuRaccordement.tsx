@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
 
-type ModifierGestionnaireRéseauDuRaccordementProps = {
-  gestionnaireRéseau: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
+export type ModifierGestionnaireRéseauDuRaccordementProps = {
+  gestionnaireRéseau: PlainType<
+    Lauréat.Raccordement.ConsulterRaccordementReadModel['gestionnaireRéseau']
+  >;
   identifiantProjet: string;
   actions: { modifier: boolean };
 };
@@ -23,13 +25,11 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   identifiantProjet,
   actions,
 }: ModifierGestionnaireRéseauDuRaccordementProps) => {
-  const isGestionnaireInconnu = gestionnaireRéseau
-    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
-        gestionnaireRéseau.identifiantGestionnaireRéseau,
-      ).estInconnu()
-    : false;
+  const identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
+    gestionnaireRéseau.identifiantGestionnaireRéseau,
+  );
 
-  if (isGestionnaireInconnu) {
+  if (identifiantGestionnaireRéseau.estInconnu()) {
     const lienAjout = (
       <Link
         className="ml-1"
@@ -74,7 +74,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
         {actions.modifier && <>({lienModifier})</>}
       </div>
-      {Option.isSome(gestionnaireRéseau.contactEmail) && (
+      {gestionnaireRéseau.contactEmail && (
         <div className="flex items-center gap-2 mt-2">
           Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail.email} />
         </div>

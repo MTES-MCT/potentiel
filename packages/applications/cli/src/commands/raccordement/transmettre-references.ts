@@ -139,7 +139,7 @@ const handleLine = async ({
     throw new Error('Raccordement non trouvé');
   }
 
-  if (!raccordement.identifiantGestionnaireRéseau?.estÉgaleÀ(identifiantEnedis)) {
+  if (!raccordement.gestionnaireRéseau.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantEnedis)) {
     throw new Error('Raccordement non Enedis');
   }
 

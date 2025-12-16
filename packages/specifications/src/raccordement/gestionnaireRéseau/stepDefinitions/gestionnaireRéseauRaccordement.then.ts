@@ -71,8 +71,8 @@ async function vérifierGestionnaireAttribué(
 
     assert(Option.isSome(résultat));
 
-    expect(résultat.identifiantGestionnaireRéseau?.codeEIC).to.eq(
-      identifiantGestionnaireRéseau?.codeEIC,
+    expect(résultat.gestionnaireRéseau.identifiantGestionnaireRéseau.codeEIC).to.eq(
+      identifiantGestionnaireRéseau.codeEIC,
       'raccordement invalide',
     );
 
