@@ -33,15 +33,11 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
           className="mb-0"
         />
       )}
-      {
-        <>
-          {actions.map(({ label, url }) => (
-            <TertiaryLink key={label} href={url}>
-              {label}
-            </TertiaryLink>
-          ))}
-        </>
-      }
+      {actions.map(({ label, url }) => (
+        <TertiaryLink key={label} href={url}>
+          {label}
+        </TertiaryLink>
+      ))}
     </>
   );
 };

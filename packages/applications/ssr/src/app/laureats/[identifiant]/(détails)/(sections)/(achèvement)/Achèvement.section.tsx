@@ -38,28 +38,30 @@ const getAchèvementData = async (
 ) => {
   const achèvement = await getAchèvement(identifiantProjet);
 
-  const actions = [];
+  const actions: { label: string; url: string; permission: Role.Policy }[] = [];
 
-  if (rôle.aLaPermission('achèvement.modifier')) {
+  if (achèvement.estAchevé) {
     actions.push({
+      permission: 'achèvement.modifier',
       label: "Modifier les informations d'achèvement du projet",
       url: Routes.Achèvement.modifierAttestationConformité(identifiantProjet),
     });
-  }
-
-  if (rôle.aLaPermission('achèvement.transmettreAttestation') && !achèvement.estAchevé) {
+  } else {
     actions.push({
+      permission: 'achèvement.transmettreAttestation',
       label: "Transmettre l'attestation de conformité",
       url: Routes.Achèvement.transmettreAttestationConformité(identifiantProjet),
     });
-  }
 
-  if (rôle.aLaPermission('achèvement.transmettreDate') && !achèvement.estAchevé) {
     actions.push({
+      permission: 'achèvement.transmettreDate',
       label: "Transmettre la date d'achèvement réel",
       url: Routes.Achèvement.transmettreDateAchèvement(identifiantProjet),
     });
   }
 
-  return { value: achèvement, actions };
+  return {
+    value: achèvement,
+    actions: actions.filter((action) => rôle.aLaPermission(action.permission)),
+  };
 };
