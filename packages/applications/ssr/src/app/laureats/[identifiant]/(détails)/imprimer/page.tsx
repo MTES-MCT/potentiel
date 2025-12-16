@@ -7,8 +7,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
 import {
-  getProducteurData,
-  getReprésentantLégalData,
   getPuissanceData,
   getLauréatData,
   getActionnaireData,
@@ -31,16 +29,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       checkFeatureFlag(identifiantProjet, searchParams);
 
-      const producteur = await getProducteurData({
-        identifiantProjet: identifiantProjet,
-        rôle,
-      });
-
-      const représentantLégal = await getReprésentantLégalData({
-        identifiantProjet: identifiantProjet,
-        rôle,
-      });
-
       const puissance = await getPuissanceData({
         identifiantProjet: identifiantProjet,
         rôle,
@@ -55,7 +43,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         nécessiteInstruction: false,
       });
 
-
       const évaluationCarbone = await getÉvaluationCarbone({
         rôle: utilisateur.rôle,
         identifiantProjet,
@@ -68,8 +55,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         <ImprimerPage
           siteDeProduction={siteDeProduction}
           emailContact={emailContact}
-          représentantLégal={représentantLégal}
-          producteur={producteur}
           actionnaire={actionnaire}
           prixRéférence={prixRéférence}
           actionnariat={actionnariat}

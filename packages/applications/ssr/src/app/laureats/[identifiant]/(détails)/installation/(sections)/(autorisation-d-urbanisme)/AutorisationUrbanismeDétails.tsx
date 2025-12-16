@@ -1,8 +1,8 @@
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ChampAvecAction } from '../../../_helpers/types';
-import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
+import { ChampAvecAction } from '../../../../_helpers/types';
+import { FormattedDate } from '../../../../../../../components/atoms/FormattedDate';
 
 export type AutorisationUrbanismeDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterLauréatReadModel['autorisationDUrbanisme']>

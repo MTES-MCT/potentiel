@@ -8,9 +8,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { checkLauréatSansAbandonOuAchèvement } from '../../../_helpers/checkLauréatSansAbandonOuAchèvement';
-import { Section } from '../../(components)/Section';
-import { getCahierDesCharges } from '../../../../../_helpers';
+import { checkLauréatSansAbandonOuAchèvement } from '../../../../_helpers/checkLauréatSansAbandonOuAchèvement';
+import { Section } from '../../../(components)/Section';
+import { getCahierDesCharges } from '../../../../../../_helpers';
 
 import { InstallationDétails, InstallationDétailsProps } from './InstallationDétails';
 

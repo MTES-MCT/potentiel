@@ -5,23 +5,19 @@ import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { GetÉvaluationCarboneForProjectPage } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 import {
-  GetReprésentantLégalData,
-  GetProducteurData,
   GetActionnaireData,
   GetPuissanceData,
   GetLauréatData,
 } from '../informations-generales/_helpers/getInformationsGénéralesData';
 import { InformationsGénéralesPage } from '../informations-generales/InformationsGénérales.page';
-import { AutorisationUrbanismeSection } from '../installation/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
-import { InstallationSection } from '../installation/(installation)/Installation.section';
-import { NatureDeLExploitationSection } from '../installation/(nature-de-l-exploitation)/NatureDeLExploitation.section';
+import { AutorisationUrbanismeSection } from '../installation/(sections)/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
+import { InstallationSection } from '../installation/(sections)/(installation)/Installation.section';
+import { NatureDeLExploitationSection } from '../installation/(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
 import { Heading2 } from '../../../../../components/atoms/headings';
 import { TableauDeBordPage } from '../TableauDeBord.page';
 import { ImprimerButton } from './(component)/ImprimerButton';
 
 type Props = {
-  représentantLégal: GetReprésentantLégalData;
-  producteur: GetProducteurData;
   actionnaire: GetActionnaireData;
   puissance: GetPuissanceData;
   siteDeProduction: GetLauréatData['siteDeProduction'];
@@ -34,8 +30,6 @@ type Props = {
 };
 
 export const ImprimerPage = ({
-  représentantLégal,
-  producteur,
   actionnaire,
   siteDeProduction,
   emailContact,
@@ -61,13 +55,12 @@ export const ImprimerPage = ({
       <InformationsGénéralesPage
         siteDeProduction={siteDeProduction}
         emailContact={emailContact}
-        représentantLégal={représentantLégal}
-        producteur={producteur}
         actionnaire={actionnaire}
         prixRéférence={prixRéférence}
         actionnariat={actionnariat}
         puissance={puissance}
         coefficientKChoisi={coefficientKChoisi}
+        identifiantProjet={identifiantProjet}
       />
       <div>
         <Heading2>Informations Générales</Heading2>

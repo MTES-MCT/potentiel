@@ -10,9 +10,7 @@ import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
 import {
   getActionnaireData,
   getLauréatData,
-  getProducteurData,
   getPuissanceData,
-  getReprésentantLégalData,
 } from './_helpers/getInformationsGénéralesData';
 import { InformationsGénéralesPage } from './InformationsGénérales.page';
 
@@ -29,16 +27,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const rôle = utilisateur.rôle;
 
       checkFeatureFlag(identifiantProjet, searchParams);
-
-      const producteur = await getProducteurData({
-        identifiantProjet: identifiantProjet,
-        rôle,
-      });
-
-      const représentantLégal = await getReprésentantLégalData({
-        identifiantProjet: identifiantProjet,
-        rôle,
-      });
 
       const puissance = await getPuissanceData({
         identifiantProjet: identifiantProjet,
@@ -58,13 +46,12 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         <InformationsGénéralesPage
           siteDeProduction={siteDeProduction}
           emailContact={emailContact}
-          représentantLégal={représentantLégal}
-          producteur={producteur}
           actionnaire={actionnaire}
           prixRéférence={prixRéférence}
           actionnariat={actionnariat}
           puissance={puissance}
           coefficientKChoisi={coefficientKChoisi}
+          identifiantProjet={identifiantProjet.formatter()}
         />
       );
     }),

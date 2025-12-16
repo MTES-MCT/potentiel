@@ -1,9 +1,9 @@
 import { Heading2 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { NatureDeLExploitationSection } from './(nature-de-l-exploitation)/NatureDeLExploitation.section';
-import { AutorisationUrbanismeSection } from './(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
-import { InstallationSection } from './(installation)/Installation.section';
+import { NatureDeLExploitationSection } from './(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
+import { AutorisationUrbanismeSection } from './(sections)/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
+import { InstallationSection } from './(sections)/(installation)/Installation.section';
 
 type Props = { identifiantProjet: string };
 

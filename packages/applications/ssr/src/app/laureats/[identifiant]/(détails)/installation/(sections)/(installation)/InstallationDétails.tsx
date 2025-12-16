@@ -3,9 +3,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampAvecAction, ChampObligatoireAvecAction } from '../../../_helpers/types';
-import { Section } from '../../(components)/Section';
-import { DétailTypologieInstallation } from '../../../installation/(historique)/events/DétailTypologieInstallation';
+import { ChampAvecAction, ChampObligatoireAvecAction } from '../../../../_helpers/types';
+import { Section } from '../../../(components)/Section';
+import { DétailTypologieInstallation } from '../../../../installation/(historique)/events/DétailTypologieInstallation';
 
 export type InstallationDétailsProps = {
   typologieInstallation?: ChampObligatoireAvecAction<

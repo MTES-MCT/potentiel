@@ -8,14 +8,12 @@ import { getActionnariatTypeLabel } from '../../../../_helpers';
 import {
   GetActionnaireData,
   GetLauréatData,
-  GetProducteurData,
   GetPuissanceData,
-  GetReprésentantLégalData,
 } from './_helpers/getInformationsGénéralesData';
+import { ProducteurSection } from './(sections)/(producteur)/Producteur.section';
+import { ReprésentantLégalSection } from './(sections)/(représentant-légal)/ReprésentantLégal.section';
 
 type Props = {
-  représentantLégal: GetReprésentantLégalData;
-  producteur: GetProducteurData;
   actionnaire: GetActionnaireData;
   puissance: GetPuissanceData;
   siteDeProduction: GetLauréatData['siteDeProduction'];
@@ -23,11 +21,10 @@ type Props = {
   prixRéférence: GetLauréatData['prixRéférence'];
   actionnariat: GetLauréatData['actionnariat'];
   coefficientKChoisi: GetLauréatData['coefficientKChoisi'];
+  identifiantProjet: string;
 };
 
 export const InformationsGénéralesPage = ({
-  représentantLégal,
-  producteur,
   actionnaire,
   siteDeProduction,
   emailContact,
@@ -35,6 +32,7 @@ export const InformationsGénéralesPage = ({
   actionnariat,
   puissance,
   coefficientKChoisi,
+  identifiantProjet,
 }: Props) => (
   <ColumnPageTemplate
     heading={<Heading2>Informations Générales</Heading2>}
@@ -43,8 +41,7 @@ export const InformationsGénéralesPage = ({
         <InformationsGénéralesLeft
           siteDeProduction={siteDeProduction}
           emailContact={emailContact}
-          représentantLégal={représentantLégal}
-          producteur={producteur}
+          identifiantProjet={identifiantProjet}
         />
       ),
     }}
@@ -65,9 +62,8 @@ export const InformationsGénéralesPage = ({
 const InformationsGénéralesLeft = ({
   siteDeProduction,
   emailContact,
-  représentantLégal,
-  producteur,
-}: Pick<Props, 'siteDeProduction' | 'emailContact' | 'producteur' | 'représentantLégal'>) => (
+  identifiantProjet,
+}: Pick<Props, 'siteDeProduction' | 'emailContact' | 'identifiantProjet'>) => (
   <div className="flex flex-col gap-4">
     <Section title="Candidat">
       <div className="flex flex-col gap-1">
@@ -91,24 +87,8 @@ const InformationsGénéralesLeft = ({
         <span>{emailContact}</span>
       </div>
     </Section>
-    <Section title="Représentant légal">
-      <div className="flex flex-col gap-1">
-        <span>{représentantLégal.value.nom || 'Champ non renseigné'}</span>
-        {représentantLégal.action && (
-          <TertiaryLink href={représentantLégal.action.url}>
-            {représentantLégal.action.label}
-          </TertiaryLink>
-        )}
-      </div>
-    </Section>
-    <Section title="Producteur">
-      <div className="flex flex-col gap-1">
-        <span>{producteur.value.producteur || 'Champ non renseigné'}</span>
-        {producteur.action && (
-          <TertiaryLink href={producteur.action.url}>{producteur.action.label}</TertiaryLink>
-        )}
-      </div>
-    </Section>
+    <ReprésentantLégalSection identifiantProjet={identifiantProjet} />
+    <ProducteurSection identifiantProjet={identifiantProjet} />
   </div>
 );
 
