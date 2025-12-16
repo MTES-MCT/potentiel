@@ -53,16 +53,11 @@ export const registerListerTâchesQuery = ({
     nomProjet,
     identifiantProjet,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
-
+    let scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
     if (scope.type !== 'projet') {
-      return {
-        items: [],
-        range: {
-          startPosition: 0,
-          endPosition: 0,
-        },
-        total: 0,
+      scope = {
+        type: 'projet',
+        identifiantProjets: identifiantProjet ? [identifiantProjet] : [],
       };
     }
 
@@ -72,9 +67,7 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: identifiantProjet
-          ? Where.equal(identifiantProjet)
-          : Where.matchAny(scope.identifiantProjets),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
