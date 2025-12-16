@@ -1,62 +1,68 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges } from '@/app/_helpers';
-
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { CahierDesChargesDétails } from './ÉtapesProjet';
 import { Section } from '../../(components)/Section';
+import { DateTime } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
+import { mediator } from 'mediateur';
+import { EtapesProjet, EtapesProjetProps } from './ÉtapesProjet';
+import { getLauréatInfos } from '../../../_helpers/getLauréat';
+import { getAbandon } from '../../_helpers/getAbandon';
+import { getAchèvement } from '../../_helpers/getAchèvement';
+import { getRaccordement } from '../../_helpers/getRaccordement';
 
-type CahierDesChargesSectionProps = {
+type ÉtapesProjetSectionProps = {
   identifiantProjet: string;
 };
 
-export const CahierDesChargesSection = ({
+export const ÉtapesProjetSection = async ({
   identifiantProjet: identifiantProjetValue,
-}: CahierDesChargesSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+}: ÉtapesProjetSectionProps) => {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+  const achèvement = await getAchèvement(identifiantProjet.formatter());
 
-    const achèvement = await getAchèvement(identifiantProjet.formatter());
+  const abandon = await getAbandon(identifiantProjet.formatter());
 
-    const abandon = await getAbandon(identifiantProjet);
+  const recours = await getRecours(identifiantProjet);
 
-    // recours pareil
-    // raccordement
+  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
-    const étapes = getÉtapesData({
-      dateNotification: lauréat.notifiéLe.formatter(),
-      dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.formatter(),
-      abandon:
-        abandon && abandon.accordéLe
-          ? {
-              dateAbandonAccordé: abandon.accordéLe.formatter(),
-              dateDemandeAbandon: abandon.demandéLe.formatter(),
-            }
-          : undefined,
-      dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
-      // y'a un petit sujet là
-      dateMiseEnService: raccordement.value
-        ? raccordement.value.dateMiseEnService?.formatter()
+  const raccordement = await getRaccordement(identifiantProjet.formatter());
+
+  const étapes = getÉtapesData({
+    dateNotification: lauréat.notifiéLe.formatter(),
+    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.formatter(),
+    abandon:
+      abandon && abandon.accordéLe
+        ? {
+            dateAbandonAccordé: abandon.accordéLe.formatter(),
+            dateDemandeAbandon: abandon.demandéLe.formatter(),
+          }
         : undefined,
-      dateAchèvementRéel: achèvement.estAchevé
-        ? achèvement.dateAchèvementRéel?.formatter()
+    dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
+    dateMiseEnService:
+      raccordement && raccordement.dossiers.length
+        ? raccordement.dossiers
+            .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+            .filter(Boolean)
+            .sort()[0]
+            ?.formatter()
         : undefined,
-    });
-
-    return (
-      <Section title="Étapes du projet" className="flex-auto min-w-0">
-        <EtapesProjetDétails value={value} action={action} />
-      </Section>
-    );
+    dateAchèvementRéel: achèvement.estAchevé
+      ? achèvement.dateAchèvementRéel?.formatter()
+      : undefined,
   });
 
-import { DateTime } from '@potentiel-domain/common';
-
-import { EtapesProjetProps } from '../(components)/EtapesProjetSection';
-import { getAchèvement } from '../../_helpers/getAchèvement';
-import { getAbandon } from '../../_helpers/getAbandon';
+  return (
+    <Section title="Étapes du projet" className="flex-auto min-w-0">
+      <EtapesProjet
+        étapes={étapes}
+        identifiantProjet={identifiantProjetValue}
+        doitAfficherAttestationDésignation={!!lauréat.attestationDésignation}
+      />
+    </Section>
+  );
+};
 
 type GetÉtapesData = {
   dateNotification: DateTime.RawType;
@@ -65,7 +71,6 @@ type GetÉtapesData = {
     dateAbandonAccordé: DateTime.RawType;
     dateDemandeAbandon: DateTime.RawType;
   };
-  dateAbandonAccordé?: DateTime.RawType;
   dateRecoursAccordé?: DateTime.RawType;
   dateMiseEnService?: DateTime.RawType;
   dateAchèvementRéel?: DateTime.RawType;
@@ -123,4 +128,15 @@ export const getÉtapesData = ({
   }
 
   return étapes;
+};
+
+const getRecours = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: { identifiantProjetValue: identifiantProjet.formatter() },
+  });
+
+  return Option.isNone(recours) ? undefined : recours;
 };

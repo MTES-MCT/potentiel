@@ -9,6 +9,7 @@ import { mediator } from 'mediateur';
 import { getAbandon } from '../../_helpers/getAbandon';
 import { Option } from '@potentiel-libraries/monads';
 import { getCahierDesCharges } from '../../../../../_helpers';
+import { getRaccordement } from '../../_helpers/getRaccordement';
 
 type RaccordementSectionProps = {
   identifiantProjet: string;
@@ -28,20 +29,17 @@ export const RaccordementSection = ({
 
     const abandon = await getAbandon(identifiantProjet.formatter());
 
-    const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
+    const raccordement = await getRaccordement(identifiantProjet.formatter());
+
+    if (!raccordement) {
+      return null;
+    }
 
     const gestionnaireRéseau =
       await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
-
-    if (Option.isNone(raccordement)) {
-      return null;
-    }
 
     const value = {
       nombreDeDossiers: raccordement.dossiers.length,

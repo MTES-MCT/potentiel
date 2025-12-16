@@ -2,7 +2,6 @@
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 import { SectionPage } from './(components)/SectionPage';
-import { EtapesProjet, EtapesProjetProps } from './(components)/EtapesProjetSection';
 
 import { AbandonAlertData } from './_helpers/getAbandonAlert';
 import { AchèvementAlertData } from './_helpers/getAchèvementAlert';
@@ -11,20 +10,16 @@ import { CahierDesChargesSection } from './(sections)/(cahier-des-charges)/Cahie
 import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.section';
 import { AchèvementSection } from './(sections)/(achèvement)/Achèvement.section';
 import { GarantiesFinancièresSection } from './(sections)/(garanties-financières)/GarantiesFinancières.section';
+import { ÉtapesProjetSection } from './(sections)/(étapes-projet)/ÉtapesProjet.section';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
-  frise: {
-    étapes: EtapesProjetProps['étapes'];
-    doitAfficherAttestationDésignation: boolean;
-  };
   abandonAlert: AbandonAlertData;
   achèvementAlert: AchèvementAlertData;
 };
 
 export const TableauDeBordPage = ({
   identifiantProjet,
-  frise: { étapes, doitAfficherAttestationDésignation },
   abandonAlert,
   achèvementAlert,
 }: TableauDeBordPageProps) => (
@@ -55,11 +50,7 @@ export const TableauDeBordPage = ({
       <CahierDesChargesSection identifiantProjet={identifiantProjet} />
       <div className="flex flex-row gap-4">
         <div className="flex-1">
-          <EtapesProjet
-            identifiantProjet={identifiantProjet}
-            étapes={étapes}
-            doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
-          />
+          <ÉtapesProjetSection identifiantProjet={identifiantProjet} />
         </div>
         <div className="flex flex-col gap-4 flex-1">
           <AchèvementSection identifiantProjet={identifiantProjet} />
