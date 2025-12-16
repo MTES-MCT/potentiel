@@ -7,23 +7,13 @@ import { PotentielWorld } from '../../../potentiel.world';
 import {
   transmettreDemandeComplèteRaccordement,
   transmettreDemandeComplèteRaccordementSansAccuséRéception,
+  transmettreDemandeComplèteRaccordementSansDateDeQualification,
 } from './demandeComplèteRaccordement.when';
 
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat',
   async function (this: PotentielWorld) {
     await transmettreDemandeComplèteRaccordement.call(
-      this,
-      this.lauréatWorld.identifiantProjet,
-      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
-    );
-  },
-);
-
-EtantDonné(
-  'une demande complète de raccordement sans accusé de réception transmis par le système pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
       this,
       this.lauréatWorld.identifiantProjet,
       Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
@@ -39,6 +29,16 @@ EtantDonné(
       this.lauréatWorld.identifiantProjet,
       Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
       datatable.rowsHash(),
+    );
+  },
+);
+
+EtantDonné(
+  'une demande complète de raccordement sans date de qualification pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordementSansDateDeQualification.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
     );
   },
 );

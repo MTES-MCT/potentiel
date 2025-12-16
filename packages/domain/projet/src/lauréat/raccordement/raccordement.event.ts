@@ -6,18 +6,36 @@ import { IdentifiantProjet } from '../..';
 
 import { RéférenceDossierRaccordement } from '.';
 
-export type GestionnaireRéseauAttribuéEvent = DomainEvent<
-  'GestionnaireRéseauAttribué-V1',
+//#region Raccordement projet
+export type RaccordementSuppriméEvent = DomainEvent<
+  'RaccordementSupprimé-V1',
   {
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
+//#endregion Raccordement du projet
 
-export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
-  'GestionnaireRéseauInconnuAttribué-V1',
+//#region Dossier Raccordement
+/**
+ * @deprecated Use RéférenceDossierRacordementModifiéeEvent.
+ */
+export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
+  'RéférenceDossierRacordementModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
+    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+  }
+>;
+
+export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
+  'RéférenceDossierRacordementModifiée-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
+    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    modifiéeLe: DateTime.RawType;
+    modifiéePar: Email.RawType;
   }
 >;
 
@@ -26,6 +44,67 @@ export type DossierDuRaccordementSuppriméEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossier: RéférenceDossierRaccordement.RawType;
+  }
+>;
+//#endregion Dossier Raccordement
+
+//#region DCR
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    dateQualification?: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+  }
+>;
+
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type DemandeComplèteRaccordementTransmiseEventV2 = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    dateQualification?: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    accuséRéception: {
+      format: string;
+    };
+  }
+>;
+
+export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V3',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    dateQualification?: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    accuséRéception?: {
+      format: string;
+    };
+    transmisePar: Email.RawType;
+    transmiseLe: DateTime.RawType;
+  }
+>;
+
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
+  'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    format: string;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
   }
 >;
 
@@ -65,155 +144,9 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
     };
   }
 >;
+//#endregion DCR
 
-/**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
-  'PropositionTechniqueEtFinancièreModifiée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateSignature: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
-  'PropositionTechniqueEtFinancièreModifiée-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateSignature: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
-      format: string;
-    };
-  }
->;
-
-/**
- * @deprecated Use RéférenceDossierRacordementModifiéeEvent.
- */
-export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
-  'RéférenceDossierRacordementModifiée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
-    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
-  'RéférenceDossierRacordementModifiée-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
-    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    modifiéeLe: DateTime.RawType;
-    modifiéePar: Email.RawType;
-  }
->;
-
-export type DateMiseEnServiceSuppriméeEvent = DomainEvent<
-  'DateMiseEnServiceSupprimée-V1',
-  {
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    suppriméeLe: DateTime.RawType;
-    suppriméePar: Email.RawType;
-  }
->;
-
-export type RaccordementSuppriméEvent = DomainEvent<
-  'RaccordementSupprimé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
-
-/**
- * @deprecated Utilisez DateMiseEnServiceTransmiseEvent à la place
- * Ajout de l'information de l'utilisateur ayant fait l'action.
- * Avant V2, seuls les admins pouvaient transmettre la date de MES.
- */
-export type DateMiseEnServiceTransmiseV1Event = DomainEvent<
-  'DateMiseEnServiceTransmise-V1',
-  {
-    dateMiseEnService: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
-
-export type DateMiseEnServiceTransmiseEvent = DomainEvent<
-  'DateMiseEnServiceTransmise-V2',
-  {
-    dateMiseEnService: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    transmiseLe: DateTime.RawType;
-    transmisePar: Email.RawType;
-  }
->;
-
-/**
- * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
-  'DemandeComplèteDeRaccordementTransmise-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-    dateQualification?: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-/**
- * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = DomainEvent<
-  'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    format: string;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-/**
- * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type DemandeComplèteRaccordementTransmiseEventV2 = DomainEvent<
-  'DemandeComplèteDeRaccordementTransmise-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-    dateQualification?: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    accuséRéception: {
-      format: string;
-    };
-  }
->;
-
-export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
-  'DemandeComplèteDeRaccordementTransmise-V3',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-    dateQualification?: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    accuséRéception?: {
-      format: string;
-    };
-    transmisePar: Email.RawType;
-    transmiseLe: DateTime.RawType;
-  }
->;
-
+//#region PTF
 /**
  * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
  * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
@@ -253,6 +186,84 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
 >;
 
 /**
+ * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
+  'PropositionTechniqueEtFinancièreModifiée-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    dateSignature: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+  }
+>;
+
+export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
+  'PropositionTechniqueEtFinancièreModifiée-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    dateSignature: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    propositionTechniqueEtFinancièreSignée: {
+      format: string;
+    };
+  }
+>;
+//#endregion PTF
+
+//#region Date mise en service
+/**
+ * @deprecated Utilisez DateMiseEnServiceTransmiseEvent à la place
+ * Ajout de l'information de l'utilisateur ayant fait l'action.
+ * Avant V2, seuls les admins pouvaient transmettre la date de MES.
+ */
+export type DateMiseEnServiceTransmiseV1Event = DomainEvent<
+  'DateMiseEnServiceTransmise-V1',
+  {
+    dateMiseEnService: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
+export type DateMiseEnServiceTransmiseEvent = DomainEvent<
+  'DateMiseEnServiceTransmise-V2',
+  {
+    dateMiseEnService: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+    transmiseLe: DateTime.RawType;
+    transmisePar: Email.RawType;
+  }
+>;
+
+export type DateMiseEnServiceSuppriméeEvent = DomainEvent<
+  'DateMiseEnServiceSupprimée-V1',
+  {
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+    suppriméeLe: DateTime.RawType;
+    suppriméePar: Email.RawType;
+  }
+>;
+//#endregion Date mise en service
+
+//#region GRD Raccordement
+export type GestionnaireRéseauAttribuéEvent = DomainEvent<
+  'GestionnaireRéseauAttribué-V1',
+  {
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
+export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
+  'GestionnaireRéseauInconnuAttribué-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
+/**
  * @deprecated Utilisez GestionnaireRéseauRaccordementModifiéEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
@@ -270,6 +281,7 @@ export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
     identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
   }
 >;
+//#endregion GRD Raccordement
 
 export type RaccordementEvent =
   | DemandeComplèteRaccordementTransmiseEventV1

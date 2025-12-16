@@ -20,6 +20,7 @@ import {
   DétailsRaccordementDuProjetPage,
   DétailsRaccordementPageProps,
 } from './DétailsRaccordementDuProjet.page';
+import { getModificationDCRAction } from './_helpers/getModificationDCRAction';
 
 type PageProps = IdentifiantParameter;
 
@@ -94,17 +95,19 @@ const mapToDossierActions = (
 
         demandeComplèteRaccordement: {
           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-          modifier: rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+          modifier: getModificationDCRAction(rôle, dossier),
           modifierRéférence:
             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
         },
+
         propositionTechniqueEtFinancière: {
           transmettre: rôle.aLaPermission(
             'raccordement.proposition-technique-et-financière.transmettre',
           ),
           modifier: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
         },
+
         miseEnService: {
           transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
           modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),

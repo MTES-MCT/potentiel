@@ -5,6 +5,7 @@ import { mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -165,6 +166,32 @@ export async function transmettreDemandeComplèteRaccordementSansAccuséRécepti
   });
 }
 
+export async function transmettreDemandeComplèteRaccordementSansDateDeQualification(
+  this: PotentielWorld,
+  identifiantProjetValueType: IdentifiantProjet.ValueType,
+) {
+  const identifiantProjet = identifiantProjetValueType.formatter();
+
+  const { référenceDossier, accuséRéception } =
+    this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
+      dateQualification: undefined,
+      identifiantProjet,
+    });
+
+  const event: Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV2 = {
+    type: 'DemandeComplèteDeRaccordementTransmise-V2',
+    payload: {
+      identifiantProjet,
+      accuséRéception,
+      identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+      référenceDossierRaccordement: référenceDossier,
+      dateQualification: undefined,
+    },
+  };
+
+  await publish(`raccordement|${identifiantProjet}`, event);
+}
+
 async function modifierDemandeComplèteRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
@@ -182,7 +209,7 @@ async function modifierDemandeComplèteRaccordement(
     });
 
   try {
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
