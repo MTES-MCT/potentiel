@@ -21,17 +21,6 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande complète de raccordement sans accusé de réception transmis par le système pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
-      this,
-      this.lauréatWorld.identifiantProjet,
-      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
-    );
-  },
-);
-
-EtantDonné(
   'une demande complète de raccordement pour le projet lauréat avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     await transmettreDemandeComplèteRaccordement.call(
@@ -44,8 +33,8 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande complète de raccordement sans accusé de réception pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  /une demande complète de raccordement sans (date de qualification|accusé de réception) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'date de qualification' | 'accusé de réception') {
     await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
       this,
       this.lauréatWorld.identifiantProjet,
