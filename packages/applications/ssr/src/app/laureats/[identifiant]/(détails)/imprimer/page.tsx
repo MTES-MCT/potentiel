@@ -13,7 +13,6 @@ import {
   getLauréatData,
   getActionnaireData,
 } from '../informations-generales/_helpers/getInformationsGénéralesData';
-import { getInstallation } from '../installation/_helpers/getInstallation';
 import { getÉvaluationCarbone } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 
 import { ImprimerPage } from './Imprimer.page';
@@ -56,14 +55,12 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         nécessiteInstruction: false,
       });
 
-      const installation = await getInstallation({ rôle: utilisateur.rôle, identifiantProjet });
 
       const évaluationCarbone = await getÉvaluationCarbone({
         rôle: utilisateur.rôle,
         identifiantProjet,
       });
 
-      // ajouter tableau de bord
       // ajouter des print:hidden
       // attentions aux marges entre ColumnPageTemplate et les SectionPage (PageTemplate)
 
@@ -78,8 +75,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           actionnariat={actionnariat}
           puissance={puissance}
           coefficientKChoisi={coefficientKChoisi}
-          installation={installation}
           évaluationCarbone={évaluationCarbone}
+          identifiantProjet={identifiantProjet.formatter()}
         />
       );
     }),

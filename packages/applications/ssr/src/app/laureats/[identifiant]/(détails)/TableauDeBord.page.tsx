@@ -4,7 +4,7 @@ import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.se
 import { AchèvementSection } from './(sections)/(achèvement)/Achèvement.section';
 import { GarantiesFinancièresSection } from './(sections)/(garanties-financières)/GarantiesFinancières.section';
 import { ÉtapesProjetSection } from './(sections)/(étapes-projet)/ÉtapesProjet.section';
-import { AlertesTableauDeBordSection } from './(sections)/(alertes)/AlertesTableauDeBord.section.';
+import { AlertesTableauDeBordSection } from './(sections)/(alertes)/AlertesTableauDeBord.section';
 
 type TableauDeBordPageProps = {
   identifiantProjet: string;
