@@ -50,18 +50,23 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props
   );
 
   return (
-    <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden">
+    <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden min-w-16">
       <Button
-        iconId="fr-icon-menu-fill"
+        iconId="fr-icon-arrow-left-s-line"
         onClick={() => setIsOpen(!isOpen)}
         priority="tertiary no outline"
-        title="Fermer le menu"
-        className="hidden md:block"
+        title={isOpen ? 'Cacher le menu' : 'Afficher le menu'}
+        aria-label={isOpen ? 'Cacher le menu' : 'Afficher le menu'}
+        className={clsx(
+          'hidden md:block',
+          'transition-transform duration-300',
+          !isOpen && 'rotate-180',
+        )}
       />
       <SideMenu
         align="left"
         sticky
-        className={clsx(!isOpen ? 'hidden' : 'w-64')}
+        className={clsx(!isOpen ? 'hidden' : 'w-full mb-6')}
         burgerMenuButtonText="Menu"
         items={items}
       />

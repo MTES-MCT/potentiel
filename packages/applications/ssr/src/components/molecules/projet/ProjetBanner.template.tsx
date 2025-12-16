@@ -26,7 +26,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
   dateDésignation,
   identifiantProjet,
 }) => (
-  <aside className="mb-3">
+  <aside>
     <div className="md:flex items-start justify-between">
       <div>
         <div className="flex justify-start w-fit gap-4 flex-col md:flex-row md:gap-0 md:items-center">

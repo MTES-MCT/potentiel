@@ -57,7 +57,7 @@ export const ÉtapesProjetSection = async ({
   });
 
   return (
-    <Section title="Étapes du projet" className="flex-auto min-w-0">
+    <Section title="Étapes du projet" className="min-w-0">
       <EtapesProjet
         étapes={étapes}
         identifiantProjet={identifiantProjetValue}
