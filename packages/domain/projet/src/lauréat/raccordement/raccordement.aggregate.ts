@@ -336,7 +336,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
 
-    if ((rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) && dossierEnService) {
+    if (!rôle.estDGEC() && dossierEnService) {
       throw new PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),
       );
