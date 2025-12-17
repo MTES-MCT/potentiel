@@ -48,7 +48,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   attestationConformité,
   preuveTransmissionAuCocontractant,
   demanderMainlevée,
-  lauréatNotifiéLe: notifiéLe,
+  lauréatNotifiéLe,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
@@ -101,7 +101,9 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
             label="Date de transmission au co-contractant"
             name="dateTransmissionAuCocontractant"
             max={now()}
-            min={notifiéLe}
+            min={DateTime.convertirEnValueType(lauréatNotifiéLe)
+              .ajouterNombreDeJours(1)
+              .formatter()}
             required
             defaultValue={dateTransmissionAuCocontractant}
             state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}

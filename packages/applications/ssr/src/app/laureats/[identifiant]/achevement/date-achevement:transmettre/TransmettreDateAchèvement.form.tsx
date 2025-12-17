@@ -39,7 +39,7 @@ export const TransmettreDateAchèvementForm: FC<TransmettreDateAchèvementFormPr
         <InputDate
           label="Date d'achèvement"
           name="dateAchevement"
-          min={lauréatNotifiéLe}
+          min={DateTime.convertirEnValueType(lauréatNotifiéLe).ajouterNombreDeJours(1).formatter()}
           max={DateTime.now().formatter()}
           required
           state={validationErrors['dateAchevement'] ? 'error' : 'default'}

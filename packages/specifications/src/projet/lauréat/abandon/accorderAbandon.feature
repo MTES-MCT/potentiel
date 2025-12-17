@@ -53,6 +53,12 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
         Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été rejetée"
 
+    @select
+    Scénario: Impossible d'accorder l'abandon d'un projet lauréat si l'abandon a déjà été annulé
+        Etant donné une demande d'abandon annulée pour le projet lauréat
+        Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
+        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été annulée"
+
     Scénario: Impossible d'accorder l'abandon d'un projet lauréat si aucun abandon n'a été demandé
         Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
         Alors l'administrateur devrait être informé que "Aucune demande d'abandon n'est en cours"
