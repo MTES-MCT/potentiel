@@ -2,9 +2,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Heading6 } from '@/components/atoms/headings';
 
 import { ChampObligatoireAvecAction } from '../../../../_helpers/types';
-import { Heading6 } from '@/components/atoms/headings';
 import { getActionnariatTypeLabel } from '../../../../../../_helpers';
 
 export type ActionnariatDétailsProps = {

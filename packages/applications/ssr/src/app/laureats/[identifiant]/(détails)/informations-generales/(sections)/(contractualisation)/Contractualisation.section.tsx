@@ -5,18 +5,18 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../../(components)/Section';
 import { getLauréatInfos } from '../../../../_helpers/getLauréat';
+import { getAction } from '../../../../_helpers/getAction';
 
 import {
   ContractualisationDétails,
   ContractualisationDétailsProps,
 } from './ContractualisationDétails';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { getAction } from '../../../../_helpers/getAction';
 
 type ContractualisationSectionProps = {
   identifiantProjet: string;

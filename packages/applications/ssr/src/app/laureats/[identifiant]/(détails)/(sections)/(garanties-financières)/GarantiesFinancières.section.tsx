@@ -10,9 +10,9 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '../../(components)/Section';
 import { getAchèvement } from '../../_helpers/getAchèvement';
 import { getCahierDesCharges } from '../../../../../_helpers';
+import { getGarantiesFinancières } from '../../_helpers/getGarantiesFinancières';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
-import { getGarantiesFinancières } from '../../_helpers/getGarantiesFinancières';
 
 type GarantiesFinancièresSectionProps = {
   identifiantProjet: string;

@@ -6,10 +6,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
-import {
-  getPuissanceData,
-  getLauréatData,
-} from '../informations-generales/_helpers/getInformationsGénéralesData';
 import { getÉvaluationCarbone } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 
 import { ImprimerPage } from './Imprimer.page';
@@ -28,29 +24,13 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       checkFeatureFlag(identifiantProjet, searchParams);
 
-      const puissance = await getPuissanceData({
-        identifiantProjet: identifiantProjet,
-        rôle,
-      });
-
-      const { siteDeProduction, coefficientKChoisi, prixRéférence, emailContact } =
-        await getLauréatData({ identifiantProjet, rôle });
-
       const évaluationCarbone = await getÉvaluationCarbone({
         rôle: utilisateur.rôle,
         identifiantProjet,
       });
 
-      // ajouter des print:hidden
-      // attentions aux marges entre ColumnPageTemplate et les SectionPage (PageTemplate)
-
       return (
         <ImprimerPage
-          siteDeProduction={siteDeProduction}
-          emailContact={emailContact}
-          prixRéférence={prixRéférence}
-          puissance={puissance}
-          coefficientKChoisi={coefficientKChoisi}
           évaluationCarbone={évaluationCarbone}
           identifiantProjet={identifiantProjet.formatter()}
         />
