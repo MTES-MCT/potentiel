@@ -3,9 +3,9 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
@@ -25,11 +25,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   identifiantProjet,
   actions,
 }: ModifierGestionnaireRéseauDuRaccordementProps) => {
-  const identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
-    gestionnaireRéseau.identifiantGestionnaireRéseau,
-  );
-
-  if (identifiantGestionnaireRéseau.estInconnu()) {
+  if (Option.isNone(gestionnaireRéseau)) {
     const lienAjout = (
       <Link
         className="ml-1"

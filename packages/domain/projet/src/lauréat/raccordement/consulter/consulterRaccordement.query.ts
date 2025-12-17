@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Find, Joined, List, Where } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Email } from '@potentiel-domain/common';
@@ -15,11 +15,11 @@ import {
 
 export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  gestionnaireRéseau: {
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  gestionnaireRéseau: Option.Type<{
     raisonSociale: string;
     contactEmail?: Email.ValueType;
-  };
+  }>;
   dossiers: Array<ConsulterDossierRaccordementReadModel>;
 };
 
@@ -47,11 +47,12 @@ export const registerConsulterRaccordementQuery = ({
 
     const raccordement = await find<
       RaccordementEntity,
-      GestionnaireRéseau.GestionnaireRéseauEntity
+      LeftJoin<GestionnaireRéseau.GestionnaireRéseauEntity>
     >(`raccordement|${identifiantProjet.formatter()}`, {
       join: {
         entity: 'gestionnaire-réseau',
         on: 'identifiantGestionnaireRéseau',
+        type: 'left',
       },
     });
 
@@ -73,20 +74,22 @@ const mapToReadModel = (
   {
     identifiantProjet,
     identifiantGestionnaireRéseau,
-    'gestionnaire-réseau': { raisonSociale, contactEmail },
-  }: RaccordementEntity & Joined<GestionnaireRéseau.GestionnaireRéseauEntity>,
+    'gestionnaire-réseau': grd,
+  }: RaccordementEntity & Joined<LeftJoin<GestionnaireRéseau.GestionnaireRéseauEntity>>,
   dossiers: ReadonlyArray<DossierRaccordementEntity>,
 ): ConsulterRaccordementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    gestionnaireRéseau: {
-      identifiantGestionnaireRéseau:
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-          identifiantGestionnaireRéseau,
-        ),
-      raisonSociale,
-      contactEmail: contactEmail ? Email.convertirEnValueType(contactEmail) : undefined,
-    },
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      ),
+    gestionnaireRéseau: grd
+      ? {
+          raisonSociale: grd ? grd.raisonSociale : 'Inconnu',
+          contactEmail: grd.contactEmail ? Email.convertirEnValueType(grd.contactEmail) : undefined,
+        }
+      : Option.none,
     dossiers: dossiers.map(mapToDossierRaccordementReadModel),
   };
 };
