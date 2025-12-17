@@ -99,18 +99,12 @@ export const getActionnaire = async ({
     };
   }
 
-  // TODO:
-  // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
-  const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
-
-  const action = estPetitPV
-    ? undefined
-    : await getAction({
-        identifiantProjet,
-        rôle,
-        domain: 'actionnaire',
-        nécessiteInstruction,
-      });
+  const action = await getAction({
+    identifiantProjet,
+    rôle,
+    domain: 'actionnaire',
+    nécessiteInstruction,
+  });
 
   return {
     value,
