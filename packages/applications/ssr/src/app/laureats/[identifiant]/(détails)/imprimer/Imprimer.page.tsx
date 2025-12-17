@@ -6,7 +6,6 @@ import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { GetÉvaluationCarboneForProjectPage } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 import {
-  GetActionnaireData,
   GetPuissanceData,
   GetLauréatData,
 } from '../informations-generales/_helpers/getInformationsGénéralesData';
@@ -20,23 +19,19 @@ import { TableauDeBordPage } from '../TableauDeBord.page';
 import { ImprimerButton } from './(component)/ImprimerButton';
 
 type Props = {
-  actionnaire: GetActionnaireData;
   puissance: GetPuissanceData;
   siteDeProduction: GetLauréatData['siteDeProduction'];
   emailContact: GetLauréatData['emailContact'];
   prixRéférence: GetLauréatData['prixRéférence'];
-  actionnariat: GetLauréatData['actionnariat'];
   coefficientKChoisi: GetLauréatData['coefficientKChoisi'];
   évaluationCarbone: GetÉvaluationCarboneForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ImprimerPage = ({
-  actionnaire,
   siteDeProduction,
   emailContact,
   prixRéférence,
-  actionnariat,
   puissance,
   coefficientKChoisi,
   évaluationCarbone,
@@ -57,9 +52,7 @@ export const ImprimerPage = ({
       <InformationsGénéralesPage
         siteDeProduction={siteDeProduction}
         emailContact={emailContact}
-        actionnaire={actionnaire}
         prixRéférence={prixRéférence}
-        actionnariat={actionnariat}
         puissance={puissance}
         coefficientKChoisi={coefficientKChoisi}
         identifiantProjet={identifiantProjet}

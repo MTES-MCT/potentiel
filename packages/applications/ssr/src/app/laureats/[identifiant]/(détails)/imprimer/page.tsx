@@ -9,7 +9,6 @@ import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
 import {
   getPuissanceData,
   getLauréatData,
-  getActionnaireData,
 } from '../informations-generales/_helpers/getInformationsGénéralesData';
 import { getÉvaluationCarbone } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 
@@ -34,13 +33,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         rôle,
       });
 
-      const { siteDeProduction, coefficientKChoisi, prixRéférence, emailContact, actionnariat } =
+      const { siteDeProduction, coefficientKChoisi, prixRéférence, emailContact } =
         await getLauréatData({ identifiantProjet, rôle });
-
-      const actionnaire = await getActionnaireData({
-        identifiantProjet,
-        rôle,
-      });
 
       const évaluationCarbone = await getÉvaluationCarbone({
         rôle: utilisateur.rôle,
@@ -54,9 +48,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         <ImprimerPage
           siteDeProduction={siteDeProduction}
           emailContact={emailContact}
-          actionnaire={actionnaire}
           prixRéférence={prixRéférence}
-          actionnariat={actionnariat}
           puissance={puissance}
           coefficientKChoisi={coefficientKChoisi}
           évaluationCarbone={évaluationCarbone}
