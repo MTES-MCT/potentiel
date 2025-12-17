@@ -58,7 +58,7 @@ export const getLauréatInfos = cache(async (identifiantProjet: Props) => {
   return lauréat;
 });
 
-const getActionnaireInfos = async (identifiantProjet: Props) => {
+export const getActionnaireInfos = async (identifiantProjet: Props) => {
   const logger = getLogger('getActionnaireInfos');
 
   const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
