@@ -84,10 +84,10 @@ const mapChangements: MapChangements = {
       permission: 'installation.dispositifDeStockage.modifier',
     },
     enregistrerChangement: {
-      url: Routes.Installation.changement.installateur.enregistrer,
+      url: Routes.Installation.changement.dispositifDeStockage.enregistrer,
       label: 'Changer le dispositif de stockage',
       labelActions: 'Changer le dispositif de stockage',
-      permission: 'installation.installateur.enregistrerChangement',
+      permission: 'installation.dispositifDeStockage.enregistrerChangement',
     },
   },
   installateur: {
@@ -129,7 +129,7 @@ const mapChangements: MapChangements = {
       url: Routes.Actionnaire.changement.demander,
       label: 'Faire une demande de changement',
       labelActions: `Demander un changement d'actionnaire(s)`,
-      permission: 'actionnaire.enregistrerChangement',
+      permission: 'actionnaire.demanderChangement',
     },
     enregistrerChangement: {
       url: Routes.Actionnaire.changement.enregistrer,
@@ -138,8 +138,21 @@ const mapChangements: MapChangements = {
       permission: 'actionnaire.enregistrerChangement',
     },
   },
+  puissance: {
+    modifier: {
+      url: Routes.Puissance.modifier,
+      label: 'Modifier',
+      labelActions: `Modifier la puissance`,
+      permission: 'puissance.modifier',
+    },
+    demanderChangement: {
+      url: Routes.Puissance.changement.demander,
+      label: 'Changer de puissance',
+      labelActions: `Changer de puissance`,
+      permission: 'puissance.demanderChangement',
+    },
+  },
   // TODO
-  puissance: {},
   recours: {},
   abandon: {},
   délai: {},
