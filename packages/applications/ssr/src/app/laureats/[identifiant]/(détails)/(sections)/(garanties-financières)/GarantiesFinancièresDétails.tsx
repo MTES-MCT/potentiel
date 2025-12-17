@@ -44,6 +44,7 @@ export const GarantiesFinancièresDétails = ({
           ${motifDemandeGarantiesFinancières})`}
           title=""
           severity="info"
+          className="print:hidden"
         />
       )}
       {actuelles &&
@@ -79,6 +80,7 @@ export const GarantiesFinancièresDétails = ({
                 description="L'attestation de constitution des garanties financières reste à transmettre."
                 title=""
                 severity="info"
+                className="print:hidden"
               />
             )}
             {actuelles.garantiesFinancières.type.type === 'type-inconnu' && (
@@ -86,6 +88,7 @@ export const GarantiesFinancièresDétails = ({
                 description="Le type de garanties financières reste à préciser."
                 title=""
                 severity="info"
+                className="print:hidden"
               />
             )}
           </>

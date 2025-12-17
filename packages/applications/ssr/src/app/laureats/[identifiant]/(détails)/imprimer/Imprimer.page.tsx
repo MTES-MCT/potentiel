@@ -1,4 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Section } from '../(components)/Section';
 import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
@@ -27,7 +28,7 @@ type Props = {
   actionnariat: GetLauréatData['actionnariat'];
   coefficientKChoisi: GetLauréatData['coefficientKChoisi'];
   évaluationCarbone: GetÉvaluationCarboneForProjectPage;
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ImprimerPage = ({
@@ -64,10 +65,12 @@ export const ImprimerPage = ({
         identifiantProjet={identifiantProjet}
       />
       <div>
-        <Heading2>Informations Générales</Heading2>
-        <InstallationSection identifiantProjet={identifiantProjet} />;
-        <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
-        <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
+        <Heading2>Installation</Heading2>
+        <div className="flex flex-col gap-4">
+          <InstallationSection identifiantProjet={identifiantProjet} />
+          <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
+          <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
+        </div>
       </div>
       <ÉvaluationCarbonePage évaluationCarbone={évaluationCarbone} />
     </div>

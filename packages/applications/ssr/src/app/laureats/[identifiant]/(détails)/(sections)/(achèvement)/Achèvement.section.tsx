@@ -23,7 +23,7 @@ export const AchèvementSection = ({
     const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
 
     return (
-      <Section title="Achèvement">
+      <Section title="Achèvement" className={achèvement.value.estAchevé ? '' : 'print:hidden'}>
         <AchèvementDétails
           actions={achèvement.actions}
           value={mapToPlainObject(achèvement.value)}

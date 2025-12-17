@@ -1,5 +1,4 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import Link from 'next/link';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -24,11 +23,15 @@ export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDét
           : `${
               value.cahierDesChargesModificatif.alternatif ? 'alternatif' : ''
             } modifié rétroactivement et publié le ${value.cahierDesChargesModificatif.paruLe}`}
-        {', '}
-        <Link target="_blank" className="w-fit" href={value.appelOffre.cahiersDesChargesUrl}>
-          voir le cahier des charges
-        </Link>
+        .
       </div>
+      <TertiaryLink
+        href={value.appelOffre.cahiersDesChargesUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Voir le cahier des charges
+      </TertiaryLink>
       {value.doitChoisirUnCahierDesChargesModificatif && (
         <Notice
           description="Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités

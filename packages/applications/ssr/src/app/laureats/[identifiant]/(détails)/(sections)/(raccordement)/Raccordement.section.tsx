@@ -74,12 +74,14 @@ export const RaccordementSection = ({
               url: Routes.Raccordement.détail(identifiantProjet.formatter()),
             };
 
-    const alertes = getAlertesRaccordement({
-      CDC2022Choisi:
-        !!cahierDesCharges.cahierDesChargesModificatif &&
-        cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-      raccordement: { value, action },
-    });
+    const alertes = rôle.estPorteur()
+      ? getAlertesRaccordement({
+          CDC2022Choisi:
+            !!cahierDesCharges.cahierDesChargesModificatif &&
+            cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+          raccordement: { value, action },
+        })
+      : [];
 
     return (
       <Section title="Raccordement au réseau">

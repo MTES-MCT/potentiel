@@ -32,7 +32,13 @@ export const RaccordementDétails = async ({ raccordement, alertes }: Raccordeme
           : `${raccordement.value.nombreDeDossiers} dossiers de raccordement renseignés`}
     </div>
     {alertes.map(({ label }, index) => (
-      <Notice description={label} title="" severity="info" key={label + index} />
+      <Notice
+        description={label}
+        title=""
+        severity="info"
+        key={label + index}
+        className="print:hidden"
+      />
     ))}
     {raccordement.action && (
       <TertiaryLink href={raccordement.action.url}>{raccordement.action.label}</TertiaryLink>
