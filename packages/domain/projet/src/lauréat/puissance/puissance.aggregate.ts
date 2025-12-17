@@ -93,6 +93,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     dateModification,
     identifiantUtilisateur,
     raison,
+    pièceJustificative,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.vérifierLaCohérenceDesDonnéesDeLaModification(puissance, puissanceDeSite);
@@ -110,6 +111,7 @@ export class PuissanceAggregate extends AbstractAggregate<
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
         raison,
+        pièceJustificative,
       },
     };
 
