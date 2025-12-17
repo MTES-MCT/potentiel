@@ -66,3 +66,8 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon confirmée pour le projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "La demande d'abandon a déjà été confirmée"
+
+    Scénario: Impossible d'annuler la demande d'abandon d'un projet lauréat si la demande d'abandon a déjà été annulée
+        Etant donné une demande d'abandon annulée pour le projet lauréat
+        Quand le porteur annule la demande d'abandon pour le projet lauréat
+        Alors le porteur devrait être informé que "La demande d'abandon a déjà été annulée"

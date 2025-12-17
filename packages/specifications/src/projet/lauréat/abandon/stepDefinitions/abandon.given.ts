@@ -97,6 +97,18 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  /une demande d'abandon annulée(.*)pour le projet lauréat/,
+  async function (this: PotentielWorld, etat: string) {
+    if (etat.includes('avec recandidature')) {
+      await créerDemandeAbandonAvecRecandidature.call(this);
+    } else {
+      await créerDemandeAbandon.call(this);
+    }
+    await annulerDemandeAbandon.call(this);
+  },
+);
+
 async function créerDemandeAbandonAvecRecandidature(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
@@ -246,6 +258,22 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
       dateInstructionValue: passéEnInstructionLe,
       identifiantUtilisateurValue: passéEnInstructionPar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
+    },
+  });
+}
+
+async function annulerDemandeAbandon(this: PotentielWorld) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+  const { annuléeLe, annuléePar } = this.lauréatWorld.abandonWorld.annulerAbandonFixture.créer({
+    annuléePar: this.utilisateurWorld.adminFixture.email,
+  });
+
+  await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({
+    type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      dateAnnulationValue: annuléeLe,
+      identifiantUtilisateurValue: annuléePar,
     },
   });
 }
