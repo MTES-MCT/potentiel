@@ -15,10 +15,12 @@ import {
 
 export type TransmettreDateAchèvementFormProps = {
   identifiantProjet: string;
+  lauréatNotifiéLe: DateTime.RawType;
 };
 
 export const TransmettreDateAchèvementForm: FC<TransmettreDateAchèvementFormProps> = ({
   identifiantProjet,
+  lauréatNotifiéLe,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDateAchèvementFormKeys>
@@ -37,6 +39,7 @@ export const TransmettreDateAchèvementForm: FC<TransmettreDateAchèvementFormPr
         <InputDate
           label="Date d'achèvement"
           name="dateAchevement"
+          min={lauréatNotifiéLe}
           max={DateTime.now().formatter()}
           required
           state={validationErrors['dateAchevement'] ? 'error' : 'default'}

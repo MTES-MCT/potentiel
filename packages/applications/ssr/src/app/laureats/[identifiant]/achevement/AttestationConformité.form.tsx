@@ -29,6 +29,7 @@ type Action =
 
 export type AttestationConformitéFormProps = {
   identifiantProjet: string;
+  lauréatNotifiéLe: DateTime.RawType;
   action: Action;
   submitLabel: string;
 
@@ -47,6 +48,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   attestationConformité,
   preuveTransmissionAuCocontractant,
   demanderMainlevée,
+  lauréatNotifiéLe: notifiéLe,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
@@ -94,15 +96,18 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
         />
 
-        <InputDate
-          label="Date de transmission au co-contractant"
-          name="dateTransmissionAuCocontractant"
-          max={now()}
-          required
-          defaultValue={dateTransmissionAuCocontractant}
-          state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
-        />
+        <div className="w-fit">
+          <InputDate
+            label="Date de transmission au co-contractant"
+            name="dateTransmissionAuCocontractant"
+            max={now()}
+            min={notifiéLe}
+            required
+            defaultValue={dateTransmissionAuCocontractant}
+            state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
+          />
+        </div>
 
         {demanderMainlevée.visible && (
           <>
