@@ -12,18 +12,16 @@ type ChiffreCléProps = {
   valeur: number;
   unité: string;
   symbol: SymbolProps;
-  isLast?: true;
 };
 
 const ChiffreClé = ({
   valeur,
   unité,
   symbol: { iconId, description, iconColor },
-  isLast,
 }: ChiffreCléProps) => (
   <div
     className={clsx(
-      !isLast && 'lg:border-r-solid lg:border-r border-dsfr-border-default-grey-default',
+      'lg:border-r-solid lg:border-r border-dsfr-border-default-grey-default last:border-none',
       'flex flex-row items-center gap-2 pr-6 pl-1',
     )}
     title={description}
@@ -60,7 +58,6 @@ export const ChiffresClésProjet = ({
       symbol={symbols.évaluationCarbone}
       valeur={evaluationCarboneSimplifiée}
       unité="kg eq CO2/kWc"
-      isLast
     />
   </div>
 );
