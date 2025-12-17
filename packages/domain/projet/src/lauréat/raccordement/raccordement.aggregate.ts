@@ -367,11 +367,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    if (
-      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal)) &&
-      dossierEnService &&
-      dcrComplète
-    ) {
+    if (!rôle.estDGEC() && dossierEnService && dcrComplète) {
       throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),
       );
