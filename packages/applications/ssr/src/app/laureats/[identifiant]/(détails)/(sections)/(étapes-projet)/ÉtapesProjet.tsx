@@ -13,10 +13,10 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 export type ÉtapeProjet =
   | {
-      type: 'designation' | 'achèvement-prévisionel' | 'recours';
+      type: 'designation' | 'achèvement-prévisionel';
       date: DateTime.RawType;
     }
-  | { type: 'abandon'; date: DateTime.RawType; dateDemande: DateTime.RawType }
+  | { type: 'abandon' | 'recours'; date: DateTime.RawType; dateDemande: DateTime.RawType }
   | {
       type: 'mise-en-service' | 'achèvement-réel';
       date?: DateTime.RawType;
@@ -52,9 +52,9 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                     )}
                   </ÉtapeProjet>
                 ))
-                .with({ type: 'recours' }, ({ date }) => (
+                .with({ type: 'recours' }, ({ date, dateDemande }) => (
                   <ÉtapeProjet titre="Recours accordé" date={date}>
-                    <TertiaryLink href={Routes.Recours.détail(identifiantProjet)}>
+                    <TertiaryLink href={Routes.Recours.détail(identifiantProjet, dateDemande)}>
                       Voir les détails du recours
                     </TertiaryLink>
                   </ÉtapeProjet>

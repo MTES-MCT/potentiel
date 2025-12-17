@@ -1,14 +1,11 @@
-import { mediator } from 'mediateur';
-
-import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 import { Section } from '../../(components)/Section';
 import { getLauréatInfos } from '../../../_helpers/getLauréat';
 import { getAbandon } from '../../_helpers/getAbandon';
 import { getAchèvement } from '../../_helpers/getAchèvement';
 import { getRaccordement } from '../../_helpers/getRaccordement';
+import { getRecours } from '../../_helpers/getRecours';
 
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
@@ -22,38 +19,17 @@ export const ÉtapesProjetSection = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
   const achèvement = await getAchèvement(identifiantProjet.formatter());
-
   const abandon = await getAbandon(identifiantProjet.formatter());
-
-  const recours = await getRecours(identifiantProjet);
-
+  const recours = await getRecours(identifiantProjet.formatter());
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
-
   const raccordement = await getRaccordement(identifiantProjet.formatter());
-  const dateMiseEnService =
-    raccordement && raccordement.dossiers.length
-      ? raccordement.dossiers
-          .map((dossier) => dossier.miseEnService?.dateMiseEnService)
-          .filter(Boolean)
-          .sort()[0]
-          ?.formatter()
-      : undefined;
 
-  const étapes = getÉtapesData({
-    dateNotification: lauréat.notifiéLe.formatter(),
-    dateAchèvementPrévisionnel: achèvement.dateAchèvementPrévisionnel.formatter(),
-    abandon:
-      abandon && abandon.accordéLe
-        ? {
-            dateAbandonAccordé: abandon.accordéLe.formatter(),
-            dateDemandeAbandon: abandon.demandéLe.formatter(),
-          }
-        : undefined,
-    dateRecoursAccordé: recours && recours.demande.accord?.accordéLe.formatter(),
-    dateMiseEnService: dateMiseEnService,
-    dateAchèvementRéel: achèvement.estAchevé
-      ? achèvement.dateAchèvementRéel?.formatter()
-      : undefined,
+  const étapes = mapToÉtapesData({
+    lauréat,
+    achèvement,
+    abandon,
+    recours,
+    raccordement,
   });
 
   return (
@@ -68,37 +44,32 @@ export const ÉtapesProjetSection = async ({
 };
 
 type GetÉtapesData = {
-  dateNotification: DateTime.RawType;
-  dateAchèvementPrévisionnel: DateTime.RawType;
-  abandon?: {
-    dateAbandonAccordé: DateTime.RawType;
-    dateDemandeAbandon: DateTime.RawType;
-  };
-  dateRecoursAccordé?: DateTime.RawType;
-  dateMiseEnService?: DateTime.RawType;
-  dateAchèvementRéel?: DateTime.RawType;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
+  achèvement: Lauréat.Achèvement.ConsulterAchèvementReadModel;
+  abandon?: Lauréat.Abandon.ConsulterAbandonReadModel;
+  recours?: Éliminé.Recours.ConsulterRecoursReadModel;
+  raccordement?: Lauréat.Raccordement.ConsulterRaccordementReadModel;
 };
 
-export const getÉtapesData = ({
-  dateNotification,
-  dateAchèvementPrévisionnel,
+const mapToÉtapesData = ({
+  lauréat,
+  achèvement,
   abandon,
-  dateRecoursAccordé,
-  dateAchèvementRéel,
-  dateMiseEnService,
+  raccordement,
+  recours,
 }: GetÉtapesData) => {
   const étapes: Array<ÉtapeProjet> = [
     {
       type: 'designation',
-      date: dateNotification,
+      date: lauréat.notifiéLe.formatter(),
     },
   ];
 
-  if (abandon) {
+  if (abandon?.accordéLe) {
     étapes.push({
       type: 'abandon',
-      date: abandon.dateAbandonAccordé,
-      dateDemande: abandon.dateDemandeAbandon,
+      date: abandon.accordéLe.formatter(),
+      dateDemande: abandon.demandéLe.formatter(),
     });
 
     return étapes;
@@ -106,15 +77,25 @@ export const getÉtapesData = ({
 
   étapes.push({
     type: 'achèvement-prévisionel',
-    date: dateAchèvementPrévisionnel,
+    date: achèvement.dateAchèvementPrévisionnel.formatter(),
   });
 
-  if (dateRecoursAccordé) {
+  if (recours?.dateAccord) {
     étapes.push({
       type: 'recours',
-      date: dateRecoursAccordé,
+      date: recours.dateAccord.formatter(),
+      dateDemande: recours.dateDemande.formatter(),
     });
   }
+
+  const dateMiseEnService =
+    raccordement && raccordement.dossiers.length
+      ? raccordement.dossiers
+          .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+          .filter(Boolean)
+          .sort()[0]
+          ?.formatter()
+      : undefined;
 
   if (dateMiseEnService) {
     étapes.push({
@@ -125,10 +106,10 @@ export const getÉtapesData = ({
     étapes.push({ type: 'mise-en-service' });
   }
 
-  if (dateAchèvementRéel) {
+  if (achèvement.estAchevé && achèvement.dateAchèvementRéel) {
     étapes.push({
       type: 'achèvement-réel',
-      date: dateAchèvementRéel,
+      date: achèvement.dateAchèvementRéel.formatter(),
     });
   } else {
     étapes.push({ type: 'achèvement-réel' });
@@ -138,15 +119,4 @@ export const getÉtapesData = ({
     .filter((a) => a.date)
     .sort((a, b) => a.date!.localeCompare(b.date!))
     .concat(étapes.filter((a) => !a.date));
-};
-
-const getRecours = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<Éliminé.Recours.ConsulterRecoursReadModel | undefined> => {
-  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-    type: 'Éliminé.Recours.Query.ConsulterRecours',
-    data: { identifiantProjetValue: identifiantProjet.formatter() },
-  });
-
-  return Option.isNone(recours) ? undefined : recours;
 };
