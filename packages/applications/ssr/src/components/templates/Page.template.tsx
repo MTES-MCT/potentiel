@@ -25,7 +25,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children, feature 
           <div className="fr-container">{banner}</div>
         </div>
       )}
-      <div className="fr-container my-10">
+      <div className="fr-container my-10 print:my-4">
         {successMessage && (
           <FormSuccessAlert
             message={successMessage}

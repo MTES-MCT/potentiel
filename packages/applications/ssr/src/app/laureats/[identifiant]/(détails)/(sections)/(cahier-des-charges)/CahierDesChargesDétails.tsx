@@ -38,6 +38,7 @@ export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDét
        dématérialisées d'information au Préfet et de modification de votre projet (abandon...), vous devez d'abord choisir un cahier des charges"
           title="Modification de votre projet"
           severity="warning"
+          className="print:hidden"
         />
       )}
       {action && <TertiaryLink href={action.url}> {action.label}</TertiaryLink>}

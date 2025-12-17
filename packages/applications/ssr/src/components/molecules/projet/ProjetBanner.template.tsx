@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1 } from '@/components/atoms/headings';
 
 import { CopyButton } from '../CopyButton';
 
@@ -47,8 +48,11 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
               />
             )}
           </div>
-          <p className="hidden print:block text-xl font-bold text-theme-black">{nom}</p>
-          {badge}
+
+          <div className="flex items-center print:gap-4">
+            <Heading1 className="hidden print:block">{nom}</Heading1>
+            {badge}
+          </div>
         </div>
         {localité && (
           <p className="text-sm font-medium p-0 m-0 mt-2 print:text-theme-black">
