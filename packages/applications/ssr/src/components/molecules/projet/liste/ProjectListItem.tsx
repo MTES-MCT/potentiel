@@ -9,6 +9,8 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { getActionnariatTypeLabel } from '@/app/_helpers';
 
+import { ChiffresClésProjet } from '../ChiffresClésProjet';
+
 import * as symbols from './ProjectListLegendAndSymbols';
 
 export type ProjectListItemProps = {
@@ -107,49 +109,14 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
           </div>
         )}
       </div>
-      <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm md:text-base">
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon
-            id={symbols.puissance.iconId}
-            className={symbols.puissance.iconColor}
-            title={symbols.puissance.description}
-          />
-          <div className="lg:flex lg:flex-col items-center text-center">
-            {puissance.valeur}
-            <span className="italic text-sm">
-              {Candidature.UnitéPuissance.bind(puissance.unité).formatter()}
-            </span>
-          </div>
-        </div>
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-          <Icon
-            id={symbols.prix.iconId}
-            className={symbols.prix.iconColor}
-            title={symbols.prix.description}
-          />
-          <div className="lg:flex lg:flex-col items-center text-center">
-            {prixReference}
-            <span className="italic text-sm">€ par MWh</span>
-          </div>
-        </div>
-        <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
-          <Icon
-            id={symbols.évaluationCarbone.iconId}
-            className={symbols.évaluationCarbone.iconColor}
-            title={symbols.évaluationCarbone.description}
-          />
-          <div>
-            {Number(evaluationCarboneSimplifiée) > 0 ? (
-              <div className="lg:flex lg:flex-col items-center text-center">
-                {evaluationCarboneSimplifiée}
-                <span className="italic text-sm"> kg eq CO2/kWc</span>
-              </div>
-            ) : (
-              '- - -'
-            )}
-          </div>
-        </div>
-      </div>
+      <ChiffresClésProjet
+        puissance={{
+          valeur: puissance.valeur,
+          unité: Candidature.UnitéPuissance.bind(puissance.unité).formatter(),
+        }}
+        prixReference={prixReference}
+        evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
+      />
     </div>
   </ListItem>
 );
