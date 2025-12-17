@@ -47,7 +47,7 @@ export const InstallationSection = ({
     if (Option.isNone(projection)) {
       return (
         <Section title="Installation">
-          <span>Champs non renseignés</span>
+          <span>Champ non renseignés</span>
         </Section>
       );
     }

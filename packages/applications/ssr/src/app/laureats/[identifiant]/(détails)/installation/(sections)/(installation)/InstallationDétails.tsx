@@ -6,6 +6,7 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { ChampAvecAction, ChampObligatoireAvecAction } from '../../../../_helpers/types';
 import { Section } from '../../../(components)/Section';
 import { DétailTypologieInstallation } from '../../../../installation/(historique)/events/DétailTypologieInstallation';
+import { Champ } from '../../../(components)/Champ';
 
 export type InstallationDétailsProps = {
   typologieInstallation?: ChampObligatoireAvecAction<
@@ -32,7 +33,7 @@ export const InstallationDétails = ({
             <DétailTypologieInstallation typologieInstallation={typologieInstallation.value} />
           </div>
         ) : (
-          <span>Champs non renseigné</span>
+          <span>Champ non renseigné</span>
         )}
         {typologieInstallation.action && (
           <TertiaryLink href={typologieInstallation.action.url}>
@@ -43,7 +44,7 @@ export const InstallationDétails = ({
     )}
     {installateur && (
       <Section title="Installateur">
-        <div className="m-0">{installateur.value || 'Champs non renseigné'}</div>
+        <div className="m-0">{installateur.value || 'Champ non renseigné'}</div>
         {installateur.action && (
           <TertiaryLink href={installateur.action.url}>{installateur.action.label}</TertiaryLink>
         )}
@@ -58,21 +59,20 @@ export const InstallationDétails = ({
                 ? 'Installation couplée à un dispositif de stockage'
                 : 'Installation sans dispositif de stockage'}
             </div>
-            {dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW ? (
-              <div>
-                Puissance du dispositif de stockage :{' '}
-                {dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW} kW
-              </div>
-            ) : null}
-            {dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh ? (
-              <div>
-                Capacité du dispositif de stockage :{' '}
-                {dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh} kWh
-              </div>
-            ) : null}
+            <Champ
+              label="Puissance du dispositif de stockage"
+              number={dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW}
+              unité="kW"
+            />
+
+            <Champ
+              label="Capacité du dispositif de stockage"
+              number={dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh}
+              unité="kWh"
+            />
           </>
         ) : (
-          <div>Champs non renseigné</div>
+          <div>Champ non renseigné</div>
         )}
         {dispositifDeStockage.action && (
           <TertiaryLink href={dispositifDeStockage.action.url}>

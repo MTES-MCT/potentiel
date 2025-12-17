@@ -1,17 +1,17 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
+import clsx from 'clsx';
 import Link from 'next/link';
+import React from 'react';
 
-type Props = {
-  href: string;
-  'aria-label'?: string;
-  children: React.ReactNode;
-};
+type Props = React.ComponentProps<typeof Link>;
 
-export const TertiaryLink = ({ children, href, 'aria-label': ariaLabel }: Props) => (
+export const TertiaryLink = ({ className, ...props }: Props) => (
   <Link
-    className="w-fit text-sm text-dsfr-text-title-blueFrance-default font-medium"
-    href={href}
-    aria-label={ariaLabel}
-  >
-    {children}
-  </Link>
+    className={clsx(
+      'w-fit text-sm text-dsfr-text-title-blueFrance-default font-medium print:hidden',
+      className,
+    )}
+    {...props}
+  />
 );
