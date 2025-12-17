@@ -1,12 +1,9 @@
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
-
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+import { getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 
 import { Section } from '../../../(components)/Section';
 
@@ -22,14 +19,7 @@ export const ProducteurSection = ({
   withUtilisateur(async ({ rôle }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const projection = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
-      type: 'Lauréat.Producteur.Query.ConsulterProducteur',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
-
-    if (Option.isNone(projection)) {
-      return notFound();
-    }
+    const producteur = await getProducteurInfos(identifiantProjet.formatter());
 
     const action = await getAction({
       identifiantProjet,
@@ -39,7 +29,7 @@ export const ProducteurSection = ({
 
     return (
       <Section title="Producteur">
-        <ProducteurDétails value={mapToPlainObject(projection)} action={action} />
+        <ProducteurDétails value={mapToPlainObject(producteur)} action={action} />
       </Section>
     );
   });

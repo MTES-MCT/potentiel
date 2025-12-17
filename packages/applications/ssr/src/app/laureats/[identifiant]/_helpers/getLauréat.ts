@@ -119,7 +119,7 @@ export const getCahierDesChargesPuissanceDeSiteInfos = cache(async (identifiantP
   return cahierDesCharges.getChampsSupplémentaires()['puissanceDeSite'];
 });
 
-const getProducteurInfos = async (identifiantProjet: Props) => {
+export const getProducteurInfos = async (identifiantProjet: Props) => {
   const logger = getLogger('getProducteurInfos');
 
   const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
