@@ -5,24 +5,33 @@ import { Icon } from '@/components/atoms/Icon';
 import { SymbolProps } from '../ListLegend';
 
 import * as symbols from './liste/ProjectListLegendAndSymbols';
+import clsx from 'clsx';
 
 type ChiffreCléProps = {
   valeur: number;
   unité: string;
   symbol: SymbolProps;
+  isLast?: true;
 };
 
 const ChiffreClé = ({
   valeur,
   unité,
   symbol: { iconId, description, iconColor },
+  isLast,
 }: ChiffreCléProps) => (
-  <div className="flex lg:flex-1 lg:flex-col items-center gap-2" title={description}>
+  <div
+    className={clsx(
+      !isLast && 'lg:border-r-solid lg:border-r border-dsfr-border-default-grey-default',
+      'flex flex-row items-center gap-2 pr-6 pl-1',
+    )}
+    title={description}
+  >
     <Icon id={iconId} className={iconColor} />
     {Number(valeur) > 0 ? (
-      <div className="lg:flex lg:flex-col items-center text-center">
+      <div className="lg:flex lg:flex-col">
         {valeur}
-        <span className="ml-1 lg:ml-0 lg:italic text-sm">{unité}</span>
+        <span className="ml-1 lg:ml-0 lg:italic lg:text-xs">{unité}</span>
       </div>
     ) : (
       '- - -'
@@ -43,13 +52,14 @@ export const ChiffresClésProjet = ({
   prixReference,
   puissance,
 }: ChiffresClésProjetProps) => (
-  <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm md:text-base">
+  <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:justify-between max-lg:gap-2 text-sm md:text-base">
     <ChiffreClé symbol={symbols.puissance} valeur={puissance.valeur} unité={puissance.unité} />
     <ChiffreClé symbol={symbols.prix} valeur={prixReference} unité="€ par MWh" />
     <ChiffreClé
       symbol={symbols.évaluationCarbone}
       valeur={evaluationCarboneSimplifiée}
       unité="kg eq CO2/kWc"
+      isLast
     />
   </div>
 );
