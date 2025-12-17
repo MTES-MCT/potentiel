@@ -165,3 +165,15 @@ export const getAbandonInfos = cache(async (identifiantProjet: Props) => {
 
   return Option.isSome(abandon) ? abandon : undefined;
 });
+
+export const getNatureDeLExploitationInfos = cache(async (identifiantProjet: Props) => {
+  const natureDeLExploitation =
+    await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
+      type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+  return Option.isSome(natureDeLExploitation) ? natureDeLExploitation : undefined;
+});
