@@ -10,5 +10,9 @@ export type ProducteurModifiéEvent = DomainEvent<
     producteur: string;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    raison?: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;
