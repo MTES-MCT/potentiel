@@ -12,6 +12,7 @@ import { getAchèvement } from '../../_helpers/getAchèvement';
 import { getCahierDesCharges } from '../../../../../_helpers';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
+import { getGarantiesFinancières } from '../../_helpers/getGarantiesFinancières';
 
 type GarantiesFinancièresSectionProps = {
   identifiantProjet: string;
@@ -66,34 +67,24 @@ export const getGarantiesFinancièresData = async ({
     return undefined;
   }
 
-  const garantiesFinancièresActuelles =
-    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
-  const dépôtEnCoursGarantiesFinancières =
-    await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
+  const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
 
   const motifGarantiesFinancièresEnAttente = await getMotifGfEnAttente(identifiantProjet, rôle);
 
   return {
-    actuelles: Option.isSome(garantiesFinancièresActuelles)
+    actuelles: actuelles
       ? {
-          ...garantiesFinancièresActuelles,
-          dateÉchéance: garantiesFinancièresActuelles.garantiesFinancières.estAvecDateÉchéance()
-            ? garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance.formatter()
+          ...actuelles,
+          dateÉchéance: actuelles.garantiesFinancières.estAvecDateÉchéance()
+            ? actuelles.garantiesFinancières.dateÉchéance.formatter()
             : undefined,
         }
       : undefined,
-    dépôt: Option.isSome(dépôtEnCoursGarantiesFinancières)
+    dépôt: dépôt
       ? {
-          ...dépôtEnCoursGarantiesFinancières,
-          dateÉchéance: dépôtEnCoursGarantiesFinancières.garantiesFinancières.estAvecDateÉchéance()
-            ? dépôtEnCoursGarantiesFinancières.garantiesFinancières.dateÉchéance.formatter()
+          ...dépôt,
+          dateÉchéance: dépôt.garantiesFinancières.estAvecDateÉchéance()
+            ? dépôt.garantiesFinancières.dateÉchéance.formatter()
             : undefined,
         }
       : undefined,

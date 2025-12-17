@@ -7,11 +7,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
 
-import {
-  getActionnaireData,
-  getLauréatData,
-  getPuissanceData,
-} from './_helpers/getInformationsGénéralesData';
+import { getLauréatData, getPuissanceData } from './_helpers/getInformationsGénéralesData';
 import { InformationsGénéralesPage } from './InformationsGénérales.page';
 
 type PageProps = IdentifiantParameter & {
@@ -36,18 +32,11 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const { siteDeProduction, coefficientKChoisi, prixRéférence, emailContact, actionnariat } =
         await getLauréatData({ identifiantProjet, rôle });
 
-      const actionnaire = await getActionnaireData({
-        identifiantProjet,
-        rôle,
-      });
-
       return (
         <InformationsGénéralesPage
           siteDeProduction={siteDeProduction}
           emailContact={emailContact}
-          actionnaire={actionnaire}
           prixRéférence={prixRéférence}
-          actionnariat={actionnariat}
           puissance={puissance}
           coefficientKChoisi={coefficientKChoisi}
           identifiantProjet={identifiantProjet.formatter()}

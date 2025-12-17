@@ -3,33 +3,25 @@ import { Heading2, Heading6 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { Section } from '../(components)/Section';
-import { getActionnariatTypeLabel } from '../../../../_helpers';
 
-import {
-  GetActionnaireData,
-  GetLauréatData,
-  GetPuissanceData,
-} from './_helpers/getInformationsGénéralesData';
+import { GetLauréatData, GetPuissanceData } from './_helpers/getInformationsGénéralesData';
 import { ProducteurSection } from './(sections)/(producteur)/Producteur.section';
 import { ReprésentantLégalSection } from './(sections)/(représentant-légal)/ReprésentantLégal.section';
+import { ActionnariatSection } from './(sections)/(actionnariat)/Actionnariat.section';
 
 type Props = {
-  actionnaire: GetActionnaireData;
   puissance: GetPuissanceData;
   siteDeProduction: GetLauréatData['siteDeProduction'];
   emailContact: GetLauréatData['emailContact'];
   prixRéférence: GetLauréatData['prixRéférence'];
-  actionnariat: GetLauréatData['actionnariat'];
   coefficientKChoisi: GetLauréatData['coefficientKChoisi'];
   identifiantProjet: string;
 };
 
 export const InformationsGénéralesPage = ({
-  actionnaire,
   siteDeProduction,
   emailContact,
   prixRéférence,
-  actionnariat,
   puissance,
   coefficientKChoisi,
   identifiantProjet,
@@ -48,11 +40,10 @@ export const InformationsGénéralesPage = ({
     rightColumn={{
       children: (
         <InformationsGénéralesRight
-          actionnaire={actionnaire}
           prixRéférence={prixRéférence}
-          actionnariat={actionnariat}
           puissance={puissance}
           coefficientKChoisi={coefficientKChoisi}
+          identifiantProjet={identifiantProjet}
         />
       ),
     }}
@@ -93,15 +84,11 @@ const InformationsGénéralesLeft = ({
 );
 
 const InformationsGénéralesRight = ({
-  actionnaire,
   prixRéférence,
-  actionnariat,
   puissance,
   coefficientKChoisi,
-}: Pick<
-  Props,
-  'puissance' | 'actionnariat' | 'prixRéférence' | 'actionnaire' | 'coefficientKChoisi'
->) => (
+  identifiantProjet,
+}: Pick<Props, 'puissance' | 'prixRéférence' | 'identifiantProjet' | 'coefficientKChoisi'>) => (
   <div className="flex flex-col gap-4">
     <Section title="Contractualisation">
       <div className="flex flex-col gap-1">
@@ -123,21 +110,7 @@ const InformationsGénéralesRight = ({
         <span>{prixRéférence} €/MWh</span>
       </div>
     </Section>
-    <Section title="Actionnariat">
-      <div className="flex flex-col gap-1">
-        <Heading6>Actionnaire (société mère)</Heading6>
-        <span>{actionnaire.value.nom || 'Champ non renseigné'}</span>
-        {actionnaire.action && (
-          <TertiaryLink href={actionnaire.action.url}>{actionnaire.action.label}</TertiaryLink>
-        )}
-      </div>
-      {actionnariat && (
-        <div className="flex flex-col gap-1">
-          <Heading6>Type d'actionnariat</Heading6>
-          <span>{getActionnariatTypeLabel(actionnariat.type)}</span>
-        </div>
-      )}
-    </Section>
+    <ActionnariatSection identifiantProjet={identifiantProjet} />
     {coefficientKChoisi !== undefined && (
       <Section title="Coefficient K">
         <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
