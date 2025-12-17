@@ -18,6 +18,8 @@
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-infrastructure/pg-projection-write": "*",
     "@potentiel-libraries/flat": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "0.3.0"
   },

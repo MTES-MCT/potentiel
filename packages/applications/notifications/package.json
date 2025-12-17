@@ -20,6 +20,8 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/common": "*",
     "mediateur": "0.3.0"
   },
   "devDependencies": {

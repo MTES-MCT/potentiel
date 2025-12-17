@@ -17,6 +17,8 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/core": "*",
     "mediateur": "0.3.0"
   },
   "devDependencies": {

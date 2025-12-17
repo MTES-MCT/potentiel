@@ -28,6 +28,8 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/utilisateur": "*",
     "@sentry/node": "8.55.0",
     "date-fns": "2.30.0",
     "dotenv": "16.5.0",

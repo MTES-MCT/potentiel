@@ -5,10 +5,11 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/projet": "*"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "@potentiel-domain/projet": "*"
+    "@potentiel-config/tsconfig": "*"
   }
 }
