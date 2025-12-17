@@ -56,38 +56,12 @@ export const InstallationSection = ({
       identifiantProjet,
       rôle,
       domain: 'dispositifDeStockage',
-      modifier: {
-        url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
-        label: 'Modifier le dispositif de stockage',
-        labelActions: 'Modifier le dispositif de stockage',
-        permission: 'installation.dispositifDeStockage.modifier',
-      },
-      enregistrerChangement: {
-        url: Routes.Installation.changement.installateur.enregistrer(identifiantProjet.formatter()),
-        label: 'Changer le dispositif de stockage',
-        labelActions: 'Changer le dispositif de stockage',
-        permission: 'installation.installateur.enregistrerChangement',
-      },
-      demanderChangement: undefined,
     });
 
     const actionInstallateur = await getAction({
       identifiantProjet,
       rôle,
       domain: 'installateur',
-      modifier: {
-        url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
-        label: "Modifier l'installateur",
-        labelActions: "Modifier l'installateur",
-        permission: 'installation.installateur.modifier',
-      },
-      enregistrerChangement: {
-        url: Routes.Installation.changement.installateur.enregistrer(identifiantProjet.formatter()),
-        label: "Changer l'installateur",
-        labelActions: "Changer l'installateur",
-        permission: 'installation.installateur.enregistrerChangement',
-      },
-      demanderChangement: undefined,
     });
 
     const actionTypologieInstallation = rôle.aLaPermission(

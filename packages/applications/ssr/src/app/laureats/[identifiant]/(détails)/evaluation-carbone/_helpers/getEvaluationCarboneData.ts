@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
@@ -42,19 +41,6 @@ export const getÉvaluationCarbone = async ({
     identifiantProjet,
     rôle,
     domain: 'fournisseur',
-    modifier: {
-      permission: 'fournisseur.modifier',
-      url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
-      label: 'Modifier',
-      labelActions: 'Modifier le fournisseur',
-    },
-    demanderChangement: undefined,
-    enregistrerChangement: {
-      permission: 'fournisseur.enregistrerChangement',
-      url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-      label: 'Changer de fournisseur',
-      labelActions: 'Changer de fournisseur',
-    },
   });
 
   return {

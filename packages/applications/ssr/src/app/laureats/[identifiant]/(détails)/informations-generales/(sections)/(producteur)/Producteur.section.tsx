@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -36,19 +35,6 @@ export const ProducteurSection = ({
       identifiantProjet,
       rôle,
       domain: 'producteur',
-      modifier: {
-        url: Routes.Producteur.modifier(identifiantProjet.formatter()),
-        label: 'Modifier',
-        labelActions: 'Modifier le producteur',
-        permission: 'producteur.modifier',
-      },
-      demanderChangement: undefined,
-      enregistrerChangement: {
-        url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
-        label: 'Changer de producteur',
-        labelActions: 'Changer de producteur',
-        permission: 'producteur.enregistrerChangement',
-      },
     });
 
     return (

@@ -77,24 +77,6 @@ export const getReprésentantLégalData = async ({
     identifiantProjet,
     rôle,
     domain: 'représentantLégal',
-    modifier: {
-      url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
-      label: 'Modifier',
-      labelActions: 'Modifier le représentant légal',
-      permission: 'représentantLégal.modifier',
-    },
-    demanderChangement: {
-      url: Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter()),
-      label: 'Changer de représentant légal',
-      labelActions: 'Changer de représentant légal',
-      permission: 'représentantLégal.demanderChangement',
-    },
-    enregistrerChangement: {
-      url: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
-      label: 'Changer de représentant légal',
-      labelActions: 'Changer de représentant légal',
-      permission: 'représentantLégal.enregistrerChangement',
-    },
   });
 
   return {
