@@ -1,6 +1,6 @@
 'use client';
-import Button from '@codegouvfr/react-dsfr/Button';
 import SelectNext, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
+import Tag from '@codegouvfr/react-dsfr/Tag';
 import { FC } from 'react';
 
 type FilterProps = {
@@ -47,19 +47,17 @@ export const Filter: FC<FilterProps> = ({
     return (
       <div className="flex flex-row gap-5 flex-1 w-full">
         {filter}
-        {value ? (
-          <Button
-            className="whitespace-nowrap mb-5 flex-1"
-            priority="tertiary no outline"
-            size="small"
-            onClick={() => {
-              if (onChange) {
-                onChange(undefined);
-              }
-            }}
-          >
-            Retirer le filtre
-          </Button>
+        {value && onChange ? (
+          <div className="mt-1">
+            <Tag
+              iconId="fr-icon-delete-bin-line"
+              nativeButtonProps={{
+                onClick: () => onChange(undefined),
+              }}
+            >
+              Effacer le filtre
+            </Tag>
+          </div>
         ) : null}
       </div>
     );
