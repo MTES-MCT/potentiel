@@ -85,6 +85,9 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonDéjàRejetéError();
         }
       } else if (nouveauStatut.estAnnulé()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
@@ -188,6 +191,12 @@ class StatutAbandonInvalideError extends InvalidOperationError {
 class AbandonDéjàAccordéError extends InvalidOperationError {
   constructor() {
     super(`La demande d'abandon a déjà été accordée`);
+  }
+}
+
+class AbandonDéjàAnnuléError extends InvalidOperationError {
+  constructor() {
+    super(`La demande d'abandon a déjà été annulée`);
   }
 }
 
