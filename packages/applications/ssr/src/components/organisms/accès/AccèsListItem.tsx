@@ -22,10 +22,11 @@ export const PorteurListItem: FC<PorteurListItemProps> = ({
   peutRetirerAccès,
 }) => {
   return (
-    <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
-      <span className="font-semibold">{identifiantUtilisateur}</span>
+    <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
+      <span className="font-semibold">
+        <CopyButton textToCopy={identifiantUtilisateur}>{identifiantUtilisateur}</CopyButton>
+      </span>
       <div className="flex flex-row gap-3">
-        <CopyButton noChildren textToCopy={identifiantUtilisateur} />
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
@@ -47,7 +48,7 @@ const RetirerAccèsProjetButton: FC<{
     <div>
       <Button
         size="small"
-        priority="primary"
+        priority="tertiary no outline"
         onClick={() => setIsOpen(true)}
         disabled={!peutRetirerAccès}
       >
