@@ -13,7 +13,7 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   actionnaire: zod.string().min(1),
-  raison: zod.string().optional(),
+  raison: zod.string().min(1),
   piecesJustificatives: manyDocuments({ optional: true, acceptedFileTypes: ['application/pdf'] }),
 });
 
@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
-        raisonValue: raison ?? '',
+        raisonValue: raison,
         actionnaireValue: actionnaire,
         ...(piecesJustificatives && {
           pièceJustificativeValue: piecesJustificatives,
