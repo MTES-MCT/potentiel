@@ -53,11 +53,21 @@ export const registerListerTâchesQuery = ({
     nomProjet,
     identifiantProjet,
   }) => {
-    let scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
+    const scope = identifiantProjet
+      ? {
+          type: 'projet',
+          identifiantProjets: [identifiantProjet],
+        }
+      : await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
+
     if (scope.type !== 'projet') {
-      scope = {
-        type: 'projet',
-        identifiantProjets: identifiantProjet ? [identifiantProjet] : [],
+      return {
+        items: [],
+        range: {
+          startPosition: 0,
+          endPosition: 0,
+        },
+        total: 0,
       };
     }
 
