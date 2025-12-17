@@ -67,7 +67,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             .none(() => [])}
           actions={mapToActions({
             role: utilisateur.rôle,
-            recours: recours,
+            recours,
             cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
               'demande',
               'recours',

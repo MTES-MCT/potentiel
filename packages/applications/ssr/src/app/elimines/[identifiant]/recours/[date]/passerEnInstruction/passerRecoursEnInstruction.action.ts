@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Éliminé.détails(identifiantProjet),
+        url: url ?? Routes.Recours.détailPourRedirection(identifiantProjet),
       },
     };
   });
