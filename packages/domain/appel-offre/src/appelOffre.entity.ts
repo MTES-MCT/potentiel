@@ -49,6 +49,7 @@ type GarantiesFinancièresAppelOffre = {
 type Changement = {
   informationEnregistrée?: boolean;
   demande?: boolean;
+  modificationAdminImpossible?: true;
 };
 
 type ChangementAvecAutoritéCompétente =
@@ -56,11 +57,13 @@ type ChangementAvecAutoritéCompétente =
       informationEnregistrée?: undefined;
       demande?: undefined;
       autoritéCompétente?: undefined;
+      modificationAdminImpossible?: true;
     }
   | {
       informationEnregistrée?: undefined;
       demande: true;
       autoritéCompétente: AutoritéCompétente;
+      modificationAdminImpossible?: true;
     };
 
 type ChangementActionnaire = Changement & {
@@ -72,11 +75,17 @@ type RatiosChangementPuissance =
   | { changementByTechnologie: true; ratios: Record<Technologie, Ratios> };
 
 type ChangementPuissance =
-  | { demande?: undefined; informationEnregistrée?: undefined; paragrapheAlerte?: undefined }
+  | {
+      demande?: undefined;
+      informationEnregistrée?: undefined;
+      paragrapheAlerte?: undefined;
+      modificationAdminImpossible?: true;
+    }
   | ({
       demande: true;
       informationEnregistrée: true;
       paragrapheAlerte?: string;
+      modificationAdminImpossible?: true;
     } & RatiosChangementPuissance);
 
 type ChangementReprésentantLégal =
@@ -84,16 +93,19 @@ type ChangementReprésentantLégal =
       informationEnregistrée?: undefined;
       demande?: undefined;
       instructionAutomatique?: undefined;
+      modificationAdminImpossible?: true;
     }
   | {
       informationEnregistrée: true;
       demande?: undefined;
       instructionAutomatique?: undefined;
+      modificationAdminImpossible?: true;
     }
   | {
       informationEnregistrée?: undefined;
       demande: true;
       instructionAutomatique: 'accord' | 'rejet';
+      modificationAdminImpossible?: true;
     };
 
 export type RèglesDemandesChangement = {
@@ -108,6 +120,7 @@ export type RèglesDemandesChangement = {
   natureDeLExploitation: Changement;
   installateur: Changement;
   nomProjet: Changement;
+  siteDeProduction: Changement;
   dispositifDeStockage: Changement;
 };
 

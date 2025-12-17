@@ -38,6 +38,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

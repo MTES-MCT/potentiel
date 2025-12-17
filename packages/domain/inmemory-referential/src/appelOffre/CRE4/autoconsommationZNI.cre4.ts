@@ -3,6 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 const changementsCDCModifié = {
   nomProjet: {},
   natureDeLExploitation: {},
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',

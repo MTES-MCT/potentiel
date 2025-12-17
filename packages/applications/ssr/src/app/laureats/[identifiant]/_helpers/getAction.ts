@@ -14,7 +14,9 @@ type OptionsChangement = {
   permission: Role.Policy;
 };
 
-type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
+export type DomaineAction = keyof AppelOffre.RèglesDemandesChangement;
+
+type Props<TDomain extends DomaineAction> = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
   domain: TDomain;
@@ -23,85 +25,82 @@ type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
 };
 
 type TypeChangement = 'modifier' | 'demanderChangement' | 'enregistrerChangement';
-type MapChangements = Record<
-  keyof AppelOffre.RèglesDemandesChangement,
-  Partial<Record<TypeChangement, OptionsChangement>>
->;
+type MapChangements = Record<DomaineAction, Partial<Record<TypeChangement, OptionsChangement>>>;
 const mapChangements: MapChangements = {
   fournisseur: {
     modifier: {
       permission: 'fournisseur.modifier',
       url: Routes.Fournisseur.modifier,
       label: 'Modifier',
-      labelActions: 'Modifier le fournisseur',
+      labelActions: 'Fournisseur',
     },
     enregistrerChangement: {
       permission: 'fournisseur.enregistrerChangement',
       url: Routes.Fournisseur.changement.enregistrer,
       label: 'Changer de fournisseur',
-      labelActions: 'Changer de fournisseur',
+      labelActions: 'Fournisseur',
     },
   },
   producteur: {
     modifier: {
+      permission: 'producteur.modifier',
       url: Routes.Producteur.modifier,
       label: 'Modifier',
-      labelActions: 'Modifier le producteur',
-      permission: 'producteur.modifier',
+      labelActions: 'Producteur',
     },
     enregistrerChangement: {
+      permission: 'producteur.enregistrerChangement',
       url: Routes.Producteur.changement.enregistrer,
       label: 'Changer de producteur',
-      labelActions: 'Changer de producteur',
-      permission: 'producteur.enregistrerChangement',
+      labelActions: 'Producteur',
     },
   },
   représentantLégal: {
     modifier: {
+      permission: 'représentantLégal.modifier',
       url: Routes.ReprésentantLégal.modifier,
       label: 'Modifier',
-      labelActions: 'Modifier le représentant légal',
-      permission: 'représentantLégal.modifier',
+      labelActions: 'Représentant légal',
     },
     demanderChangement: {
+      permission: 'représentantLégal.demanderChangement',
       url: Routes.ReprésentantLégal.changement.demander,
       label: 'Changer de représentant légal',
-      labelActions: 'Changer de représentant légal',
-      permission: 'représentantLégal.demanderChangement',
+      labelActions: 'Représentant légal',
     },
     enregistrerChangement: {
+      permission: 'représentantLégal.enregistrerChangement',
       url: Routes.ReprésentantLégal.changement.enregistrer,
       label: 'Changer de représentant légal',
-      labelActions: 'Changer de représentant légal',
-      permission: 'représentantLégal.enregistrerChangement',
+      labelActions: 'Représentant légal',
     },
   },
   dispositifDeStockage: {
     modifier: {
+      permission: 'installation.dispositifDeStockage.modifier',
       url: Routes.Installation.modifierDispositifDeStockage,
       label: 'Modifier le dispositif de stockage',
-      labelActions: 'Modifier le dispositif de stockage',
-      permission: 'installation.dispositifDeStockage.modifier',
+      labelActions: 'Dispositif de stockage',
     },
     enregistrerChangement: {
+      permission: 'installation.dispositifDeStockage.enregistrerChangement',
       url: Routes.Installation.changement.dispositifDeStockage.enregistrer,
       label: 'Changer le dispositif de stockage',
-      labelActions: 'Changer le dispositif de stockage',
-      permission: 'installation.dispositifDeStockage.enregistrerChangement',
+      labelActions: 'Dispositif de stockage',
     },
   },
   installateur: {
     modifier: {
+      permission: 'installation.installateur.modifier',
       url: Routes.Installation.modifierInstallateur,
       label: "Modifier l'installateur",
-      labelActions: "Modifier l'installateur",
-      permission: 'installation.installateur.modifier',
+      labelActions: 'Installateur',
     },
     enregistrerChangement: {
+      permission: 'installation.installateur.enregistrerChangement',
       url: Routes.Installation.changement.installateur.enregistrer,
       label: "Changer l'installateur",
-      labelActions: "Changer l'installateur",
-      permission: 'installation.installateur.enregistrerChangement',
+      labelActions: 'Installateur',
     },
   },
   natureDeLExploitation: {
@@ -109,57 +108,78 @@ const mapChangements: MapChangements = {
       permission: 'natureDeLExploitation.modifier',
       url: Routes.NatureDeLExploitation.modifier,
       label: 'Modifier',
-      labelActions: "Modifier la nature de l'exploitation",
+      labelActions: "Nature de l'exploitation",
     },
     enregistrerChangement: {
       permission: 'natureDeLExploitation.enregistrerChangement',
       url: Routes.NatureDeLExploitation.changement.enregistrer,
       label: "Changer la nature de l'exploitation",
-      labelActions: "Changer la nature de l'exploitation",
+      labelActions: "Nature de l'exploitation",
     },
   },
   actionnaire: {
     modifier: {
+      permission: 'actionnaire.modifier',
       url: Routes.Actionnaire.modifier,
       label: 'Modifier',
-      labelActions: `Modifier l'actionnaire(s)`,
-      permission: 'actionnaire.modifier',
+      labelActions: `Actionnaire(s)`,
     },
     demanderChangement: {
+      permission: 'actionnaire.demanderChangement',
       url: Routes.Actionnaire.changement.demander,
       label: 'Faire une demande de changement',
-      labelActions: `Demander un changement d'actionnaire(s)`,
-      permission: 'actionnaire.demanderChangement',
+      labelActions: `Actionnaire(s)`,
     },
     enregistrerChangement: {
+      permission: 'actionnaire.enregistrerChangement',
       url: Routes.Actionnaire.changement.enregistrer,
       label: 'Faire un changement',
-      labelActions: "Changer d'actionnaire(s)",
-      permission: 'actionnaire.enregistrerChangement',
+      labelActions: 'Actionnaire(s)',
     },
   },
   puissance: {
     modifier: {
+      permission: 'puissance.modifier',
       url: Routes.Puissance.modifier,
       label: 'Modifier',
-      labelActions: `Modifier la puissance`,
-      permission: 'puissance.modifier',
+      labelActions: `Puissance`,
     },
     demanderChangement: {
+      permission: 'puissance.demanderChangement',
       url: Routes.Puissance.changement.demander,
       label: 'Changer de puissance',
-      labelActions: `Changer de puissance`,
-      permission: 'puissance.demanderChangement',
+      labelActions: 'Puissance',
     },
   },
   // TODO
+  nomProjet: {
+    modifier: {
+      permission: 'nomProjet.modifier',
+      url: Routes.Lauréat.modifierNomProjet,
+      label: 'Modifier',
+      labelActions: 'Nom du projet',
+    },
+    enregistrerChangement: {
+      permission: 'nomProjet.enregistrerChangement',
+      url: Routes.Lauréat.changement.nomProjet.enregistrer,
+      label: 'Changer le nom du projet',
+      labelActions: 'Nom du projet',
+    },
+  },
+  siteDeProduction: {
+    modifier: {
+      permission: 'lauréat.modifierSiteDeProduction',
+      url: Routes.Lauréat.modifierSiteDeProduction,
+      label: 'Modifier',
+      labelActions: 'Site de production',
+    },
+  },
   recours: {},
   abandon: {},
   délai: {},
-  nomProjet: {},
 };
 
-export const getAction = async <TDomain extends keyof AppelOffre.RèglesDemandesChangement>({
+export const getAction = async <TDomain extends DomaineAction>({
   identifiantProjet,
   rôle,
   domain,
@@ -168,13 +188,14 @@ export const getAction = async <TDomain extends keyof AppelOffre.RèglesDemandes
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
-  if (!règlesChangement.demande && !règlesChangement.informationEnregistrée) {
-    return undefined;
-  }
 
   const { modifier, demanderChangement, enregistrerChangement } = mapChangements[domain];
 
-  if (!!modifier && rôle.aLaPermission(modifier.permission)) {
+  if (
+    !!modifier &&
+    rôle.aLaPermission(modifier.permission) &&
+    !règlesChangement.modificationAdminImpossible
+  ) {
     return {
       url: modifier.url(identifiantProjet.formatter()),
       label: modifier.label,

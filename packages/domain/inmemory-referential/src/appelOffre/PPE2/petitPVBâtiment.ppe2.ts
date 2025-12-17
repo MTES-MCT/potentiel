@@ -16,11 +16,16 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: { informationEnregistrée: true },
     natureDeLExploitation: { informationEnregistrée: true },
+    siteDeProduction: {},
     représentantLégal: {
       informationEnregistrée: true,
     },
-    actionnaire: {},
-    fournisseur: {},
+    actionnaire: {
+      modificationAdminImpossible: true,
+    },
+    fournisseur: {
+      modificationAdminImpossible: true,
+    },
     délai: {
       demande: true,
       autoritéCompétente: 'dreal',

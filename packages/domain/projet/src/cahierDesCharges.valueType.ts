@@ -68,6 +68,7 @@ export const bind = ({
       natureDeLExploitation: {},
       installateur: {},
       dispositifDeStockage: {},
+      siteDeProduction: {},
     };
 
     const règlesChangement = {

@@ -14,6 +14,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

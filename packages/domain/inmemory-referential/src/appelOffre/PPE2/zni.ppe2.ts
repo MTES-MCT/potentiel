@@ -15,6 +15,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

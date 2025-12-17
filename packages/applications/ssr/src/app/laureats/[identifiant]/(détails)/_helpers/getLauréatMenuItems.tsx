@@ -6,6 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
+import { DomaineAction, getAction } from '../../_helpers/getAction';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -14,15 +15,38 @@ type GetLauréatMenuItemsProps = {
   utilisateur: Utilisateur.ValueType;
 };
 
+const domainesMap: Record<DomaineAction, boolean> = {
+  abandon: true,
+  dispositifDeStockage: true,
+  délai: true,
+  nomProjet: true,
+  recours: true,
+  installateur: true,
+  natureDeLExploitation: true,
+  puissance: true,
+  fournisseur: true,
+  producteur: true,
+  représentantLégal: true,
+  // TODO gestion du cas particulier Actionnaire
+  actionnaire: true,
+  siteDeProduction: true,
+};
+const domaines = Object.keys(domainesMap) as DomaineAction[];
+
 export const getLauréatMenuItems = async ({
   identifiantProjet,
   utilisateur,
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
-  const linkToSection = (text: string, href: string) => {
-    return {
-      linkProps: { href: `${Routes.Lauréat.détails(identifiantProjet.formatter())}/${href}` },
-      text,
-    };
+  const link = (text: string, href: string) => ({ linkProps: { href }, text });
+  const linkToSection = (text: string, path: string) =>
+    link(text, `${Routes.Lauréat.détails(identifiantProjet.formatter())}/${path}`);
+  const linkToAction = async (domain: DomaineAction) => {
+    const action = await getAction({
+      domain,
+      identifiantProjet,
+      rôle: utilisateur.rôle,
+    });
+    return action ? link(action.labelActions, action.url) : undefined;
   };
 
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
@@ -36,6 +60,16 @@ export const getLauréatMenuItems = async ({
       }
     : undefined;
 
+  const actionsDomaine = (await Promise.all(domaines.map(linkToAction))).filter((item) => !!item);
+
+  const modificationMenu =
+    actionsDomaine.length > 0
+      ? {
+          text: 'Modification',
+          items: actionsDomaine,
+        }
+      : undefined;
+
   return [
     linkToSection('Tableau de bord', ''),
     {
@@ -46,16 +80,12 @@ export const getLauréatMenuItems = async ({
         linkToSection('Installation', 'installation'),
       ],
     },
-    {
-      text: 'Actions',
-      items: [
-        // seulement pour porteur, admin et dreal
-        // est ce nécessaire de restreindre pour les autres rôles ?
-        linkToSection('Imprimer la page', 'imprimer'),
-      ],
-    },
+    modificationMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     linkToSection('Utilisateurs', 'utilisateurs'),
+    // seulement pour porteur, admin et dreal
+    // est ce nécessaire de restreindre pour les autres rôles ?
+    linkToSection('Imprimer la page', 'imprimer'),
   ].filter((item) => !!item);
 };
