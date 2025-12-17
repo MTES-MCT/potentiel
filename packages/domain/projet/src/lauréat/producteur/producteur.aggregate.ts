@@ -94,7 +94,13 @@ export class ProducteurAggregate extends AbstractAggregate<
     }
   }
 
-  async modifier({ producteur, dateModification, identifiantUtilisateur }: ModifierOptions) {
+  async modifier({
+    producteur,
+    dateModification,
+    identifiantUtilisateur,
+    raison,
+    pièceJustificative,
+  }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.producteur === producteur) {
@@ -108,6 +114,8 @@ export class ProducteurAggregate extends AbstractAggregate<
         producteur,
         modifiéLe: dateModification.formatter(),
         modifiéPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
       },
     };
 
