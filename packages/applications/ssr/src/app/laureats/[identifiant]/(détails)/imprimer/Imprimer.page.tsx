@@ -15,6 +15,7 @@ import { InstallationSection } from '../installation/(sections)/(installation)/I
 import { NatureDeLExploitationSection } from '../installation/(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
 import { Heading2 } from '../../../../../components/atoms/headings';
 import { TableauDeBordPage } from '../TableauDeBord.page';
+
 import { ImprimerButton } from './(component)/ImprimerButton';
 
 type Props = {

@@ -6,12 +6,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
 
 import { Section } from '../../../(components)/Section';
 import { getCahierDesCharges } from '../../../../../../_helpers';
 
 import { InstallationDétails } from './InstallationDétails';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
 
 type InstallationSectionProps = {
   identifiantProjet: string;

@@ -1,9 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
 import { ChampObligatoireAvecAction } from '../../../../_helpers/types';
-import { PlainType } from '@potentiel-domain/core';
 
 export type ProducteurDétailsProps = ChampObligatoireAvecAction<
   PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>
