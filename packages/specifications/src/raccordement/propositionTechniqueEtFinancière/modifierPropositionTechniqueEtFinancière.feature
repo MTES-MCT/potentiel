@@ -55,7 +55,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand le porteur modifie la proposition technique et financière
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
-    Plan du scénario: Impossible de modifier une PTF complète si le projet est déjà en service
+    Plan du scénario: Impossible pour un rôle non administrateur de modifier une PTF si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
