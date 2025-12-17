@@ -1,22 +1,17 @@
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
-
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
-import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+import {
+  getLauréatInfos,
+  getPuissanceInfos,
+} from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 
 import { Section } from '../../../(components)/Section';
-import { getLauréatInfos } from '../../../../_helpers/getLauréat';
-import { getAction } from '../../../../_helpers/getAction';
 
-import {
-  ContractualisationDétails,
-  ContractualisationDétailsProps,
-} from './ContractualisationDétails';
+import { ContractualisationDétails } from './ContractualisationDétails';
 
 type ContractualisationSectionProps = {
   identifiantProjet: string;
@@ -29,63 +24,33 @@ export const ContractualisationSection = ({
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+    const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
-    const puissance = await getPuissance({ identifiantProjet, rôle });
+    const value = mapToPlainObject(puissance);
+
+    const action = puissance.dateDemandeEnCours
+      ? rôle.aLaPermission('puissance.consulterChangement')
+        ? {
+            url: Routes.Puissance.changement.détails(
+              identifiantProjet.formatter(),
+              puissance.dateDemandeEnCours.formatter(),
+            ),
+            label: 'Voir la demande de modification',
+          }
+        : undefined
+      : await getAction({
+          identifiantProjet,
+          rôle,
+          domain: 'puissance',
+        });
 
     return (
       <Section title="Contractualisation">
         <ContractualisationDétails
           prixRéférence={lauréat.prixReference}
           coefficientKChoisi={lauréat.coefficientKChoisi}
-          puissance={puissance}
+          puissance={{ value, action }}
         />
       </Section>
     );
   });
-
-type Props = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  rôle: Role.ValueType;
-};
-
-export const getPuissance = async ({
-  identifiantProjet,
-  rôle,
-}: Props): Promise<ContractualisationDétailsProps['puissance']> => {
-  const projection = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
-    type: 'Lauréat.Puissance.Query.ConsulterPuissance',
-    data: { identifiantProjet: identifiantProjet.formatter() },
-  });
-
-  if (Option.isNone(projection)) {
-    return notFound();
-  }
-
-  const value = mapToPlainObject(projection);
-
-  if (projection.dateDemandeEnCours) {
-    return {
-      value,
-      action: rôle.aLaPermission('puissance.consulterChangement')
-        ? {
-            url: Routes.Puissance.changement.détails(
-              identifiantProjet.formatter(),
-              projection.dateDemandeEnCours.formatter(),
-            ),
-            label: 'Voir la demande de modification',
-          }
-        : undefined,
-    };
-  }
-
-  const action = await getAction({
-    identifiantProjet,
-    rôle,
-    domain: 'puissance',
-  });
-
-  return {
-    value,
-    action,
-  };
-};
