@@ -20,7 +20,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
-      const rôle = utilisateur.rôle;
 
       checkFeatureFlag(identifiantProjet, searchParams);
 
