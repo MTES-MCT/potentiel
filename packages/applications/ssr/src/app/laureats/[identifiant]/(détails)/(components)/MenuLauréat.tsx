@@ -50,7 +50,7 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props
   );
 
   return (
-    <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden min-w-16">
+    <div className="flex flex-col gap-0 top-0 bg-theme-white z-10 h-fit print:hidden min-w-16 ">
       <Button
         iconId="fr-icon-arrow-left-s-line"
         onClick={() => setIsOpen(!isOpen)}
@@ -59,17 +59,22 @@ export const MenuLauréat = ({ baseURL, cahierDesCharges, nombreTâches }: Props
         aria-label={isOpen ? 'Cacher le menu' : 'Afficher le menu'}
         className={clsx(
           'hidden md:block',
-          'transition-transform duration-300',
-          !isOpen && 'rotate-180',
+          'before:transition-transform',
+          !isOpen && 'before:rotate-180',
         )}
       />
-      <SideMenu
-        align="left"
-        sticky
-        className={clsx(!isOpen ? 'hidden' : 'w-full mb-6')}
-        burgerMenuButtonText="Menu"
-        items={items}
-      />
+      <div className="relative">
+        <SideMenu
+          align="left"
+          sticky
+          className={clsx(
+            'transition-all  mb-6',
+            !isOpen ? '-translate-x-full absolute opacity-0' : ' ',
+          )}
+          burgerMenuButtonText="Menu"
+          items={items}
+        />
+      </div>
     </div>
   );
 };
