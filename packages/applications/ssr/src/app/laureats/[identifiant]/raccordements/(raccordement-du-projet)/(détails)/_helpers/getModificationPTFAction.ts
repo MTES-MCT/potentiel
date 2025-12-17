@@ -6,9 +6,6 @@ export const getModificationPTFAction = (
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel,
 ) => {
   const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
-  const dossierAvecPTFIncomplète =
-    !dossier.propositionTechniqueEtFinancière?.dateSignature ||
-    !dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée?.format;
 
   if (!rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')) {
     return false;
@@ -19,10 +16,6 @@ export const getModificationPTFAction = (
   }
 
   if (!dossierEnService) {
-    return true;
-  }
-
-  if (dossierAvecPTFIncomplète) {
     return true;
   }
 

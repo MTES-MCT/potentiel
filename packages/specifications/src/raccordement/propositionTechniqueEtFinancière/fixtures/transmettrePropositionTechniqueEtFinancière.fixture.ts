@@ -61,10 +61,8 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
 
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
-    if (fixture.propositionTechniqueEtFinancièreSignée) {
-      this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
-      this.#content = content;
-    }
+    this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
+    this.#content = content;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;

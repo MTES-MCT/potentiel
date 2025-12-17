@@ -20,39 +20,13 @@ Fonctionnalité: Modifier une proposition technique et financière
             | la dreal         |
             | l'administrateur |
 
-    Plan du scénario: Ajouter un fichier signée à une PTF incomplète pour un projet en service
-        Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière sans fichier signé pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand <role> modifie la proposition technique et financière
-        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
-
-        Exemples:
-            | role             |
-            | le porteur       |
-            | la dreal         |
-            | l'administrateur |
-
-    Plan du scénario: Ajouter une date de signature à une PTF incomplète pour un projet en service
-        Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière sans date de signature pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand <role> modifie la proposition technique et financière
-        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
-
-        Exemples:
-            | role             |
-            | le porteur       |
-            | la dreal         |
-            | l'administrateur |
-
     Scénario: Un administrateur modifie la PTF pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand l'administrateur modifie la proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
-        Et la proposition technique et financière devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur modifie la proposition technique et financière avec :
