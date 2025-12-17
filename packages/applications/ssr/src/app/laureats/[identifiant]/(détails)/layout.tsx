@@ -1,14 +1,12 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { getContext } from '@potentiel-applications/request-context';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 
-import { getCahierDesCharges } from '../../../_helpers';
 import { withUtilisateur } from '../../../../utils/withUtilisateur';
 
 import { MenuLauréat } from './(components)/MenuLauréat';
-import { getTâches } from './taches/_helpers/getTâches';
+import { getLauréatMenuItems } from './_helpers/getLauréatMenuItems';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -21,27 +19,18 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
       decodeParameter(params.identifiant),
     );
 
-    const baseURL = `/laureats/${encodeURIComponent(identifiantProjet.formatter())}`;
-
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-    const tâches = utilisateur.rôle.aLaPermission('tâche.consulter')
-      ? await getTâches(identifiantProjet.formatter(), utilisateur.identifiantUtilisateur.email)
-      : undefined;
-
     const { features } = getContext() ?? {};
 
     if (!features?.includes('page-projet')) {
       return children;
     }
 
+    const items = await getLauréatMenuItems({ identifiantProjet, utilisateur });
+
     return (
       <div className="flex flex-col gap-2">
         <div className="flex flex-col md:flex-row">
-          <MenuLauréat
-            baseURL={baseURL}
-            cahierDesCharges={mapToPlainObject(cahierDesCharges)}
-            nombreTâches={tâches?.total}
-          />
+          <MenuLauréat items={items} />
           <div className="flex-1">{children}</div>
         </div>
       </div>
