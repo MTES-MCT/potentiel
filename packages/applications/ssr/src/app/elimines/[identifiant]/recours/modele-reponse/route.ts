@@ -7,28 +7,41 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
 import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
-export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  _: Request,
+  {
+    params: { identifiant, date },
+  }: {
+    params: {
+      identifiant: string;
+      date: string;
+    };
+  },
+) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjetValue = decodeParameter(identifiant);
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const dateDemande = DateTime.convertirEnValueType(decodeParameter(date)).formatter();
 
-      const candidature = await getCandidature(identifiantProjetValue);
+      const candidature = await getCandidature(identifiantProjet.formatter());
 
-      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterRecours',
+      const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
-          identifiantProjetValue,
+          identifiantProjetValue: identifiantProjet.formatter(),
+          dateDemandeValue: dateDemande,
         },
       });
 
@@ -40,7 +53,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       );
 
       const { logo, data } = mapCandidatureToModèleRéponsePayload({
-        identifiantProjet: identifiantProjetValue,
+        identifiantProjet: identifiantProjet.formatter(),
         candidature,
         appelOffres,
         période,
@@ -112,7 +125,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
       return new Response(content, {
         headers: getDocxDocumentHeader({
-          identifiantProjet: identifiantProjetValue,
+          identifiantProjet: identifiantProjet.formatter(),
           nomProjet: candidature.dépôt.nomProjet,
           type,
         }),

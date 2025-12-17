@@ -26,7 +26,7 @@ Fonctionnalité: Rejeter le recours d'un projet éliminé
         Alors le recours du projet éliminé devrait être rejeté
 
     Scénario: Impossible de rejetter le recours d'un projet éliminé si le recours a déjà été accordé
-        Etant donné un recours accordé pour le projet éliminé
+        Etant donné une demande de recours accordée pour le projet éliminé
         Quand le DGEC validateur rejette le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Le recours a déjà été accordé"
 

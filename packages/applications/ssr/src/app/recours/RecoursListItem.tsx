@@ -12,7 +12,7 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { StatutDemandeBadge } from '../../components/organisms/demande/StatutDemandeBadge';
 
 export type RecoursListItemProps = PlainType<
-  Éliminé.Recours.ListerRecoursReadModel['items'][number]
+  Éliminé.Recours.ListerDemandeRecoursReadModel['items'][number]
 >;
 
 export const RecoursListItem: FC<RecoursListItemProps> = ({
@@ -20,6 +20,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
   nomProjet,
   statut,
   miseÀJourLe,
+  dateDemande,
 }) => {
   return (
     <ListItem
@@ -34,7 +35,10 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
       actions={
         <Button
           linkProps={{
-            href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+            href: Routes.Recours.détail(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+              dateDemande.date,
+            ),
           }}
           aria-label={`voir le détail du recours pour le projet ${nomProjet}`}
         >

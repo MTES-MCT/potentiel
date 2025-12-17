@@ -11,7 +11,7 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
+export const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
 
 export type ValueType = ReadonlyValueType<{
   value: RawType;
@@ -61,6 +61,9 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new RecoursDéjàRejetéError();
         }
       } else if (nouveauStatut.estAnnulé()) {
+        if (this.estAnnulé()) {
+          throw new RecoursDéjàAnnuléError();
+        }
         if (this.estAccordé()) {
           throw new RecoursDéjàAccordéError();
         }
@@ -134,5 +137,11 @@ class RecoursDéjàRejetéError extends InvalidOperationError {
 class RecoursEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Un recours est déjà en cours`);
+  }
+}
+
+class RecoursDéjàAnnuléError extends InvalidOperationError {
+  constructor() {
+    super(`Le recours a déjà été annulé`);
   }
 }

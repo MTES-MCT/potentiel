@@ -117,7 +117,7 @@ export const InfoGenerales = ({
       {demandeRecours && role.aLaPermission('recours.consulter.détail') && (
         <div className="print:hidden">
           <Heading3 className="m-0">Recours</Heading3>
-          <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
+          <Link href={Routes.Recours.détailPourRedirection(formattedIdentifiantProjet)}>
             Recours {demandeRecours.statut.split('-').join(' ')}
           </Link>
         </div>

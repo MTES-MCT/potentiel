@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -24,10 +25,12 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       },
     });
 
+    const { url } = getContext() ?? {};
+
     return {
       status: 'success',
       redirection: {
-        url: Routes.Éliminé.détails(identifiantProjet),
+        url: url ?? Routes.Recours.détailPourRedirection(identifiantProjet),
         message: 'La demande de recours a bien été annulée',
       },
     };

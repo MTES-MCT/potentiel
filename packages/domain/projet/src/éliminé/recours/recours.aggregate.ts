@@ -35,7 +35,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
-    this.assertExists();
+    this.vérifierQueDemandeRecoursExiste();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
@@ -74,7 +74,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
-    this.assertExists();
+    this.vérifierQueDemandeRecoursExiste();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
 
@@ -119,7 +119,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
-    this.assertExists();
+    this.vérifierQueDemandeRecoursExiste();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
 
@@ -139,7 +139,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
-    this.assertExists();
+    this.vérifierQueDemandeRecoursExiste();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
@@ -222,7 +222,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     };
   }
 
-  private assertExists() {
+  private vérifierQueDemandeRecoursExiste() {
     if (!this.exists) {
       throw new AucunRecoursEnCours();
     }

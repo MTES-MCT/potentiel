@@ -71,11 +71,21 @@ const getAttestation = async (identifiantProjet: string) => {
       },
     });
 
-    if (Option.isSome(recours) && recours.demande.accord) {
-      return {
-        attestationDésignation: recours.demande.accord.réponseSignée,
-        nomProjet: lauréat.nomProjet,
-      };
+    if (Option.isSome(recours) && recours.dateAccord) {
+      const détailDemandeRecours =
+        await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
+          type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            dateDemandeValue: recours.dateDemande.formatter(),
+          },
+        });
+      if (Option.isSome(détailDemandeRecours)) {
+        return {
+          attestationDésignation: détailDemandeRecours.demande.accord?.réponseSignée,
+          nomProjet: lauréat.nomProjet,
+        };
+      }
     }
     // Projet lauréat sans attestation (eg. projet d'un période "legacy")
     return {};

@@ -11,7 +11,9 @@ export const getRecours = async (
   try {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
     });
 
     if (Option.isNone(recours)) {

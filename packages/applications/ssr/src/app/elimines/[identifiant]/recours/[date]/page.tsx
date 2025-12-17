@@ -5,11 +5,10 @@ import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -17,22 +16,26 @@ import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimel
 
 import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
 
-type PageProps = IdentifiantParameter;
+type PageProps = { params: { identifiant: string; date: string } };
 
 export const metadata: Metadata = {
   title: `Détails du recours du projet - Potentiel`,
   description: "Détail du recours d'un projet",
 };
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
+      const dateDemande = decodeParameter(date);
 
-      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-        type: 'Éliminé.Recours.Query.ConsulterRecours',
+      const recours = await mediator.send<Éliminé.Recours.ConsulterDemandeRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ConsulterDemandeRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
+          dateDemandeValue: dateDemande,
         },
       });
 
