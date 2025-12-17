@@ -1,12 +1,17 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { SectionPage } from '../(components)/SectionPage';
 
-import {
-  ÉvaluationCarboneSection,
-  ÉvaluationCarboneSectionProps,
-} from './ÉvaluationCarbone.section';
+import { ÉvaluationCarboneSimplifiéeSection } from './ÉvaluationCarboneSimplifiée.section';
+import { FournisseursSection } from './Fournisseurs.section';
 
-export const ÉvaluationCarbonePage = ({ identifiantProjet }: ÉvaluationCarboneSectionProps) => (
+type ÉvaluationCarbonePageProps = {
+  identifiantProjet: IdentifiantProjet.RawType;
+};
+
+export const ÉvaluationCarbonePage = ({ identifiantProjet }: ÉvaluationCarbonePageProps) => (
   <SectionPage title="Évaluation Carbone">
-    <ÉvaluationCarboneSection identifiantProjet={identifiantProjet} />
+    <ÉvaluationCarboneSimplifiéeSection identifiantProjet={identifiantProjet} />
+    <FournisseursSection identifiantProjet={identifiantProjet} />
   </SectionPage>
 );
