@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -35,13 +36,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props = mapToProps(projet.identifiantProjet, achèvement);
+    const props = mapToProps(projet.identifiantProjet, achèvement, projet.notifiéLe);
     return (
       <ModifierAttestationConformitéPage
         identifiantProjet={props.identifiantProjet}
         attestationConformité={props.attestationConformité}
         dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
         preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
+        lauréatNotifiéLe={props.lauréatNotifiéLe}
       />
     );
   });
@@ -50,12 +52,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (
   identifiantProjet: IdentifiantProjet.ValueType,
   achèvement: Lauréat.Achèvement.ConsulterAchèvementAchevéReadModel,
+  notifiéLe: DateTime.ValueType,
 ) => ModifierAttestationConformitéPageProps;
 const mapToProps: MapToProps = (
   identifiantProjet,
   { attestation, preuveTransmissionAuCocontractant, dateAchèvementRéel },
+  notifiéLe,
 ) => ({
   identifiantProjet: identifiantProjet.formatter(),
+  lauréatNotifiéLe: notifiéLe.formatter(),
   dateTransmissionAuCocontractant: dateAchèvementRéel.formatter(),
   attestationConformité: attestation.formatter(),
   preuveTransmissionAuCocontractant: Option.isSome(preuveTransmissionAuCocontractant)

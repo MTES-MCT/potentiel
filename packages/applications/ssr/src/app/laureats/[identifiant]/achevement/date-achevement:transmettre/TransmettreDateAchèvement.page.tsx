@@ -11,10 +11,14 @@ export type TransmettreDateAchèvementPageProps = TransmettreDateAchèvementForm
 
 export const TransmettreDateAchèvementPage: FC<TransmettreDateAchèvementPageProps> = ({
   identifiantProjet,
+  lauréatNotifiéLe: notifiéLe,
 }) => (
   <>
     <Heading1>Transmettre la date d'achèvement du projet</Heading1>
 
-    <TransmettreDateAchèvementForm identifiantProjet={identifiantProjet} />
+    <TransmettreDateAchèvementForm
+      identifiantProjet={identifiantProjet}
+      lauréatNotifiéLe={notifiéLe}
+    />
   </>
 );

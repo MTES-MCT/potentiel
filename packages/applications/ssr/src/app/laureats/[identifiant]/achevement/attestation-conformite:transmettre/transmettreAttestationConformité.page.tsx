@@ -12,12 +12,12 @@ import { transmettreAttestationConformitéAction } from './transmettreAttestatio
 
 export type TransmettreAttestationConformitéPageProps = Pick<
   AttestationConformitéFormProps,
-  'demanderMainlevée' | 'identifiantProjet'
+  'demanderMainlevée' | 'identifiantProjet' | 'lauréatNotifiéLe'
 >;
 
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
-> = ({ identifiantProjet, demanderMainlevée }) => (
+> = ({ identifiantProjet, demanderMainlevée, lauréatNotifiéLe }) => (
   <>
     <Heading1>Transmettre l'attestation de conformité du projet</Heading1>
     <InfoBoxAttestationConformité />
@@ -26,6 +26,7 @@ export const TransmettreAttestationConformitéPage: FC<
       action={transmettreAttestationConformitéAction}
       submitLabel="Transmettre"
       demanderMainlevée={demanderMainlevée}
+      lauréatNotifiéLe={lauréatNotifiéLe}
     />
   </>
 );

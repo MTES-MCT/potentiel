@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -33,12 +34,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const props = mapToProps({
       identifiantProjet: projet.identifiantProjet,
       garantiesFinancières,
+      notifiéLe: projet.notifiéLe,
     });
 
     return (
       <TransmettreAttestationConformitéPage
         identifiantProjet={props.identifiantProjet}
         demanderMainlevée={props.demanderMainlevée}
+        lauréatNotifiéLe={props.lauréatNotifiéLe}
       />
     );
   });
@@ -47,9 +50,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (params: {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  notifiéLe: DateTime.ValueType;
 }) => TransmettreAttestationConformitéPageProps;
 
-const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) => {
+const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières, notifiéLe }) => {
   const peutVoirMainlevée = Option.isSome(garantiesFinancières);
   const peutDemanderMainlevée =
     peutVoirMainlevée && garantiesFinancières.garantiesFinancières.estConstitué();
@@ -60,5 +64,6 @@ const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) =>
       canBeDone: peutDemanderMainlevée,
       visible: peutVoirMainlevée,
     },
+    lauréatNotifiéLe: notifiéLe.formatter(),
   };
 };

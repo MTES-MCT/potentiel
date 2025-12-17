@@ -19,7 +19,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     return (
-      <TransmettreDateAchèvementPage identifiantProjet={projet.identifiantProjet.formatter()} />
+      <TransmettreDateAchèvementPage
+        identifiantProjet={projet.identifiantProjet.formatter()}
+        lauréatNotifiéLe={projet.notifiéLe.formatter()}
+      />
     );
   });
 }
