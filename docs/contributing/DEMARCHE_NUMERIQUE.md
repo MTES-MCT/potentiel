@@ -1,6 +1,6 @@
-# Démarches Simplifiées
+# Démarche Numérique
 
-L'application [Démarches Simplifiées](https://github.com/demarches-simplifiees/demarches-simplifiees.fr) est utilisée par la CRE pour recevoir les candidatures des Porteurs de Projet à la période de l'appel d'offre `PPE2 - Petit PV Bâtiment` (S2 2025, d'autres AO devraient suivre).
+L'application [Démarche Numérique](https://demarche.numerique.gouv.fr/) est utilisée par la CRE pour recevoir les candidatures des Porteurs de Projet à la période de l'appel d'offre `PPE2 - Petit PV Bâtiment` (S2 2025, d'autres AO devraient suivre).
 
 ## Description du parcours
 
@@ -34,10 +34,10 @@ Le fichier du résultat de l'instruction transmis par la CRE contient les inform
 
 ### Graphql
 
-Démarches Simplifiées propose une API Graphql, qui permet entre autre de récupérer un dossier par son identifiant.
+Démarche Numérique propose une API Graphql, qui permet entre autre de récupérer un dossier par son identifiant.
 
 - Documentation : https://doc.demarches-simplifiees.fr/api-graphql
-- Playground : https://demarches.numerique.gouv.fr/graphql
+- Playground : https://demarche.numerique.gouv.fr/graphql
 
 Le package [ds-api-client](/packages/infrastructure/ds-api-client/) permet de traiter le résultat de cette API afin de récupérer les informations du dépôt de la candidature.
 
@@ -54,15 +54,15 @@ Afin de garantir l'indépendence de la CRE, Potentiel n'a pas d'accès Administr
 
 ## Tester l'intégration
 
-Pour tester l'intégration à Démarches Simplifiées :
+Pour tester l'intégration à Démarche Numérique :
 
-- accéder à la version la plus récente du formulaire sur https://demarches.numerique.gouv.fr/ (vDGEC indique une version créée par la CRE pour les besoins de test de Potentiel)
+- accéder à la version la plus récente du formulaire sur https://demarche.numerique.gouv.fr/ (vDGEC indique une version créée par la CRE pour les besoins de test de Potentiel)
 - ETQ usager DS, créer un premier dossier s'il n'en existe pas encore
 - ETQ usager DS, dupliquer le dossier autant de fois que nécessaire
 - (optionnel) Utiliser la ligne de commande potentiel pour générer un fichier d'instruction (statuts aléatoires) :
 
 ```bash
-export DS_API_URL=https://www.demarches-simplifiees.fr/api/v2/graphql
+export DS_API_URL=https://demarche.numerique.gouv.fr/api/v2/graphql
 export DS_API_TOKEN=JETON API
 potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE --instruction
 ```

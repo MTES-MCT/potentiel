@@ -31,7 +31,7 @@
 - [Lancer l'application en local](./docs/contributing/GETTING_STARTED.md#lancer-application-en-local)
 - [Lancer les tests](./docs/contributing/GETTING_STARTED.md#lancer-les-tests)
 - [Metabase](./docs/contributing//GETTING_STARTED.md#metabase)
-- [Démarches Simplifiées](./docs/contributing/DEMARCHES_SIMPLIFIEES.md)
+- [Démarche Numérique](./docs/contributing/DEMARCHE_NUMERIQUE.md)
 
 ## <a id="architecture"></a> Architecture
 
