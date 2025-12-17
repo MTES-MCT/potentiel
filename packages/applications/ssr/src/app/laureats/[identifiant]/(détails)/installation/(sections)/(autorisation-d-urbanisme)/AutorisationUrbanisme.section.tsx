@@ -8,7 +8,7 @@ import { getLauréatInfos } from '../../../../_helpers/getLauréat';
 import { AutorisationUrbanismeDétails } from './AutorisationUrbanismeDétails';
 
 type AutorisationUrbanismeSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const AutorisationUrbanismeSection = async ({

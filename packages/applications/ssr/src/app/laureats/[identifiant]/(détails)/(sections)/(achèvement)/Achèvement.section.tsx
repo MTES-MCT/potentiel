@@ -11,7 +11,7 @@ import { getAchèvement } from '../../_helpers/getAchèvement';
 import { AchèvementDétails } from './AchèvementDétails';
 
 type AchèvementSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const AchèvementSection = ({

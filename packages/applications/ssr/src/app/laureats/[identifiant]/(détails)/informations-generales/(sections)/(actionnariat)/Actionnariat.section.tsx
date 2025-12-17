@@ -16,7 +16,7 @@ import { getCahierDesCharges } from '../../../../../../_helpers';
 import { ActionnariatDétails } from './ActionnariatDétails';
 
 type ActionnariatSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ActionnariatSection = ({

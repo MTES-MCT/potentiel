@@ -10,7 +10,7 @@ import { Section } from '../../../(components)/Section';
 import { ProducteurDétails } from './ProducteurDétails';
 
 type ProducteurSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ProducteurSection = ({

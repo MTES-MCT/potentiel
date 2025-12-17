@@ -10,7 +10,7 @@ import { getRecours } from '../../_helpers/getRecours';
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ÉtapesProjetSection = async ({

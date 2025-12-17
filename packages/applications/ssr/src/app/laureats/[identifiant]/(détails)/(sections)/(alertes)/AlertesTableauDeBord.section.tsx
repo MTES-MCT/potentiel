@@ -11,7 +11,7 @@ import { getAchèvement } from '../../_helpers/getAchèvement';
 import { Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
 
 type AlertesTableauDeBordSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const AlertesTableauDeBordSection = ({

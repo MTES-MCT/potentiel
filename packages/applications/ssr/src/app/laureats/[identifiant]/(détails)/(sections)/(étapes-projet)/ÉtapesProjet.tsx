@@ -22,7 +22,7 @@ export type ÉtapeProjet =
       date?: DateTime.RawType;
     };
 export type EtapesProjetProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
   doitAfficherAttestationDésignation: boolean;
   étapes: Array<ÉtapeProjet>;
 };

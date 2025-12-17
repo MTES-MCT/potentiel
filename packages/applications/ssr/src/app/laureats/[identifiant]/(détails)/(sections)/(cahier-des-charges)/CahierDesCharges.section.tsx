@@ -10,7 +10,7 @@ import { Section } from '../../(components)/Section';
 import { CahierDesChargesDétails } from './CahierDesChargesDétails';
 
 type CahierDesChargesSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const CahierDesChargesSection = ({

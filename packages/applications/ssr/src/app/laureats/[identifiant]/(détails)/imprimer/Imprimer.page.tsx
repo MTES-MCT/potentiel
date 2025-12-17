@@ -1,24 +1,23 @@
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+
 import { Section } from '../(components)/Section';
-import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
-import { GetÉvaluationCarboneForProjectPage } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 import { InformationsGénéralesPage } from '../informations-generales/InformationsGénérales.page';
+import { InstallationPage } from '../installation/Installation.page';
 import { TableauDeBordPage } from '../TableauDeBord.page';
 
 import { ImprimerButton } from './(component)/ImprimerButton';
-import { InstallationPage } from '../installation/Installation.page';
 
 type Props = {
-  évaluationCarbone: GetÉvaluationCarboneForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export const ImprimerPage = ({ évaluationCarbone, identifiantProjet }: Props) => (
+export const ImprimerPage = ({ identifiantProjet }: Props) => (
   <>
-    {/* <ImprimerButton /> */}
+    <ImprimerButton />
     <Section title="Pour votre information" className="mb-4">
       <div>
         Ce document a été édité le <FormattedDate date={DateTime.now().formatter()} />
@@ -31,7 +30,7 @@ export const ImprimerPage = ({ évaluationCarbone, identifiantProjet }: Props) =
       <TableauDeBordPage identifiantProjet={identifiantProjet} />
       <InformationsGénéralesPage identifiantProjet={identifiantProjet} />
       <InstallationPage identifiantProjet={identifiantProjet} />
-      <ÉvaluationCarbonePage évaluationCarbone={évaluationCarbone} />
+      <ÉvaluationCarbonePage identifiantProjet={identifiantProjet} />
     </div>
   </>
 );

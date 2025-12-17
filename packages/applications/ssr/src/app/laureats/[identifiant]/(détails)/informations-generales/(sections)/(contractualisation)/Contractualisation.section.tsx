@@ -14,7 +14,7 @@ import { Section } from '../../../(components)/Section';
 import { ContractualisationDétails } from './ContractualisationDétails';
 
 type ContractualisationSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ContractualisationSection = ({

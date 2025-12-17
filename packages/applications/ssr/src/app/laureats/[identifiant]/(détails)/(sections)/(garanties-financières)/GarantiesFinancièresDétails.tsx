@@ -1,7 +1,7 @@
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { match, P } from 'ts-pattern';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
@@ -22,7 +22,7 @@ type GarantiesFinancièresData = {
 
 type GarantiesFinancièresDétailsProps = {
   garantiesFinancières: GarantiesFinancièresData;
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
   estAchevé: boolean;
 };
 

@@ -7,14 +7,14 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { Section } from '../../../(components)/Section';
-import { getCahierDesCharges } from '../../../../../../_helpers';
 
 import { InstallationDétails } from './InstallationDétails';
 
 type InstallationSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const InstallationSection = ({

@@ -1,3 +1,5 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
 
@@ -8,7 +10,7 @@ import { ContractualisationSection } from './(sections)/(contractualisation)/Con
 import { CandidatSection } from './(sections)/(candidat)/Candidat.section';
 
 type Props = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const InformationsGénéralesPage = ({ identifiantProjet }: Props) => (

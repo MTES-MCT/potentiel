@@ -14,7 +14,7 @@ import { getRaccordement } from '../../_helpers/getRaccordement';
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const RaccordementSection = ({

@@ -11,7 +11,7 @@ import { Section } from '../../../(components)/Section';
 import { ReprésentantLégalDétails } from './ReprésentantLégalDétails';
 
 type ReprésentantLégalSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const ReprésentantLégalSection = ({

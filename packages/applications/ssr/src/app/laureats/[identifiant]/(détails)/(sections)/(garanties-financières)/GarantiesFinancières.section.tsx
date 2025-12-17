@@ -15,7 +15,7 @@ import { getGarantiesFinancières } from '../../_helpers/getGarantiesFinancière
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 
 type GarantiesFinancièresSectionProps = {
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const GarantiesFinancièresSection = ({
