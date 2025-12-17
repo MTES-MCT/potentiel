@@ -12,21 +12,35 @@ EtantDonné(
   },
 );
 
-EtantDonné(/un recours accordé pour le projet éliminé/, async function (this: PotentielWorld) {
-  await créerDemandeRecours.call(this);
-  await créerAccordRecours.call(this);
-});
+EtantDonné(
+  /une demande de recours accordée pour le projet éliminé/,
+  async function (this: PotentielWorld) {
+    await créerDemandeRecours.call(this);
+    await créerAccordRecours.call(this);
+  },
+);
 
-EtantDonné(/un recours rejeté pour le projet éliminé/, async function (this: PotentielWorld) {
-  await créerDemandeRecours.call(this);
-  await créerRejetRecours.call(this);
-});
+EtantDonné(
+  /une demande de recours rejetée pour le projet éliminé/,
+  async function (this: PotentielWorld) {
+    await créerDemandeRecours.call(this);
+    await créerRejetDemandeRecours.call(this);
+  },
+);
 
 EtantDonné(
   `une demande de recours en instruction pour le projet éliminé`,
   async function (this: PotentielWorld) {
     await créerDemandeRecours.call(this);
     await passerDemandeRecoursEnInstruction.call(this);
+  },
+);
+
+EtantDonné(
+  /une demande de recours annulée pour le projet éliminé/,
+  async function (this: PotentielWorld) {
+    await créerDemandeRecours.call(this);
+    await créerAnnulationDemandeRecours.call(this);
   },
 );
 
@@ -80,7 +94,7 @@ async function créerAccordRecours(this: PotentielWorld) {
   });
 }
 
-async function créerRejetRecours(this: PotentielWorld) {
+async function créerRejetDemandeRecours(this: PotentielWorld) {
   const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
   const {
     rejetéLe: rejetéeLe,
@@ -90,7 +104,7 @@ async function créerRejetRecours(this: PotentielWorld) {
     rejetéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
-  await mediator.send<Éliminé.Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.RejeterRecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -109,12 +123,29 @@ async function passerDemandeRecoursEnInstruction(this: PotentielWorld) {
       passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
     });
 
-  await mediator.send<Éliminé.Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.PasserEnInstructionRecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
     data: {
       identifiantProjetValue: identifiantProjet,
       dateInstructionValue: passéEnInstructionLe,
       identifiantUtilisateurValue: passéEnInstructionPar,
+    },
+  });
+}
+
+async function créerAnnulationDemandeRecours(this: PotentielWorld) {
+  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
+
+  const { annuléLe, annuléPar } = this.éliminéWorld.recoursWorld.annulerRecoursFixture.créer({
+    annuléPar: this.utilisateurWorld.porteurFixture.email,
+  });
+
+  await mediator.send<Éliminé.Recours.AnnulerRecoursUseCase>({
+    type: 'Éliminé.Recours.UseCase.AnnulerRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      dateAnnulationValue: annuléLe,
+      identifiantUtilisateurValue: annuléPar,
     },
   });
 }

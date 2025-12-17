@@ -73,7 +73,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
     Scénario: Enregister des garanties financières actuelles avec un type exemption
         Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-        Et un recours accordé pour le projet éliminé
+        Et une demande de recours accordée pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF | exemption |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
@@ -103,7 +103,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
     Scénario: Impossible d'enregistrer des garanties financières avec un type non disponible pour l'appel d'offre
         Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-        Et un recours accordé pour le projet éliminé
+        Et une demande de recours accordée pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF | six-mois-après-achèvement |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

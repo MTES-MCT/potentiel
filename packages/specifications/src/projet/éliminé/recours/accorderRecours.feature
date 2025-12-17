@@ -1,6 +1,6 @@
 # language: fr
 @recours
-Fonctionnalité: Accorder le recours d'un projet éliminé
+Fonctionnalité: Accorder la demande de recours d'un projet éliminé
 
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
@@ -39,12 +39,12 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
             | motif | recours-accordé |
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été accordé
-        Etant donné un recours accordé pour le projet éliminé
+        Etant donné une demande de recours accordée pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Le recours a déjà été accordé"
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été rejeté
-        Etant donné un recours rejeté pour le projet éliminé
+        Etant donné une demande de recours rejetée pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Le recours a déjà été rejeté"
 

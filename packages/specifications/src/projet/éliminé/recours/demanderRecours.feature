@@ -21,7 +21,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Alors le recours du projet éliminé devrait être demandé
 
     Scénario: Un porteur demande le recours d'un projet éliminé après un rejet
-        Etant donné un recours rejeté pour le projet éliminé
+        Etant donné une demande de recours rejetée pour le projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être de nouveau demandé
 
@@ -36,7 +36,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Alors le porteur devrait être informé que "Un recours est déjà en cours"
 
     Scénario: Impossible de demander un recours pour un projet si le recours est accordé
-        Etant donné un recours accordé pour le projet éliminé
+        Etant donné une demande de recours accordée pour le projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
 
