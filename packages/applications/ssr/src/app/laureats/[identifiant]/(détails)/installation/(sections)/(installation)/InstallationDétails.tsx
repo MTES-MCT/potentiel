@@ -59,17 +59,20 @@ export const InstallationDétails = ({
                 ? 'Installation couplée à un dispositif de stockage'
                 : 'Installation sans dispositif de stockage'}
             </div>
-            <Champ
-              label="Puissance du dispositif de stockage"
-              number={dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW}
-              unité="kW"
-            />
-
-            <Champ
-              label="Capacité du dispositif de stockage"
-              number={dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh}
-              unité="kWh"
-            />
+            {dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW !== undefined && (
+              <Champ
+                label="Puissance du dispositif de stockage"
+                number={dispositifDeStockage.value.puissanceDuDispositifDeStockageEnKW}
+                unité="kW"
+              />
+            )}
+            {dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh !== undefined && (
+              <Champ
+                label="Capacité du dispositif de stockage"
+                number={dispositifDeStockage.value.capacitéDuDispositifDeStockageEnKWh}
+                unité="kWh"
+              />
+            )}
           </>
         ) : (
           <div>Champ non renseigné</div>

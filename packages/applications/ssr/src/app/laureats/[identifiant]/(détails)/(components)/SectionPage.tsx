@@ -6,7 +6,7 @@ type SectionPageProps = {
 };
 
 export const SectionPage = ({ title, children }: SectionPageProps) => (
-  <div className="flex flex-col gap-4 w-fit min-w-[50%]">
+  <div className="flex flex-col gap-4 w-full">
     <Heading2>{title}</Heading2>
     {children}
   </div>

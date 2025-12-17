@@ -64,13 +64,11 @@ export const RaccordementSection = ({
         ? undefined
         : rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
           ? {
-              label: 'Renseigner les données de raccordement',
+              label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet.formatter()),
             }
           : {
-              label: rôle.aLaPermission('raccordement.gestionnaire.modifier')
-                ? 'Consulter ou modifier les documents'
-                : 'Consulter les documents',
+              label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet.formatter()),
             };
 

@@ -2,7 +2,7 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 
-export const ImprimerPage = () => (
+export const ImprimerButton = () => (
   <Button
     priority="primary"
     iconId="fr-icon-printer-line"

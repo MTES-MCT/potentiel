@@ -37,24 +37,26 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
           Contacter tous les utilisateurs
         </Button>
       </div>
-      {accès.length === 0 ? (
-        <div className="flex flex-col items-center justify-center my-16">
-          <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
-        </div>
-      ) : (
-        <div>
-          <div className="flex flex-col gap-4 mt-4">
-            {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
-              <PorteurListItem
-                key={identifiantUtilisateur}
-                identifiantProjet={identifiantProjet}
-                identifiantUtilisateur={identifiantUtilisateur}
-                peutRetirerAccès={peutRetirerAccès}
-              />
-            ))}
+      <div className="w-fit min-w-[50%]">
+        {accès.length === 0 ? (
+          <div className="flex flex-col items-center justify-center my-16">
+            <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
           </div>
-        </div>
-      )}
+        ) : (
+          <div>
+            <div className="flex flex-col gap-4 mt-4">
+              {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
+                <PorteurListItem
+                  key={identifiantUtilisateur}
+                  identifiantProjet={identifiantProjet}
+                  identifiantUtilisateur={identifiantUtilisateur}
+                  peutRetirerAccès={peutRetirerAccès}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </SectionPage>
   );
 };

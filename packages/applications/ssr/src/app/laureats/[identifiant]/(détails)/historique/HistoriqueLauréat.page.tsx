@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
+import { ImprimerButton } from '@/components/atoms/ImprimerButton';
 
 import { SectionPage } from '../(components)/SectionPage';
 
@@ -29,7 +29,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
             <ListFilters filters={filters} />
           </div>
         ) : null}
-        {actions?.includes('imprimer') && <ImprimerPage />}
+        {actions?.includes('imprimer') && <ImprimerButton />}
       </div>
       <div className="flex flex-row gap-2">
         {historique.length > 0 ? (
