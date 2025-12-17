@@ -60,10 +60,10 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         />
         <Input
           textArea
-          label={`Raison (optionnel)`}
+          label={`Raison`}
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
-          nativeTextAreaProps={{ name: 'raison', required: false, 'aria-required': true }}
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
