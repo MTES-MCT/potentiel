@@ -10,6 +10,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPuissance.action';
 
@@ -89,12 +90,22 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
 
         <Input
           textArea
-          label={`Raison (optionnel)`}
+          label={`Raison`}
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement de puissance."
-          nativeTextAreaProps={{ name: 'raison', required: false, 'aria-required': true }}
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
+        />
+
+        <UploadNewOrModifyExistingDocument
+          label="Pièce justificative (optionnel)"
+          name="piecesJustificatives"
+          hintText="Joindre vos justificatifs"
+          multiple
+          formats={['pdf']}
+          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['piecesJustificatives']}
         />
       </div>
     </Form>

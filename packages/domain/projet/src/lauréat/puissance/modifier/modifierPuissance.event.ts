@@ -12,5 +12,8 @@ export type PuissanceModifiéeEvent = DomainEvent<
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;
     raison?: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;
