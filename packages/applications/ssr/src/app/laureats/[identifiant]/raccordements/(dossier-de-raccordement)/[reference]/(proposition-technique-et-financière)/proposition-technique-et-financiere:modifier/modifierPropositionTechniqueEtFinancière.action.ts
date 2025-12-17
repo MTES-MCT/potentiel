@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -28,21 +29,23 @@ const action: FormAction<FormState, typeof schema> = async (
     propositionTechniqueEtFinanciereSignee,
     dateSignature,
   },
-) => {
-  await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      référenceDossierRaccordementValue: referenceDossierRaccordement,
-      dateSignatureValue: new Date(dateSignature).toISOString(),
-      propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
-    },
-  });
+) =>
+  withUtilisateur(async (utilisateur) => {
+    await mediator.send<Lauréat.Raccordement.ModifierPropositiontechniqueEtFinancièreUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierRaccordementValue: referenceDossierRaccordement,
+        dateSignatureValue: new Date(dateSignature).toISOString(),
+        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
+        rôleValue: utilisateur.rôle.nom,
+      },
+    });
 
-  return {
-    status: 'success',
-    redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
-  };
-};
+    return {
+      status: 'success',
+      redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    };
+  });
 
 export const modifierPropositionTechniqueEtFinancièreAction = formAction(action, schema);

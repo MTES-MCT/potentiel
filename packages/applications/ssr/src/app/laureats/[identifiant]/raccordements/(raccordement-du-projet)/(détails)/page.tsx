@@ -20,7 +20,7 @@ import {
   DétailsRaccordementDuProjetPage,
   DétailsRaccordementPageProps,
 } from './DétailsRaccordementDuProjet.page';
-import { getModificationDCRAction } from './_helpers/getModificationDCRAction';
+import { getModificationDCRAction, getModificationPTFAction } from './_helpers';
 
 type PageProps = IdentifiantParameter;
 
@@ -105,7 +105,7 @@ const mapToDossierActions = (
           transmettre: rôle.aLaPermission(
             'raccordement.proposition-technique-et-financière.transmettre',
           ),
-          modifier: rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
+          modifier: getModificationPTFAction(rôle, dossier),
         },
 
         miseEnService: {

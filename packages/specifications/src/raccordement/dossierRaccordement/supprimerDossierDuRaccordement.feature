@@ -7,7 +7,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
 
     Scénario: Un porteur supprime un dossier du raccordement d'un projet avec plusieurs dossiers
         Etant donné une demande complète de raccordement pour le projet lauréat

@@ -54,6 +54,7 @@ import {
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
+  PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
 } from './errors';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options';
 import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options';
@@ -319,6 +320,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     dateSignature,
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
+    rôle,
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
     this.lauréat.vérifierPasEnCoursAbandon();
 
@@ -328,6 +330,16 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (!this.contientLeDossier(référenceDossierRaccordement)) {
       throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
+
+    const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
+
+    if (!rôle.estDGEC() && dossierEnService) {
+      throw new PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError(
+        référenceDossierRaccordement.formatter(),
+      );
     }
 
     const event: PropositionTechniqueEtFinancièreModifiéeEvent = {

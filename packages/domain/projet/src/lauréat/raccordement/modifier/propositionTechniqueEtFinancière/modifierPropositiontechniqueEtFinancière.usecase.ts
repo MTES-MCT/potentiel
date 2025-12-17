@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
@@ -19,6 +20,7 @@ export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    rôleValue: string;
   }
 >;
 
@@ -28,6 +30,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     propositionTechniqueEtFinancièreSignéeValue: { format, content },
+    rôleValue,
   }) => {
     const propositionTechniqueEtFinancièreSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -59,6 +62,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
         identifiantProjet,
         référenceDossierRaccordement,
         formatPropositionTechniqueEtFinancièreSignée: format,
+        rôle: Role.convertirEnValueType(rôleValue),
       },
     });
   };

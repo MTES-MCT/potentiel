@@ -1,5 +1,4 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { match } from 'ts-pattern';
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -8,6 +7,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { getRôle, RôleUtilisateur } from '../../../helpers';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',
@@ -63,7 +63,7 @@ Quand(
       this,
       identifiantProjet.formatter(),
       référenceDossier,
-      getRole.call(this, rôleUtilisateur),
+      getRôle.call(this, rôleUtilisateur),
     );
   },
 );
@@ -78,7 +78,7 @@ Quand(
       this,
       identifiantProjet.formatter(),
       référenceDossier,
-      getRole.call(this, rôleUtilisateur),
+      getRôle.call(this, rôleUtilisateur),
       datatable.rowsHash(),
     );
   },
@@ -93,7 +93,7 @@ Quand(
       this,
       identifiantProjet.formatter(),
       référenceDossier,
-      getRole.call(this, rôleUtilisateur),
+      getRôle.call(this, rôleUtilisateur),
     );
   },
 );
@@ -107,7 +107,7 @@ Quand(
       this,
       identifiantProjet.formatter(),
       référenceDossier,
-      getRole.call(this, rôleUtilisateur),
+      getRôle.call(this, rôleUtilisateur),
       datatable.rowsHash(),
     );
   },
@@ -255,14 +255,4 @@ async function modifierRéférenceDossierRaccordement(
   } catch (e) {
     this.error = e as Error;
   }
-}
-
-type RôleUtilisateur = 'le porteur' | 'la dreal' | "l'administrateur";
-function getRole(this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
-  const { role } = match(rôleUtilisateur)
-    .with('le porteur', () => this.utilisateurWorld.porteurFixture)
-    .with('la dreal', () => this.utilisateurWorld.drealFixture)
-    .with("l'administrateur", () => this.utilisateurWorld.adminFixture)
-    .exhaustive();
-  return role;
 }

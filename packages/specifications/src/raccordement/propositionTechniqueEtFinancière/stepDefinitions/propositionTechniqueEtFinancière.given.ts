@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world';
 
 EtantDonné(
-  'une proposition technique et financière pour le dossier de raccordement du projet lauréat',
+  'une proposition technique et financière pour le projet lauréat',
   async function (this: PotentielWorld) {
     const { identifiantProjet, référenceDossier } =
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
@@ -17,7 +17,7 @@ EtantDonné(
         référenceDossier,
       });
 
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettrePropositionTechniqueEtFinancièreUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         identifiantProjetValue: identifiantProjet,

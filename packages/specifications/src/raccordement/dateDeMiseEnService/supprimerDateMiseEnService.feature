@@ -11,7 +11,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
 
     Scénario: Le gestionnaire de réseau supprime la mise en service du dossier de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le gestionnaire de réseau supprime la mise en service du dossier de raccordement
         Alors la mise en service du dossier de raccordement devrait être supprimée
