@@ -60,7 +60,6 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
         Quand la DREAL rejette la demande d'abandon du projet lauréat
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
 
-    @select
     Scénario: Impossible de rejetter la demande d'abandon pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
         Quand l'administrateur rejette la demande d'abandon du projet lauréat

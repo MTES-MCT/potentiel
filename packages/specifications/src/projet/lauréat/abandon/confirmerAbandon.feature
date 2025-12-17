@@ -54,7 +54,6 @@ Fonctionnalité: Confirmer la demande d'abandon d'un projet lauréat
         Quand le porteur confirme sa demande d'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "Aucune demande d'abandon n'est en cours"
 
-    @select
     Scénario: Impossible de confirmer la demande d'abandon d'un projet lauréat si l'abandon a déjà été annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
         Quand le porteur confirme sa demande d'abandon pour le projet lauréat

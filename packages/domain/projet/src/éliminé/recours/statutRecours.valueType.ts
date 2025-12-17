@@ -56,6 +56,9 @@ export const convertirEnValueType = (value: string): ValueType => {
         if (this.estAccordé()) {
           throw new RecoursDéjàAccordéError();
         }
+        if (this.estAnnulé()) {
+          throw new RecoursDéjàAnnuléError();
+        }
 
         if (this.estRejeté()) {
           throw new RecoursDéjàRejetéError();
@@ -86,6 +89,10 @@ export const convertirEnValueType = (value: string): ValueType => {
         if (this.estRejeté()) {
           throw new RecoursDéjàRejetéError();
         }
+
+        if (this.estAnnulé()) {
+          throw new RecoursDéjàAnnuléError();
+        }
       } else if (nouveauStatut.estEnInstruction()) {
         if (this.estAccordé()) {
           throw new RecoursDéjàAccordéError();
@@ -93,6 +100,10 @@ export const convertirEnValueType = (value: string): ValueType => {
 
         if (this.estRejeté()) {
           throw new RecoursDéjàRejetéError();
+        }
+
+        if (this.estAnnulé()) {
+          throw new RecoursDéjàAnnuléError();
         }
       }
     },

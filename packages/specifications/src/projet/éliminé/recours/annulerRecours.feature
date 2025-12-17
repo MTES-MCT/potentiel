@@ -36,6 +36,7 @@ Fonctionnalité: Annuler la demande de recours d'un projet éliminé
         Quand le porteur annule le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été rejeté"
 
+    @select
     Scénario: Impossible d'annuler le recours d'un projet éliminé si le recours a déjà été annulée
         Etant donné une demande de recours annulée pour le projet éliminé
         Quand le porteur annule le recours pour le projet éliminé

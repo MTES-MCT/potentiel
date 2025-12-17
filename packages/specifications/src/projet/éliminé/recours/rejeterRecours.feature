@@ -33,3 +33,9 @@ Fonctionnalité: Rejeter le recours d'un projet éliminé
     Scénario: Impossible de rejetter le recours d'un projet éliminé si aucun recours n'a été demandé
         Quand le DGEC validateur rejette le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Aucun recours n'est en cours"
+
+    @select
+    Scénario: Impossible de rejetter le recours d'un projet éliminé si le recours a déjà été annulé
+        Etant donné une demande de recours annulée pour le projet éliminé
+        Quand le DGEC validateur rejette le recours pour le projet éliminé
+        Alors le DGEC validateur devrait être informé que "Le recours a déjà été annulé"
