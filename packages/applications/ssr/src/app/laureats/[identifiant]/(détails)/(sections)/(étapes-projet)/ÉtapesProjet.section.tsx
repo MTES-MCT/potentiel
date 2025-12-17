@@ -1,11 +1,13 @@
 import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 import { Section } from '../../(components)/Section';
-import { getLauréatInfos } from '../../../_helpers/getLauréat';
-import { getAbandon } from '../../_helpers/getAbandon';
-import { getAchèvement } from '../../_helpers/getAchèvement';
-import { getRaccordement } from '../../_helpers/getRaccordement';
-import { getRecours } from '../../_helpers/getRecours';
+import {
+  getAbandonInfos,
+  getAchèvement,
+  getLauréatInfos,
+  getRaccordement,
+  getRecours,
+} from '../../../_helpers';
 
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
@@ -19,7 +21,7 @@ export const ÉtapesProjetSection = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
   const achèvement = await getAchèvement(identifiantProjet.formatter());
-  const abandon = await getAbandon(identifiantProjet.formatter());
+  const abandon = await getAbandonInfos(identifiantProjet.formatter());
   const recours = await getRecours(identifiantProjet.formatter());
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
   const raccordement = await getRaccordement(identifiantProjet.formatter());

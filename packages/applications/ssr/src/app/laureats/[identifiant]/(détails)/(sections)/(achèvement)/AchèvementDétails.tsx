@@ -6,7 +6,7 @@ import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampAvecMultiplesActions } from '../../../_helpers/types';
+import { ChampAvecMultiplesActions } from '../../../_helpers';
 
 export type AchèvementDétailsProps = ChampAvecMultiplesActions<
   PlainType<Lauréat.Achèvement.ConsulterAchèvementReadModel>

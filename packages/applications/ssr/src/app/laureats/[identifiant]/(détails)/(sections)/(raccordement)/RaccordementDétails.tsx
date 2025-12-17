@@ -4,7 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampObligatoireAvecAction } from '../../../_helpers/types';
+import { ChampObligatoireAvecAction } from '../../../_helpers';
 
 export type RaccordementDétailsProps = {
   raccordement: ChampObligatoireAvecAction<{

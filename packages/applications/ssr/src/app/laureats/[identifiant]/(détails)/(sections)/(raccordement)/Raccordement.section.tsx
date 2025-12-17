@@ -1,15 +1,14 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { Section } from '../../(components)/Section';
-import { getAbandon } from '../../_helpers/getAbandon';
-import { getCahierDesCharges } from '../../../../../_helpers';
-import { getRaccordement } from '../../_helpers/getRaccordement';
+import { getAbandonInfos, getRaccordement } from '../../../_helpers';
 
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
@@ -29,7 +28,7 @@ export const RaccordementSection = ({
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const abandon = await getAbandon(identifiantProjet.formatter());
+    const abandon = await getAbandonInfos(identifiantProjet.formatter());
 
     const raccordement = await getRaccordement(identifiantProjet.formatter());
 

@@ -1,7 +1,8 @@
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ChampAvecAction } from '../../../../_helpers/types';
+import { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
+
 import { Champ } from '../../../(components)/Champ';
 
 export type AutorisationUrbanismeDétailsProps = ChampAvecAction<

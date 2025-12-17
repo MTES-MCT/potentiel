@@ -1,11 +1,10 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import { getActionnariatTypeLabel } from '@/app/_helpers';
+import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Heading6 } from '@/components/atoms/headings';
-
-import { ChampObligatoireAvecAction } from '../../../../_helpers/types';
-import { getActionnariatTypeLabel } from '../../../../../../_helpers';
 
 export type ActionnariatDétailsProps = {
   actionnaire: ChampObligatoireAvecAction<

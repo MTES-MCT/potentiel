@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { Section } from '../../../(components)/Section';

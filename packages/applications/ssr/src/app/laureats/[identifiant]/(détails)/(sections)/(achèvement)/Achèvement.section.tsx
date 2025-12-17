@@ -1,12 +1,12 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
-import { getAchèvement } from '../../_helpers/getAchèvement';
+import { getAchèvement } from '../../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 

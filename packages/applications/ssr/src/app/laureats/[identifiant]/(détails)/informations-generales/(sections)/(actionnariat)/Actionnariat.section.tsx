@@ -1,17 +1,17 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCahierDesCharges } from '@/app/_helpers';
 import {
+  getAction,
   getActionnaireInfos,
+  getGarantiesFinancières,
   getLauréatInfos,
-} from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+} from '@/app/laureats/[identifiant]/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../../(components)/Section';
-import { getAction } from '../../../../_helpers/getAction';
-import { getGarantiesFinancières } from '../../../_helpers/getGarantiesFinancières';
-import { getCahierDesCharges } from '../../../../../../_helpers';
 
 import { ActionnariatDétails } from './ActionnariatDétails';
 

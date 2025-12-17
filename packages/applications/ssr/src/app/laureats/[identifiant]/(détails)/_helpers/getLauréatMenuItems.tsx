@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
-import { DomaineAction, getAction } from '../../_helpers/getAction';
+import { DomaineAction, getAction } from '../../_helpers';
 
 export type MenuItem = SideMenuProps.Item;
 

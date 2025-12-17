@@ -1,9 +1,10 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
+import { getCahierDesCharges } from '@/app/_helpers';
+import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 
 import { Section } from '../../../(components)/Section';
-import { getCahierDesCharges } from '../../../../../../_helpers';
-import { getLauréatInfos } from '../../../../_helpers/getLauréat';
 
 import { AutorisationUrbanismeDétails } from './AutorisationUrbanismeDétails';
 

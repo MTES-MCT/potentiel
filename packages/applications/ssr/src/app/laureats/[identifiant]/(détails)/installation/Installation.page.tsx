@@ -1,33 +1,27 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { Heading2 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { NatureDeLExploitationSection } from './(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
 import { AutorisationUrbanismeSection } from './(sections)/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
 import { InstallationSection } from './(sections)/(installation)/Installation.section';
+import { NatureDeLExploitationSection } from './(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
 
-type Props = { identifiantProjet: string };
+type Props = { identifiantProjet: IdentifiantProjet.RawType };
 
 export const InstallationPage = ({ identifiantProjet }: Props) => (
   <ColumnPageTemplate
     heading={<Heading2>Installation</Heading2>}
     leftColumn={{
-      children: <InstallationLeft identifiantProjet={identifiantProjet} />,
+      children: <InstallationSection identifiantProjet={identifiantProjet} />,
     }}
     rightColumn={{
-      children: <InstallationRight identifiantProjet={identifiantProjet} />,
+      children: (
+        <div className="flex flex-col gap-4 w-full">
+          <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
+          <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
+        </div>
+      ),
     }}
   />
 );
-
-const InstallationLeft = ({ identifiantProjet }: Props) => {
-  return <InstallationSection identifiantProjet={identifiantProjet} />;
-};
-
-const InstallationRight = ({ identifiantProjet }: Props) => {
-  return (
-    <div className="flex flex-col gap-4 w-full">
-      <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
-      <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
-    </div>
-  );
-};

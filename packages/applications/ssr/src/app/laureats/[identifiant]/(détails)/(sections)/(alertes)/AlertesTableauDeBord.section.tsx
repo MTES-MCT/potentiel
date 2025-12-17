@@ -1,12 +1,11 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { getAbandon } from '../../_helpers/getAbandon';
-import { getAchèvement } from '../../_helpers/getAchèvement';
+import { getAbandonInfos, getAchèvement } from '../../../_helpers';
 
 import { Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
 
@@ -20,7 +19,7 @@ export const AlertesTableauDeBordSection = ({
   withUtilisateur(async ({ rôle }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const abandon = await getAbandon(identifiantProjet.formatter());
+    const abandon = await getAbandonInfos(identifiantProjet.formatter());
     const achèvement = await getAchèvement(identifiantProjet.formatter());
 
     const abandonAlertes = await getAbandonAlert(

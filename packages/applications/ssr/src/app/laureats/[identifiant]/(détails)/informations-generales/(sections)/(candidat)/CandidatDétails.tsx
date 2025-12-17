@@ -1,10 +1,10 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
+import { Heading6 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampObligatoireAvecAction } from '../../../../_helpers/types';
-import { Heading6 } from '../../../../../../../components/atoms/headings';
+import { ChampObligatoireAvecAction } from '../../../../_helpers';
 
 export type CandidatDétailsProps = {
   localité: ChampObligatoireAvecAction<PlainType<Lauréat.ConsulterLauréatReadModel['localité']>>;

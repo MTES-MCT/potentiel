@@ -1,10 +1,9 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampObligatoireAvecAction } from '../../../../_helpers/types';
-import { Heading6 } from '../../../../../../../components/atoms/headings';
+import { Heading6 } from '@/components/atoms/headings';
 
 export type ContractualisationDétailsProps = {
   puissance: ChampObligatoireAvecAction<PlainType<Lauréat.Puissance.ConsulterPuissanceReadModel>>;

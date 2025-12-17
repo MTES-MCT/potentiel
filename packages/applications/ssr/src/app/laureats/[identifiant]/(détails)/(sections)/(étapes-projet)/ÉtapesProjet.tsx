@@ -1,15 +1,16 @@
+import Information from '@codegouvfr/react-dsfr/picto/Information';
+import Success from '@codegouvfr/react-dsfr/picto/Success';
+import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
 import { match } from 'ts-pattern';
-import clsx from 'clsx';
-import Success from '@codegouvfr/react-dsfr/picto/Success';
-import Information from '@codegouvfr/react-dsfr/picto/Information';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type ÉtapeProjet =
   | {

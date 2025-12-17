@@ -1,10 +1,9 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { getAction, getReprésentantLégalInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
-import { getReprésentantLégalInfos } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 
 import { Section } from '../../../(components)/Section';
 

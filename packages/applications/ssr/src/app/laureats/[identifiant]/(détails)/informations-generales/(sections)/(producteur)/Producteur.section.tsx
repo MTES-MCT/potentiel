@@ -2,8 +2,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
-import { getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+import { getAction, getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers';
 
 import { Section } from '../../../(components)/Section';
 

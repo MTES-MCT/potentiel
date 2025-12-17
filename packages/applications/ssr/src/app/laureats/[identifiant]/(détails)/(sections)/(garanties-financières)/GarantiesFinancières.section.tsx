@@ -1,16 +1,15 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
-import { getAchèvement } from '../../_helpers/getAchèvement';
-import { getCahierDesCharges } from '../../../../../_helpers';
-import { getGarantiesFinancières } from '../../_helpers/getGarantiesFinancières';
+import { getAchèvement, getGarantiesFinancières } from '../../../_helpers';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 

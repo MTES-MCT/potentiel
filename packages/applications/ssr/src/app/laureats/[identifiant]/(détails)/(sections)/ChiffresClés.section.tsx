@@ -3,7 +3,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { ChiffresClésProjet } from '@/components/molecules/projet/ChiffresClésProjet';
 
 import { Section } from '../(components)/Section';
-import { getLauréat } from '../../_helpers/getLauréat';
+import { getLauréat } from '../../_helpers';
 
 type ChiffresClésSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
