@@ -18,6 +18,8 @@ type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
   domain: TDomain;
+  /** Forcer l'instruction, utile quand le domaine a une règle complexe (actionnaire)  */
+  nécessiteInstruction?: boolean;
 };
 
 type TypeChangement = 'modifier' | 'demanderChangement' | 'enregistrerChangement';
@@ -116,8 +118,27 @@ const mapChangements: MapChangements = {
       labelActions: "Changer la nature de l'exploitation",
     },
   },
+  actionnaire: {
+    modifier: {
+      url: Routes.Actionnaire.modifier,
+      label: 'Modifier',
+      labelActions: `Modifier l'actionnaire(s)`,
+      permission: 'actionnaire.modifier',
+    },
+    demanderChangement: {
+      url: Routes.Actionnaire.changement.demander,
+      label: 'Faire une demande de changement',
+      labelActions: `Demander un changement d'actionnaire(s)`,
+      permission: 'actionnaire.enregistrerChangement',
+    },
+    enregistrerChangement: {
+      url: Routes.Actionnaire.changement.enregistrer,
+      label: 'Faire un changement',
+      labelActions: "Changer d'actionnaire(s)",
+      permission: 'actionnaire.enregistrerChangement',
+    },
+  },
   // TODO
-  actionnaire: {},
   puissance: {},
   recours: {},
   abandon: {},
@@ -129,6 +150,7 @@ export const getAction = async <TDomain extends keyof AppelOffre.RèglesDemandes
   identifiantProjet,
   rôle,
   domain,
+  nécessiteInstruction,
 }: Props<TDomain>) => {
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
@@ -154,6 +176,7 @@ export const getAction = async <TDomain extends keyof AppelOffre.RèglesDemandes
 
   if (
     !!enregistrerChangement &&
+    !nécessiteInstruction &&
     rôle.aLaPermission(enregistrerChangement.permission) &&
     règlesChangement.informationEnregistrée
   ) {

@@ -5,17 +5,17 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../../(components)/Section';
-
-import { ActionnariatDétails, ActionnariatDétailsProps } from './ActionnariatDétails';
 import { getLauréatInfos } from '../../../../_helpers/getLauréat';
-import { Role } from '@potentiel-domain/utilisateur';
 import { getAction } from '../../../../_helpers/getAction';
 import { getGarantiesFinancières } from '../../../_helpers/getGarantiesFinancières';
 import { getCahierDesCharges } from '../../../../../../_helpers';
+
+import { ActionnariatDétails, ActionnariatDétailsProps } from './ActionnariatDétails';
 
 type ActionnariatSectionProps = {
   identifiantProjet: string;
@@ -109,28 +109,7 @@ export const getActionnaire = async ({
         identifiantProjet,
         rôle,
         domain: 'actionnaire',
-        modifier: {
-          url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier l’actionnaire(s)',
-          permission: 'actionnaire.modifier',
-        },
-        demanderChangement: nécessiteInstruction
-          ? {
-              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: 'Faire une demande de changement',
-              labelActions: 'Demander un changement d’actionnaire(s)',
-              permission: 'actionnaire.enregistrerChangement',
-            }
-          : undefined,
-        enregistrerChangement: nécessiteInstruction
-          ? undefined
-          : {
-              url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Faire un changement',
-              labelActions: "Changer d'actionnaire(s)",
-              permission: 'actionnaire.enregistrerChangement',
-            },
+        nécessiteInstruction,
       });
 
   return {
