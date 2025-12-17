@@ -17,35 +17,15 @@ export const TableauDeBordPage = ({ identifiantProjet }: TableauDeBordPageProps)
   <SectionPage title="Tableau de bord">
     <div className="flex flex-col gap-4">
       <AlertesTableauDeBordSection identifiantProjet={identifiantProjet} />
-      <div
-        className="flex flex-col md:grid md:grid-cols-2  gap-4"
-        style={{
-          gridTemplateAreas: `
-            "etapes chiffres" 
-            "etapes cdc" 
-            "etapes achevement" 
-            "raccordement achevement" 
-            "raccordement gf"
-            "raccordement 1fr"
-          `,
-        }}
-      >
-        <div className="[grid-area:etapes]">
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-1 flex-col gap-4">
           <ÉtapesProjetSection identifiantProjet={identifiantProjet} />
-        </div>
-        <div className="[grid-area:chiffres]">
-          <ChiffresClésSection identifiantProjet={identifiantProjet} />
-        </div>
-        <div className="[grid-area:cdc]">
-          <CahierDesChargesSection identifiantProjet={identifiantProjet} />
-        </div>
-        <div className="[grid-area:achevement]">
-          <AchèvementSection identifiantProjet={identifiantProjet} />
-        </div>
-        <div className="[grid-area:raccordement]">
           <RaccordementSection identifiantProjet={identifiantProjet} />
         </div>
-        <div className="[grid-area:gf]">
+        <div className="flex flex-1 flex-col gap-4">
+          <ChiffresClésSection identifiantProjet={identifiantProjet} />
+          <CahierDesChargesSection identifiantProjet={identifiantProjet} />
+          <AchèvementSection identifiantProjet={identifiantProjet} />
           <GarantiesFinancièresSection identifiantProjet={identifiantProjet} />
         </div>
       </div>
