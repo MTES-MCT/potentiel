@@ -14,7 +14,7 @@ type Props = {
 };
 
 export const TâchesPage = ({ tâches }: Props) => (
-  <SectionPage title="Actions en attente">
+  <SectionPage title="Tâches">
     <TâchesList tâches={tâches} />
   </SectionPage>
 );

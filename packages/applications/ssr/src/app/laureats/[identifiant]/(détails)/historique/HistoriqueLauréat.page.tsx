@@ -5,6 +5,8 @@ import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
+import { SectionPage } from '../(components)/SectionPage';
+
 export type HistoriqueLauréatAction = 'imprimer';
 
 export type HistoriqueLauréatPageProps = {
@@ -19,7 +21,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   historique,
   filters,
 }) => (
-  <>
+  <SectionPage title="Historique du projet">
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-row gap-6 w-full">
         {filters.length ? (
@@ -39,5 +41,5 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
         )}
       </div>
     </div>
-  </>
+  </SectionPage>
 );
