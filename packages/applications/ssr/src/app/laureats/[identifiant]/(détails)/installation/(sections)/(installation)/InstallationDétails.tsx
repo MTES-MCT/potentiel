@@ -28,7 +28,9 @@ export const InstallationDétails = ({
     {typologieInstallation && (
       <Section title="Typologie du projet">
         {typologieInstallation.value.length ? (
-          <div>{DétailTypologieInstallation(typologieInstallation.value)}</div>
+          <div>
+            <DétailTypologieInstallation typologieInstallation={typologieInstallation.value} />
+          </div>
         ) : (
           <span>Champs non renseigné</span>
         )}

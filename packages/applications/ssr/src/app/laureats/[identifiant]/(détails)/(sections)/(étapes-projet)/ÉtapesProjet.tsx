@@ -33,60 +33,54 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   étapes,
 }) => {
   return (
-    <>
-      <aside aria-label="Progress">
-        <ol className="pl-0 overflow-hidden list-none">
-          {étapes.map((étape, index) => {
-            const isLastItem = index === étapes.length - 1;
-            return (
-              <div key={`project-step-${étape.type}`}>
-                {match(étape)
-                  .with({ type: 'designation' }, ({ date }) => (
-                    <ÉtapeProjet titre="Notification" date={date}>
-                      {doitAfficherAttestationDésignation && (
-                        <DownloadDocument
-                          className="mb-0"
-                          label="Télécharger l'attestation"
-                          format="pdf"
-                          url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-                        />
-                      )}
-                    </ÉtapeProjet>
-                  ))
-                  .with({ type: 'recours' }, ({ date }) => (
-                    <ÉtapeProjet titre="Recours accordé" date={date}>
-                      <TertiaryLink href={Routes.Recours.détail(identifiantProjet)}>
-                        Voir les détails du recours
-                      </TertiaryLink>
-                    </ÉtapeProjet>
-                  ))
-                  .with({ type: 'abandon' }, ({ date, dateDemande }) => (
-                    <ÉtapeProjet titre="Abandon accordé" date={date} isLastItem={isLastItem}>
-                      <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
-                        Voir les détails de l'abandon
-                      </TertiaryLink>
-                    </ÉtapeProjet>
-                  ))
-                  .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
-                    <ÉtapeProjet titre="Date d'achèvement prévisionnel" date={date} />
-                  ))
-                  .with({ type: 'mise-en-service' }, ({ date }) => (
-                    <ÉtapeProjet titre="Mise en service" date={date} isLastItem={isLastItem} />
-                  ))
-                  .with({ type: 'achèvement-réel' }, ({ date }) => (
-                    <ÉtapeProjet
-                      titre="Date d'achèvement réel"
-                      date={date}
-                      isLastItem={isLastItem}
-                    />
-                  ))
-                  .exhaustive()}
-              </div>
-            );
-          })}
-        </ol>
-      </aside>
-    </>
+    <aside aria-label="Progress">
+      <ol className="pl-0 overflow-hidden list-none">
+        {étapes.map((étape, index) => {
+          const isLastItem = index === étapes.length - 1;
+          return (
+            <div key={`project-step-${étape.type}`}>
+              {match(étape)
+                .with({ type: 'designation' }, ({ date }) => (
+                  <ÉtapeProjet titre="Notification" date={date}>
+                    {doitAfficherAttestationDésignation && (
+                      <DownloadDocument
+                        className="mb-0"
+                        label="Télécharger l'attestation"
+                        format="pdf"
+                        url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                      />
+                    )}
+                  </ÉtapeProjet>
+                ))
+                .with({ type: 'recours' }, ({ date }) => (
+                  <ÉtapeProjet titre="Recours accordé" date={date}>
+                    <TertiaryLink href={Routes.Recours.détail(identifiantProjet)}>
+                      Voir les détails du recours
+                    </TertiaryLink>
+                  </ÉtapeProjet>
+                ))
+                .with({ type: 'abandon' }, ({ date, dateDemande }) => (
+                  <ÉtapeProjet titre="Abandon accordé" date={date} isLastItem={isLastItem}>
+                    <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
+                      Voir les détails de l'abandon
+                    </TertiaryLink>
+                  </ÉtapeProjet>
+                ))
+                .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
+                  <ÉtapeProjet titre="Date d'achèvement prévisionnel" date={date} />
+                ))
+                .with({ type: 'mise-en-service' }, ({ date }) => (
+                  <ÉtapeProjet titre="Mise en service" date={date} isLastItem={isLastItem} />
+                ))
+                .with({ type: 'achèvement-réel' }, ({ date }) => (
+                  <ÉtapeProjet titre="Date d'achèvement réel" date={date} isLastItem={isLastItem} />
+                ))
+                .exhaustive()}
+            </div>
+          );
+        })}
+      </ol>
+    </aside>
   );
 };
 

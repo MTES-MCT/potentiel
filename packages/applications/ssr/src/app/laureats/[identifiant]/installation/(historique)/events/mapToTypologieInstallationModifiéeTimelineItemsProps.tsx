@@ -16,7 +16,7 @@ export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
     content: (
       <div className="flex flex-col gap-2">
         <div>Nouvelle typologie du projet :</div>
-        {DétailTypologieInstallation(typologieInstallation)}
+        <DétailTypologieInstallation typologieInstallation={typologieInstallation} />
       </div>
     ),
   };
