@@ -25,7 +25,7 @@ export const InstallationDétails = ({
   dispositifDeStockage,
   installateur,
 }: InstallationDétailsProps) => (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-col gap-4 w-full">
     {typologieInstallation && (
       <Section title="Typologie du projet">
         {typologieInstallation.value.length ? (

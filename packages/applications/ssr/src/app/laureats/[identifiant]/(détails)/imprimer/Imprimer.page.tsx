@@ -6,13 +6,10 @@ import { FormattedDate } from '../../../../../components/atoms/FormattedDate';
 import { ÉvaluationCarbonePage } from '../evaluation-carbone/ÉvaluationCarbone.page';
 import { GetÉvaluationCarboneForProjectPage } from '../evaluation-carbone/_helpers/getEvaluationCarboneData';
 import { InformationsGénéralesPage } from '../informations-generales/InformationsGénérales.page';
-import { AutorisationUrbanismeSection } from '../installation/(sections)/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
-import { InstallationSection } from '../installation/(sections)/(installation)/Installation.section';
-import { NatureDeLExploitationSection } from '../installation/(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
-import { Heading2 } from '../../../../../components/atoms/headings';
 import { TableauDeBordPage } from '../TableauDeBord.page';
 
 import { ImprimerButton } from './(component)/ImprimerButton';
+import { InstallationPage } from '../installation/Installation.page';
 
 type Props = {
   évaluationCarbone: GetÉvaluationCarboneForProjectPage;
@@ -21,7 +18,7 @@ type Props = {
 
 export const ImprimerPage = ({ évaluationCarbone, identifiantProjet }: Props) => (
   <>
-    <ImprimerButton />
+    {/* <ImprimerButton /> */}
     <Section title="Pour votre information" className="mb-4">
       <div>
         Ce document a été édité le <FormattedDate date={DateTime.now().formatter()} />
@@ -33,14 +30,7 @@ export const ImprimerPage = ({ évaluationCarbone, identifiantProjet }: Props) =
     <div className="flex flex-col gap-4">
       <TableauDeBordPage identifiantProjet={identifiantProjet} />
       <InformationsGénéralesPage identifiantProjet={identifiantProjet} />
-      <div>
-        <Heading2>Installation</Heading2>
-        <div className="flex flex-col gap-4">
-          <InstallationSection identifiantProjet={identifiantProjet} />
-          <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
-          <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
-        </div>
-      </div>
+      <InstallationPage identifiantProjet={identifiantProjet} />
       <ÉvaluationCarbonePage évaluationCarbone={évaluationCarbone} />
     </div>
   </>

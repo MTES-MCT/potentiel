@@ -25,7 +25,7 @@ const InstallationLeft = ({ identifiantProjet }: Props) => {
 
 const InstallationRight = ({ identifiantProjet }: Props) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
       <NatureDeLExploitationSection identifiantProjet={identifiantProjet} />
     </div>

@@ -22,7 +22,7 @@ const ÉvaluationCarbone = ({ évaluationCarbone }: Props) => {
   const { évaluationCarboneSimplifiée, fournisseurs } = évaluationCarbone;
 
   return (
-    <>
+    <div className='flex flex-col gap-4 w-1/2'>
       <Section title="Évaluation carbone simplifiée">
         <span className="text-nowrap">{évaluationCarboneSimplifiée.value} kg eq CO2/kWc</span>
       </Section>
@@ -48,6 +48,6 @@ const ÉvaluationCarbone = ({ évaluationCarbone }: Props) => {
           </>
         )}
       </Section>
-    </>
+    </div>
   );
 };
