@@ -77,6 +77,10 @@ export const convertirEnValueType = (value: string): ValueType => {
         throw new AucunAbandonEnCours();
       }
       if (nouveauStatut.estAccordé()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
+
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
@@ -98,6 +102,10 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonDéjàConfirméError();
         }
       } else if (nouveauStatut.estConfirmé()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
+
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
@@ -121,6 +129,10 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonEnCoursErreur();
         }
       } else if (nouveauStatut.estConfirmationDemandée()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
+
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
@@ -137,6 +149,10 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonDéjàConfirméError();
         }
       } else if (nouveauStatut.estEnInstruction()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
+
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
@@ -151,6 +167,10 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new AbandonConfirméInstructionError();
         }
       } else if (nouveauStatut.estRejeté()) {
+        if (this.estAnnulé()) {
+          throw new AbandonDéjàAnnuléError();
+        }
+
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
         }
