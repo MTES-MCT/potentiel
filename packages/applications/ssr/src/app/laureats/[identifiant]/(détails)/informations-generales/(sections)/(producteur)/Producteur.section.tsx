@@ -1,16 +1,17 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+
+import { Section } from '../../../(components)/Section';
 
 import { ProducteurDétails } from './ProducteurDétails';
-import { notFound } from 'next/navigation';
-import { checkAutorisationChangement } from '../../../../_helpers/checkAutorisationChangement';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { Section } from '../../../(components)/Section';
 
 type ProducteurSectionProps = {
   identifiantProjet: string;
@@ -31,26 +32,24 @@ export const ProducteurSection = ({
       return notFound();
     }
 
-    const { peutModifier, peutEnregistrerChangement } =
-      await checkAutorisationChangement<'producteur'>({
-        identifiantProjet,
-        rôle,
-        domain: 'producteur',
-      });
-
-    const action = peutModifier
-      ? {
-          url: Routes.Producteur.modifier(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le producteur',
-        }
-      : peutEnregistrerChangement
-        ? {
-            url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer de producteur',
-            labelActions: 'Changer de producteur',
-          }
-        : undefined;
+    const action = await getAction({
+      identifiantProjet,
+      rôle,
+      domain: 'producteur',
+      modifier: {
+        url: Routes.Producteur.modifier(identifiantProjet.formatter()),
+        label: 'Modifier',
+        labelActions: 'Modifier le producteur',
+        permission: 'producteur.modifier',
+      },
+      demanderChangement: undefined,
+      enregistrerChangement: {
+        url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
+        label: 'Changer de producteur',
+        labelActions: 'Changer de producteur',
+        permission: 'producteur.enregistrerChangement',
+      },
+    });
 
     return (
       <Section title="Producteur">

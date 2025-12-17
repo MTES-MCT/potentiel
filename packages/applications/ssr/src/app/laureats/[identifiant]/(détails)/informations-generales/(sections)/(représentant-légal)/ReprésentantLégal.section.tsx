@@ -1,20 +1,21 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getAction } from '@/app/laureats/[identifiant]/_helpers/getAction';
+
+import { Section } from '../../../(components)/Section';
 
 import {
   ReprésentantLégalDétails,
   ReprésentantLégalDétailsProps,
 } from './ReprésentantLégalDétails';
-import { notFound } from 'next/navigation';
-import { checkAutorisationChangement } from '../../../../_helpers/checkAutorisationChangement';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { Section } from '../../../(components)/Section';
-import { Role } from '@potentiel-domain/utilisateur';
 
 type ReprésentantLégalSectionProps = {
   identifiantProjet: string;
@@ -72,28 +73,29 @@ export const getReprésentantLégalData = async ({
     };
   }
 
-  const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
-    await checkAutorisationChangement<'représentantLégal'>({
-      identifiantProjet,
-      rôle,
-      domain: 'représentantLégal',
-    });
-
-  const action = peutModifier
-    ? {
-        url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
-        label: 'Modifier',
-        labelActions: 'Modifier le représentant légal',
-      }
-    : peutFaireUneDemandeDeChangement || peutEnregistrerChangement
-      ? {
-          url: peutFaireUneDemandeDeChangement
-            ? Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter())
-            : Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
-          label: 'Changer de représentant légal',
-          labelActions: 'Changer de représentant légal',
-        }
-      : undefined;
+  const action = await getAction({
+    identifiantProjet,
+    rôle,
+    domain: 'représentantLégal',
+    modifier: {
+      url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
+      label: 'Modifier',
+      labelActions: 'Modifier le représentant légal',
+      permission: 'représentantLégal.modifier',
+    },
+    demanderChangement: {
+      url: Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter()),
+      label: 'Changer de représentant légal',
+      labelActions: 'Changer de représentant légal',
+      permission: 'représentantLégal.demanderChangement',
+    },
+    enregistrerChangement: {
+      url: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
+      label: 'Changer de représentant légal',
+      labelActions: 'Changer de représentant légal',
+      permission: 'représentantLégal.enregistrerChangement',
+    },
+  });
 
   return {
     value,
