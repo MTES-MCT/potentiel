@@ -32,6 +32,20 @@ export class GestionnaireRéseauWorld {
     return this.#référentielOREFixtures;
   }
 
+  getGestionnaire(codeEIC: string): GestionnaireRéseau {
+    const gestionnaireRéseau = [...this.#gestionnairesRéseauFixtures.values()].find(
+      (x) => x.codeEIC === codeEIC,
+    );
+
+    if (!gestionnaireRéseau) {
+      throw new Error(
+        `Aucun gestionnaire réseau correspondant à ${codeEIC} dans les jeux de données`,
+      );
+    }
+
+    return gestionnaireRéseau;
+  }
+
   rechercherGestionnaireRéseauFixture(raisonSociale: string): GestionnaireRéseau {
     const gestionnaireRéseau = this.#gestionnairesRéseauFixtures.get(raisonSociale);
 
