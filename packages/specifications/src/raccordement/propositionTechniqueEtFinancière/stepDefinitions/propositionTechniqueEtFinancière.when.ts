@@ -9,7 +9,7 @@ import { PotentielWorld } from '../../../potentiel.world';
 import { getRôle, RôleUtilisateur } from '../../../helpers';
 
 Quand(
-  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat`,
+  `le porteur transmet une proposition technique et financière pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -23,7 +23,7 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :`,
+  `le porteur transmet une proposition technique et financière pour le projet lauréat avec :`,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
