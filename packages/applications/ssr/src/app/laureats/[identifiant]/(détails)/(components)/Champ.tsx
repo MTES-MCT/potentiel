@@ -19,7 +19,7 @@ export type ChampProps = {
 export const Champ = ({ date, number, text, label, unité }: ChampProps) => {
   const value = text ? text : number ? number : date ? <FormattedDate date={date} /> : null;
 
-  if (value === undefined || text === '') {
+  if (value === null || text === '') {
     return <div>Champ non renseigné</div>;
   }
 

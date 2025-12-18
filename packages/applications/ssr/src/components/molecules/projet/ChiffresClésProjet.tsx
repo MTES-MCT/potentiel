@@ -38,23 +38,23 @@ type ChiffresClésProjetProps = {
     valeur: number;
     unité: Candidature.UnitéPuissance.RawType;
   };
-  prixReference: number;
-  evaluationCarboneSimplifiée: number;
+  prixRéférence: number;
+  évaluationCarboneSimplifiée: number;
 };
 
 export const ChiffresClésProjet = ({
-  evaluationCarboneSimplifiée,
-  prixReference,
+  évaluationCarboneSimplifiée,
+  prixRéférence,
   puissance,
 }: ChiffresClésProjetProps) => (
   <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:justify-between max-lg:gap-2 text-sm md:text-base">
     <ChiffreClé symbol={symbols.puissance} valeur={puissance.valeur} unité={puissance.unité} />
     <Separator />
-    <ChiffreClé symbol={symbols.prix} valeur={prixReference} unité="€ par MWh" />
+    <ChiffreClé symbol={symbols.prix} valeur={prixRéférence} unité="€ par MWh" />
     <Separator />
     <ChiffreClé
       symbol={symbols.évaluationCarbone}
-      valeur={evaluationCarboneSimplifiée}
+      valeur={évaluationCarboneSimplifiée}
       unité="kg eq CO2/kWc"
     />
   </div>

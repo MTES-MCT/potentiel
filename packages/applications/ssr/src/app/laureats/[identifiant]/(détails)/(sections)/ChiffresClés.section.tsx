@@ -18,8 +18,8 @@ export const ChiffresClésSection = async ({ identifiantProjet }: ChiffresClésS
           valeur: puissance.puissance,
           unité: puissance.unitéPuissance.unité,
         }}
-        prixReference={lauréat.prixReference}
-        evaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
+        prixRéférence={lauréat.prixReference}
+        évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
       />
     </Section>
   );
