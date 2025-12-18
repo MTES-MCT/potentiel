@@ -6,7 +6,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
-import { getAchèvement } from '../../../_helpers';
+import { getAchèvement, SectionWithErrorHandling } from '../../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 
@@ -14,23 +14,28 @@ type AchèvementSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const sectionTitle = 'Achèvement';
+
 export const AchèvementSection = ({
   identifiantProjet: identifiantProjetValue,
 }: AchèvementSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
+      const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
 
-    return (
-      <Section title="Achèvement" className={achèvement.value.estAchevé ? '' : 'print:hidden'}>
-        <AchèvementDétails
-          actions={achèvement.actions}
-          value={mapToPlainObject(achèvement.value)}
-        />
-      </Section>
-    );
-  });
+      return (
+        <Section title={sectionTitle} className={achèvement.value.estAchevé ? '' : 'print:hidden'}>
+          <AchèvementDétails
+            actions={achèvement.actions}
+            value={mapToPlainObject(achèvement.value)}
+          />
+        </Section>
+      );
+    }),
+    sectionTitle,
+  );
 
 const getAchèvementData = async (
   identifiantProjet: IdentifiantProjet.RawType,

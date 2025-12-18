@@ -9,7 +9,11 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
-import { getAchèvement, getGarantiesFinancières } from '../../../_helpers';
+import {
+  getAchèvement,
+  getGarantiesFinancières,
+  SectionWithErrorHandling,
+} from '../../../_helpers';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 
@@ -17,36 +21,41 @@ type GarantiesFinancièresSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const sectionTitle = 'Garanties financières';
+
 export const GarantiesFinancièresSection = ({
   identifiantProjet: identifiantProjetValue,
 }: GarantiesFinancièresSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const garantiesFinancières = await getGarantiesFinancièresData({
-      identifiantProjet,
-      rôle,
-      estSoumisAuxGarantiesFinancières: cahierDesCharges.estSoumisAuxGarantiesFinancières(),
-    });
+      const garantiesFinancières = await getGarantiesFinancièresData({
+        identifiantProjet,
+        rôle,
+        estSoumisAuxGarantiesFinancières: cahierDesCharges.estSoumisAuxGarantiesFinancières(),
+      });
 
-    if (!garantiesFinancières) {
-      return null;
-    }
+      if (!garantiesFinancières) {
+        return null;
+      }
 
-    const achèvement = await getAchèvement(identifiantProjet.formatter());
+      const achèvement = await getAchèvement(identifiantProjet.formatter());
 
-    return (
-      <Section title="Garanties financières">
-        <GarantiesFinancièresDétails
-          garantiesFinancières={mapToPlainObject(garantiesFinancières)}
-          estAchevé={achèvement.estAchevé}
-          identifiantProjet={identifiantProjet.formatter()}
-        />
-      </Section>
-    );
-  });
+      return (
+        <Section title={sectionTitle}>
+          <GarantiesFinancièresDétails
+            garantiesFinancières={mapToPlainObject(garantiesFinancières)}
+            estAchevé={achèvement.estAchevé}
+            identifiantProjet={identifiantProjet.formatter()}
+          />
+        </Section>
+      );
+    }),
+    sectionTitle,
+  );
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;

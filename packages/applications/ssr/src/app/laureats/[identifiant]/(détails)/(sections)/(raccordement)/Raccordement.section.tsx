@@ -6,7 +6,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { Section } from '../../(components)/Section';
-import { getAbandonInfos, getRaccordement } from '../../../_helpers';
+import { getAbandonInfos, getRaccordement, SectionWithErrorHandling } from '../../../_helpers';
 
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
@@ -14,50 +14,55 @@ type RaccordementSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const sectionTitle = 'Raccordement au réseau';
+
 export const RaccordementSection = ({
   identifiantProjet: identifiantProjetValue,
 }: RaccordementSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    if (!rôle.aLaPermission('raccordement.consulter')) {
-      return null;
-    }
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      if (!rôle.aLaPermission('raccordement.consulter')) {
+        return null;
+      }
 
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const abandon = await getAbandonInfos(identifiantProjet.formatter());
+      const abandon = await getAbandonInfos(identifiantProjet.formatter());
 
-    const raccordement = await getRaccordement(identifiantProjet.formatter());
+      const raccordement = await getRaccordement(identifiantProjet.formatter());
 
-    if (!raccordement) {
-      return null;
-    }
+      if (!raccordement) {
+        return null;
+      }
 
-    const action =
-      abandon?.estAbandonné || abandon?.demandeEnCours
-        ? undefined
-        : {
-            label: 'Consulter la page raccordement',
-            url: Routes.Raccordement.détail(identifiantProjet.formatter()),
-          };
+      const action =
+        abandon?.estAbandonné || abandon?.demandeEnCours
+          ? undefined
+          : {
+              label: 'Consulter la page raccordement',
+              url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+            };
 
-    const alertes = rôle.estPorteur()
-      ? getAlertesRaccordement({
-          CDC2022Choisi:
-            !!cahierDesCharges.cahierDesChargesModificatif &&
-            cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-          raccordement,
-        })
-      : [];
-    const value = mapToPlainObject(raccordement);
+      const alertes = rôle.estPorteur()
+        ? getAlertesRaccordement({
+            CDC2022Choisi:
+              !!cahierDesCharges.cahierDesChargesModificatif &&
+              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+            raccordement,
+          })
+        : [];
+      const value = mapToPlainObject(raccordement);
 
-    return (
-      <Section title="Raccordement au réseau">
-        <RaccordementDétails raccordement={{ value, action }} alertes={alertes} />
-      </Section>
-    );
-  });
+      return (
+        <Section title={sectionTitle}>
+          <RaccordementDétails raccordement={{ value, action }} alertes={alertes} />
+        </Section>
+      );
+    }),
+    sectionTitle,
+  );
 
 const getAlertesRaccordement = ({
   CDC2022Choisi,

@@ -6,6 +6,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
+import { SectionWithErrorHandling } from '../../../_helpers';
 
 import { CahierDesChargesDétails } from './CahierDesChargesDétails';
 
@@ -13,31 +14,36 @@ type CahierDesChargesSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const sectionTitle = 'Cahier des charges';
+
 export const CahierDesChargesSection = ({
   identifiantProjet: identifiantProjetValue,
 }: CahierDesChargesSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const value = {
-      ...mapToPlainObject(cahierDesCharges),
-      doitChoisirUnCahierDesChargesModificatif:
-        cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
-    };
+      const value = {
+        ...mapToPlainObject(cahierDesCharges),
+        doitChoisirUnCahierDesChargesModificatif:
+          cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
+      };
 
-    const action = rôle.aLaPermission('cahierDesCharges.choisir')
-      ? {
-          label: 'Accéder au choix du cahier des charges',
+      const action = rôle.aLaPermission('cahierDesCharges.choisir')
+        ? {
+            label: 'Accéder au choix du cahier des charges',
 
-          url: Routes.CahierDesCharges.choisir(identifiantProjet.formatter()),
-        }
-      : undefined;
+            url: Routes.CahierDesCharges.choisir(identifiantProjet.formatter()),
+          }
+        : undefined;
 
-    return (
-      <Section title="Cahier des charges">
-        <CahierDesChargesDétails value={value} action={action} />
-      </Section>
-    );
-  });
+      return (
+        <Section title={sectionTitle}>
+          <CahierDesChargesDétails value={value} action={action} />
+        </Section>
+      );
+    }),
+    sectionTitle,
+  );

@@ -1,5 +1,7 @@
 import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
+import { withUtilisateur } from '@/utils/withUtilisateur';
+
 import { Section } from '../../(components)/Section';
 import {
   getAbandonInfos,
@@ -7,6 +9,7 @@ import {
   getLauréatInfos,
   getRaccordement,
   getRecours,
+  SectionWithErrorHandling,
 } from '../../../_helpers';
 
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
@@ -15,35 +18,41 @@ type ÉtapesProjetSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export const ÉtapesProjetSection = async ({
+const sectionTitle = 'Étapes du projet';
+
+export const ÉtapesProjetSection = ({
   identifiantProjet: identifiantProjetValue,
-}: ÉtapesProjetSectionProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+}: ÉtapesProjetSectionProps) =>
+  SectionWithErrorHandling(
+    withUtilisateur(async () => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-  const achèvement = await getAchèvement(identifiantProjet.formatter());
-  const abandon = await getAbandonInfos(identifiantProjet.formatter());
-  const recours = await getRecours(identifiantProjet.formatter());
-  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
-  const raccordement = await getRaccordement(identifiantProjet.formatter());
+      const achèvement = await getAchèvement(identifiantProjet.formatter());
+      const abandon = await getAbandonInfos(identifiantProjet.formatter());
+      const recours = await getRecours(identifiantProjet.formatter());
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+      const raccordement = await getRaccordement(identifiantProjet.formatter());
 
-  const étapes = mapToÉtapesData({
-    lauréat,
-    achèvement,
-    abandon,
-    recours,
-    raccordement,
-  });
+      const étapes = mapToÉtapesData({
+        lauréat,
+        achèvement,
+        abandon,
+        recours,
+        raccordement,
+      });
 
-  return (
-    <Section title="Étapes du projet" className="min-w-0">
-      <EtapesProjet
-        étapes={étapes}
-        identifiantProjet={identifiantProjetValue}
-        doitAfficherAttestationDésignation={!!lauréat.attestationDésignation}
-      />
-    </Section>
+      return (
+        <Section title={sectionTitle} className="min-w-0">
+          <EtapesProjet
+            étapes={étapes}
+            identifiantProjet={identifiantProjetValue}
+            doitAfficherAttestationDésignation={!!lauréat.attestationDésignation}
+          />
+        </Section>
+      );
+    }),
+    sectionTitle,
   );
-};
 
 type GetÉtapesData = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
