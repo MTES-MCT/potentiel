@@ -10,10 +10,12 @@ import { DateTime } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { localitéSchema } from '@/utils/candidature/localité.schema';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  raison: zod.string().optional(),
+  raison: zod.string().min(1),
+  piecesJustificatives: manyDocuments({ optional: true, acceptedFileTypes: ['application/pdf'] }),
   adresse1: localitéSchema.shape.adresse1,
   adresse2: localitéSchema.shape.adresse2,
   codePostal: localitéSchema.shape.codePostal,
@@ -36,6 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
     departement,
     region,
     accesAuProjetPerdu,
+    piecesJustificatives,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -54,6 +57,7 @@ const action: FormAction<FormState, typeof schema> = async (
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
         modifiéLeValue: DateTime.now().formatter(),
         raisonValue: raison,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 
