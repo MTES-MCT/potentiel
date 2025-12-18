@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import Link from 'next/link';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -76,21 +76,22 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         }}
         documentKeys={pièceJustificative}
       />
-      <Alert
-        severity="info"
+      <Notice
         title="Concernant la sécurité de vos données"
         description={
-          <ul className="p-4 list-disc">
-            <li>
+          <span className="inline-block">
+            <span className="inline-block">
               Un filigrane sera automatiquement appliqué sur l'ensemble des pièces justificatives
               transmises (nous utilisons le service de la plateforme d'état{' '}
               <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
                 filigrane.beta.gouv.fr
               </Link>
-              . )
-            </li>
-            <li>Les pièces seront automatiquement supprimées après traitement de votre demande</li>
-          </ul>
+              . ).
+            </span>
+            <span className="inline-block">
+              Les pièces seront automatiquement supprimées après traitement de votre demande.
+            </span>
+          </span>
         }
       />
     </>
