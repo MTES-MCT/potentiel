@@ -8,13 +8,13 @@
     "build": "tsc",
     "test": "tsx --test --test-concurrency=1 ./**/*.integration.ts"
   },
-  "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "tsx": "4.20.4"
-  },
   "dependencies": {
+    "@potentiel-libraries/monitoring": "*",
     "@aws-sdk/client-s3": "3.842.0",
     "@aws-sdk/lib-storage": "3.787.0"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*",
+    "tsx": "4.20.4"
   }
 }

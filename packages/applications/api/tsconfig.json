@@ -7,10 +7,13 @@
     "moduleResolution": "node16"
   },
   "references": [
-    { "path": "../api-documentation" },
     { "path": "../request-context" },
+    { "path": "../api-documentation" },
     { "path": "../../libraries/monitoring" },
-    { "path": "../../domain/projet" }
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/common" },
+    { "path": "../../domain/entity" },
+    { "path": "../../domain/core" }
   ],
   "include": ["src/"]
 }

@@ -8,7 +8,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*"
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/core": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

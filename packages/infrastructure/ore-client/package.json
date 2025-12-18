@@ -8,14 +8,14 @@
     "build": "tsc",
     "test": "tsx --test src/**/*.test.ts"
   },
-  "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
-  },
   "dependencies": {
     "@potentiel-domain/reseau": "*",
     "@potentiel-libraries/http-client": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "zod": "4.1.9"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
   }
 }

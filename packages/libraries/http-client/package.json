@@ -7,10 +7,10 @@
   "scripts": {
     "build": "tsc"
   },
-  "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
-  },
   "dependencies": {
     "cockatiel": "3.2.1"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
   }
 }

@@ -4,9 +4,5 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "references": [
-    {
-      "path": "../../libraries/monads"
-    }
-  ]
+  "references": [{ "path": "../../libraries/monads" }, { "path": "../core" }]
 }

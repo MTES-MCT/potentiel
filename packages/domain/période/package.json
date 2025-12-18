@@ -9,9 +9,14 @@
   },
   "dependencies": {
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/projet": "*",
-    "@potentiel-libraries/monads": "*"
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "mediateur": "0.3.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

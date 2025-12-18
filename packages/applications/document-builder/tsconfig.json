@@ -6,14 +6,11 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../domain/appel-offre"
-    },
-    {
-      "path": "../../domain/projet"
-    },
-    {
-      "path": "../../libraries/monitoring"
-    }
+    { "path": "../../domain/appel-offre" },
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/common" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../../libraries/monads" },
+    { "path": "../../infrastructure/pg-event-sourcing" }
   ]
 }

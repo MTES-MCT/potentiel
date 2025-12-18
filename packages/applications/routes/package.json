@@ -7,8 +7,11 @@
   "scripts": {
     "build": "tsc"
   },
-  "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+  "dependencies": {
+    "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
   }
 }

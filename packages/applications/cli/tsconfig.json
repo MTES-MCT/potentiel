@@ -7,16 +7,22 @@
     "moduleResolution": "nodenext"
   },
   "references": [
-    { "path": "../../applications/bootstrap" },
-    { "path": "../../applications/document-builder" },
+    { "path": "../bootstrap" },
+    { "path": "../document-builder" },
     { "path": "../../domain/réseau" },
     { "path": "../../domain/utilisateur" },
+    { "path": "../../domain/common" },
+    { "path": "../../domain/projet" },
     { "path": "../../infrastructure/domain-adapters" },
     { "path": "../../infrastructure/ds-api-client" },
     { "path": "../../infrastructure/ore-client" },
+    { "path": "../../infrastructure/pg-event-sourcing" },
+    { "path": "../../infrastructure/pg-projection-read" },
+    { "path": "../../infrastructure/email" },
     { "path": "../../libraries/csv" },
     { "path": "../../libraries/file-storage" },
     { "path": "../../libraries/monitoring" },
+    { "path": "../../libraries/pg-helpers" },
     { "path": "../../statistiques/statistiques-publiques" }
   ]
 }

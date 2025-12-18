@@ -5,20 +5,13 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../domain/entity"
-    },
-    {
-      "path": "../common"
-    },
-    {
-      "path": "../core"
-    },
-    {
-      "path": "../projet"
-    }
+    { "path": "../../libraries/monads" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../entity" },
+    { "path": "../common" },
+    { "path": "../core" },
+    { "path": "../projet" },
+    { "path": "../appel-offre" },
+    { "path": "../utilisateur" }
   ]
 }

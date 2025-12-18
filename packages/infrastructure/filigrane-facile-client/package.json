@@ -7,12 +7,12 @@
   "scripts": {
     "build": "tsc"
   },
-  "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
-  },
   "dependencies": {
     "@potentiel-libraries/http-client": "*",
     "@potentiel-libraries/monads": "*",
     "zod": "4.1.9"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
   }
 }
