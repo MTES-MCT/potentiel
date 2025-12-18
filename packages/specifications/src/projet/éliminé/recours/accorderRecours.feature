@@ -52,7 +52,6 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Aucun recours n'est en cours"
 
-    @select
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été annulé
         Etant donné une demande de recours annulée pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé

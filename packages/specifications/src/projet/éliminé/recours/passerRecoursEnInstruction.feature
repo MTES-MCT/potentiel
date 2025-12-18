@@ -39,7 +39,6 @@ Fonctionnalité: Passer la demande de recours d'un projet éliminé en instructi
         Quand le même administrateur passe en instruction le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Le recours est déjà en instruction avec le même administrateur"
 
-    @select
     Scénario: Impossible de passer le recours d'un projet éliminé en instruction si le recours a déjà été annulé
         Etant donné une demande de recours annulée pour le projet éliminé
         Quand l'administrateur passe en instruction le recours pour le projet éliminé
