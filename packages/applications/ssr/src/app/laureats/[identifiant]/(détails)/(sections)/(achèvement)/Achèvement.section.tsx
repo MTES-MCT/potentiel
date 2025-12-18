@@ -25,6 +25,10 @@ export const AchèvementSection = ({
 
       const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
 
+      if (achèvement.actions.length === 0 && !achèvement.value.estAchevé) {
+        return null;
+      }
+
       return (
         <Section title={sectionTitle} className={achèvement.value.estAchevé ? '' : 'print:hidden'}>
           <AchèvementDétails
