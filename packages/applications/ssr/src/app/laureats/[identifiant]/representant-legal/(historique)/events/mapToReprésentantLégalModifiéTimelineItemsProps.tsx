@@ -7,7 +7,8 @@ import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésen
 export const mapToReprésentantLégalModifiéTimelineItemProps = (
   event: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent,
 ): TimelineItemProps => {
-  const { modifiéLe, modifiéPar, nomReprésentantLégal, typeReprésentantLégal } = event.payload;
+  const { modifiéLe, modifiéPar, nomReprésentantLégal, typeReprésentantLégal, raison } =
+    event.payload;
 
   return {
     date: modifiéLe,
@@ -23,6 +24,9 @@ export const mapToReprésentantLégalModifiéTimelineItemProps = (
         </div>
         <div>
           Nom : <span className="font-semibold">{nomReprésentantLégal}</span>
+        </div>
+        <div>
+          Raison : <span className="font-semibold">{raison}</span>
         </div>
       </div>
     ),

@@ -14,6 +14,7 @@ type ValidationStepProps = {
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
   message: string;
+  raison?: string;
 };
 export const ValidationStep: FC<ValidationStepProps> = ({
   typeReprésentantLégal,
@@ -21,6 +22,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
   nomReprésentantLégal,
   piècesJustificatives,
   message,
+  raison,
 }) => {
   return (
     <div className="flex flex-col gap-4">
@@ -54,6 +56,12 @@ export const ValidationStep: FC<ValidationStepProps> = ({
                   <li key={pj}>{pj}</li>
                 ))}
               </ul>
+            </div>
+          )}
+          {raison && (
+            <div className="flex gap-2">
+              <div className="font-semibold">Raison :</div>
+              <blockquote>{raison}</blockquote>
             </div>
           )}
         </div>

@@ -141,6 +141,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     nomReprésentantLégal,
     typeReprésentantLégal,
     dateModification,
+    piècesJustificatives,
+    raison,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
@@ -157,6 +159,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         typeReprésentantLégal: typeReprésentantLégal.formatter(),
         modifiéLe: dateModification.formatter(),
         modifiéPar: identifiantUtilisateur.formatter(),
+        raison,
+        piècesJustificatives,
       },
     };
     await this.publish(event);

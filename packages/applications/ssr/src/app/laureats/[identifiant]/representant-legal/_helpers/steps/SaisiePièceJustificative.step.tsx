@@ -19,6 +19,7 @@ export type SaisiePièceJustificativeProps = {
   pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;
   validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
+  isOptional?: true;
 };
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
@@ -26,6 +27,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
   typeSociété,
   pièceJustificative,
   validationErrors,
+  isOptional,
   onChange,
 }) => {
   const getPièceJustificativeHintText = () =>
@@ -58,10 +60,10 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
   return (
     <>
       <UploadNewOrModifyExistingDocument
-        label={'Pièce justificative'}
+        label={`Pièce justificative${isOptional ? ' (optionnel)' : ''}`}
         name="piecesJustificatives"
         hintText={getPièceJustificativeHintText()}
-        required
+        required={!isOptional}
         formats={['pdf']}
         multiple={typeSociété !== 'constituée' ? true : undefined}
         state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
