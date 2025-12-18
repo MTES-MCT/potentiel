@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 
 export const ImprimerButton = () => {
   useEffect(() => {
-    window.print();
+    const timeoutInMs = 600;
+    setTimeout(() => {
+      window.print();
+    }, timeoutInMs);
   }, []);
 
   return <></>;
