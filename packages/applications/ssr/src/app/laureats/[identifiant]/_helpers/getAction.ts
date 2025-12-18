@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getCahierDesCharges } from '../../../_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 

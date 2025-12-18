@@ -7,8 +7,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 type GarantiesFinancièresData = {
   actuelles?: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel> & {

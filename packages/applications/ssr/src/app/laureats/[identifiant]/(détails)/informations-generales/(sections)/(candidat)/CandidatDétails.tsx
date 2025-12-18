@@ -3,8 +3,7 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { Heading6 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { ChampObligatoireAvecAction } from '../../../../_helpers';
+import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 
 export type CandidatDétailsProps = {
   localité: ChampObligatoireAvecAction<PlainType<Lauréat.ConsulterLauréatReadModel['localité']>>;

@@ -6,7 +6,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getCahierDesCharges } from '../../../_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 type Props = IdentifiantProjet.RawType;
 

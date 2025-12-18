@@ -1,9 +1,8 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getContext } from '@potentiel-applications/request-context';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-
-import { withUtilisateur } from '../../../../utils/withUtilisateur';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { MenuLauréat } from './(components)/MenuLauréat';
 import { getLauréatMenuItems } from './_helpers/getLauréatMenuItems';
