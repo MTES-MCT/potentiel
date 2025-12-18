@@ -1,34 +1,22 @@
-import { mediator } from 'mediateur';
 import { cache } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
+import { getAchèvement } from './getAchèvement';
+import { getAbandonInfos } from './getLauréat';
 
 /**
  * Le projet n'est pas abandonné, en cours d'abandon, ou achevé
  */
 export const peutEffectuerUnChangement = cache(
   async (identifiantProjet: IdentifiantProjet.ValueType) => {
-    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+    const abandon = await getAbandonInfos(identifiantProjet.formatter());
 
-    if (Option.isSome(abandon) && (abandon.demandeEnCours || abandon.estAbandonné)) {
+    if (abandon?.demandeEnCours || abandon?.estAbandonné) {
       return false;
     }
 
-    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
-    if (Option.isSome(achèvement) && achèvement.estAchevé) {
-      return false;
-    }
-
-    return true;
+    const achèvement = await getAchèvement(identifiantProjet.formatter());
+    return !achèvement.estAchevé;
   },
 );
