@@ -8,6 +8,7 @@ import { SectionPage } from '../../../app/laureats/[identifiant]/(détails)/(com
 
 import { PorteurListItem, PorteurListItemProps } from './AccèsListItem';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
+import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
 
 export type AccèsListPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;
@@ -21,41 +22,45 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
   nombreDeProjets,
 }) => {
   return (
-    <SectionPage title="Comptes ayant accès au projet">
-      <div className="flex flex-row gap-4">
-        <InviterPorteurForm
-          identifiantProjet={identifiantProjet}
-          nombreDeProjets={nombreDeProjets}
-        />
-        <Button
-          iconId="fr-icon-mail-line"
-          priority="secondary"
-          linkProps={{
-            href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
-          }}
-        >
-          Contacter tous les utilisateurs
-        </Button>
-      </div>
-      <div className="w-fit min-w-[50%]">
-        {accès.length === 0 ? (
-          <div className="flex flex-col items-center justify-center my-16">
-            <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
-          </div>
-        ) : (
-          <div>
-            <div className="flex flex-col gap-4 mt-4">
-              {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
-                <PorteurListItem
-                  key={identifiantUtilisateur}
-                  identifiantProjet={identifiantProjet}
-                  identifiantUtilisateur={identifiantUtilisateur}
-                  peutRetirerAccès={peutRetirerAccès}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+    <SectionPage title="Utilisateurs">
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-1 flex-col gap-4">
+          <Section title="Comptes ayant accès au projet">
+            {accès.length === 0 ? (
+              <div className="flex flex-col items-center justify-center my-16">
+                <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
+              </div>
+            ) : (
+              <div>
+                <div className="flex flex-col gap-4 mt-4">
+                  {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
+                    <PorteurListItem
+                      key={identifiantUtilisateur}
+                      identifiantProjet={identifiantProjet}
+                      identifiantUtilisateur={identifiantUtilisateur}
+                      peutRetirerAccès={peutRetirerAccès}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </Section>
+        </div>
+        <div className="flex flex-1 flex-col gap-4 items-center">
+          <InviterPorteurForm
+            identifiantProjet={identifiantProjet}
+            nombreDeProjets={nombreDeProjets}
+          />
+          <Button
+            iconId="fr-icon-mail-line"
+            priority="secondary"
+            linkProps={{
+              href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
+            }}
+          >
+            Contacter tous les utilisateurs
+          </Button>
+        </div>
       </div>
     </SectionPage>
   );

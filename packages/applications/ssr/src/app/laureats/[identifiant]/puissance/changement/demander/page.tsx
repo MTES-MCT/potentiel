@@ -14,6 +14,8 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
+import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { Routes } from '@potentiel-applications/routes';
 
 export const metadata: Metadata = {
   title: 'Demander le changement de puissance du projet - Potentiel',
@@ -25,6 +27,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
     const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+
+    if (puissance.dateDemandeEnCours) {
+      return (
+        <RedirectionDemandePage
+          dateDemandeEnCours={puissance.dateDemandeEnCours.formatter()}
+          title="Demande de puissance en cours"
+          href={Routes.Puissance.changement.détails(
+            identifiantProjet.formatter(),
+            puissance.dateDemandeEnCours.formatter(),
+          )}
+        />
+      );
+    }
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');
