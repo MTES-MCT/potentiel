@@ -114,8 +114,8 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
           valeur: puissance.valeur,
           unité: Candidature.UnitéPuissance.bind(puissance.unité).formatter(),
         }}
-        prixReference={prixReference}
-        evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
+        prixRéférence={prixReference}
+        évaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
       />
     </div>
   </ListItem>
