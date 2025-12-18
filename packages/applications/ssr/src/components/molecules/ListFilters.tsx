@@ -42,24 +42,17 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
     const newSearchParams = new URLSearchParams(searchParams);
 
-    if (value.includes(`aucun-${searchParamKey}`)) {
-      newSearchParams.delete(searchParamKey);
+    newSearchParams.delete(searchParamKey);
+
+    if (value.length === 0) {
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
       }
     } else {
-      newSearchParams.delete(searchParamKey);
+      newSearchParams.delete('page');
 
-      if (value.length === 0) {
-        for (const affected of affects ?? []) {
-          newSearchParams.delete(affected);
-        }
-      } else {
-        newSearchParams.delete('page');
-
-        for (const v of value) {
-          newSearchParams.append(searchParamKey, v);
-        }
+      for (const v of value) {
+        newSearchParams.append(searchParamKey, v);
       }
     }
 

@@ -45,6 +45,7 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarPara
 
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.delete(tagName, value);
+      newSearchParams.delete('page');
 
       if (newTagValues.length === 0) {
         for (const affected of affects) {
