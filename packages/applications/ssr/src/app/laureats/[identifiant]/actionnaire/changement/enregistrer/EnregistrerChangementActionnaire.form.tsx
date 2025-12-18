@@ -50,6 +50,7 @@ export const EnregistrerChangementActionnaireForm: FC<
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
+          className="lg:w-1/2"
           hintText="Si le changement d'actionnaire(s) n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
@@ -62,6 +63,7 @@ export const EnregistrerChangementActionnaireForm: FC<
           textArea
           label="Raison"
           id="raison"
+          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}

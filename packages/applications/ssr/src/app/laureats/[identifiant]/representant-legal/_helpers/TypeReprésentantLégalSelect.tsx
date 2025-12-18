@@ -62,6 +62,7 @@ export const TypeReprésentantLégalSelect = ({
           }
         },
       }}
+      className="lg:w-1/2"
       placeholder="Sélectionnez le type du représentant légal"
       options={typesReprésentantLégalOptions}
       state={state}

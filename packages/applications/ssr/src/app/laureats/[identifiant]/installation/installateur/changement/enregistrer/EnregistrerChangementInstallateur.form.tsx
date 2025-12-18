@@ -61,6 +61,7 @@ export const EnregistrerChangementInstallateurForm: FC<
           textArea
           label="Raison"
           id="raison"
+          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement."
           nativeTextAreaProps={{
             name: 'raison',

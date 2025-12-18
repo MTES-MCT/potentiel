@@ -22,8 +22,8 @@ export const typesSociétéOptions = [
 
 export const SaisieTypeSociétéStep: FC<SaisieTypeSociétéStepProps> = ({ onChange }) => (
   <Select
-    id={'typeSociete'}
-    label={'Choisir le type de société'}
+    id="typeSociete"
+    label="Choisir le type de société"
     nativeSelectProps={{
       name: 'typeSociete',
       required: true,
@@ -34,6 +34,7 @@ export const SaisieTypeSociétéStep: FC<SaisieTypeSociétéStepProps> = ({ onCh
         }
       },
     }}
+    className="lg:w-1/2"
     placeholder="Sélectionnez le type de société"
     options={typesSociétéOptions}
   />

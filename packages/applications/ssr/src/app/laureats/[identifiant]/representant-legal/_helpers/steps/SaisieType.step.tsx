@@ -139,11 +139,9 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
           setState((state) => ({ ...state, typeReprésentantLégal }));
         }}
       />
-
       {state.typeSociété === 'non renseignée' && (
         <input type={'hidden'} value={'non renseignée'} name="typeSociete" />
       )}
-
       {component}
     </>
   );

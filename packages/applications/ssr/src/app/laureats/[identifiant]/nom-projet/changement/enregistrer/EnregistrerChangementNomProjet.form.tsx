@@ -52,6 +52,7 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
           state={validationErrors['nomProjet'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['nomProjet']}
           label="Nouveau nom du projet"
+          className="lg:w-1/2"
           nativeInputProps={{
             name: 'nomProjet',
             defaultValue: nomProjet,
@@ -63,6 +64,7 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
           textArea
           label="Raison"
           id="raison"
+          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement du nom du projet."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}

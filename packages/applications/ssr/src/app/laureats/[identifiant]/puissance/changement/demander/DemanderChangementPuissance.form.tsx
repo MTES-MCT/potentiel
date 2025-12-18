@@ -106,6 +106,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
               stateRelatedMessage={validationErrors['puissance']}
               label={`Puissance (en ${unitéPuissance.unité})`}
               hintText={ratioHintText}
+              className="lg:w-1/4"
               nativeInputProps={{
                 name: 'puissance',
                 defaultValue: puissance,
@@ -123,6 +124,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
                 state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['puissanceDeSite']}
                 label={`Puissance de site (en ${unitéPuissance.unité}) ${infosCahierDesChargesPuissanceDeSite === 'optionnel' ? '(optionnel)' : ''}`}
+                className="lg:w-1/4"
                 nativeInputProps={{
                   name: 'puissanceDeSite',
                   defaultValue: puissanceDeSite,
@@ -155,6 +157,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           textArea
           label={`Raison ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
           id="raison"
+          className="lg:w-1/2"
           hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement de puissance."
           nativeTextAreaProps={{
             name: 'raison',

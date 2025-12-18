@@ -1,5 +1,4 @@
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
-import React from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
@@ -76,11 +75,11 @@ export const getLauréatMenuItems = async ({
     : undefined;
 
   const actionsDomaine = await Promise.all(domaines.map(linkToAction));
+
   const modifierLauréatMenu = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
   const modifications = [modifierLauréatMenu, ...actionsDomaine].filter((item) => !!item);
-
   const modificationMenu =
     modifications.length > 0
       ? {
@@ -103,7 +102,6 @@ export const getLauréatMenuItems = async ({
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     linkToSection('Utilisateurs', 'utilisateurs'),
-    modifierLauréatMenu,
     // seulement pour porteur, admin et dreal
     // est ce nécessaire de restreindre pour les autres rôles ?
     linkToSection('Imprimer la page', 'imprimer'),
