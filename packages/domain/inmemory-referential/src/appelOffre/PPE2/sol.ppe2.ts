@@ -66,7 +66,9 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {},
+    siteDeProduction: {
+      modificationAdmin: true,
+    },
     représentantLégal: {
       demande: true,
       modificationAdmin: true,

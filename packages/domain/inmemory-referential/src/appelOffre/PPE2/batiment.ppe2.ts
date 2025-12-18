@@ -28,7 +28,9 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {},
+    siteDeProduction: {
+      modificationAdmin: true,
+    },
     puissance: {
       demande: true,
       informationEnregistrée: true,
@@ -73,7 +75,9 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {},
+    siteDeProduction: {
+      modificationAdmin: true,
+    },
     représentantLégal: {
       demande: true,
       modificationAdmin: true,

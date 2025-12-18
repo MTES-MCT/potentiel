@@ -37,7 +37,9 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {},
+    siteDeProduction: {
+      modificationAdmin: true,
+    },
     représentantLégal: {
       demande: true,
       modificationAdmin: true,

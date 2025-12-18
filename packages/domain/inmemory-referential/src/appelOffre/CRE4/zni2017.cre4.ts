@@ -5,7 +5,9 @@ const garantieFinanciereEnMois = 36;
 const changementsCDCModifié = {
   nomProjet: {},
   natureDeLExploitation: {},
-  siteDeProduction: {},
+  siteDeProduction: {
+    modificationAdmin: true,
+  },
   représentantLégal: {
     demande: true,
     modificationAdmin: true,
