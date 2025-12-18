@@ -2,6 +2,7 @@
 
 import { FC, useEffect, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -10,7 +11,13 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import { SaisieNomStep, SaisieTypeStep, TypeSociété, ValidationStep } from '../_helpers/steps';
+import {
+  SaisieNomStep,
+  SaisiePièceJustificativeStep,
+  SaisieTypeStep,
+  TypeSociété,
+  ValidationStep,
+} from '../_helpers/steps';
 
 import {
   modifierReprésentantLégalAction,
@@ -25,6 +32,8 @@ type ModifierReprésentantLégalState = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
+  piècesJustificatives: Array<string>;
+  raison: string;
 };
 
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
@@ -41,6 +50,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
     nomReprésentantLégal,
     typeReprésentantLégal: typeReprésentantLégal.type,
     typeSociété: 'non renseignée',
+    piècesJustificatives: [],
+    raison: '',
   });
 
   const conditionDésactivationÉtape1 =
@@ -49,7 +60,9 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
     state.typeReprésentantLégal === 'inconnu';
 
   const conditionDésactivationÉtape2 =
-    !state.nomReprésentantLégal || state.nomReprésentantLégal === nomReprésentantLégal;
+    !state.nomReprésentantLégal ||
+    state.nomReprésentantLégal === nomReprésentantLégal ||
+    !state.raison;
 
   const conditionDésactivationÉtape3 = !state.typeReprésentantLégal || !state.nomReprésentantLégal;
 
@@ -85,14 +98,42 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       index: 2,
       name: `Renseigner les informations concernant le changement`,
       children: (
-        <SaisieNomStep
-          nomReprésentantLégal={state.nomReprésentantLégal}
-          typeReprésentantLégal={state.typeReprésentantLégal}
-          onChange={(nomReprésentantLégal) =>
-            setState((state) => ({ ...state, nomReprésentantLégal }))
-          }
-          validationErrors={validationErrors}
-        />
+        <>
+          <SaisieNomStep
+            nomReprésentantLégal={state.nomReprésentantLégal}
+            typeReprésentantLégal={state.typeReprésentantLégal}
+            onChange={(nomReprésentantLégal) =>
+              setState((state) => ({ ...state, nomReprésentantLégal }))
+            }
+            validationErrors={validationErrors}
+          />
+          <SaisiePièceJustificativeStep
+            typeReprésentantLégal={state.typeReprésentantLégal}
+            typeSociété={state.typeSociété}
+            validationErrors={validationErrors}
+            isOptional={true}
+            onChange={(piècesJustificatives) =>
+              setState((state) => ({ ...state, piècesJustificatives }))
+            }
+          />
+          <Input
+            className="mt-4"
+            label="Raison"
+            id="raison"
+            hintText={`Veuillez préciser les raisons de ce changement`}
+            state={validationErrors['raison'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['raison']}
+            nativeInputProps={{
+              name: 'raison',
+              required: true,
+              'aria-required': 'true',
+              onChange: ({ target: { value } }) => {
+                delete validationErrors.raison;
+                setState((state) => ({ ...state, raison: value }));
+              },
+            }}
+          />
+        </>
       ),
       previousStep: { name: 'Précédent' },
       nextStep: {
@@ -109,7 +150,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           typeReprésentantLégal={state.typeReprésentantLégal}
           typeSociété={state.typeSociété}
           nomReprésentantLégal={state.nomReprésentantLégal}
-          piècesJustificatives={[]}
+          piècesJustificatives={state.piècesJustificatives}
+          raison={state.raison}
           message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
         />
       ),

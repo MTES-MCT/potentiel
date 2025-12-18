@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -15,16 +16,24 @@ const schema = zod.object({
     error: 'Ce type de représentant légal est invalide',
   }),
   nomRepresentantLegal: zod.string().min(1),
+  raison: zod.string().min(1),
+  piecesJustificatives: manyDocuments({
+    acceptedFileTypes: ['application/pdf'],
+    applyWatermark: true,
+    optional: true,
+  }),
 });
+
+//@TODO : attente de validation métier concernant la pertinence d'avoir une PJ ici
 
 export type ModifierReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
+  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -32,6 +41,8 @@ const action: FormAction<FormState, typeof schema> = async (
         dateModificationValue: new Date().toISOString(),
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
+        raisonValue: raison,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 
