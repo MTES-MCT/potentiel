@@ -5,32 +5,11 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../domain/common"
-    },
-    {
-      "path": "../../infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../infrastructure/email"
-    },
-    {
-      "path": "../routes"
-    },
-    {
-      "path": "../../statistiques/statistiques-publiques"
-    }
+    { "path": "../../domain/common" },
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/période" },
+    { "path": "../../infrastructure/domain-adapters" },
+    { "path": "../../infrastructure/pg-projection-read" },
+    { "path": "../../libraries/monads" }
   ]
 }

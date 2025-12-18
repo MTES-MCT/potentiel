@@ -5,38 +5,17 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../domain/entity"
-    },
-    {
-      "path": "../../domain/inmemory-referential"
-    },
-    {
-      "path": "../../domain/période"
-    },
-    {
-      "path": "../../domain/projet"
-    },
-    {
-      "path": "../../domain/réseau"
-    },
-    {
-      "path": "../../infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../../infrastructure/pg-projection-write"
-    },
-    {
-      "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../../libraries/flat"
-    }
+    { "path": "../../domain/entity" },
+    { "path": "../../domain/inmemory-referential" },
+    { "path": "../../domain/période" },
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/réseau" },
+    { "path": "../../infrastructure/domain-adapters" },
+    { "path": "../../infrastructure/pg-event-sourcing" },
+    { "path": "../../infrastructure/pg-projection-read" },
+    { "path": "../../infrastructure/pg-projection-write" },
+    { "path": "../../libraries/flat" },
+    { "path": "../../libraries/monads" },
+    { "path": "../../libraries/monitoring" }
   ]
 }

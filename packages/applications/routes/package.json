@@ -5,7 +5,9 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "build": "tsc"
+  },
+  "dependencies": {
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*"
   },

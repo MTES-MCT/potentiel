@@ -5,44 +5,19 @@
     "rootDir": "src"
   },
   "references": [
-    {
-      "path": "../../domain/appel-offre"
-    },
-    {
-      "path": "../../domain/réseau"
-    },
-    {
-      "path": "../../domain/projet"
-    },
-    {
-      "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../infrastructure/email"
-    },
-    {
-      "path": "../../infrastructure/ore-client"
-    },
-    {
-      "path": "../../infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../projectors"
-    },
-    {
-      "path": "../document-builder"
-    },
-    {
-      "path": "../notifications"
-    },
-    {
-      "path": "../request-context"
-    },
-    {
-      "path": "../../libraries/pg-helpers"
-    }
+    { "path": "../../domain/appel-offre" },
+    { "path": "../../domain/période" },
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/réseau" },
+    { "path": "../../domain/utilisateur" },
+    { "path": "../../domain/core" },
+    { "path": "../../infrastructure/domain-adapters" },
+    { "path": "../../infrastructure/email" },
+    { "path": "../../infrastructure/ore-client" },
+    { "path": "../../infrastructure/pg-event-sourcing" },
+    { "path": "../../infrastructure/pg-projection-read" },
+    { "path": "../../libraries/pg-helpers" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../request-context" }
   ]
 }

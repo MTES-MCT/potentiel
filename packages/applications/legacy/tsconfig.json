@@ -20,38 +20,20 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules"],
   "references": [
-    {
-      "path": "../../domain/inmemory-referential"
-    },
-    {
-      "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../api"
-    },
-    {
-      "path": "../routes"
-    },
-    {
-      "path": "../bootstrap"
-    },
-    {
-      "path": "../subscribers"
-    },
-    {
-      "path": "../request-context"
-    },
-    {
-      "path": "../../domain/common"
-    },
-    {
-      "path": "../../domain/réseau"
-    }
+    { "path": "../../domain/appel-offre" },
+    { "path": "../../domain/common" },
+    { "path": "../../domain/inmemory-referential" },
+    { "path": "../../domain/projet" },
+    { "path": "../../domain/réseau" },
+    { "path": "../../domain/utilisateur" },
+    { "path": "../../infrastructure/pg-event-sourcing" },
+    { "path": "../../libraries/monads" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../bootstrap" },
+    { "path": "../api" },
+    { "path": "../request-context" },
+    { "path": "../routes" },
+    { "path": "../subscribers" },
+    { "path": "../request-context" }
   ]
 }

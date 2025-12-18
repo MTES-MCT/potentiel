@@ -8,13 +8,10 @@
   "dependencies": {
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-infrastructure/pg-projection-read": "*",
-    "@potentiel-libraries/file-storage": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/periode": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-libraries/monads": "*",
     "chardet": "2.1.0",
     "iconv-lite": "0.6.3"
   },
