@@ -34,8 +34,6 @@ export const RaccordementSection = ({
       return null;
     }
 
-    // TODO ajouter référence dossier de raccordement
-
     const action =
       abandon?.estAbandonné || abandon?.demandeEnCours
         ? undefined

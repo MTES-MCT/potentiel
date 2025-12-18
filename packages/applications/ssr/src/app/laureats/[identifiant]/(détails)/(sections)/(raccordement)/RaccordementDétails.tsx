@@ -57,6 +57,7 @@ export const RaccordementDétails = async ({
       {raccordement.dossiers.map((dossier) => (
         <Dossier key={dossier.référence.référence} dossier={dossier} />
       ))}
+      {raccordement.dossiers.length === 0 && <span>Aucun dossier de raccordement renseigné</span>}
     </div>
     {alertes.map(({ label }, index) => (
       <Notice
