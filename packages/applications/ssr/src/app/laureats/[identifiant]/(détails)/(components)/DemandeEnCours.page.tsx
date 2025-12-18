@@ -1,6 +1,7 @@
-import { Heading2 } from '../../../../../components/atoms/headings';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+
+import { Heading2 } from '../../../../../components/atoms/headings';
 
 type Props = {
   title: string;

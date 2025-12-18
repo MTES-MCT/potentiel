@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -14,10 +15,10 @@ import {
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
 
-import { DemanderDélaiPage } from './DemanderDélai.page';
 import { withUtilisateur } from '../../../../../utils/withUtilisateur';
 import { DemandeEnCoursPage } from '../../(détails)/(components)/DemandeEnCours.page';
-import { Routes } from '@potentiel-applications/routes';
+
+import { DemanderDélaiPage } from './DemanderDélai.page';
 
 export const metadata: Metadata = {
   title: 'Demander un délai de force majeure - Potentiel',

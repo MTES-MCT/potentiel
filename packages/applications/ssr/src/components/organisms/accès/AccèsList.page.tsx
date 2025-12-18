@@ -5,10 +5,10 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { SectionPage } from '../../../app/laureats/[identifiant]/(détails)/(components)/SectionPage';
+import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
 
 import { PorteurListItem, PorteurListItemProps } from './AccèsListItem';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
-import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
 
 export type AccèsListPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;

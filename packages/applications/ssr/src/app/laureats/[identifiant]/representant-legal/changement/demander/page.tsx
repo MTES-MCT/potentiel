@@ -1,17 +1,17 @@
 import { Metadata } from 'next';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
+import { getReprésentantLégalInfos } from '../../../_helpers';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
-import { getReprésentantLégalInfos } from '../../../_helpers';
-import { Routes } from '@potentiel-applications/routes';
-import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 export const metadata: Metadata = {
   title: 'Demander le changement de représentant légal du projet - Potentiel',
