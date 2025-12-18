@@ -7,17 +7,11 @@ export const getModificationPTFAction = (
 ) => {
   const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
 
-  if (!rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier')) {
-    return false;
+  if (dossierEnService) {
+    return rôle.aLaPermission(
+      'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
+    );
   }
 
-  if (rôle.estDGEC()) {
-    return true;
-  }
-
-  if (!dossierEnService) {
-    return true;
-  }
-
-  return false;
+  return rôle.aLaPermission('raccordement.proposition-technique-et-financière.modifier');
 };

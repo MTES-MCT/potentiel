@@ -1188,6 +1188,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierDemandeComplète,
         référencielPermissions.lauréat.raccordement.command.modifierDemandeComplète,
       ],
+      'modifier-après-mise-en-service': [],
     },
     'proposition-technique-et-financière': {
       transmettre: [
@@ -1206,6 +1207,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
         référencielPermissions.lauréat.raccordement.command.modifierPropostionTechniqueEtFinancière,
       ],
+      'modifier-après-mise-en-service': [],
     },
     'date-mise-en-service': {
       transmettre: [
@@ -1642,8 +1644,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.gestionnaire.modifier',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
+  'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
   'raccordement.date-mise-en-service.importer',

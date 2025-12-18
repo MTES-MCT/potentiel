@@ -336,7 +336,12 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
 
-    if (!rôle.estDGEC() && dossierEnService) {
+    if (
+      dossierEnService &&
+      !rôle.aLaPermission(
+        'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
+      )
+    ) {
       throw new PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),
       );
@@ -379,7 +384,13 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
-    if (!rôle.estDGEC() && dossierEnService && dcrComplète) {
+    if (
+      dossierEnService &&
+      dcrComplète &&
+      !rôle.aLaPermission(
+        'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
+      )
+    ) {
       throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),
       );
