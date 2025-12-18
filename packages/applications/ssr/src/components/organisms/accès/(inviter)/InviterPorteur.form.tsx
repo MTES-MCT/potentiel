@@ -15,11 +15,13 @@ import { inviterPorteurAction, InviterPorteurFormKeys } from './inviterPorteur.a
 export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
   nombreDeProjets?: number;
+  peutInviter: boolean;
 };
 
 export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
   identifiantProjet,
   nombreDeProjets,
+  peutInviter,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
@@ -28,9 +30,11 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
 
   return (
     <>
-      <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
-        Inviter un nouvel utilisateur
-      </Button>
+      {peutInviter && (
+        <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
+          Inviter un nouvel utilisateur
+        </Button>
+      )}
       <ModalWithForm
         id="inviter-porteur-form"
         title=""

@@ -4,6 +4,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
+import { withUtilisateur } from '@/utils/withUtilisateur';
+
 import { SectionPage } from '../../../app/laureats/[identifiant]/(détails)/(components)/SectionPage';
 import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
 
@@ -20,8 +22,8 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
   accès,
   identifiantProjet,
   nombreDeProjets,
-}) => {
-  return (
+}) =>
+  withUtilisateur(async ({ rôle }) => (
     <SectionPage title="Utilisateurs">
       <div className="flex flex-col md:flex-row gap-4">
         <div className="flex flex-[2] flex-col gap-4">
@@ -50,6 +52,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
           <InviterPorteurForm
             identifiantProjet={identifiantProjet}
             nombreDeProjets={nombreDeProjets}
+            peutInviter={rôle.aLaPermission('utilisateur.inviterPorteur')}
           />
           <Button
             iconId="fr-icon-mail-line"
@@ -63,5 +66,4 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
         </div>
       </div>
     </SectionPage>
-  );
-};
+  ));
