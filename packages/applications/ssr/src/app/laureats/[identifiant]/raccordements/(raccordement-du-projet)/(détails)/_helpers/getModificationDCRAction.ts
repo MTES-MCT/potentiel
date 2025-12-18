@@ -6,25 +6,16 @@ export const getModificationDCRAction = (
   dossier: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel,
 ) => {
   const dossierEnService = !!dossier.miseEnService?.dateMiseEnService?.date;
-  const dossierAvecDCRIncomplète =
-    !dossier.demandeComplèteRaccordement?.dateQualification ||
-    !dossier.demandeComplèteRaccordement?.accuséRéception?.format;
+  const dossierAvecDCRComplète = !!(
+    dossier.demandeComplèteRaccordement?.dateQualification &&
+    dossier.demandeComplèteRaccordement?.accuséRéception?.format
+  );
 
-  if (!rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier')) {
-    return false;
+  if (dossierEnService && dossierAvecDCRComplète) {
+    return rôle.aLaPermission(
+      'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
+    );
   }
 
-  if (rôle.estDGEC()) {
-    return true;
-  }
-
-  if (!dossierEnService) {
-    return true;
-  }
-
-  if (dossierAvecDCRIncomplète) {
-    return true;
-  }
-
-  return false;
+  return rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier');
 };
