@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 import { TypeReprésentantLégal } from '..';
 
 export type ModifierReprésentantLégalCommand = Message<
@@ -14,7 +14,6 @@ export type ModifierReprésentantLégalCommand = Message<
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     dateModification: DateTime.ValueType;
     raison?: string;
-    piècesJustificatives?: DocumentProjet.ValueType;
   }
 >;
 
@@ -28,7 +27,6 @@ export const registerModifierReprésentantLégalCommand = (
     typeReprésentantLégal,
     dateModification,
     raison,
-    piècesJustificatives,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     await projet.lauréat.représentantLégal.modifier({
@@ -37,7 +35,6 @@ export const registerModifierReprésentantLégalCommand = (
       typeReprésentantLégal,
       dateModification,
       raison,
-      piècesJustificatives,
     });
   };
   mediator.register('Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal', handler);

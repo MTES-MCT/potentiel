@@ -11,13 +11,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import {
-  SaisieNomStep,
-  SaisiePièceJustificativeStep,
-  SaisieTypeStep,
-  TypeSociété,
-  ValidationStep,
-} from '../_helpers/steps';
+import { SaisieNomStep, SaisieTypeStep, TypeSociété, ValidationStep } from '../_helpers/steps';
 
 import {
   modifierReprésentantLégalAction,
@@ -32,7 +26,6 @@ type ModifierReprésentantLégalState = {
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
-  piècesJustificatives: Array<string>;
   raison: string;
 };
 
@@ -50,7 +43,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
     nomReprésentantLégal,
     typeReprésentantLégal: typeReprésentantLégal.type,
     typeSociété: 'non renseignée',
-    piècesJustificatives: [],
     raison: '',
   });
 
@@ -107,15 +99,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             }
             validationErrors={validationErrors}
           />
-          <SaisiePièceJustificativeStep
-            typeReprésentantLégal={state.typeReprésentantLégal}
-            typeSociété={state.typeSociété}
-            validationErrors={validationErrors}
-            isOptional={true}
-            onChange={(piècesJustificatives) =>
-              setState((state) => ({ ...state, piècesJustificatives }))
-            }
-          />
           <Input
             className="mt-4"
             label="Raison"
@@ -150,7 +133,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           typeReprésentantLégal={state.typeReprésentantLégal}
           typeSociété={state.typeSociété}
           nomReprésentantLégal={state.nomReprésentantLégal}
-          piècesJustificatives={state.piècesJustificatives}
+          piècesJustificatives={[]}
           raison={state.raison}
           message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.`}
         />
