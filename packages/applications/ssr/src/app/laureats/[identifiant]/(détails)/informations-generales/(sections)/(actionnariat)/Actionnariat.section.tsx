@@ -19,6 +19,24 @@ type ActionnariatSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const changementNécessiteInstruction = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+  const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+
+  const instructionChangementActionnaire =
+    Lauréat.Actionnaire.InstructionChangementActionnaire.bind({
+      aDesGarantiesFinancièresConstituées: !!actuelles,
+      aUnDépotEnCours: !!dépôt,
+      typeActionnariat: lauréat.actionnariat,
+    });
+
+  return (
+    !!cahierDesCharges.getRèglesChangements('actionnaire').demande &&
+    instructionChangementActionnaire.estRequise()
+  );
+};
+
 export const ActionnariatSection = ({
   identifiantProjet: identifiantProjetValue,
 }: ActionnariatSectionProps) =>
@@ -27,23 +45,12 @@ export const ActionnariatSection = ({
 
     const lauréat = await getLauréatInfos(identifiantProjet.formatter());
     const actionnaire = await getActionnaireInfos(identifiantProjet.formatter());
-    const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-
-    const instructionChangementActionnaire =
-      Lauréat.Actionnaire.InstructionChangementActionnaire.bind({
-        aDesGarantiesFinancièresConstituées: !!actuelles,
-        aUnDépotEnCours: !!dépôt,
-        typeActionnariat: lauréat.actionnariat,
-      });
-
-    const nécessiteInstruction = !!(
-      rôle.estPorteur() &&
-      cahierDesCharges.getRèglesChangements('actionnaire').demande &&
-      instructionChangementActionnaire.estRequise()
-    );
 
     const value = mapToPlainObject(actionnaire);
+
+    const nécessiteInstruction =
+      rôle.aLaPermission('actionnaire.demanderChangement') &&
+      (await changementNécessiteInstruction(identifiantProjet));
 
     const action = actionnaire.dateDemandeEnCours
       ? rôle.aLaPermission('actionnaire.consulterChangement')
