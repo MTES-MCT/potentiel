@@ -11,7 +11,7 @@ import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../..
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
 import { getReprésentantLégalInfos } from '../../../_helpers';
 import { Routes } from '@potentiel-applications/routes';
-import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 export const metadata: Metadata = {
   title: 'Demander le changement de représentant légal du projet - Potentiel',
@@ -31,7 +31,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
   if (représentantLégal.demandeEnCours) {
     return (
-      <RedirectionDemandePage
+      <DemandeEnCoursPage
         title="Demande de changement de représentant légal"
         href={Routes.ReprésentantLégal.changement.détails(
           identifiantProjet.formatter(),

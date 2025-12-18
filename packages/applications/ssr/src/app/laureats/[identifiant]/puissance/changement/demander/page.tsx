@@ -14,7 +14,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
-import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 import { Routes } from '@potentiel-applications/routes';
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     if (puissance.dateDemandeEnCours) {
       return (
-        <RedirectionDemandePage
+        <DemandeEnCoursPage
           title="Demande de changement de puissance"
           href={Routes.Puissance.changement.détails(
             identifiantProjet.formatter(),

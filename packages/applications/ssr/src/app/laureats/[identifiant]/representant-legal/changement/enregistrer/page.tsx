@@ -10,7 +10,7 @@ import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../..
 
 import { EnregistrerChangementReprésentantLégalPage } from './EnregistrerChangementReprésentantLégal.page';
 import { getReprésentantLégalInfos } from '../../../_helpers';
-import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 import { Routes } from '@potentiel-applications/routes';
 
 export const metadata: Metadata = {
@@ -31,7 +31,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
   if (représentantLégal.demandeEnCours) {
     return (
-      <RedirectionDemandePage
+      <DemandeEnCoursPage
         title="Demande de changement de représentant légal"
         href={Routes.ReprésentantLégal.changement.détails(
           identifiantProjet.formatter(),

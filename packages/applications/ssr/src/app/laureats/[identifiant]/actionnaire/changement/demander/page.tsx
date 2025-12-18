@@ -12,7 +12,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { DemanderChangementActionnairePage } from './DemanderChangementActionnaire.page';
-import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 import { Routes } from '@potentiel-applications/routes';
 
 export const metadata: Metadata = {
@@ -37,7 +37,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     if (actionnaire.dateDemandeEnCours) {
       return (
-        <RedirectionDemandePage
+        <DemandeEnCoursPage
           title="Demande de changement d'actionnaire(s)"
           href={Routes.Actionnaire.changement.détails(
             identifiantProjet.formatter(),

@@ -7,14 +7,14 @@ type Props = {
   href: string;
 };
 
-export const RedirectionDemandePage = ({ title, href }: Props) => (
+export const DemandeEnCoursPage = ({ title, href }: Props) => (
   <div className="flex flex-col gap-6 w-full h-[300px]">
-    <Heading2>Demande de changement en instruction</Heading2>
+    <Heading2>Demande en cours</Heading2>
     <Alert
       severity="info"
       title={title}
-      description="Une demande de changement étant déjà en cours d'instruction, vous ne pouvez plus faire de modification. Si cette demande est obsolète, vous pouvez l'annuler."
-      className="w-fit"
+      description="Une demande étant déjà en cours d'instruction, vous ne pouvez plus faire de modification ou de demande. Si cette demande est obsolète, vous pouvez l'annuler."
+      className="lg:w-1/2"
     />
     <Button
       priority="primary"
@@ -22,7 +22,7 @@ export const RedirectionDemandePage = ({ title, href }: Props) => (
         href,
       }}
     >
-      Voir la demande de changement
+      Voir la demande en cours
     </Button>
   </div>
 );
