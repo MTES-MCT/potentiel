@@ -12,6 +12,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { DemanderChangementActionnairePage } from './DemanderChangementActionnaire.page';
+import { RedirectionDemandePage } from '../../../(détails)/(components)/RedirectionDemande';
+import { Routes } from '@potentiel-applications/routes';
 
 export const metadata: Metadata = {
   title: "Demander un changement d'actionnaire(s) d'un projet - Potentiel",
@@ -22,21 +24,33 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+    const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
       },
     });
 
-    if (Option.isNone(actionnaireActuel)) {
+    if (Option.isNone(actionnaire)) {
       return notFound();
+    }
+
+    if (actionnaire.dateDemandeEnCours) {
+      return (
+        <RedirectionDemandePage
+          title="Demande de changement d'actionnaire(s)"
+          href={Routes.Actionnaire.changement.détails(
+            identifiantProjet.formatter(),
+            actionnaire.dateDemandeEnCours.formatter(),
+          )}
+        />
+      );
     }
 
     return (
       <DemanderChangementActionnairePage
-        identifiantProjet={mapToPlainObject(actionnaireActuel.identifiantProjet)}
-        actionnaire={actionnaireActuel.actionnaire}
+        identifiantProjet={mapToPlainObject(actionnaire.identifiantProjet)}
+        actionnaire={actionnaire.actionnaire}
       />
     );
   });

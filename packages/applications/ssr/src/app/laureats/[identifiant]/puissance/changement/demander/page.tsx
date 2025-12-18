@@ -31,8 +31,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     if (puissance.dateDemandeEnCours) {
       return (
         <RedirectionDemandePage
-          dateDemandeEnCours={puissance.dateDemandeEnCours.formatter()}
-          title="Demande de puissance en cours"
+          title="Demande de changement de puissance"
           href={Routes.Puissance.changement.détails(
             identifiantProjet.formatter(),
             puissance.dateDemandeEnCours.formatter(),
