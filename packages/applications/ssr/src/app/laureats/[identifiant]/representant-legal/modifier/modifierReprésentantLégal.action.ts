@@ -8,7 +8,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -17,20 +16,13 @@ const schema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1),
   raison: zod.string().min(1),
-  piecesJustificatives: manyDocuments({
-    acceptedFileTypes: ['application/pdf'],
-    applyWatermark: true,
-    optional: true,
-  }),
 });
-
-//@TODO : attente de validation métier concernant la pertinence d'avoir une PJ ici
 
 export type ModifierReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, raison, piecesJustificatives },
+  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, raison },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
@@ -42,7 +34,6 @@ const action: FormAction<FormState, typeof schema> = async (
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
         raisonValue: raison,
-        pièceJustificativeValue: piecesJustificatives,
       },
     });
 
