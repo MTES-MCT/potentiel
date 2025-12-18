@@ -109,7 +109,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             nativeInputProps={{
               name: 'raison',
               required: true,
-              'aria-required': 'true',
+              'aria-required': true,
               onChange: ({ target: { value } }) => {
                 delete validationErrors.raison;
                 setState((state) => ({ ...state, raison: value }));
