@@ -152,7 +152,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={state.piècesJustificatives}
           raison={state.raison}
-          message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
+          message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.`}
         />
       ),
       previousStep: { name: 'Précédent' },

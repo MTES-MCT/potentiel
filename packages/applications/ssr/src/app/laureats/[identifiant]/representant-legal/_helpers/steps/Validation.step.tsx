@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { Alert } from '@codegouvfr/react-dsfr/Alert';
+import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -26,7 +26,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Alert severity="info" small description={<p>{message}</p>} />
+      <Notice title={''} description={<span>{message}</span>} />
       <div className="py-6">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
