@@ -74,7 +74,6 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
         Quand la DREAL demande une confirmation de la demande d'abandon pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
 
-    @select
     Scénario: Impossible de demander de confirmer une demande d'abando pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
         Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat

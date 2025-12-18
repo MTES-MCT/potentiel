@@ -77,7 +77,6 @@ Fonctionnalité: Passer la demande d'abandon d'un projet lauréat en instruction
         Quand la DREAL passe la demande d'abandon du projet lauréat en instruction
         Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"
 
-    @select
     Scénario: Impossible de passer une demande d'abandon en instruction pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
         Quand l'administrateur passe la demande d'abandon du projet lauréat en instruction
