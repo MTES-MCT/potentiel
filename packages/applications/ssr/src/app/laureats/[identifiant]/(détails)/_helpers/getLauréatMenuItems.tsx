@@ -5,6 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
+import { getCahierDesCharges } from '@/app/_helpers';
+
 import { BadgeTâches } from '../(components)/BadgeTâches';
 import { DomaineAction, getAction } from '../../_helpers';
 
@@ -60,13 +62,30 @@ export const getLauréatMenuItems = async ({
       }
     : undefined;
 
-  const actionsDomaine = (await Promise.all(domaines.map(linkToAction))).filter((item) => !!item);
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+  const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
+  const afficherInstallation = !!(
+    champsSupplémentaires.installateur ||
+    champsSupplémentaires.dispositifDeStockage ||
+    champsSupplémentaires.natureDeLExploitation ||
+    champsSupplémentaires.typologieInstallation ||
+    champsSupplémentaires.autorisationDUrbanisme
+  );
+  const installationMenu = afficherInstallation
+    ? linkToSection('Installation', 'installation')
+    : undefined;
+
+  const actionsDomaine = await Promise.all(domaines.map(linkToAction));
+  const modifierLauréatMenu = utilisateur.rôle.aLaPermission('lauréat.modifier')
+    ? linkToSection('Modifier le projet', 'modifier')
+    : undefined;
+  const modifications = [modifierLauréatMenu, ...actionsDomaine].filter((item) => !!item);
 
   const modificationMenu =
-    actionsDomaine.length > 0
+    modifications.length > 0
       ? {
           text: 'Modification',
-          items: actionsDomaine,
+          items: modifications,
         }
       : undefined;
 
@@ -77,13 +96,14 @@ export const getLauréatMenuItems = async ({
       items: [
         linkToSection('Informations générales', 'informations-generales'),
         linkToSection('Évaluation carbone', 'evaluation-carbone'),
-        linkToSection('Installation', 'installation'),
-      ],
+        installationMenu,
+      ].filter((item) => !!item),
     },
     modificationMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     linkToSection('Utilisateurs', 'utilisateurs'),
+    modifierLauréatMenu,
     // seulement pour porteur, admin et dreal
     // est ce nécessaire de restreindre pour les autres rôles ?
     linkToSection('Imprimer la page', 'imprimer'),
