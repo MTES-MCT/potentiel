@@ -12,7 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
   LauréatHistoryRecord,
   mapToLauréatTimelineItemProps,
-} from '../../../../(historique)/mapToLauréatTimelineItemProps';
+} from '../../../(historique)/mapToLauréatTimelineItemProps';
 
 import { DétailsNomProjetPage } from './DétailsChangementNomProjet.page';
 

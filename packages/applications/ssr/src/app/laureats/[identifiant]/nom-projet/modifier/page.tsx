@@ -7,7 +7,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { getLauréatInfos } from '../../../_helpers/getLauréat';
+import { getLauréatInfos } from '../../_helpers';
 
 import { ModifierNomProjetPage } from './ModifierNomProjet.page';
 
