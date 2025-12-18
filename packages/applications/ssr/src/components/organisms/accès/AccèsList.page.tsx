@@ -24,7 +24,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
   return (
     <SectionPage title="Utilisateurs">
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-[2] flex-col gap-4">
           <Section title="Comptes ayant accès au projet">
             {accès.length === 0 ? (
               <div className="flex flex-col items-center justify-center my-16">
