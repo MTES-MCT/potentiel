@@ -25,7 +25,12 @@ type Props<TDomain extends DomaineAction> = {
 };
 
 type TypeChangement = 'modifier' | 'demanderChangement' | 'enregistrerChangement';
-type MapChangements = Record<DomaineAction, Partial<Record<TypeChangement, OptionsChangement>>>;
+type MapChangements = Record<
+  DomaineAction,
+  Partial<Record<TypeChangement, OptionsChangement>> & {
+    champSupplémentaire?: AppelOffre.ChampCandidature;
+  }
+>;
 const mapChangements: MapChangements = {
   fournisseur: {
     modifier: {
@@ -88,6 +93,7 @@ const mapChangements: MapChangements = {
       label: 'Changer le dispositif de stockage',
       labelActions: 'Dispositif de stockage',
     },
+    champSupplémentaire: 'dispositifDeStockage',
   },
   installateur: {
     modifier: {
@@ -102,6 +108,7 @@ const mapChangements: MapChangements = {
       label: "Changer l'installateur",
       labelActions: 'Installateur',
     },
+    champSupplémentaire: 'installateur',
   },
   natureDeLExploitation: {
     modifier: {
@@ -116,6 +123,7 @@ const mapChangements: MapChangements = {
       label: "Changer la nature de l'exploitation",
       labelActions: "Nature de l'exploitation",
     },
+    champSupplémentaire: 'natureDeLExploitation',
   },
   actionnaire: {
     modifier: {
@@ -202,8 +210,14 @@ export const getAction = async <TDomain extends DomaineAction>({
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
   const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
+  const champsSupplémentairesAO = cahierDesCharges.getChampsSupplémentaires();
 
-  const { modifier, demanderChangement, enregistrerChangement } = mapChangements[domain];
+  const { modifier, demanderChangement, enregistrerChangement, champSupplémentaire } =
+    mapChangements[domain];
+
+  if (champSupplémentaire && !champsSupplémentairesAO[champSupplémentaire]) {
+    return;
+  }
 
   if (
     !!modifier &&
