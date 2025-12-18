@@ -86,7 +86,7 @@ const mapToReadModel = (
       ),
     gestionnaireRéseau: grd
       ? {
-          raisonSociale: grd ? grd.raisonSociale : 'Inconnu',
+          raisonSociale: grd.raisonSociale,
           contactEmail: grd.contactEmail ? Email.convertirEnValueType(grd.contactEmail) : undefined,
         }
       : Option.none,
