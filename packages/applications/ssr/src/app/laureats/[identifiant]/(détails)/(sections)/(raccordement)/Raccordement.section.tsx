@@ -1,8 +1,6 @@
-import { mediator } from 'mediateur';
-
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
@@ -36,49 +34,25 @@ export const RaccordementSection = ({
       return null;
     }
 
-    const gestionnaireRéseau =
-      await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
-
-    const value = {
-      nombreDeDossiers: raccordement.dossiers.length,
-      gestionnaireDeRéseau: Option.isSome(gestionnaireRéseau)
-        ? gestionnaireRéseau.raisonSociale
-        : 'Aucun gestionnaire de réseau pour ce projet',
-      dateMiseEnService: raccordement.dossiers.length
-        ? raccordement.dossiers
-            .map((dossier) => dossier.miseEnService?.dateMiseEnService)
-            .filter(Boolean)
-            .sort()[0]
-        : undefined,
-      aTransmisAccuséRéceptionDemandeRaccordement: raccordement.dossiers.length
-        ? !!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception
-        : undefined,
-    };
+    // TODO ajouter référence dossier de raccordement
 
     const action =
       abandon?.estAbandonné || abandon?.demandeEnCours
         ? undefined
-        : rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
-          ? {
-              label: 'Consulter la page raccordement',
-              url: Routes.Raccordement.détail(identifiantProjet.formatter()),
-            }
-          : {
-              label: 'Consulter la page raccordement',
-              url: Routes.Raccordement.détail(identifiantProjet.formatter()),
-            };
+        : {
+            label: 'Consulter la page raccordement',
+            url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+          };
 
     const alertes = rôle.estPorteur()
       ? getAlertesRaccordement({
           CDC2022Choisi:
             !!cahierDesCharges.cahierDesChargesModificatif &&
             cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-          raccordement: { value, action },
+          raccordement,
         })
       : [];
+    const value = mapToPlainObject(raccordement);
 
     return (
       <Section title="Raccordement au réseau">
@@ -92,7 +66,7 @@ const getAlertesRaccordement = ({
   raccordement,
 }: {
   CDC2022Choisi: boolean;
-  raccordement: RaccordementDétailsProps['raccordement'];
+  raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel;
 }): RaccordementDétailsProps['alertes'] => {
   const demandeComplèteRaccordementManquanteAlerte =
     "Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau. L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).";
@@ -102,13 +76,13 @@ const getAlertesRaccordement = ({
 
   const alertes: RaccordementDétailsProps['alertes'] = [];
 
-  if (!raccordement.value || raccordement.value.nombreDeDossiers === 0) {
+  if (raccordement.dossiers.length === 0) {
     alertes.push({ label: demandeComplèteRaccordementManquanteAlerte });
     if (CDC2022Choisi) {
       alertes.push({ label: référenceDossierManquantePourDélaiCDC2022Alerte });
     }
   } else {
-    if (!raccordement.value.aTransmisAccuséRéceptionDemandeRaccordement) {
+    if (!raccordement.dossiers.some((d) => !d.demandeComplèteRaccordement?.accuséRéception)) {
       alertes.push({ label: demandeComplèteRaccordementManquanteAlerte });
     }
   }
