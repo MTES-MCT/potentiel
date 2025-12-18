@@ -11,11 +11,11 @@ import { Event } from '../event';
 import { publish } from '../publish/publish';
 
 import { executeSubscribersRetry, subscribe } from './subscribe';
-import { registerSubscriber } from './subscriber/registerSubscriber';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
-import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
 import { executeRebuild } from './rebuild/executeRebuild';
 import { Unsubscribe } from './subscriber/subscriber';
+import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
+import { registerSubscriber } from './subscriber/registerSubscriber';
 
 should();
 
@@ -322,7 +322,7 @@ describe(`subscribe`, () => {
     const unsubscribe1 = await subscribe({
       name: subscriberName,
       eventType: ['event-1', 'event-2', 'RebuildTriggered'],
-      eventHandler: eventHandler,
+      eventHandler,
       streamCategory,
     });
     unsubscribes.push(unsubscribe1);
@@ -336,7 +336,6 @@ describe(`subscribe`, () => {
         type: 'RebuildTriggered',
         payload: {
           category: streamCategory,
-          id,
         },
       };
 
@@ -427,7 +426,7 @@ describe(`subscribe`, () => {
   it(`
     Quand une notification est publiée
     Et que le payload correspond à celui d'un événement
-    Et que l'événement est envoyé à un subscriber qui ne correspondant pas au type de l'événement 
+    Et que l'événement est envoyé à un subscriber qui ne correspondant pas au type de l'événement
     Alors un warning est loggé
   `, async () => {
     // Arrange
@@ -567,7 +566,7 @@ describe(`subscribe`, () => {
 
 const disconnectAllSubscriberClients = () =>
   executeQuery(`
-  SELECT pg_terminate_backend(pid) 
-  FROM pg_stat_activity 
+  SELECT pg_terminate_backend(pid)
+  FROM pg_stat_activity
   WHERE usename = 'potentiel'
   AND   query LIKE 'listen%'`);
