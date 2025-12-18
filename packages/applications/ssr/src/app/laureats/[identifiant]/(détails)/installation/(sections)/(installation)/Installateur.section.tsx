@@ -1,11 +1,8 @@
-import { mediator } from 'mediateur';
-
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers';
+import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
@@ -30,12 +27,9 @@ export const InstallateurSection = ({
       return null;
     }
 
-    const projection = await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
-      type: 'Lauréat.Installation.Query.ConsulterInstallation',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
+    const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-    if (Option.isNone(projection)) {
+    if (!installation) {
       return (
         <Section title="Installateur">
           <span>Champ non renseigné</span>
@@ -49,7 +43,7 @@ export const InstallateurSection = ({
       domain: 'installateur',
     });
 
-    const { installateur } = projection;
+    const { installateur } = installation;
     const value = mapToPlainObject(installateur);
 
     return (

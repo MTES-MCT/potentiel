@@ -1,13 +1,11 @@
-import { mediator } from 'mediateur';
-
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
 
 import { Section } from '../../../(components)/Section';
 import { DétailTypologieInstallation } from '../../../../installation/(historique)/events/DétailTypologieInstallation';
@@ -31,12 +29,9 @@ export const TypologieInstallationSection = ({
       return null;
     }
 
-    const projection = await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
-      type: 'Lauréat.Installation.Query.ConsulterInstallation',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
+    const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-    if (Option.isNone(projection)) {
+    if (!installation) {
       return (
         <Section title="Typologie du projet">
           <span>Champ non renseigné</span>
@@ -51,7 +46,7 @@ export const TypologieInstallationSection = ({
         }
       : undefined;
 
-    const { typologieInstallation } = projection;
+    const { typologieInstallation } = installation;
     const value = mapToPlainObject(typologieInstallation);
 
     return (

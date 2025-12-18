@@ -1,11 +1,8 @@
-import { mediator } from 'mediateur';
-
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction } from '@/app/laureats/[identifiant]/_helpers';
+import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
@@ -30,13 +27,9 @@ export const DispositifDeStockageSection = ({
     if (!champSupplémentaireDispositifDeStockage) {
       return null;
     }
+    const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-    const projection = await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
-      type: 'Lauréat.Installation.Query.ConsulterInstallation',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
-
-    if (Option.isNone(projection)) {
+    if (!installation) {
       return (
         <Section title="Dispositif de stockage">
           <span>Champ non renseigné</span>
@@ -50,7 +43,7 @@ export const DispositifDeStockageSection = ({
       domain: 'dispositifDeStockage',
     });
 
-    const { dispositifDeStockage } = projection;
+    const { dispositifDeStockage } = installation;
     const value = mapToPlainObject(dispositifDeStockage);
 
     return (

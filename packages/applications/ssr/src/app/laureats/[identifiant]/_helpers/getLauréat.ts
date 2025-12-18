@@ -177,3 +177,14 @@ export const getNatureDeLExploitationInfos = cache(async (identifiantProjet: Pro
 
   return Option.isSome(natureDeLExploitation) ? natureDeLExploitation : undefined;
 });
+
+export const getInstallationInfos = cache(async (identifiantProjet: Props) => {
+  const installation = await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
+    type: 'Lauréat.Installation.Query.ConsulterInstallation',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  return Option.isSome(installation) ? installation : undefined;
+});
