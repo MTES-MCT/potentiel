@@ -7,12 +7,15 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
+    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -20,10 +23,12 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   },
   producteur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    modificationAdmin: true,
     ratios: {
       min: 0.8,
       max: 1,
@@ -31,6 +36,7 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,

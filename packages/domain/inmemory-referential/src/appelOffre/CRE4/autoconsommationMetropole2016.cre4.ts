@@ -18,12 +18,15 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
+      modificationAdmin: true,
     },
     actionnaire: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -31,10 +34,12 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     },
     producteur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1,
@@ -42,6 +47,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,

@@ -9,12 +9,15 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
+    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -22,10 +25,12 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   },
   producteur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    modificationAdmin: true,
     ratios: {
       min: 0.9,
       max: 1.1,
@@ -33,6 +38,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,

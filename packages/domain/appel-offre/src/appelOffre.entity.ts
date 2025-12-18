@@ -46,24 +46,31 @@ type GarantiesFinancièresAppelOffre = {
 );
 
 // Demandes
-type Changement = {
-  informationEnregistrée?: boolean;
-  demande?: boolean;
-  modificationAdminImpossible?: true;
-};
-
-type ChangementAvecAutoritéCompétente =
+type Changement =
   | {
       informationEnregistrée?: undefined;
       demande?: undefined;
       autoritéCompétente?: undefined;
-      modificationAdminImpossible?: true;
+      modificationAdmin?: undefined;
+    }
+  | {
+      informationEnregistrée?: boolean;
+      demande?: boolean;
+      modificationAdmin: boolean;
+    };
+
+type DemandeAvecAutoritéCompétente =
+  | {
+      informationEnregistrée?: undefined;
+      modificationAdmin?: undefined;
+      demande?: undefined;
+      autoritéCompétente?: undefined;
     }
   | {
       informationEnregistrée?: undefined;
+      modificationAdmin?: undefined;
       demande: true;
       autoritéCompétente: AutoritéCompétente;
-      modificationAdminImpossible?: true;
     };
 
 type ChangementActionnaire = Changement & {
@@ -78,14 +85,14 @@ type ChangementPuissance =
   | {
       demande?: undefined;
       informationEnregistrée?: undefined;
+      modificationAdmin?: undefined;
       paragrapheAlerte?: undefined;
-      modificationAdminImpossible?: true;
     }
   | ({
       demande: true;
       informationEnregistrée: true;
+      modificationAdmin: boolean;
       paragrapheAlerte?: string;
-      modificationAdminImpossible?: true;
     } & RatiosChangementPuissance);
 
 type ChangementReprésentantLégal =
@@ -93,30 +100,30 @@ type ChangementReprésentantLégal =
       informationEnregistrée?: undefined;
       demande?: undefined;
       instructionAutomatique?: undefined;
-      modificationAdminImpossible?: true;
+      modificationAdmin?: undefined;
     }
   | {
       informationEnregistrée: true;
       demande?: undefined;
+      modificationAdmin: boolean;
       instructionAutomatique?: undefined;
-      modificationAdminImpossible?: true;
     }
   | {
       informationEnregistrée?: undefined;
       demande: true;
+      modificationAdmin: boolean;
       instructionAutomatique: 'accord' | 'rejet';
-      modificationAdminImpossible?: true;
     };
 
 export type RèglesDemandesChangement = {
   actionnaire: ChangementActionnaire;
   fournisseur: Changement;
-  délai: ChangementAvecAutoritéCompétente;
+  délai: DemandeAvecAutoritéCompétente;
   producteur: Changement;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
-  recours: Changement;
-  abandon: ChangementAvecAutoritéCompétente;
+  recours: DemandeAvecAutoritéCompétente;
+  abandon: DemandeAvecAutoritéCompétente;
   natureDeLExploitation: Changement;
   installateur: Changement;
   nomProjet: Changement;

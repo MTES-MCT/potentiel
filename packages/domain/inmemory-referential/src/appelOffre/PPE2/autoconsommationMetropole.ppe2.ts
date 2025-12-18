@@ -45,6 +45,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     puissance: {
       demande: true,
       informationEnregistrée: true,
+      modificationAdmin: true,
       changementByTechnologie: true,
       ratios: {
         pv: {
@@ -85,13 +86,16 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
+      modificationAdmin: true,
       instructionAutomatique: 'rejet',
     },
     actionnaire: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -99,10 +103,12 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       changementByTechnologie: true,
       ratios: {
         pv: {
@@ -121,6 +127,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,

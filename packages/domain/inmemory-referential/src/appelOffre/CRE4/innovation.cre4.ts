@@ -6,13 +6,16 @@ const changementsCDCModifié = {
   siteDeProduction: {},
   représentantLégal: {
     demande: true,
+    modificationAdmin: true,
     instructionAutomatique: 'accord',
   },
   actionnaire: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -20,10 +23,12 @@ const changementsCDCModifié = {
   },
   producteur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    modificationAdmin: true,
     ratios: {
       min: 0.7,
       max: 1,
@@ -31,6 +36,7 @@ const changementsCDCModifié = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,

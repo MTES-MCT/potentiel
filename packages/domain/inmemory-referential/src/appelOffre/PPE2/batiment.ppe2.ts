@@ -32,6 +32,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     puissance: {
       demande: true,
       informationEnregistrée: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.4,
@@ -75,13 +76,16 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
+      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -89,10 +93,12 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.1,
@@ -100,6 +106,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,

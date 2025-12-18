@@ -9,12 +9,15 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
+    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -22,10 +25,12 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   producteur: {
     informationEnregistrée: true,
+    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    modificationAdmin: true,
     ratios: {
       min: 0.9,
       max: 1.1,
@@ -33,13 +38,18 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,
     autoritéCompétente: 'dgec',
   },
-  installateur: {},
-  dispositifDeStockage: {},
+  installateur: {
+    modificationAdmin: true,
+  },
+  dispositifDeStockage: {
+    modificationAdmin: true,
+  },
 } satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {

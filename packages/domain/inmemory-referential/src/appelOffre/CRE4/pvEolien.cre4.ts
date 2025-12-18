@@ -41,13 +41,16 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
+      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -55,11 +58,13 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     producteur: {
       informationEnregistrée: false,
+      modificationAdmin: true,
     },
     // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement si ce CDC n'a pas été choisi, qui porte ce ratio à 1.4.
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1.4,
@@ -68,6 +73,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,

@@ -207,23 +207,20 @@ export const getAction = async <TDomain extends DomaineAction>({
   domain,
   nécessiteInstruction,
 }: Props<TDomain>) => {
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-
-  const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
-  const champsSupplémentairesAO = cahierDesCharges.getChampsSupplémentaires();
-
   const { modifier, demanderChangement, enregistrerChangement, champSupplémentaire } =
     mapChangements[domain];
 
+  if (!modifier && !demanderChangement && !enregistrerChangement) {
+    return;
+  }
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+  const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
+  const champsSupplémentairesAO = cahierDesCharges.getChampsSupplémentaires();
   if (champSupplémentaire && !champsSupplémentairesAO[champSupplémentaire]) {
     return;
   }
 
-  if (
-    !!modifier &&
-    rôle.aLaPermission(modifier.permission) &&
-    !règlesChangement.modificationAdminImpossible
-  ) {
+  if (!!modifier && rôle.aLaPermission(modifier.permission) && règlesChangement.modificationAdmin) {
     return {
       url: modifier.url(identifiantProjet.formatter()),
       label: modifier.label,

@@ -19,13 +19,16 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
+      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -33,10 +36,12 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1.2,
@@ -44,6 +49,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,
@@ -140,6 +146,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
+          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -172,6 +179,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
+          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -204,6 +212,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
+          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },

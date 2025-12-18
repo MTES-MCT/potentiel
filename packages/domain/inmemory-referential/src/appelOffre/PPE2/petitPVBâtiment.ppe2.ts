@@ -14,28 +14,30 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   delaiRealisationTexte: 'trente-quatre (34) mois',
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
   changement: {
-    nomProjet: { informationEnregistrée: true },
-    natureDeLExploitation: { informationEnregistrée: true },
-    siteDeProduction: {},
+    nomProjet: {
+      informationEnregistrée: true,
+      modificationAdmin: true,
+    },
+    natureDeLExploitation: { informationEnregistrée: true, modificationAdmin: true },
+    siteDeProduction: { modificationAdmin: true },
     représentantLégal: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
-    actionnaire: {
-      modificationAdminImpossible: true,
-    },
-    fournisseur: {
-      modificationAdminImpossible: true,
-    },
+    actionnaire: {},
+    fournisseur: {},
     délai: {
       demande: true,
       autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
+      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.1,
@@ -43,13 +45,20 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,
       autoritéCompétente: 'dreal',
     },
-    installateur: { informationEnregistrée: true },
-    dispositifDeStockage: { informationEnregistrée: true },
+    installateur: {
+      informationEnregistrée: true,
+      modificationAdmin: true,
+    },
+    dispositifDeStockage: {
+      informationEnregistrée: true,
+      modificationAdmin: true,
+    },
   },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
