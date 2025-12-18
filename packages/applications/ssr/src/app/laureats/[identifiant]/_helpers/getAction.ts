@@ -174,9 +174,23 @@ const mapChangements: MapChangements = {
       labelActions: 'Site de production',
     },
   },
+  abandon: {
+    demanderChangement: {
+      label: "Demander l'abandon",
+      labelActions: "Demander l'abandon",
+      url: Routes.Abandon.demander,
+      permission: 'abandon.demander',
+    },
+  },
+  délai: {
+    demanderChangement: {
+      label: 'Demander un délai',
+      labelActions: 'Demander un délai',
+      url: Routes.Délai.demander,
+      permission: 'délai.demander',
+    },
+  },
   recours: {},
-  abandon: {},
-  délai: {},
 };
 
 export const getAction = async <TDomain extends DomaineAction>({
