@@ -126,10 +126,12 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
           label="Raison de la modification"
-          hintText="Indiquez la raison de cette modification si nécessaire"
+          hintText="Veuillez indiquer la raison de cette modification"
           nativeTextAreaProps={{
             name: 'raison',
             defaultValue: '',
+            required: true,
+            'aria-required': true,
           }}
         />
         <UploadNewOrModifyExistingDocument

@@ -25,9 +25,11 @@ export const mapToReprésentantLégalModifiéTimelineItemProps = (
         <div>
           Nom : <span className="font-semibold">{nomReprésentantLégal}</span>
         </div>
-        <div>
-          Raison : <span className="font-semibold">{raison}</span>
-        </div>
+        {raison && (
+          <div>
+            Raison : <span className="font-semibold">{raison}</span>
+          </div>
+        )}
       </div>
     ),
   };
