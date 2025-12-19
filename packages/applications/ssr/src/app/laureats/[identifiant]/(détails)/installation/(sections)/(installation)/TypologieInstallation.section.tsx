@@ -5,7 +5,10 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-import { getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
+import {
+  getInstallationInfos,
+  SectionWithErrorHandling,
+} from '@/app/laureats/[identifiant]/_helpers';
 
 import { Section } from '../../../(components)/Section';
 import { DétailTypologieInstallation } from '../../../../installation/(historique)/events/DétailTypologieInstallation';
@@ -14,51 +17,56 @@ type TypologieInstallationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+const sectionTitle = 'Typologie du projet';
+
 export const TypologieInstallationSection = ({
   identifiantProjet: identifiantProjetValue,
 }: TypologieInstallationSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
-      cahierDesCharges.getChampsSupplémentaires();
+      const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
+        cahierDesCharges.getChampsSupplémentaires();
 
-    if (!champsSupplémentaireTypologieInstallation) {
-      return null;
-    }
+      if (!champsSupplémentaireTypologieInstallation) {
+        return null;
+      }
 
-    const installation = await getInstallationInfos(identifiantProjet.formatter());
+      const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-    if (!installation) {
+      if (!installation) {
+        return (
+          <Section title={sectionTitle}>
+            <span>Champ non renseigné</span>
+          </Section>
+        );
+      }
+
+      const action = rôle.aLaPermission('installation.typologieInstallation.modifier')
+        ? {
+            url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
+            label: 'Modifier la typologie du projet',
+          }
+        : undefined;
+
+      const { typologieInstallation } = installation;
+      const value = mapToPlainObject(typologieInstallation);
+
       return (
-        <Section title="Typologie du projet">
-          <span>Champ non renseigné</span>
+        <Section title={sectionTitle}>
+          {value.length ? (
+            <div>
+              <DétailTypologieInstallation typologieInstallation={value} />
+            </div>
+          ) : (
+            <span>Champ non renseigné</span>
+          )}
+          {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}
         </Section>
       );
-    }
-
-    const action = rôle.aLaPermission('installation.typologieInstallation.modifier')
-      ? {
-          url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
-          label: 'Modifier la typologie du projet',
-        }
-      : undefined;
-
-    const { typologieInstallation } = installation;
-    const value = mapToPlainObject(typologieInstallation);
-
-    return (
-      <Section title="Typologie du projet">
-        {value.length ? (
-          <div>
-            <DétailTypologieInstallation typologieInstallation={value} />
-          </div>
-        ) : (
-          <span>Champ non renseigné</span>
-        )}
-        {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}
-      </Section>
-    );
-  });
+    }),
+    sectionTitle,
+  );

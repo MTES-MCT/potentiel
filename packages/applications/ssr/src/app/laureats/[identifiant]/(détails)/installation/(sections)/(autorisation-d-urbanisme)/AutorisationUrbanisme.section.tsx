@@ -2,7 +2,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { getLauréatInfos, SectionWithErrorHandling } from '@/app/laureats/[identifiant]/_helpers';
 
 import { Section } from '../../../(components)/Section';
 
@@ -12,28 +12,31 @@ type AutorisationUrbanismeSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export const AutorisationUrbanismeSection = async ({
+const sectionTitle = "Autorisation d'urbanisme";
+
+export const AutorisationUrbanismeSection = ({
   identifiantProjet: identifiantProjetValue,
-}: AutorisationUrbanismeSectionProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+}: AutorisationUrbanismeSectionProps) =>
+  SectionWithErrorHandling(async () => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-  if (!cahierDesCharges.getChampsSupplémentaires().autorisationDUrbanisme) {
-    return null;
-  }
+    if (!cahierDesCharges.getChampsSupplémentaires().autorisationDUrbanisme) {
+      return null;
+    }
 
-  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+    const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
-  return (
-    <Section title="Autorisation d'urbanisme">
-      <AutorisationUrbanismeDétails
-        value={
-          lauréat.autorisationDUrbanisme
-            ? mapToPlainObject(lauréat.autorisationDUrbanisme)
-            : undefined
-        }
-      />
-    </Section>
-  );
-};
+    return (
+      <Section title={sectionTitle}>
+        <AutorisationUrbanismeDétails
+          value={
+            lauréat.autorisationDUrbanisme
+              ? mapToPlainObject(lauréat.autorisationDUrbanisme)
+              : undefined
+          }
+        />
+      </Section>
+    );
+  }, sectionTitle);
