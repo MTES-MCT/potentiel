@@ -1,6 +1,5 @@
 import Information from '@codegouvfr/react-dsfr/picto/Information';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
-import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
 import { match } from 'ts-pattern';
 
@@ -36,50 +35,45 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   return (
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
-        {étapes.map((étape, index) => {
-          const isLastItem = index === étapes.length - 1;
-          return (
-            <div key={`project-step-${étape.type}`}>
-              {match(étape)
-                .with({ type: 'designation' }, ({ date }) => (
-                  <ÉtapeProjet titre="Notification" date={date}>
-                    {doitAfficherAttestationDésignation && (
-                      <DownloadDocument
-                        className="mb-0"
-                        label="Télécharger l'attestation"
-                        format="pdf"
-                        url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-                      />
-                    )}
-                  </ÉtapeProjet>
-                ))
-                .with({ type: 'recours' }, ({ date, dateDemande }) => (
-                  <ÉtapeProjet titre="Recours accordé" date={date}>
-                    <TertiaryLink href={Routes.Recours.détail(identifiantProjet, dateDemande)}>
-                      Voir les détails du recours
-                    </TertiaryLink>
-                  </ÉtapeProjet>
-                ))
-                .with({ type: 'abandon' }, ({ date, dateDemande }) => (
-                  <ÉtapeProjet titre="Abandon accordé" date={date} isLastItem={isLastItem}>
-                    <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
-                      Voir les détails de l'abandon
-                    </TertiaryLink>
-                  </ÉtapeProjet>
-                ))
-                .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
-                  <ÉtapeProjet titre="Date d'achèvement prévisionnel" date={date} />
-                ))
-                .with({ type: 'mise-en-service' }, ({ date }) => (
-                  <ÉtapeProjet titre="Mise en service" date={date} isLastItem={isLastItem} />
-                ))
-                .with({ type: 'achèvement-réel' }, ({ date }) => (
-                  <ÉtapeProjet titre="Date d'achèvement réel" date={date} isLastItem={isLastItem} />
-                ))
-                .exhaustive()}
-            </div>
-          );
-        })}
+        {étapes.map((étape) =>
+          match(étape)
+            .with({ type: 'designation' }, ({ date }) => (
+              <ÉtapeProjet key={étape.type} titre="Notification" date={date}>
+                {doitAfficherAttestationDésignation && (
+                  <DownloadDocument
+                    className="mb-0"
+                    label="Télécharger l'attestation"
+                    format="pdf"
+                    url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                  />
+                )}
+              </ÉtapeProjet>
+            ))
+            .with({ type: 'recours' }, ({ date, dateDemande }) => (
+              <ÉtapeProjet key={étape.type} titre="Recours accordé" date={date}>
+                <TertiaryLink href={Routes.Recours.détail(identifiantProjet, dateDemande)}>
+                  Voir les détails du recours
+                </TertiaryLink>
+              </ÉtapeProjet>
+            ))
+            .with({ type: 'abandon' }, ({ date, dateDemande }) => (
+              <ÉtapeProjet key={étape.type} titre="Abandon accordé" date={date}>
+                <TertiaryLink href={Routes.Abandon.détail(identifiantProjet, dateDemande)}>
+                  Voir les détails de l'abandon
+                </TertiaryLink>
+              </ÉtapeProjet>
+            ))
+            .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
+              <ÉtapeProjet key={étape.type} titre="Achèvement prévisionnel" date={date} />
+            ))
+            .with({ type: 'mise-en-service' }, ({ date }) => (
+              <ÉtapeProjet key={étape.type} titre="Mise en service" date={date} />
+            ))
+            .with({ type: 'achèvement-réel' }, ({ date }) => (
+              <ÉtapeProjet key={étape.type} titre="Achèvement réel" date={date} />
+            ))
+            .exhaustive(),
+        )}
       </ol>
     </aside>
   );
@@ -88,13 +82,12 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
 type ÉtapeProjetProps = {
   titre: string;
   date: DateTime.RawType | undefined;
-  isLastItem?: boolean;
   children?: ReactNode;
 };
 
-const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, isLastItem = false, children }) => {
+const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, children }) => {
   return (
-    <TimelineItem isLastItem={isLastItem}>
+    <TimelineItem>
       {date ? (
         <Success color="green-emeraude" fontSize="medium" />
       ) : (
@@ -115,17 +108,14 @@ const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, isLastItem = false, 
 
 type TimelineItemProps = {
   children?: React.ReactNode;
-  isLastItem: boolean;
 };
 
-export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
-  <li className={clsx(isLastItem ? '' : 'pb-6 print:pb-3', 'relative')}>
-    {isLastItem ? null : (
-      <div
-        className="print:hidden -ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300 "
-        aria-hidden="true"
-      />
-    )}
+export const TimelineItem = ({ children }: TimelineItemProps) => (
+  <li className="pb-6 print:pb-3 last:pb-0 relative">
+    <div
+      className="print:hidden -ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300 "
+      aria-hidden="true"
+    />
     <div className="relative flex items-start group">{children}</div>
   </li>
 );
