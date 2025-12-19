@@ -50,7 +50,6 @@ type Changement =
   | {
       informationEnregistrée?: undefined;
       demande?: undefined;
-      autoritéCompétente?: undefined;
       modificationAdmin?: undefined;
     }
   | {
@@ -85,7 +84,7 @@ type ChangementPuissance =
   | {
       demande?: undefined;
       informationEnregistrée?: undefined;
-      modificationAdmin?: undefined;
+      modificationAdmin?: boolean;
       paragrapheAlerte?: undefined;
     }
   | ({
@@ -100,7 +99,7 @@ type ChangementReprésentantLégal =
       informationEnregistrée?: undefined;
       demande?: undefined;
       instructionAutomatique?: undefined;
-      modificationAdmin?: undefined;
+      modificationAdmin?: boolean;
     }
   | {
       informationEnregistrée: true;

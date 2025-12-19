@@ -58,17 +58,17 @@ export const bind = ({
     const changementOuModificationIndisponible: AppelOffre.RèglesDemandesChangement = {
       nomProjet: {},
       abandon: {},
-      actionnaire: {},
+      actionnaire: { modificationAdmin: true },
       délai: {},
-      fournisseur: {},
-      producteur: {},
-      puissance: {},
+      fournisseur: { modificationAdmin: true },
+      producteur: { modificationAdmin: true },
+      puissance: { modificationAdmin: true },
       recours: {},
-      représentantLégal: {},
-      natureDeLExploitation: {},
-      installateur: {},
-      dispositifDeStockage: {},
-      siteDeProduction: {},
+      représentantLégal: { modificationAdmin: true },
+      natureDeLExploitation: { modificationAdmin: true },
+      installateur: { modificationAdmin: true },
+      dispositifDeStockage: { modificationAdmin: true },
+      siteDeProduction: { modificationAdmin: true },
     };
 
     const règlesChangement = {
