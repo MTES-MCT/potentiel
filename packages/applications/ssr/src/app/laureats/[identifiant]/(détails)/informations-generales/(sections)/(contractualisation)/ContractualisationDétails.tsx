@@ -1,5 +1,6 @@
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
@@ -7,7 +8,7 @@ import { Heading6 } from '@/components/atoms/headings';
 
 export type ContractualisationDétailsProps = {
   puissance: ChampObligatoireAvecAction<PlainType<Lauréat.Puissance.ConsulterPuissanceReadModel>>;
-  prixRéférence: Lauréat.ConsulterLauréatReadModel['prixReference'];
+  prixRéférence: Option.Type<Lauréat.ConsulterLauréatReadModel['prixReference']>;
   coefficientKChoisi: Lauréat.ConsulterLauréatReadModel['coefficientKChoisi'];
 };
 
@@ -32,10 +33,12 @@ export const ContractualisationDétails = ({
         <TertiaryLink href={puissance.action.url}>{puissance.action.label}</TertiaryLink>
       )}
     </div>
-    <div className="flex flex-col gap-1">
-      <Heading6>Prix</Heading6>
-      <span>{prixRéférence} €/MWh</span>
-    </div>
+    {Option.isSome(prixRéférence) && (
+      <div className="flex flex-col gap-1">
+        <Heading6>Prix</Heading6>
+        <span>{prixRéférence} €/MWh</span>
+      </div>
+    )}
     <div className="flex flex-col gap-1">
       <Heading6>Coefficient K</Heading6>
       <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>

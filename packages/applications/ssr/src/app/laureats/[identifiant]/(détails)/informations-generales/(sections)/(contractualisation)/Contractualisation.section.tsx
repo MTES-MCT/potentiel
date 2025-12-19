@@ -1,6 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import {
   getAction,
@@ -44,10 +45,14 @@ export const ContractualisationSection = ({
           domain: 'puissance',
         });
 
+    const prixRéférence = rôle.aLaPermission('projet.accèsDonnées.prix')
+      ? lauréat.prixReference
+      : Option.none;
+
     return (
       <Section title="Contractualisation">
         <ContractualisationDétails
-          prixRéférence={lauréat.prixReference}
+          prixRéférence={prixRéférence}
           coefficientKChoisi={lauréat.coefficientKChoisi}
           puissance={{ value, action }}
         />
