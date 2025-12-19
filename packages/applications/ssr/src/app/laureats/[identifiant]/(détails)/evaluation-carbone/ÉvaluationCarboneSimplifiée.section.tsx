@@ -1,20 +1,22 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getFournisseurInfos } from '../../_helpers';
+import { getFournisseurInfos, SectionWithErrorHandling } from '../../_helpers';
 import { Section } from '../(components)/Section';
 
 export type ÉvaluationCarboneSimplifiéeSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-export const ÉvaluationCarboneSimplifiéeSection = async ({
+const sectionTitle = 'Évaluation carbone simplifiée';
+export const ÉvaluationCarboneSimplifiéeSection = ({
   identifiantProjet,
-}: ÉvaluationCarboneSimplifiéeSectionProps) => {
-  const { évaluationCarboneSimplifiée } = await getFournisseurInfos(identifiantProjet);
+}: ÉvaluationCarboneSimplifiéeSectionProps) =>
+  SectionWithErrorHandling(async () => {
+    const { évaluationCarboneSimplifiée } = await getFournisseurInfos(identifiantProjet);
 
-  return (
-    <Section title="Évaluation carbone simplifiée">
-      <span className="text-nowrap">{évaluationCarboneSimplifiée} kg eq CO2/kWc</span>
-    </Section>
-  );
-};
+    return (
+      <Section title={sectionTitle}>
+        <span className="text-nowrap">{évaluationCarboneSimplifiée} kg eq CO2/kWc</span>
+      </Section>
+    );
+  }, sectionTitle);

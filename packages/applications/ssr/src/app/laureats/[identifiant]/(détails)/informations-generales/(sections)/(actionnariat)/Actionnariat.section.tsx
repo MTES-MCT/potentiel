@@ -8,6 +8,7 @@ import {
   getActionnaireInfos,
   getGarantiesFinancières,
   getLauréatInfos,
+  SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -37,44 +38,49 @@ const changementNécessiteInstruction = async (identifiantProjet: IdentifiantPro
   );
 };
 
+const sectionTitle = 'Actionnariat';
+
 export const ActionnariatSection = ({
   identifiantProjet: identifiantProjetValue,
 }: ActionnariatSectionProps) =>
-  withUtilisateur(async ({ rôle }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  SectionWithErrorHandling(
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const lauréat = await getLauréatInfos(identifiantProjet.formatter());
-    const actionnaire = await getActionnaireInfos(identifiantProjet.formatter());
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+      const actionnaire = await getActionnaireInfos(identifiantProjet.formatter());
 
-    const value = mapToPlainObject(actionnaire);
+      const value = mapToPlainObject(actionnaire);
 
-    const nécessiteInstruction =
-      rôle.aLaPermission('actionnaire.demanderChangement') &&
-      (await changementNécessiteInstruction(identifiantProjet));
+      const nécessiteInstruction =
+        rôle.aLaPermission('actionnaire.demanderChangement') &&
+        (await changementNécessiteInstruction(identifiantProjet));
 
-    const action = actionnaire.dateDemandeEnCours
-      ? rôle.aLaPermission('actionnaire.consulterChangement')
-        ? {
-            url: Routes.Actionnaire.changement.détails(
-              identifiantProjet.formatter(),
-              actionnaire.dateDemandeEnCours.formatter(),
-            ),
-            label: 'Voir la demande de modification',
-          }
-        : undefined
-      : await getAction({
-          identifiantProjet,
-          rôle,
-          domain: 'actionnaire',
-          nécessiteInstruction,
-        });
+      const action = actionnaire.dateDemandeEnCours
+        ? rôle.aLaPermission('actionnaire.consulterChangement')
+          ? {
+              url: Routes.Actionnaire.changement.détails(
+                identifiantProjet.formatter(),
+                actionnaire.dateDemandeEnCours.formatter(),
+              ),
+              label: 'Voir la demande de modification',
+            }
+          : undefined
+        : await getAction({
+            identifiantProjet,
+            rôle,
+            domain: 'actionnaire',
+            nécessiteInstruction,
+          });
 
-    return (
-      <Section title="Actionnariat">
-        <ActionnariatDétails
-          actionnariat={lauréat.actionnariat ? mapToPlainObject(lauréat.actionnariat) : undefined}
-          actionnaire={{ value, action }}
-        />
-      </Section>
-    );
-  });
+      return (
+        <Section title={sectionTitle}>
+          <ActionnariatDétails
+            actionnariat={lauréat.actionnariat ? mapToPlainObject(lauréat.actionnariat) : undefined}
+            actionnaire={{ value, action }}
+          />
+        </Section>
+      );
+    }),
+    sectionTitle,
+  );
