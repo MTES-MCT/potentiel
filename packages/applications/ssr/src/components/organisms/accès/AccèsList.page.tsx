@@ -4,8 +4,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { SectionPage } from '../../../app/laureats/[identifiant]/(détails)/(components)/SectionPage';
 import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
 
@@ -16,54 +14,55 @@ export type AccèsListPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.RawType>;
   accès: PorteurListItemProps[];
   nombreDeProjets?: number;
+  peutInviter: boolean;
 };
 
 export const AccèsListPage: FC<AccèsListPageProps> = ({
   accès,
   identifiantProjet,
   nombreDeProjets,
-}) =>
-  withUtilisateur(async ({ rôle }) => (
-    <SectionPage title="Utilisateurs">
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-[2] flex-col gap-4">
-          <Section title="Comptes ayant accès au projet">
-            {accès.length === 0 ? (
-              <div className="flex flex-col items-center justify-center my-16">
-                <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
+  peutInviter,
+}) => (
+  <SectionPage title="Utilisateurs">
+    <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-[2] flex-col gap-4">
+        <Section title="Comptes ayant accès au projet">
+          {accès.length === 0 ? (
+            <div className="flex flex-col items-center justify-center my-16">
+              <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
+            </div>
+          ) : (
+            <div>
+              <div className="flex flex-col gap-4 mt-4">
+                {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
+                  <PorteurListItem
+                    key={identifiantUtilisateur}
+                    identifiantProjet={identifiantProjet}
+                    identifiantUtilisateur={identifiantUtilisateur}
+                    peutRetirerAccès={peutRetirerAccès}
+                  />
+                ))}
               </div>
-            ) : (
-              <div>
-                <div className="flex flex-col gap-4 mt-4">
-                  {accès.map(({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => (
-                    <PorteurListItem
-                      key={identifiantUtilisateur}
-                      identifiantProjet={identifiantProjet}
-                      identifiantUtilisateur={identifiantUtilisateur}
-                      peutRetirerAccès={peutRetirerAccès}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </Section>
-        </div>
-        <div className="flex flex-1 flex-col gap-4 items-center">
-          <InviterPorteurForm
-            identifiantProjet={identifiantProjet}
-            nombreDeProjets={nombreDeProjets}
-            peutInviter={rôle.aLaPermission('utilisateur.inviterPorteur')}
-          />
-          <Button
-            iconId="fr-icon-mail-line"
-            priority="secondary"
-            linkProps={{
-              href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
-            }}
-          >
-            Contacter tous les utilisateurs
-          </Button>
-        </div>
+            </div>
+          )}
+        </Section>
       </div>
-    </SectionPage>
-  ));
+      <div className="flex flex-1 flex-col gap-4 items-center">
+        <InviterPorteurForm
+          identifiantProjet={identifiantProjet}
+          nombreDeProjets={nombreDeProjets}
+          peutInviter={peutInviter}
+        />
+        <Button
+          iconId="fr-icon-mail-line"
+          priority="secondary"
+          linkProps={{
+            href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
+          }}
+        >
+          Contacter tous les utilisateurs
+        </Button>
+      </div>
+    </div>
+  </SectionPage>
+);

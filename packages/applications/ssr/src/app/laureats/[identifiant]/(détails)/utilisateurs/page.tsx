@@ -44,6 +44,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={props.identifiantProjet}
           nombreDeProjets={props.nombreDeProjets}
           accès={props.accès}
+          peutInviter={props.peutInviter}
         />
       );
     }),
@@ -74,6 +75,7 @@ const mapToProps: MapToProps = ({
     })),
     identifiantProjet: identifiantProjet.formatter(),
     nombreDeProjets,
+    peutInviter: utilisateurQuiInvite.rôle.aLaPermission('utilisateur.inviterPorteur'),
   });
 
 const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
