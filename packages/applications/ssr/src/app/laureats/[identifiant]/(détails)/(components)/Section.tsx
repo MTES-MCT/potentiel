@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { Heading3 } from '@/components/atoms/headings';
 
-type SectionProps = ComponentProps<'div'> & {
+type SectionProps = ComponentProps<'section'> & {
   title: string;
   children: React.ReactNode;
   icon?: React.ReactNode;

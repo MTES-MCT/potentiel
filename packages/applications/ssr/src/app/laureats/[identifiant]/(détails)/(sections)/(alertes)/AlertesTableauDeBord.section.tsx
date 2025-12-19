@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -22,50 +21,50 @@ export const AlertesTableauDeBordSection = ({
     const abandon = await getAbandonInfos(identifiantProjet.formatter());
     const achèvement = await getAchèvement(identifiantProjet.formatter());
 
-    const abandonAlertes = await getAbandonAlert(
-      identifiantProjet,
-      rôle,
-      !!abandon?.estAbandonné,
-      abandon?.demandeEnCours ? abandon.demandéLe.formatter() : undefined,
-    );
-    const achèvementAlertes = await getAchèvementAlert(achèvement.estAchevé, rôle);
+    const abandonAlertes = mapToAbandonAlert({ identifiantProjet, rôle, abandon });
+    const achèvementAlertes = mapToAchèvementAlert(achèvement.estAchevé, rôle);
 
-    if (!abandonAlertes && !achèvementAlertes) {
-      return null;
-    }
-
-    return (
-      <div>
-        <AlertesTableauDeBord abandon={abandonAlertes} achèvement={achèvementAlertes} />
-      </div>
-    );
+    return <AlertesTableauDeBord abandon={abandonAlertes} achèvement={achèvementAlertes} />;
   });
 
-const getAbandonAlert = (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  rôle: Role.ValueType,
-  estAbandonné: boolean,
-  dateDemandeEnCours?: DateTime.RawType,
-): Alerte | undefined => {
-  if (estAbandonné) {
+type MapToAbandonAlertProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  rôle: Role.ValueType;
+  abandon: Lauréat.Abandon.ConsulterAbandonReadModel | undefined;
+};
+
+const mapToAbandonAlert = ({
+  identifiantProjet,
+  rôle,
+  abandon,
+}: MapToAbandonAlertProps): Alerte | undefined => {
+  if (abandon?.estAbandonné) {
     return {
       label: "L'abandon de ce projet a été accordé.",
     };
   }
 
-  if (!dateDemandeEnCours || !(rôle.estDreal() || rôle.estDGEC() || rôle.estPorteur())) {
+  if (!abandon?.demandeEnCours) {
     return undefined;
   }
 
-  return {
-    label: rôle.estPorteur()
-      ? "Vous ne pouvez pas faire de demande ou de déclaration sur Potentiel car vous avez une demande d'abandon en cours pour ce projet. Si celle-ci n'est plus d'actualité, merci de l'annuler."
-      : "Une demande d'abandon est en cours pour ce projet.",
-    url: Routes.Abandon.détail(identifiantProjet.formatter(), dateDemandeEnCours),
-  };
+  if (rôle.estPorteur()) {
+    return {
+      label:
+        "Vous ne pouvez pas faire de demande ou de déclaration sur Potentiel car vous avez une demande d'abandon en cours pour ce projet. Si celle-ci n'est plus d'actualité, merci de l'annuler.",
+      url: Routes.Abandon.détail(identifiantProjet.formatter(), abandon.demandéLe.formatter()),
+    };
+  }
+
+  if (rôle.estDGEC() || rôle.estDreal()) {
+    return {
+      label: "Une demande d'abandon est en cours pour ce projet.",
+      url: Routes.Abandon.détail(identifiantProjet.formatter(), abandon.demandéLe.formatter()),
+    };
+  }
 };
 
-const getAchèvementAlert = (estAchevé: boolean, rôle: Role.ValueType): Alerte | undefined => {
+const mapToAchèvementAlert = (estAchevé: boolean, rôle: Role.ValueType): Alerte | undefined => {
   if (!estAchevé || !rôle.estPorteur()) {
     return undefined;
   }

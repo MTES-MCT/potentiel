@@ -26,17 +26,6 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   actions,
 }: ModifierGestionnaireRéseauDuRaccordementProps) => {
   if (Option.isNone(gestionnaireRéseau)) {
-    const lienAjout = (
-      <Link
-        className="ml-1"
-        href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-        aria-label="Ajouter un gestionnaire"
-      >
-        <Icon id="fr-icon-add-circle-line" size="xs" className="mr-1" />
-        Spécifier un gestionnaire de réseau
-      </Link>
-    );
-
     return (
       <Alert
         severity="warning"
@@ -45,7 +34,16 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         description={
           actions.modifier && (
             <div className="flex flex-row">
-              <div>{lienAjout}</div>
+              <div>
+                <Link
+                  className="ml-1"
+                  href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+                  aria-label="Ajouter un gestionnaire"
+                >
+                  <Icon id="fr-icon-add-circle-line" size="xs" className="mr-1" />
+                  Spécifier un gestionnaire de réseau
+                </Link>
+              </div>
             </div>
           )
         }
@@ -53,22 +51,20 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
     );
   }
 
-  const lienModifier = (
-    <Link
-      className="ml-1"
-      href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
-      aria-label={`Modifier le gestionnaire actuel (${gestionnaireRéseau.raisonSociale})`}
-    >
-      <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
-      Modifier
-    </Link>
-  );
-
   return (
     <div className="mt-2 mb-4 p-0">
       <div>
         Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
-        {actions.modifier && <>({lienModifier})</>}
+        {actions.modifier && (
+          <Link
+            className="ml-1"
+            href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}
+            aria-label={`Modifier le gestionnaire actuel (${gestionnaireRéseau.raisonSociale})`}
+          >
+            <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
+            Modifier
+          </Link>
+        )}
       </div>
       {gestionnaireRéseau.contactEmail && (
         <div className="flex items-center gap-2 mt-2">

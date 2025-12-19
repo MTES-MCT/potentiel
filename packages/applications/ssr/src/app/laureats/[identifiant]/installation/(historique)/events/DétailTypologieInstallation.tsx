@@ -2,11 +2,12 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { getTypologieInstallationLabel } from '@/app/laureats/[identifiant]/installation/typologie-du-projet/typologieInstallationLabel';
 
+type DétailTypologieInstallationProps = {
+  typologieInstallation: Candidature.TypologieInstallation.RawType[];
+};
 export const DétailTypologieInstallation = ({
   typologieInstallation,
-}: {
-  typologieInstallation: Candidature.TypologieInstallation.RawType[];
-}) => {
+}: DétailTypologieInstallationProps) => {
   return (
     <>
       {typologieInstallation.length > 0 ? (

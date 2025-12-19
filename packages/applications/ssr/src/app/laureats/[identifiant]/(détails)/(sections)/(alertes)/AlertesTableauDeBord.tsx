@@ -13,8 +13,11 @@ type AlertesTableauDeBordProps = {
 };
 
 export const AlertesTableauDeBord = ({ achèvement, abandon }: AlertesTableauDeBordProps) => {
+  if (!abandon && !achèvement) {
+    return null;
+  }
   return (
-    <>
+    <div>
       {achèvement && (
         <Notice description={achèvement.label} title="Modification du projet" severity="info" />
       )}
@@ -33,6 +36,6 @@ export const AlertesTableauDeBord = ({ achèvement, abandon }: AlertesTableauDeB
           })}
         />
       )}
-    </>
+    </div>
   );
 };
