@@ -23,7 +23,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
 }) => (
   <SectionPage title="Historique du projet">
     <div className="flex flex-col gap-6 w-full">
-      <div className="flex flex-row gap-6 w-full">
+      <div className="flex lg:flex-row flex-col gap-4 w-full">
         {filters.length ? (
           <div className="print:hidden flex flex-col gap-1 w-max">
             <ListFilters filters={filters} />

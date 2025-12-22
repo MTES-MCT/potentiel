@@ -17,20 +17,19 @@ type GetLauréatMenuItemsProps = {
 };
 
 const domainesMap: Record<DomaineAction, boolean> = {
-  délai: true,
-  abandon: true,
-  puissance: true,
-  producteur: true,
-  fournisseur: true,
   actionnaire: true,
-  représentantLégal: true,
-  nomProjet: true,
+  délai: true,
   dispositifDeStockage: true,
+  fournisseur: true,
   installateur: true,
   natureDeLExploitation: true,
+  nomProjet: true,
+  producteur: true,
+  puissance: true,
+  représentantLégal: true,
   siteDeProduction: true,
-
-  // non utilisé
+  abandon: true,
+  // non utilisé pour lauréat
   recours: false,
 };
 const domaines = Object.keys(domainesMap) as DomaineAction[];
