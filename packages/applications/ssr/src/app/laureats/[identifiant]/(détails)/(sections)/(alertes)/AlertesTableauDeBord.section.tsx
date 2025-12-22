@@ -40,7 +40,7 @@ const mapToAbandonAlert = ({
 }: MapToAbandonAlertProps): Alerte | undefined => {
   if (abandon?.estAbandonné) {
     return {
-      label: "L'abandon de ce projet a été accordé.",
+      label: 'Ce projet a été abandonné.',
     };
   }
 

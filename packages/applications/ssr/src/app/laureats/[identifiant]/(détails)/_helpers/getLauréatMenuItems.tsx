@@ -53,7 +53,7 @@ export const getLauréatMenuItems = async ({
 
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
     ? {
-        ...linkToSection('Tâches', 'taches'),
+        ...linkToSection(utilisateur.rôle.estPorteur() ? 'Tâches' : 'Tâches porteur', 'taches'),
         text: (
           <BadgeTâches identifiantProjet={identifiantProjet} utilisateur={utilisateur}>
             Tâches

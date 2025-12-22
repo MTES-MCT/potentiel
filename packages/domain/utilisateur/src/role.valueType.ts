@@ -1970,6 +1970,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'natureDeLExploitation.modifier',
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // Tâche
+  'tâche.consulter',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
