@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -37,7 +38,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     puissance: {
       demande: true,
       informationEnregistrée: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1.4,
@@ -73,21 +73,16 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
-      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -95,12 +90,10 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1.2,
@@ -117,6 +110,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
+  modification: defaultModifications,
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -188,7 +182,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -226,7 +219,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -259,7 +251,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -284,7 +275,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -309,7 +299,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -334,7 +323,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -359,7 +347,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },
@@ -384,7 +371,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           demande: true,
-          modificationAdmin: true,
           instructionAutomatique: 'rejet',
         },
       },

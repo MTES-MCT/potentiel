@@ -1,23 +1,19 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   nomProjet: {},
   natureDeLExploitation: {},
-  siteDeProduction: {
-    modificationAdmin: true,
-  },
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
-    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -25,12 +21,10 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   },
   producteur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
-    modificationAdmin: true,
     ratios: {
       min: 0.8,
       max: 1,
@@ -75,6 +69,7 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: 'indisponible',
+  modification: defaultModifications,
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',

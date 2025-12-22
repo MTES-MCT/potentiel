@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -45,7 +46,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     puissance: {
       demande: true,
       informationEnregistrée: true,
-      modificationAdmin: true,
       changementByTechnologie: true,
       ratios: {
         pv: {
@@ -83,21 +83,16 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
-      modificationAdmin: true,
       instructionAutomatique: 'rejet',
     },
     actionnaire: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -105,12 +100,10 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
-      modificationAdmin: true,
       changementByTechnologie: true,
       ratios: {
         pv: {
@@ -138,6 +131,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
+  modification: defaultModifications,
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes',

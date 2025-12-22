@@ -1,25 +1,21 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const garantieFinanciereEnMois = 42;
 
 const changementsCDCModifié = {
   nomProjet: {},
   natureDeLExploitation: {},
-  siteDeProduction: {
-    modificationAdmin: true,
-  },
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
-    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -27,12 +23,10 @@ const changementsCDCModifié = {
   },
   producteur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
-    modificationAdmin: true,
     ratios: {
       min: 0.9,
       max: 1.1,
@@ -124,6 +118,7 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
   changement: 'indisponible',
+  modification: defaultModifications,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',

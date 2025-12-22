@@ -36,6 +36,9 @@ export type ValueType = {
   getRèglesChangements<TDomain extends keyof AppelOffre.RèglesDemandesChangement>(
     domaine: TDomain,
   ): AppelOffre.RèglesDemandesChangement[TDomain];
+  getRèglesModification<TDomain extends keyof AppelOffre.RèglesModification>(
+    domaine: TDomain,
+  ): boolean;
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
   getChampsSupplémentaires(): AppelOffre.ChampsSupplémentairesCandidature;
   getTypesActionnariat(): TypeActionnariat.RawType[];
@@ -55,32 +58,42 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementOuModificationIndisponible: AppelOffre.RèglesDemandesChangement = {
+    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
       nomProjet: {},
       abandon: {},
-      actionnaire: { modificationAdmin: true },
+      actionnaire: {},
       délai: {},
-      fournisseur: { modificationAdmin: true },
-      producteur: { modificationAdmin: true },
-      puissance: { modificationAdmin: true },
+      fournisseur: {},
+      producteur: {},
+      puissance: {},
       recours: {},
-      représentantLégal: { modificationAdmin: true },
-      natureDeLExploitation: { modificationAdmin: true },
-      installateur: { modificationAdmin: true },
-      dispositifDeStockage: { modificationAdmin: true },
-      siteDeProduction: { modificationAdmin: true },
+      représentantLégal: {},
+      natureDeLExploitation: {},
+      installateur: {},
+      dispositifDeStockage: {},
+      siteDeProduction: {},
     };
 
     const règlesChangement = {
       ...(this.appelOffre.changement === 'indisponible'
-        ? changementOuModificationIndisponible
+        ? changementIndisponible
         : this.appelOffre.changement),
       ...(this.période.changement === 'indisponible'
-        ? changementOuModificationIndisponible
+        ? changementIndisponible
         : this.période.changement),
       ...this.cahierDesChargesModificatif?.changement,
     };
     return règlesChangement[domaine];
+  },
+
+  getRèglesModification(domaine) {
+    const règlesModification = {
+      ...this.appelOffre.modification,
+      ...this.période.modification,
+      ...this.cahierDesChargesModificatif?.modification,
+    };
+
+    return !!règlesModification[domaine].modificationAdmin;
   },
 
   getAutoritéCompétente(domaine) {

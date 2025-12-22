@@ -29,14 +29,16 @@ export const getAction = async <TDomain extends DomaineAction>({
   if (!modifier && !demanderChangement && !enregistrerChangement) {
     return;
   }
+
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
+  const règlesModification = cahierDesCharges.getRèglesModification(domain);
   const champsSupplémentairesAO = cahierDesCharges.getChampsSupplémentaires();
   if (champSupplémentaire && !champsSupplémentairesAO[champSupplémentaire]) {
     return;
   }
 
-  if (!!modifier && rôle.aLaPermission(modifier.permission) && règlesChangement.modificationAdmin) {
+  if (!!modifier && rôle.aLaPermission(modifier.permission) && règlesModification) {
     return {
       url: modifier.url(identifiantProjet.formatter()),
       label: modifier.label,

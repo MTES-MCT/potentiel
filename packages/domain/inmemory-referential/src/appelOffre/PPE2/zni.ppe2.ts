@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - ZNI',
@@ -15,21 +16,16 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
-      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -37,12 +33,10 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.1,
@@ -59,6 +53,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
+  modification: defaultModifications,
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',

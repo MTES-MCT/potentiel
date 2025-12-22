@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const garantieFinanciereEnMois = 36;
 
@@ -38,21 +39,16 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
-      modificationAdmin: true,
       instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -60,13 +56,11 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     producteur: {
       informationEnregistrée: false,
-      modificationAdmin: true,
     },
     // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement si ce CDC n'a pas été choisi, qui porte ce ratio à 1.4.
     puissance: {
       informationEnregistrée: true,
       demande: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.8,
         max: 1.4,
@@ -101,6 +95,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
   technologie: 'eolien',
   changement: 'indisponible',
+  modification: defaultModifications,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,
   paragraphePrixReference: '7',

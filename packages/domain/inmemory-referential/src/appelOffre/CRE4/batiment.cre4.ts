@@ -1,25 +1,21 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const garantieFinanciereEnMois = 36;
 
 const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   nomProjet: {},
   natureDeLExploitation: {},
-  siteDeProduction: {
-    modificationAdmin: true,
-  },
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
-    modificationAdmin: true,
   },
   actionnaire: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   fournisseur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   délai: {
     demande: true,
@@ -27,12 +23,10 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   producteur: {
     informationEnregistrée: true,
-    modificationAdmin: true,
   },
   puissance: {
     informationEnregistrée: true,
     demande: true,
-    modificationAdmin: true,
     ratios: {
       min: 0.9,
       max: 1.1,
@@ -46,12 +40,8 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
     demande: true,
     autoritéCompétente: 'dgec',
   },
-  installateur: {
-    modificationAdmin: true,
-  },
-  dispositifDeStockage: {
-    modificationAdmin: true,
-  },
+  installateur: {},
+  dispositifDeStockage: {},
 } satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
@@ -106,6 +96,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 20,
   changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
+  modification: defaultModifications,
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',

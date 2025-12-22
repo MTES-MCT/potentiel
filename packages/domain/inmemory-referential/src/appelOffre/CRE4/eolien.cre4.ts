@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { defaultModifications } from '../../constants';
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -15,7 +16,6 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     puissance: {
       demande: true,
       informationEnregistrée: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.4,
@@ -37,23 +37,18 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
-      modificationAdmin: true,
       instructionAutomatique: 'rejet',
     },
     actionnaire: {
       informationEnregistrée: true,
       informationEnregistréeEstSoumiseÀConditions: true,
       demande: true,
-      modificationAdmin: true,
     },
     fournisseur: {
       informationEnregistrée: true,
-      modificationAdmin: true,
     },
     délai: {
       demande: true,
@@ -61,12 +56,10 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     },
     producteur: {
       informationEnregistrée: false,
-      modificationAdmin: true,
     },
     puissance: {
       informationEnregistrée: true,
       demande: true,
-      modificationAdmin: true,
       ratios: {
         min: 0.9,
         max: 1.1,
@@ -83,6 +76,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
+  modification: defaultModifications,
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
   technologie: 'eolien',
