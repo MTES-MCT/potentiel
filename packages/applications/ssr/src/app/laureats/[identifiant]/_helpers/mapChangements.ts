@@ -1,6 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
+
 import { DomaineAction } from './getAction';
 
 type OptionsChangement = {
