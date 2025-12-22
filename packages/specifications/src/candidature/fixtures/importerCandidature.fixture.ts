@@ -165,6 +165,7 @@ const créerDépôt = (
       : 'N/A',
     emailContact: faker.internet.email(),
     puissanceALaPointe: true,
+    puissanceInitiale: faker.number.float({ min: 0.1, max: 3 }),
     sociétéMère: faker.company.name(),
     territoireProjet: '',
     historiqueAbandon: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
