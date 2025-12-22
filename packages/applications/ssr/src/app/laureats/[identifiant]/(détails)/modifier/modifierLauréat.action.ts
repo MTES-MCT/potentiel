@@ -256,6 +256,7 @@ const mapBodyToCandidatureUsecaseData = (
             tauxPrévisionnelACI: previous.natureDeLExploitation.tauxPrévisionnelACI,
           }
         : undefined,
+      puissanceInitiale: previous.puissanceInitiale,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

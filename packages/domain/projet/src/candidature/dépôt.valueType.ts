@@ -20,12 +20,14 @@ export type RawType = {
   nomCandidat: string;
   emailContact: Email.RawType;
   sociétéMère: string;
-  puissanceProductionAnnuelle: number;
   nomReprésentantLégal: string;
   prixReference: number;
   localité: Localité.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
+  puissanceProductionAnnuelle: number;
   puissanceALaPointe: boolean;
+  puissanceDeSite: number | undefined;
+  puissanceInitiale: number | undefined;
   coefficientKChoisi: boolean | undefined;
   evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.RawType;
@@ -38,7 +40,6 @@ export type RawType = {
   fournisseurs: Array<Fournisseur.RawType>;
   typologieInstallation: Array<TypologieInstallation.RawType>;
   obligationDeSolarisation: boolean | undefined;
-  puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType | undefined;
@@ -55,12 +56,14 @@ export type ValueType = ReadonlyValueType<{
   nomCandidat: string;
   emailContact: Email.ValueType;
   sociétéMère: string;
-  puissanceProductionAnnuelle: number;
   nomReprésentantLégal: string;
   prixReference: number;
   localité: Localité.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
+  puissanceProductionAnnuelle: number;
   puissanceALaPointe: boolean;
+  puissanceDeSite: number | undefined;
+  puissanceInitiale: number | undefined;
   coefficientKChoisi: boolean | undefined;
   evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.ValueType;
@@ -70,7 +73,6 @@ export type ValueType = ReadonlyValueType<{
   fournisseurs: Array<Fournisseur.ValueType>;
   typologieInstallation: Array<TypologieInstallation.ValueType>;
   obligationDeSolarisation: boolean | undefined;
-  puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.ValueType | undefined;
@@ -92,6 +94,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   evaluationCarboneSimplifiée: plain.evaluationCarboneSimplifiée,
   puissanceALaPointe: plain.puissanceALaPointe,
   puissanceProductionAnnuelle: plain.puissanceProductionAnnuelle,
+  puissanceInitiale: plain.puissanceInitiale,
   sociétéMère: plain.sociétéMère,
   territoireProjet: plain.territoireProjet,
   coefficientKChoisi: plain.coefficientKChoisi,
@@ -140,6 +143,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.coefficientKChoisi === this.coefficientKChoisi &&
       valueType.puissanceDeSite === this.puissanceDeSite &&
       valueType.puissanceProductionAnnuelle === this.puissanceProductionAnnuelle &&
+      valueType.puissanceInitiale === this.puissanceInitiale &&
       valueType.sociétéMère === this.sociétéMère &&
       valueType.territoireProjet === this.territoireProjet &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
@@ -172,6 +176,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       evaluationCarboneSimplifiée: this.evaluationCarboneSimplifiée,
       puissanceALaPointe: this.puissanceALaPointe,
       puissanceProductionAnnuelle: this.puissanceProductionAnnuelle,
+      puissanceInitiale: this.puissanceInitiale,
       sociétéMère: this.sociétéMère,
       territoireProjet: this.territoireProjet,
       coefficientKChoisi: this.coefficientKChoisi,
@@ -228,6 +233,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     evaluationCarboneSimplifiée: raw.evaluationCarboneSimplifiée,
     puissanceALaPointe: raw.puissanceALaPointe,
     puissanceProductionAnnuelle: raw.puissanceProductionAnnuelle,
+    puissanceInitiale: raw.puissanceInitiale,
     sociétéMère: raw.sociétéMère,
     territoireProjet: raw.territoireProjet,
     coefficientKChoisi: raw.coefficientKChoisi,

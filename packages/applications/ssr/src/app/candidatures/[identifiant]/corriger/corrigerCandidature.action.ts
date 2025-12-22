@@ -54,6 +54,7 @@ const schema = zod.object({
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,
+  puissanceInitiale: dépôtSchema.shape.puissanceInitiale,
 });
 
 export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
@@ -131,6 +132,7 @@ const mapBodyToUseCaseData = (
             }
           : undefined,
       installateur: data.installateur,
+      puissanceInitiale: data.puissanceInitiale,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,
