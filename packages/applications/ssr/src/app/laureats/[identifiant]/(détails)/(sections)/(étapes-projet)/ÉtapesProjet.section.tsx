@@ -102,10 +102,9 @@ const mapToÉtapesData = ({
   const dateMiseEnService =
     raccordement && raccordement.dossiers.length
       ? raccordement.dossiers
-          .map((dossier) => dossier.miseEnService?.dateMiseEnService)
+          .map((dossier) => dossier.miseEnService?.dateMiseEnService?.formatter())
           .filter(Boolean)
           .sort()[0]
-          ?.formatter()
       : undefined;
 
   if (dateMiseEnService) {
