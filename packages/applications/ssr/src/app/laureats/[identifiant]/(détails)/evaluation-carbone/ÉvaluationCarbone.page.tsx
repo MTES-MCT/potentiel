@@ -11,7 +11,7 @@ type ÉvaluationCarbonePageProps = {
 
 export const ÉvaluationCarbonePage = ({ identifiantProjet }: ÉvaluationCarbonePageProps) => (
   <SectionPage title="Évaluation Carbone">
-    <div className="flex flex-col gap-4 lg:w-1/2">
+    <div className="flex flex-col gap-4 md:w-1/2">
       <ÉvaluationCarboneSimplifiéeSection identifiantProjet={identifiantProjet} />
       <FournisseursSection identifiantProjet={identifiantProjet} />
     </div>

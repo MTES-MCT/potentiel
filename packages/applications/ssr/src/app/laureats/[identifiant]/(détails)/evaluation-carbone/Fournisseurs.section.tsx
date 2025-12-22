@@ -13,6 +13,7 @@ export type FournisseursSectionProps = {
 };
 
 const sectionTitle = 'Fournisseurs';
+
 export const FournisseursSection = async ({ identifiantProjet }: FournisseursSectionProps) =>
   SectionWithErrorHandling(
     () =>

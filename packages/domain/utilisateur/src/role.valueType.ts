@@ -1611,6 +1611,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Achèvement
   'achèvement.consulter',
+
+  // Raccordement
+  'raccordement.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1640,7 +1643,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'réseau.gestionnaire.modifier',
 
   // Raccordement
-  'raccordement.consulter',
   'raccordement.gestionnaire.modifier',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
@@ -1795,7 +1797,6 @@ const crePolicies: ReadonlyArray<Policy> = [
   'réseau.gestionnaire.lister',
 
   // Raccordement
-  'raccordement.consulter',
   'raccordement.listerDossierRaccordement',
 
   // Garanties financières
@@ -1863,7 +1864,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'recours.consulter.liste',
 
   // Raccordement
-  'raccordement.consulter',
   'raccordement.listerDossierRaccordement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
@@ -1996,7 +1996,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'recours.annuler',
 
   // Raccordement
-  'raccordement.consulter',
   'raccordement.gestionnaire.modifier',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
@@ -2111,9 +2110,6 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
-
-  // Raccordement
-  'raccordement.consulter',
 
   // Achèvement
   'achèvement.transmettreDate',

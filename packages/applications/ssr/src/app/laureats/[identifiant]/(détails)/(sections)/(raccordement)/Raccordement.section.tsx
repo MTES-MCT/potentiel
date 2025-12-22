@@ -45,14 +45,16 @@ export const RaccordementSection = ({
               url: Routes.Raccordement.détail(identifiantProjet.formatter()),
             };
 
-      const alertes = rôle.estPorteur()
-        ? getAlertesRaccordement({
-            CDC2022Choisi:
-              !!cahierDesCharges.cahierDesChargesModificatif &&
-              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-            raccordement,
-          })
-        : [];
+      const alertes =
+        rôle.estPorteur() && !abandon?.estAbandonné
+          ? getAlertesRaccordement({
+              CDC2022Choisi:
+                !!cahierDesCharges.cahierDesChargesModificatif &&
+                cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+              raccordement,
+            })
+          : [];
+
       const value = mapToPlainObject(raccordement);
 
       return (
