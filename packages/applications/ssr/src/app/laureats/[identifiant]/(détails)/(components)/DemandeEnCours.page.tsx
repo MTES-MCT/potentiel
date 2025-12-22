@@ -14,7 +14,7 @@ export const DemandeEnCoursPage = ({ title, href }: Props) => (
     <Alert
       severity="info"
       title={title}
-      description="Une demande étant déjà en cours d'instruction, vous ne pouvez plus faire de demande ou enregistrer une modification. Si cette demande est obsolète, vous pouvez l'annuler."
+      description="Une demande étant déjà en cours, vous ne pouvez plus faire de demande ou enregistrer une modification. Si cette demande est obsolète, vous pouvez l'annuler."
       className="lg:w-1/2"
     />
     <Button

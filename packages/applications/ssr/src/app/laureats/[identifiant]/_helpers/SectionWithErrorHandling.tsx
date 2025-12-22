@@ -23,7 +23,7 @@ export const SectionWithErrorHandling = async (
       return (
         <Section title={title ?? 'Erreur'}>
           <Notice
-            severity="warning"
+            severity="info"
             title="Accès refusé"
             description="Vous n'avez pas la permission de voir cette section."
           />

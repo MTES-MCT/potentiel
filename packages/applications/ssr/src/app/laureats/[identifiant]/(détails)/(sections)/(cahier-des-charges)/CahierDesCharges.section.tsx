@@ -25,16 +25,18 @@ export const CahierDesChargesSection = ({
 
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
+      const doitChoisirUnCahierDesChargesModificatif =
+        rôle.aLaPermission('cahierDesCharges.choisir') &&
+        cahierDesCharges.doitChoisirUnCahierDesChargesModificatif();
+
       const value = {
         ...mapToPlainObject(cahierDesCharges),
-        doitChoisirUnCahierDesChargesModificatif:
-          cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
+        doitChoisirUnCahierDesChargesModificatif,
       };
 
-      const action = rôle.aLaPermission('cahierDesCharges.choisir')
+      const action = doitChoisirUnCahierDesChargesModificatif
         ? {
             label: 'Accéder au choix du cahier des charges',
-
             url: Routes.CahierDesCharges.choisir(identifiantProjet.formatter()),
           }
         : undefined;

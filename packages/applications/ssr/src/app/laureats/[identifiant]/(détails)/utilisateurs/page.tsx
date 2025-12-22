@@ -69,9 +69,9 @@ const mapToProps: MapToProps = ({
     accès: accès.map((identifiantUtilisateur) => ({
       identifiantProjet: identifiantProjet.formatter(),
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
-      peutRetirerAccès: !identifiantUtilisateur.estÉgaleÀ(
-        utilisateurQuiInvite.identifiantUtilisateur,
-      ),
+      peutRetirerAccès:
+        !identifiantUtilisateur.estÉgaleÀ(utilisateurQuiInvite.identifiantUtilisateur) &&
+        utilisateurQuiInvite.rôle.aLaPermission('accès.retirerAccèsProjet'),
     })),
     identifiantProjet: identifiantProjet.formatter(),
     nombreDeProjets,

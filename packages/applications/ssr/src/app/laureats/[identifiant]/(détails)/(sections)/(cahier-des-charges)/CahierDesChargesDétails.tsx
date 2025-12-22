@@ -34,8 +34,13 @@ export const CahierDesChargesDétails = ({ value, action }: CahierDesChargesDét
       </TertiaryLink>
       {value.doitChoisirUnCahierDesChargesModificatif && (
         <Notice
-          description="Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
-       dématérialisées d'information au Préfet et de modification de votre projet (abandon...), vous devez d'abord choisir un cahier des charges"
+          description={
+            <span className="inline-block">
+              Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
+              dématérialisées d'information au Préfet et de modification de votre projet
+              (abandon...), vous devez d'abord choisir un cahier des charges.
+            </span>
+          }
           title="Modification de votre projet"
           severity="warning"
           className="print:hidden"
