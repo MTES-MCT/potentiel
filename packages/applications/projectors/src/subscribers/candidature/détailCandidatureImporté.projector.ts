@@ -8,6 +8,7 @@ export const détailCandidatureImportéProjector = async ({
     `détail-candidature|${identifiantProjet}`,
     {
       identifiantProjet,
+      statut: 'import',
       détail,
     },
   );

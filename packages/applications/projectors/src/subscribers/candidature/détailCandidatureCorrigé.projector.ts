@@ -8,6 +8,7 @@ export const détailCandidatureCorrigéProjector = async ({
     `détail-candidature|${identifiantProjet}`,
     {
       identifiantProjet,
+      statut: 'correction',
       détail,
     },
   );

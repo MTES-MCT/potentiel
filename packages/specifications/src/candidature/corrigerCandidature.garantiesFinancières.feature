@@ -2,6 +2,9 @@
 @candidature
 Fonctionnalité: Corriger une candidature (garanties financières)
 
+    Contexte:
+        Etant donné la candidature lauréate "Du boulodrome de Marseille"
+
     Scénario: Impossible de corriger une candidature sans GF, pour un AO soumis aux GF
         Etant donné la candidature lauréate "Centrale PV" avec :
             | appel d'offres | PPE2 - Bâtiment |

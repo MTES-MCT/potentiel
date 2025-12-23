@@ -8,6 +8,7 @@ export type DétailCandidatureEntity = Entity<
   'détail-candidature',
   {
     identifiantProjet: IdentifiantProjet.RawType;
+    statut: 'import' | 'correction';
     détail: DétailCandidature;
   }
 >;
