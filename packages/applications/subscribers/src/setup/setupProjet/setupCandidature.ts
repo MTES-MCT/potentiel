@@ -19,6 +19,7 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     eventType: [
       'RebuildTriggered',
       'DétailsFournisseursCandidatureImportés-V1',
+      'DétailCandidatureImporté-V1',
       'CandidatureImportée-V1',
       'CandidatureImportée-V2',
       'CandidatureCorrigée-V1',

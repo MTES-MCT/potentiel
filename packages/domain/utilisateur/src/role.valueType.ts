@@ -542,6 +542,7 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
+      consulterDétailCandidature: 'Candidature.Query.ConsulterDétailCandidature',
       consulterProjet: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
@@ -554,6 +555,7 @@ const référencielPermissions = {
     },
     command: {
       importer: 'Candidature.Command.ImporterCandidature',
+      importerDétail: 'Candidature.Command.ImporterDétailCandidature',
       corriger: 'Candidature.Command.CorrigerCandidature',
       notifier: 'Candidature.Command.NotifierCandidature',
     },
@@ -962,11 +964,13 @@ const policies = {
   },
   candidature: {
     consulter: [référencielPermissions.candidature.query.consulterCandidature],
+    consulterDétail: [référencielPermissions.candidature.query.consulterDétailCandidature],
     importer: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.importer,
       référencielPermissions.candidature.command.importer,
     ],
+    importerDétail: [référencielPermissions.candidature.command.importerDétail],
     corriger: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.corriger,
@@ -1674,7 +1678,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.consulter',
+  'candidature.consulterDétail',
   'candidature.importer',
+  'candidature.importerDétail',
   'candidature.corriger',
   'candidature.lister',
   'candidature.attestation.prévisualiser',

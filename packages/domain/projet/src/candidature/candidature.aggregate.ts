@@ -61,6 +61,8 @@ import {
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
+import { DétailCandidature } from './détail/détailCandidature.type';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -212,6 +214,18 @@ export class CandidatureAggregate extends AbstractAggregate<
         ...candidature.dépôt.formatter(),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async importerDétail(détail: DétailCandidature) {
+    const event: DétailCandidatureImportéEvent = {
+      type: 'DétailCandidatureImporté-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        détail,
       },
     };
 
@@ -475,7 +489,7 @@ export class CandidatureAggregate extends AbstractAggregate<
         },
         (event) => this.applyCandidatureNotifiée(event),
       )
-
+      .with({ type: 'DétailCandidatureImporté-V1' }, (_) => {})
       .exhaustive();
   }
 
