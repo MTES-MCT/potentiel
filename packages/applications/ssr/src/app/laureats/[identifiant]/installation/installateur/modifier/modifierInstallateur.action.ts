@@ -9,17 +9,23 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { installateurSchema } from '@/utils/candidature/candidatureFields.schema';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   installateur: installateurSchema,
+  raison: zod.string().min(1),
+  piecesJustificatives: manyDocuments({
+    acceptedFileTypes: ['application/pdf'],
+    optional: true,
+  }),
 });
 
 export type ModifierInstallateurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, installateur },
+  { identifiantProjet, installateur, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Installation.ModifierInstallateurUseCase>({
@@ -29,6 +35,8 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
         installateurValue: installateur ?? '',
+        raisonValue: raison,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 

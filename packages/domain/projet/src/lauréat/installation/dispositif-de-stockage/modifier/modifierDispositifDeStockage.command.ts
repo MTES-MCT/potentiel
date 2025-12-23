@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DispositifDeStockage } from '../..';
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type ModifierDispositifDeStockageCommand = Message<
   'Lauréat.Installation.Command.ModifierDispositifDeStockage',
@@ -12,6 +12,8 @@ export type ModifierDispositifDeStockageCommand = Message<
     dispositifDeStockage: DispositifDeStockage.ValueType;
     modifiéLe: DateTime.ValueType;
     modifiéPar: Email.ValueType;
+    raison?: string;
+    pièceJustificative?: DocumentProjet.ValueType;
   }
 >;
 

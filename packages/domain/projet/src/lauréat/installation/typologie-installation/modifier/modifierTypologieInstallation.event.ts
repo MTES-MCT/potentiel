@@ -11,5 +11,9 @@ export type TypologieInstallationModifiéeEvent = DomainEvent<
     typologieInstallation: TypologieInstallation.RawType[];
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;
+    raison?: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;
