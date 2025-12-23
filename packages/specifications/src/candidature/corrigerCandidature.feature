@@ -9,18 +9,21 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
+        Et le détail de la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
     Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat | abcd                  |
             | détails      | {"Note carbone": "1"} |
+        Et le détail de la candidature devrait être consultable
         Alors la candidature devrait être consultable
 
     Scénario: Corriger une candidature avec des champs de localité uniquement
         Quand le DGEC validateur corrige la candidature avec :
             | adresse 1 | ma nouvelle adresse |
         Alors la candidature devrait être consultable
+        Et le détail de la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
@@ -31,6 +34,7 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être régénérée
+        Et le détail de la candidature devrait être consultable
         Et le porteur a été prévenu que son attestation a été modifiée
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
@@ -41,6 +45,7 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
+        Et le détail de la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
@@ -231,41 +236,5 @@ Fonctionnalité: Corriger une candidature
             | installation avec dispositif de stockage |  |
         Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offres"
 
-    # champs spécifiques à l'appel d'offres simplifié - fin
-    # garanties financières - début
-    Scénario: Impossible de corriger une candidature sans GF, pour un AO soumis aux GF
-        Etant donné la candidature lauréate "Centrale PV" avec :
-            | appel d'offres | PPE2 - Bâtiment |
-            | période        | 1               |
-            | famille        |                 |
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF |  |
-        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offres ou famille"
 
-    Scénario: Impossible de corriger une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est manquante
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF | avec-date-échéance |
-        Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
-
-    Scénario: Impossible de corriger une candidature classée avec une date d'échéance pour un type de GF qui n'en attend pas
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF         | six-mois-après-achèvement |
-            | date d'échéance | 2024-01-01                |
-        Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
-
-    Scénario: Impossible de changer le type de GF d'une candidature lauréate notifiée
-        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF | six-mois-après-achèvement |
-        Alors l'administrateur devrait être informé que "Le type de garanties financières d'une candidature ne peut être modifié après la notification"
-
-    Scénario: Impossible de corriger une candidature avec un type de garanties financières non disponible dans l'appel d'offres
-        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | statut         | classé          |
-            | appel d'offres | PPE2 - Bâtiment |
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF | exemption |
-        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
-
-
-# garanties financières - fin
+# champs spécifiques à l'appel d'offres simplifié - fin

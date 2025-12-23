@@ -5,6 +5,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Dépôt, Instruction } from '..';
 import { IdentifiantProjet } from '../..';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
+import { ImporterDétailCandidatureCommand } from '../détail/importer/importerDétailCandidature.command';
+import { cleanDétails } from '../détail/_helpers/cleanDétails';
+import { DétailCandidatureRaw } from '../détail/détailCandidature.type';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
@@ -19,7 +22,7 @@ export type CorrigerCandidatureUseCase = Message<
     corrigéLe: string;
     corrigéPar: string;
     doitRégénérerAttestation?: true;
-    détailsValue?: Record<string, string>;
+    détailsValue?: DétailCandidatureRaw;
   }
 >;
 
@@ -30,9 +33,7 @@ export const registerCorrigerCandidatureUseCase = () => {
     );
     const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
 
-    const détailsMisÀJour = payload.détailsValue && Object.keys(payload.détailsValue).length > 0;
-
-    if (détailsMisÀJour) {
+    if (payload.détailsValue && Object.keys(payload.détailsValue).length > 0) {
       const buf = Buffer.from(JSON.stringify(payload.détailsValue));
       const blob = new Blob([buf]);
       await mediator.send<EnregistrerDocumentProjetCommand>({
@@ -58,9 +59,22 @@ export const registerCorrigerCandidatureUseCase = () => {
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
         doitRégénérerAttestation: payload.doitRégénérerAttestation,
-        détailsMisÀJour: détailsMisÀJour || undefined,
+        détailsMisÀJour:
+          payload.détailsValue && Object.keys(payload.détailsValue).length > 0 ? true : undefined,
       },
     });
+
+    if (payload.détailsValue && Object.keys(payload.détailsValue).length > 0) {
+      await mediator.send<ImporterDétailCandidatureCommand>({
+        type: 'Candidature.Command.ImporterDétailCandidature',
+        data: {
+          identifiantProjet,
+          importéLe: corrigéLe,
+          détails: cleanDétails(payload.détailsValue),
+        },
+      });
+    }
   };
+
   mediator.register('Candidature.UseCase.CorrigerCandidature', handler);
 };

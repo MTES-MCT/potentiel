@@ -14,6 +14,7 @@ import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projec
 import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector';
 import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector';
 import { détailCandidatureImportéProjector } from './détailCandidatureImporté.projector';
+import { détailCandidatureCorrigéProjector } from './détailCandidatureCorrigé.projector';
 
 export type SubscriptionEvent = Candidature.CandidatureEvent | RebuildTriggered;
 
@@ -35,6 +36,7 @@ export const register = () => {
         détailsFournisseursCandidatureImportésProjector,
       )
       .with({ type: 'DétailCandidatureImporté-V1' }, détailCandidatureImportéProjector)
+      .with({ type: 'DétailCandidatureCorrigé-V1' }, détailCandidatureCorrigéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Candidature', handler);

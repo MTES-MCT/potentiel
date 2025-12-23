@@ -63,6 +63,7 @@ import {
 } from './notifier/candidatureNotifiée.event';
 import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
 import { DétailCandidature } from './détail/détailCandidature.type';
+import { DétailCandidatureCorrigéEvent } from './détail/corriger/détailCandidatureCorrigé.event';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -255,6 +256,18 @@ export class CandidatureAggregate extends AbstractAggregate<
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
         détailsMisÀJour: candidature.détailsMisÀJour,
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async corrigerDétail(détail: DétailCandidature) {
+    const event: DétailCandidatureCorrigéEvent = {
+      type: 'DétailCandidatureCorrigé-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        détail,
       },
     };
 
@@ -489,7 +502,10 @@ export class CandidatureAggregate extends AbstractAggregate<
         },
         (event) => this.applyCandidatureNotifiée(event),
       )
-      .with({ type: 'DétailCandidatureImporté-V1' }, (_) => {})
+      .with(
+        { type: P.union('DétailCandidatureImporté-V1', 'DétailCandidatureCorrigé-V1') },
+        (_) => {},
+      )
       .exhaustive();
   }
 
