@@ -26,18 +26,23 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
 
-    Scénario: Demander le changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour un projet dont l'AO
+    Scénario: Demander le changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour l'AO duquel puissance de site est un champs requis
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et la dreal "Dreal du rhône" associée à la région du projet
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | puissance de site | 1   |
-            | ratio puissance   | 1.2 |
+            | puissance de site | 1.1     |
+            | ratio puissance   | <Ratio> |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
             | nom_projet | Du bouchon lyonnais                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                        |
+
+        Exemples:
+            | Ratio |
+            | 1     |
+            | 1.2   |
 
     Scénario: Demander le changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
