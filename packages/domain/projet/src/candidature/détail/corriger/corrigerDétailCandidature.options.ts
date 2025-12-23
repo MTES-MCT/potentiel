@@ -1,5 +1,5 @@
 import { DétailCandidature } from '../détailCandidature.type';
 
-export type ImporterDétailCandidatureOptions = {
+export type CorrigerDétailCandidatureOptions = {
   détail: DétailCandidature;
 };

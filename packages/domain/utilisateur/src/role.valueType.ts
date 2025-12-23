@@ -557,6 +557,7 @@ const référencielPermissions = {
       importer: 'Candidature.Command.ImporterCandidature',
       importerDétail: 'Candidature.Command.ImporterDétailCandidature',
       corriger: 'Candidature.Command.CorrigerCandidature',
+      corrigerDétail: 'Candidature.Command.CorrigerDétailCandidature',
       notifier: 'Candidature.Command.NotifierCandidature',
     },
   },
@@ -976,6 +977,7 @@ const policies = {
       référencielPermissions.candidature.usecase.corriger,
       référencielPermissions.candidature.command.corriger,
     ],
+    corrigerDétail: [référencielPermissions.candidature.command.corrigerDétail],
     lister: [
       référencielPermissions.candidature.query.listerCandidatures,
       référencielPermissions.appelOffre.query.lister,
@@ -1682,6 +1684,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'candidature.importer',
   'candidature.importerDétail',
   'candidature.corriger',
+  'candidature.corrigerDétail',
   'candidature.lister',
   'candidature.attestation.prévisualiser',
 
