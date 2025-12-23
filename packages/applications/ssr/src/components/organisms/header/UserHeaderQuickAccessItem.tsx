@@ -13,7 +13,7 @@ export async function UserHeaderQuickAccessItem() {
   if (utilisateur) {
     return (
       <>
-        {await getTâcheHeaderQuickAccessItem(utilisateur)}
+        <TâcheHeaderQuickAccessItem utilisateur={utilisateur} />
         {utilisateur.accountUrl && !utilisateur.estPorteur() ? (
           <HeaderQuickAccessItem
             quickAccessItem={{
@@ -73,42 +73,43 @@ export async function UserHeaderQuickAccessItem() {
   );
 }
 
-async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
-  if (utilisateur.estPorteur()) {
-    const { nombreTâches } = await mediator.send<Lauréat.Tâche.ConsulterNombreTâchesQuery>({
-      type: 'Tâche.Query.ConsulterNombreTâches',
-      data: {
-        email: utilisateur.identifiantUtilisateur.email,
-      },
-    });
+async function TâcheHeaderQuickAccessItem({ utilisateur }: { utilisateur: Utilisateur.ValueType }) {
+  if (!utilisateur.estPorteur()) {
+    return null;
+  }
+  const { nombreTâches } = await mediator.send<Lauréat.Tâche.ConsulterNombreTâchesQuery>({
+    type: 'Tâche.Query.ConsulterNombreTâches',
+    data: {
+      email: utilisateur.identifiantUtilisateur.email,
+    },
+  });
 
-    if (nombreTâches === 0) {
-      return (
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'ri-mail-check-line',
-            buttonProps: {
-              disabled: true,
-              'aria-disabled': true,
-            },
-            text: 'Tâches',
-          }}
-        />
-      );
-    }
-
+  if (nombreTâches === 0) {
     return (
-      <Badge badgeContent={nombreTâches} max={99} color="primary" overlap="circular">
-        <HeaderQuickAccessItem
-          quickAccessItem={{
-            iconId: 'fr-icon-list-ordered',
-            linkProps: {
-              href: Routes.Tache.lister,
-            },
-            text: <div className="mr-3">Tâches</div>,
-          }}
-        />
-      </Badge>
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'ri-mail-check-line',
+          buttonProps: {
+            disabled: true,
+            'aria-disabled': true,
+          },
+          text: 'Tâches',
+        }}
+      />
     );
   }
+
+  return (
+    <Badge badgeContent={nombreTâches} max={99} color="primary" overlap="circular">
+      <HeaderQuickAccessItem
+        quickAccessItem={{
+          iconId: 'fr-icon-list-ordered',
+          linkProps: {
+            href: Routes.Tache.lister,
+          },
+          text: <div className="mr-3">Tâches</div>,
+        }}
+      />
+    </Badge>
+  );
 }

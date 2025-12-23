@@ -2,9 +2,12 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { getTypologieInstallationLabel } from '@/app/laureats/[identifiant]/installation/typologie-du-projet/typologieInstallationLabel';
 
-export const DétailTypologieInstallation = (
-  typologieInstallation: Candidature.TypologieInstallation.RawType[],
-) => {
+type DétailTypologieInstallationProps = {
+  typologieInstallation: Candidature.TypologieInstallation.RawType[];
+};
+export const DétailTypologieInstallation = ({
+  typologieInstallation,
+}: DétailTypologieInstallationProps) => {
   return (
     <>
       {typologieInstallation.length > 0 ? (
@@ -12,8 +15,7 @@ export const DétailTypologieInstallation = (
           {typologieInstallation.map((t) => (
             <div key={t.typologie}>
               <div>
-                Installation :{' '}
-                <span className="font-semibold">{getTypologieInstallationLabel(t.typologie)}</span>
+                Installation : <span>{getTypologieInstallationLabel(t.typologie)}</span>
               </div>
               {t.détails && (
                 <div className="italic">Éléments sous l'installation : {t.détails}</div>

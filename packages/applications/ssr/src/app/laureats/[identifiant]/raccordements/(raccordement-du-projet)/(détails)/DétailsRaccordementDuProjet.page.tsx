@@ -6,7 +6,6 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -17,13 +16,14 @@ import {
   DossierRaccordementProps,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
 
-import { ModifierGestionnaireRéseauDuRaccordement } from './ModifierGestionnaireRéseauDuRaccordement';
+import {
+  ModifierGestionnaireRéseauDuRaccordement,
+  ModifierGestionnaireRéseauDuRaccordementProps,
+} from './ModifierGestionnaireRéseauDuRaccordement';
 
 export type DétailsRaccordementPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  gestionnaireRéseau: PlainType<
-    Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>
-  >;
+  gestionnaireRéseau: ModifierGestionnaireRéseauDuRaccordementProps['gestionnaireRéseau'];
   dossiers: Array<
     PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel> & {
       actions: DossierRaccordementProps['actions'];

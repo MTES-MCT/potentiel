@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
-import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { InvalidOperationError, mapToPlainObject } from '@potentiel-domain/core';
 
@@ -10,6 +9,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { récupérerLauréat } from '@/app/_helpers';
+
+import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 import { EnregistrerAttestationGarantiesFinancièresPage } from './EnregistrerAttestationGarantiesFinancières.page';
 
@@ -27,11 +28,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    const garantiesFinancières =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+      identifiantProjet.formatter(),
+    );
 
     if (Option.isNone(garantiesFinancières)) {
       throw new InvalidOperationError(`Garanties financières introuvables.`);

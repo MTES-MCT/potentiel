@@ -30,6 +30,7 @@ export type ListerTâchesQuery = Message<
     catégorieTâche?: string;
     cycle?: string;
     nomProjet?: string;
+    identifiantProjet?: IdentifiantProjet.RawType;
   },
   ListerTâchesReadModel
 >;
@@ -50,8 +51,14 @@ export const registerListerTâchesQuery = ({
     catégorieTâche,
     cycle,
     nomProjet,
+    identifiantProjet,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
+    const scope = identifiantProjet
+      ? {
+          type: 'projet',
+          identifiantProjets: [identifiantProjet],
+        }
+      : await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
     if (scope.type !== 'projet') {
       return {

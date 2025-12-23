@@ -49,7 +49,8 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           <Input
             state={validationErrors['producteur'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['producteur']}
-            label={'Producteur'}
+            label="Producteur"
+            className="lg:w-1/2"
             nativeInputProps={{
               name: 'producteur',
               defaultValue: producteur,
@@ -62,6 +63,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           textArea
           label="Raison (optionnel)"
           id="raison"
+          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement de producteur."
           nativeTextAreaProps={{
             name: 'raison',

@@ -1,5 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   paruLe: '30/07/2021',
   type: 'modifié',
@@ -14,6 +16,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
@@ -41,6 +44,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,
@@ -64,6 +68,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: 'indisponible',
+  modification: defaultModifications,
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',

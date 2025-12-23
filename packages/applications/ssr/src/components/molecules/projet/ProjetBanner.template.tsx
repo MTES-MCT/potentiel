@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
+import Leaf from '@codegouvfr/react-dsfr/picto/Leaf';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1 } from '@/components/atoms/headings';
 
 import { CopyButton } from '../CopyButton';
 
@@ -25,11 +27,12 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
   dateDésignation,
   identifiantProjet,
 }) => (
-  <aside className="mb-3">
+  <aside>
     <div className="md:flex items-start justify-between">
       <div>
         <div className="flex justify-start w-fit gap-4 flex-col md:flex-row md:gap-0 md:items-center">
           <div className="flex print:hidden">
+            <Leaf fontSize="large" color="blue-ecume" className="bg-theme-white rounded-lg mr-2" />
             {href ? (
               <a href={href} className="text-xl font-bold !text-theme-white mr-2">
                 {nom}
@@ -45,8 +48,11 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
               />
             )}
           </div>
-          <p className="hidden print:block text-xl font-bold text-theme-black">{nom}</p>
-          {badge}
+
+          <div className="flex items-center print:gap-4">
+            <Heading1 className="hidden print:block">{nom}</Heading1>
+            {badge}
+          </div>
         </div>
         {localité && (
           <p className="text-sm font-medium p-0 m-0 mt-2 print:text-theme-black">

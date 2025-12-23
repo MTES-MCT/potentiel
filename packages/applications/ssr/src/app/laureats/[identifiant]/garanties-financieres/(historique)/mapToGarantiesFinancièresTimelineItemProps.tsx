@@ -4,7 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import {
   garantiesFinancièresActuelles,

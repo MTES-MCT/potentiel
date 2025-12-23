@@ -7,14 +7,18 @@ import { TâcheListItem } from '@/app/taches/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
+import { SearchProps } from '../../components/molecules/Search';
+
 export type TâcheListPageProps = {
   list: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;
   filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
+  search?: SearchProps | undefined;
 };
 
 export const TâcheListPage: FC<TâcheListPageProps> = ({
   list: { items: tâches, range, total },
   filters,
+  search,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -31,7 +35,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={TâcheListItem}
       filters={filters}
-      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+      search={search}
     />
   );
 };

@@ -1,5 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const garantieFinanciereEnMois = 36;
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -38,6 +40,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
@@ -67,6 +70,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,
@@ -92,6 +96,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
   technologie: 'eolien',
   changement: 'indisponible',
+  modification: defaultModifications,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,
   paragraphePrixReference: '7',

@@ -46,12 +46,17 @@ type GarantiesFinancièresAppelOffre = {
 );
 
 // Demandes
-type Changement = {
-  informationEnregistrée?: boolean;
-  demande?: boolean;
-};
+type Changement =
+  | {
+      informationEnregistrée?: undefined;
+      demande?: undefined;
+    }
+  | {
+      informationEnregistrée?: boolean;
+      demande?: boolean;
+    };
 
-type ChangementAvecAutoritéCompétente =
+type DemandeAvecAutoritéCompétente =
   | {
       informationEnregistrée?: undefined;
       demande?: undefined;
@@ -72,7 +77,11 @@ type RatiosChangementPuissance =
   | { changementByTechnologie: true; ratios: Record<Technologie, Ratios> };
 
 type ChangementPuissance =
-  | { demande?: undefined; informationEnregistrée?: undefined; paragrapheAlerte?: undefined }
+  | {
+      demande?: undefined;
+      informationEnregistrée?: undefined;
+      paragrapheAlerte?: undefined;
+    }
   | ({
       demande: true;
       informationEnregistrée: true;
@@ -99,19 +108,26 @@ type ChangementReprésentantLégal =
 export type RèglesDemandesChangement = {
   actionnaire: ChangementActionnaire;
   fournisseur: Changement;
-  délai: ChangementAvecAutoritéCompétente;
+  délai: DemandeAvecAutoritéCompétente;
   producteur: Changement;
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
-  recours: Changement;
-  abandon: ChangementAvecAutoritéCompétente;
+  recours: DemandeAvecAutoritéCompétente;
+  abandon: DemandeAvecAutoritéCompétente;
   natureDeLExploitation: Changement;
   installateur: Changement;
   nomProjet: Changement;
+  siteDeProduction: Changement;
   dispositifDeStockage: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
+
+type Modification = {
+  modificationAdmin?: boolean;
+};
+
+export type RèglesModification = Record<DomainesConcernésParChangement, Modification>;
 
 // Courriers
 export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
@@ -141,6 +157,7 @@ export type CahierDesChargesModifié = {
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
   changement?: Partial<RèglesDemandesChangement>;
+  modification?: Partial<RèglesModification>;
 };
 
 // Technologies
@@ -286,6 +303,7 @@ export type Periode = {
    * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/
   changement?: Partial<RèglesDemandesChangement> | 'indisponible';
+  modification?: Partial<RèglesModification>;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -347,6 +365,7 @@ export type AppelOffreReadModel = {
    * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/
   changement: RèglesDemandesChangement | 'indisponible';
+  modification: RèglesModification;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

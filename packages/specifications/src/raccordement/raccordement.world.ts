@@ -55,11 +55,23 @@ export class RaccordementWorld {
         this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
     };
 
+    const gestionnaireRéseau = identifiantGestionnaireRéseau.estInconnu()
+      ? undefined
+      : this.lauréatWorld.potentielWorld.gestionnaireRéseauWorld.getGestionnaire(
+          identifiantGestionnaireRéseau.codeEIC,
+        );
+
     return {
       raccordement: {
         dossiers: [dossier],
         identifiantProjet,
         identifiantGestionnaireRéseau,
+        gestionnaireRéseau: gestionnaireRéseau
+          ? {
+              raisonSociale: gestionnaireRéseau.raisonSociale,
+              contactEmail: gestionnaireRéseau.contactEmail,
+            }
+          : undefined,
       },
       dossier,
     };

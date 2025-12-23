@@ -5,7 +5,6 @@ import { FC, useState } from 'react';
 import { Email } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { Heading3 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -23,10 +22,11 @@ export const PorteurListItem: FC<PorteurListItemProps> = ({
   peutRetirerAccès,
 }) => {
   return (
-    <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
-      <Heading3>{identifiantUtilisateur}</Heading3>
+    <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 last:border-none pb-2 pt-1">
+      <span className="font-semibold">
+        <CopyButton textToCopy={identifiantUtilisateur}>{identifiantUtilisateur}</CopyButton>
+      </span>
       <div className="flex flex-row gap-3">
-        <CopyButton noChildren textToCopy={identifiantUtilisateur} />
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
@@ -48,7 +48,7 @@ const RetirerAccèsProjetButton: FC<{
     <div>
       <Button
         size="small"
-        priority="primary"
+        priority="tertiary no outline"
         onClick={() => setIsOpen(true)}
         disabled={!peutRetirerAccès}
       >

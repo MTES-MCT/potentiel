@@ -1,10 +1,13 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const garantieFinanciereEnMois = 36;
 
 const changementsCDCModifié = {
   nomProjet: {},
   natureDeLExploitation: {},
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -32,6 +35,7 @@ const changementsCDCModifié = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,
@@ -95,6 +99,7 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 36,
   changement: 'indisponible',
+  modification: defaultModifications,
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',
   paragrapheDelaiDerogatoire: '6.4',

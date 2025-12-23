@@ -1,10 +1,13 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const garantieFinanciereEnMois = 36;
 
 const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   nomProjet: {},
   natureDeLExploitation: {},
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -32,6 +35,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,
@@ -93,6 +97,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 20,
   changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
+  modification: defaultModifications,
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',

@@ -11,7 +11,6 @@ export type ReprésentantLégalEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
-
     demandeEnCours?: {
       demandéLe: DateTime.RawType;
     };

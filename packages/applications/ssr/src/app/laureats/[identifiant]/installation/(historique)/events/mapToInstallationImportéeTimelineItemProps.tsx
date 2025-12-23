@@ -15,7 +15,9 @@ export const mapToInstallationImportéeTimelineItemProps = (
       <>
         <div>
           <div>Typologie du projet : </div>
-          <div>{DétailTypologieInstallation(typologieInstallation)}</div>
+          <div>
+            <DétailTypologieInstallation typologieInstallation={typologieInstallation} />
+          </div>
         </div>
         <div>Installateur : {installateur}</div>
       </>

@@ -1,8 +1,11 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   nomProjet: {},
   natureDeLExploitation: {},
+  siteDeProduction: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -30,6 +33,7 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   },
   recours: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
   abandon: {
     demande: true,
@@ -66,6 +70,7 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: 'indisponible',
+  modification: defaultModifications,
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',

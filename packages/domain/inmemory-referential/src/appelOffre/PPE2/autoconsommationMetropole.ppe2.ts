@@ -1,5 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { defaultModifications } from '../../constants';
+
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -82,6 +84,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    siteDeProduction: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'rejet',
@@ -120,6 +123,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     recours: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     abandon: {
       demande: true,
@@ -128,6 +132,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
+  modification: defaultModifications,
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes',

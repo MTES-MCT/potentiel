@@ -2,9 +2,8 @@ import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-
-import { DownloadDocument } from '../../../../../components/atoms/form/document/DownloadDocument';
-import { ReadMore } from '../../../../../components/atoms/ReadMore';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   event: Lauréat.ChangementNomProjetEnregistréEvent,

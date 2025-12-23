@@ -114,7 +114,7 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
           textArea
           label={`Raison${isInformationEnregistrée ? '' : ' (optionnel)'}`}
           id="raison"
-          className="md:max-w-96"
+          className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',

@@ -19,14 +19,8 @@ type StatutLauréatBadgeProps = {
 
 export const StatutLauréatBadge: FC<StatutLauréatBadgeProps> = ({ statut }) => (
   <>
-    <Badge
-      small
-      noIcon
-      severity={convertStatutLauréatToBadgeSeverity[statut]}
-      className="print:hidden"
-    >
+    <Badge small noIcon severity={convertStatutLauréatToBadgeSeverity[statut]}>
       {statut}
     </Badge>
-    <div className="hidden print:block text-theme-black ">{statut}</div>
   </>
 );

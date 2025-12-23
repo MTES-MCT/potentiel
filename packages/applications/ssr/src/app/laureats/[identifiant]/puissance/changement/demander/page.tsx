@@ -5,6 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -12,6 +13,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
 
@@ -25,6 +27,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
     const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+
+    if (puissance.dateDemandeEnCours) {
+      return (
+        <DemandeEnCoursPage
+          title="Demande de changement de puissance"
+          href={Routes.Puissance.changement.détails(
+            identifiantProjet.formatter(),
+            puissance.dateDemandeEnCours.formatter(),
+          )}
+        />
+      );
+    }
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
     cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');

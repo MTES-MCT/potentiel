@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
-import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getCahierDesCharges } from '../../../_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 type Props = IdentifiantProjet.RawType;
 
@@ -58,7 +58,7 @@ export const getLauréatInfos = cache(async (identifiantProjet: Props) => {
   return lauréat;
 });
 
-const getActionnaireInfos = async (identifiantProjet: Props) => {
+export const getActionnaireInfos = async (identifiantProjet: Props) => {
   const logger = getLogger('getActionnaireInfos');
 
   const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
@@ -119,7 +119,7 @@ export const getCahierDesChargesPuissanceDeSiteInfos = cache(async (identifiantP
   return cahierDesCharges.getChampsSupplémentaires()['puissanceDeSite'];
 });
 
-const getProducteurInfos = async (identifiantProjet: Props) => {
+export const getProducteurInfos = async (identifiantProjet: Props) => {
   const logger = getLogger('getProducteurInfos');
 
   const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
@@ -164,4 +164,27 @@ export const getAbandonInfos = cache(async (identifiantProjet: Props) => {
   });
 
   return Option.isSome(abandon) ? abandon : undefined;
+});
+
+export const getNatureDeLExploitationInfos = cache(async (identifiantProjet: Props) => {
+  const natureDeLExploitation =
+    await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
+      type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+  return Option.isSome(natureDeLExploitation) ? natureDeLExploitation : undefined;
+});
+
+export const getInstallationInfos = cache(async (identifiantProjet: Props) => {
+  const installation = await mediator.send<Lauréat.Installation.ConsulterInstallationQuery>({
+    type: 'Lauréat.Installation.Query.ConsulterInstallation',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  return Option.isSome(installation) ? installation : undefined;
 });

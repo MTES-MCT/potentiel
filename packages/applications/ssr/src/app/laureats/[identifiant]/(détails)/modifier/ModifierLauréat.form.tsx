@@ -21,8 +21,7 @@ import {
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 import { Icon } from '@/components/atoms/Icon';
-
-import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_helpers';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ProjectField } from './components/fields/generic/ProjectField';

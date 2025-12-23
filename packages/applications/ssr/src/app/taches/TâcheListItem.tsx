@@ -47,7 +47,7 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
   );
 };
 
-const getDescriptionTâche = (
+export const getDescriptionTâche = (
   typeTâche: TâcheListItemProps['typeTâche'],
   identifiantProjet: TâcheListItemProps['identifiantProjet'],
   nomProjet: string,

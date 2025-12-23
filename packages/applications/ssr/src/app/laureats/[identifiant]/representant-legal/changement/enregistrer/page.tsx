@@ -1,12 +1,15 @@
 import { Metadata } from 'next';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
+import { getReprésentantLégalInfos } from '../../../_helpers';
+import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 import { EnregistrerChangementReprésentantLégalPage } from './EnregistrerChangementReprésentantLégal.page';
 
@@ -23,6 +26,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     'information-enregistrée',
     'représentantLégal',
   );
+
+  const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
+
+  if (représentantLégal.demandeEnCours) {
+    return (
+      <DemandeEnCoursPage
+        title="Demande de changement de représentant légal"
+        href={Routes.ReprésentantLégal.changement.détails(
+          identifiantProjet.formatter(),
+          représentantLégal.demandeEnCours.demandéLe,
+        )}
+      />
+    );
+  }
 
   return PageWithErrorHandling(async () => (
     <EnregistrerChangementReprésentantLégalPage identifiantProjet={identifiantProjet.formatter()} />

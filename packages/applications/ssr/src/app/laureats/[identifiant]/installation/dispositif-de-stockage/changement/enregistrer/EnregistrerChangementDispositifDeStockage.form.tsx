@@ -121,6 +121,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
+          className="lg:w-1/2"
         />
         <UploadNewOrModifyExistingDocument
           required
