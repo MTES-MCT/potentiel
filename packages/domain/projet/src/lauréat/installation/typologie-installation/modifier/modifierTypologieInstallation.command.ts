@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 import { TypologieInstallation } from '../../../../candidature';
 
 export type ModifierTypologieInstallationCommand = Message<
@@ -12,6 +12,8 @@ export type ModifierTypologieInstallationCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     typologieInstallation: TypologieInstallation.ValueType[];
     dateModification: DateTime.ValueType;
+    raison?: string;
+    pièceJustificative?: DocumentProjet.ValueType;
   }
 >;
 

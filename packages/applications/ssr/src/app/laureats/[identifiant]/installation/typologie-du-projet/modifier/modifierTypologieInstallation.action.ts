@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -18,13 +19,18 @@ const schema = zod.object({
       details: zod.string().optional(),
     }),
   ),
+  raison: zod.string().min(1),
+  piecesJustificatives: manyDocuments({
+    acceptedFileTypes: ['application/pdf'],
+    optional: true,
+  }),
 });
 
 export type ModifierTypologieInstallationFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, typologieInstallation },
+  { identifiantProjet, typologieInstallation, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Installation.ModifierTypologieInstallationUseCase>({
@@ -37,6 +43,8 @@ const action: FormAction<FormState, typeof schema> = async (
           typologie: t.typologie,
           détails: t.details,
         })),
+        raisonValue: raison,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 

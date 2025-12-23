@@ -113,3 +113,4 @@ export * from './dispositif-de-stockage/changement/changementDispositifDeStockag
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';
 export * as TypeDocumentInstallateur from './installateur/typeDocumentInstallateur.valueType';
 export * as TypeDocumentDispositifDeStockage from './dispositif-de-stockage/typeDocumentDispositifDeStockage.valueType';
+export * as TypeDocumentTypologieInstallation from './typologie-installation/typeDocumentTypologieInstallation.valueType';
