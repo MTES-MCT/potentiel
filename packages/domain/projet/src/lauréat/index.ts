@@ -105,6 +105,7 @@ export { ChangementNomProjetEntity } from './nomProjet/changement/changementNomP
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';
 export * as TypeDocumentNomProjet from './nomProjet/changement/TypeDocumentNomProjet.valueType';
+export * as TypeDocumentSiteDeProduction from './typeDocumentModificationSiteDeProduction.valueType';
 
 export * as Abandon from './abandon';
 export * as Actionnaire from './actionnaire';

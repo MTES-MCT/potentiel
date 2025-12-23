@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../..';
 import { Localité } from '../../candidature';
 
 export type ModifierSiteDeProductionCommand = Message<
@@ -13,6 +13,7 @@ export type ModifierSiteDeProductionCommand = Message<
     modifiéPar: Email.ValueType;
     localité: Localité.ValueType;
     raison: string | undefined;
+    pièceJustificative: DocumentProjet.ValueType | undefined;
   }
 >;
 

@@ -10,5 +10,9 @@ export type InstallateurModifiéEvent = DomainEvent<
     installateur: string;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    raison?: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;

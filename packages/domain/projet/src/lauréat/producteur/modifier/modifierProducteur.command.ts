@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type ModifierProducteurCommand = Message<
   'Lauréat.Producteur.Command.ModifierProducteur',
@@ -11,6 +11,8 @@ export type ModifierProducteurCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     producteur: string;
     dateModification: DateTime.ValueType;
+    pièceJustificative?: DocumentProjet.ValueType;
+    raison?: string;
   }
 >;
 
