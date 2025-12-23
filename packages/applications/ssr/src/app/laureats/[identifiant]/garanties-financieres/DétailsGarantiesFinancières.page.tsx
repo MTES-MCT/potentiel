@@ -110,7 +110,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           </SectionGarantiesFinancières>
         )}
       </div>
-
       {(Option.isSome(mainlevée) || mainlevéesRejetées.length > 0) && (
         <SectionGarantiesFinancières
           colorVariant={
@@ -136,22 +135,20 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           </div>
         </SectionGarantiesFinancières>
       )}
-
-      {!dépôtEnCours && !actuelles && (
+      {Option.isNone(dépôtEnCours) && Option.isNone(actuelles) && (
         <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} actions={actions} />
       )}
 
       {archivesGarantiesFinancières.length > 0 && (
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
-
       {infos.includes('conditions-demande-mainlevée') && (
         <InfoBoxMainlevée identifiantProjet={identifiantProjet} actions={actions} />
       )}
-
-      {actions.includes('garantiesFinancières.dépôt.soumettre') && (
-        <InfoBoxSoumettreDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
-      )}
+      {actions.includes('garantiesFinancières.dépôt.soumettre') &&
+        (Option.isSome(dépôtEnCours) || Option.isSome(actuelles)) && (
+          <InfoBoxSoumettreDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
+        )}
     </>
   </>
 );
