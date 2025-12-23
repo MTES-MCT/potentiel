@@ -30,7 +30,7 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
             url={Routes.Document.télécharger(
               DocumentProjet.convertirEnValueType(
                 identifiantProjet,
-                Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+                Lauréat.TypeDocumentSiteDeProduction.pièceJustificative.formatter(),
                 modifiéLe,
                 pièceJustificative.format,
               ).formatter(),
