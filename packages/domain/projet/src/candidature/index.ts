@@ -8,6 +8,12 @@ import {
 } from './corriger/candidatureCorrigée.event';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import {
+  ConsulterDétailCandidatureQuery,
+  ConsulterDétailCandidatureReadModel,
+} from './détail/consulter/consulterDétailCandidature.query';
+import { DétailCandidatureCorrigéEvent } from './détail/corriger/détailCandidatureCorrigé.event';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
+import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
@@ -33,12 +39,14 @@ import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.useca
 export type CandidatureQuery =
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ConsulterCandidatureQuery;
+  | ConsulterCandidatureQuery
+  | ConsulterDétailCandidatureQuery;
 
 export {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerCandidaturesQuery,
   ConsulterCandidatureQuery,
+  ConsulterDétailCandidatureQuery,
 };
 
 // ReadModel
@@ -46,6 +54,7 @@ export {
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesReadModel,
   ConsulterCandidatureReadModel,
+  ConsulterDétailCandidatureReadModel,
 };
 
 // Port
@@ -62,6 +71,8 @@ export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandida
 export { CandidatureEvent } from './candidature.event';
 
 export {
+  DétailCandidatureImportéEvent,
+  DétailCandidatureCorrigéEvent,
   CandidatureImportéeEventV1,
   CandidatureImportéeEvent,
   CandidatureCorrigéeEvent,
@@ -77,6 +88,7 @@ export * from './candidature.register';
 
 // Entities
 export * from './candidature.entity';
+export * from './détail/détailCandidature.entity';
 
 // ValueType
 export * as TypeTechnologie from './typeTechnologie.valueType';

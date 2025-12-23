@@ -5,6 +5,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '../..';
 import { Dépôt, Instruction } from '..';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
+import { ImporterDétailCandidatureCommand } from '../détail/importer/importerDétailCandidature.command';
+import { DétailCandidatureRaw } from '../détail/détailCandidature.type';
+import { cleanDétails } from '../détail/_helpers/cleanDétails';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -16,7 +19,7 @@ export type ImporterCandidatureUseCase = Message<
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
 
-    détailsValue?: Record<string, string | number | boolean>;
+    détailsValue?: DétailCandidatureRaw;
     importéLe: string;
     importéPar: string;
   }
@@ -55,6 +58,17 @@ export const registerImporterCandidatureUseCase = () => {
         importéPar: Email.convertirEnValueType(payload.importéPar),
       },
     });
+
+    if (payload.détailsValue && Object.keys(payload.détailsValue).length > 0) {
+      await mediator.send<ImporterDétailCandidatureCommand>({
+        type: 'Candidature.Command.ImporterDétailCandidature',
+        data: {
+          identifiantProjet,
+          importéLe,
+          détails: cleanDétails(payload.détailsValue),
+        },
+      });
+    }
   };
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);

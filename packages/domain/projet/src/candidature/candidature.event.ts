@@ -12,8 +12,12 @@ import {
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
+import { DétailCandidatureCorrigéEvent } from './détail/corriger/détailCandidatureCorrigé.event';
 
 export type CandidatureEvent =
+  | DétailCandidatureImportéEvent
+  | DétailCandidatureCorrigéEvent
   | CandidatureImportéeEvent
   | CandidatureImportéeEventV1
   | DétailsFournisseursCandidatureImportésEvent
