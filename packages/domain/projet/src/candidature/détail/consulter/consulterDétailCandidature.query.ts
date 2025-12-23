@@ -5,10 +5,12 @@ import { Find } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../..';
 import { DétailCandidatureEntity } from '../détailCandidature.entity';
+import { DétailCandidature } from '../détailCandidature.type';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  détail: Record<string, string | number | boolean>;
+  statut: 'import' | 'correction';
+  détail: DétailCandidature;
 };
 
 export type ConsulterDétailCandidatureQuery = Message<
@@ -49,8 +51,10 @@ type MapToReadModel = (
 
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
+  statut,
   détail,
 }): ConsulterDétailCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  statut,
   détail,
 });
