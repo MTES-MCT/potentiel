@@ -98,7 +98,8 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               <span className="font-bold">Producteur :</span> {nomCandidat}
             </li>
             <li>
-              <span className="font-bold">Actionnaire :</span> {sociétéMère}
+              <span className="font-bold">Actionnaire :</span>{' '}
+              {sociétéMère || 'Champs non renseigné'}
             </li>
             {actionnariat && (
               <li>
