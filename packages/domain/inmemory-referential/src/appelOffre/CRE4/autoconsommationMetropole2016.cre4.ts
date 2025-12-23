@@ -1,4 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+
 import { defaultModifications } from '../../constants';
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
