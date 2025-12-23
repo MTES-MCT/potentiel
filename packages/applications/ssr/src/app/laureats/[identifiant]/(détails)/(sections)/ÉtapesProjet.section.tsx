@@ -2,7 +2,7 @@ import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { Section } from '../../(components)/Section';
+import { Section } from '../(components)/Section';
 import {
   getAbandonInfos,
   getAchèvement,
@@ -10,7 +10,7 @@ import {
   getRaccordement,
   getRecours,
   SectionWithErrorHandling,
-} from '../../../_helpers';
+} from '../../_helpers';
 
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 

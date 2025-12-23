@@ -5,8 +5,8 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { Section } from '../../(components)/Section';
-import { getAchèvement, SectionWithErrorHandling } from '../../../_helpers';
+import { Section } from '../(components)/Section';
+import { getAchèvement, SectionWithErrorHandling } from '../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 

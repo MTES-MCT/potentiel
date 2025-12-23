@@ -5,8 +5,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 
-import { Section } from '../../(components)/Section';
-import { getAbandonInfos, getRaccordement, SectionWithErrorHandling } from '../../../_helpers';
+import { Section } from '../(components)/Section';
+import { getAbandonInfos, getRaccordement, SectionWithErrorHandling } from '../../_helpers';
 
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 

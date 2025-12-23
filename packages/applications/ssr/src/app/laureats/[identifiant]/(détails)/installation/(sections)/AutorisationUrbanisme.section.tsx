@@ -4,7 +4,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { getLauréatInfos, SectionWithErrorHandling } from '@/app/laureats/[identifiant]/_helpers';
 
-import { Section } from '../../../(components)/Section';
+import { Section } from '../../(components)/Section';
 
 import { AutorisationUrbanismeDétails } from './AutorisationUrbanismeDétails';
 

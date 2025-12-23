@@ -8,12 +8,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { Section } from '../../(components)/Section';
-import {
-  getAchèvement,
-  getGarantiesFinancières,
-  SectionWithErrorHandling,
-} from '../../../_helpers';
+import { Section } from '../(components)/Section';
+import { getAchèvement, getGarantiesFinancières, SectionWithErrorHandling } from '../../_helpers';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 

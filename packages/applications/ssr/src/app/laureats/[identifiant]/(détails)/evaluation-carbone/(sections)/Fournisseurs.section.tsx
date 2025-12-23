@@ -3,8 +3,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { getAction, getFournisseurInfos, SectionWithErrorHandling } from '../../_helpers';
-import { Section } from '../(components)/Section';
+import { getAction, getFournisseurInfos, SectionWithErrorHandling } from '../../../_helpers';
+import { Section } from '../../(components)/Section';
 
 import { FournisseursDétails } from './FournisseursDétails';
 

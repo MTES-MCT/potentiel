@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampObligatoireAvecAction } from '../../../_helpers';
+import { ChampObligatoireAvecAction } from '../../_helpers';
 
 export type RaccordementDétailsProps = {
   raccordement: ChampObligatoireAvecAction<

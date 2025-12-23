@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ChampAvecAction } from '../../../_helpers';
+import { ChampAvecAction } from '../../_helpers';
 
 export type CahierDesChargesDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterCahierDesChargesReadModel> & {

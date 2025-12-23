@@ -10,7 +10,7 @@ import {
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { Section } from '../../../(components)/Section';
+import { Section } from '../../(components)/Section';
 
 type InstallateurSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
