@@ -3,7 +3,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
 
-import { Champ } from '../../../(components)/Champ';
+import { Champ } from '../../(components)/Champ';
 
 export type AutorisationUrbanismeDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterLauréatReadModel['autorisationDUrbanisme']>

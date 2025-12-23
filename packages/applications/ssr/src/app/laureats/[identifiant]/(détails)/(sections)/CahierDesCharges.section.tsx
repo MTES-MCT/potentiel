@@ -5,8 +5,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { Section } from '../../(components)/Section';
-import { SectionWithErrorHandling } from '../../../_helpers';
+import { Section } from '../(components)/Section';
+import { SectionWithErrorHandling } from '../../_helpers';
 
 import { CahierDesChargesDétails } from './CahierDesChargesDétails';
 

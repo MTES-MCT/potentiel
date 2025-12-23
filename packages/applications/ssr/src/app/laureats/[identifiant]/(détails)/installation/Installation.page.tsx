@@ -2,11 +2,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '../(components)/SectionPage';
 
-import { AutorisationUrbanismeSection } from './(sections)/(autorisation-d-urbanisme)/AutorisationUrbanisme.section';
-import { NatureDeLExploitationSection } from './(sections)/(nature-de-l-exploitation)/NatureDeLExploitation.section';
-import { TypologieInstallationSection } from './(sections)/(installation)/TypologieInstallation.section';
-import { InstallateurSection } from './(sections)/(installation)/Installateur.section';
-import { DispositifDeStockageSection } from './(sections)/(installation)/DispositifDeStockage.section';
+import { AutorisationUrbanismeSection } from './(sections)/AutorisationUrbanisme.section';
+import { NatureDeLExploitationSection } from './(sections)/NatureDeLExploitation.section';
+import { TypologieInstallationSection } from './(sections)/TypologieInstallation.section';
+import { InstallateurSection } from './(sections)/Installateur.section';
+import { DispositifDeStockageSection } from './(sections)/DispositifDeStockage.section';
 
 type Props = { identifiantProjet: IdentifiantProjet.RawType };
 

@@ -8,7 +8,7 @@ import {
   SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
 
-import { Section } from '../../../(components)/Section';
+import { Section } from '../../(components)/Section';
 
 import { CandidatDétails } from './CandidatDétails';
 

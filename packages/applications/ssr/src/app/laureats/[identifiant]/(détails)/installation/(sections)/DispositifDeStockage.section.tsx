@@ -10,8 +10,8 @@ import {
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { Section } from '../../../(components)/Section';
-import { Champ } from '../../../(components)/Champ';
+import { Section } from '../../(components)/Section';
+import { Champ } from '../../(components)/Champ';
 
 type DispositifDeStockageSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

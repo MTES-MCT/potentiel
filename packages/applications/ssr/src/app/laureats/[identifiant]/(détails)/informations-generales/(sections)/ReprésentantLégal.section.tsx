@@ -9,7 +9,7 @@ import {
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { Section } from '../../../(components)/Section';
+import { Section } from '../../(components)/Section';
 
 import { ReprésentantLégalDétails } from './ReprésentantLégalDétails';
 

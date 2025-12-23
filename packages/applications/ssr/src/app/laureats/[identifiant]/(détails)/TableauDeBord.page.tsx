@@ -1,12 +1,12 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from './(components)/SectionPage';
-import { CahierDesChargesSection } from './(sections)/(cahier-des-charges)/CahierDesCharges.section';
-import { RaccordementSection } from './(sections)/(raccordement)/Raccordement.section';
-import { AchèvementSection } from './(sections)/(achèvement)/Achèvement.section';
-import { GarantiesFinancièresSection } from './(sections)/(garanties-financières)/GarantiesFinancières.section';
-import { ÉtapesProjetSection } from './(sections)/(étapes-projet)/ÉtapesProjet.section';
-import { AlertesTableauDeBordSection } from './(sections)/(alertes)/AlertesTableauDeBord.section';
+import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
+import { RaccordementSection } from './(sections)/Raccordement.section';
+import { AchèvementSection } from './(sections)/Achèvement.section';
+import { GarantiesFinancièresSection } from './(sections)/GarantiesFinancières.section';
+import { ÉtapesProjetSection } from './(sections)/ÉtapesProjet.section';
+import { AlertesTableauDeBordSection } from './(sections)/AlertesTableauDeBord.section';
 import { ChiffresClésSection } from './(sections)/ChiffresClés.section';
 
 type TableauDeBordPageProps = {
