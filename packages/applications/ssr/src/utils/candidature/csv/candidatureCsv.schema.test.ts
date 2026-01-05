@@ -41,7 +41,7 @@ const minimumValuesClassé: typeof minimumValues = {
   "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
     '2',
   "Date d'échéance au format JJ/MM/AAAA": '01/12/2024',
-  puissance_initiale: '1',
+  puissance_projet_initial: '1',
 };
 
 describe('Schema candidature CSV', () => {
@@ -89,7 +89,7 @@ describe('Schema candidature CSV', () => {
         région: "Provence-Alpes-Côte d'Azur",
       },
       dispositifDeStockage: undefined,
-      puissanceInitiale: undefined,
+      puissanceProjetInitial: undefined,
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -137,7 +137,7 @@ describe('Schema candidature CSV', () => {
       autorisationDUrbanisme: undefined,
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
-      puissanceInitiale: 1,
+      puissanceProjetInitial: 1,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -218,7 +218,7 @@ describe('Schema candidature CSV', () => {
         capacitéDuDispositifDeStockageEnKWh: 2,
         puissanceDuDispositifDeStockageEnKW: 3,
       },
-      puissanceInitiale: 1,
+      puissanceProjetInitial: 1,
     };
 
     deepEqualWithRichDiff(result.data, expected);

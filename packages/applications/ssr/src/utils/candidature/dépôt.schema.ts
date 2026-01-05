@@ -51,5 +51,5 @@ export const dépôtSchema = z.object({
   typologieInstallation: typologieInstallationSchema,
   dispositifDeStockage: dispositifDeStockageSchema,
   natureDeLExploitation: natureDeLExploitationOptionalSchema,
-  puissanceInitiale: optionalPuissanceOuPuissanceDeSiteSchema,
+  puissanceProjetInitial: optionalPuissanceOuPuissanceDeSiteSchema,
 });

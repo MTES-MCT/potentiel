@@ -4,7 +4,7 @@ N°CRE;Appel d'offres;Période;Famille;Candidat;Société mère;Nom projet;"1. Garant
 2. Abandon classique
 3. Abandon avec recandidature
 4. Lauréat d'un AO";"Territoire
-(AO ZNI)";puissance_production_annuelle;puissance_initiale;prix_reference;"Taux d'autoconsommation 
+(AO ZNI)";puissance_production_annuelle;puissance_projet_initial;prix_reference;"Taux d'autoconsommation 
 (AO autoconsommation)";Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc);Note prix;Note carbone;Note environnementale;"Note innovation
 (AO innovation)";Note totale;;Nom (personne physique) ou raison sociale (personne morale) :;Nature du candidat;Numéro SIREN ou SIRET*;Code NACE;Type entreprise;Région d'implantation;Adresse;Nom et prénom du représentant légal;Titre du représentant légal;Nom et prénom du signataire du formulaire;Nom et prénom du contact;Titre du contact;Adresse postale du contact;Adresse électronique du contact;Téléphone;Nom du projet;Famille de candidature;Puissance installée (MWc);"Type de consommateur associé
 (AO autoconsommation)";"Nature et nombre du ou des consommateur(s)
