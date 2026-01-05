@@ -77,7 +77,7 @@ export const getLauréatMenuItems = async ({
 
   const actionsDomaine = await Promise.all(domaines.map(linkToAction));
 
-  const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.lister')
+  const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.consulter')
     ? linkToSection('Utilisateurs', 'utilisateurs')
     : undefined;
 
