@@ -1588,11 +1588,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Actionnaire
   'actionnaire.consulter',
-  'actionnaire.consulterChangement',
 
   // Puissance
   'puissance.consulter',
-  'puissance.consulterChangement',
 
   // Producteur
   'producteur.consulter',
@@ -2193,6 +2191,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
   'projet.accèsDonnées.prix',
 ];
 
