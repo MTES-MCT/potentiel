@@ -10,12 +10,7 @@ export const mapToGarantiesFinancièresDemandéesTimelineItemsProps = (
 
   return {
     date: demandéLe,
-    title: (
-      <>
-        Garanties financières demandées au porteur par le{' '}
-        <span className="font-semibold">système</span>
-      </>
-    ),
+    title: 'Garanties financières demandées au porteur',
     content: (
       <div className="flex flex-col gap-2">
         <div>
