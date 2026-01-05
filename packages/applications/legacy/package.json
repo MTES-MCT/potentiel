@@ -33,7 +33,7 @@
     "@sentry/node": "8.55.0",
     "date-fns": "2.30.0",
     "dotenv": "16.5.0",
-    "express": "4.21.2",
+    "express": "4.22.1",
     "express-async-handler": "1.2.0",
     "helmet": "6.2.0",
     "iconv-lite": "0.6.3",
