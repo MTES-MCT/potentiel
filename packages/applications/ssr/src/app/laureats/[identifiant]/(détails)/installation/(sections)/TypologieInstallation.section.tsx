@@ -10,8 +10,8 @@ import {
   SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
 
-import { Section } from '../../../(components)/Section';
-import { DétailTypologieInstallation } from '../../../../installation/(historique)/events/DétailTypologieInstallation';
+import { Section } from '../../(components)/Section';
+import { DétailTypologieInstallation } from '../../../installation/(historique)/events/DétailTypologieInstallation';
 
 type TypologieInstallationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

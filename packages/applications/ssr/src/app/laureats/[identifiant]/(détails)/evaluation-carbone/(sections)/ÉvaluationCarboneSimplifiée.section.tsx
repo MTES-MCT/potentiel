@@ -1,7 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getFournisseurInfos, SectionWithErrorHandling } from '../../_helpers';
-import { Section } from '../(components)/Section';
+import { getFournisseurInfos, SectionWithErrorHandling } from '../../../_helpers';
+import { Section } from '../../(components)/Section';
 
 export type ÉvaluationCarboneSimplifiéeSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
