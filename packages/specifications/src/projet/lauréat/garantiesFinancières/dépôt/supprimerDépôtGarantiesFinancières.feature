@@ -75,6 +75,26 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
+    Scénario: Pour un projet achevé, aucune tâche de relance pour GF n'est planifiée si un porteur supprime un dépôt de GF
+        Etant donné des garanties financières en attente pour le projet lauréat
+        Et une attestation de conformité transmise pour le projet lauréat
+        Et un dépôt de garanties financières
+        Quand le porteur supprime le dépôt de garanties financières du projet
+        Alors une tâche indiquant de 'transmettre les garanties financières' n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
+
+    Scénario: Pour un projet achevé, les tâches "rappel échéance garanties financières" ne sont pas replanifiées quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
+            | type GF            | avec-date-échéance |
+            | date d'échéance    | 2050-10-01         |
+            | date de validation | 2024-11-24         |
+        Et une attestation de conformité transmise pour le projet lauréat
+        Et un dépôt de garanties financières
+        Quand le porteur supprime le dépôt de garanties financières du projet
+        Alors il n'y a pas de tâche "rappel échéance garanties financières à un mois" planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "rappel échéance garanties financières à deux mois" planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
+
     Scénario: Impossible de supprimer des garanties financières en attente de validation s'il n'y a pas de dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand le porteur supprime le dépôt de garanties financières du projet

@@ -723,15 +723,17 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
     await this.publish(event);
 
-    if (this.#dateLimiteSoumission && this.#motifDemande) {
-      await this.demander({
-        demandéLe: suppriméLe,
-        dateLimiteSoumission: this.#dateLimiteSoumission,
-        motif: this.#motifDemande,
-      });
+    if (!this.lauréat.achèvement.estAchevé) {
+      if (this.#dateLimiteSoumission && this.#motifDemande) {
+        await this.demander({
+          demandéLe: suppriméLe,
+          dateLimiteSoumission: this.#dateLimiteSoumission,
+          motif: this.#motifDemande,
+        });
+      }
+      // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
+      await this.échoirOuPlanifierÉchéance(suppriméLe);
     }
-    // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-    await this.échoirOuPlanifierÉchéance(suppriméLe);
   }
 
   private applyDépôtGarantiesFinancièresEnCoursSupprimé(
