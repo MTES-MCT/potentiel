@@ -26,6 +26,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   raisonSocialeGestionnaireRéseau,
   puissance,
   statutProjet,
+  dateAchèvement,
 }) => (
   <ListItem
     heading={
@@ -85,6 +86,13 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
           </Badge>
         )}
       </div>
+      {dateAchèvement && (
+        <div>
+          <Icon id="fr-icon-calendar-check-line" title="Date d'achèvement" size="sm" /> Date
+          d'achèvement :{' '}
+          <FormattedDate className="font-bold" date={DateTime.bind(dateAchèvement).formatter()} />
+        </div>
+      )}
     </div>
   </ListItem>
 );
