@@ -35,15 +35,11 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | region_projet      | .*                                                                                                                                 |
             | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                   |
 
+    @select
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet avec des garanties financières échues
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
-        Et des garanties financières actuelles pour le projet lauréat avec :
-            | type GF         | avec-date-échéance |
-            | date d'échéance | 2050-07-17         |
-        Et une demande de mainlevée de garanties financières avec :
-            | motif | projet-abandonné |
-        Quand on exécute la tâche planifiée "échoir les garanties financières" pour le projet lauréat à la date du "2050-07-18"
-        Et un utilisateur Dreal accorde la demande de mainlevée des garanties financières
+        Et une demande de mainlevée pour des garanties financières échues
+        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
         Et les garanties financières en attente du projet ne devraient plus être consultables
 

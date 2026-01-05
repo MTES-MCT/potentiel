@@ -62,7 +62,7 @@ Quand(
   },
 );
 
-async function exécuterTâchePlanifiée(
+export async function exécuterTâchePlanifiée(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâche: string,
