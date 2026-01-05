@@ -79,6 +79,10 @@ export const getLauréatMenuItems = async ({
   const modifierLauréatMenu = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
+  const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.lister')
+    ? linkToSection('Utilisateurs', 'utilisateurs')
+    : undefined;
+
   const modifications = [modifierLauréatMenu, ...actionsDomaine].filter((item) => !!item);
   const modificationMenu =
     modifications.length > 0
@@ -101,7 +105,7 @@ export const getLauréatMenuItems = async ({
     modificationMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
-    linkToSection('Utilisateurs', 'utilisateurs'),
+    utilisateursMenu,
     // seulement pour porteur, admin et dreal
     // est ce nécessaire de restreindre pour les autres rôles ?
     linkToSection('Imprimer la page', 'imprimer'),
