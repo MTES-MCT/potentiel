@@ -114,10 +114,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ListeDemandeMainlevéePage
-          list={mapToListProps({
-            ...demandeMainlevéeDesGarantiesFinancières,
-            isDreal: utilisateur.estDreal(),
-          })}
+          list={mapToListProps(demandeMainlevéeDesGarantiesFinancières)}
           filters={filters}
         />
       );
@@ -129,10 +126,7 @@ const mapToListProps = ({
   items,
   range,
   total,
-  isDreal,
-}: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel & {
-  isDreal: boolean;
-}): ListeDemandeMainlevéeProps['list'] => {
+}: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
     ({ appelOffre, demande, dernièreMiseÀJour, identifiantProjet, motif, nomProjet, statut }) => ({
       identifiantProjet: identifiantProjet.formatter(),
@@ -142,11 +136,6 @@ const mapToListProps = ({
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       appelOffre,
-      peutInstruireMainlevée:
-        isDreal &&
-        !Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
-          statut.statut,
-        ).estRejeté(),
     }),
   );
 

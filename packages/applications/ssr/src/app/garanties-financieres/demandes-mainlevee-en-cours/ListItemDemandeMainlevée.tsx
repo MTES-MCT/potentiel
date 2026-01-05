@@ -18,7 +18,6 @@ export type ListItemDemandeMainlevéeProps = {
   misÀJourLe: Iso8601DateTime;
   motif: string;
   nomProjet: string;
-  peutInstruireMainlevée: boolean;
 };
 
 export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
@@ -28,7 +27,6 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   motif,
   nomProjet,
   statut,
-  peutInstruireMainlevée,
 }) => (
   <ListItem
     miseÀJourLe={misÀJourLe}
@@ -46,7 +44,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
           'aria-label': `voir le détail des garanties financières du projet ${nomProjet}`,
         }}
       >
-        {peutInstruireMainlevée ? 'Instruire' : 'Consulter'}
+        Consulter
       </Button>
     }
   >
