@@ -1670,7 +1670,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.consulter',
 
   // Attestation conformité
-  'achèvement.transmettreAttestation',
   'achèvement.transmettreDate',
   'achèvement.modifier',
 
@@ -1890,7 +1889,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.rejeter',
 
   // Attestation conformité
-  'achèvement.transmettreAttestation',
+  'achèvement.transmettreDate',
   'achèvement.modifier',
 
   // Candidature

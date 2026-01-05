@@ -84,6 +84,7 @@ export const getLauréatMenuItems = async ({
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
+
   const transmettreAttestationOnglet =
     utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') && lauréat.statut.estActif()
       ? linkToSection(
