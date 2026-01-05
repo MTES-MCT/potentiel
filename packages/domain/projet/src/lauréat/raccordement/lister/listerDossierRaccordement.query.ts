@@ -26,6 +26,7 @@ type DossierRaccordement = {
   sociétéMère: string;
   emailContact: string;
   dateNotification: DateTime.ValueType;
+  dateAchèvement?: DateTime.ValueType;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -188,5 +189,8 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomCandidat,
     sociétéMère,
     statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
+    dateAchèvement: achèvement.réel?.date
+      ? DateTime.convertirEnValueType(achèvement.réel.date)
+      : undefined,
   };
 };
