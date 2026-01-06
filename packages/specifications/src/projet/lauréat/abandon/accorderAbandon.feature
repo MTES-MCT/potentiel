@@ -37,6 +37,13 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
 
+    Scénario: Les tâches et tâches planifiées liées aux garanties financières sont annulées lorsque l'abandon d'un projet lauréat est accordé
+        Etant donné des garanties financières en attente pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
+        Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
+
     # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
     # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
     #     Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat
