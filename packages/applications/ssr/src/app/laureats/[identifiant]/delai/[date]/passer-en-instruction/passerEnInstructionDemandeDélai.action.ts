@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Lauréat.détails(identifiantProjet),
+        url: url ?? Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
         message: 'La demande de délai a bien été passée en instruction',
       },
     };

@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjetValue),
+        url: Routes.Lauréat.détails.tableauDeBord(identifiantProjetValue),
         message: `Le cahier des charges du projet a été modifié`,
       },
     };

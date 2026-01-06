@@ -174,7 +174,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
         message: 'Le projet lauréat a bien été modifié',
       },
     };

@@ -2,27 +2,14 @@ import { encodeParameter } from '../encodeParameter';
 
 export const lister = () => `/laureats`;
 
-export const détails = (
-  identifiantProjet: string,
-  feedback?: {
-    type: 'success' | 'error';
-    message: string;
-  },
-) => {
-  const url = `/laureats/${encodeParameter(identifiantProjet)}`;
-  const searchParams = new URLSearchParams();
-
-  if (feedback?.type === 'success') {
-    searchParams.append('success', feedback.message);
-  }
-  if (feedback?.type === 'error') {
-    searchParams.append('error', feedback.message);
-  }
-
-  if (searchParams.size === 0) {
-    return url;
-  }
-  return `${url}?${searchParams.toString()}`;
+export const détails = {
+  tableauDeBord: (identifiantProjet: string) => `/laureats/${encodeParameter(identifiantProjet)}`,
+  informationGénérales: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/informations-generales`,
+  installation: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/installation`,
+  évaluationCarbone: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/evaluation-carbone`,
 };
 
 export const modifierSiteDeProduction = (identifiantProjet: string) =>

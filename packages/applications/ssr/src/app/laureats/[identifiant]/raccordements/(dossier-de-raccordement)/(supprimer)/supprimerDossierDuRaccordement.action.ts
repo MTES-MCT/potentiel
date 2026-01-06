@@ -39,7 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
     status: 'success',
     redirection: {
       url: estLeDernierDossier
-        ? Routes.Projet.details(identifiantProjet)
+        ? Routes.Lauréat.détails.tableauDeBord(identifiantProjet)
         : Routes.Raccordement.détail(identifiantProjet),
     },
   };
