@@ -68,8 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Statut',
           searchParamKey: 'statut',
           multiple: true,
-          options: Lauréat.Puissance.StatutChangementPuissance.statuts
-            .filter((s) => s !== 'annulé')
+          options: [...Lauréat.Puissance.StatutChangementPuissance.statuts]
             .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),

@@ -69,8 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Statut',
           searchParamKey: 'statut',
           multiple: true,
-          options: Lauréat.Délai.StatutDemandeDélai.statuts
-            .filter((s) => s !== 'annulé')
+          options: [...Lauréat.Délai.StatutDemandeDélai.statuts]
             .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),

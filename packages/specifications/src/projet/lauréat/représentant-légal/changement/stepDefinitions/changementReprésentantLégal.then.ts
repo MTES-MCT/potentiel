@@ -39,14 +39,14 @@ Alors(
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement',
+  'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
   async function (this: PotentielWorld) {
     await vérifierInstructionAutomatiqueDemande.call(this, 'rejet');
   },
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement',
+  'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
   async function (this: PotentielWorld) {
     await vérifierInstructionAutomatiqueDemande.call(this, 'accord');
   },
