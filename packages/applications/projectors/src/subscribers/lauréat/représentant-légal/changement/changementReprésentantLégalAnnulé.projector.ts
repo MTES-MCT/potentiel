@@ -31,6 +31,7 @@ export const changementReprésentantLégalAnnuléProjector = async (
         identifiantProjet,
         nomReprésentantLégal: représentantLégal.actuel.nom,
         typeReprésentantLégal: représentantLégal.actuel.type,
+        demandeEnCours: undefined,
       },
     );
   }

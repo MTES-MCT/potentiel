@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
 import { mediator } from 'mediateur';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -128,6 +128,21 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
     );
 
     actual.should.be.deep.equal(expected);
+
+    const représentantLégal =
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    if (Option.isSome(changement) && changement.demande.statut.estDemandé()) {
+      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.not
+        .undefined;
+    } else {
+      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
+    }
   });
 }
 

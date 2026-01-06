@@ -1,6 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -32,7 +35,12 @@ export const changementPuissanceAnnuléProjector = async ({
     dateDemandeEnCours: undefined,
   });
 
-  await removeProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
+  await updateOneProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
     `changement-puissance|${identifiantProjet}#${projectionToUpsert.dateDemandeEnCours}`,
+    {
+      demande: {
+        statut: Lauréat.Puissance.StatutChangementPuissance.annulé.statut,
+      },
+    },
   );
 };

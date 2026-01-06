@@ -38,6 +38,17 @@ Alors(
 );
 
 Alors(
+  `la demande de délai du projet lauréat devrait être annulée`,
+  async function (this: PotentielWorld) {
+    await vérifierDemandeDélai.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Délai.StatutDemandeDélai.annulé,
+    );
+  },
+);
+
+Alors(
   `la demande de délai du projet lauréat devrait être en instruction`,
   async function (this: PotentielWorld) {
     await vérifierDemandeDélai.call(

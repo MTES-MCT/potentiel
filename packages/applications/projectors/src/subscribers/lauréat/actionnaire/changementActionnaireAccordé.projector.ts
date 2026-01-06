@@ -24,6 +24,7 @@ export const changementActionnaireAccordéProjector = async ({
       dateDemandeEnCours: undefined,
     },
   );
+
   await updateManyProjections<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     'changement-actionnaire',
     {

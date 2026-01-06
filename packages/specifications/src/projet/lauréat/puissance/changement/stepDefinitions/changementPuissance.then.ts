@@ -43,6 +43,17 @@ Alors(
 );
 
 Alors(
+  `la demande de changement de la puissance devrait être annulée`,
+  async function (this: PotentielWorld) {
+    await vérifierChangementPuissance.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Puissance.StatutChangementPuissance.annulé,
+    );
+  },
+);
+
+Alors(
   `la demande de changement de la puissance devrait être accordée`,
   async function (this: PotentielWorld) {
     await vérifierChangementPuissance.call(
@@ -122,6 +133,8 @@ async function vérifierChangementPuissance(
 
     if (statut.estDemandé()) {
       expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.not.undefined;
+    } else {
+      expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.undefined;
     }
 
     if (

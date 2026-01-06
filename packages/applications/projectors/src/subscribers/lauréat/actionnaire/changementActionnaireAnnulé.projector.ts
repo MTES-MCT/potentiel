@@ -1,26 +1,39 @@
 import {
-  removeProjectionWhere,
   updateOneProjection,
+  upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Where } from '@potentiel-domain/entity';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementActionnaireAnnuléProjector = async ({
   payload: { identifiantProjet },
 }: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent) => {
-  await updateOneProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+  const actionnaire = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+    `actionnaire|${identifiantProjet}`,
+  );
+
+  if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
+    getLogger('changementActionnaireAnnuléProjector').error(`Demande d'actionnaire non trouvée !`, {
+      identifiantProjet,
+    });
+    return;
+  }
+
+  await upsertProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
     {
+      ...actionnaire,
       dateDemandeEnCours: undefined,
     },
   );
 
-  await removeProjectionWhere<Lauréat.Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire`,
+  await updateOneProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
     {
-      identifiantProjet: Where.equal(identifiantProjet),
       demande: {
-        statut: Where.equal(Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut),
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.annulé.statut,
       },
     },
   );
