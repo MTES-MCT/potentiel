@@ -4,8 +4,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
-import { ReadMore } from '@/components/atoms/ReadMore';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 export const mapToFournisseurModifiéTimelineItemProps = (
   event: Lauréat.Fournisseur.FournisseurModifiéEvent,
@@ -39,11 +39,7 @@ export const mapToFournisseurModifiéTimelineItemProps = (
             />{' '}
           </div>
         )}
-        {raison && (
-          <div>
-            Raison : <ReadMore text={raison} className="font-semibold" />
-          </div>
-        )}
+        <DisplayRaisonChangement raison={raison} />
         {pièceJustificative && (
           <DownloadDocument
             className="mb-0"

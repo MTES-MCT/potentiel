@@ -3,8 +3,8 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ReadMore } from '@/components/atoms/ReadMore';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 export const mapToActionnaireModifiéTimelineItemProps = (
   event: Lauréat.Actionnaire.ActionnaireModifiéEvent,
@@ -21,9 +21,7 @@ export const mapToActionnaireModifiéTimelineItemProps = (
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
         </div>
-        <div>
-          Raison : <ReadMore text={raison} className="font-semibold" />
-        </div>
+        <DisplayRaisonChangement raison={raison} />
         {pièceJustificative && (
           <DownloadDocument
             className="mb-0"

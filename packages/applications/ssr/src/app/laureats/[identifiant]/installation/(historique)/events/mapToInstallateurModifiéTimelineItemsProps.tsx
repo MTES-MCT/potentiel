@@ -2,8 +2,8 @@ import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { ReadMore } from '@/components/atoms/ReadMore';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 export const mapToInstallateurModifiéTimelineItemsProps = (
   event: Lauréat.Installation.InstallateurModifiéEvent,
@@ -20,11 +20,7 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
         <div>
           Nouvel installateur : <span className="font-semibold">{installateur}</span>
         </div>
-        {raison && (
-          <div>
-            Raison : <ReadMore text={raison} className="font-semibold" />
-          </div>
-        )}
+        <DisplayRaisonChangement raison={raison} />
         {pièceJustificative && (
           <DownloadDocument
             className="mb-0"
