@@ -10,7 +10,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
     Plan du scénario: Rejeter la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand <l'utilisateur autorisé> rejette la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
+        Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
@@ -30,7 +30,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
         Et la dreal "Dreal du nord-est" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement
+        Alors la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement
         Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Besançon dans le département(.*) a été rejetée |

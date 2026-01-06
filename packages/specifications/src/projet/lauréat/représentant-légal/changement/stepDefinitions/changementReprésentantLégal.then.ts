@@ -32,50 +32,21 @@ Alors(
 );
 
 Alors(
-  /la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable/,
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-            demandéLe:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-          },
-        });
-
-      Option.isNone(changement).should.be.true;
-    });
-  },
-);
-
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être accordée',
+  'la demande de changement de représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(this);
   },
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
-  async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(this);
-  },
-);
-
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
+  'la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement',
   async function (this: PotentielWorld) {
     await vérifierInstructionAutomatiqueDemande.call(this, 'rejet');
   },
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
+  'la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement',
   async function (this: PotentielWorld) {
     await vérifierInstructionAutomatiqueDemande.call(this, 'accord');
   },

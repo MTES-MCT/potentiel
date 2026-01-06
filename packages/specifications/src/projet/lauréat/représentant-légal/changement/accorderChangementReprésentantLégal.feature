@@ -10,7 +10,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Plan du scénario: Accorder la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand <l'utilisateur autorisé> accorde la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être accordée
+        Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
@@ -28,7 +28,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Plan du scénario: Corriger et accorder la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand <l'utilisateur autorisé> corrige puis accorde la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être accordée
+        Alors la demande de changement de représentant légal du projet lauréat devrait être consultable
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
@@ -45,7 +45,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement
+        Alors la demande de changement de représentant légal du projet lauréat devrait être consultable automatiquement
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Bordeaux dans le département(.*) a été accordée |
