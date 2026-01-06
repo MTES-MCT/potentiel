@@ -60,7 +60,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         />
         <Input
           textArea
-          label={`Raison`}
+          label="Raison"
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}

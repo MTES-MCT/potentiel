@@ -90,7 +90,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
 
         <Input
           textArea
-          label={`Raison`}
+          label="Raison"
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement de puissance."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}

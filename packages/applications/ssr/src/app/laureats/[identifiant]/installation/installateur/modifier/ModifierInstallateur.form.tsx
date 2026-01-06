@@ -60,7 +60,7 @@ export const ModifierInstallateurForm: FC<ModifierInstallateurFormProps> = ({
 
       <Input
         textArea
-        label={`Raison`}
+        label="Raison"
         id="raison"
         hintText="Veuillez détailler les raisons de ce changement"
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}

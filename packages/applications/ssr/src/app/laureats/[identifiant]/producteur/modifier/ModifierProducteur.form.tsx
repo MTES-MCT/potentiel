@@ -57,7 +57,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
 
       <Input
         textArea
-        label={`Raison`}
+        label="Raison"
         id="raison"
         hintText="Veuillez détailler les raisons ayant conduit au changement de producteur."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
