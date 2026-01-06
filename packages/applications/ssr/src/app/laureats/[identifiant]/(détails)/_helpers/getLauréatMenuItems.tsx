@@ -7,7 +7,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
-import { DomaineAction, getAction } from '../../_helpers';
+import { DomaineAction, getAction, getLauréatInfos } from '../../_helpers';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -61,6 +61,7 @@ export const getLauréatMenuItems = async ({
       }
     : undefined;
 
+  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
   const afficherInstallation = !!(
@@ -76,10 +77,26 @@ export const getLauréatMenuItems = async ({
 
   const actionsDomaine = await Promise.all(domaines.map(linkToAction));
 
-  const modifierLauréatMenu = utilisateur.rôle.aLaPermission('lauréat.modifier')
+  const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.consulter')
+    ? linkToSection('Utilisateurs', 'utilisateurs')
+    : undefined;
+
+  const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
-  const modifications = [modifierLauréatMenu, ...actionsDomaine].filter((item) => !!item);
+
+  const transmettreAttestationOnglet =
+    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') && lauréat.statut.estActif()
+      ? linkToSection(
+          "Transmettre l'attestation de conformité",
+          'achevement/attestation-conformite:transmettre',
+        )
+      : undefined;
+  const modifications = [
+    modifierLauréatOnglet,
+    transmettreAttestationOnglet,
+    ...actionsDomaine,
+  ].filter((item) => !!item);
   const modificationMenu =
     modifications.length > 0
       ? {
@@ -101,7 +118,7 @@ export const getLauréatMenuItems = async ({
     modificationMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
-    linkToSection('Utilisateurs', 'utilisateurs'),
+    utilisateursMenu,
     // seulement pour porteur, admin et dreal
     // est ce nécessaire de restreindre pour les autres rôles ?
     linkToSection('Imprimer la page', 'imprimer'),

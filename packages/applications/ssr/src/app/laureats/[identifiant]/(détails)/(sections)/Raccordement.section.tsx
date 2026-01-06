@@ -87,7 +87,7 @@ const getAlertesRaccordement = ({
       alertes.push({ label: référenceDossierManquantePourDélaiCDC2022Alerte });
     }
   } else {
-    if (!raccordement.dossiers.some((d) => !d.demandeComplèteRaccordement?.accuséRéception)) {
+    if (!raccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception) {
       alertes.push({ label: demandeComplèteRaccordementManquanteAlerte });
     }
   }

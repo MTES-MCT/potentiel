@@ -1588,11 +1588,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Actionnaire
   'actionnaire.consulter',
-  'actionnaire.consulterChangement',
 
   // Puissance
   'puissance.consulter',
-  'puissance.consulterChangement',
 
   // Producteur
   'producteur.consulter',
@@ -1606,9 +1604,6 @@ const pageProjetPolicies: Policy[] = [
   // Nature de l'exploitation
   'natureDeLExploitation.consulter',
 
-  // Accès
-  'accès.consulter',
-
   // Achèvement
   'achèvement.consulter',
 
@@ -1619,6 +1614,7 @@ const pageProjetPolicies: Policy[] = [
 const adminPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -1674,7 +1670,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.consulter',
 
   // Attestation conformité
-  'achèvement.transmettreAttestation',
   'achèvement.transmettreDate',
   'achèvement.modifier',
 
@@ -1843,6 +1838,9 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Nom Projet
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
+
+  // Accès
+  'accès.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1891,7 +1889,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.rejeter',
 
   // Attestation conformité
-  'achèvement.transmettreAttestation',
+  'achèvement.transmettreDate',
   'achèvement.modifier',
 
   // Candidature
@@ -2151,6 +2149,9 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Nom Projet
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
+
+  // Accès
+  'accès.consulter',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

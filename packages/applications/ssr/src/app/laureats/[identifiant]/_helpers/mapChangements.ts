@@ -25,7 +25,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'fournisseur.modifier',
       url: Routes.Fournisseur.modifier,
-      label: 'Modifier',
+      label: 'Modifier le(s) fournisseur(s)',
       labelActions: 'Fournisseur',
     },
     enregistrerChangement: {
@@ -39,7 +39,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'producteur.modifier',
       url: Routes.Producteur.modifier,
-      label: 'Modifier',
+      label: 'Modifier le producteur',
       labelActions: 'Producteur',
     },
     enregistrerChangement: {
@@ -53,7 +53,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'représentantLégal.modifier',
       url: Routes.ReprésentantLégal.modifier,
-      label: 'Modifier',
+      label: 'Modifier le représentant légal',
       labelActions: 'Représentant légal',
     },
     demanderChangement: {
@@ -103,7 +103,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'natureDeLExploitation.modifier',
       url: Routes.NatureDeLExploitation.modifier,
-      label: 'Modifier',
+      label: "Modifier la nature de l'exploitation",
       labelActions: "Nature de l'exploitation",
     },
     enregistrerChangement: {
@@ -118,7 +118,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'actionnaire.modifier',
       url: Routes.Actionnaire.modifier,
-      label: 'Modifier',
+      label: "Modifier l'actionnaire",
       labelActions: `Actionnaire(s)`,
     },
     demanderChangement: {
@@ -138,7 +138,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'puissance.modifier',
       url: Routes.Puissance.modifier,
-      label: 'Modifier',
+      label: 'Modifier la puissance',
       labelActions: `Puissance`,
     },
     demanderChangement: {
@@ -152,7 +152,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'nomProjet.modifier',
       url: Routes.Lauréat.modifierNomProjet,
-      label: 'Modifier',
+      label: 'Modifier le nom du projet',
       labelActions: 'Nom du projet',
     },
     enregistrerChangement: {
@@ -166,7 +166,7 @@ export const mapChangements: MapChangements = {
     modifier: {
       permission: 'lauréat.modifierSiteDeProduction',
       url: Routes.Lauréat.modifierSiteDeProduction,
-      label: 'Modifier',
+      label: 'Modifier le site de production',
       labelActions: 'Site de production',
     },
   },

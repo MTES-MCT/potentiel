@@ -6,7 +6,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../(components)/Section';
-import { getAchèvement, SectionWithErrorHandling } from '../../_helpers';
+import { getAchèvement, getLauréatInfos, SectionWithErrorHandling } from '../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 
@@ -22,6 +22,11 @@ export const AchèvementSection = ({
   SectionWithErrorHandling(
     withUtilisateur(async ({ rôle }) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+
+      if (lauréat.statut.estAbandonné()) {
+        return null;
+      }
 
       const achèvement = await getAchèvementData(identifiantProjet.formatter(), rôle);
 
