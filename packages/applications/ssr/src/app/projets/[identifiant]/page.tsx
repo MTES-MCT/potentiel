@@ -25,5 +25,7 @@ export default async function ProjetPage({
   if (urlSearchParams.size === 0) {
     return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));
   }
-  return redirect(`${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}?${urlSearchParams.toString()}`);
+  return redirect(
+    `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}?${urlSearchParams.toString()}`,
+  );
 }
