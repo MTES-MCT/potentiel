@@ -60,7 +60,7 @@ export const ModifierNomProjetForm: FC<ModifierNomProjetFormProps> = ({
           textArea
           label="Raison"
           id="raison"
-          hintText="Veuillez détailler les raisons ayant conduit au changement du nom du projet."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
@@ -69,6 +69,7 @@ export const ModifierNomProjetForm: FC<ModifierNomProjetFormProps> = ({
         <UploadNewOrModifyExistingDocument
           label="Pièce justificative (optionnel)"
           name="piecesJustificatives"
+          hintText="Si pertinent, veuillez joindre vos justificatifs"
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}

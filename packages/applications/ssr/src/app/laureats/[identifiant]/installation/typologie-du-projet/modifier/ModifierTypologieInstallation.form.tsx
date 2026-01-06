@@ -187,7 +187,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
       <UploadNewOrModifyExistingDocument
         label="Pièce justificative (optionnel)"
         name="piecesJustificatives"
-        hintText="Joindre vos justificatifs"
+        hintText="Si pertinent, veuillez joindre vos justificatifs"
         multiple
         formats={['pdf']}
         state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

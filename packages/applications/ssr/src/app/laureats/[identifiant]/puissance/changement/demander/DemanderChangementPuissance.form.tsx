@@ -158,7 +158,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           label={`Raison ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
           id="raison"
           className="lg:w-1/2"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement de puissance."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             required: dépasseLesRatioDeAppelOffres,

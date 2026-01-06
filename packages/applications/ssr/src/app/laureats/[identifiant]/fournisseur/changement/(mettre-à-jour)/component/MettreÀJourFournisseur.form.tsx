@@ -115,7 +115,7 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
           label="Raison"
           id="raison"
           className="lg:w-1/2"
-          hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             required: true,

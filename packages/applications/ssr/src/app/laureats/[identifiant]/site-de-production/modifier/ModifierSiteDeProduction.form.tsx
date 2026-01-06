@@ -125,8 +125,8 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
           textArea
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
-          label="Raison de la modification"
-          hintText="Veuillez indiquer la raison de cette modification"
+          label="Raison"
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             defaultValue: '',
@@ -137,7 +137,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         <UploadNewOrModifyExistingDocument
           label="Pièce justificative (optionnel)"
           name="piecesJustificatives"
-          hintText="Joindre vos justificatifs"
+          hintText="Si pertinent, veuillez joindre vos justificatifs"
           multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

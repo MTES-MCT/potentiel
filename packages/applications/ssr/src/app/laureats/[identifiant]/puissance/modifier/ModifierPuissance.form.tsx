@@ -92,7 +92,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
           textArea
           label="Raison"
           id="raison"
-          hintText="Veuillez détailler les raisons ayant conduit au changement de puissance."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
@@ -101,7 +101,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
         <UploadNewOrModifyExistingDocument
           label="Pièce justificative (optionnel)"
           name="piecesJustificatives"
-          hintText="Joindre vos justificatifs"
+          hintText="Si pertinent, veuillez joindre vos justificatifs"
           multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
