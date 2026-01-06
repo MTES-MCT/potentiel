@@ -32,6 +32,13 @@ Alors(
 );
 
 Alors(
+  'la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable',
+  async function (this: PotentielWorld) {
+    await vérifierInstructionDemande.call(this, true);
+  },
+);
+
+Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(this);
@@ -105,7 +112,7 @@ async function vérifierDemande(this: PotentielWorld) {
   });
 }
 
-async function vérifierInstructionDemande(this: PotentielWorld) {
+async function vérifierInstructionDemande(this: PotentielWorld, demandeEstSupprimée?: boolean) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -120,14 +127,18 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
         },
       });
 
-    const actual = mapToPlainObject(changement);
-    const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
-    );
+    if (demandeEstSupprimée) {
+      assert(Option.isNone(changement));
+    } else {
+      const actual = mapToPlainObject(changement);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+          identifiantProjet,
+        ),
+      );
 
-    actual.should.be.deep.equal(expected);
+      actual.should.be.deep.equal(expected);
+    }
 
     const représentantLégal =
       await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
