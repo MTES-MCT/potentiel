@@ -23,7 +23,6 @@ import {
 export type MettreÀJourFournisseurFormProps =
   PlainType<Lauréat.Fournisseur.ConsulterFournisseurReadModel> & {
     isInformationEnregistrée?: boolean;
-    isModification?: boolean;
   };
 
 export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> = ({
@@ -33,7 +32,6 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
   fournisseurs,
   technologie,
   isInformationEnregistrée = false,
-  isModification = false,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<MettreÀJourFournisseurFormKeys>
@@ -114,14 +112,14 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
 
         <Input
           textArea
-          label={`Raison${isInformationEnregistrée || isModification ? '' : ' (optionnel)'}`}
+          label="Raison"
           id="raison"
           className="lg:w-1/2"
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',
-            required: isInformationEnregistrée || isModification,
-            'aria-required': isInformationEnregistrée || isModification,
+            required: true,
+            'aria-required': true,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}

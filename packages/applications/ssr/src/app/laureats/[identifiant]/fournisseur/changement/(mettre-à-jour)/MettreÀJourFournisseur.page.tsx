@@ -15,7 +15,6 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
   technologie,
   évaluationCarboneSimplifiéeInitiale,
   isInformationEnregistrée,
-  isModification,
 }) => (
   <>
     <Heading1>Changer de fournisseurs</Heading1>
@@ -26,7 +25,6 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
       technologie={technologie}
       évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
       isInformationEnregistrée={isInformationEnregistrée}
-      isModification={isModification}
     />
   </>
 );
