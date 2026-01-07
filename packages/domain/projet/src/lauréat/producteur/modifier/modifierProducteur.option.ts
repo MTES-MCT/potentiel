@@ -6,6 +6,6 @@ export type ModifierOptions = {
   identifiantUtilisateur: Email.ValueType;
   producteur: string;
   dateModification: DateTime.ValueType;
-  raison?: string;
+  raison: string;
   pièceJustificative?: DocumentProjet.ValueType;
 };

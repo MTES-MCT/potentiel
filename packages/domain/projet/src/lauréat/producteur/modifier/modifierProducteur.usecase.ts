@@ -15,7 +15,7 @@ export type ModifierProducteurUseCase = Message<
     identifiantUtilisateurValue: string;
     producteurValue: string;
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;

@@ -8,6 +8,7 @@ export interface ModifierReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly dateModification: string;
+  readonly raison: string;
 }
 
 export class ModifierReprésentantLégalFixture
@@ -32,6 +33,11 @@ export class ModifierReprésentantLégalFixture
     return this.#dateModification;
   }
 
+  #raison!: string;
+  get raison(): string {
+    return this.#raison;
+  }
+
   créer(
     partialFixture?: Partial<Readonly<ModifierReprésentantLégal>>,
   ): Readonly<ModifierReprésentantLégal> {
@@ -39,12 +45,14 @@ export class ModifierReprésentantLégalFixture
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
       dateModification: faker.date.recent().toISOString(),
+      raison: faker.word.words(),
       ...partialFixture,
     };
 
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
     this.#dateModification = fixture.dateModification;
+    this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;
 

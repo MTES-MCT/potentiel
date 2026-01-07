@@ -11,7 +11,7 @@ export type ModifierInstallateurCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     installateur: string;
     dateModification: DateTime.ValueType;
-    raison?: string;
+    raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
   }
 >;

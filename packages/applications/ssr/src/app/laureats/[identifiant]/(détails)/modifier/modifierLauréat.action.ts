@@ -85,6 +85,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             dateModificationValue: new Date().toISOString(),
             nomReprésentantLégalValue: laureat.nomRepresentantLegal,
             typeReprésentantLégalValue: représentantLégal.typeReprésentantLégal.formatter(),
+            raisonValue: '',
           },
         });
       }
@@ -100,6 +101,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             dateModificationValue: new Date().toISOString(),
             puissanceValue: laureat.puissanceProductionAnnuelle ?? puissanceActuelle.puissance,
             puissanceDeSiteValue: laureat.puissanceDeSite ?? puissanceActuelle.puissanceDeSite,
+            raisonValue: '',
           },
         });
       }
@@ -112,6 +114,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
             producteurValue: laureat.nomCandidat,
+            raisonValue: '',
           },
         });
       }
@@ -151,7 +154,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
               département: laureat.departement ?? lauréatAModifier.localité.département,
               région: laureat.region ?? lauréatAModifier.localité.région,
             },
-            raisonValue: undefined,
+            raisonValue: '',
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },

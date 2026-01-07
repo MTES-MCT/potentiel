@@ -7,6 +7,6 @@ export type ModifierDispositifDeStockageOptions = {
   dispositifDeStockage: DispositifDeStockage.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
-  raison?: string;
+  raison: string;
   pièceJustificative?: DocumentProjet.ValueType;
 };

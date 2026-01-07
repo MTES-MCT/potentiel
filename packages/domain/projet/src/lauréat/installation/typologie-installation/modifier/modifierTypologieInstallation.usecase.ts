@@ -16,7 +16,7 @@ export type ModifierTypologieInstallationUseCase = Message<
     identifiantUtilisateurValue: string;
     typologieInstallationValue: TypologieInstallation.RawType[];
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;

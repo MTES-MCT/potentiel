@@ -7,6 +7,6 @@ export type ModifierOptions = {
   puissance: number;
   puissanceDeSite?: number;
   dateModification: DateTime.ValueType;
-  raison?: string;
+  raison: string;
   pièceJustificative?: DocumentProjet.ValueType;
 };

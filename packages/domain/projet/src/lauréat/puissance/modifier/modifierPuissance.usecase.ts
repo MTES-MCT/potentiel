@@ -16,7 +16,7 @@ export type ModifierPuissanceUseCase = Message<
     puissanceValue: number;
     puissanceDeSiteValue?: number;
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;

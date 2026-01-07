@@ -12,7 +12,7 @@ export type ModifierProducteurCommand = Message<
     producteur: string;
     dateModification: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
-    raison?: string;
+    raison: string;
   }
 >;
 

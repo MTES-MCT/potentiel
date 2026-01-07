@@ -7,6 +7,6 @@ export type ModifierTypologieInstallationOptions = {
   identifiantUtilisateur: Email.ValueType;
   typologieInstallation: TypologieInstallation.ValueType[];
   dateModification: DateTime.ValueType;
-  raison?: string;
+  raison: string;
   pièceJustificative?: DocumentProjet.ValueType;
 };

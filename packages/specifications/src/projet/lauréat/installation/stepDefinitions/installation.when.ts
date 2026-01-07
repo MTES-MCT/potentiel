@@ -160,7 +160,7 @@ async function modifierInstallateur(
   identifiantProjet: IdentifiantProjet.ValueType,
   installateurValue?: string,
 ) {
-  const { modifiéLe, modifiéPar, installateur } =
+  const { modifiéLe, modifiéPar, installateur, pièceJustificative, raison } =
     this.lauréatWorld.installationWorld.modifierInstallateurFixture.créer({
       modifiéPar: this.utilisateurWorld.adminFixture.email,
       ...(installateurValue && { installateur: installateurValue }),
@@ -173,6 +173,8 @@ async function modifierInstallateur(
       dateModificationValue: modifiéLe,
       identifiantUtilisateurValue: modifiéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
+      raisonValue: raison,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
@@ -182,7 +184,7 @@ export async function modifierTypologieInstallation(
   identifiantProjet: IdentifiantProjet.ValueType,
   value?: { typologie: string; détails?: string }[],
 ) {
-  const { modifiéeLe, modifiéePar, typologieInstallation } =
+  const { modifiéeLe, modifiéePar, typologieInstallation, raison, pièceJustificative } =
     this.lauréatWorld.installationWorld.modifierTypologieInstallationFixture.créer({
       modifiéePar: this.utilisateurWorld.adminFixture.email,
       ...(value && { typologieInstallation: value }),
@@ -197,6 +199,8 @@ export async function modifierTypologieInstallation(
       dateModificationValue: modifiéeLe,
       identifiantUtilisateurValue: modifiéePar,
       identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+      raisonValue: raison,
     },
   });
 }
@@ -208,7 +212,7 @@ async function modifierDispositifDeStockage(
 ) {
   const { identifiantProjet } = this.lauréatWorld;
 
-  const { dispositifDeStockage, dateModification } =
+  const { dispositifDeStockage, dateModification, raison, pièceJustificative } =
     this.lauréatWorld.installationWorld.modifierDispositifDeStockageFixture.créer({
       dispositifDeStockage:
         dispositifDeStockageExemple.installationAvecDispositifDeStockage !== undefined
@@ -228,6 +232,8 @@ async function modifierDispositifDeStockage(
       dispositifDeStockageValue: dispositifDeStockage,
       modifiéLeValue: dateModification,
       modifiéParValue: modifiéPar,
+      raisonValue: raison,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }

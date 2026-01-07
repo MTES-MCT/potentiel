@@ -13,7 +13,7 @@ export type ModifierPuissanceCommand = Message<
     puissanceDeSite?: number;
     dateModification: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
-    raison?: string;
+    raison: string;
   }
 >;
 

@@ -15,7 +15,7 @@ export type ModifierDispositifDeStockageUseCase = Message<
     dispositifDeStockageValue: DispositifDeStockage.RawType;
     modifiéLeValue: string;
     modifiéParValue: string;
-    raisonValue?: string;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;

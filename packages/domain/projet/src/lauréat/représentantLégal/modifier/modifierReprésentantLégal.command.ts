@@ -13,7 +13,7 @@ export type ModifierReprésentantLégalCommand = Message<
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     dateModification: DateTime.ValueType;
-    raison?: string;
+    raison: string;
   }
 >;
 

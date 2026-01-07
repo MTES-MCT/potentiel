@@ -15,7 +15,7 @@ export type ModifierReprésentantLégalUseCase = Message<
     nomReprésentantLégalValue: string;
     typeReprésentantLégalValue: string;
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
   }
 >;
 

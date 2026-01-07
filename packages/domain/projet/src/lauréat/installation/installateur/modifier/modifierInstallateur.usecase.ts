@@ -15,7 +15,7 @@ export type ModifierInstallateurUseCase = Message<
     identifiantUtilisateurValue: string;
     installateurValue: string;
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;

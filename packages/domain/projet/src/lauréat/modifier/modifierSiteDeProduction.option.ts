@@ -7,6 +7,6 @@ export type ModifierSiteDeProductionOptions = {
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
   localité: Localité.ValueType;
-  raison: string | undefined;
+  raison: string;
   pièceJustificative: DocumentProjet.ValueType | undefined;
 };

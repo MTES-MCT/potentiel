@@ -16,7 +16,7 @@ export type ModifierSiteDeProductionUseCase = Message<
     modifiéLeValue: string;
     modifiéParValue: string;
     localitéValue: Localité.RawType;
-    raisonValue: string | undefined;
+    raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;
