@@ -2,9 +2,9 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
 
-const statisticType = 'pourcentageDCRDéposées';
+const statisticType = 'pourcentageRéféréncesRaccordement';
 
-export const computePourcentageDCRDéposées = async () => {
+export const computePourcentageRéférencesRaccordement = async () => {
   await executeQuery(
     `
     insert
@@ -21,7 +21,6 @@ export const computePourcentageDCRDéposées = async () => {
             domain_views.projection p
           WHERE
             p.key LIKE 'dossier-raccordement|%'
-            AND p.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
         )::decimal / (
           ${getCountProjetsLauréatsNonAbandonnés}
         )::decimal * 100   

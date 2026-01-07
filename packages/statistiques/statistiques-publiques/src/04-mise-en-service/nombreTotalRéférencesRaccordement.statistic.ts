@@ -1,8 +1,8 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'nombreTotalDCRDéposées';
+const statisticType = 'nombreTotalRéférencesRaccordement';
 
-export const computeNombreTotalDCRDéposées = async () => {
+export const computeNombreTotalRéférencesRaccordement = async () => {
   await executeQuery(
     `
     insert
@@ -12,12 +12,11 @@ export const computeNombreTotalDCRDéposées = async () => {
       $1, 
       (
         select 
-            count(p.key)
-        from
+            count(p.key) 
+        from 
             domain_views.projection p
         where 
             p.key like 'dossier-raccordement|%'
-            and p.value->>'demandeComplèteRaccordement.accuséRéception.format' is not null
       )
     )
     `,
