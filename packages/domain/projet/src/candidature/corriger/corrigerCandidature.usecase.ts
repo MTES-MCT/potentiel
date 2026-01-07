@@ -70,7 +70,8 @@ export const registerCorrigerCandidatureUseCase = () => {
         data: {
           identifiantProjet,
           importéLe: corrigéLe,
-          détails: cleanDétails(payload.détailsValue),
+          importéPar: Email.convertirEnValueType(payload.corrigéPar),
+          détail: cleanDétails(payload.détailsValue),
         },
       });
     }

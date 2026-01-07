@@ -62,8 +62,9 @@ import {
   CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
 import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
-import { DétailCandidature } from './détail/détailCandidature.type';
 import { DétailCandidatureCorrigéEvent } from './détail/corriger/détailCandidatureCorrigé.event';
+import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options';
+import { CorrigerDétailCandidatureOptions } from './détail/corriger/corrigerDétailCandidature.options';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -221,12 +222,14 @@ export class CandidatureAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async importerDétail(détail: DétailCandidature) {
+  async importerDétail({ détail, importéLe, importéPar }: ImporterDétailCandidatureOptions) {
     const event: DétailCandidatureImportéEvent = {
       type: 'DétailCandidatureImporté-V1',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
         détail,
+        importéLe: importéLe.formatter(),
+        importéPar: importéPar.formatter(),
       },
     };
 
@@ -262,12 +265,14 @@ export class CandidatureAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async corrigerDétail(détail: DétailCandidature) {
+  async corrigerDétail({ détail, corrigéLe, corrigéPar }: CorrigerDétailCandidatureOptions) {
     const event: DétailCandidatureCorrigéEvent = {
       type: 'DétailCandidatureCorrigé-V1',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
         détail,
+        corrigéLe: corrigéLe.formatter(),
+        corrigéPar: corrigéPar.formatter(),
       },
     };
 

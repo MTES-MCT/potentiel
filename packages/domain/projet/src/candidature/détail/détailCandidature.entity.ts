@@ -1,4 +1,5 @@
 import { Entity } from '@potentiel-domain/entity';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
 
@@ -9,6 +10,10 @@ export type DétailCandidatureEntity = Entity<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     statut: 'import' | 'correction';
+    dernièreMiseÀJour: {
+      date: DateTime.RawType;
+      utilisateur: Email.RawType;
+    };
     détail: DétailCandidature;
   }
 >;

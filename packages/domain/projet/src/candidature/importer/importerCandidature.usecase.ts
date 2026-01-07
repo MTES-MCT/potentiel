@@ -65,7 +65,8 @@ export const registerImporterCandidatureUseCase = () => {
         data: {
           identifiantProjet,
           importéLe,
-          détails: cleanDétails(payload.détailsValue),
+          importéPar: Email.convertirEnValueType(payload.importéPar),
+          détail: cleanDétails(payload.détailsValue),
         },
       });
     }

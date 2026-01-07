@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 import { DétailCandidature } from '../détailCandidature.type';
@@ -9,8 +9,9 @@ export type ImporterDétailCandidatureCommand = Message<
   'Candidature.Command.ImporterDétailCandidature',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    détails: DétailCandidature;
+    détail: DétailCandidature;
     importéLe: DateTime.ValueType;
+    importéPar: Email.ValueType;
   }
 >;
 
@@ -19,12 +20,14 @@ export const registerImporterDétailCandidatureCommand = (
 ) => {
   const handler: MessageHandler<ImporterDétailCandidatureCommand> = async ({
     identifiantProjet,
-    détails,
+    détail,
+    importéLe,
+    importéPar,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet, true);
     await projet.initCandidature();
 
-    await projet.candidature.importerDétail(détails);
+    await projet.candidature.importerDétail({ détail, importéLe, importéPar });
   };
 
   mediator.register('Candidature.Command.ImporterDétailCandidature', handler);

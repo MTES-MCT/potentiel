@@ -1,5 +1,5 @@
-import { dirname, join } from 'path';
 import { mkdir, writeFile } from 'fs/promises';
+import { join, dirname } from 'path';
 
 import { Command, Flags } from '@oclif/core';
 import * as z from 'zod';
@@ -7,6 +7,7 @@ import { S3 } from '@aws-sdk/client-s3';
 
 import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { DateTime } from '@potentiel-domain/common';
 
 const configSchema = z.object({
   S3_BUCKET: z.string(),
@@ -58,13 +59,8 @@ export class RecupererFichiersDetailsCommand extends Command {
           WHEN COUNT(es2.payload->>'corrigéLe') = 0 THEN NULL
           ELSE ARRAY_AGG(es2.payload->>'corrigéLe' ORDER BY es2.payload->>'corrigéLe' ASC)
         END AS "datesCorrection"
-      FROM 
-        event_store.event_stream es1
-      LEFT JOIN 
-        event_store.event_stream es2 
-      ON 
-        es1.payload->>'identifiantProjet' = es2.payload->>'identifiantProjet'
-        AND es2.type LIKE 'CandidatureCorrigée-V%'
+      FROM event_store.event_stream es1
+      LEFT JOIN event_store.event_stream es2 ON es1.payload->>'identifiantProjet' = es2.payload->>'identifiantProjet' AND es2.type LIKE 'CandidatureCorrigée-V%'
       WHERE 
         es1.type LIKE 'CandidatureImportée-V%'
       GROUP BY 
@@ -85,18 +81,19 @@ export class RecupererFichiersDetailsCommand extends Command {
       return process.exit(1);
     }
 
-    const errors: Array<{ identifiantProjet: string; error: Error }> = [];
+    const errors: Array<{ identifiantProjet: string; s3Key: string; error: Error }> = [];
 
     for (const { identifiantProjet, dateImport, datesCorrection } of candidatures) {
+      const s3Key = `${identifiantProjet}/candidature/import/${dateImport}.json`;
       try {
         await getFile({
-          s3Key: `${identifiantProjet}/candidature/import/${dateImport}.json`,
+          s3Key,
           s3: this.#s3,
           s3Bucket: this.#s3BucketName,
           filePath: `${identifiantProjet}/candidature/import/${dateImport}.json`,
         });
       } catch (error) {
-        errors.push({ identifiantProjet, error: error as Error });
+        errors.push({ identifiantProjet, s3Key, error: error as Error });
       }
 
       if (!datesCorrection) {
@@ -104,15 +101,16 @@ export class RecupererFichiersDetailsCommand extends Command {
       }
 
       for (const dateCorrection of datesCorrection) {
+        const s3Key = `${identifiantProjet}/candidature/import/${dateCorrection}.json`;
         try {
           await getFile({
-            s3Key: `${identifiantProjet}/candidature/import/${dateCorrection}.json`,
+            s3Key,
             s3: this.#s3,
             s3Bucket: this.#s3BucketName,
-            filePath: `${identifiantProjet}/candidature/correction/${dateCorrection}.json`,
+            filePath: `${identifiantProjet}/candidature/correction/${DateTime.convertirEnValueType(dateCorrection).formatter()}.json`,
           });
         } catch (error) {
-          errors.push({ identifiantProjet, error: error as Error });
+          errors.push({ identifiantProjet, s3Key, error: error as Error });
         }
       }
     }
@@ -144,8 +142,9 @@ const getFile = async ({ s3Key, s3, s3Bucket, filePath }: GetFileProps) => {
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, '', { flag: 'wx' });
   } catch (err) {
+    // Skip downloading if the file already exists
     if ((err as NodeJS.ErrnoException).code === 'EEXIST') {
-      throw new Error(`File already exists at path ${path}`);
+      return;
     }
     throw err;
   }
