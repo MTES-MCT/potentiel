@@ -81,10 +81,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      const accès = await mediator.send<Accès.ConsulterAccèsQuery>({
-        type: 'Projet.Accès.Query.ConsulterAccès',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
+      const accès = utilisateur.rôle.estDreal()
+        ? await mediator.send<Accès.ConsulterAccèsQuery>({
+            type: 'Projet.Accès.Query.ConsulterAccès',
+            data: { identifiantProjet: identifiantProjet.formatter() },
+          })
+        : Option.none;
 
       const data = {
         statut,
