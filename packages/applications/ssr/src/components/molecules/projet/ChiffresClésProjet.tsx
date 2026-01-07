@@ -5,6 +5,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { SymbolProps } from '../ListLegend';
 
 import * as symbols from './liste/ProjectListLegendAndSymbols';
+import clsx from 'clsx';
 
 type ChiffreCléProps = {
   valeur: number;
@@ -21,16 +22,14 @@ const ChiffreClé = ({
   unité,
   symbol: { iconId, description, iconColor },
 }: ChiffreCléProps) => (
-  <div className="flex flex-1 flex-row items-center gap-2" title={description}>
-    <Icon id={iconId} className={iconColor} />
-    {Number(valeur) > 0 ? (
-      <div className="lg:flex lg:flex-col">
-        {valeur}
-        <span className="ml-1 lg:ml-0 lg:italic lg:text-xs break-all">{unité}</span>
-      </div>
-    ) : (
-      '- - -'
-    )}
+  <div className="flex flex-1 flex-col items-start justify-center w-full" title={description}>
+    <div className="flex flex-row items-center max-lg:gap-4 lg:justify-between w-full">
+      <span className={clsx(Number(valeur) > 0 && 'text-3xl font-bold')}>
+        {Number(valeur) > 0 ? valeur : '- - -'}
+      </span>
+      <Icon id={iconId} size="lg" className={clsx('opacity-60', iconColor)} />
+    </div>
+    <div className="italic text-xs">{unité}</div>
   </div>
 );
 type ChiffresClésProjetProps = {
@@ -47,7 +46,7 @@ export const ChiffresClésProjet = ({
   prixRéférence,
   puissance,
 }: ChiffresClésProjetProps) => (
-  <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:justify-between max-lg:gap-2 text-sm md:text-base">
+  <div className="flex md:flex-1 flex-row justify-between gap-2 text-sm md:text-base flex-wrap">
     <ChiffreClé symbol={symbols.puissance} valeur={puissance.valeur} unité={puissance.unité} />
     <Separator />
     <ChiffreClé symbol={symbols.prix} valeur={prixRéférence} unité="€ par MWh" />
