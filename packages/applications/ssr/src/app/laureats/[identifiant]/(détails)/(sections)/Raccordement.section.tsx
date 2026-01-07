@@ -41,10 +41,6 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         return null;
       }
 
-      const dcrAttendueAvantLe = lauréat.lauréat.notifiéLe
-        .ajouterNombreDeMois(cahierDesCharges.période.delaiDcrEnMois.valeur)
-        .formatter();
-
       const action =
         abandon?.estAbandonné || abandon?.demandeEnCours
           ? undefined
@@ -60,7 +56,12 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
                 !!cahierDesCharges.cahierDesChargesModificatif &&
                 cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
               raccordement,
-              dcrAttendueAvantLe,
+              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+                cahierDesCharges.période.delaiDcrEnMois.valeur,
+              ),
+              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
+                !!cahierDesCharges.appelOffre
+                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
             })
           : [];
 
@@ -79,12 +80,31 @@ const getAlertesRaccordement = ({
   CDC2022Choisi,
   raccordement,
   dcrAttendueAvantLe,
+  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
 }: {
   CDC2022Choisi: boolean;
   raccordement: Lauréat.Raccordement.ConsulterRaccordementReadModel;
-  dcrAttendueAvantLe: DateTime.RawType;
+  dcrAttendueAvantLe: DateTime.ValueType;
+  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: boolean;
 }): RaccordementDétailsProps['alertes'] => {
-  const demandeComplèteRaccordementManquanteAlerte = `Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau avant le ${Intl.DateTimeFormat('fr').format(new Date(dcrAttendueAvantLe))}. 
+  const formattedDcrAttendueParLeGestionnaireAvantLe = Intl.DateTimeFormat('fr').format(
+    new Date(dcrAttendueAvantLe.formatter()),
+  );
+
+  const formattedDcrAttendueParPotentielAvantLe = Intl.DateTimeFormat('fr').format(
+    new Date(dcrAttendueAvantLe.ajouterNombreDeMois(1).formatter()),
+  );
+
+  const demandeComplèteRaccordementManquanteAlerte = `
+    Vous devez déposer une demande de raccordement auprès de votre gestionnaire de réseau avant le ${formattedDcrAttendueParLeGestionnaireAvantLe}. 
+    
+    L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
+
+  const demandeComplèteRaccordementManquanteAlerteSiTransmissionAutomatiséeAuCocontractant = `
+    Vous devez déposer une demande complète de raccordement avant le ${formattedDcrAttendueParLeGestionnaireAvantLe} auprès de votre gestionnaire de réseau (sous peine de risque de prélèvement des garanties financières ou à défaut une sanction pécuniaire au titre de l'article L311-15 du code de l'énergie). 
+    
+    Vous devez déposer cette demande complète de raccordement avant le ${formattedDcrAttendueParPotentielAvantLe} sur Potentiel afin de permettre la contractualisation du projet.
+    
     L'accusé de réception de cette demande ainsi que les documents complémentaires (proposition technique et financière…) transmis sur Potentiel faciliteront vos démarches administratives avec les différents acteurs connectés à Potentiel (DGEC, services de l'Etat en région, Cocontractant, etc.).`;
 
   const référenceDossierManquantePourDélaiCDC2022Alerte =
@@ -93,7 +113,11 @@ const getAlertesRaccordement = ({
   const alertes: RaccordementDétailsProps['alertes'] = [];
 
   if (raccordement.dossiers.length === 0) {
-    alertes.push({ label: demandeComplèteRaccordementManquanteAlerte });
+    alertes.push({
+      label: transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
+        ? demandeComplèteRaccordementManquanteAlerteSiTransmissionAutomatiséeAuCocontractant
+        : demandeComplèteRaccordementManquanteAlerte,
+    });
     if (CDC2022Choisi) {
       alertes.push({ label: référenceDossierManquantePourDélaiCDC2022Alerte });
     }
