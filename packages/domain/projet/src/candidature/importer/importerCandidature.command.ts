@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
-import { Dépôt, Instruction } from '..';
+import { Dépôt, DétailCandidature, Instruction } from '..';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
@@ -11,6 +11,8 @@ export type ImporterCandidatureCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dépôt: Dépôt.ValueType;
     instruction: Instruction.ValueType;
+    détail: DétailCandidature;
+
     importéLe: DateTime.ValueType;
     importéPar: Email.ValueType;
   }

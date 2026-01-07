@@ -50,6 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const errors: ActionResult['errors'] = [];
     let success: number = 0;
+
     if (!modeMultiple) {
       const périodeCible = Période.IdentifiantPériode.convertirEnValueType(
         `${appelOffre}#${periode}`,

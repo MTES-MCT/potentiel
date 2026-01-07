@@ -3,11 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
-import { Dépôt, Instruction } from '..';
+import { Dépôt, DétailCandidature, Instruction } from '..';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
-import { ImporterDétailCandidatureCommand } from '../détail/importer/importerDétailCandidature.command';
-import { DétailCandidatureRaw } from '../détail/détailCandidature.type';
-import { cleanDétails } from '../détail/_helpers/cleanDétails';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -19,7 +16,7 @@ export type ImporterCandidatureUseCase = Message<
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
 
-    détailsValue?: DétailCandidatureRaw;
+    détailsValue: DétailCandidature;
     importéLe: string;
     importéPar: string;
   }
@@ -56,20 +53,9 @@ export const registerImporterCandidatureUseCase = () => {
         instruction: Instruction.convertirEnValueType(payload.instructionValue),
         importéLe,
         importéPar: Email.convertirEnValueType(payload.importéPar),
+        détail: payload.détailsValue,
       },
     });
-
-    if (payload.détailsValue && Object.keys(payload.détailsValue).length > 0) {
-      await mediator.send<ImporterDétailCandidatureCommand>({
-        type: 'Candidature.Command.ImporterDétailCandidature',
-        data: {
-          identifiantProjet,
-          importéLe,
-          importéPar: Email.convertirEnValueType(payload.importéPar),
-          détail: cleanDétails(payload.détailsValue),
-        },
-      });
-    }
   };
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
