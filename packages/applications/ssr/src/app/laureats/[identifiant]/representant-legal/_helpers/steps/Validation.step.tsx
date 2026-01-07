@@ -60,7 +60,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
           )}
           {raison && (
             <div className="flex gap-2">
-              <div className="font-semibold">Raison :</div>
+              <div className="font-semibold whitespace-nowrap">Raison :</div>
               <blockquote>{raison}</blockquote>
             </div>
           )}

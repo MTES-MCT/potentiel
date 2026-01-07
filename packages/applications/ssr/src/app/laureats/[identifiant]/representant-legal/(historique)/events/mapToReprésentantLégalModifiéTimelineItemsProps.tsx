@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésentantLégalLabel';
 
@@ -25,11 +26,7 @@ export const mapToReprésentantLégalModifiéTimelineItemProps = (
         <div>
           Nom : <span className="font-semibold">{nomReprésentantLégal}</span>
         </div>
-        {raison && (
-          <div>
-            Raison : <span className="font-semibold">{raison}</span>
-          </div>
-        )}
+        {raison && <DisplayRaisonChangement raison={raison} />}
       </div>
     ),
   };
