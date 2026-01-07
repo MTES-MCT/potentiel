@@ -13,7 +13,7 @@ type ChiffreCléProps = {
 };
 
 const Separator = () => (
-  <span className="lg:border-r-solid lg:border-r mx-3 border-dsfr-border-default-grey-default" />
+  <span className="lg:border-r-solid lg:border-r mx-2 border-dsfr-border-default-grey-default" />
 );
 
 const ChiffreClé = ({
@@ -26,7 +26,7 @@ const ChiffreClé = ({
     {Number(valeur) > 0 ? (
       <div className="lg:flex lg:flex-col">
         {valeur}
-        <span className="ml-1 lg:ml-0 lg:italic lg:text-xs">{unité}</span>
+        <span className="ml-1 lg:ml-0 lg:italic lg:text-xs break-all">{unité}</span>
       </div>
     ) : (
       '- - -'
