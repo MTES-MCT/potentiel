@@ -61,6 +61,17 @@ Alors(
 );
 
 Alors(
+  "la demande de changement de l'actionnaire devrait être annulée",
+  async function (this: PotentielWorld) {
+    await vérifierChangementActionnaire.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Actionnaire.StatutChangementActionnaire.annulé,
+    );
+  },
+);
+
+Alors(
   "la demande de changement de l'actionnaire devrait être accordée",
   async function (this: PotentielWorld) {
     await vérifierChangementActionnaire.call(

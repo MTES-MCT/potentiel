@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
 import { mediator } from 'mediateur';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -32,36 +32,14 @@ Alors(
 );
 
 Alors(
-  /la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable/,
+  'la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable',
   async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-            demandéLe:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-          },
-        });
-
-      Option.isNone(changement).should.be.true;
-    });
+    await vérifierSuppressionDemande.call(this);
   },
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être accordée',
-  async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(this);
-  },
-);
-
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
+  'la demande de changement de représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(this);
   },
@@ -157,6 +135,50 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
     );
 
     actual.should.be.deep.equal(expected);
+
+    const représentantLégal =
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    if (Option.isSome(changement) && changement.demande.statut.estDemandé()) {
+      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.not
+        .undefined;
+    } else {
+      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
+    }
+  });
+}
+
+async function vérifierSuppressionDemande(this: PotentielWorld) {
+  await waitForExpect(async () => {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const changement =
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+        },
+      });
+
+    assert(Option.isNone(changement));
+
+    const représentantLégal =
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
   });
 }
 

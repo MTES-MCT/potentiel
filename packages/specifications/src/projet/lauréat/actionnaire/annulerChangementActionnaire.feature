@@ -13,7 +13,7 @@ Fonctionnalité: Annuler la demande changement de l'actionnaire d'un projet laur
     Scénario: Annuler la demande de changement d'actionnaire d'un projet lauréat
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le porteur annule la demande de changement de l'actionnaire pour le projet lauréat
-        Alors la demande de changement de l'actionnaire ne devrait plus être consultable
+        Alors la demande de changement de l'actionnaire devrait être annulée
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                         |

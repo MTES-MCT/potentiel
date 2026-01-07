@@ -11,7 +11,7 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
     Scénario: Annuler la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur annule la demande de délai pour le projet lauréat
-        Alors la demande de délai ne devrait plus être consultable
+        Alors la demande de délai du projet lauréat devrait être annulée
         Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                            |

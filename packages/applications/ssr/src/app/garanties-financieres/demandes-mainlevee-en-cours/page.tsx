@@ -87,8 +87,8 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Statut de mainlevée',
           searchParamKey: 'statut',
           multiple: true,
-          options: [...Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts]
-            .sort((a, b) => a.localeCompare(b))
+          options: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts
+            .toSorted((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: convertStatutMainlevéeForView(statut),
               value: statut,

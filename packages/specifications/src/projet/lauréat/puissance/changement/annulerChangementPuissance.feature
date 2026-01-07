@@ -12,7 +12,7 @@ Fonctionnalité: Annuler la demande de changement de puissance d'un projet laur�
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat
-        Alors la demande de changement de puissance ne devrait plus être consultable
+        Alors la demande de changement de la puissance devrait être annulée
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
@@ -22,7 +22,7 @@ Fonctionnalité: Annuler la demande de changement de puissance d'un projet laur�
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.41 |
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat
-        Alors la demande de changement de puissance ne devrait plus être consultable
+        Alors la demande de changement de la puissance devrait être annulée
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
