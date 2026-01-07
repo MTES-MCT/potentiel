@@ -5,6 +5,7 @@ import { defaultModifications } from '../../constants';
 const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   nomProjet: {},
   natureDeLExploitation: {},
+  typologieInstallation: {},
   siteDeProduction: {},
   représentantLégal: {
     demande: true,

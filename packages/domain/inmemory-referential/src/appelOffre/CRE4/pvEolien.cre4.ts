@@ -40,6 +40,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,

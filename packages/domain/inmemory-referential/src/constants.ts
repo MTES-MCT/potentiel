@@ -23,6 +23,7 @@ export const defaultModifications: AppelOffre.RèglesModification = {
   natureDeLExploitation: {},
   installateur: {},
   dispositifDeStockage: {},
+  typologieInstallation: {},
   délai: {},
   recours: {},
   abandon: {},

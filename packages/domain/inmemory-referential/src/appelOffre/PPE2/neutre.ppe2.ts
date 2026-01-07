@@ -18,6 +18,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
@@ -55,7 +56,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
-  modification: defaultModifications,
+  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',

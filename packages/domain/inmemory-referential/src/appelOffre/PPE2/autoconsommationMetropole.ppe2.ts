@@ -84,6 +84,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
@@ -132,7 +133,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
-  modification: defaultModifications,
+  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes',

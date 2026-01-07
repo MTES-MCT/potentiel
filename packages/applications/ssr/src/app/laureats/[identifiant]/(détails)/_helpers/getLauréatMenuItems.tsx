@@ -7,7 +7,8 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
-import { DomaineAction, getAction, getLauréatInfos } from '../../_helpers';
+import { getAction, getLauréatInfos } from '../../_helpers';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -16,14 +17,14 @@ type GetLauréatMenuItemsProps = {
   utilisateur: Utilisateur.ValueType;
 };
 
-const domainesMap: Record<DomaineAction, boolean> = {
+const domainesMap: Record<AppelOffre.DomainesConcernésParChangement, boolean> = {
   actionnaire: true,
   délai: true,
   dispositifDeStockage: true,
   fournisseur: true,
   installateur: true,
   natureDeLExploitation: true,
-
+  typologieInstallation: true,
   nomProjet: true,
   producteur: true,
   puissance: true,
@@ -33,7 +34,7 @@ const domainesMap: Record<DomaineAction, boolean> = {
   // non utilisé pour lauréat
   recours: false,
 };
-const domaines = Object.keys(domainesMap) as DomaineAction[];
+const domaines = Object.keys(domainesMap) as AppelOffre.DomainesConcernésParChangement[];
 
 export const getLauréatMenuItems = async ({
   identifiantProjet,
@@ -42,13 +43,13 @@ export const getLauréatMenuItems = async ({
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
   const linkToSection = (text: string, path: string) =>
     link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
-  const linkToAction = async (domain: DomaineAction) => {
+  const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
     const action = await getAction({
       domain,
       identifiantProjet,
       rôle: utilisateur.rôle,
     });
-    return action ? link(action.labelActions, action.url) : undefined;
+    return action ? link(action.labelMenu, action.url) : undefined;
   };
 
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')

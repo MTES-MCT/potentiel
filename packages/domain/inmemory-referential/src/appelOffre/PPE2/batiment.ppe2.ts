@@ -74,6 +74,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
@@ -111,7 +112,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
-  modification: defaultModifications,
+  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
