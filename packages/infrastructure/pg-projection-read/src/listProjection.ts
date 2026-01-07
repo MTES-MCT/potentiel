@@ -25,10 +25,11 @@ export const listProjection = async <
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
 ): Promise<ListResult<TEntity, TJoin>> => {
-  const { orderBy, range, where, join } = options ?? {};
+  const { orderBy, range, where, join, select } = options ?? {};
   const joins = (Array.isArray(join) ? join : join ? [join] : []) as JoinOptions[];
   const selectClause = getSelectClause({
     joinCategories: joins.map((j) => j.entity),
+    select,
   });
 
   const fromClause = getFromClause({ joins });
@@ -37,13 +38,13 @@ export const listProjection = async <
   const key: WhereCondition = { operator: 'like', value: `${category}|%` };
   const [whereClause, whereValues] = getWhereClause({ key, where, joins });
 
-  const select = format(
+  const listQuery = format(
     `${selectClause} ${fromClause} ${whereClause} ${orderByClause} ${rangeClause}`,
   );
 
   const result = await executeSelect<
     KeyValuePair<TEntity> & { join_values?: { category: string; value: unknown }[] }
-  >(select, ...whereValues);
+  >(listQuery, ...whereValues);
 
   const total = await countProjection<TEntity, Entity[]>(category, { where, join: joins });
 
