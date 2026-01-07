@@ -3,12 +3,12 @@ import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
 import { getAction, getLauréatInfos } from '../../_helpers';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type MenuItem = SideMenuProps.Item;
 

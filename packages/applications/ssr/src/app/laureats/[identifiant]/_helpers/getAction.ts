@@ -1,11 +1,11 @@
 import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 import { mapChangements } from './mapChangements';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 type Props<TDomain extends AppelOffre.DomainesConcernésParChangement> = {
   identifiantProjet: IdentifiantProjet.ValueType;

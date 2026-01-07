@@ -31,11 +31,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
   return (
     <>
       {peutInviter && (
-        <Button
-          iconId="fr-icon-user-line"
-          className="w-full"
-          onClick={() => setIsOpen(true)}
-        >
+        <Button iconId="fr-icon-user-line" className="w-full" onClick={() => setIsOpen(true)}>
           Inviter un nouvel utilisateur
         </Button>
       )}
