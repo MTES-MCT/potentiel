@@ -23,6 +23,7 @@ const domainesMap: Record<DomaineAction, boolean> = {
   fournisseur: true,
   installateur: true,
   natureDeLExploitation: true,
+
   nomProjet: true,
   producteur: true,
   puissance: true,
@@ -81,22 +82,22 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Utilisateurs', 'utilisateurs')
     : undefined;
 
+  const achèvementOnglet =
+    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') && lauréat.statut.estActif()
+      ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite:transmettre')
+      : utilisateur.rôle.aLaPermission('achèvement.transmettreDate') && lauréat.statut.estActif()
+        ? linkToSection("Date d'achèvement", 'achevement/date-achevement:transmettre')
+        : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
+          ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite:modifier')
+          : undefined;
+
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const transmettreAttestationOnglet =
-    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') && lauréat.statut.estActif()
-      ? linkToSection(
-          "Transmettre l'attestation de conformité",
-          'achevement/attestation-conformite:transmettre',
-        )
-      : undefined;
-  const modifications = [
-    modifierLauréatOnglet,
-    transmettreAttestationOnglet,
-    ...actionsDomaine,
-  ].filter((item) => !!item);
+  const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine].filter(
+    (item) => !!item,
+  );
   const modificationMenu =
     modifications.length > 0
       ? {
@@ -119,8 +120,6 @@ export const getLauréatMenuItems = async ({
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
-    // seulement pour porteur, admin et dreal
-    // est ce nécessaire de restreindre pour les autres rôles ?
     linkToSection('Imprimer la page', 'imprimer'),
   ].filter((item) => !!item);
 };
