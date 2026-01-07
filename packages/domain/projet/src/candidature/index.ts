@@ -11,7 +11,6 @@ import {
   ConsulterDétailCandidatureQuery,
   ConsulterDétailCandidatureReadModel,
 } from './détail/consulter/consulterDétailCandidature.query';
-import { DétailCandidatureCorrigéEvent } from './détail/corriger/détailCandidatureCorrigé.event';
 import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
 import {
   CandidatureImportéeEvent,
@@ -72,7 +71,6 @@ export { CandidatureEvent } from './candidature.event';
 
 export {
   DétailCandidatureImportéEvent,
-  DétailCandidatureCorrigéEvent,
   CandidatureImportéeEventV1,
   CandidatureImportéeEvent,
   CandidatureCorrigéeEvent,

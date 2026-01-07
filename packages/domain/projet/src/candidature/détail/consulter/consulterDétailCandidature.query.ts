@@ -9,7 +9,6 @@ import { DétailCandidature } from '../détailCandidature.type';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: 'import' | 'correction';
   détail: DétailCandidature;
 };
 
@@ -51,10 +50,8 @@ type MapToReadModel = (
 
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  statut,
   détail,
 }): ConsulterDétailCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  statut,
   détail,
 });
