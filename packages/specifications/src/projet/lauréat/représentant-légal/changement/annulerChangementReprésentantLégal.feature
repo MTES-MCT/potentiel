@@ -1,5 +1,6 @@
 # language: fr
 @représentant-légal
+@select
 Fonctionnalité: Annuler la demande de changement de représentant légal d'un projet lauréat
 
     Contexte:

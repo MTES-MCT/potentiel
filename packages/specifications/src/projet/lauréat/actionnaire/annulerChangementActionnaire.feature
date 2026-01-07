@@ -1,5 +1,6 @@
 # language: fr
 @actionnaire
+@select
 Fonctionnalité: Annuler la demande changement de l'actionnaire d'un projet lauréat
 
     Contexte:
