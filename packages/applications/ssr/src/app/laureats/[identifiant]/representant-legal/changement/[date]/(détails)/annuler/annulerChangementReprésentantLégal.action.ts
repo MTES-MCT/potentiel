@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Lauréat.détails(identifiantProjet),
+        url: url ?? Routes.Lauréat.détails.informationGénérales(identifiantProjet),
         message: 'La demande de changement de représentant légal a bien été annulée',
       },
     };

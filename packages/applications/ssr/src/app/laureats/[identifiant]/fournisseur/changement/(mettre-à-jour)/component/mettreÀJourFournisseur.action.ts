@@ -136,7 +136,7 @@ const action: FormAction<FormState, typeof schema> = async (
       redirection: {
         url: isInformationEnregistree
           ? Routes.Fournisseur.changement.détails(identifiantProjet, date)
-          : Routes.Projet.details(identifiantProjet),
+          : Routes.Lauréat.détails.évaluationCarbone(identifiantProjet),
         message: 'Le changement de fournisseur a bien été pris en compte',
       },
     };

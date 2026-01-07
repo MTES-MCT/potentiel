@@ -62,7 +62,7 @@ const action: FormAction<FormState, typeof schema> = async (
       redirection: {
         url: accesAuProjetPerdu
           ? Routes.Lauréat.lister()
-          : Routes.Projet.details(identifiantProjet),
+          : Routes.Lauréat.détails.informationGénérales(identifiantProjet),
         message: 'Le site de production a été modifié',
       },
     };

@@ -42,7 +42,9 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
       <Button
         className="md:flex ml-auto"
         linkProps={{
-          href: Routes.Lauréat.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          href: Routes.Lauréat.détails.tableauDeBord(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+          ),
         }}
         aria-label={`Lien vers la page du projet ${nomProjet}`}
       >

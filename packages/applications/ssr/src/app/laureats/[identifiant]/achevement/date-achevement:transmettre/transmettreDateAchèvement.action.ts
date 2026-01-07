@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
       },
     };
   });

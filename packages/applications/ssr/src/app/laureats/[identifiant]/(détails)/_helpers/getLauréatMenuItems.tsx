@@ -40,7 +40,7 @@ export const getLauréatMenuItems = async ({
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
   const linkToSection = (text: string, path: string) =>
-    link(text, `${Routes.Lauréat.détails(identifiantProjet.formatter())}/${path}`);
+    link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
   const linkToAction = async (domain: DomaineAction) => {
     const action = await getAction({
       domain,
