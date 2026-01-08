@@ -4,16 +4,11 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
 import { getCahierDesCharges } from '../../../../_helpers';
 
 import { ImprimerPage } from './Imprimer.page';
 
-type PageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
-};
-
-export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
+export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
@@ -26,8 +21,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       champsSupplémentaires.typologieInstallation ||
       champsSupplémentaires.autorisationDUrbanisme
     );
-
-    checkFeatureFlag(identifiantProjet, searchParams);
 
     return (
       <ImprimerPage

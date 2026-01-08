@@ -1,4 +1,3 @@
-import { getContext } from '@potentiel-applications/request-context';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -17,12 +16,6 @@ export default async function LauréatDétailsLayout({ children, params }: Layou
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       decodeParameter(params.identifiant),
     );
-
-    const { features } = getContext() ?? {};
-
-    if (!features?.includes('page-projet')) {
-      return children;
-    }
 
     const items = await getLauréatMenuItems({ identifiantProjet, utilisateur });
 

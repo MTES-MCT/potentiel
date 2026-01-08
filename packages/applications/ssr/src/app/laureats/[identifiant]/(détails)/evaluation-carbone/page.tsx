@@ -4,19 +4,11 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
-
 import { ÉvaluationCarbonePage } from './ÉvaluationCarbone.page';
 
-type PageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
-};
-
-export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
+export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-
-    checkFeatureFlag(identifiantProjet, searchParams);
 
     return <ÉvaluationCarbonePage identifiantProjet={identifiantProjet.formatter()} />;
   });
