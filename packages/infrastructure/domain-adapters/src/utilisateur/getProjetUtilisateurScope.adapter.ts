@@ -6,6 +6,7 @@ import {
   ProjetUtilisateurScope,
   Accès,
   IdentifiantProjet,
+  Lauréat,
 } from '@potentiel-domain/projet';
 import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -51,10 +52,27 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
         Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
       ),
     }))
+    .with({ rôle: 'caisse-des-dépôts' }, async () => {
+      const projetsAvecGfConsignation =
+        await listProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+          `garanties-financieres`,
+          {
+            where: {
+              garantiesFinancières: {
+                type: Where.equal('consignation'),
+              },
+            },
+            select: ['identifiantProjet'],
+          },
+        );
+      const identifiantProjets = projetsAvecGfConsignation.items.map(({ identifiantProjet }) =>
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
+      return { type: 'projet', identifiantProjets };
+    })
     .with({ rôle: 'admin' }, async () => ({ type: 'all' }))
     .with({ rôle: 'dgec-validateur' }, async () => ({ type: 'all' }))
     .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
     .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
-    .with({ rôle: 'caisse-des-dépôts' }, async () => ({ type: 'all' }))
     .exhaustive();
 };

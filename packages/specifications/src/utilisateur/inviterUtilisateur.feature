@@ -14,11 +14,10 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
         Exemples:
-            | Rôle              |
-            | admin             |
-            | ademe             |
-            | caisse-des-dépôts |
-            | cre               |
+            | Rôle  |
+            | admin |
+            | ademe |
+            | cre   |
 
     Scénario: Inviter un DGEC validateur
         Quand un administrateur invite un dgec validateur
@@ -63,6 +62,17 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | Auvergne-Rhône-Alpes |
             | Mayotte              |
             | Martinique           |
+
+    Scénario: Inviter un utilisateur Caisse des dépôts
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat avec :
+            | type GF | consignation |
+        Et le projet lauréat "Du boulodrome de Montauban" avec :
+            | type GF | six-mois-après-achèvement |
+        Quand un administrateur invite un utilisateur avec le rôle "caisse-des-dépôts"
+        Alors l'utilisateur devrait être actif
+        Et l'utilisateur invité a accès au projet lauréat "Du boulodrome de Marseille"
+        Mais l'utilisateur invité n'a pas accès au projet lauréat "Du boulodrome de Montauban"
 
     Scénario: Impossible d'inviter un utilisateur déjà invité
         Quand un administrateur invite un utilisateur avec le rôle "admin"
@@ -147,7 +157,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un utilisateur avec le rôle déprécié "acheteur-obligé"
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat "Du boulodrome de Marseille"
-        Et l'utilisateur invité n'a pas accès au projet lauréat "Plage de Fort-de-France"
+        Mais l'utilisateur invité n'a pas accès au projet lauréat "Plage de Fort-de-France"
 
     @NotImplemented
     Scénario: Inviter un utilisateur désactivé

@@ -2,12 +2,14 @@ import { Entity } from './entity';
 import { Joined, JoinOptionsParams } from './joinOptions';
 import { OrderByOptions } from './orderByOptions';
 import { RangeOptions } from './rangeOptions';
+import { SelectOptions } from './selectOptions';
 import { WhereOptions } from './whereOptions';
 
 export type ListOptions<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
+  select?: SelectOptions<Omit<TEntity, 'type'>>;
 } & JoinOptionsParams<TEntity, TJoin>;
 
 export type ListResult<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
