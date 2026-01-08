@@ -1,9 +1,10 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Email } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+
 import { DisplayAuteur } from '../../../../../../components/atoms/demande/DisplayAuteur';
-import { Email } from '@potentiel-domain/common';
 
 export const mapToDateAchèvementTransmiseTimelineItemProps = (
   event: Lauréat.Achèvement.DateAchèvementTransmiseEvent,

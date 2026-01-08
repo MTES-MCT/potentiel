@@ -5,9 +5,9 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { checkFeatureFlag } from '../_helpers/checkFeatureFlag';
+import { getCahierDesCharges } from '../../../../_helpers';
 
 import { ImprimerPage } from './Imprimer.page';
-import { getCahierDesCharges } from '../../../../_helpers';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
