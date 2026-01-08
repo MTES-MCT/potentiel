@@ -6,7 +6,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading1 } from '@/components/atoms/headings';
 
 import { CopyButton } from '../CopyButton';
 
@@ -31,15 +30,16 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
     <div className="md:flex items-start justify-between">
       <div>
         <div className="flex justify-start w-fit gap-4 flex-col md:flex-row md:gap-0 md:items-center">
-          <div className="flex print:hidden">
+          <div className="flex gap-2">
             <Leaf fontSize="large" color="blue-ecume" className="bg-theme-white rounded-lg mr-2" />
             {href ? (
-              <a href={href} className="text-xl font-bold !text-theme-white mr-2">
+              <a href={href} className="text-xl print:text-3xl font-bold !text-theme-white mr-2">
                 {nom}
               </a>
             ) : (
               <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
             )}
+            <div className="hidden print:block">{badge}</div>
             {process.env.APPLICATION_STAGE !== 'production' && (
               <CopyButton
                 textToCopy={identifiantProjet.formatter()}
@@ -47,11 +47,6 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
                 noChildren
               />
             )}
-          </div>
-
-          <div className="flex items-center print:gap-4">
-            <Heading1 className="hidden print:block">{nom}</Heading1>
-            {badge}
           </div>
         </div>
         {localité && (
