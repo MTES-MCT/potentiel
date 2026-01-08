@@ -7,7 +7,7 @@
     "type:check": "tsc --noEmit",
     "start": "node ./dist/src/index.js",
     "build": "npm run build:front && npm run build:css && npm run build:back",
-    "build:back": "npx --node-options=\"--max-old-space-size=8192\" tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views && cp -R src/views/maintenance.html dist/src/views",
+    "build:back": "npx --node-options=\"--max-old-space-size=8192\" tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/maintenance.html dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
     "lint": "eslint ./src --ext .ts,.tsx",
