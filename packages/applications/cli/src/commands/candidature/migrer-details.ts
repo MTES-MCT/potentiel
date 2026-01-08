@@ -1,14 +1,12 @@
-import { Readable } from 'node:stream';
-
 import { Command, Flags } from '@oclif/core';
 import * as z from 'zod';
-import { S3 } from '@aws-sdk/client-s3';
 
 import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, Document, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 const configSchema = z.object({
   S3_BUCKET: z.string(),
@@ -28,32 +26,15 @@ const removeEmptyValues = (obj: Record<string, string | undefined>): Record<stri
   );
 
 const migrateDétailFromS3File = async (
-  s3: S3,
-  bucket: string,
   key: string,
   identifiantProjet: IdentifiantProjet.ValueType,
   dateImport: DateTime.ValueType,
 ) => {
   try {
-    const streamToString = async (stream: Readable): Promise<string> => {
-      const chunks: Uint8Array[] = [];
-      for await (const chunk of stream) {
-        chunks.push(chunk);
-      }
-      return Buffer.concat(chunks).toString('utf-8');
-    };
+    const file = await DocumentAdapter.téléchargerDocumentProjet(key);
 
-    const file = await s3.getObject({
-      Bucket: bucket,
-      Key: key,
-    });
-
-    if (!file.Body) {
-      throw new Error('File body is empty');
-    }
-
-    const contentString = await streamToString(file.Body as Readable);
-    const détail = JSON.parse(contentString);
+    const text = await new Response(file).text();
+    const détail = JSON.parse(text);
 
     const event: Candidature.DétailCandidatureImportéEvent = {
       type: 'DétailCandidatureImporté-V1',
@@ -111,8 +92,6 @@ const migrateDétailFromLegacyDatabase = async (
 };
 
 export class RecupererFichiersDetailsCommand extends Command {
-  #s3!: S3;
-  #s3BucketName!: string;
   #logger!: Logger;
 
   static flags = {
@@ -127,18 +106,10 @@ export class RecupererFichiersDetailsCommand extends Command {
   async init() {
     this.#logger = getLogger();
 
-    const config = configSchema.parse(process.env);
+    configSchema.parse(process.env);
 
-    this.#s3BucketName = config.S3_BUCKET;
-
-    this.#s3 = new S3({
-      endpoint: config.S3_ENDPOINT,
-      credentials: {
-        accessKeyId: config.AWS_ACCESS_KEY_ID,
-        secretAccessKey: config.AWS_SECRET_ACCESS_KEY,
-      },
-      region: 'localhost',
-      forcePathStyle: true,
+    Document.registerDocumentProjetQueries({
+      récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });
   }
 
@@ -214,8 +185,6 @@ export class RecupererFichiersDetailsCommand extends Command {
         }
 
         await migrateDétailFromS3File(
-          this.#s3,
-          this.#s3BucketName,
           `${idProjet}/candidature/import/${dateImport}.json`,
           identifiantProjetValueType,
           dateImportValueType,
@@ -230,10 +199,13 @@ export class RecupererFichiersDetailsCommand extends Command {
     this.#logger.info('✅  All done');
 
     if (errors.length) {
-      this.#logger.error('Some errors occurred during the process:');
-      errors.forEach(({ identifiantProjet, dateImport, error }) => {
-        this.#logger.error(`- ${identifiantProjet} (${dateImport}): ${error.message}`);
-      });
+      this.#logger.error('🚨 Some errors occurred during the process:');
+
+      for (const error of errors) {
+        this.#logger.error(
+          `${error.identifiantProjet} (${error.dateImport}): ${error.error.message}`,
+        );
+      }
       process.exit(1);
     }
   }
