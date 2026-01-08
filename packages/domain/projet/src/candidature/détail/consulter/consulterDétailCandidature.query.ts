@@ -5,11 +5,11 @@ import { Find } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../..';
 import { DétailCandidatureEntity } from '../détailCandidature.entity';
-import { DétailCandidature } from '../détailCandidature.type';
+import { DétailCandidature } from '../..';
 
 export type ConsulterDétailCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  détail: DétailCandidature;
+  détail: DétailCandidature.RawType;
 };
 
 export type ConsulterDétailCandidatureQuery = Message<

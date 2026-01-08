@@ -12,7 +12,7 @@ export type CorrigerCandidatureCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dépôt: Dépôt.ValueType;
     instruction: Instruction.ValueType;
-    détail?: DétailCandidature;
+    détail?: DétailCandidature.RawType;
     corrigéLe: DateTime.ValueType;
     corrigéPar: Email.ValueType;
     doitRégénérerAttestation?: true;

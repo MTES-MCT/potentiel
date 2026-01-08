@@ -1,13 +1,12 @@
 import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../..';
-
-import { DétailCandidature } from './détailCandidature.type';
+import { DétailCandidature } from '..';
 
 export type DétailCandidatureEntity = Entity<
   'détail-candidature',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    détail: DétailCandidature;
+    détail: DétailCandidature.RawType;
   }
 >;

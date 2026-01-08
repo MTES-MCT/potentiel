@@ -5,7 +5,7 @@ import { Dépôt, DétailCandidature, Instruction } from '..';
 export type CorrigerCandidatureOptions = {
   dépôt: Dépôt.ValueType;
   instruction: Instruction.ValueType;
-  détail?: DétailCandidature;
+  détail?: DétailCandidature.RawType;
   doitRégénérerAttestation?: true;
 
   corrigéLe: DateTime.ValueType;
