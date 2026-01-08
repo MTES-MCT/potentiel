@@ -1,4 +1,3 @@
-export * from './consulter';
 export * from './exporter';
 export * from './helpers';
 export * from './findProjectByIdentifiers';
