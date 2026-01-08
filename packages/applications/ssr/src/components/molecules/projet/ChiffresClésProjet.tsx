@@ -25,7 +25,7 @@ const ChiffreClé = ({
 }: ChiffreCléProps) => (
   <div className="flex flex-1 flex-col items-start justify-center w-full" title={description}>
     <div className="flex flex-row items-center max-lg:gap-4 lg:justify-between w-full">
-      <span className={clsx(Number(valeur) > 0 && 'text-2xl')}>
+      <span className={clsx(Number(valeur) > 0 && 'text-xl')}>
         {Number(valeur) > 0 ? valeur : '- - -'}
       </span>
       <Icon id={iconId} size="lg" className={clsx('opacity-60', iconColor)} />
