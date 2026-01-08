@@ -1,4 +1,4 @@
-import Mailjet from 'node-mailjet';
+import { Client as Mailjet } from 'node-mailjet';
 
 let client: Mailjet | undefined;
 

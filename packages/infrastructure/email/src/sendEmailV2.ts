@@ -1,0 +1,67 @@
+import nodemailer from 'nodemailer';
+import {
+  circuitBreaker,
+  handleAll,
+  ConsecutiveBreaker,
+  ExponentialBackoff,
+  retry,
+  wrap,
+} from 'cockatiel';
+
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+type EmailOptions = {
+  to: string;
+  subject: string;
+  content: string;
+};
+
+let transporter: nodemailer.Transporter | null = null;
+
+const getTransporter = () => {
+  const { SEND_EMAILS_FROM, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+
+  if (!SEND_EMAILS_FROM) {
+    throw new Error('SEND_EMAILS_FROM must be set to send emails');
+  }
+
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: SMTP_HOST || 'localhost',
+      port: Number(SMTP_PORT) || 1025,
+      secure: Number(SMTP_PORT) === 465,
+      auth: SMTP_USER
+        ? {
+            user: SMTP_USER,
+            pass: SMTP_PASS || '',
+          }
+        : undefined,
+      from: SEND_EMAILS_FROM,
+    });
+  }
+  return transporter;
+};
+
+// circuit breaker that opens (stops futher calls) after 3 consecutive failures
+// and uses exponential backoff to gradually close the circuit again.
+const globalCircuitBreaker = circuitBreaker(handleAll, {
+  halfOpenAfter: new ExponentialBackoff(),
+  breaker: new ConsecutiveBreaker(3),
+});
+
+export const sendEmailV2 = async ({ content, subject, to }: EmailOptions) => {
+  const transporter = getTransporter();
+  const logger = getLogger('sendEmailv2');
+
+  // Retry policy with exponential backoff for individual calls
+  const retryPolicy = retry(handleAll, {
+    maxAttempts: 5,
+    backoff: new ExponentialBackoff(),
+  });
+
+  // Combined policy
+  const emailPolicy = wrap(retryPolicy, globalCircuitBreaker);
+  await emailPolicy.execute(async () => transporter.sendMail({ subject, html: content, to }));
+
+  logger.info('Email sent', { to, subject });
+};
