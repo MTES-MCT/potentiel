@@ -21,6 +21,7 @@ export default async function ProjetPage({
   if (éliminé) {
     redirect(Routes.Éliminé.détails(identifiantProjet));
   }
+
   const urlSearchParams = new URLSearchParams(searchParams);
   if (urlSearchParams.size === 0) {
     return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet));

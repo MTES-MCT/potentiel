@@ -1,9 +1,5 @@
 import { UserRole } from '../users';
-import {
-  PermissionConsulterProjet,
-  PermissionListerProjets,
-  PermissionExporterProjets,
-} from '../project';
+import { PermissionExporterProjets } from '../project';
 import { match, P } from 'ts-pattern';
 
 export type Permission = {
@@ -24,7 +20,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         'cre',
         'ademe',
       ),
-      () => [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets],
+      () => [PermissionExporterProjets],
     )
     .with('grd', () => [])
     .exhaustive();

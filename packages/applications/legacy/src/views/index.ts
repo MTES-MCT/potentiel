@@ -1,14 +1,7 @@
 import { makeHtml } from './index.html';
-import { Error, ProjectDetails, AccèsNonAutorisé } from './pages';
+import { Error, AccèsNonAutorisé } from './pages';
 
 export { App } from './App';
-
-export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
-  makeHtml({
-    Component: ProjectDetails,
-    props,
-    title: props.project.nomProjet,
-  });
 
 export const ErrorPage = (props: Parameters<typeof Error>[0]) =>
   makeHtml({
