@@ -13,9 +13,10 @@ import { ImprimerButton } from './(component)/ImprimerButton';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
+  afficherSectionInstallation: boolean;
 };
 
-export const ImprimerPage = ({ identifiantProjet }: Props) => (
+export const ImprimerPage = ({ identifiantProjet, afficherSectionInstallation }: Props) => (
   <>
     <ImprimerButton />
     <Section title="Pour votre information" className="mb-4">
@@ -29,7 +30,7 @@ export const ImprimerPage = ({ identifiantProjet }: Props) => (
     <div className="flex flex-col gap-4">
       <TableauDeBordPage identifiantProjet={identifiantProjet} />
       <InformationsGénéralesPage identifiantProjet={identifiantProjet} />
-      <InstallationPage identifiantProjet={identifiantProjet} />
+      {afficherSectionInstallation && <InstallationPage identifiantProjet={identifiantProjet} />}
       <ÉvaluationCarbonePage identifiantProjet={identifiantProjet} />
     </div>
   </>

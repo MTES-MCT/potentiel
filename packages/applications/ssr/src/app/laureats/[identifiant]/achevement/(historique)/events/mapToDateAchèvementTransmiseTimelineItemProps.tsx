@@ -8,6 +8,7 @@ export const mapToDateAchèvementTransmiseTimelineItemProps = (
 ): TimelineItemProps => {
   const { dateAchèvement } = event.payload;
 
+  // aujourd'hui seul le co-contractant peut transmettre la date d'achèvement
   return {
     date: dateAchèvement,
     title: "Transmission de la date d'achèvement par le co-contractant",
