@@ -7,7 +7,6 @@ export type ValueType = ReadonlyValueType<{
   formatter: () => RawType;
   estInconnu: () => boolean;
   estSystème: () => boolean;
-  estClientAPI: () => boolean;
 }>;
 
 export const bind = ({ email }: PlainType<ValueType>): ValueType => {
@@ -25,9 +24,6 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
     },
     estSystème() {
       return this.estÉgaleÀ(système);
-    },
-    estClientAPI() {
-      return this.email.endsWith('@clients');
     },
   };
 };

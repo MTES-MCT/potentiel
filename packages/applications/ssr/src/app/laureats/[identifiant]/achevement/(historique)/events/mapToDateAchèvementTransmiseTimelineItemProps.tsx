@@ -1,24 +1,17 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Email } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { DisplayAuteur } from '../../../../../../components/atoms/demande/DisplayAuteur';
-
 export const mapToDateAchèvementTransmiseTimelineItemProps = (
   event: Lauréat.Achèvement.DateAchèvementTransmiseEvent,
 ): TimelineItemProps => {
-  const { dateAchèvement, transmisePar } = event.payload;
+  const { dateAchèvement } = event.payload;
 
+  // aujourd'hui seul le co-contractant peut transmettre la date d'achèvement
   return {
     date: dateAchèvement,
-    title: (
-      <span>
-        Transmission de la date d'achèvement
-        <DisplayAuteur email={Email.convertirEnValueType(transmisePar)} />
-      </span>
-    ),
+    title: "Transmission de la date d'achèvement par le co-contractant",
     content: <span className="font-semibold">{<FormattedDate date={dateAchèvement} />}</span>,
   };
 };

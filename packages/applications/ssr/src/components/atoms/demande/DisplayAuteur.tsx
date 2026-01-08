@@ -9,11 +9,6 @@ export const DisplayAuteur: FC<DisplayAuteurProps> = ({ email }) => {
     return;
   }
 
-  // Cas limite, pour le moment l'API sera utilisé par le co-contractant
-  if (email.estClientAPI()) {
-    return <> par le co-contractant</>;
-  }
-
   return (
     <>
       {' '}

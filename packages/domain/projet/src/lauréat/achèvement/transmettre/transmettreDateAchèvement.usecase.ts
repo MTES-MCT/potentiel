@@ -40,9 +40,9 @@ export const registerTransmettreDateAchèvementUseCase = () => {
           transmiseLe.formatter(),
           'application/pdf',
         ),
-        texte: transmisePar.estClientAPI()
-          ? "L'attestation de conformité a été transmise au co-contractant, qui a communiqué à Potentiel la date d'achèvement."
-          : `La date d'achèvement a été transmise par ${transmisePar.email}.`,
+        // aujourd'hui seul le co-contractant peut transmettre la date d'achèvement
+        texte:
+          "L'attestation de conformité a été transmise au co-contractant, qui a communiqué à Potentiel la date d'achèvement.",
       },
     });
 
