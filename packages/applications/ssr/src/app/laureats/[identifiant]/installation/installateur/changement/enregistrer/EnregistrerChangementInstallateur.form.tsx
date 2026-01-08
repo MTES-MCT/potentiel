@@ -62,7 +62,7 @@ export const EnregistrerChangementInstallateurForm: FC<
           label="Raison"
           id="raison"
           className="lg:w-1/2"
-          hintText="Veuillez détailler les raisons ayant conduit au changement."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             required: true,
@@ -74,6 +74,7 @@ export const EnregistrerChangementInstallateurForm: FC<
         <UploadNewOrModifyExistingDocument
           required
           label="Pièce justificative"
+          hintText="Veuillez joindre vos justificatifs"
           name="piecesJustificatives"
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

@@ -4,12 +4,13 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { convertFixtureFileToReadableStream } from '../../../helpers';
 
 Quand(
   'un administrateur modifie le site de production du projet',
   async function (this: PotentielWorld) {
     try {
-      const { modifiéLe, modifiéPar, localité } =
+      const { modifiéLe, modifiéPar, localité, pièceJustificative, raison } =
         this.lauréatWorld.modifierSiteDeProductionFixture.créer({
           modifiéPar: this.utilisateurWorld.adminFixture.email,
         });
@@ -21,7 +22,8 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           localitéValue: localité,
-          raisonValue: undefined,
+          raisonValue: raison,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
     } catch (e) {
@@ -34,7 +36,7 @@ Quand(
   'un administrateur modifie le site de production du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
-      const { modifiéLe, modifiéPar, localité } =
+      const { modifiéLe, modifiéPar, localité, raison, pièceJustificative } =
         this.lauréatWorld.modifierSiteDeProductionFixture.créer({
           localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
           modifiéPar: this.utilisateurWorld.adminFixture.email,
@@ -47,7 +49,8 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           localitéValue: localité,
-          raisonValue: undefined,
+          raisonValue: raison,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
     } catch (e) {

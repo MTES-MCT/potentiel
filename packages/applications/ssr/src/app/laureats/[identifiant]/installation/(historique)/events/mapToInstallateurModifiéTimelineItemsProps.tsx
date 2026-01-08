@@ -1,11 +1,15 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 export const mapToInstallateurModifiéTimelineItemsProps = (
   event: Lauréat.Installation.InstallateurModifiéEvent,
 ): TimelineItemProps => {
-  const { modifiéLe, modifiéPar, installateur } = event.payload;
+  const { modifiéLe, modifiéPar, installateur, raison, pièceJustificative, identifiantProjet } =
+    event.payload;
 
   return {
     date: modifiéLe,
@@ -16,6 +20,22 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
         <div>
           Nouvel installateur : <span className="font-semibold">{installateur}</span>
         </div>
+        <DisplayRaisonChangement raison={raison} />
+        {pièceJustificative && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger la pièce justificative"
+            format="pdf"
+            url={Routes.Document.télécharger(
+              DocumentProjet.convertirEnValueType(
+                identifiantProjet,
+                Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
+                modifiéLe,
+                pièceJustificative.format,
+              ).formatter(),
+            )}
+          />
+        )}
       </div>
     ),
   };

@@ -84,6 +84,8 @@ export class InstallationAggregate extends AbstractAggregate<
     installateur,
     dateModification,
     identifiantUtilisateur,
+    raison,
+    pièceJustificative,
   }: ModifierInstallateurOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
@@ -105,6 +107,8 @@ export class InstallationAggregate extends AbstractAggregate<
         installateur,
         modifiéLe: dateModification.formatter(),
         modifiéPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
       },
     };
 
@@ -115,6 +119,8 @@ export class InstallationAggregate extends AbstractAggregate<
     typologieInstallation,
     dateModification,
     identifiantUtilisateur,
+    pièceJustificative,
+    raison,
   }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
@@ -134,6 +140,8 @@ export class InstallationAggregate extends AbstractAggregate<
         typologieInstallation: typologieInstallation.map((t) => t.formatter()),
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
       },
     };
 
@@ -144,6 +152,8 @@ export class InstallationAggregate extends AbstractAggregate<
     dispositifDeStockage,
     modifiéLe,
     modifiéPar,
+    raison,
+    pièceJustificative,
   }: ModifierDispositifDeStockageOptions) {
     this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
 
@@ -154,6 +164,8 @@ export class InstallationAggregate extends AbstractAggregate<
         dispositifDeStockage: dispositifDeStockage.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
+        raison,
+        pièceJustificative,
       },
     };
     await this.publish(event);

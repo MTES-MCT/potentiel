@@ -64,7 +64,7 @@ export const EnregistrerChangementActionnaireForm: FC<
           label="Raison"
           id="raison"
           className="lg:w-1/2"
-          hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}

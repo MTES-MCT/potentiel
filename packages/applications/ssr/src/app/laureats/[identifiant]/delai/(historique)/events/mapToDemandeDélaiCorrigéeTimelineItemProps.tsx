@@ -3,8 +3,8 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ReadMore } from '@/components/atoms/ReadMore';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
   event: Lauréat.Délai.DemandeDélaiCorrigéeEvent,
@@ -28,9 +28,7 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
         <div>
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
         </div>
-        <div>
-          Raison : <ReadMore text={raison} className="font-semibold" />
-        </div>
+        <DisplayRaisonChangement raison={raison} />
         {pièceJustificative && (
           <DownloadDocument
             className="mb-0"

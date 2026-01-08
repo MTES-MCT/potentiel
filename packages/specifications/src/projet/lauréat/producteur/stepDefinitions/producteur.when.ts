@@ -88,7 +88,7 @@ export async function modifierProducteur(
   identifiantProjet: IdentifiantProjet.ValueType,
   producteurValue?: string,
 ) {
-  const { modifiéLe, modifiéPar, producteur } =
+  const { modifiéLe, modifiéPar, producteur, raison } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
       modifiéPar: this.utilisateurWorld.adminFixture.email,
       ...(producteurValue && { producteur: producteurValue }),
@@ -101,6 +101,7 @@ export async function modifierProducteur(
       dateModificationValue: modifiéLe,
       identifiantUtilisateurValue: modifiéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
+      raisonValue: raison,
     },
   });
 }

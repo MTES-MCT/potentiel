@@ -16,6 +16,11 @@ export interface ModifierSiteDeProduction {
     département: string;
     région: string;
   };
+  readonly raison: string;
+  readonly pièceJustificative: {
+    readonly content: string;
+    readonly format: string;
+  };
 }
 
 export class ModifierSiteDeProductionFixture
@@ -39,9 +44,26 @@ export class ModifierSiteDeProductionFixture
     return this.#localité;
   }
 
+  #format!: string;
+  #content!: string;
+
+  get pièceJustificative(): ModifierSiteDeProduction['pièceJustificative'] {
+    return {
+      format: this.#format,
+      content: this.#content,
+    };
+  }
+
+  #raison!: string;
+  get raison(): string {
+    return this.#raison;
+  }
+
   créer(
     partialFixture: Partial<Readonly<ModifierSiteDeProduction>> & { modifiéPar: string },
   ): Readonly<ModifierSiteDeProduction> {
+    const content = faker.word.words();
+
     const fixture = {
       modifiéLe: faker.date.recent().toISOString(),
       localité: {
@@ -49,12 +71,20 @@ export class ModifierSiteDeProductionFixture
         adresse2: faker.location.streetAddress(),
         ...getFakeLocation(),
       },
+      pièceJustificative: {
+        format: faker.potentiel.fileFormat(),
+        content,
+      },
+      raison: faker.word.words(),
       ...partialFixture,
     };
 
     this.#localité = fixture.localité;
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
+    this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;
 

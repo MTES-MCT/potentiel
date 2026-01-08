@@ -31,8 +31,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
         textArea
         label="Raison"
         id="raison"
-        hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
-                conduit à cet abandon (contexte, facteurs extérieurs, etc.)."
+        hintText="Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)"
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
         state={validationErrors['raison'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['raison']}
@@ -40,6 +39,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
 
       <UploadNewOrModifyExistingDocument
         label="Pièce justificative"
+        hintText="Veuillez joindre vos justificatifs"
         name="pieceJustificative"
         formats={['pdf']}
         required

@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { Alert } from '@codegouvfr/react-dsfr/Alert';
+import { Notice } from '@codegouvfr/react-dsfr/Notice';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -14,6 +14,7 @@ type ValidationStepProps = {
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
   message: string;
+  raison?: string;
 };
 export const ValidationStep: FC<ValidationStepProps> = ({
   typeReprésentantLégal,
@@ -21,10 +22,11 @@ export const ValidationStep: FC<ValidationStepProps> = ({
   nomReprésentantLégal,
   piècesJustificatives,
   message,
+  raison,
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Alert severity="info" small description={<p>{message}</p>} />
+      <Notice title={''} description={<span>{message}</span>} />
       <div className="py-6">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
@@ -54,6 +56,12 @@ export const ValidationStep: FC<ValidationStepProps> = ({
                   <li key={pj}>{pj}</li>
                 ))}
               </ul>
+            </div>
+          )}
+          {raison && (
+            <div className="flex gap-2">
+              <div className="font-semibold whitespace-nowrap">Raison :</div>
+              <blockquote>{raison}</blockquote>
             </div>
           )}
         </div>

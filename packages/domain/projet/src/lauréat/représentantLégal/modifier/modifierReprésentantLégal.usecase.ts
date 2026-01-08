@@ -15,6 +15,7 @@ export type ModifierReprésentantLégalUseCase = Message<
     nomReprésentantLégalValue: string;
     typeReprésentantLégalValue: string;
     dateModificationValue: string;
+    raisonValue: string;
   }
 >;
 
@@ -25,6 +26,7 @@ export const registerModifierReprésentantLégalUseCase = () => {
     nomReprésentantLégalValue,
     typeReprésentantLégalValue,
     dateModificationValue,
+    raisonValue,
   }) =>
     mediator.send<ModifierReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
@@ -36,6 +38,7 @@ export const registerModifierReprésentantLégalUseCase = () => {
           typeReprésentantLégalValue,
         ),
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
+        raison: raisonValue,
       },
     });
 

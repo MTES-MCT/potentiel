@@ -14,6 +14,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import {
   modifierSiteDeProductionAction,
@@ -124,12 +125,23 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
           textArea
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
-          label="Raison de la modification (optionnel)"
-          hintText="Indiquez la raison de cette modification si nécessaire"
+          label="Raison"
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             defaultValue: '',
+            required: true,
+            'aria-required': true,
           }}
+        />
+        <UploadNewOrModifyExistingDocument
+          label="Pièce justificative (optionnel)"
+          name="piecesJustificatives"
+          hintText="Si pertinent, veuillez joindre vos justificatifs"
+          multiple
+          formats={['pdf']}
+          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['piecesJustificatives']}
         />
       </div>
       {nécessiteLaConfirmationPourChangementDeRégion && (

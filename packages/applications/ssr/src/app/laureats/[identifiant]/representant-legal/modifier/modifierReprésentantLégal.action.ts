@@ -15,16 +15,17 @@ const schema = zod.object({
     error: 'Ce type de représentant légal est invalide',
   }),
   nomRepresentantLegal: zod.string().min(1),
+  raison: zod.string().min(1),
 });
 
 export type ModifierReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
+  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, raison },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -32,6 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateModificationValue: new Date().toISOString(),
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
+        raisonValue: raison,
       },
     });
 

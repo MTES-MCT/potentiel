@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type ModifierPuissanceCommand = Message<
   'Lauréat.Puissance.Command.ModifierPuissance',
@@ -12,7 +12,8 @@ export type ModifierPuissanceCommand = Message<
     puissance: number;
     puissanceDeSite?: number;
     dateModification: DateTime.ValueType;
-    raison?: string;
+    pièceJustificative?: DocumentProjet.ValueType;
+    raison: string;
   }
 >;
 
@@ -26,6 +27,7 @@ export const registerModifierPuissanceCommand = (
     puissanceDeSite,
     dateModification,
     raison,
+    pièceJustificative,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -35,6 +37,7 @@ export const registerModifierPuissanceCommand = (
       puissanceDeSite,
       dateModification,
       raison,
+      pièceJustificative,
     });
   };
   mediator.register('Lauréat.Puissance.Command.ModifierPuissance', handler);

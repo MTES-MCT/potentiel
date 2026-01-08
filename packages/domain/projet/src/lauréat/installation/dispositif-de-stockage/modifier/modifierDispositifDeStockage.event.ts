@@ -11,5 +11,9 @@ export type DispositifDeStockageModifiéEvent = DomainEvent<
     dispositifDeStockage: DispositifDeStockage.RawType;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    raison?: string;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;

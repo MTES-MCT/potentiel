@@ -102,8 +102,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
         label="Raison"
         id="raison"
         className="w-full md:w-1/2"
-        hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
-                conduit à cette demande de délai."
+        hintText="Veuillez détailler les raisons de ce changement"
         nativeTextAreaProps={{
           name: 'raison',
           required: true,
@@ -117,6 +116,7 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
       <UploadNewOrModifyExistingDocument
         label="Pièce justificative"
         name="pieceJustificative"
+        hintText="Veuillez joindre vos justificatifs"
         documentKeys={[pièceJustificative]}
         formats={['pdf']}
         required

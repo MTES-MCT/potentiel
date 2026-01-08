@@ -65,7 +65,7 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
           label="Raison"
           id="raison"
           className="lg:w-1/2"
-          hintText="Veuillez détailler les raisons ayant conduit au changement du nom du projet."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
@@ -74,6 +74,7 @@ export const EnregistrerChangementNomProjetForm: FC<EnregistrerChangementNomProj
         <UploadNewOrModifyExistingDocument
           label="Pièce justificative"
           name="piecesJustificatives"
+          hintText="Veuillez joindre vos justificatifs"
           formats={['pdf']}
           required
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

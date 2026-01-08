@@ -64,7 +64,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           label="Raison (optionnel)"
           id="raison"
           className="lg:w-1/2"
-          hintText="Veuillez détailler les raisons ayant conduit au changement de producteur."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             required: false,

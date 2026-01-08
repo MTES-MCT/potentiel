@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { optionalStrictlyPositiveNumberSchema } from '@/utils/candidature/schemaBase';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod
   .object({
@@ -16,6 +17,11 @@ const schema = zod
     installationAvecDispositifDeStockage: zod.stringbool(),
     capaciteDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
+    raison: zod.string().min(1),
+    piecesJustificatives: manyDocuments({
+      acceptedFileTypes: ['application/pdf'],
+      optional: true,
+    }),
   })
   .refine(
     (val) =>
@@ -35,6 +41,8 @@ const action: FormAction<FormState, typeof schema> = async (
     installationAvecDispositifDeStockage,
     capaciteDuDispositifDeStockageEnKWh,
     puissanceDuDispositifDeStockageEnKW,
+    raison,
+    piecesJustificatives,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -49,6 +57,8 @@ const action: FormAction<FormState, typeof schema> = async (
           capacitéDuDispositifDeStockageEnKWh: capaciteDuDispositifDeStockageEnKWh,
           puissanceDuDispositifDeStockageEnKW,
         },
+        raisonValue: raison,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 

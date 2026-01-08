@@ -113,7 +113,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
           textArea
           label="Raison"
           id="raison"
-          hintText="Veuillez détailler les raisons ayant conduit au changement."
+          hintText="Veuillez détailler les raisons de ce changement"
           nativeTextAreaProps={{
             name: 'raison',
             required: true,
@@ -126,6 +126,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
         <UploadNewOrModifyExistingDocument
           required
           label="Pièce justificative"
+          hintText="Veuillez joindre vos justificatifs"
           name="piecesJustificatives"
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

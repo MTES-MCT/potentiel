@@ -2,7 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { TypeDocumentPuissance } from '..';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
 
 import { ModifierPuissanceCommand } from './modifierPuissance.command';
 
@@ -14,7 +16,11 @@ export type ModifierPuissanceUseCase = Message<
     puissanceValue: number;
     puissanceDeSiteValue?: number;
     dateModificationValue: string;
-    raisonValue?: string;
+    raisonValue: string;
+    pièceJustificativeValue?: {
+      content: ReadableStream;
+      format: string;
+    };
   }
 >;
 
@@ -26,7 +32,27 @@ export const registerModifierPuissanceUseCase = () => {
     puissanceDeSiteValue,
     dateModificationValue,
     raisonValue,
+    pièceJustificativeValue,
   }) => {
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentPuissance.pièceJustificative.formatter(),
+          dateModificationValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
+
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
+
     await mediator.send<ModifierPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.ModifierPuissance',
       data: {
@@ -36,6 +62,7 @@ export const registerModifierPuissanceUseCase = () => {
         puissanceDeSite: puissanceDeSiteValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
         raison: raisonValue,
+        pièceJustificative,
       },
     });
   };

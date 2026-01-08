@@ -12,22 +12,27 @@ import {
   optionalPuissanceOuPuissanceDeSiteSchema,
   puissanceOuPuissanceDeSiteSchema,
 } from '@/utils/candidature/candidatureFields.schema';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   puissance: puissanceOuPuissanceDeSiteSchema,
   puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
-  raison: zod.string().optional(),
+  raison: zod.string().min(1),
+  piecesJustificatives: manyDocuments({
+    acceptedFileTypes: ['application/pdf'],
+    optional: true,
+  }),
 });
 
 export type ModifierPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, puissance, raison, puissanceDeSite },
+  { identifiantProjet, puissance, raison, puissanceDeSite, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
+    await mediator.send<Lauréat.Puissance.ModifierPuissanceUseCase>({
       type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -36,6 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (
         raisonValue: raison,
         puissanceValue: puissance,
         puissanceDeSiteValue: puissanceDeSite,
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 

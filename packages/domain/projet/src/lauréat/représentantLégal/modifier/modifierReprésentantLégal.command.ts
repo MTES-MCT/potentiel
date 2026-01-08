@@ -13,6 +13,7 @@ export type ModifierReprésentantLégalCommand = Message<
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     dateModification: DateTime.ValueType;
+    raison: string;
   }
 >;
 
@@ -25,6 +26,7 @@ export const registerModifierReprésentantLégalCommand = (
     nomReprésentantLégal,
     typeReprésentantLégal,
     dateModification,
+    raison,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     await projet.lauréat.représentantLégal.modifier({
@@ -32,6 +34,7 @@ export const registerModifierReprésentantLégalCommand = (
       nomReprésentantLégal,
       typeReprésentantLégal,
       dateModification,
+      raison,
     });
   };
   mediator.register('Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal', handler);

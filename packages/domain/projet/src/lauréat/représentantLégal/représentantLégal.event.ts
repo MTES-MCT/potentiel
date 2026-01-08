@@ -34,6 +34,7 @@ export type ReprésentantLégalModifiéEvent = DomainEvent<
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    raison?: string;
   }
 >;
 
