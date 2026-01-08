@@ -5,7 +5,7 @@ import { Dépôt, DétailCandidature, Instruction } from '..';
 export type ImporterCandidatureOptions = {
   dépôt: Dépôt.ValueType;
   instruction: Instruction.ValueType;
-  détail: DétailCandidature;
+  détail: DétailCandidature.RawType;
 
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;

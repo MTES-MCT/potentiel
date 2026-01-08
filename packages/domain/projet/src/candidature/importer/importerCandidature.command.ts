@@ -11,7 +11,7 @@ export type ImporterCandidatureCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dépôt: Dépôt.ValueType;
     instruction: Instruction.ValueType;
-    détail: DétailCandidature;
+    détail: DétailCandidature.RawType;
 
     importéLe: DateTime.ValueType;
     importéPar: Email.ValueType;

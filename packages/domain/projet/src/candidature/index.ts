@@ -99,6 +99,7 @@ export * as UnitéPuissance from './unitéPuissance.valueType';
 export * as Dépôt from './dépôt.valueType';
 export * as Instruction from './instruction.valueType';
 export * as TypologieInstallation from './typologieInstallation.valueType';
+export * as DétailCandidature from './détail/détailCandidature.valueType';
 
 // Type
-export * from './détail/détailCandidature.type';
+export * from './détail/détailCandidature.valueType';

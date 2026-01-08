@@ -19,7 +19,7 @@ export type CorrigerCandidatureUseCase = Message<
     corrigéLe: string;
     corrigéPar: string;
     doitRégénérerAttestation?: true;
-    détailsValue?: DétailCandidature;
+    détailsValue?: DétailCandidature.RawType;
   }
 >;
 
