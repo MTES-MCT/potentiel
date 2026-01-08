@@ -62,10 +62,10 @@ export const RaccordementDétails = async ({
     {alertes.map(({ label }, index) => (
       <Notice
         description={label}
-        title=""
+        title="Données de raccordement à compléter"
         severity="info"
         key={label + index}
-        className="print:hidden"
+        className="print:hidden whitespace-pre-line"
       />
     ))}
     {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}
