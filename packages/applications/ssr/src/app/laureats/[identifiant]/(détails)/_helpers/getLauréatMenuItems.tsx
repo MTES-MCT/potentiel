@@ -64,6 +64,7 @@ export const getLauréatMenuItems = async ({
     : undefined;
 
   const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
   const afficherInstallation = !!(
