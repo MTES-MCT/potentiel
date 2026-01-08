@@ -123,6 +123,7 @@ const action: FormAction<FormState, typeof schema> = async (
             natureDeLExploitation: undefined,
             typeGarantiesFinancières: undefined,
             dateÉchéanceGf: undefined,
+            puissanceProjetInitial: undefined,
             ...dépôt,
             // On force ces valeurs à undefined puisqu'elles
             // seront récupérées lors de la désignation lauréate de la candidature
