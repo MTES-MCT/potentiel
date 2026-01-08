@@ -27,7 +27,7 @@ export const ImprimerPage = ({ identifiantProjet, afficherSectionInstallation }:
         éléments fournis à Potentiel à date. Elles sont susceptibles de modifications ultérieures.
       </div>
     </Section>
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <TableauDeBordPage identifiantProjet={identifiantProjet} />
       <InformationsGénéralesPage identifiantProjet={identifiantProjet} />
       {afficherSectionInstallation && <InstallationPage identifiantProjet={identifiantProjet} />}

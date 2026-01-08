@@ -34,7 +34,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
 }) => {
   return (
     <aside aria-label="Progress">
-      <ol className="pl-0 overflow-hidden list-none">
+      <ul className="pl-0 overflow-hidden list-none print:flex print:justify-evenly print:flex-row">
         {étapes.map((étape) =>
           match(étape)
             .with({ type: 'designation' }, ({ date }) => (
@@ -74,7 +74,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
             ))
             .exhaustive(),
         )}
-      </ol>
+      </ul>
     </aside>
   );
 };
@@ -94,11 +94,7 @@ const ÉtapeProjet: FC<ÉtapeProjetProps> = ({ titre, date, children }) => {
         <Information color="red-marianne" fontSize="medium" />
       )}
       <ContentArea>
-        {date ? (
-          <FormattedDate date={date} />
-        ) : (
-          <span className="italic">Donnée à transmettre</span>
-        )}
+        {date ? <FormattedDate date={date} /> : <span className="italic">À transmettre</span>}
         <ItemTitle title={titre} />
         {children}
       </ContentArea>
@@ -111,7 +107,7 @@ type TimelineItemProps = {
 };
 
 export const TimelineItem = ({ children }: TimelineItemProps) => (
-  <li className="pb-6 print:pb-3 last:pb-0 relative">
+  <li className="pb-6 print:pb-3 last:pb-0 relative print:flex-1">
     <div
       className="print:hidden -ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300 "
       aria-hidden="true"

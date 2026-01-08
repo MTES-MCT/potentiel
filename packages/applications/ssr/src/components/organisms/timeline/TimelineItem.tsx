@@ -45,17 +45,11 @@ export const TimelineItem: FC<TimelineItemProps> = ({
       }}
     >
       <TimelineOppositeContent>
-        <div className={`font-bold print:pt-0 ${icon && 'pt-3'}`}>
+        <div className={clsx('font-bold', icon && 'pt-3')}>
           <FormattedDate date={date} />
         </div>
       </TimelineOppositeContent>
-      <TimelineSeparator
-        sx={{
-          '@media print': {
-            display: 'none',
-          },
-        }}
-      >
+      <TimelineSeparator>
         <TimelineDot
           color={
             status === 'error' || isÉtapeInconnue
@@ -69,7 +63,7 @@ export const TimelineItem: FC<TimelineItemProps> = ({
                     : 'grey'
           }
         >
-          {icon && <Icon id={icon.id} size="md" />}
+          {icon && <Icon id={icon.id} size="md" className="print:text-theme-black" />}
         </TimelineDot>
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
@@ -79,7 +73,7 @@ export const TimelineItem: FC<TimelineItemProps> = ({
           alignContent: 'flex-start',
         }}
       >
-        <div className={clsx('print:pt-0', icon && 'pt-3')}>
+        <div className={clsx(icon && 'pt-3')}>
           <TimelineItemTitle title={title} acteur={acteur} />
           {isÉtapeInconnue && type && ` (${type})`}
           {content ? <div className={clsx(title && 'mt-2')}>{content}</div> : null}
