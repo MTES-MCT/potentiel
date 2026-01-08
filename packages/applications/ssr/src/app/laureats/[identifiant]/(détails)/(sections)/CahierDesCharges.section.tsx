@@ -25,6 +25,9 @@ export const CahierDesChargesSection = ({
 
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
+      const cahierDesChargesModificatifDisponible =
+        cahierDesCharges.période.cahiersDesChargesModifiésDisponibles.length;
+
       const doitChoisirUnCahierDesChargesModificatif =
         rôle.aLaPermission('cahierDesCharges.choisir') &&
         cahierDesCharges.doitChoisirUnCahierDesChargesModificatif();
@@ -34,7 +37,7 @@ export const CahierDesChargesSection = ({
         doitChoisirUnCahierDesChargesModificatif,
       };
 
-      const action = doitChoisirUnCahierDesChargesModificatif
+      const action = cahierDesChargesModificatifDisponible
         ? {
             label: 'Accéder au choix du cahier des charges',
             url: Routes.CahierDesCharges.choisir(identifiantProjet.formatter()),
