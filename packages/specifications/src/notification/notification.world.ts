@@ -19,7 +19,8 @@ export class NotificationWorld {
     }
   }
 
-  récupérerNotification(emailValue: string, sujet?: string) {
+  vérifierNotification(emailValue: string, sujet?: string, variables?: Record<string, string>) {
+    const logger = getLogger('NotificationWorld');
     const email = Email.convertirEnValueType(emailValue);
     const notif = this.#notifications.find((notif) => {
       if (notif.checked) {
@@ -28,10 +29,28 @@ export class NotificationWorld {
       if (sujet && !notif.messageSubject.match(new RegExp(sujet))) {
         return false;
       }
+      if (variables) {
+        for (const [key, value] of Object.entries(variables)) {
+          if (!new RegExp(value).test(notif.variables[key])) {
+            logger.debug(
+              "Une notification correspond au sujet et à l'email, mais pas aux variables",
+              {
+                key,
+                expected: value,
+                actual: notif.variables[key],
+                email: email.formatter(),
+                sujet,
+              },
+            );
+
+            return false;
+          }
+        }
+      }
       return notif.email.estÉgaleÀ(email);
     });
     if (!notif) {
-      getLogger('NotificationWorld').debug(`Aucune notification trouvée`, {
+      logger.debug(`Aucune notification trouvée`, {
         sujet,
         emailValue,
         notificationsEnvoyées: this.#notifications.map((x) => ({
@@ -43,7 +62,6 @@ export class NotificationWorld {
     assert(notif, 'Pas de notification');
 
     notif.checked = true;
-    return notif;
   }
 
   resetNotifications() {

@@ -107,22 +107,23 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
 });
 
 Alors(
-  'les porteurs ont été prévenu que leurs candidatures ont été notifiées',
+  'les porteurs ont été prévenus que leurs candidatures ont été notifiées',
   async function (this: PotentielWorld) {
-    const candidats = this.périodeWorld.notifierPériodeFixture.lauréats.concat(
-      this.périodeWorld.notifierPériodeFixture.éliminés,
-    );
+    const candidats = this.périodeWorld.notifierPériodeFixture.lauréats
+      .concat(this.périodeWorld.notifierPériodeFixture.éliminés)
+      .sort((a, b) =>
+        IdentifiantProjet.bind(a).formatter().localeCompare(IdentifiantProjet.bind(b).formatter()),
+      );
 
     await waitForExpect(async () => {
       for (const candidat of candidats) {
-        const notif = this.notificationWorld.récupérerNotification(
+        const identifiantProjet = IdentifiantProjet.bind(candidat);
+        this.notificationWorld.vérifierNotification(
           candidat.emailContact,
           "Résultats de la .* période de l'appel d'offres .*",
-        );
-        const identifiantProjet = IdentifiantProjet.bind(candidat);
-
-        expect(notif.variables.redirect_url).to.equal(
-          `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+          {
+            redirect_url: `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+          },
         );
       }
     });
@@ -146,12 +147,10 @@ Alors(
       expect(partenaires.items).to.have.length.greaterThan(0);
 
       for (const { email } of partenaires.items) {
-        const notif = this.notificationWorld.récupérerNotification(
+        this.notificationWorld.vérifierNotification(
           email,
           `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
         );
-
-        expect(notif).to.not.be.undefined;
       }
     });
   },
@@ -174,12 +173,10 @@ Alors(
       expect(administration.items).to.have.length.greaterThan(0);
 
       for (const { email } of administration.items) {
-        const notif = this.notificationWorld.récupérerNotification(
+        this.notificationWorld.vérifierNotification(
           email,
           `Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
         );
-
-        expect(notif).to.not.be.undefined;
       }
     });
   },

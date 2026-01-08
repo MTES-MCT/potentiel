@@ -60,15 +60,10 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
 Alors(
   'le porteur a été prévenu que son attestation a été modifiée',
   async function (this: PotentielWorld) {
-    const email = this.notificationWorld.récupérerNotification(
+    this.notificationWorld.vérifierNotification(
       this.candidatureWorld.importerCandidature.values.emailContactValue,
+      'Potentiel - Une nouvelle attestation est disponible pour le projet .*',
     );
-
-    await waitForExpect(async () => {
-      expect(email.messageSubject).match(
-        /Potentiel - Une nouvelle attestation est disponible pour le projet .*/,
-      );
-    });
   },
 );
 
@@ -78,7 +73,7 @@ Alors(
     // edge case because we want to wait for a notification that should not be sent
     await sleep(400);
     try {
-      this.notificationWorld.récupérerNotification(
+      this.notificationWorld.vérifierNotification(
         this.candidatureWorld.importerCandidature.values.emailContactValue,
       );
     } catch (error) {
