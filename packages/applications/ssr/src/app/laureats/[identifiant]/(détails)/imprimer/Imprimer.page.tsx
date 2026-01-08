@@ -16,6 +16,8 @@ type Props = {
   afficherSectionInstallation: boolean;
 };
 
+// test
+
 export const ImprimerPage = ({ identifiantProjet, afficherSectionInstallation }: Props) => (
   <>
     <ImprimerButton />
