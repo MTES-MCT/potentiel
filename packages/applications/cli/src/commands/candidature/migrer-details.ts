@@ -27,29 +27,6 @@ const removeEmptyValues = (obj: Record<string, string | undefined>): Record<stri
       .map(([key, value]) => [key, value as string]),
   );
 
-// const verifyEventNotExists = async (
-//   identifiantProjet: IdentifiantProjet.ValueType,
-//   dateImport: DateTime.ValueType,
-// ): Promise<boolean> => {
-//   const existingEvent = await executeSelect<{
-//     exists?: string;
-//   }>(
-//     `
-//       SELECT 1
-//       FROM event_store.event_stream
-//       WHERE
-//         type = 'DétailCandidatureImporté-V1'
-//         AND payload->>'identifiantProjet' = $1
-//         AND payload->>'importéLe' = $2
-//       LIMIT 1;
-//     `,
-//     identifiantProjet.formatter(),
-//     dateImport.formatter(),
-//   );
-
-//   return existingEvent.length === 0;
-// };
-
 const migrateDétailFromS3File = async (
   s3: S3,
   bucket: string,
@@ -58,14 +35,6 @@ const migrateDétailFromS3File = async (
   dateImport: DateTime.ValueType,
 ) => {
   try {
-    // const existingEvent = await verifyEventNotExists(identifiantProjet, dateImport);
-
-    // if (existingEvent) {
-    //   throw new Error(
-    //     `Event already exists for project ${identifiantProjet.formatter()} on ${dateImport.formatter()}`,
-    //   );
-    // }
-
     const streamToString = async (stream: Readable): Promise<string> => {
       const chunks: Uint8Array[] = [];
       for await (const chunk of stream) {
@@ -96,7 +65,7 @@ const migrateDétailFromS3File = async (
       },
     };
 
-    await publish(`candidature|${identifiantProjet}`, event);
+    await publish(`candidature|${identifiantProjet.formatter()}`, event);
   } catch (error) {
     throw new Error(
       `Failed to migrate détail from S3 file ${key} for project ${identifiantProjet.formatter()}: ${(error as Error).message}`,
@@ -109,14 +78,6 @@ const migrateDétailFromLegacyDatabase = async (
   dateImport: DateTime.ValueType,
 ) => {
   try {
-    // const existingEvent = await verifyEventNotExists(identifiantProjet, dateImport);
-
-    // if (existingEvent) {
-    //   throw new Error(
-    //     `Event already exists for project ${identifiantProjet.formatter()} on ${dateImport.formatter()}`,
-    //   );
-    // }
-
     const details = await executeSelect<{ details: Record<string, string> }>(
       `select details from projects where "appelOffreId" = $1 and "periodeId" = $2 and "familleId" = $3 and "numeroCRE" = $4 limit 1;`,
       identifiantProjet.appelOffre,
@@ -141,7 +102,7 @@ const migrateDétailFromLegacyDatabase = async (
       },
     };
 
-    await publish(`candidature|${identifiantProjet}`, event);
+    await publish(`candidature|${identifiantProjet.formatter()}`, event);
   } catch (error) {
     throw new Error(
       `Failed to migrate détail from legacy database for project ${identifiantProjet.formatter()}: ${(error as Error).message}`,
@@ -184,7 +145,10 @@ export class RecupererFichiersDetailsCommand extends Command {
   async run() {
     this.#logger.info('🚀 Getting candidature events');
 
-    const query = `
+    const candidatures = await executeSelect<{
+      identifiantProjet: string;
+      dateImport: string;
+    }>(`
       SELECT
         payload->>'identifiantProjet' AS "identifiantProjet",
         coalesce(
@@ -202,12 +166,20 @@ export class RecupererFichiersDetailsCommand extends Command {
       order by
         stream_id,
         version;
-    `;
+    `);
 
-    const candidatures = await executeSelect<{
+    const existingEvents = await executeSelect<{
       identifiantProjet: string;
-      dateImport: string;
-    }>(query);
+    }>(`
+      SELECT
+        payload->>'identifiantProjet' AS "identifiantProjet"
+      FROM
+        event_store.event_stream
+      WHERE
+        type = 'DétailCandidatureImporté-V1'
+      GROUP BY
+        payload->>'identifiantProjet';
+    `);
 
     this.#logger.info(`ℹ️  Found ${candidatures.length} candidatures`);
 
@@ -222,6 +194,11 @@ export class RecupererFichiersDetailsCommand extends Command {
 
     for (const { identifiantProjet, dateImport } of candidatures) {
       this.#logger.info(`🔄 Processing ${count} / ${candidatures.length}`);
+
+      if (existingEvents.find((e) => e.identifiantProjet === identifiantProjet)) {
+        count++;
+        continue;
+      }
 
       try {
         const identifiantProjetValueType =
