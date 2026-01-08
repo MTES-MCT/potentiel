@@ -33,7 +33,7 @@ export type ValueType = {
     domaine: AppelOffre.DomainesCourriersRéponse,
   ): AppelOffre.DonnéesCourriersRéponse;
   doitChoisirUnCahierDesChargesModificatif(): boolean;
-  getRèglesChangements<TDomain extends keyof AppelOffre.RèglesDemandesChangement>(
+  getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParChangement>(
     domaine: TDomain,
   ): AppelOffre.RèglesDemandesChangement[TDomain];
   getRèglesModification<TDomain extends keyof AppelOffre.RèglesModification>(
@@ -72,6 +72,7 @@ export const bind = ({
       installateur: {},
       dispositifDeStockage: {},
       siteDeProduction: {},
+      typologieInstallation: {},
     };
 
     const règlesChangement = {

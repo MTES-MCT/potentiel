@@ -56,6 +56,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
         <Button
           iconId="fr-icon-mail-line"
           priority="secondary"
+          className="w-full"
           linkProps={{
             href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
           }}

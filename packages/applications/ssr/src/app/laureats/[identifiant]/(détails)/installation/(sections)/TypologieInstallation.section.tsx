@@ -1,11 +1,11 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import {
+  getAction,
   getInstallationInfos,
   SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
@@ -45,12 +45,11 @@ export const TypologieInstallationSection = ({
         );
       }
 
-      const action = rôle.aLaPermission('installation.typologieInstallation.modifier')
-        ? {
-            url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
-            label: 'Modifier la typologie du projet',
-          }
-        : undefined;
+      const action = await getAction({
+        identifiantProjet,
+        rôle,
+        domain: 'typologieInstallation',
+      });
 
       const { typologieInstallation } = installation;
       const value = mapToPlainObject(typologieInstallation);

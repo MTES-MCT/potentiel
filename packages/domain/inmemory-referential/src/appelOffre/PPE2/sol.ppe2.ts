@@ -67,6 +67,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,
@@ -104,7 +105,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     installateur: {},
     dispositifDeStockage: {},
   },
-  modification: defaultModifications,
+  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',

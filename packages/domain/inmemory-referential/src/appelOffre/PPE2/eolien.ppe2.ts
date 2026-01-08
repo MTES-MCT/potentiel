@@ -74,6 +74,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     nomProjet: {},
     natureDeLExploitation: {},
+    typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
       demande: true,

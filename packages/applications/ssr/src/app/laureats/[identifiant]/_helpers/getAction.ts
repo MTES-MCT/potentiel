@@ -1,15 +1,13 @@
 import { Role } from '@potentiel-domain/utilisateur';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
 import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 import { mapChangements } from './mapChangements';
 
-export type DomaineAction = keyof AppelOffre.RèglesDemandesChangement;
-
-type Props<TDomain extends DomaineAction> = {
+type Props<TDomain extends AppelOffre.DomainesConcernésParChangement> = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
   domain: TDomain;
@@ -17,7 +15,7 @@ type Props<TDomain extends DomaineAction> = {
   nécessiteInstruction?: boolean;
 };
 
-export const getAction = async <TDomain extends DomaineAction>({
+export const getAction = async <TDomain extends AppelOffre.DomainesConcernésParChangement>({
   identifiantProjet,
   rôle,
   domain,
@@ -42,7 +40,7 @@ export const getAction = async <TDomain extends DomaineAction>({
     return {
       url: modifier.url(identifiantProjet.formatter()),
       label: modifier.label,
-      labelActions: modifier.labelActions,
+      labelMenu: modifier.labelMenu,
     };
   }
 
@@ -60,7 +58,7 @@ export const getAction = async <TDomain extends DomaineAction>({
     return {
       url: enregistrerChangement.url(identifiantProjet.formatter()),
       label: enregistrerChangement.label,
-      labelActions: enregistrerChangement.labelActions,
+      labelMenu: enregistrerChangement.labelMenu,
     };
   }
 
@@ -72,7 +70,7 @@ export const getAction = async <TDomain extends DomaineAction>({
     return {
       url: demanderChangement.url(identifiantProjet.formatter()),
       label: demanderChangement.label,
-      labelActions: demanderChangement.labelActions,
+      labelMenu: demanderChangement.labelMenu,
     };
   }
 };
