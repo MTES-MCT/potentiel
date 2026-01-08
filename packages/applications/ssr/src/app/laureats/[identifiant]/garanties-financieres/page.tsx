@@ -81,7 +81,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      const accès = utilisateur.rôle.estDreal()
+      const accès = utilisateur.rôle.aLaPermission('accès.consulter')
         ? await mediator.send<Accès.ConsulterAccèsQuery>({
             type: 'Projet.Accès.Query.ConsulterAccès',
             data: { identifiantProjet: identifiantProjet.formatter() },
