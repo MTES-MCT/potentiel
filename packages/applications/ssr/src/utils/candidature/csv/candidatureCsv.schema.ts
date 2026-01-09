@@ -87,7 +87,7 @@ const colonnes = {
   nomProjet: 'Nom projet',
   sociétéMère: 'Société mère',
   nomCandidat: 'Candidat',
-  puissance: 'puissance_production_annuelle',
+  puissance: 'puissance',
   prixReference: 'prix_reference',
   noteTotale: 'Note totale',
   nomReprésentantLégal: 'Nom et prénom du représentant légal',
