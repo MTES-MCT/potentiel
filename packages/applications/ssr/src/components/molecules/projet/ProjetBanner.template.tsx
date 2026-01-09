@@ -39,7 +39,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
             ) : (
               <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
             )}
-            <div className="hidden print:block">{badge}</div>
+            <div>{badge}</div>
             {process.env.APPLICATION_STAGE !== 'production' && (
               <CopyButton
                 textToCopy={identifiantProjet.formatter()}
