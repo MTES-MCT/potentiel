@@ -26,6 +26,7 @@ export const CahierDesChargesSection = ({
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
       const cahierDesChargesModificatifDisponible =
+        rôle.aLaPermission('cahierDesCharges.choisir') &&
         cahierDesCharges.période.cahiersDesChargesModifiésDisponibles.length;
 
       const doitChoisirUnCahierDesChargesModificatif =
