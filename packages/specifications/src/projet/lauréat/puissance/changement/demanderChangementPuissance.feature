@@ -28,7 +28,8 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Scénario: Demander le changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour l'AO duquel puissance de site est un champs requis
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | appel d'offres    | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 1                        |
         Et la dreal "Dreal du rhône" associée à la région du projet
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | puissance de site | 1.1     |
