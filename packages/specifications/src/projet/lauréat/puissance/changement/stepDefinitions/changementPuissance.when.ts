@@ -128,8 +128,7 @@ export async function demanderChangementPuissance(
     data: {
       raisonValue: raison,
       puissanceValue:
-        ratioPuissance *
-        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
+        ratioPuissance * this.candidatureWorld.importerCandidature.dépôtValue.puissance,
       puissanceDeSiteValue: puissanceDeSite,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
@@ -162,8 +161,7 @@ export async function enregistrerChangementPuissance(
     data: {
       raisonValue: raison,
       puissanceValue:
-        ratioPuissance *
-        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
+        ratioPuissance * this.candidatureWorld.importerCandidature.dépôtValue.puissance,
       puissanceDeSiteValue: puissanceDeSite,
       dateChangementValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
