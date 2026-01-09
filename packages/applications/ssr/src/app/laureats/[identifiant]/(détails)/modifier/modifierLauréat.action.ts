@@ -90,7 +90,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.puissanceProductionAnnuelle || laureat.puissanceDeSite) {
+      if (laureat.puissance || laureat.puissanceDeSite) {
         const puissanceActuelle = await getPuissanceInfos(rawIdentifiantProjet);
 
         await mediator.send<Lauréat.Puissance.ModifierPuissanceUseCase>({
@@ -99,7 +99,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
-            puissanceValue: laureat.puissanceProductionAnnuelle ?? puissanceActuelle.puissance,
+            puissanceValue: laureat.puissance ?? puissanceActuelle.puissance,
             puissanceDeSiteValue: laureat.puissanceDeSite ?? puissanceActuelle.puissanceDeSite,
             raisonValue: '',
           },
@@ -213,8 +213,7 @@ const mapBodyToCandidatureUsecaseData = (
       nomReprésentantLégal: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
       technologie: data.technologie ?? previous.technologie.formatter(),
       nomCandidat: data.nomCandidat ?? previous.nomCandidat,
-      puissanceProductionAnnuelle:
-        data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
+      puissance: data.puissance ?? previous.puissance,
       prixReference: data.prixReference ?? previous.prixReference,
       emailContact: data.emailContact ?? previous.emailContact.formatter(),
       localité: localitéValue,

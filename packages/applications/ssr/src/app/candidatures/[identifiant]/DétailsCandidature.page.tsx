@@ -117,7 +117,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 </Field>
               )}
               <Field name="Performances">
-                <span>Puissance installée : {dépôt.puissanceProductionAnnuelle} MW</span>
+                <span>Puissance installée : {dépôt.puissance} MW</span>
                 <span>Prix de référence : {dépôt.prixReference} €/MWh</span>
                 {dépôt.puissanceDeSite && (
                   <span>Puissance de site : {dépôt.puissanceDeSite} MW</span>

@@ -16,7 +16,7 @@ export type CandidaturesListItemReadModel = {
   nomCandidat: Dépôt.ValueType['nomCandidat'];
   nomReprésentantLégal: Dépôt.ValueType['nomReprésentantLégal'];
   emailContact: Dépôt.ValueType['emailContact'];
-  puissanceProductionAnnuelle: number;
+  puissance: number;
   prixReference: Dépôt.ValueType['prixReference'];
   evaluationCarboneSimplifiée: Dépôt.ValueType['evaluationCarboneSimplifiée'];
   localité: Localité.ValueType;
@@ -109,7 +109,7 @@ export const mapToReadModel = ({
   nomCandidat,
   nomReprésentantLégal,
   emailContact,
-  puissanceProductionAnnuelle,
+  puissance,
   prixReference,
   localité,
   evaluationCarboneSimplifiée,
@@ -123,7 +123,7 @@ export const mapToReadModel = ({
   nomProjet,
   nomReprésentantLégal,
   emailContact: Email.convertirEnValueType(emailContact),
-  puissanceProductionAnnuelle,
+  puissance,
   prixReference,
   evaluationCarboneSimplifiée,
   nomCandidat,

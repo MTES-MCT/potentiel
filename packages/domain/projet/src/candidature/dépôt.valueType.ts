@@ -24,7 +24,7 @@ export type RawType = {
   prixReference: number;
   localité: Localité.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
-  puissanceProductionAnnuelle: number;
+  puissance: number;
   puissanceALaPointe: boolean;
   puissanceDeSite: number | undefined;
   puissanceProjetInitial: number | undefined;
@@ -60,7 +60,7 @@ export type ValueType = ReadonlyValueType<{
   prixReference: number;
   localité: Localité.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
-  puissanceProductionAnnuelle: number;
+  puissance: number;
   puissanceALaPointe: boolean;
   puissanceDeSite: number | undefined;
   puissanceProjetInitial: number | undefined;
@@ -93,7 +93,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   prixReference: plain.prixReference,
   evaluationCarboneSimplifiée: plain.evaluationCarboneSimplifiée,
   puissanceALaPointe: plain.puissanceALaPointe,
-  puissanceProductionAnnuelle: plain.puissanceProductionAnnuelle,
+  puissance: plain.puissance,
   puissanceProjetInitial: plain.puissanceProjetInitial,
   sociétéMère: plain.sociétéMère,
   territoireProjet: plain.territoireProjet,
@@ -142,7 +142,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.puissanceALaPointe === this.puissanceALaPointe &&
       valueType.coefficientKChoisi === this.coefficientKChoisi &&
       valueType.puissanceDeSite === this.puissanceDeSite &&
-      valueType.puissanceProductionAnnuelle === this.puissanceProductionAnnuelle &&
+      valueType.puissance === this.puissance &&
       valueType.puissanceProjetInitial === this.puissanceProjetInitial &&
       valueType.sociétéMère === this.sociétéMère &&
       valueType.territoireProjet === this.territoireProjet &&
@@ -175,7 +175,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       prixReference: this.prixReference,
       evaluationCarboneSimplifiée: this.evaluationCarboneSimplifiée,
       puissanceALaPointe: this.puissanceALaPointe,
-      puissanceProductionAnnuelle: this.puissanceProductionAnnuelle,
+      puissance: this.puissance,
       puissanceProjetInitial: this.puissanceProjetInitial,
       sociétéMère: this.sociétéMère,
       territoireProjet: this.territoireProjet,
@@ -232,7 +232,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     prixReference: raw.prixReference,
     evaluationCarboneSimplifiée: raw.evaluationCarboneSimplifiée,
     puissanceALaPointe: raw.puissanceALaPointe,
-    puissanceProductionAnnuelle: raw.puissanceProductionAnnuelle,
+    puissance: raw.puissance,
     puissanceProjetInitial: raw.puissanceProjetInitial,
     sociétéMère: raw.sociétéMère,
     territoireProjet: raw.territoireProjet,

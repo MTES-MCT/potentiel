@@ -135,8 +135,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.dépôt.sociétéMère;
   }
 
-  get puissanceProductionAnnuelle() {
-    return this.dépôt.puissanceProductionAnnuelle;
+  get puissance() {
+    return this.dépôt.puissance;
   }
 
   get prixRéférence() {
@@ -164,7 +164,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     return Puissance.VolumeRéservé.déterminer({
       note: this.noteTotale,
       période: this.projet.période,
-      puissanceInitiale: this.puissanceProductionAnnuelle,
+      puissanceInitiale: this.puissance,
     });
   }
 

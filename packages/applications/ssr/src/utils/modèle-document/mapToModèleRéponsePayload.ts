@@ -95,7 +95,7 @@ export const mapCandidatureToModèleRéponsePayload = ({
     nomCandidat: candidature.dépôt.nomCandidat,
     nomProjet: candidature.dépôt.nomProjet,
     nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
-    puissance: candidature.dépôt.puissanceProductionAnnuelle,
+    puissance: candidature.dépôt.puissance,
     notifiéLe: candidature.notification?.notifiéeLe,
     unitéPuissance: candidature.unitéPuissance,
   });

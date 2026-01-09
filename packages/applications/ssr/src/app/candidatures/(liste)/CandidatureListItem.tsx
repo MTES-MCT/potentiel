@@ -22,7 +22,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   nomCandidat,
   emailContact,
   nomReprésentantLégal,
-  puissanceProductionAnnuelle,
+  puissance,
   unitéPuissance,
   prixReference,
   evaluationCarboneSimplifiée,
@@ -39,7 +39,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
     email={emailContact}
     nomReprésentantLégal={nomReprésentantLégal}
     puissance={{
-      valeur: puissanceProductionAnnuelle,
+      valeur: puissance,
       unité: unitéPuissance,
     }}
     prixReference={prixReference}

@@ -219,11 +219,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         <FormRow>
           <ProjectField
-            candidature={candidature.puissanceProductionAnnuelle}
-            lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
-            estEnCoursDeModification={lauréat.puissanceProductionAnnuelle.estEnCoursDeModification}
+            candidature={candidature.puissance}
+            lauréat={lauréat.puissance.currentValue}
+            estEnCoursDeModification={lauréat.puissance.estEnCoursDeModification}
             label={`Puissance installée (en ${projet.unitéPuissance})`}
-            name="puissanceProductionAnnuelle"
+            name="puissance"
             validationErrors={validationErrors}
             nativeInputProps={{
               step: 0.1,

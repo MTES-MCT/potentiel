@@ -123,13 +123,13 @@ const mapToCertificateData = ({
 
       evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée,
       prixReference: candidature.dépôt.prixReference,
-      puissance: candidature.dépôt.puissanceProductionAnnuelle,
+      puissance: candidature.dépôt.puissance,
       technologie: candidature.technologie.type,
       engagementFournitureDePuissanceAlaPointe: candidature.dépôt.puissanceALaPointe,
       motifsElimination: candidature.instruction.motifÉlimination ?? '',
 
       désignationCatégorie: getDésignationCatégorie({
-        puissance: candidature.dépôt.puissanceProductionAnnuelle,
+        puissance: candidature.dépôt.puissance,
         note: candidature.instruction.noteTotale,
         periodeDetails: période,
       }),

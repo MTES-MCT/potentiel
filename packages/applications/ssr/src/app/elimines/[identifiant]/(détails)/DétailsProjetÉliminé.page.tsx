@@ -36,7 +36,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
   identifiantProjet,
   éliminé: {
     unitéPuissance,
-    puissanceProductionAnnuelle,
+    puissance,
     localité,
     sociétéMère,
     emailContact,
@@ -108,7 +108,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               </li>
             )}
             <li>
-              <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
+              <span className="font-bold">Puissance :</span> {puissance}{' '}
               {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
             </li>
             {prixReference && (

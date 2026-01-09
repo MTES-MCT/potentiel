@@ -173,7 +173,7 @@ const mapToLegacyEventPayload = (
     technologie: payload.technologie,
     historiqueAbandon: payload.historiqueAbandon,
     désignationCatégorie: getDésignationCatégorie({
-      puissance: payload.puissanceProductionAnnuelle,
+      puissance: payload.puissance,
       note: payload.noteTotale,
       periodeDetails: période,
     }),
@@ -188,7 +188,7 @@ const mapToNotifiedCorrectedData = (
 ): ProjectRawDataCorrected['payload']['correctedData'] => ({
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
-  puissanceInitiale: payload.puissanceProductionAnnuelle,
+  puissanceInitiale: payload.puissance,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
   note: payload.noteTotale,
@@ -210,8 +210,8 @@ const mapToCorrectedData = (payload: SubscriptionEvent['payload']) => ({
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
   actionnaire: payload.sociétéMère,
-  puissance: payload.puissanceProductionAnnuelle,
-  puissanceInitiale: payload.puissanceProductionAnnuelle,
+  puissance: payload.puissance,
+  puissanceInitiale: payload.puissance,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
   note: payload.noteTotale,
