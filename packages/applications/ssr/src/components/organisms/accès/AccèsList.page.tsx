@@ -47,7 +47,7 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
           )}
         </Section>
       </div>
-      <div className="flex flex-1 flex-col gap-4 items-center">
+      <div className="flex flex-1 flex-col gap-4">
         <InviterPorteurForm
           identifiantProjet={identifiantProjet}
           nombreDeProjets={nombreDeProjets}
@@ -56,7 +56,6 @@ export const AccèsListPage: FC<AccèsListPageProps> = ({
         <Button
           iconId="fr-icon-mail-line"
           priority="secondary"
-          className="w-full"
           linkProps={{
             href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}`,
           }}
