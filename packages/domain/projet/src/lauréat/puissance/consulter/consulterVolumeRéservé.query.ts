@@ -47,7 +47,7 @@ export const registerConsulterVolumeRéservéQuery = ({
     return (
       VolumeRéservé.déterminer({
         note: candidature.noteTotale,
-        puissanceInitiale: candidature.puissanceProductionAnnuelle,
+        puissanceInitiale: candidature.puissance,
         période,
       }) ?? Option.none
     );

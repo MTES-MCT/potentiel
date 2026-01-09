@@ -13,7 +13,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Nom projet': 'nom projet',
   Candidat: 'candidat',
   Période: 'période',
-  puissance_production_annuelle: '1',
+  puissance: '1',
   prix_reference: '1',
   'Note totale': '1',
   'Nom et prénom du représentant légal': 'valentin cognito',
@@ -58,7 +58,7 @@ describe('Schema candidature CSV', () => {
       nomProjet: 'nom projet',
       sociétéMère: '',
       nomCandidat: 'candidat',
-      puissanceProductionAnnuelle: 1,
+      puissance: 1,
       prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
@@ -106,7 +106,7 @@ describe('Schema candidature CSV', () => {
       nomProjet: 'nom projet',
       sociétéMère: '',
       nomCandidat: 'candidat',
-      puissanceProductionAnnuelle: 1,
+      puissance: 1,
       prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
@@ -169,7 +169,7 @@ describe('Schema candidature CSV', () => {
       nomProjet: 'nom projet',
       sociétéMère: '',
       nomCandidat: 'candidat',
-      puissanceProductionAnnuelle: 1,
+      puissance: 1,
       prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
@@ -247,15 +247,10 @@ describe('Schema candidature CSV', () => {
     test('nombre avec caractères', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
-        puissance_production_annuelle: 'abcd',
+        puissance: 'abcd',
         'Note totale': 'abcd',
       });
-      assertError(
-        result,
-        ['puissance_production_annuelle'],
-        'Le champ doit être un nombre positif',
-        0,
-      );
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif', 0);
       assertError(result, ['Note totale'], 'Le champ doit être un nombre', 1);
     });
 
@@ -271,37 +266,25 @@ describe('Schema candidature CSV', () => {
     test('nombre strictement positif requis vide', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
-        puissance_production_annuelle: '',
+        puissance: '',
       });
-      assertError(
-        result,
-        ['puissance_production_annuelle'],
-        'Le champ doit être un nombre positif',
-      );
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif');
     });
 
     test('nombre strictement positif vaut 0', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
-        puissance_production_annuelle: 0,
+        puissance: 0,
       });
-      assertError(
-        result,
-        ['puissance_production_annuelle'],
-        'Le champ doit être un nombre positif',
-      );
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif');
     });
 
     test('nombre strictement positif avec valeur négative', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
-        puissance_production_annuelle: 0,
+        puissance: 0,
       });
-      assertError(
-        result,
-        ['puissance_production_annuelle'],
-        'Le champ doit être un nombre positif',
-      );
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif');
     });
 
     test('oui/non avec valeur invalide', () => {

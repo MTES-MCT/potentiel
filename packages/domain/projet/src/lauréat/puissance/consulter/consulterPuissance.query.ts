@@ -56,7 +56,7 @@ export const mapToReadModel: MapToReadModel = ({
   puissance,
   puissanceDeSite,
   dateDemandeEnCours,
-  candidature: { puissanceProductionAnnuelle: puissanceInitiale, unitéPuissance },
+  candidature: { puissance: puissanceInitiale, unitéPuissance },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,

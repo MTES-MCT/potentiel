@@ -16,7 +16,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const puissance = await mediator.send<Lauréat.Puissance.PuissanceQuery>({
+      const puissanceReadModel = await mediator.send<Lauréat.Puissance.PuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -25,14 +25,14 @@ Alors(
 
       const {
         unitéPuissance,
-        dépôt: { puissanceProductionAnnuelle, puissanceDeSite },
+        dépôt: { puissance, puissanceDeSite },
       } = this.candidatureWorld.mapToExpected();
 
-      const actual = mapToPlainObject(puissance);
+      const actual = mapToPlainObject(puissanceReadModel);
       const expected = mapToPlainObject(
         this.lauréatWorld.puissanceWorld.mapToExpected(
           identifiantProjet,
-          puissanceProductionAnnuelle,
+          puissance,
           unitéPuissance,
           puissanceDeSite,
         ),

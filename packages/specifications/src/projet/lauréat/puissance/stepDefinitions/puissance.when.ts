@@ -63,8 +63,7 @@ async function modifierPuissance(
       ...(ratio !== undefined
         ? {
             puissance:
-              this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
-              Number(ratio),
+              this.candidatureWorld.importerCandidature.dépôtValue.puissance * Number(ratio),
           }
         : {}),
       puissanceDeSite: nouvellePuissanceDeSite,

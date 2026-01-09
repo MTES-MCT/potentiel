@@ -114,8 +114,7 @@ async function vérifierChangementPuissance(
     const expected = mapToPlainObject(
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToExpected({
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        puissanceActuelle:
-          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
+        puissanceActuelle: this.candidatureWorld.importerCandidature.values.puissanceValue,
         statut,
       }),
     );

@@ -87,7 +87,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     nomCandidat: candidature.dépôt.nomCandidat,
     nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
     emailContact: candidature.dépôt.emailContact.formatter(),
-    puissanceProductionAnnuelle: candidature.dépôt.puissanceProductionAnnuelle,
+    puissance: candidature.dépôt.puissance,
     prixReference: candidature.dépôt.prixReference,
     societeMere: candidature.dépôt.sociétéMère,
     puissanceALaPointe: candidature.dépôt.puissanceALaPointe,
