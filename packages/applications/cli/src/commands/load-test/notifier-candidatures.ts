@@ -71,6 +71,7 @@ export class NotifierCandidatures extends Command {
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
+        utilisateur: Email.système.formatter(),
         appelOffre,
         période: String(periode),
         estNotifiée: false,
