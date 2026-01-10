@@ -17,9 +17,11 @@ type DossierRaccordement = {
   localité: Localité.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   dateMiseEnService?: DateTime.ValueType;
+  dateDemandeComplèteRaccordement?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
   puissance: number;
+  prixReference: number;
   unitéPuissance: UnitéPuissance.ValueType;
 
   nomCandidat: string;
@@ -163,34 +165,39 @@ export const mapToReadModel: MapToReadModelProps = ({
   identifiantGestionnaireRéseau,
   référence,
   miseEnService,
+  demandeComplèteRaccordement,
   lauréat: { nomProjet, localité, notifiéLe },
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
-  candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
+  candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance, prixReference },
   achèvement,
-}) => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet,
-    localité: Localité.bind(localité),
-    référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    dateMiseEnService: miseEnService
+}) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  localité: Localité.bind(localité),
+  référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
+  dateDemandeComplèteRaccordement:
+    demandeComplèteRaccordement && demandeComplèteRaccordement.dateQualification
+      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+      : undefined,
+  dateMiseEnService:
+    miseEnService && miseEnService.dateMiseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
-    identifiantGestionnaireRéseau:
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        identifiantGestionnaireRéseau,
-      ),
-    raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
-    puissance,
-    unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
-    dateNotification: DateTime.convertirEnValueType(notifiéLe),
-    emailContact,
-    nomCandidat,
-    sociétéMère,
-    statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
-    dateAchèvement: achèvement.réel?.date
-      ? DateTime.convertirEnValueType(achèvement.réel.date)
-      : undefined,
-  };
-};
+  identifiantGestionnaireRéseau:
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
+  raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
+  puissance,
+  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+  dateNotification: DateTime.convertirEnValueType(notifiéLe),
+  emailContact,
+  nomCandidat,
+  prixReference,
+  sociétéMère,
+  statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
+  dateAchèvement: achèvement.réel?.date
+    ? DateTime.convertirEnValueType(achèvement.réel.date)
+    : undefined,
+});
