@@ -1931,6 +1931,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.attestation.télécharger',
+  'candidature.lister',
 
   // Lauréat
   'lauréat.modifierSiteDeProduction',

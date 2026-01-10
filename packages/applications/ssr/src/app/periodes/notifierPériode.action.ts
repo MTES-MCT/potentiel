@@ -27,6 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre: [appelOffre],
+        utilisateur: utilisateur.identifiantUtilisateur.email,
         période: periode,
         estNotifiée: false,
       },

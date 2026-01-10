@@ -6,6 +6,7 @@ import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -82,7 +83,9 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       const périodesPartiellementNotifiées =
-        estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
+        estNotifiée === false
+          ? await getPériodesPartiellementNotifiées(appelOffre, utilisateur)
+          : [];
 
       const props = await mapToProps({
         utilisateur,
@@ -118,6 +121,7 @@ const mapToProps: MapToProps = async ({ périodes, utilisateur }) =>
         période.identifiantPériode.appelOffre,
         période.identifiantPériode.période,
         période.estNotifiée,
+        utilisateur,
       );
 
       const props: PériodeListItemProps = {
@@ -140,11 +144,13 @@ const getCandidaturesStatsForPeriode = async (
   appelOffre: string,
   periode: string,
   estNotifiée: boolean,
+  utilisateur: PotentielUtilisateur,
 ) => {
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       appelOffre: [appelOffre],
+      utilisateur: utilisateur.identifiantUtilisateur.email,
       période: periode,
     },
   });
@@ -166,10 +172,14 @@ const getCandidaturesStatsForPeriode = async (
 /**
  * Périodes notifiées, avec au moins un candidat non notifié
  **/
-async function getPériodesPartiellementNotifiées(appelOffre: string | undefined) {
+async function getPériodesPartiellementNotifiées(
+  appelOffre: string | undefined,
+  utilisateur: PotentielUtilisateur,
+) {
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
+      utilisateur: utilisateur.identifiantUtilisateur.email,
       estNotifiée: false,
       appelOffre: appelOffre ? [appelOffre] : undefined,
     },
