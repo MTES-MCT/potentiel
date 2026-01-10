@@ -1854,8 +1854,8 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.consulter',
 
-  // Export projet
-  'projet.export.exportRaccordement',
+  // Candidature
+  'candidature.lister',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1908,6 +1908,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.attestation.télécharger',
+  'candidature.lister',
 
   // Lauréat
   'lauréat.modifierSiteDeProduction',
@@ -2212,6 +2213,9 @@ const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
+
+  // Candidature
+  'candidature.lister',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {

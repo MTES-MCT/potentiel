@@ -11,6 +11,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -41,6 +42,7 @@ Alors(
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
+        utilisateur: Email.système.formatter(),
         appelOffre: identifiantPériode.appelOffre,
         période: identifiantPériode.période,
       },
@@ -74,6 +76,7 @@ Alors(
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
+        utilisateur: Email.système.formatter(),
         appelOffre: identifiantPériode.appelOffre,
         période: identifiantPériode.période,
       },
@@ -89,6 +92,7 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
+      utilisateur: Email.système.formatter(),
       appelOffre: identifiantPériode.appelOffre,
       période: identifiantPériode.période,
     },
@@ -225,6 +229,7 @@ async function vérifierLauréats(
     const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
+        utilisateur: Email.système.formatter(),
         appelOffre: identifiantPériode.appelOffre,
         période: identifiantPériode.période,
         statut: 'classé',
@@ -271,6 +276,7 @@ async function vérifierÉliminés(
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
+      utilisateur: Email.système.formatter(),
       appelOffre: identifiantPériode.appelOffre,
       période: identifiantPériode.période,
       statut: 'éliminé',

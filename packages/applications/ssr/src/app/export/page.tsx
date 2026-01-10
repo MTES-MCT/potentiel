@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ExportProjetPage } from './exportProjet.page';
 
@@ -12,13 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  return PageWithErrorHandling(async () =>
-    withUtilisateur(async (utilisateur) => {
-      if (!utilisateur.rôle.aLaPermission('projet.export.exportRaccordement')) {
-        return notFound();
-      }
-
-      return <ExportProjetPage />;
-    }),
-  );
+  return PageWithErrorHandling(async () => <ExportProjetPage />);
 }

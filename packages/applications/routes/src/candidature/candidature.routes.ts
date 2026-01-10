@@ -56,3 +56,5 @@ export const prévisualiserAttestation = _avecIdentifiant('/previsualiser-attest
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
 export const téléchargerAttestation = _avecIdentifiant('/telecharger-attestation');
+
+export const exporterFournisseurs = '/candidatures/export-fournisseurs';
