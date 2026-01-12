@@ -11,9 +11,9 @@ import {
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../../(components)/Section';
+import { changementActionnaireNécessiteInstruction } from '../../../../../_helpers/changementActionnaireNécessiteInstruction';
 
 import { ActionnariatDétails } from './ActionnariatDétails';
-import { changementActionnaireNécessiteInstruction } from '../../../../../_helpers/changementActionnaireNécessiteInstruction';
 
 type ActionnariatSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

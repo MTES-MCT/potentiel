@@ -1,7 +1,10 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLauréatInfos, getGarantiesFinancières } from '../laureats/[identifiant]/_helpers';
-import { getCahierDesCharges } from './getCahierDesCharges';
 import { cache } from 'react';
+
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+
+import { getLauréatInfos, getGarantiesFinancières } from '../laureats/[identifiant]/_helpers';
+
+import { getCahierDesCharges } from './getCahierDesCharges';
 
 export const changementActionnaireNécessiteInstruction = cache(
   async (identifiantProjet: IdentifiantProjet.RawType) => {
