@@ -6,7 +6,7 @@ import {
 import { Where } from '@potentiel-domain/entity';
 
 export const changementPuissanceAnnuléProjector = async ({
-  payload: { identifiantProjet },
+  payload: { identifiantProjet, annuléLe },
 }: Lauréat.Puissance.ChangementPuissanceAnnuléEvent) => {
   await updateManyProjections<Lauréat.Puissance.ChangementPuissanceEntity>(
     `changement-puissance`,
@@ -17,6 +17,7 @@ export const changementPuissanceAnnuléProjector = async ({
       },
     },
     {
+      miseÀJourLe: annuléLe,
       demande: {
         statut: Lauréat.Puissance.StatutChangementPuissance.annulé.statut,
       },

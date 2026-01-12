@@ -5,13 +5,9 @@ import {
 import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 
-export const changementReprésentantLégalAnnuléProjector = async (
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent,
-) => {
-  const {
-    payload: { identifiantProjet },
-  } = event;
-
+export const changementReprésentantLégalAnnuléProjector = async ({
+  payload: { identifiantProjet, annuléLe },
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent) => {
   await updateManyProjections<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
     'changement-représentant-légal',
     {
@@ -23,6 +19,7 @@ export const changementReprésentantLégalAnnuléProjector = async (
       },
     },
     {
+      miseÀJourLe: annuléLe,
       demande: {
         statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.annulé.statut,
       },
