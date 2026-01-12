@@ -36,6 +36,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
       dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
       attestationConformité={attestationConformité}
       preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
+      preuveTransmissionAuCocontractantOptionnelle={true}
       demanderMainlevée={{ visible: false, canBeDone: false }}
       lauréatNotifiéLe={lauréatNotifiéLe}
     />
