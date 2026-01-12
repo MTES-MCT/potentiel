@@ -35,5 +35,8 @@ type CommonOptions = {
 export const keepOrUpdateSingleDocument = (options?: CommonOptions) =>
   existingDocument.or(singleDocument(options));
 
+export const keepOrUpdateSingleOptionalDocument = (options?: CommonOptions) =>
+  existingDocument.or(singleDocument({ ...options, optional: true }));
+
 export const keepOrUpdateManyDocuments = (options?: CommonOptions) =>
   existingDocument.or(manyDocuments(options));
