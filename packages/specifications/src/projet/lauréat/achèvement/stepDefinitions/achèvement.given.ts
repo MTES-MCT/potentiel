@@ -36,7 +36,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateAchèvement, transmiseLe, transmisePar } =
-      this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({});
+      this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer();
 
     await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
       type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
