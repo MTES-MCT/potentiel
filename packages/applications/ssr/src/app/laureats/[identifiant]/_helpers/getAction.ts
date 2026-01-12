@@ -64,6 +64,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
 
   if (
     !!demanderChangement &&
+    nécessiteInstruction !== false &&
     rôle.aLaPermission(demanderChangement.permission) &&
     règlesChangement.demande
   ) {
