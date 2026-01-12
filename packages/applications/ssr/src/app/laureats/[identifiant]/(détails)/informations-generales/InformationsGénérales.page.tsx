@@ -14,13 +14,13 @@ type Props = {
 
 export const InformationsGénéralesPage = ({ identifiantProjet }: Props) => (
   <SectionPage title="Informations Générales">
-    <div className="flex flex-col md:flex-row gap-4">
-      <div className="flex flex-1 flex-col gap-4">
+    <div className="flex flex-col md:flex-row gap-4 print:block print:space-y-4">
+      <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
         <CandidatSection identifiantProjet={identifiantProjet} />
         <ReprésentantLégalSection identifiantProjet={identifiantProjet} />
         <ProducteurSection identifiantProjet={identifiantProjet} />
       </div>
-      <div className="flex flex-1 flex-col gap-4">
+      <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
         <ContractualisationSection identifiantProjet={identifiantProjet} />
         <ActionnariatSection identifiantProjet={identifiantProjet} />
       </div>

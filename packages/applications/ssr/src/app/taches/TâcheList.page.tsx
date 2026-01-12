@@ -28,7 +28,7 @@ export const TâcheListPage: FC<TâcheListPageProps> = ({
       actions={[]}
       items={tâches.map((tâche) => ({
         ...tâche,
-        key: IdentifiantProjet.bind(tâche.identifiantProjet).formatter(),
+        key: IdentifiantProjet.bind(tâche.identifiantProjet).formatter() + tâche.typeTâche,
       }))}
       currentPage={currentPage}
       totalItems={total}
