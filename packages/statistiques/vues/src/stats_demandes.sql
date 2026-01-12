@@ -16,7 +16,6 @@ WHERE KEY LIKE 'demande-abandon|%'
 UNION
 --
 -- Recours
--- A TESTER, car pas en prod au moment de l'écriture
 SELECT VALUE->>'identifiantProjet' AS id,
   'recours' AS categorie,
   CAST(VALUE->>'demande.demandéLe' AS timestamp) AS demande,
