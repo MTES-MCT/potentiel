@@ -15,14 +15,14 @@ type TableauDeBordPageProps = {
 
 export const TableauDeBordPage = ({ identifiantProjet }: TableauDeBordPageProps) => (
   <SectionPage title="Tableau de bord">
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 print:block print:space-y-4">
       <AlertesTableauDeBordSection identifiantProjet={identifiantProjet} />
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-1 flex-col gap-4">
+      <div className="flex flex-col md:flex-row gap-4 print:block print:space-y-4">
+        <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
           <ÉtapesProjetSection identifiantProjet={identifiantProjet} />
           <RaccordementSection identifiantProjet={identifiantProjet} />
         </div>
-        <div className="flex flex-1 flex-col gap-4">
+        <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
           <ChiffresClésSection identifiantProjet={identifiantProjet} />
           <CahierDesChargesSection identifiantProjet={identifiantProjet} />
           <AchèvementSection identifiantProjet={identifiantProjet} />
