@@ -91,6 +91,7 @@ import { ImporterOptions } from './actuelles/importer/importerGarantiesFinanciè
 
 type GarantiesFinancièresActuelles = {
   garantiesFinancières: GarantiesFinancières.ValueType;
+  estÉchu: boolean;
 };
 
 type DépôtGarantiesFinancières = {
@@ -171,9 +172,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#statutMainlevée?.estAccordé();
   }
 
-  #estÉchu: boolean = false;
   get estÉchu() {
-    return this.#estÉchu;
+    return this.#actuelles?.estÉchu ?? false;
   }
 
   get aUneAttestation() {
@@ -319,6 +319,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { dateÉchéance, type, attestation, dateConstitution },
   }: GarantiesFinancièresImportéesEvent) {
     this.#actuelles = {
+      estÉchu: false,
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
@@ -332,6 +333,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { type, dateÉchéance },
   }: TypeGarantiesFinancièresImportéEvent) {
     this.#actuelles = {
+      estÉchu: false,
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
@@ -398,6 +400,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { type, dateÉchéance, attestation, dateConstitution },
   }: GarantiesFinancièresModifiéesEvent) {
     this.#actuelles = {
+      estÉchu: false,
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
@@ -483,6 +486,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { dateÉchéance, type, attestation, dateConstitution },
   }: GarantiesFinancièresEnregistréesEvent) {
     this.#actuelles = {
+      estÉchu: false,
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
@@ -503,7 +507,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new DateÉchéanceNonPasséeError();
     }
 
-    if (this.#estÉchu) {
+    if (this.estÉchu) {
       throw new GarantiesFinancièresDéjàÉchuesError();
     }
 
@@ -534,7 +538,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyGarantiesFinancièresÉchuesV1(_: GarantiesFinancièresÉchuesEvent) {
-    this.#estÉchu = true;
+    if (this.#actuelles) {
+      this.#actuelles.estÉchu = true;
+    }
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
@@ -684,8 +690,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     _: DépôtGarantiesFinancièresEnCoursValidéEventV1,
   ) {
     // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
-    this.#actuelles = this.#dépôtEnCours;
-    this.#dépôtEnCours = undefined;
+    if (this.#dépôtEnCours) {
+      this.#actuelles = {
+        ...this.#dépôtEnCours,
+        estÉchu: false,
+      };
+      this.#dépôtEnCours = undefined;
+    }
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV2({
@@ -693,6 +704,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
     this.#dépôtEnCours = undefined;
     this.#actuelles = {
+      estÉchu: false,
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
@@ -761,7 +773,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     this.vérifierQueLeProjetNEstPasExempt();
 
-    if (this.#estÉchu) {
+    if (this.estÉchu) {
       throw new GarantiesFinancièresDéjàÉchuesError();
     }
 
