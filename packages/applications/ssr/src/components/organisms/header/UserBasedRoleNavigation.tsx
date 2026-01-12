@@ -248,6 +248,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
               href: Routes.Gestionnaire.lister,
             },
           },
+          {
+            text: 'Export de données',
+            linkProps: {
+              href: Routes.Export.page,
+            },
+          },
         ],
       },
     ])
@@ -316,6 +322,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Raccordements',
         linkProps: {
           href: Routes.Raccordement.lister,
+        },
+      },
+      {
+        text: 'Export de données',
+        linkProps: {
+          href: Routes.Export.page,
         },
       },
       {
@@ -415,6 +427,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             },
           },
         ],
+      },
+      {
+        text: 'Export de données',
+        linkProps: {
+          href: Routes.Export.page,
+        },
       },
     ])
     .with('grd', () => [

@@ -649,13 +649,6 @@ const référencielPermissions = {
       lister: 'Lauréat.Query.ListerHistoriqueProjet',
     },
   },
-  projet: {
-    export: {
-      query: {
-        exportRaccordement: 'Projet.Query.ExportRaccordement',
-      },
-    },
-  },
 } as const;
 
 /**

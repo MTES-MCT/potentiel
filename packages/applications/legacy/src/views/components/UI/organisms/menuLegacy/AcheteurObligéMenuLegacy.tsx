@@ -3,6 +3,7 @@ import React from 'react';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
+import { Header } from '../Header';
 
 // viovio je crois que je peux supprimer tout ça
 export const AcheteurObligéMenuLegacy = (
@@ -46,5 +47,6 @@ export const AcheteurObligéMenuLegacy = (
         Nom projet
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
+    <Header.MenuItem href={Routes.Export.page}>Export de données</Header.MenuItem>
   </>
 );

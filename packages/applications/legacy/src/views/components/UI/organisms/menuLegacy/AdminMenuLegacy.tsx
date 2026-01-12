@@ -112,6 +112,9 @@ export const AdminMenuLegacy = (
       <DropdownMenu.DropdownItem href={Routes.Gestionnaire.lister}>
         Gérer les gestionnaires de réseau
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Export.page}>
+        Export de données
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );
