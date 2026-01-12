@@ -16,14 +16,15 @@ import {
 } from './events';
 import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './events/mapToChangementReprésentantLégalSuppriméTimelineItemProps';
 
-type MapToReprésentantLégalTimelineItemProps = (
-  readmodel: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
-) => TimelineItemProps;
-
-export const mapToReprésentantLégalTimelineItemProps: MapToReprésentantLégalTimelineItemProps = (
-  readmodel,
-) =>
-  match(readmodel)
+export const mapToReprésentantLégalTimelineItemProps = ({
+  event,
+  isHistoriqueProjet,
+}: {
+  event: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel;
+  isHistoriqueProjet?: true;
+}) =>
+  match(event)
+    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'ReprésentantLégalImporté-V1',
@@ -40,7 +41,8 @@ export const mapToReprésentantLégalTimelineItemProps: MapToReprésentantLégal
       {
         type: 'ChangementReprésentantLégalDemandé-V1',
       },
-      mapToChangementReprésentantLégalDemandéTimelineItemProps,
+      (event) =>
+        mapToChangementReprésentantLégalDemandéTimelineItemProps({ event, isHistoriqueProjet }),
     )
     .with(
       {

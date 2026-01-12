@@ -12,16 +12,20 @@ import {
   mapToRecoursPasséEnInstructionTimelineItemProp,
 } from './events';
 
-export const mapToRecoursTimelineItemProps = (
-  record: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
-) =>
-  match(record)
+export const mapToRecoursTimelineItemProps = ({
+  event,
+  isHistoriqueProjet,
+}: {
+  event: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel;
+  isHistoriqueProjet?: true;
+}) =>
+  match(event)
     .returnType<TimelineItemProps>()
     .with(
       {
         type: 'RecoursDemandé-V1',
       },
-      mapToRecoursDemandéTimelineItemProps,
+      (event) => mapToRecoursDemandéTimelineItemProps({ event, isHistoriqueProjet }),
     )
     .with(
       {

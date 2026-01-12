@@ -1,14 +1,22 @@
+import Button from '@codegouvfr/react-dsfr/Button';
+
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-export const mapToChangementPuissanceDemandéTimelineItemProps = (
-  event: Lauréat.Puissance.ChangementPuissanceDemandéEvent,
-  unitéPuissance: string,
-): TimelineItemProps => {
+export const mapToChangementPuissanceDemandéTimelineItemProps = ({
+  event,
+  unitéPuissance,
+  isHistoriqueProjet,
+}: {
+  event: Lauréat.Puissance.ChangementPuissanceDemandéEvent;
+  unitéPuissance: string;
+  isHistoriqueProjet?: true;
+}): TimelineItemProps => {
   const {
     identifiantProjet,
     demandéLe,
@@ -52,6 +60,17 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
               ).formatter(),
             )}
           />
+        )}
+        {isHistoriqueProjet && (
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
+            }}
+            aria-label={`Voir le détail de la demande de changement de puissance déposée le ${FormattedDate({ date: demandéLe })}`}
+          >
+            Détail de la demande
+          </Button>
         )}
       </div>
     ),

@@ -16,17 +16,20 @@ import {
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
 
-type MapToAbandonTimelineItemProps = (
-  readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
-) => TimelineItemProps;
-
-export const mapToAbandonTimelineItemProps: MapToAbandonTimelineItemProps = (readmodel) =>
-  match(readmodel)
+export const mapToAbandonTimelineItemProps = ({
+  event,
+  isHistoriqueProjet,
+}: {
+  event: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel;
+  isHistoriqueProjet?: true;
+}) =>
+  match(event)
+    .returnType<TimelineItemProps>()
     .with(
       {
         type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),
       },
-      mapToAbandonDemandéTimelineItemProps,
+      (event) => mapToAbandonDemandéTimelineItemProps({ event, isHistoriqueProjet }),
     )
     .with(
       {
