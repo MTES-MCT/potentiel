@@ -1542,9 +1542,6 @@ const policies = {
     accèsDonnées: {
       prix: [],
     },
-    export: {
-      exportRaccordement: [référencielPermissions.projet.export.query.exportRaccordement],
-    },
   },
   appelOffre: {
     consulter: [référencielPermissions.appelOffre.query.consulter],
@@ -1777,9 +1774,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Tâche
   'tâche.consulter',
-
-  // Export projet
-  'projet.export.exportRaccordement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1856,9 +1850,6 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Accès
   'accès.consulter',
-
-  // Export projet
-  'projet.export.exportRaccordement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -2169,9 +2160,6 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Accès
   'accès.consulter',
-
-  // Export projet
-  'projet.export.exportRaccordement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

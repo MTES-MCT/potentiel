@@ -28,8 +28,13 @@ export const GET = async (_: Request) =>
         'siteProduction',
         'societeMere',
         'puissance',
-        'prixReference',
       ];
+
+      const utilisateurPeutVoirPrix = utilisateur.rôle.aLaPermission('projet.accèsDonnées.prix');
+
+      if (utilisateurPeutVoirPrix) {
+        fields.push('prixReference');
+      }
 
       const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
 
@@ -47,26 +52,24 @@ export const GET = async (_: Request) =>
             raisonSocialeGestionnaireRéseau,
             localité: { adresse1, adresse2, codePostal, commune, région, département },
             prixReference,
-          }) => {
-            return {
-              identifiantProjet: identifiantProjet.formatter(),
-              appelOffre: identifiantProjet.appelOffre,
-              periode: identifiantProjet.période,
-              nomProjet,
-              referenceDossier: référenceDossier.formatter(),
-              dateDemandeCompleteRaccordement: dateDemandeComplèteRaccordement
-                ? dateDemandeComplèteRaccordement.date.toLocaleDateString('fr-FR')
-                : undefined,
-              dateMiseEnService: dateMiseEnService
-                ? dateMiseEnService.date.toLocaleDateString('fr-FR')
-                : undefined,
-              gestionnaireReseau: raisonSocialeGestionnaireRéseau,
-              siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} - ${département} - ${région}`,
-              societeMere: sociétéMère,
-              puissance: `${puissance} ${unitéPuissance.formatter()}`,
-              prixReference,
-            };
-          },
+          }) => ({
+            identifiantProjet: identifiantProjet.formatter(),
+            appelOffre: identifiantProjet.appelOffre,
+            periode: identifiantProjet.période,
+            nomProjet,
+            referenceDossier: référenceDossier.formatter(),
+            dateDemandeCompleteRaccordement: dateDemandeComplèteRaccordement
+              ? dateDemandeComplèteRaccordement.date.toLocaleDateString('fr-FR')
+              : undefined,
+            dateMiseEnService: dateMiseEnService
+              ? dateMiseEnService.date.toLocaleDateString('fr-FR')
+              : undefined,
+            gestionnaireReseau: raisonSocialeGestionnaireRéseau,
+            siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} - ${département} - ${région}`,
+            societeMere: sociétéMère,
+            puissance: `${puissance} ${unitéPuissance.formatter()}`,
+            prixReference: utilisateurPeutVoirPrix ? prixReference : undefined,
+          }),
         ),
       );
 
