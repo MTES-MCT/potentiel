@@ -8,27 +8,10 @@ export const computeNombreTotalDemande = async () => {
     insert
     into 
       domain_public_statistic.scalar_statistic
-    values(
+    select
       $1, 
-      (
-        select 
-          count(*) 
-        from 
-          "event_store"."event_stream" 
-        where type like any (array[
-          'AbandonDemandé-V%', 
-          'ChangementActionnaireDemandé-V%', 
-          'ChangementReprésentantLégalDemandé-V%',
-          'RecoursDemandé-V%', 
-          'ChangementPuissanceDemandé-V%',
-          'ChangementActionnaireEnregistré-V%', 
-          'ChangementPuissanceEnregistré-V%', 
-          'ChangementProducteurEnregistré-V%',
-          'ChangementFournisseurEnregistré-V%', 
-          'DélaiDemandé-V%'
-        ])
-      )
-    )
+      count(*)
+    from domain_views.stats_demandes;
     `,
     statisticType,
   );
