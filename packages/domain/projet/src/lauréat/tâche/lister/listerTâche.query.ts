@@ -87,11 +87,13 @@ export const registerListerTâchesQuery = ({
         entity: 'lauréat',
         on: 'identifiantProjet',
         where: {
-          appelOffre: cycle
-            ? cycle === 'PPE2'
-              ? Where.like('PPE2')
-              : Where.notLike('PPE2')
-            : Where.equal(appelOffre),
+          appelOffre: appelOffre
+            ? Where.equal(appelOffre)
+            : cycle
+              ? cycle === 'PPE2'
+                ? Where.like('PPE2')
+                : Where.notLike('PPE2')
+              : undefined,
           nomProjet: Where.like(nomProjet),
         },
       },
