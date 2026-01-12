@@ -4,6 +4,7 @@ import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
+// viovio je crois que je peux supprimer tout ça
 export const AcheteurObligéMenuLegacy = (
   <>
     <MenuLegacyProjet />
