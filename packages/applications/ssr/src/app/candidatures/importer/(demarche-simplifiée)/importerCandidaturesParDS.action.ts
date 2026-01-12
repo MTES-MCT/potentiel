@@ -141,7 +141,7 @@ const action: FormAction<FormState, typeof schema> = async (
           },
           détailsValue: {
             typeImport: 'démarches-simplifiées',
-            demarcheId,
+            demarcheId: demarcheId.toString(),
             pièceJustificativeGf: dossier.fichiers.garantiesFinancières?.url ?? '',
           },
           instructionValue: instruction,

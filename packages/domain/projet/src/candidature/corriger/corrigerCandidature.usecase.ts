@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Dépôt, Instruction } from '..';
+import { Dépôt, DétailCandidature, Instruction } from '..';
 import { IdentifiantProjet } from '../..';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
 
@@ -19,7 +19,7 @@ export type CorrigerCandidatureUseCase = Message<
     corrigéLe: string;
     corrigéPar: string;
     doitRégénérerAttestation?: true;
-    détailsValue?: Record<string, string>;
+    détailsValue?: DétailCandidature.RawType;
   }
 >;
 
@@ -30,9 +30,7 @@ export const registerCorrigerCandidatureUseCase = () => {
     );
     const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
 
-    const détailsMisÀJour = payload.détailsValue && Object.keys(payload.détailsValue).length > 0;
-
-    if (détailsMisÀJour) {
+    if (payload.détailsValue && Object.keys(payload.détailsValue).length > 0) {
       const buf = Buffer.from(JSON.stringify(payload.détailsValue));
       const blob = new Blob([buf]);
       await mediator.send<EnregistrerDocumentProjetCommand>({
@@ -58,9 +56,13 @@ export const registerCorrigerCandidatureUseCase = () => {
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
         doitRégénérerAttestation: payload.doitRégénérerAttestation,
-        détailsMisÀJour: détailsMisÀJour || undefined,
+        détail:
+          payload.détailsValue && Object.keys(payload.détailsValue).length > 0
+            ? payload.détailsValue
+            : undefined,
       },
     });
   };
+
   mediator.register('Candidature.UseCase.CorrigerCandidature', handler);
 };

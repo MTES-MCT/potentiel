@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
-import { Dépôt, Instruction } from '..';
+import { Dépôt, DétailCandidature, Instruction } from '..';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
@@ -16,7 +16,7 @@ export type ImporterCandidatureUseCase = Message<
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
 
-    détailsValue?: Record<string, string | number | boolean>;
+    détailsValue: DétailCandidature.RawType;
     importéLe: string;
     importéPar: string;
   }
@@ -53,6 +53,7 @@ export const registerImporterCandidatureUseCase = () => {
         instruction: Instruction.convertirEnValueType(payload.instructionValue),
         importéLe,
         importéPar: Email.convertirEnValueType(payload.importéPar),
+        détail: payload.détailsValue,
       },
     });
   };

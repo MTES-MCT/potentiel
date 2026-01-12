@@ -61,6 +61,8 @@ import {
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
+import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -204,7 +206,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
     }
 
-    const event: CandidatureImportéeEvent = {
+    const eventCandidatureImportée: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V2',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
@@ -215,7 +217,13 @@ export class CandidatureAggregate extends AbstractAggregate<
       },
     };
 
-    await this.publish(event);
+    await this.publish(eventCandidatureImportée);
+
+    await this.importerDétailCandidature({
+      détail: candidature.détail,
+      importéLe: candidature.importéLe,
+      importéPar: candidature.importéPar,
+    });
   }
 
   async corriger(candidature: CorrigerCandidatureOptions) {
@@ -240,11 +248,19 @@ export class CandidatureAggregate extends AbstractAggregate<
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
-        détailsMisÀJour: candidature.détailsMisÀJour,
+        détailsMisÀJour: candidature.détail ? true : undefined,
       },
     };
 
     await this.publish(event);
+
+    if (candidature.détail) {
+      await this.importerDétailCandidature({
+        détail: candidature.détail,
+        importéLe: candidature.corrigéLe,
+        importéPar: candidature.corrigéPar,
+      });
+    }
   }
 
   async notifier({
@@ -281,6 +297,24 @@ export class CandidatureAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  private async importerDétailCandidature({
+    détail,
+    importéLe,
+    importéPar,
+  }: ImporterDétailCandidatureOptions) {
+    const eventDétailCandidatureImporté: DétailCandidatureImportéEvent = {
+      type: 'DétailCandidatureImporté-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        détail,
+        importéLe: importéLe.formatter(),
+        importéPar: importéPar.formatter(),
+      },
+    };
+
+    await this.publish(eventDétailCandidatureImporté);
   }
 
   private vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(
@@ -475,7 +509,7 @@ export class CandidatureAggregate extends AbstractAggregate<
         },
         (event) => this.applyCandidatureNotifiée(event),
       )
-
+      .with({ type: 'DétailCandidatureImporté-V1' }, (_) => {})
       .exhaustive();
   }
 

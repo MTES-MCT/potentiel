@@ -58,6 +58,27 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
 });
 
 Alors(
+  'le détail de la candidature devrait être consultable',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+    const expectedDétails =
+      this.candidatureWorld.corrigerCandidature.détailsValue ??
+      this.candidatureWorld.importerCandidature.détailsValue;
+
+    const candidatureDétail = await mediator.send<Candidature.ConsulterDétailCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterDétailCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(candidatureDétail), `Détail de la candidature non trouvé`);
+    candidatureDétail.détail.should.be.deep.equal(expectedDétails);
+  },
+);
+
+Alors(
   'le porteur a été prévenu que son attestation a été modifiée',
   async function (this: PotentielWorld) {
     this.notificationWorld.vérifierNotification(
