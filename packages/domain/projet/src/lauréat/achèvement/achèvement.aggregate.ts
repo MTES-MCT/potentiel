@@ -356,12 +356,14 @@ export class AchèvementAggregate extends AbstractAggregate<
       attestation.format,
     );
 
-    this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-      dateTransmissionAuCocontractant,
-      preuveTransmissionAuCocontractant.format,
-    );
+    if (preuveTransmissionAuCocontractant) {
+      this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+        dateTransmissionAuCocontractant,
+        preuveTransmissionAuCocontractant.format,
+      );
+    }
   }
 
   private applyDateAchèvementPrévisionnelCalculéeV1({
@@ -370,7 +372,16 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
   }
 
-  private applyDateAchèvementTransmiseV1(_: DateAchèvementTransmiseEvent) {
+  private applyDateAchèvementTransmiseV1({
+    payload: { identifiantProjet, attestation, transmiseLe: date },
+  }: DateAchèvementTransmiseEvent) {
     this.#estAchevé = true;
+
+    this.#attestationConformité = DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+      date,
+      attestation.format,
+    );
   }
 }

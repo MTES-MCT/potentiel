@@ -25,12 +25,14 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     format,
   ).formatter();
 
-  const preuveTransmission = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-    dateTransmissionAuCocontractant,
-    preuveTransmissionAuCocontractant.format,
-  ).formatter();
+  const preuveTransmission = preuveTransmissionAuCocontractant
+    ? DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+        dateTransmissionAuCocontractant,
+        preuveTransmissionAuCocontractant.format,
+      ).formatter()
+    : undefined;
 
   return {
     date,
@@ -43,12 +45,14 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
           format="pdf"
           url={Routes.Document.télécharger(attestation)}
         />
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la preuve de transmission au cocontractant"
-          format="pdf"
-          url={Routes.Document.télécharger(preuveTransmission)}
-        />
+        {preuveTransmission && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger la preuve de transmission au cocontractant"
+            format="pdf"
+            url={Routes.Document.télécharger(preuveTransmission)}
+          />
+        )}
         <div>
           Date de transmission au cocontractant :{' '}
           <span className="font-semibold">

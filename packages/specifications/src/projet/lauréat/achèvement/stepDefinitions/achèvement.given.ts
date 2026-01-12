@@ -31,6 +31,26 @@ EtantDonné(
 );
 
 EtantDonné(
+  "une date d'achèvement réel transmise pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateAchèvement, transmiseLe, transmisePar } =
+      this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.créer({});
+
+    await mediator.send<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        dateAchèvementValue: dateAchèvement,
+        transmiseLeValue: transmiseLe,
+        transmiseParValue: transmisePar,
+      },
+    });
+  },
+);
+
+EtantDonné(
   "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
   async function (this: PotentielWorld, date: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();

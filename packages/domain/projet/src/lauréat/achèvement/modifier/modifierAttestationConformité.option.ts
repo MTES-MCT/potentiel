@@ -7,6 +7,6 @@ export type ModifierAttestationConformitéOptions = {
   identifiantUtilisateur: Email.ValueType;
   attestation: DocumentProjet.ValueType;
   dateTransmissionAuCocontractant: DateTime.ValueType;
-  preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
+  preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
   date: DateTime.ValueType;
 };

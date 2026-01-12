@@ -71,17 +71,17 @@ export class AchèvementWorld {
         ...this.transmettreAttestationConformitéFixture.mapToExpected(identifiantProjet),
       };
     }
-    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
-      result = {
-        ...result,
-        ...this.modifierAttestationConformitéFixture.mapToExpected(identifiantProjet),
-      };
-    }
     if (this.transmettreDateAchèvementFixture.aÉtéCréé) {
       result = {
         ...result,
         estAchevé: true,
         ...this.transmettreDateAchèvementFixture.mapToExpected(identifiantProjet),
+      };
+    }
+    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+      result = {
+        ...result,
+        ...this.modifierAttestationConformitéFixture.mapToExpected(identifiantProjet),
       };
     }
 
