@@ -9,6 +9,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 
 import { BadgeTâches } from '../(components)/BadgeTâches';
 import { getAction, getLauréatInfos } from '../../_helpers';
+import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -44,10 +45,15 @@ export const getLauréatMenuItems = async ({
   const linkToSection = (text: string, path: string) =>
     link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
   const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
+    const nécessiteInstruction =
+      domain === 'actionnaire'
+        ? await changementActionnaireNécessiteInstruction(identifiantProjet.formatter())
+        : undefined;
     const action = await getAction({
       domain,
       identifiantProjet,
       rôle: utilisateur.rôle,
+      nécessiteInstruction,
     });
     return action ? link(action.labelMenu, action.url) : undefined;
   };

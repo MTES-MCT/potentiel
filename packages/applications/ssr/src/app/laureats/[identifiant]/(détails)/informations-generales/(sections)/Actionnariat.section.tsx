@@ -1,12 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getCahierDesCharges } from '@/app/_helpers';
 import {
   getAction,
   getActionnaireInfos,
-  getGarantiesFinancières,
   getLauréatInfos,
   SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
@@ -15,27 +13,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '../../(components)/Section';
 
 import { ActionnariatDétails } from './ActionnariatDétails';
+import { changementActionnaireNécessiteInstruction } from '../../../../../_helpers/changementActionnaireNécessiteInstruction';
 
 type ActionnariatSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-};
-
-const changementNécessiteInstruction = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  const lauréat = await getLauréatInfos(identifiantProjet.formatter());
-  const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
-  const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-
-  const instructionChangementActionnaire =
-    Lauréat.Actionnaire.InstructionChangementActionnaire.bind({
-      aDesGarantiesFinancièresConstituées: !!actuelles,
-      aUnDépotEnCours: !!dépôt,
-      typeActionnariat: lauréat.actionnariat,
-    });
-
-  return (
-    !!cahierDesCharges.getRèglesChangements('actionnaire').demande &&
-    instructionChangementActionnaire.estRequise()
-  );
 };
 
 const sectionTitle = 'Actionnariat';
@@ -52,9 +33,9 @@ export const ActionnariatSection = ({
 
       const value = mapToPlainObject(actionnaire);
 
-      const nécessiteInstruction =
-        rôle.aLaPermission('actionnaire.demanderChangement') &&
-        (await changementNécessiteInstruction(identifiantProjet));
+      const nécessiteInstruction = await changementActionnaireNécessiteInstruction(
+        identifiantProjet.formatter(),
+      );
 
       const action = actionnaire.dateDemandeEnCours
         ? rôle.aLaPermission('actionnaire.consulterChangement')
