@@ -35,7 +35,7 @@ export const AchèvementSection = ({
       }
 
       return (
-        <Section title={sectionTitle} className={achèvement.value.estAchevé ? '' : 'print:hidden'}>
+        <Section title={sectionTitle} className="print:hidden">
           <AchèvementDétails
             actions={achèvement.actions}
             value={mapToPlainObject(achèvement.value)}
