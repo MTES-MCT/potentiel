@@ -62,3 +62,5 @@ export const modifierDateMiseEnService = (
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
   )}/date-mise-en-service:modifier`;
+
+export const exporter = `/reseaux/raccordements/exporter`;

@@ -26,6 +26,7 @@ import { Auth } from './auth';
 import { StatistiquesPubliques } from './statistiques-publiques';
 import { Utilisateur } from './utilisateur';
 import { Accès } from './accès';
+import { Export } from './export';
 
 export const Routes = {
   Abandon,
@@ -55,4 +56,5 @@ export const Routes = {
   Installation,
   NatureDeLExploitation,
   Éliminé,
+  Export,
 };

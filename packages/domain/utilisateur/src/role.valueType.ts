@@ -2153,6 +2153,9 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Accès
   'accès.consulter',
+
+  // Raccordement
+  'raccordement.listerDossierRaccordement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

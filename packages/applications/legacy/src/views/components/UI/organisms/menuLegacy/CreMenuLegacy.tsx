@@ -58,6 +58,7 @@ export const CreMenuLegacy = (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
+    <Header.MenuItem href={Routes.Export.page}>Export de données</Header.MenuItem>
     <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
       Tableau de bord
     </Header.MenuItem>
