@@ -4,8 +4,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
-import { SectionPage } from '../../../app/laureats/[identifiant]/(détails)/(components)/SectionPage';
-import { Section } from '../../../app/laureats/[identifiant]/(détails)/(components)/Section';
+import { SectionPage } from '../../atoms/menu/SectionPage';
+import { Section } from '../../atoms/menu/Section';
 
 import { PorteurListItem, PorteurListItemProps } from './AccèsListItem';
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';

@@ -7,11 +7,10 @@ import {
   getAction,
   getLauréatInfos,
   getPuissanceInfos,
-  SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { Section } from '../../(components)/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/menu/Section';
 
 import { ContractualisationDétails } from './ContractualisationDétails';
 

@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from '../(components)/SectionPage';
+import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
 import { AutorisationUrbanismeSection } from './(sections)/AutorisationUrbanisme.section';
 import { NatureDeLExploitationSection } from './(sections)/NatureDeLExploitation.section';

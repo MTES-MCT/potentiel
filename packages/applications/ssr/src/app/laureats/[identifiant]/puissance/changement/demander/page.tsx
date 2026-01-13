@@ -11,9 +11,9 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getCahierDesCharges } from '@/app/_helpers';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
-import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
 

@@ -6,11 +6,11 @@ import {
   getAction,
   getActionnaireInfos,
   getLauréatInfos,
-  SectionWithErrorHandling,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { Section } from '../../(components)/Section';
 import { changementActionnaireNécessiteInstruction } from '../../../../../_helpers/changementActionnaireNécessiteInstruction';
 
 import { ActionnariatDétails } from './ActionnariatDétails';

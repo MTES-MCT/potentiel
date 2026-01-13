@@ -5,11 +5,11 @@ import { usePathname } from 'next/navigation';
 
 import { MenuToggle } from './MenuToggle';
 
-type MenuLauréatProps = {
+type MenuProps = {
   items: SideMenuProps.Item[];
 };
 
-export const MenuLauréat = ({ items }: MenuLauréatProps) => {
+export const Menu = ({ items }: MenuProps) => {
   const pathname = usePathname();
 
   return (
@@ -28,10 +28,7 @@ export const MenuLauréat = ({ items }: MenuLauréatProps) => {
   );
 };
 
-const applyCurrentPath = (
-  items: MenuLauréatProps['items'],
-  currentPath: string,
-): MenuLauréatProps['items'] =>
+const applyCurrentPath = (items: MenuProps['items'], currentPath: string): MenuProps['items'] =>
   items.map((item) => {
     if ('items' in item) {
       const items = applyCurrentPath(item.items, currentPath);

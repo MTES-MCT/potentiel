@@ -1,16 +1,16 @@
 import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { Section } from '@/components/atoms/menu/Section';
 
-import { Section } from '../(components)/Section';
 import {
   getAbandonInfos,
   getAchèvement,
   getLauréatInfos,
   getRaccordement,
-  getRecours,
   SectionWithErrorHandling,
 } from '../../_helpers';
+import { getRecours } from '../../../../_helpers/getRecours';
 
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 

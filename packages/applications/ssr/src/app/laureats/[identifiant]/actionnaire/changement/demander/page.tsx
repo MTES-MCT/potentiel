@@ -11,8 +11,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
-import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { DemanderChangementActionnairePage } from './DemanderChangementActionnaire.page';
 

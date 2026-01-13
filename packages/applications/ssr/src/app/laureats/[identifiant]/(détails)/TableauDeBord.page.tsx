@@ -1,6 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from './(components)/SectionPage';
+import { SectionPage } from '@/components/atoms/menu/SectionPage';
+
 import { CahierDesChargesSection } from './(sections)/CahierDesCharges.section';
 import { RaccordementSection } from './(sections)/Raccordement.section';
 import { AchèvementSection } from './(sections)/Achèvement.section';

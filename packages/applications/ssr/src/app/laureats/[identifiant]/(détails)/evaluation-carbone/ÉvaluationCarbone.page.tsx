@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { SectionPage } from '../(components)/SectionPage';
+import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
 import { ÉvaluationCarboneSimplifiéeSection } from './(sections)/ÉvaluationCarboneSimplifiée.section';
 import { FournisseursSection } from './(sections)/Fournisseurs.section';

@@ -5,9 +5,9 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { Section } from '../(components)/Section';
-import { SectionWithErrorHandling } from '../../_helpers';
 import { getCahierDesCharges } from '../../../../_helpers';
 
 import { NoteInnovationDétails } from './NoteInnovationDétails';

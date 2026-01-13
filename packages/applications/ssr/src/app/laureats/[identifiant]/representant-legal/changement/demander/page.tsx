@@ -6,10 +6,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
 import { getReprésentantLégalInfos } from '../../../_helpers';
-import { DemandeEnCoursPage } from '../../../(détails)/(components)/DemandeEnCours.page';
 
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
 

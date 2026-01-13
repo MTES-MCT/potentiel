@@ -2,16 +2,12 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  getAction,
-  getInstallationInfos,
-  SectionWithErrorHandling,
-} from '@/app/laureats/[identifiant]/_helpers';
+import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { Section } from '../../(components)/Section';
-import { Champ } from '../../(components)/Champ';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/menu/Section';
+import { Champ } from '@/components/atoms/menu/Champ';
 
 type DispositifDeStockageSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

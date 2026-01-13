@@ -2,8 +2,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ChampAvecAction } from '@/app/laureats/[identifiant]/_helpers';
-
-import { Champ } from '../../(components)/Champ';
+import { Champ } from '@/components/atoms/menu/Champ';
 
 export type AutorisationUrbanismeDétailsProps = ChampAvecAction<
   PlainType<Lauréat.ConsulterLauréatReadModel['autorisationDUrbanisme']>

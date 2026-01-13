@@ -15,8 +15,7 @@ import {
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { DemandeEnCoursPage } from '../../(détails)/(components)/DemandeEnCours.page';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { DemanderDélaiPage } from './DemanderDélai.page';
 

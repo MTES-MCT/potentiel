@@ -5,14 +5,10 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { Section } from '../(components)/Section';
-import {
-  getAbandonInfos,
-  getLauréat,
-  getRaccordement,
-  SectionWithErrorHandling,
-} from '../../_helpers';
+import { getAbandonInfos, getLauréat, getRaccordement } from '../../_helpers';
 
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
