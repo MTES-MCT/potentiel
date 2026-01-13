@@ -71,6 +71,34 @@ Quand(
 );
 
 Quand(
+  "l'admin modifie l'attestation de conformité pour le projet lauréat sans preuve de transmission au cocontractant",
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const { attestation, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.adminFixture.email,
+          preuve: undefined,
+        });
+
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: convertFixtureFileToReadableStream(attestation),
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   "l'admin modifie l'attestation de conformité pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
@@ -88,7 +116,8 @@ Quand(
           attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
+          preuveTransmissionAuCocontractantValue:
+            preuve && convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
         },
       });
@@ -122,7 +151,8 @@ Quand(
           attestationValue: convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
+          preuveTransmissionAuCocontractantValue:
+            preuve && convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
         },
       });

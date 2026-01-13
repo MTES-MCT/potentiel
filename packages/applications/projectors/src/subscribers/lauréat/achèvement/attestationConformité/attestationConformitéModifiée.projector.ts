@@ -10,11 +10,13 @@ export const attestationConformitéModifiéeProjector = async ({
       réel: {
         date: payload.dateTransmissionAuCocontractant,
         attestationConformité: { format: payload.attestation.format, transmiseLe: payload.date },
-        preuveTransmissionAuCocontractant: {
-          format: payload.preuveTransmissionAuCocontractant.format,
-          transmiseLe: payload.dateTransmissionAuCocontractant,
-        },
         dernièreMiseÀJour: { date: payload.date, utilisateur: payload.utilisateur },
+        ...(payload.preuveTransmissionAuCocontractant && {
+          preuveTransmissionAuCocontractant: {
+            format: payload.preuveTransmissionAuCocontractant.format,
+            transmiseLe: payload.dateTransmissionAuCocontractant,
+          },
+        }),
       },
     },
   );

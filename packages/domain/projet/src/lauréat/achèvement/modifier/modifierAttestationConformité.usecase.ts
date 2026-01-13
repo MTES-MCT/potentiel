@@ -17,7 +17,7 @@ export type ModifierAttestationConformitéUseCase = Message<
       format: string;
     };
     dateTransmissionAuCocontractantValue: string;
-    preuveTransmissionAuCocontractantValue: {
+    preuveTransmissionAuCocontractantValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -45,12 +45,15 @@ export const registerModifierAttestationConformitéUseCase = () => {
     const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
       dateTransmissionAuCocontractantValue,
     );
-    const preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-      dateTransmissionAuCocontractantValue,
-      preuveTransmissionAuCocontractantValue.format,
-    );
+    const preuveTransmissionAuCocontractant = preuveTransmissionAuCocontractantValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
+          dateTransmissionAuCocontractantValue,
+          preuveTransmissionAuCocontractantValue.format,
+        )
+      : undefined;
+
     const date = DateTime.convertirEnValueType(dateValue);
 
     const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
@@ -63,13 +66,15 @@ export const registerModifierAttestationConformitéUseCase = () => {
       },
     });
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: preuveTransmissionAuCocontractantValue.content,
-        documentProjet: preuveTransmissionAuCocontractant,
-      },
-    });
+    if (preuveTransmissionAuCocontractant) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: preuveTransmissionAuCocontractantValue!.content,
+          documentProjet: preuveTransmissionAuCocontractant,
+        },
+      });
+    }
 
     await mediator.send<ModifierAttestationConformitéCommand>({
       type: 'Lauréat.AchèvementCommand.ModifierAttestationConformité',
