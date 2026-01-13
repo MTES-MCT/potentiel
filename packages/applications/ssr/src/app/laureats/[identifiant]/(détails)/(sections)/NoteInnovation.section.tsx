@@ -1,13 +1,15 @@
+import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
+
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
+
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../(components)/Section';
 import { SectionWithErrorHandling } from '../../_helpers';
 
-import { mediator } from 'mediateur';
-import { Option } from '@potentiel-libraries/monads';
 import { NoteInnovationDétails } from './NoteInnovationDétails';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { notFound } from 'next/navigation';
 
 type NoteInnovationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

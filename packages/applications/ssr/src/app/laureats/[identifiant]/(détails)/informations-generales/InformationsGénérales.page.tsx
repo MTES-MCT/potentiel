@@ -1,20 +1,19 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '../(components)/SectionPage';
+import { NoteInnovationSection } from '../(sections)/NoteInnovation.section';
 
 import { ProducteurSection } from './(sections)/Producteur.section';
 import { ReprésentantLégalSection } from './(sections)/ReprésentantLégal.section';
 import { ActionnariatSection } from './(sections)/Actionnariat.section';
 import { ContractualisationSection } from './(sections)/Contractualisation.section';
 import { CandidatSection } from './(sections)/Candidat.section';
-import { NoteInnovationSection } from '../(sections)/NoteInnovation.section';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.RawType;
-  isInnovation?: boolean;
 };
 
-export const InformationsGénéralesPage = ({ identifiantProjet, isInnovation }: Props) => (
+export const InformationsGénéralesPage = ({ identifiantProjet }: Props) => (
   <SectionPage title="Informations Générales">
     <div className="flex flex-col md:flex-row gap-4 print:block print:space-y-4">
       <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
