@@ -162,21 +162,20 @@ const mapToAction: MapToAction = (
     });
   }
 
-  // TODO
-  // if (utilisateur.rôle.aLaPermission('...')) {
-  //   actions.push({
-  //     type: 'exporter-fournisseur',
-  //     label: 'Données fournisseur à la candidature',
-  //     url: Routes.Candidature.exporterFournisseur({
-  //       appelOffre,
-  //       periode,
-  //       famille,
-  //       typeActionnariat,
-  //     }),
-  //     description:
-  //       "Exporter l'intégralité des données fournisseurs telles qu'importées à la candidature du projet, sans tenir compte des éventuelles modifications apportées au cours de la vie du projet",
-  //   });
-  // }
+  if (utilisateur.rôle.aLaPermission('candidature.exporterFournisseurs')) {
+    actions.push({
+      type: 'exporter-fournisseur',
+      label: 'Données fournisseur à la candidature',
+      url: Routes.Candidature.exporterFournisseur({
+        appelOffre,
+        periode,
+        famille,
+        typeActionnariat,
+      }),
+      description:
+        "Exporter l'intégralité des données fournisseurs telles qu'importées à la candidature du projet, sans tenir compte des éventuelles modifications apportées au cours de la vie du projet",
+    });
+  }
 
   return actions;
 };

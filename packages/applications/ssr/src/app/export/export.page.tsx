@@ -7,7 +7,11 @@ import { ListFilters, ListFiltersProps } from '@/components/molecules/ListFilter
 
 export type ExportPageProps = {
   actions: Array<{
-    type: 'exporter-raccordement' | 'lister-lauréat-enrichi' | 'lister-éliminé-enrichi';
+    type:
+      | 'exporter-raccordement'
+      | 'exporter-fournisseur'
+      | 'lister-lauréat-enrichi'
+      | 'lister-éliminé-enrichi';
     label: string;
     url: string;
     description?: string;

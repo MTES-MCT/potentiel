@@ -57,4 +57,35 @@ export const prévisualiserAttestation = _avecIdentifiant('/previsualiser-attest
 // une fois qu'on aura migré la page Projet
 export const téléchargerAttestation = _avecIdentifiant('/telecharger-attestation');
 
-export const exporterFournisseurs = '/candidatures/export-fournisseurs';
+export const exporterFournisseur = (filters: {
+  appelOffre?: string[];
+  periode?: string;
+  famille?: string;
+  statut?: string[];
+  typeActionnariat?: string[];
+}) => {
+  const searchParams = new URLSearchParams();
+
+  if (filters.appelOffre?.length) {
+    filters.appelOffre.forEach((value) => {
+      searchParams.append('appelOffre', value);
+    });
+  }
+  if (filters.periode) {
+    searchParams.append('periode', filters.periode);
+  }
+  if (filters.famille) {
+    searchParams.append('famille', filters.famille);
+  }
+  if (filters.statut?.length) {
+    filters.statut.forEach((value) => {
+      searchParams.append('statut', value);
+    });
+  }
+  if (filters.typeActionnariat?.length) {
+    filters.typeActionnariat.forEach((value) => {
+      searchParams.append('typeActionnariat', value);
+    });
+  }
+  return `/candidatures/export-fournisseurs${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};
