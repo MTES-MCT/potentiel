@@ -45,7 +45,7 @@ const mapToItem = ({
       status: 'warning',
       date: DateTime.now().formatter(),
       title: 'Étape inconnue',
-      content: 'Détails de la mainlevée non disponibles',
+      details: 'Détails de la mainlevée non disponibles',
     };
   }
   const courrierRejet = DocumentProjet.bind(rejet.courrierRejet).formatter();
@@ -57,7 +57,7 @@ const mapToItem = ({
         Mainlevée rejetée par <span className="font-semibold">{rejet.rejetéPar.email}</span>
       </div>
     ),
-    content: (
+    details: (
       <div className="flex flex-col gap-1 justify-center">
         <div>
           Mainlevée demandée le :{' '}

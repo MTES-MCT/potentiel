@@ -30,13 +30,15 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => {
         <TimelineItem
           key={`${item.title}-${item.date}`}
           icon={item.icon}
-          content={item.content}
+          details={item.details}
           date={item.date}
           type={item.type}
           status={item.status}
           title={item.title}
-          acteur={item.acteur}
+          actor={item.actor}
           isLast={index === filteredItems.length - 1 ? true : undefined}
+          file={item.file}
+          redirect={item.redirect}
         />
       ))}
     </MuiTimeline>

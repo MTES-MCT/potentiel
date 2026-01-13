@@ -10,6 +10,6 @@ export const mapToChangementActionnaireAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: "Demande de changement d'actionnaire annulée",
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };

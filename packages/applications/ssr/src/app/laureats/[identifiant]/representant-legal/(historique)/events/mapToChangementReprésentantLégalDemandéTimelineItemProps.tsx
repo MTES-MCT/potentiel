@@ -1,5 +1,3 @@
-import Button from '@codegouvfr/react-dsfr/Button';
-
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -21,8 +19,13 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = ({
   return {
     date: demandéLe,
     title: 'Demande de changement de représentant légal déposée',
-    acteur: demandéPar,
-    content: (
+    actor: demandéPar,
+    redirect: isHistoriqueProjet && {
+      url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
+      ariaLabel: `Voir le détail de la demande de changement de représentant légal déposée le ${FormattedDate({ date: demandéLe })}`,
+      label: 'Détail de la demande',
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Type :{' '}
@@ -33,17 +36,6 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = ({
         <div>
           Nom : <span className="font-semibold">{nomReprésentantLégal}</span>
         </div>
-        {isHistoriqueProjet && (
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
-            }}
-            aria-label={`Voir le détail de la demande de changement de représentant légal déposée le ${FormattedDate({ date: demandéLe })}`}
-          >
-            Détail de la demande
-          </Button>
-        )}
       </div>
     ),
   };

@@ -37,7 +37,8 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
   return {
     date,
     title: "Modification de l'attestation de conformité",
-    content: (
+    actor: utilisateur,
+    details: (
       <div className="flex flex-col gap-2">
         <DownloadDocument
           className="mb-0"
@@ -58,9 +59,6 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
           <span className="font-semibold">
             {<FormattedDate date={dateTransmissionAuCocontractant} />}
           </span>
-        </div>
-        <div>
-          Modification faite par : <span className="font-semibold">{utilisateur}</span>
         </div>
       </div>
     ),

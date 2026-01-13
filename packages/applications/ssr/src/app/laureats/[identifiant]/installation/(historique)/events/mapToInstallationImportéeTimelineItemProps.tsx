@@ -11,7 +11,7 @@ export const mapToInstallationImportéeTimelineItemProps = (
   return {
     date: importéeLe,
     title: 'Candidature :',
-    content: (
+    details: (
       <>
         <div>
           <div>Typologie du projet : </div>

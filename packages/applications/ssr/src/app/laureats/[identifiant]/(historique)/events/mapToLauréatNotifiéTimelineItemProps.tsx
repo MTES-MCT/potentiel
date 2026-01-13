@@ -1,9 +1,8 @@
-import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToLauréatNotifiéTimelineItemProps = (
   event: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
@@ -18,20 +17,16 @@ export const mapToLauréatNotifiéTimelineItemProps = (
   return {
     date: notifiéLe,
     title: 'Projet notifié lauréat',
-    content: doitAfficherLienAttestationDésignation ? (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger l'attestation"
-        format="pdf"
-        url={Routes.Document.télécharger(
-          DocumentProjet.convertirEnValueType(
+    file: doitAfficherLienAttestationDésignation
+      ? {
+          document: DocumentProjet.convertirEnValueType(
             identifiantProjet,
             'attestation',
             notifiéLe,
             format,
-          ).formatter(),
-        )}
-      />
-    ) : undefined,
+          ),
+          ariaLabel: `Télécharger l'attestation de désignation notifiée le ${formatDateToText(notifiéLe)}`,
+        }
+      : undefined,
   };
 };

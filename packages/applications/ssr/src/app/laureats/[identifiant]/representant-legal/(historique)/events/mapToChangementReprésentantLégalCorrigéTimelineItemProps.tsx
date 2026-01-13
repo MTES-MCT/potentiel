@@ -12,8 +12,8 @@ export const mapToChangementReprésentantLégalCorrigéTimelineItemProps = (
   return {
     date: corrigéLe,
     title: 'Demande de changement de représentant légal corrigée',
-    acteur: corrigéPar,
-    content: (
+    actor: corrigéPar,
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Type :{' '}

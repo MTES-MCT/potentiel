@@ -22,9 +22,9 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
       été changée
     </div>
   ),
-  acteur:
+  actor:
     event.type === 'RéférenceDossierRacordementModifiée-V2' ? event.payload.modifiéePar : undefined,
-  content: (
+  details: (
     <div>
       Nouvelle référence :{' '}
       <span className="font-semibold">{event.payload.nouvelleRéférenceDossierRaccordement}</span>

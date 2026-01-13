@@ -10,8 +10,8 @@ export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
   return {
     date: demandéLe,
     title: 'La mainlevée des garanties financières a été demandée',
-    acteur: demandéPar,
-    content: (
+    actor: demandéPar,
+    details: (
       <div>
         Motif : <span className="font-semibold">{motif}</span>
       </div>

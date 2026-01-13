@@ -10,6 +10,6 @@ export const mapToChangementPuissanceAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: 'Demande de changement de puissance annulée',
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };

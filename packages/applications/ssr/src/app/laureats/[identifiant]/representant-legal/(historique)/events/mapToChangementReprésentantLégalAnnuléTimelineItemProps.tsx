@@ -10,6 +10,6 @@ export const mapToChangementReprésentantLégalAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: 'Demande de changement de représentant légal annulée',
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };

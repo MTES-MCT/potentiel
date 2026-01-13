@@ -10,6 +10,6 @@ export const mapToRecoursPasséEnInstructionTimelineItemProp = (
   return {
     date: passéEnInstructionLe,
     title: 'Demande de recours passée en instruction',
-    acteur: passéEnInstructionPar,
+    actor: passéEnInstructionPar,
   };
 };

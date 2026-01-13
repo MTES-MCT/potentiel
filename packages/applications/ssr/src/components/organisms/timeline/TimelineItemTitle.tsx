@@ -4,21 +4,21 @@ import { Email } from '@potentiel-domain/common';
 
 export type TimelineItemTitleProps = {
   title: ReactNode;
-  acteur?: Email.RawType;
+  actor?: Email.RawType;
 };
 
-export const TimelineItemTitle: FC<TimelineItemTitleProps> = ({ acteur, title }) => {
+export const TimelineItemTitle: FC<TimelineItemTitleProps> = ({ actor, title }) => {
   if (
-    !acteur ||
-    Email.convertirEnValueType(acteur).estSystème() ||
-    Email.convertirEnValueType(acteur).estInconnu()
+    !actor ||
+    Email.convertirEnValueType(actor).estSystème() ||
+    Email.convertirEnValueType(actor).estInconnu()
   ) {
     return <div>{title}</div>;
   }
 
   return (
     <div>
-      {title} par <span className="font-semibold">{acteur}</span>
+      {title} par <span className="font-semibold">{actor}</span>
     </div>
   );
 };

@@ -10,8 +10,8 @@ export const mapToLauréatCahierDesChargesChoisiTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Cahier des charges modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    details: (
       <div>
         Nouveau cahier des charges choisi :{' '}
         <span className="font-semibold">{cahierDesCharges}</span>

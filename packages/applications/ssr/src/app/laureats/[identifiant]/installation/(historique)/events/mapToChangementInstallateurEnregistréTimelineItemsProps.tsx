@@ -10,8 +10,8 @@ export const mapToChangementInstallateurEnregistréTimelineItemsProps = (
   return {
     date: enregistréLe,
     title: 'Installateur modifié',
-    acteur: enregistréPar,
-    content: (
+    actor: enregistréPar,
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvel installateur : <span className="font-semibold">{installateur}</span>

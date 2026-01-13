@@ -14,7 +14,7 @@ export const mapToDateAchèvementPrévisionnelCalculéeProps = (
   return {
     date,
     title: getTitleFromRaison(raison),
-    content: (
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Durée : <span className="font-semibold">{getNombreDeMois(raison)} mois</span>

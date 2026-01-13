@@ -46,7 +46,7 @@ const mapToTimelineItem = ({
         <StatutGarantiesFinancièresBadge statut={statut.statut} />
       </div>
     ),
-    content: (
+    details: (
       <div>
         {gf ? (
           <div>

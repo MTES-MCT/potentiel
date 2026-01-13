@@ -10,6 +10,6 @@ export const mapToDemandeDélaiPasséeEnInstructionTimelineItemProps = (
   return {
     date: passéeEnInstructionLe,
     title: 'Demande de délai passée en instruction',
-    acteur: passéeEnInstructionPar,
+    actor: passéeEnInstructionPar,
   };
 };

@@ -12,6 +12,6 @@ export const mapToChangementReprésentantLégalRejetéTimelineItemProps = (
     title: rejetAutomatique
       ? 'Demande de changement de représentant légal rejetée par le préfet de la région du projet'
       : 'Demande de changement de représentant légal rejetée',
-    acteur: rejetAutomatique ? undefined : rejetéPar,
+    actor: rejetAutomatique ? undefined : rejetéPar,
   };
 };

@@ -12,6 +12,6 @@ export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps
   return {
     date: suppriméLe,
     title: 'Les nouvelles garanties financières (soumises à instruction) ont été supprimées',
-    acteur: suppriméPar,
+    actor: suppriméPar,
   };
 };

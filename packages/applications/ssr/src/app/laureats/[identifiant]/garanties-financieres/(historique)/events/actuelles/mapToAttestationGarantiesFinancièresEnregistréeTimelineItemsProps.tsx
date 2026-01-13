@@ -10,6 +10,6 @@ export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps
   return {
     date: enregistréLe,
     title: 'Attestation de garanties financières enregistrée',
-    acteur: enregistréPar,
+    actor: enregistréPar,
   };
 };

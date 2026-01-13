@@ -1,9 +1,8 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToPuissanceModifiéeTimelineItemsProps = (
   event: Lauréat.Puissance.PuissanceModifiéeEvent,
@@ -22,8 +21,17 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (
   return {
     date: modifiéeLe,
     title: 'Puissance modifiée',
-    acteur: modifiéePar,
-    content: (
+    actor: modifiéePar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+        modifiéeLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif joint au changement de puissance enregistré le ${formatDateToText(modifiéeLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvelle puissance :{' '}
@@ -40,21 +48,6 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (
           </div>
         )}
         <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-                modifiéeLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
   };

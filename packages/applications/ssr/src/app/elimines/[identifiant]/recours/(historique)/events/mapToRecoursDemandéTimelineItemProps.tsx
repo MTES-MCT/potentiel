@@ -1,12 +1,9 @@
-import Button from '@codegouvfr/react-dsfr/Button';
-
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToRecoursDemandéTimelineItemProps = ({
   event,
@@ -22,37 +19,25 @@ export const mapToRecoursDemandéTimelineItemProps = ({
     pièceJustificative: { format },
   } = event.payload;
 
-  const pièceJustificative = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
-    demandéLe,
-    format,
-  ).formatter();
-
   return {
     date: demandéLe,
     title: 'Demande de recours déposée',
-    acteur: demandéPar,
-    content: (
-      <div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format="pdf"
-          url={Routes.Document.télécharger(pièceJustificative)}
-        />
-        {isHistoriqueProjet && (
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Recours.détail(identifiantProjet, demandéLe),
-            }}
-            aria-label={`Voir le détail du recours déposé le ${FormattedDate({ date: demandéLe })}`}
-          >
-            Détail de la demande
-          </Button>
-        )}
-      </div>
-    ),
+    actor: demandéPar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
+        demandéLe,
+        format,
+      ),
+      ariaLabel: `Télécharger le justificatif joint pour la demande de recours déposée le ${formatDateToText(demandéLe)}`,
+    },
+    redirect: isHistoriqueProjet
+      ? {
+          label: 'Détail de la demande',
+          ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,
+          url: Routes.Recours.détail(identifiantProjet, demandéLe),
+        }
+      : undefined,
   };
 };

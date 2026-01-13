@@ -1,10 +1,9 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToActionnaireModifiéTimelineItemProps = (
   event: Lauréat.Actionnaire.ActionnaireModifiéEvent,
@@ -15,28 +14,22 @@ export const mapToActionnaireModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Actionnaire modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
+        modifiéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif de la modification d'actionnaire enregistrée le ${formatDateToText(modifiéLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
         </div>
         <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-                modifiéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
   };

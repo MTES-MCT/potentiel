@@ -10,6 +10,6 @@ export const mapToRecoursAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: 'Demande de recours annulée',
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };
