@@ -1,4 +1,3 @@
-import { ParserOptions } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -32,7 +31,7 @@ export const GET = async (_: Request) =>
         },
       });
 
-      const fields: ParserOptions['fields'] = [
+      const fields: ExportCSV.ParseJsonProps<DossierRaccordementCSV>['fields'] = [
         { label: 'Identifiant projet', value: 'identifiantProjet' },
         { label: "Appel d'offre", value: 'appelOffre' },
         { label: 'Période', value: 'periode' },

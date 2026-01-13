@@ -17,7 +17,6 @@
     "@emotion/server": "11.11.0",
     "@emotion/styled": "11.14.0",
     "@iframe-resizer/react": "5.4.4",
-    "@json2csv/plainjs": "7.0.6",
     "@mui/lab": "7.0.0-beta.11",
     "@potentiel-applications/api": "*",
     "@potentiel-applications/api-documentation": "*",
