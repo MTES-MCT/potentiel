@@ -1,17 +1,12 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
 
-export const mapToRecoursDemandéTimelineItemProps = ({
-  event,
-  isHistoriqueProjet,
-}: {
-  event: Éliminé.Recours.RecoursDemandéEvent;
-  isHistoriqueProjet?: true;
-}): TimelineItemProps => {
+export const mapToRecoursDemandéHistoriqueDemandeTimelineItemProps = (
+  event: Éliminé.Recours.RecoursDemandéEvent,
+): TimelineItemProps => {
   const {
     demandéLe,
     demandéPar,
@@ -30,14 +25,7 @@ export const mapToRecoursDemandéTimelineItemProps = ({
         demandéLe,
         format,
       ),
-      ariaLabel: `Télécharger le justificatif joint pour la demande de recours déposée le ${formatDateToText(demandéLe)}`,
+      ariaLabel: `Télécharger le justificatif joint à la demande de recours déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: isHistoriqueProjet
-      ? {
-          label: 'Détail de la demande',
-          ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,
-          url: Routes.Recours.détail(identifiantProjet, demandéLe),
-        }
-      : undefined,
   };
 };

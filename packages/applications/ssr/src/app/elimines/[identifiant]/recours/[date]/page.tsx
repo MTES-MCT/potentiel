@@ -12,7 +12,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimelineItemProps';
+import { mapToRecoursHistoriqueDemandeTimelineItemProps } from '../(historique)/mapToRecoursHistoriqueDemandeTimelineItemProps';
 
 import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
 
@@ -59,7 +59,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             statut: recours.statut.value,
           })}
           historique={historique.items.map((item) =>
-            mapToRecoursTimelineItemProps({ event: item }),
+            mapToRecoursHistoriqueDemandeTimelineItemProps(item),
           )}
         />
       );
