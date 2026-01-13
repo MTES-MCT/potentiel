@@ -1,4 +1,4 @@
-import { Parser } from '@json2csv/plainjs';
+import { Parser, ParserOptions } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -16,24 +16,24 @@ export const GET = async (_: Request) =>
         },
       });
 
-      const fields = [
-        'identifiantProjet',
-        'appelOffre',
-        'periode',
-        'nomProjet',
-        'referenceDossier',
-        'dateDemandeCompleteRaccordement',
-        'dateMiseEnService',
-        'gestionnaireReseau',
-        'siteProduction',
-        'societeMere',
-        'puissance',
+      const fields: ParserOptions['fields'] = [
+        { label: 'Identifiant projet', value: 'identifiantProjet' },
+        { label: "Appel d'offre", value: 'appelOffre' },
+        { label: 'Période', value: 'periode' },
+        { label: 'Nom projet', value: 'nomProjet' },
+        { label: 'Référence dossier', value: 'referenceDossier' },
+        { label: 'Date demande complète raccordement', value: 'dateDemandeCompleteRaccordement' },
+        { label: 'Date mise en service', value: 'dateMiseEnService' },
+        { label: 'Gestionnaire réseau', value: 'gestionnaireReseau' },
+        { label: 'Site de production', value: 'siteProduction' },
+        { label: 'Société mère', value: 'societeMere' },
+        { label: 'Puissance', value: 'puissance' },
       ];
 
       const utilisateurPeutVoirPrix = utilisateur.rôle.aLaPermission('projet.accèsDonnées.prix');
 
       if (utilisateurPeutVoirPrix) {
-        fields.push('prixReference');
+        fields.push({ label: 'Prix de référence', value: 'prixReference' });
       }
 
       const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
