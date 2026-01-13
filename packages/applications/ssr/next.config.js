@@ -3,6 +3,14 @@ const { withSentryConfig } = require('@sentry/nextjs');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: { webpackBuildWorker: true },
+  async rewrites() {
+    return [
+      {
+        source: '/projet/:guid/details.html',
+        destination: '/legacy/:guid',
+      },
+    ];
+  },
   webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.woff2$/,
