@@ -97,4 +97,15 @@ SELECT VALUE->>'identifiantProjet' AS id,
   NULL AS rejet,
   'information-enregistrée' as statut
 FROM domain_views.projection
-WHERE KEY LIKE 'changement-fournisseur|%';
+WHERE KEY LIKE 'changement-fournisseur|%'
+UNION
+-- 
+-- Mainlevée des garanties financières
+SELECT VALUE->>'identifiantProjet' AS id,
+  'mainlevée' as categorie,
+  CAST(VALUE->>'demande.demandéeLe' AS timestamp) AS demande,
+  CAST(VALUE->>'accord.accordéeLe' AS timestamp) AS accord,
+  CAST(VALUE->>'rejet.rejetéLe' AS timestamp) AS rejet,
+  value->>'statut' as statut
+FROM domain_views.projection
+WHERE KEY LIKE 'mainlevee-garanties-financieres|%';
