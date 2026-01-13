@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { parseCsv } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
@@ -23,7 +23,7 @@ export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await parseCsv(
+    const { parsedData, rawData } = await ImportCSV.parseCsv(
       fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
       { encoding: 'win1252', delimiter: ';' },

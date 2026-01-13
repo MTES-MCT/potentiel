@@ -9,7 +9,7 @@ import {
   getDémarcheIdParDossier,
 } from '@potentiel-infrastructure/ds-api-client';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { parseCsv } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
@@ -51,7 +51,7 @@ const action: FormAction<FormState, typeof schema> = async (
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    const { parsedData: instructions } = await parseCsv(
+    const { parsedData: instructions } = await ImportCSV.parseCsv(
       fichierInstruction.content,
       instructionCsvSchema,
       { delimiter: ';' },

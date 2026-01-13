@@ -7,7 +7,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect';
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 import { DomainError } from '@potentiel-domain/core';
-import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { unflatten } from '@potentiel-libraries/flat';
 
@@ -54,7 +54,7 @@ export type FormState =
     }
   | {
       status: 'csv-error';
-      errors: Array<CsvError>;
+      errors: Array<ImportCSV.CsvError>;
     }
   | {
       status: 'unknown-error';
@@ -127,7 +127,7 @@ export const formAction =
       if (isRedirectError(e) || isNotFoundError(e)) {
         throw e;
       }
-      if (e instanceof CsvValidationError) {
+      if (e instanceof ImportCSV.CsvValidationError) {
         return {
           status: 'csv-error' as const,
           errors: e.errors,

@@ -4,7 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
-import { parseCsv } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -27,7 +27,7 @@ const csvSchema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData: lines } = await parseCsv(fichierCorrections.content, csvSchema, {
+    const { parsedData: lines } = await ImportCSV.parseCsv(fichierCorrections.content, csvSchema, {
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
       rtrim: false,

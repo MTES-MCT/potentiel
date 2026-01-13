@@ -4,7 +4,7 @@ import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';
 import { useFormStatus } from 'react-dom';
 
-import { CsvError } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 
 import { FormState } from '@/utils/formAction';
 
@@ -19,7 +19,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
     return undefined;
   }
 
-  const regroupedErrors = formState.errors.reduce(
+  const regroupedErrors: Record<string, Array<ImportCSV.CsvError>> = formState.errors.reduce(
     (acc, error) => {
       if (!acc[error.line]) {
         acc[error.line] = [];
@@ -27,7 +27,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
       acc[error.line].push(error);
       return acc;
     },
-    {} as Record<string, CsvError[]>,
+    {} as Record<string, Array<ImportCSV.CsvError>>,
   );
 
   return (
