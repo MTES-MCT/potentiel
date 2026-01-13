@@ -22,6 +22,8 @@ import {
 } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
+import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Routes } from '@potentiel-applications/routes';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -96,6 +98,15 @@ export async function makeServer(port: number) {
 
     // Redirection pages legacy
     app.get('/projets.html', (req, res) => res.redirect(301, '/'));
+    app.get('/projet/:guid/details.html', async (req, res) => {
+      const identifiantProjet = await ProjetAdapter.getIdentifiantProjetFromLegacyId(
+        req.params.guid,
+      );
+      if (!identifiantProjet) {
+        return res.status(404).send('Projet non trouvé');
+      }
+      res.redirect(301, Routes.Projet.details(identifiantProjet));
+    });
 
     app.use((req, res, next) => {
       // Cas permettant d'avoir l'authentification keycloak fonctionnelle
