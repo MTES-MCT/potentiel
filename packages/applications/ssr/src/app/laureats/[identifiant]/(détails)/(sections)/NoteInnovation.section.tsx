@@ -10,6 +10,7 @@ import { Section } from '../(components)/Section';
 import { SectionWithErrorHandling } from '../../_helpers';
 
 import { NoteInnovationDétails } from './NoteInnovationDétails';
+import { getCahierDesCharges } from '../../../../_helpers';
 
 type NoteInnovationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -24,8 +25,9 @@ export const NoteInnovationSection = ({
     withUtilisateur(async ({ rôle }) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
       if (
-        !identifiantProjet.appelOffre.endsWith('Innovation') ||
+        cahierDesCharges.appelOffre.typeAppelOffre !== 'innovation' ||
         !rôle.aLaPermission('candidature.consulterDétail') ||
         !rôle.aLaPermission('candidature.consulter')
       ) {
