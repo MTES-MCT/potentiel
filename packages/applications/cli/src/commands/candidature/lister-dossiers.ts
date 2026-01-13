@@ -1,11 +1,11 @@
 import { writeFile } from 'node:fs/promises';
 
-import { Parser } from '@json2csv/plainjs';
 import { Args, Command, Flags } from '@oclif/core';
 import type { Faker } from '@faker-js/faker';
 
 import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
+import { ExportCSV } from '@potentiel-libraries/csv';
 
 export class ListerDossiersCandidatureCommand extends Command {
   static args = {
@@ -42,8 +42,12 @@ export class ListerDossiersCandidatureCommand extends Command {
           };
         });
         const fields = ['numeroDossierDS', 'statut', 'motifElimination', 'note'];
-        const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
-        const csv = csvParser.parse(data);
+
+        const csv = await ExportCSV.parseJson({
+          data,
+          fields,
+        });
+
         await writeFile('instruction-ds-cre.csv', csv);
         console.log("Fichier d'instruction créé: instruction-ds-cre.csv");
       }

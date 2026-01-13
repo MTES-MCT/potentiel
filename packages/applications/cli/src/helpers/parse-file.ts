@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { z } from 'zod';
 import { Flags } from '@oclif/core';
 
-import { CsvValidationError, parseCsv, ParseOptions } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 
 export const csvFlags = {
   delimiter: Flags.string({
@@ -19,7 +19,7 @@ export const csvFlags = {
 export const parseCsvFile = async <T extends z.ZodRawShape>(
   path: string,
   schema: z.ZodObject<T>,
-  options?: Partial<ParseOptions>,
+  options?: Partial<ImportCSV.ParseOptions>,
 ) => {
   try {
     const buffer = await readFile(path);
@@ -29,9 +29,9 @@ export const parseCsvFile = async <T extends z.ZodRawShape>(
         controller.close();
       },
     });
-    return await parseCsv(readableStream, schema, options);
+    return await ImportCSV.parseCsv(readableStream, schema, options);
   } catch (error) {
-    if (error instanceof CsvValidationError) {
+    if (error instanceof ImportCSV.CsvValidationError) {
       console.log(error.errors);
     }
     throw error;

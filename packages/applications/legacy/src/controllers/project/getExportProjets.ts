@@ -3,11 +3,11 @@ import routes from '../../routes';
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-import { Parser } from '@json2csv/plainjs';
 import { writeCsvOnDisk } from '../../helpers/csv';
 import { promises as fsPromises } from 'fs';
 import { logger } from '../../core/utils';
 import { PermissionExporterProjets } from '../../modules/project/queries';
+import { ExportCSV } from '@potentiel-libraries/csv';
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
@@ -41,11 +41,12 @@ v1Router.get(
     try {
       const { colonnes, données } = await exporterProjets({ user, filtres });
 
-      const parser = new Parser({
+      const csv = await ExportCSV.parseJson({
+        data: données,
         fields: colonnes,
-        delimiter: ';',
+        parserOptions: { delimiter: ';' },
       });
-      const csv = await parser.parse(données);
+
       const csvFilePath = await writeCsvOnDisk(csv, '/tmp');
 
       // Delete file when the client's download is complete

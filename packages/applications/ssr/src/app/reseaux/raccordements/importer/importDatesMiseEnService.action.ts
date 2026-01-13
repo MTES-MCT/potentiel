@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
-import { parseCsv } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -48,7 +48,10 @@ const action: FormAction<FormState, typeof schema> = async (
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireReseau,
     );
-  const { parsedData: lines } = await parseCsv(fichierDatesMiseEnService.content, csvSchema);
+  const { parsedData: lines } = await ImportCSV.parseCsv(
+    fichierDatesMiseEnService.content,
+    csvSchema,
+  );
 
   if (lines.length === 0) {
     return {

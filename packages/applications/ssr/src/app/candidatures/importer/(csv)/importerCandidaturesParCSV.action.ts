@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { parseCsv } from '@potentiel-libraries/csv';
+import { ImportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 import { Période } from '@potentiel-domain/periode';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -32,7 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await parseCsv(
+    const { parsedData, rawData } = await ImportCSV.parseCsv(
       fichierImportCandidature.content,
       candidatureCsvSchema,
       {
