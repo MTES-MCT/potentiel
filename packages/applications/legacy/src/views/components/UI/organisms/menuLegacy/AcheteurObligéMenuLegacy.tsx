@@ -47,6 +47,11 @@ export const AcheteurObligéMenuLegacy = (
         Nom projet
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
+    <DropdownMenu buttonChildren={'Raccordements'}>
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.lister}>
+        Tous les dossiers de raccordement
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <Header.MenuItem href={Routes.Export.page}>Export de données</Header.MenuItem>
   </>
 );

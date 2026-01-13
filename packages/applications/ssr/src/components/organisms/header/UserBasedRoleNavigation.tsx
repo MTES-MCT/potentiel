@@ -429,6 +429,17 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         ],
       },
       {
+        text: 'Raccordements',
+        menuLinks: [
+          {
+            text: 'Tous les dossiers de raccordement',
+            linkProps: {
+              href: Routes.Raccordement.lister,
+            },
+          },
+        ],
+      },
+      {
         text: 'Export de données',
         linkProps: {
           href: Routes.Export.page,
