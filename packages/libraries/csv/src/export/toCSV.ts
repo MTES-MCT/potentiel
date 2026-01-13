@@ -1,16 +1,16 @@
 import { Parser, ParserOptions } from '@json2csv/plainjs';
 
-export type ParseJsonProps<TData> = {
+export type ToCSVProps<TData> = {
   data: TData;
   fields: ParserOptions['fields'];
   parserOptions?: Omit<ParserOptions, 'fields'>;
 };
 
-export const parseJson = async <TData extends object | Array<object>>({
+export const toCSV = async <TData extends object | Array<object>>({
   data,
   fields,
   parserOptions,
-}: ParseJsonProps<TData>) => {
+}: ToCSVProps<TData>) => {
   const defaultOptions: ParserOptions = {
     fields,
     delimiter: ';',
@@ -20,6 +20,5 @@ export const parseJson = async <TData extends object | Array<object>>({
   const options = { ...defaultOptions, ...parserOptions };
 
   const csvParser = new Parser(options);
-
   return csvParser.parse(data);
 };

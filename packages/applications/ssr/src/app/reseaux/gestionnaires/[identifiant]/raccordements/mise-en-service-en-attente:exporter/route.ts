@@ -115,7 +115,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
         }),
       );
 
-      const csv = await ExportCSV.parseJson({
+      const csv = await ExportCSV.toCSV({
         data,
         fields,
       });

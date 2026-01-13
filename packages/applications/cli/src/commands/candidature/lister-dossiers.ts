@@ -41,11 +41,9 @@ export class ListerDossiersCandidatureCommand extends Command {
             note: faker.number.int({ min: 10, max: 100 }).toString(),
           };
         });
-        const fields = ['numeroDossierDS', 'statut', 'motifElimination', 'note'];
-
-        const csv = await ExportCSV.parseJson({
+        const csv = await ExportCSV.toCSV({
           data,
-          fields,
+          fields: ['numeroDossierDS', 'statut', 'motifElimination', 'note'],
         });
 
         await writeFile('instruction-ds-cre.csv', csv);

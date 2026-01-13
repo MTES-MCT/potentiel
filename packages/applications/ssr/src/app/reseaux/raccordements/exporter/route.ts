@@ -31,7 +31,7 @@ export const GET = async (_: Request) =>
         },
       });
 
-      const fields: ExportCSV.ParseJsonProps<DossierRaccordementCSV>['fields'] = [
+      const fields: ExportCSV.ToCSVProps<DossierRaccordementCSV>['fields'] = [
         { label: 'Identifiant projet', value: 'identifiantProjet' },
         { label: "Appel d'offre", value: 'appelOffre' },
         { label: 'Période', value: 'periode' },
@@ -84,7 +84,7 @@ export const GET = async (_: Request) =>
         }),
       );
 
-      const csv = await ExportCSV.parseJson<DossierRaccordementCSV[]>({
+      const csv = await ExportCSV.toCSV<DossierRaccordementCSV[]>({
         data,
         fields,
       });
