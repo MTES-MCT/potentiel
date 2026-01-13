@@ -8,9 +8,9 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { Section } from '../(components)/Section';
 import { SectionWithErrorHandling } from '../../_helpers';
+import { getCahierDesCharges } from '../../../../_helpers';
 
 import { NoteInnovationDétails } from './NoteInnovationDétails';
-import { getCahierDesCharges } from '../../../../_helpers';
 
 type NoteInnovationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
