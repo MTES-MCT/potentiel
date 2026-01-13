@@ -54,7 +54,7 @@ export type FormState =
     }
   | {
       status: 'csv-error';
-      errors: Array<ImportCSV.CsvError>;
+      errors: Array<ImportCSV.CSVError>;
     }
   | {
       status: 'unknown-error';

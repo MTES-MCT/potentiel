@@ -27,7 +27,7 @@ const csvSchema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData: lines } = await ImportCSV.parseCsv(fichierCorrections.content, csvSchema, {
+    const { parsedData: lines } = await ImportCSV.fromCSV(fichierCorrections.content, csvSchema, {
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
       rtrim: false,

@@ -23,7 +23,7 @@ export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await ImportCSV.parseCsv(
+    const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
       { encoding: 'win1252', delimiter: ';' },

@@ -5,14 +5,14 @@ import * as zod from 'zod';
 import { streamToArrayBuffer } from './streamToArrayBuffer';
 import { getEncoding } from './getEncoding';
 
-export type CsvError = {
+export type CSVError = {
   line: string;
   field: string;
   message: string;
 };
 
 export class CsvValidationError extends Error {
-  constructor(public errors: Array<CsvError>) {
+  constructor(public errors: Array<CSVError>) {
     super('Erreur lors de la validation du fichier CSV');
   }
 }
@@ -30,7 +30,7 @@ export type ParseOptions = typeof defaultParseOptions & {
   encoding?: 'utf8' | 'win1252';
 };
 
-type ParseCsv = <TSchema extends zod.ZodTypeAny>(
+type FromCSV = <TSchema extends zod.ZodTypeAny>(
   fileStream: ReadableStream,
   lineSchema: TSchema,
   parseOptions?: Partial<ParseOptions>,
@@ -39,12 +39,12 @@ type ParseCsv = <TSchema extends zod.ZodTypeAny>(
   rawData: ReadonlyArray<Record<string, string>>;
 }>;
 
-export const parseCsv: ParseCsv = async (
+export const fromCSV: FromCSV = async (
   fileStream,
   lineSchema,
   parseOptions: Partial<ParseOptions> = {},
 ) => {
-  const rawData = await loadCsv(fileStream, parseOptions);
+  const rawData = await loadCSV(fileStream, parseOptions);
 
   try {
     return { parsedData: zod.array(lineSchema).parse(rawData), rawData };
@@ -65,7 +65,7 @@ export const parseCsv: ParseCsv = async (
   }
 };
 
-const loadCsv = async (fileStream: ReadableStream, parseOptions: Partial<ParseOptions>) => {
+const loadCSV = async (fileStream: ReadableStream, parseOptions: Partial<ParseOptions>) => {
   const { encoding: encodingOption, ...options } = { ...defaultParseOptions, ...parseOptions };
   const arrayBuffer = await streamToArrayBuffer(fileStream);
   const encoding = getEncoding(arrayBuffer, encodingOption);

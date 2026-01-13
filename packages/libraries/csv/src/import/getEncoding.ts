@@ -1,6 +1,6 @@
 import { detect } from 'chardet';
 
-import { ParseOptions } from './parseCsv';
+import { ParseOptions } from './fromCSV';
 
 export const getEncoding = (
   arrayBuffer: Uint8Array,

@@ -19,7 +19,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
     return undefined;
   }
 
-  const regroupedErrors: Record<string, Array<ImportCSV.CsvError>> = formState.errors.reduce(
+  const regroupedErrors: Record<string, Array<ImportCSV.CSVError>> = formState.errors.reduce(
     (acc, error) => {
       if (!acc[error.line]) {
         acc[error.line] = [];
@@ -27,7 +27,7 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
       acc[error.line].push(error);
       return acc;
     },
-    {} as Record<string, Array<ImportCSV.CsvError>>,
+    {} as Record<string, Array<ImportCSV.CSVError>>,
   );
 
   return (

@@ -51,7 +51,7 @@ const action: FormAction<FormState, typeof schema> = async (
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    const { parsedData: instructions } = await ImportCSV.parseCsv(
+    const { parsedData: instructions } = await ImportCSV.fromCSV(
       fichierInstruction.content,
       instructionCsvSchema,
       { delimiter: ';' },
