@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
-import { ExportPage } from './export.page';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { ExportPage, ExportPageProps } from './export.page';
 
 export const metadata: Metadata = {
   title: 'Export de données - Potentiel',
@@ -10,5 +13,19 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  return PageWithErrorHandling(async () => <ExportPage />);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      return <ExportPage actions={mapToAction(utilisateur)} />;
+    }),
+  );
 }
+
+type MapToAction = (utilisateur: PotentielUtilisateur) => ExportPageProps['actions'];
+
+const mapToAction: MapToAction = (utilisateur) => {
+  if (utilisateur.rôle.aLaPermission('raccordement.listerDossierRaccordement')) {
+    return ['exporter-raccordement'];
+  }
+
+  return [];
+};
