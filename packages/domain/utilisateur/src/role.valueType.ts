@@ -1843,6 +1843,10 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Accès
   'accès.consulter',
+
+  //  Candidature
+  'candidature.consulterDétail',
+  'candidature.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -2198,6 +2202,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
   'projet.accèsDonnées.prix',
 ];
 

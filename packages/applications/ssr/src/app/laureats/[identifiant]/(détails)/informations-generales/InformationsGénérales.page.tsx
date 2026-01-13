@@ -1,6 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '../(components)/SectionPage';
+import { NoteInnovationSection } from '../(sections)/NoteInnovation.section';
 
 import { ProducteurSection } from './(sections)/Producteur.section';
 import { ReprésentantLégalSection } from './(sections)/ReprésentantLégal.section';
@@ -23,6 +24,7 @@ export const InformationsGénéralesPage = ({ identifiantProjet }: Props) => (
       <div className="flex flex-1 flex-col gap-4 print:block print:space-y-4">
         <ContractualisationSection identifiantProjet={identifiantProjet} />
         <ActionnariatSection identifiantProjet={identifiantProjet} />
+        <NoteInnovationSection identifiantProjet={identifiantProjet} />
       </div>
     </div>
   </SectionPage>
