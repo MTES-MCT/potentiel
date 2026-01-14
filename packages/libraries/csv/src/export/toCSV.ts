@@ -1,16 +1,15 @@
 import { Parser, ParserOptions } from '@json2csv/plainjs';
 
-export type ToCSVProps<TData> = {
-  data: TData;
-  /**
-   * TODO : fields type should be improved to match TData structure :
-   * (Array<keyof TData | { label: string; default?: value: keyofTData; value: keyof TData }>).
-   */
-  fields: ParserOptions['fields'];
+// Utility type to extract string keys from a type
+type StringKeys<T> = Extract<keyof T, string>;
+
+export type ToCSVProps<TData extends object> = {
+  data: TData | Array<TData>;
+  fields: Array<StringKeys<TData> | { label: string; value: StringKeys<TData> }>;
   parserOptions?: Omit<ParserOptions, 'fields'>;
 };
 
-export const toCSV = async <TData extends object | Array<object>>({
+export const toCSV = async <TData extends object>({
   data,
   fields,
   parserOptions,
