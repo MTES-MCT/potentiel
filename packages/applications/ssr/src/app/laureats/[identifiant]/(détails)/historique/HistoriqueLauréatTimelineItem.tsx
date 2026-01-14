@@ -14,9 +14,9 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
 }) => {
   return (
     <TimelineItemBase {...props}>
-      {details ? <div className={clsx(props.title && 'mt-2')}>{details}</div> : null}
+      {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
       {file && <TimelineItemFile {...file} />}
-      {redirect ? (
+      {redirect && (
         <Button
           priority="secondary"
           linkProps={{
@@ -27,7 +27,7 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
         >
           {redirect.label}
         </Button>
-      ) : null}
+      )}
     </TimelineItemBase>
   );
 };

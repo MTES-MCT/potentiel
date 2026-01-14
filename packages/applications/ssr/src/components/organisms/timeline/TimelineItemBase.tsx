@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import clsx from 'clsx';
 import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
@@ -18,7 +18,6 @@ export type TimelineItemBaseProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
   actor?: TimelineItemTitleProps['actor'];
   type?: string;
-  children: ReactNode;
   date: Iso8601DateTime;
   icon?: IconProps;
   isLast?: true;
@@ -26,7 +25,7 @@ export type TimelineItemBaseProps = {
   isÉtapeInconnue?: true;
 };
 
-export const TimelineItemBase: FC<TimelineItemBaseProps> = ({
+export const TimelineItemBase: FC<PropsWithChildren<TimelineItemBaseProps>> = ({
   date,
   title,
   actor,
