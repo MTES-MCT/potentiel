@@ -32,7 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const { parsedData, rawData } = await ImportCSV.parseCsv(
+    const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierImportCandidature.content,
       candidatureCsvSchema,
       {

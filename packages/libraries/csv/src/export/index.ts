@@ -1,1 +1,1 @@
-export { parseJson, ParseJsonProps } from './parseJson';
+export { toCSV, ToCSVProps } from './toCSV';

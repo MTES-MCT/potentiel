@@ -29,7 +29,7 @@ export const parseCsvFile = async <T extends z.ZodRawShape>(
         controller.close();
       },
     });
-    return await ImportCSV.parseCsv(readableStream, schema, options);
+    return await ImportCSV.fromCSV(readableStream, schema, options);
   } catch (error) {
     if (error instanceof ImportCSV.CsvValidationError) {
       console.log(error.errors);

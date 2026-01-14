@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { expect } from 'chai';
 
-import { parseCsv } from './parseCsv';
+import { fromCSV } from './fromCSV';
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -42,7 +42,7 @@ const readFixture = (name: string) => {
       },
     ];
 
-    const { parsedData: actual } = await parseCsv(readableStream, schema);
+    const { parsedData: actual } = await fromCSV(readableStream, schema);
 
     expect(actual).to.deep.eq(expected);
   });
@@ -55,7 +55,7 @@ test(`Étant donné un fichier au format utf8
 
   const {
     parsedData: [actual],
-  } = await parseCsv(readableStream, schema, {
+  } = await fromCSV(readableStream, schema, {
     encoding: 'win1252',
   });
 
@@ -85,7 +85,7 @@ test(`Étant donné un fichier séparé par des virgules
     },
   ];
 
-  const { parsedData: actual } = await parseCsv(readableStream, schema);
+  const { parsedData: actual } = await fromCSV(readableStream, schema);
 
   expect(actual).to.deep.eq(expected);
 });
@@ -107,7 +107,7 @@ test(`Étant donné un fichier séparé par des tabulations
     },
   ];
 
-  const { parsedData: actual } = await parseCsv(readableStream, schema);
+  const { parsedData: actual } = await fromCSV(readableStream, schema);
 
   expect(actual).to.deep.eq(expected);
 });
@@ -118,7 +118,7 @@ test(`Étant donné un fichier séparé par des points-virgules
   const readableStream = readFixture(`utf8.csv`);
 
   try {
-    await parseCsv(readableStream, schema, { delimiter: ',' });
+    await fromCSV(readableStream, schema, { delimiter: ',' });
     expect.fail('did not throw');
   } catch (e) {
     expect(e).to.be.instanceOf(Error);

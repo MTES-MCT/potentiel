@@ -48,7 +48,7 @@ const action: FormAction<FormState, typeof schema> = async (
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireReseau,
     );
-  const { parsedData: lines } = await ImportCSV.parseCsv(
+  const { parsedData: lines } = await ImportCSV.fromCSV(
     fichierDatesMiseEnService.content,
     csvSchema,
   );

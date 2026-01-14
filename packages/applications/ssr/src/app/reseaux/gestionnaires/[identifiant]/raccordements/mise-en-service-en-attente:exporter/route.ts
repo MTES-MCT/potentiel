@@ -57,26 +57,6 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
           },
         );
 
-      const fields = [
-        'nomProjet',
-        'identifiantProjet',
-        'appelOffre',
-        'periode',
-        'famille',
-        'numeroCRE',
-        'commune',
-        'codePostal',
-        'referenceDossier',
-        'statutDGEC',
-        'puissance',
-        'dateMiseEnService',
-        'nomCandidat',
-        'societeMere',
-        'emailContact',
-        'siteProduction',
-        'dateNotification',
-      ];
-
       const data: Array<DossierRaccordementEnAttenteMiseEnServiceCSV> = dossiers.items.map(
         ({
           appelOffre,
@@ -115,9 +95,27 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
         }),
       );
 
-      const csv = await ExportCSV.parseJson({
+      const csv = await ExportCSV.toCSV({
         data,
-        fields,
+        fields: [
+          'nomProjet',
+          'identifiantProjet',
+          'appelOffre',
+          'periode',
+          'famille',
+          'numeroCRE',
+          'commune',
+          'codePostal',
+          'referenceDossier',
+          'statutDGEC',
+          'puissance',
+          'dateMiseEnService',
+          'nomCandidat',
+          'societeMere',
+          'emailContact',
+          'siteProduction',
+          'dateNotification',
+        ],
       });
 
       const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>(

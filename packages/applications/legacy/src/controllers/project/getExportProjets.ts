@@ -41,10 +41,9 @@ v1Router.get(
     try {
       const { colonnes, données } = await exporterProjets({ user, filtres });
 
-      const csv = await ExportCSV.parseJson({
+      const csv = await ExportCSV.toCSV({
         data: données,
         fields: colonnes,
-        parserOptions: { delimiter: ';' },
       });
 
       const csvFilePath = await writeCsvOnDisk(csv, '/tmp');
