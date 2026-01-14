@@ -12,7 +12,9 @@ export const listerPorteursRecipients = async (
 ): Promise<Recipient[]> => {
   const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
     type: 'Projet.Accès.Query.ConsulterAccès',
-    data: { identifiantProjet: identifiantProjet.formatter() },
+    data: {
+      identifiantProjet: identifiantProjet.formatter(),
+    },
   });
 
   if (Option.isNone(accèsProjet)) {

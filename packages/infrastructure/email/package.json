@@ -4,16 +4,15 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
-    "@types/nodemailer": "^7.0.4",
-    "handlebars": "^4.7.8",
+    "@types/nodemailer": "7.0.4",
+    "handlebars": "4.7.8",
     "node-mailjet": "6.0.8",
-    "nodemailer": "^7.0.11"
+    "nodemailer": "7.0.12"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

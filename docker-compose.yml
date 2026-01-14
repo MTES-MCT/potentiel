@@ -83,7 +83,7 @@ services:
     profiles: ['app']
   smtp:
     container_name: potentiel_smtp
-    image: mailhog/mailhog:latest
+    image: axllent/mailpit
     restart: always
     ports:
       - 1025:1025

@@ -1,24 +1,19 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-
-import { fournisseurNotificationTemplateId } from '../constant.js';
-import { FournisseurNotificationsProps } from '../type.js';
+import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
-  sendEmail,
-  event,
-  projet,
-}: FournisseurNotificationsProps<Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload: { identifiantProjet },
+}: Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent) => {
+  const projet = await getLauréat(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: fournisseurNotificationTemplateId.modifierÉvaluationCarbone,
-    messageSubject: `Potentiel - Modification de l'évaluation carbone simplifiée pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/fournisseur/modifierÉvaluationCarbone',
     recipients: dreals,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: projet.url,
@@ -26,10 +21,9 @@ export const handleÉvaluationCarboneSimplifiéeModifiée = async ({
   });
 
   await sendEmail({
-    templateId: fournisseurNotificationTemplateId.modifierÉvaluationCarbone,
-    messageSubject: `Potentiel - Modification de l'évaluation carbone simplifiée pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/fournisseur/modifierÉvaluationCarbone',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: projet.url,

@@ -3,7 +3,7 @@ import assert from 'node:assert';
 
 import { SendVerificationRequestParams } from 'next-auth/providers';
 
-import { SendEmail } from '@potentiel-applications/notifications';
+import { SendEmailV2 } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
@@ -113,12 +113,11 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
       let emailWasSent = false;
       const url = 'verification-request-url';
 
-      const fakeSendEmail: SendEmail = async (actual) => {
+      const fakeSendEmail: SendEmailV2 = async (actual) => {
         const expected = {
-          templateId: 6785365,
-          messageSubject: 'Connexion à Potentiel',
-          recipients: [{ email: identifier, fullName: '' }],
-          variables: {
+          key: 'auth/lien-magique',
+          recipients: [identifier],
+          values: {
             url,
           },
         };
@@ -168,12 +167,11 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       let emailWasSent = false;
       const url = 'verification-request-url';
 
-      const fakeSendEmail: SendEmail = async (actual) => {
+      const fakeSendEmail: SendEmailV2 = async (actual) => {
         const envoiEmailAvecLienDeConnexion = {
-          templateId: 6785365,
-          messageSubject: 'Connexion à Potentiel',
-          recipients: [{ email: identifier, fullName: '' }],
-          variables: {
+          key: 'auth/lien-magique',
+          recipients: [identifier],
+          values: {
             url,
           },
         };
@@ -185,10 +183,9 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
         );
 
         const expected = {
-          templateId: 7103248,
-          messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
-          recipients: [{ email: identifier, fullName: '' }],
-          variables: {
+          key: 'auth/proconnect-obligatoire',
+          recipients: [identifier],
+          values: {
             url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
           },
         };
@@ -221,7 +218,7 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
     const identifier = porteurDeProjetDésactivé.identifiantUtilisateur.email;
     const url = 'verification-request-url';
 
-    const fakeSendEmail: SendEmail = async () => {
+    const fakeSendEmail: SendEmailV2 = async () => {
       emailWasSent = true;
     };
 

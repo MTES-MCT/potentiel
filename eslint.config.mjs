@@ -23,6 +23,7 @@ export default eslintTs.config(
       '**/.next',
       '**/potentiel-keycloak',
       '**/*.config.js',
+      '**/scripts/*.ts',
     ],
   },
   {

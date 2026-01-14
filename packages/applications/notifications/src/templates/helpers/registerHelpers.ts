@@ -28,10 +28,7 @@ export const registerHelpers = () => {
     return new Handlebars.SafeString(
       renderHelper({
         key: 'cta',
-        values: {
-          url: Handlebars.escapeExpression(url),
-          text: Handlebars.escapeExpression(text),
-        },
+        values: { url, text },
       }),
     );
   });

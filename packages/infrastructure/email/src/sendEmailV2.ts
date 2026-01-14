@@ -10,8 +10,8 @@ import {
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-type EmailOptions = {
-  to: string;
+export type EmailOptions = {
+  recipients: string[];
   subject: string;
   content: string;
 };
@@ -49,7 +49,7 @@ const globalCircuitBreaker = circuitBreaker(handleAll, {
   breaker: new ConsecutiveBreaker(3),
 });
 
-export const sendEmailV2 = async ({ content, subject, to }: EmailOptions) => {
+export const sendEmailV2 = async ({ content, subject, recipients }: EmailOptions) => {
   const transporter = getTransporter();
   const logger = getLogger('sendEmailv2');
 
@@ -61,7 +61,9 @@ export const sendEmailV2 = async ({ content, subject, to }: EmailOptions) => {
 
   // Combined policy
   const emailPolicy = wrap(retryPolicy, globalCircuitBreaker);
-  await emailPolicy.execute(async () => transporter.sendMail({ subject, html: content, to }));
+  await emailPolicy.execute(async () =>
+    transporter.sendMail({ subject, html: content, to: recipients }),
+  );
 
-  logger.info('Email sent', { to, subject });
+  logger.info('Email sent', { recipients, subject });
 };

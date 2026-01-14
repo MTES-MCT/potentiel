@@ -6,6 +6,7 @@
     "module": "nodenext",
     "moduleResolution": "node16"
   },
+  "include": ["src"],
   "references": [
     { "path": "../../domain/période" },
     { "path": "../../domain/projet" },

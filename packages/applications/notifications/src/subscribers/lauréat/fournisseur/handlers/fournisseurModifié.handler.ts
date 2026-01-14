@@ -1,24 +1,19 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-
-import { fournisseurNotificationTemplateId } from '../constant.js';
-import { FournisseurNotificationsProps } from '../type.js';
+import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleFournisseurModifié = async ({
-  sendEmail,
-  event,
-  projet,
-}: FournisseurNotificationsProps<Lauréat.Fournisseur.FournisseurModifiéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload: { identifiantProjet },
+}: Lauréat.Fournisseur.FournisseurModifiéEvent) => {
+  const projet = await getLauréat(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 
   await sendEmail({
-    templateId: fournisseurNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification du fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/fournisseur/modifier',
     recipients: dreals,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: projet.url,
@@ -26,10 +21,9 @@ export const handleFournisseurModifié = async ({
   });
 
   await sendEmail({
-    templateId: fournisseurNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification du fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/fournisseur/modifier',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: projet.url,
