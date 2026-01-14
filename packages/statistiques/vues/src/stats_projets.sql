@@ -10,6 +10,8 @@ WITH projets_en_service as (
 SELECT proj.value->>'identifiantProjet' AS id,
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 2) as "periode",
+  SPLIT_PART(proj.value->>'identifiantProjet', '#', 3) as "famille",
+  SPLIT_PART(proj.value->>'identifiantProjet', '#', 4) as "numéroCRE",
   COALESCE(
     proj.value->>'localité.région',
     cand.value->>'localité.région'
