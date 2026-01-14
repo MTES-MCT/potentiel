@@ -49,7 +49,7 @@ export const getLauréatMenuItems = async ({
       domain === 'actionnaire'
         ? await changementActionnaireNécessiteInstruction(
             identifiantProjet.formatter(),
-            utilisateur.rôle.aLaPermission('actionnaire.demanderChangement'),
+            utilisateur.rôle.nom,
           )
         : undefined;
     const action = await getAction({
