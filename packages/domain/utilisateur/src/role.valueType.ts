@@ -552,7 +552,7 @@ const référencielPermissions = {
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
       listerCandidatures: 'Candidature.Query.ListerCandidatures',
-      listerFournisseursÀLaCandidature: 'Candidature.Query.ListerFournisseurs',
+      listerFournisseursÀLaCandidature: 'Candidature.Query.ListerFournisseursÀLaCandidature',
     },
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
@@ -1929,7 +1929,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.attestation.télécharger',
-  'candidature.lister',
   'candidature.exporterFournisseurs',
 
   // Lauréat
@@ -2256,6 +2255,8 @@ const ademePolicies: ReadonlyArray<Policy> = [
 
   // Éliminé
   'éliminé.listerÉliminéEnrichi',
+
+  // Candidature
   'candidature.exporterFournisseurs',
 ];
 

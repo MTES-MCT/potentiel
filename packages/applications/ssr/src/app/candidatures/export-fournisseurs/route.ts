@@ -1,55 +1,60 @@
-import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
-import { typeFournisseurLabel } from '@/app/laureats/[identifiant]/fournisseur/changement/typeFournisseurLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+type CandidatureFournisseurCSV = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  appelOffre: IdentifiantProjet.ValueType['appelOffre'];
+  periode: IdentifiantProjet.ValueType['période'];
+  region: Candidature.Localité.ValueType['région'];
+  societeMere: string;
+} & Record<string, string>;
 
 export const GET = async (_: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
-      const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-        type: 'Candidature.Query.ListerCandidatures',
-        data: {
-          utilisateur: utilisateur.identifiantUtilisateur.email,
-        },
+      const fournisseursÀLaCandidature =
+        await mediator.send<Candidature.ListerFournisseursÀLaCandidatureQuery>({
+          type: 'Candidature.Query.ListerFournisseursÀLaCandidature',
+          data: {
+            utilisateur: utilisateur.identifiantUtilisateur.email,
+          },
+        });
+
+      const fournisseurCandidatureFields = Candidature.fournisseursCandidatureDétailKeys.map(
+        (key) => ({ label: key.replace(/\n/g, ''), value: key }),
+      );
+
+      const csv = await ExportCSV.toCSV<CandidatureFournisseurCSV>({
+        fields: [
+          { label: 'Identifiant projet', value: 'identifiantProjet' },
+          { label: "Appel d'offre", value: 'appelOffre' },
+          { label: 'Période', value: 'periode' },
+          { label: 'Région', value: 'region' },
+          { label: 'Société mère', value: 'societeMere' },
+          ...fournisseurCandidatureFields,
+        ],
+        data: fournisseursÀLaCandidature.items.map((fournisseur) => ({
+          identifiantProjet: fournisseur.identifiantProjet.formatter(),
+          appelOffre: fournisseur.identifiantProjet.appelOffre,
+          periode: fournisseur.identifiantProjet.période,
+          region: fournisseur.région,
+          societeMere: fournisseur.sociétéMère,
+          ...Object.entries(fournisseur.détail).reduce(
+            (acc: Record<string, string>, [key, value]) => {
+              acc[key] = value;
+              return acc;
+            },
+            {},
+          ),
+        })),
       });
 
-      const data = [];
-
-      for (const candidature of candidatures.items) {
-        for (const fournisseur of candidature.fournisseurs) {
-          data.push({
-            identifiantProjet: candidature.identifiantProjet.formatter(),
-            appelOffre: candidature.identifiantProjet.appelOffre,
-            periode: candidature.identifiantProjet.période,
-            region: candidature.localité.région,
-            societeMere: candidature.sociétéMère,
-            typeFournisseur: typeFournisseurLabel[fournisseur.typeFournisseur.typeFournisseur],
-            nomDuFabricant: fournisseur.nomDuFabricant,
-            lieuDeFabrication: fournisseur.lieuDeFabrication,
-          });
-        }
-      }
-
-      const fields = [
-        'identifiantProjet',
-        'appelOffre',
-        'periode',
-        'region',
-        'societeMere',
-        'typeFournisseur',
-        'nomDuFabricant',
-        'lieuDeFabrication',
-      ];
-
-      const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
-
-      const csv = csvParser.parse(data);
-
-      const fileName = `export_projet_fournisseurs.csv`;
+      const fileName = `export_candidature_fournisseurs.csv`;
 
       return new Response(csv, {
         headers: {
