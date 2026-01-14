@@ -18,7 +18,7 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
     actor: demandéPar,
     link: {
       url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement de représentant légal déposée le ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement de représentant légal en date du ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',
     },
     details: (

@@ -26,7 +26,7 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (
         rejetéLe,
         format,
       ),
-      ariaLabel: `Télécharger la réponse signée pour la demande de changement de puissance rejetée le ${formatDateToText(rejetéLe)}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de changement de puissance rejetée le ${formatDateToText(rejetéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

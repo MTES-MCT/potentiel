@@ -25,7 +25,7 @@ export const mapToLauréatNotifiéTimelineItemProps = (
             notifiéLe,
             format,
           ),
-          ariaLabel: `Télécharger l'attestation de désignation notifiée le ${formatDateToText(notifiéLe)}`,
+          ariaLabel: `Télécharger l'attestation de désignation pour la candidature notifiée le ${formatDateToText(notifiéLe)}`,
         }
       : undefined,
   };

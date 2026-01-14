@@ -21,7 +21,7 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
         modifiéLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint au changement d'installateur enregistré le ${formatDateToText(modifiéLe)}`,
+      ariaLabel: `Télécharger le justificatif joint au changement d'installateur en date du ${formatDateToText(modifiéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

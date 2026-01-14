@@ -31,12 +31,12 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
         demandéLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint à la demande de changement de puissance déposée le ${demandéLe}`,
+      ariaLabel: `Télécharger le justificatif de la demande de changement de puissance en date du ${demandéLe}`,
     },
     link: {
       url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
       label: 'Détail de la demande',
-      ariaLabel: `Voir le détail de la demande de changement de puissance déposée le ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${FormattedDate({ date: demandéLe })}`,
     },
     details: (
       <div className="flex flex-col gap-2">

@@ -21,7 +21,7 @@ export const mapToDemandeDélaiRejetéeTimelineItemProps = (
         réponseSignée.format,
       ),
       label: 'Télécharger la réponse signée',
-      ariaLabel: `Télécharger la réponse signée pour la demande de délai rejetée le ${formatDateToText(rejetéeLe)}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de délai rejetée le ${formatDateToText(rejetéeLe)}`,
     },
   };
 };

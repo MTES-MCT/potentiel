@@ -28,7 +28,7 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
         enregistréLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif de la modification du nom du projet enrgistrée le ${formatDateToText(enregistréLe)}`,
+      ariaLabel: `Télécharger le justificatif de la modification du nom du projet en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

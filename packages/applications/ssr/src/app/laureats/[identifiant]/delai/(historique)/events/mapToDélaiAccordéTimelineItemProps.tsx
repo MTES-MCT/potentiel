@@ -24,7 +24,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
         payload.réponseSignée.format,
       ),
       label: 'Télécharger la réponse signée',
-      ariaLabel: `Télécharger la réponse signée pour la demande de délai accordée le ${formatDateToText(accordéLe)}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de délai accordée le ${formatDateToText(accordéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

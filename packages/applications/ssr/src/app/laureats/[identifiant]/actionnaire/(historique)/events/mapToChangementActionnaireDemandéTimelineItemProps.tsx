@@ -27,11 +27,11 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
         demandéLe,
         format,
       ),
-      ariaLabel: `Télécharger le justificatif de la demande de changement d'actionnaire déposée le ${formatDateToText(demandéLe)}`,
+      ariaLabel: `Télécharger le justificatif de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
     },
     link: {
       url: Routes.Actionnaire.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement d'actionnaire déposée le ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement d'actionnaire en date du ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',
     },
     details: (

@@ -29,7 +29,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
         réponseSignée.format,
       ),
       label: 'Télécharger la réponse signée',
-      ariaLabel: `Télécharger la réponse signée pour la demande de changement de puissance accordée le ${accordéLe}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de changement de puissance accordée le ${accordéLe}`,
     },
     details: (
       <div className="flex flex-col gap-2">

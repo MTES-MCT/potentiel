@@ -26,7 +26,7 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
         format,
       ),
       label: 'Télécharger la réponse signée',
-      ariaLabel: `Télécharger la réponse signée pour la demande de changement d'actionnaire rejetée le ${formatDateToText(rejetéLe)}`,
+      ariaLabel: `Télécharger la réponse signée de la demande de changement d'actionnaire rejetée le ${formatDateToText(rejetéLe)}`,
     },
   };
 };

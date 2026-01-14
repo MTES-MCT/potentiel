@@ -29,7 +29,7 @@ export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
         modifiéeLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint au changement de typologie du projet enregistré le ${formatDateToText(modifiéeLe)}`,
+      ariaLabel: `Télécharger le justificatif de la modification de typologie du projet en date du ${formatDateToText(modifiéeLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

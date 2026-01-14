@@ -27,7 +27,7 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
         enregistréLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif du changement d'actionnaire enregistré le ${formatDateToText(enregistréLe)}`,
+      ariaLabel: `Télécharger le justificatif du changement d'actionnaire en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">
