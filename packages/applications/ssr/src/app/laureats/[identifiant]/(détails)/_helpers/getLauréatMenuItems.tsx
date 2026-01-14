@@ -47,7 +47,10 @@ export const getLauréatMenuItems = async ({
   const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
     const nécessiteInstruction =
       domain === 'actionnaire'
-        ? await changementActionnaireNécessiteInstruction(identifiantProjet.formatter())
+        ? await changementActionnaireNécessiteInstruction(
+            identifiantProjet.formatter(),
+            utilisateur.rôle.nom,
+          )
         : undefined;
     const action = await getAction({
       domain,
