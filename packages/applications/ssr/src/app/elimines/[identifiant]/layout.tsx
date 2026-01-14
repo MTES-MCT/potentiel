@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
@@ -43,27 +43,22 @@ export async function generateMetadata(
 export default async function ÉliminéLayout({ children, params: { identifiant } }: LayoutProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
-    const éliminé = await getÉliminé(identifiantProjet);
+    const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
-    // dans le cas d'un recours accordé, le projet devient lauréat
-    if (!éliminé) {
-      const lauréat = await getLauréatInfos(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-      );
-      return (
-        <ProjetLauréatBanner
-          identifiantProjet={identifiantProjet}
-          projet={mapToPlainObject(lauréat)}
-        />
-      );
-    }
     return (
       <PageTemplate
         banner={
-          <ProjetÉliminéBanner
-            identifiantProjet={identifiantProjet}
-            projet={mapToPlainObject(éliminé)}
-          />
+          projet.recoursAccordé ? (
+            <ProjetLauréatBanner
+              identifiantProjet={identifiantProjet}
+              projet={mapToPlainObject(projet.lauréat)}
+            />
+          ) : (
+            <ProjetÉliminéBanner
+              identifiantProjet={identifiantProjet}
+              projet={mapToPlainObject(projet.éliminé)}
+            />
+          )
         }
       >
         {children}
@@ -71,3 +66,28 @@ export default async function ÉliminéLayout({ children, params: { identifiant 
     );
   });
 }
+
+type GetProjetLauréatOuÉliminéResult =
+  | {
+      lauréat: Lauréat.ConsulterLauréatReadModel;
+      recoursAccordé: true;
+    }
+  | {
+      éliminé: Éliminé.ConsulterÉliminéReadModel;
+      recoursAccordé: false;
+    };
+
+// dans le cas d'un recours accordé, le projet devient lauréat
+const getProjetLauréatOuÉliminé = async (
+  identifiantProjet: string,
+): Promise<GetProjetLauréatOuÉliminéResult> => {
+  const éliminé = await getÉliminé(identifiantProjet);
+
+  if (éliminé) {
+    return { éliminé, recoursAccordé: false };
+  }
+  const lauréat = await getLauréatInfos(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+  );
+  return { lauréat, recoursAccordé: true };
+};
