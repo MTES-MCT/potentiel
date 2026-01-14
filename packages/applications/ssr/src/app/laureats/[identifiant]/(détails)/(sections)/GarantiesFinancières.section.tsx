@@ -66,7 +66,8 @@ export const getGarantiesFinancièresData = async ({
 }: Props) => {
   if (
     !estSoumisAuxGarantiesFinancières ||
-    !rôle.aLaPermission('garantiesFinancières.dépôt.consulter')
+    !rôle.aLaPermission('garantiesFinancières.dépôt.consulter') ||
+    !rôle.aLaPermission('garantiesFinancières.actuelles.consulter')
   ) {
     return undefined;
   }
