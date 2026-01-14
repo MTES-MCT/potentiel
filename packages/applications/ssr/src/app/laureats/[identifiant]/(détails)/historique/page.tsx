@@ -12,7 +12,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { IconProps } from '@/components/atoms/Icon';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 
@@ -32,7 +31,11 @@ import { mapToNatureDeLExploitationTimelineItemProps } from '../../nature-de-l-e
 import { mapToFournisseurTimelineItemProps } from '../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
-import { categoriesDisponibles, mapCatégoriesToLabel } from './_helpers/mapCatégoriesToLabel';
+import {
+  categoriesDisponibles,
+  mapCatégorieToIcon,
+  mapCatégorieToLabel,
+} from './_helpers/catégories';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -92,7 +95,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const options = categoriesDisponibles
         .map((categorie) => ({
-          label: mapCatégoriesToLabel(categorie),
+          label: mapCatégorieToLabel(categorie),
           value: categorie,
         }))
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
@@ -138,26 +141,6 @@ const mapToActions = (rôle: Role.ValueType) => {
   }
 
   return actions;
-};
-
-const DEMANDE_GENERIQUE_ICONE = 'ri-draft-line';
-
-const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconProps['id']> = {
-  'garanties-financieres': 'ri-bank-line',
-  'représentant-légal': DEMANDE_GENERIQUE_ICONE,
-  abandon: 'ri-logout-box-line',
-  achevement: 'ri-verified-badge-line',
-  actionnaire: DEMANDE_GENERIQUE_ICONE,
-  lauréat: 'ri-notification-3-line',
-  éliminé: 'ri-notification-3-line',
-  producteur: DEMANDE_GENERIQUE_ICONE,
-  puissance: 'ri-flashlight-line',
-  raccordement: 'ri-plug-line',
-  recours: 'ri-scales-3-line',
-  délai: 'ri-time-line',
-  fournisseur: DEMANDE_GENERIQUE_ICONE,
-  installation: DEMANDE_GENERIQUE_ICONE,
-  'nature-de-l-exploitation': DEMANDE_GENERIQUE_ICONE,
 };
 
 const filtrerImportsEtRecoursLegacy = (
@@ -259,7 +242,7 @@ const mapToTimelineItemProps = ({
     return {
       ...props,
       icon: props.icon ?? {
-        id: categoryToIconProps[readmodel.category],
+        id: mapCatégorieToIcon(readmodel.category),
       },
     };
   }

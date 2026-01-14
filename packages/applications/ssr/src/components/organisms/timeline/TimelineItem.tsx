@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
 
@@ -12,31 +13,11 @@ export type TimelineItemProps = Omit<TimelineItemBaseProps, 'children'> & {
   redirect?: { label: string; url: string; ariaLabel: string };
 };
 
-export const TimelineItem: FC<TimelineItemProps> = ({
-  date,
-  title,
-  actor,
-  details,
-  type,
-  status,
-  icon,
-  isLast,
-  file,
-}) => {
+export const TimelineItem: FC<TimelineItemProps> = ({ details, file, ...props }) => {
   return (
-    <TimelineItemBase
-      date={date}
-      actor={actor}
-      title={title}
-      type={type}
-      status={status}
-      icon={icon}
-      isLast={isLast}
-    >
-      {details && <div className={clsx(title && 'mt-2')}>{details}</div>}
-      {file && (
-        <TimelineItemFile document={file.document} label={file.label} ariaLabel={file.ariaLabel} />
-      )}
+    <TimelineItemBase {...props}>
+      {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
+      {file && <TimelineItemFile {...file} />}
     </TimelineItemBase>
   );
 };
