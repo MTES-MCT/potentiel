@@ -1,5 +1,4 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
@@ -11,13 +10,13 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
     createdAt: string;
   },
 ): TimelineItemProps => {
-  const { référenceDossierRaccordement } = event.payload;
+  const { référenceDossierRaccordement, dateMiseEnService } = event.payload;
 
   return {
-    date: event.createdAt as DateTime.RawType,
+    date: dateMiseEnService,
     title: (
       <div>
-        La date de mise en service a été transmise pour le dossier de raccordement{' '}
+        Date de mise en service pour le dossier de raccordement{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span>
       </div>
     ),
