@@ -82,7 +82,7 @@ const getÉliminéActions = async ({
   ) {
     actions.push(
       link(
-        'Faire une demande de recours',
+        'Demander un recours',
         `${Routes.Éliminé.détails(identifiantProjet.formatter())}/recours/demander`,
       ),
     );
