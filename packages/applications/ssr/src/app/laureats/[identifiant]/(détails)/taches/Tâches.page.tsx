@@ -11,15 +11,16 @@ import { SectionPage } from '../(components)/SectionPage';
 
 type Props = {
   tâches: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;
+  utilisateurEstPorteur: boolean;
 };
 
-export const TâchesPage = ({ tâches }: Props) => (
-  <SectionPage title="Tâches">
-    <TâchesList tâches={tâches} />
+export const TâchesPage = ({ tâches, utilisateurEstPorteur }: Props) => (
+  <SectionPage title={utilisateurEstPorteur ? 'Tâches' : 'Tâches porteur'}>
+    <TâchesList tâches={tâches} utilisateurEstPorteur={utilisateurEstPorteur} />
   </SectionPage>
 );
 
-const TâchesList = ({ tâches }: Props) => {
+const TâchesList = ({ tâches, utilisateurEstPorteur }: Props) => {
   return (
     <>
       {tâches.items.length === 0 ? (
@@ -42,9 +43,11 @@ const TâchesList = ({ tâches }: Props) => {
                     >
                       <div className="lex flex flex-col gap-2">
                         <p>{description}</p>
-                        <TertiaryLink href={lien} aria-label={ariaLabel}>
-                          {action}
-                        </TertiaryLink>
+                        {utilisateurEstPorteur && (
+                          <TertiaryLink href={lien} aria-label={ariaLabel}>
+                            {action}
+                          </TertiaryLink>
+                        )}
                       </div>
                     </ListItem>
                   </Tile>

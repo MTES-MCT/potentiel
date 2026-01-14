@@ -42,30 +42,33 @@ export const getLauréatMenuItems = async ({
   utilisateur,
 }: GetLauréatMenuItemsProps): Promise<SideMenuProps.Item[]> => {
   const link = (text: string, href: string) => ({ linkProps: { href }, text });
+
   const linkToSection = (text: string, path: string) =>
     link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
+
   const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
     const nécessiteInstruction =
       domain === 'actionnaire'
-        ? await changementActionnaireNécessiteInstruction(identifiantProjet.formatter())
+        ? await changementActionnaireNécessiteInstruction(
+            identifiantProjet.formatter(),
+            utilisateur.rôle.nom,
+          )
         : undefined;
+
     const action = await getAction({
       domain,
       identifiantProjet,
       rôle: utilisateur.rôle,
       nécessiteInstruction,
     });
+
     return action ? link(action.labelMenu, action.url) : undefined;
   };
 
   const tâchesMenu = utilisateur.rôle.aLaPermission('tâche.consulter')
     ? {
-        ...linkToSection(utilisateur.rôle.estPorteur() ? 'Tâches' : 'Tâches porteur', 'taches'),
-        text: (
-          <BadgeTâches identifiantProjet={identifiantProjet} utilisateur={utilisateur}>
-            Tâches
-          </BadgeTâches>
-        ),
+        ...linkToSection('Tâches', 'taches'),
+        text: <BadgeTâches identifiantProjet={identifiantProjet} utilisateur={utilisateur} />,
       }
     : undefined;
 

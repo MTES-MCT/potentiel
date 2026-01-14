@@ -10,15 +10,17 @@ type GetMenuItemsProps = {
   utilisateur: Utilisateur.ValueType;
 };
 
-export const BadgeTâches: React.FC<React.PropsWithChildren<GetMenuItemsProps>> = async ({
+export const BadgeTâches: React.FC<GetMenuItemsProps> = async ({
   identifiantProjet,
   utilisateur,
-  children,
 }) => {
   const tâches = await getTâches(
     identifiantProjet.formatter(),
     utilisateur.identifiantUtilisateur.email,
   );
+
+  const utilisateurEstPorteur = utilisateur.rôle.estPorteur();
+
   return (
     <Badge
       badgeContent={tâches.total}
@@ -27,7 +29,9 @@ export const BadgeTâches: React.FC<React.PropsWithChildren<GetMenuItemsProps>> 
       overlap="circular"
       invisible={tâches.total === 0}
     >
-      <div className="mr-6">{children}</div>
+      <div className={utilisateurEstPorteur ? 'mr-6' : 'mr-8'}>
+        {utilisateurEstPorteur ? 'Tâches' : 'Tâches porteur'}
+      </div>
     </Badge>
   );
 };
