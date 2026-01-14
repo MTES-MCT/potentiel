@@ -24,7 +24,7 @@ export const mapToÉliminéNotifiéTimelineItemProps = (
         format,
       ),
       label: "Télécharger l'avis de rejet",
-      ariaLabel: `Télécharger l'avis de rejet de la candidature notifié le ${formatDateToText(notifiéLe)}`,
+      ariaLabel: `Télécharger l'avis de rejet de la candidature notifiée le ${formatDateToText(notifiéLe)}`,
     },
   };
 };
