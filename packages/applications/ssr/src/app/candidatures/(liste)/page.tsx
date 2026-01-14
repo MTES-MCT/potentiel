@@ -15,7 +15,6 @@ import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CandidatureListPage } from './CandidatureList.page';
 
@@ -45,107 +44,104 @@ const paramsSchema = z.object({
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
-  return PageWithErrorHandling(async () =>
-    withUtilisateur(async (utilisateur) => {
-      const { page, appelOffre, famille, nomProjet, periode, statut, notifie, typeActionnariat } =
-        paramsSchema.parse(searchParams);
+  return PageWithErrorHandling(async () => {
+    const { page, appelOffre, famille, nomProjet, periode, statut, notifie, typeActionnariat } =
+      paramsSchema.parse(searchParams);
 
-      if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
-        return redirect(Routes.Candidature.détails(nomProjet));
-      }
+    if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
+      return redirect(Routes.Candidature.détails(nomProjet));
+    }
 
-      const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
-        type: 'Candidature.Query.ListerCandidatures',
-        data: {
-          utilisateur: utilisateur.identifiantUtilisateur.email,
-          range: mapToRangeOptions({
-            currentPage: page,
-            itemsPerPage: 10,
-          }),
-          nomProjet,
-          appelOffre,
-          période: periode,
-          famille,
-          statut,
-          typeActionnariat,
-          estNotifiée: notifie,
-        },
-      });
+    const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+      type: 'Candidature.Query.ListerCandidatures',
+      data: {
+        range: mapToRangeOptions({
+          currentPage: page,
+          itemsPerPage: 10,
+        }),
+        nomProjet,
+        appelOffre,
+        période: periode,
+        famille,
+        statut,
+        typeActionnariat,
+        estNotifiée: notifie,
+      },
+    });
 
-      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
-        type: 'AppelOffre.Query.ListerAppelOffre',
-        data: {},
-      });
+    const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
+      type: 'AppelOffre.Query.ListerAppelOffre',
+      data: {},
+    });
 
-      const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
+    const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
 
-      const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
+    const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
-      const périodeOptions =
-        appelOffresFiltré?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
+    const périodeOptions =
+      appelOffresFiltré?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
-      const familleOptions =
-        périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
+    const familleOptions =
+      périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
-      const filters: ListFilterItem<SearchParams>[] = [
-        {
-          label: 'Statut de la candidature',
-          searchParamKey: 'statut',
-          options: [
-            { label: 'Classé', value: Candidature.StatutCandidature.classé.formatter() },
-            { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.formatter() },
-          ],
-        },
-        {
-          label: 'Statut de la notification',
-          searchParamKey: 'notifie',
-          options: [
-            { label: 'Notifié', value: 'notifie' },
-            { label: 'À notifier', value: 'a-notifier' },
-          ],
-        },
-        {
-          label: `Appel d'offres`,
-          searchParamKey: 'appelOffre',
-          options: appelOffres.items.map((appelOffre) => ({
-            label: appelOffre.id,
-            value: appelOffre.id,
-          })),
-          affects: ['periode', 'famille'],
-        },
-        {
-          label: 'Période',
-          searchParamKey: 'periode',
-          options: périodeOptions,
-          affects: ['famille'],
-        },
-        {
-          label: 'Famille',
-          searchParamKey: 'famille',
-          options: familleOptions,
-        },
-        {
-          label: "Type d'actionnariat",
-          searchParamKey: 'typeActionnariat',
-          options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
-          multiple: true,
-        },
-      ];
+    const filters: ListFilterItem<SearchParams>[] = [
+      {
+        label: 'Statut de la candidature',
+        searchParamKey: 'statut',
+        options: [
+          { label: 'Classé', value: Candidature.StatutCandidature.classé.formatter() },
+          { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.formatter() },
+        ],
+      },
+      {
+        label: 'Statut de la notification',
+        searchParamKey: 'notifie',
+        options: [
+          { label: 'Notifié', value: 'notifie' },
+          { label: 'À notifier', value: 'a-notifier' },
+        ],
+      },
+      {
+        label: `Appel d'offres`,
+        searchParamKey: 'appelOffre',
+        options: appelOffres.items.map((appelOffre) => ({
+          label: appelOffre.id,
+          value: appelOffre.id,
+        })),
+        affects: ['periode', 'famille'],
+      },
+      {
+        label: 'Période',
+        searchParamKey: 'periode',
+        options: périodeOptions,
+        affects: ['famille'],
+      },
+      {
+        label: 'Famille',
+        searchParamKey: 'famille',
+        options: familleOptions,
+      },
+      {
+        label: "Type d'actionnariat",
+        searchParamKey: 'typeActionnariat',
+        options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
+        multiple: true,
+      },
+    ];
 
-      return (
-        <CandidatureListPage
-          list={{
-            items: candidatures.items.map(mapToPlainObject),
-            ...mapToPagination(candidatures.range),
-            totalItems: candidatures.total,
-          }}
-          filters={filters}
-          legend={{
-            symbols: candidatureListLegendSymbols,
-          }}
-          actions={[]}
-        />
-      );
-    }),
-  );
+    return (
+      <CandidatureListPage
+        list={{
+          items: candidatures.items.map(mapToPlainObject),
+          ...mapToPagination(candidatures.range),
+          totalItems: candidatures.total,
+        }}
+        filters={filters}
+        legend={{
+          symbols: candidatureListLegendSymbols,
+        }}
+        actions={[]}
+      />
+    );
+  });
 }

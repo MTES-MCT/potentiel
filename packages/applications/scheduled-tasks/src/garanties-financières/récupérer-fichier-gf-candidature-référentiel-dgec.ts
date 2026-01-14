@@ -9,11 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Document, IdentifiantProjet, Candidature, Lauréat } from '@potentiel-domain/projet';
-import {
-  ProjetAdapter,
-  DocumentAdapter,
-  getProjetUtilisateurScopeAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { ProjetAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Période } from '@potentiel-domain/periode';
 
 export const dgecEmail = 'aopv.dgec@developpement-durable.gouv.fr';
@@ -42,7 +38,6 @@ Candidature.registerCandidatureQueries({
   list: listProjection,
   récupérerProjetsEligiblesPreuveRecanditure:
     ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-  getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
 });
 
 Document.registerDocumentProjetCommand({

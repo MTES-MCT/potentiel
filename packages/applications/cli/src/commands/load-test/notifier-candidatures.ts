@@ -72,7 +72,6 @@ export class NotifierCandidatures extends Command {
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre: appelOffre ? [appelOffre] : undefined,
-        utilisateur: Email.système.formatter(),
         période: String(periode),
         estNotifiée: false,
       },

@@ -10,7 +10,6 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
-import { Email } from '@potentiel-domain/common';
 
 import { waitForExpect } from '#helpers';
 
@@ -44,7 +43,6 @@ Alors(
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre: [identifiantPériode.appelOffre],
-        utilisateur: Email.système.formatter(),
         période: identifiantPériode.période,
       },
     });
@@ -78,7 +76,6 @@ Alors(
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre: [identifiantPériode.appelOffre],
-        utilisateur: Email.système.formatter(),
         période: identifiantPériode.période,
       },
     });
@@ -94,7 +91,6 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       appelOffre: [identifiantPériode.appelOffre],
-      utilisateur: Email.système.formatter(),
       période: identifiantPériode.période,
     },
   });
@@ -228,7 +224,6 @@ async function vérifierLauréats(
       type: 'Candidature.Query.ListerCandidatures',
       data: {
         appelOffre: [identifiantPériode.appelOffre],
-        utilisateur: Email.système.formatter(),
         période: identifiantPériode.période,
         statut: 'classé',
       },
@@ -275,7 +270,6 @@ async function vérifierÉliminés(
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       appelOffre: [identifiantPériode.appelOffre],
-      utilisateur: Email.système.formatter(),
       période: identifiantPériode.période,
       statut: 'éliminé',
     },

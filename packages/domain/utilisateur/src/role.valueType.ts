@@ -655,13 +655,6 @@ const référencielPermissions = {
       lister: 'Lauréat.Query.ListerHistoriqueProjet',
     },
   },
-  projet: {
-    export: {
-      query: {
-        exportRaccordement: 'Projet.Query.ExportRaccordement',
-      },
-    },
-  },
 } as const;
 
 /**
@@ -1552,9 +1545,6 @@ const policies = {
   projet: {
     accèsDonnées: {
       prix: [],
-    },
-    export: {
-      exportRaccordement: [référencielPermissions.projet.export.query.exportRaccordement],
     },
   },
   appelOffre: {

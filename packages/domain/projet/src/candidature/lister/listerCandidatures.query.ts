@@ -6,9 +6,8 @@ import { Email } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
 import * as StatutCandidature from '../statutCandidature.valueType';
-import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { DocumentProjet, IdentifiantProjet } from '../..';
 import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '..';
-import { Fournisseur } from '../../lauréat';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,8 +24,6 @@ export type CandidaturesListItemReadModel = {
   attestation?: DocumentProjet.ValueType;
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
   typeActionnariat?: Dépôt.ValueType['actionnariat'];
-  fournisseurs: Dépôt.ValueType['fournisseurs'];
-  sociétéMère: Dépôt.ValueType['sociétéMère'];
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -38,7 +35,6 @@ export type ListerCandidaturesReadModel = Readonly<{
 export type ListerCandidaturesQuery = Message<
   'Candidature.Query.ListerCandidatures',
   {
-    utilisateur: Email.RawType;
     range?: RangeOptions;
     statut?: StatutCandidature.RawType;
     appelOffre?: Array<string>;
@@ -54,15 +50,10 @@ export type ListerCandidaturesQuery = Message<
 
 export type ListerCandidaturesQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
-export const registerListerCandidaturesQuery = ({
-  list,
-  getScopeProjetUtilisateur,
-}: ListerCandidaturesQueryDependencies) => {
+export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQueryDependencies) => {
   const handler: MessageHandler<ListerCandidaturesQuery> = async ({
-    utilisateur,
     range,
     statut,
     appelOffre,
@@ -73,8 +64,6 @@ export const registerListerCandidaturesQuery = ({
     nomProjet,
     identifiantProjets,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-
     const {
       items,
       range: { endPosition, startPosition },
@@ -92,10 +81,6 @@ export const registerListerCandidaturesQuery = ({
             : undefined,
         nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
-
-        localité: {
-          région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
-        },
       },
       range,
       orderBy: {
@@ -132,8 +117,6 @@ export const mapToReadModel = ({
   notification,
   unitéPuissance,
   actionnariat,
-  fournisseurs,
-  sociétéMère,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -157,6 +140,4 @@ export const mapToReadModel = ({
     }),
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
   typeActionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
-  fournisseurs: fournisseurs.map(Fournisseur.Fournisseur.convertirEnValueType),
-  sociétéMère,
 });
