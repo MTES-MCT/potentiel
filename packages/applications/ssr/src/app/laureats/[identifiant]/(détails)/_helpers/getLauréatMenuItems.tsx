@@ -46,8 +46,11 @@ export const getLauréatMenuItems = async ({
     link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
   const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
     const nécessiteInstruction =
-      domain === 'actionnaire' && utilisateur.rôle.aLaPermission('actionnaire.demanderChangement')
-        ? await changementActionnaireNécessiteInstruction(identifiantProjet.formatter())
+      domain === 'actionnaire'
+        ? await changementActionnaireNécessiteInstruction(
+            identifiantProjet.formatter(),
+            utilisateur.rôle.aLaPermission('actionnaire.demanderChangement'),
+          )
         : undefined;
     const action = await getAction({
       domain,

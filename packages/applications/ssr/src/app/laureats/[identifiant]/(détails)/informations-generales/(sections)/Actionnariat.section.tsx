@@ -35,6 +35,7 @@ export const ActionnariatSection = ({
 
       const nécessiteInstruction = await changementActionnaireNécessiteInstruction(
         identifiantProjet.formatter(),
+        rôle.aLaPermission('actionnaire.demanderChangement'),
       );
 
       const action = actionnaire.dateDemandeEnCours

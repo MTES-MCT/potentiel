@@ -7,7 +7,14 @@ import { getLauréatInfos, getGarantiesFinancières } from '../laureats/[identif
 import { getCahierDesCharges } from './getCahierDesCharges';
 
 export const changementActionnaireNécessiteInstruction = cache(
-  async (identifiantProjet: IdentifiantProjet.RawType) => {
+  async (
+    identifiantProjet: IdentifiantProjet.RawType,
+    peutDemanderChangementActionnaire: boolean,
+  ) => {
+    if (!peutDemanderChangementActionnaire) {
+      return undefined;
+    }
+
     const lauréat = await getLauréatInfos(identifiantProjet);
     const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet);
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
