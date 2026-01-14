@@ -24,7 +24,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
       ),
       ariaLabel: `Télécharger le justificatif de la demande d'abandon déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: {
+    link: {
       url: Routes.Abandon.détail(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande d'abandon déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',

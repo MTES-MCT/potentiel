@@ -39,7 +39,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className, ItemComponent = 
           actor={item.actor}
           isLast={index === filteredItems.length - 1 ? true : undefined}
           file={item.file}
-          redirect={item.redirect}
+          link={item.link}
         />
       ))}
     </MuiTimeline>

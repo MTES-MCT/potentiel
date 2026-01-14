@@ -33,7 +33,7 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
       ),
       ariaLabel: `Télécharger le justificatif joint à la demande de changement de puissance déposée le ${demandéLe}`,
     },
-    redirect: {
+    link: {
       url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
       label: 'Détail de la demande',
       ariaLabel: `Voir le détail de la demande de changement de puissance déposée le ${FormattedDate({ date: demandéLe })}`,

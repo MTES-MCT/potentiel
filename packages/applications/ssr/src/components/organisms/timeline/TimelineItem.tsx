@@ -7,10 +7,10 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { TimelineItemBase, TimelineItemBaseProps } from './TimelineItemBase';
 import { TimelineItemFile } from './TimelineItemFile';
 
-export type TimelineItemProps = Omit<TimelineItemBaseProps, 'children'> & {
+export type TimelineItemProps = TimelineItemBaseProps & {
   details?: ReactNode;
   file?: { document: DocumentProjet.ValueType; ariaLabel: string; label?: string };
-  redirect?: { label: string; url: string; ariaLabel: string };
+  link?: { label: string; url: string; ariaLabel: string };
 };
 
 export const TimelineItem: FC<TimelineItemProps> = ({ details, file, ...props }) => {

@@ -26,7 +26,7 @@ export const mapToDélaiDemandéTimelineItemProps = (
       ),
       ariaLabel: `Télécharger le justificatif joint à la demande de délai déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: {
+    link: {
       url: Routes.Délai.détail(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande de délai déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',

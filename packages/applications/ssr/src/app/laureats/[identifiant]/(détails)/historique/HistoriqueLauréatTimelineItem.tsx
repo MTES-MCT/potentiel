@@ -9,16 +9,16 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
   details,
   file,
-  redirect,
+  link,
   ...props
 }) => {
   return (
     <TimelineItemBase {...props}>
       {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
       {file && <TimelineItemFile {...file} />}
-      {redirect && (
-        <TertiaryLink href={redirect.url} aria-label={redirect.ariaLabel} className="mt-2">
-          {redirect.label}
+      {link && (
+        <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2">
+          {link.label}
         </TertiaryLink>
       )}
     </TimelineItemBase>

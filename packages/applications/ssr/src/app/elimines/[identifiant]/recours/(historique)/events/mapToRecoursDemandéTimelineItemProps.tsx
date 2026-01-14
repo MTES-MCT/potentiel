@@ -28,7 +28,7 @@ export const mapToRecoursDemandéTimelineItemProps = (
       ),
       ariaLabel: `Télécharger le justificatif joint à la demande de recours déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: {
+    link: {
       label: 'Détail de la demande',
       ariaLabel: `Aller sur la page du détail du recours déposé le ${formatDateToText(demandéLe)}`,
       url: Routes.Recours.détail(identifiantProjet, demandéLe),
