@@ -68,11 +68,10 @@ const getÉliminéActions = async ({
   });
 
   if (Option.isSome(recours)) {
-    // revoir ces conditions
     if (recours.statut.estEnCours() && role.aLaPermission('recours.consulter.détail')) {
       actions.push(
         link(
-          'Consulter recours',
+          'Consulter le recours',
           `${Routes.Éliminé.détails(identifiantProjet.formatter())}/recours`,
         ),
       );
@@ -92,7 +91,7 @@ const getÉliminéActions = async ({
   if (role.aLaPermission('candidature.corriger')) {
     actions.push(
       link(
-        'Corriger la candidature',
+        'Modifier la candidature',
         `${Routes.Candidature.corriger(identifiantProjet.formatter())}`,
       ),
     );
