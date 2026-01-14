@@ -1,20 +1,14 @@
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { TimelineItemProps, ETAPE_INCONNUE_TITLE } from '@/components/organisms/timeline';
-import { IconProps } from '@/components/atoms/Icon';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
   event: HistoryRecord,
-): TimelineItemProps => {
-  const icon: IconProps = {
-    id: 'ri-question-line',
-  };
-
-  return {
-    title: ETAPE_INCONNUE_TITLE,
-    type: event.type,
-    icon,
-    date: event.createdAt as DateTime.RawType,
-  };
-};
+): TimelineItemProps => ({
+  isÉtapeInconnue: true,
+  title: 'Étape inconnue',
+  type: event.type,
+  icon: { id: 'ri-question-line' },
+  date: event.createdAt as DateTime.RawType,
+});

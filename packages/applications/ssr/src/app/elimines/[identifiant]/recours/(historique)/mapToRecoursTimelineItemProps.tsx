@@ -9,10 +9,10 @@ import {
   mapToRecoursAccordéTimelineItemProps,
   mapToRecoursRejetéTimelineItemProps,
   mapToRecoursPasséEnInstructionTimelineItemProp,
-  mapToRecoursDemandéHistoriqueDemandeTimelineItemProps,
+  mapToRecoursDemandéTimelineItemProps,
 } from './events';
 
-export const mapToRecoursHistoriqueDemandeTimelineItemProps = (
+export const mapToRecoursTimelineItemProps = (
   event: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
 ) =>
   match(event)
@@ -21,7 +21,7 @@ export const mapToRecoursHistoriqueDemandeTimelineItemProps = (
       {
         type: 'RecoursDemandé-V1',
       },
-      mapToRecoursDemandéHistoriqueDemandeTimelineItemProps,
+      mapToRecoursDemandéTimelineItemProps,
     )
     .with(
       {

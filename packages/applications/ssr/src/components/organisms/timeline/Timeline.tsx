@@ -2,15 +2,16 @@ import { FC } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
 
-import { ETAPE_INCONNUE_TITLE, TimelineItem, TimelineItemProps } from './TimelineItem';
+import { TimelineItem, TimelineItemProps } from './';
 
 export type TimelineProps = {
   items: Array<TimelineItemProps>;
   className?: string;
+  ItemComponent?: FC<TimelineItemProps>;
 };
 
-export const Timeline: FC<TimelineProps> = ({ items, className }) => {
-  const filteredItems = items.filter((item) => item.title !== ETAPE_INCONNUE_TITLE);
+export const Timeline: FC<TimelineProps> = ({ items, className, ItemComponent = TimelineItem }) => {
+  const filteredItems = items.filter((item) => !item.isÉtapeInconnue);
 
   return (
     <MuiTimeline
@@ -27,7 +28,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => {
       className={className ?? ''}
     >
       {filteredItems.map((item, index) => (
-        <TimelineItem
+        <ItemComponent
           key={`${item.title}-${item.date}`}
           icon={item.icon}
           details={item.details}

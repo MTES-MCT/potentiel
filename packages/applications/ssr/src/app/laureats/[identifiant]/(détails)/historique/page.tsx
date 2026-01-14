@@ -14,7 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
-import { mapToRecoursHistoriqueGlobalTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursHistoriqueGlobalTimelineItemProps';
+import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 
 import { getLauréatInfos } from '../../_helpers/getLauréat';
 import { mapToAchèvementTimelineItemProps } from '../../achevement/(historique)/mapToAchèvementTimelineItemProps';
@@ -218,9 +218,7 @@ const mapToTimelineItemProps = ({
     .with({ category: 'abandon' }, (readmodel) =>
       mapToAbandonTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
     )
-    .with({ category: 'recours' }, (readmodel) =>
-      mapToRecoursHistoriqueGlobalTimelineItemProps(readmodel),
-    )
+    .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
     .with({ category: 'actionnaire' }, (readmodel) =>
       mapToActionnaireTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
     )
