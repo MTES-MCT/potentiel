@@ -1,10 +1,6 @@
 import { test } from 'node:test';
-// Import Readable from Node.js
 
-import { z } from 'zod';
 import { expect } from 'chai';
-
-import { fromCSV } from '../import';
 
 import { toCSV } from './toCSV';
 
@@ -23,26 +19,31 @@ test(`Étant donné des données à exporter en CSV
   ];
   const csv = await toCSV({ data, fields: ['props1', 'props2'] });
 
-  const schema = z.object({
-    props1: z.string(),
-    props2: z.string(),
-  });
+  const expected = `"props1";"props2"\n"A";"B"\n"C";"D"`;
 
-  // Use Readable.from to create a readable stream from the CSV string
-
-  const readableStream = convertStringToReadableStream(csv);
-
-  const { parsedData } = await fromCSV(readableStream, schema);
-  expect(parsedData).to.deep.eq(data);
+  expect(csv.trim()).to.eq(expected);
 });
 
-const convertStringToReadableStream = (value: string) => {
-  const content = new ReadableStream({
-    start: async (controller) => {
-      controller.enqueue(Buffer.from(value, 'utf-8'));
-      controller.close();
+test(`Étant donné des données à exporter en CSV
+  Quand on transforme les données en CSV en ne sélectionnant que certains champs
+  Alors le contenu du CSV doit se baser sur les champs séléctionnés`, async () => {
+  const data = [
+    {
+      props1: 'A',
+      props2: 'B',
     },
-  });
+    {
+      props1: 'C',
+      props2: 'D',
+    },
+    {
+      props2: 'E',
+      props3: 'F',
+    },
+  ];
+  const csv = await toCSV({ data, fields: [{ label: 'Props 1', value: 'props1' }] });
 
-  return content;
-};
+  const expected = `"Props 1"\n"A"\n"C"`;
+
+  expect(csv.trim()).to.eq(expected);
+});
