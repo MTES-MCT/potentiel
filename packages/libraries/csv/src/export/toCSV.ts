@@ -2,6 +2,10 @@ import { Parser, ParserOptions } from '@json2csv/plainjs';
 
 export type ToCSVProps<TData> = {
   data: TData;
+  /**
+   * TODO : fields type should be improved to match TData structure :
+   * (Array<keyof TData | { label: string; default?: value: keyofTData; value: keyof TData }>).
+   */
   fields: ParserOptions['fields'];
   parserOptions?: Omit<ParserOptions, 'fields'>;
 };
