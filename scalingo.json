@@ -1,5 +1,38 @@
 {
+  "name": "Potentiel",
+  "stack": "scalingo-22",
   "scripts": {
-    "first-deploy": ".database/scripts/restore-test-env-db.sh"
+    "first-deploy": "bash .database/scripts/restore-test-env-db.sh"
+  },
+  "formation": {
+    "web": {
+      "amount": 1,
+      "size": "M"
+    },
+    "worker": {
+      "amount": 1,
+      "size": "S"
+    }
+  },
+  "addons": [
+    {
+      "plan": "postgresql:postgresql-sandbox"
+    },
+    {
+      "plan": "redis:redis-sandbox"
+    }
+  ],
+  "env": {
+    "IS_REVIEW_APP": {
+      "value": "true"
+    },
+    "BASE_URL": {
+      "description": "BASE_URL",
+      "generator": "url"
+    },
+    "NEXTAUTH_PROVIDERS": {
+      "value": "email",
+      "description": "seul la connexion par lien magique est disponible sans configuration dans une review app"
+    }
   }
 }
