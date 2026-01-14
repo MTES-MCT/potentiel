@@ -3,6 +3,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
+import { getGarantiesFinancièresMotifLabel } from '../../../_helpers/getGarantiesFinancièresMotifLabel';
+
 export const mapToGarantiesFinancièresDemandéesTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent,
 ): TimelineItemProps => {
@@ -20,7 +22,8 @@ export const mapToGarantiesFinancièresDemandéesTimelineItemsProps = (
           </span>
         </div>
         <div>
-          Motif de la demande : <span className="font-semibold">{motif}</span>
+          Motif de la demande :{' '}
+          <span className="font-semibold">{getGarantiesFinancièresMotifLabel(motif)}</span>
         </div>
       </div>
     ),
