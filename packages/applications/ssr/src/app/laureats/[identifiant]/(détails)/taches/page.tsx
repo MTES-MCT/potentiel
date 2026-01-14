@@ -29,7 +29,12 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         utilisateur.identifiantUtilisateur.email,
       );
 
-      return <TâchesPage tâches={mapToPlainObject(tâches)} />;
+      return (
+        <TâchesPage
+          tâches={mapToPlainObject(tâches)}
+          utilisateurEstPorteur={utilisateur.estPorteur()}
+        />
+      );
     }),
   );
 }
