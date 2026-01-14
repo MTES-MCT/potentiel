@@ -2,8 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-
-import { FormattedDate } from '../../../../../../../../components/atoms/FormattedDate';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
   event: (
