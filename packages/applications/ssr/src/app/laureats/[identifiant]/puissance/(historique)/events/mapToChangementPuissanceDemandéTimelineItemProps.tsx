@@ -7,11 +7,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 export const mapToChangementPuissanceDemandéTimelineItemProps = ({
   event,
   unitéPuissance,
-  isHistoriqueProjet,
 }: {
   event: Lauréat.Puissance.ChangementPuissanceDemandéEvent;
   unitéPuissance: string;
-  isHistoriqueProjet?: true;
 }): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -35,7 +33,7 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
       ),
       ariaLabel: `Télécharger le justificatif joint à la demande de changement de puissance déposée le ${demandéLe}`,
     },
-    redirect: isHistoriqueProjet && {
+    redirect: {
       url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
       label: 'Détail de la demande',
       ariaLabel: `Voir le détail de la demande de changement de puissance déposée le ${FormattedDate({ date: demandéLe })}`,

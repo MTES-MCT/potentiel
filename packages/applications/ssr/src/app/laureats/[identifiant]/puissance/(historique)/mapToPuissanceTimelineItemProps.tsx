@@ -16,11 +16,9 @@ import { mapToChangementPuissanceSuppriméTimelineItemProps } from './events/map
 export const mapToPuissanceTimelineItemProps = ({
   event,
   unitéPuissance,
-  isHistoriqueProjet,
 }: {
   event: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel;
   unitéPuissance: string;
-  isHistoriqueProjet?: true;
 }) =>
   match(event)
     .returnType<TimelineItemProps>()
@@ -38,7 +36,6 @@ export const mapToPuissanceTimelineItemProps = ({
         mapToChangementPuissanceDemandéTimelineItemProps({
           event,
           unitéPuissance,
-          isHistoriqueProjet,
         }),
     )
     .with(

@@ -6,13 +6,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésentantLégalLabel';
 
-export const mapToChangementReprésentantLégalDemandéTimelineItemProps = ({
-  event,
-  isHistoriqueProjet,
-}: {
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent;
-  isHistoriqueProjet?: true;
-}): TimelineItemProps => {
+export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent,
+): TimelineItemProps => {
   const { demandéLe, demandéPar, typeReprésentantLégal, nomReprésentantLégal, identifiantProjet } =
     event.payload;
 
@@ -20,7 +16,7 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = ({
     date: demandéLe,
     title: 'Demande de changement de représentant légal déposée',
     actor: demandéPar,
-    redirect: isHistoriqueProjet && {
+    redirect: {
       url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande de changement de représentant légal déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',

@@ -23,6 +23,7 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
             href: redirect.url,
           }}
           aria-label={redirect.ariaLabel}
+          className="mt-2"
         >
           {redirect.label}
         </Button>

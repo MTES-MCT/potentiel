@@ -76,7 +76,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             demandeDélai,
             autoritéCompétente: règles.demande ? règles.autoritéCompétente : undefined,
           })}
-          historique={historique.items.map((item) => mapToDélaiTimelineItemProps({ event: item }))}
+          historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
       );
     }),

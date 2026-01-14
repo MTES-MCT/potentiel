@@ -80,9 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             statut: abandon.statut,
           })}
           projetsÀSélectionner={projetsÀSélectionner}
-          historique={historique.items.map((item) =>
-            mapToAbandonTimelineItemProps({ event: item }),
-          )}
+          historique={historique.items.map(mapToAbandonTimelineItemProps)}
         />
       );
     }),

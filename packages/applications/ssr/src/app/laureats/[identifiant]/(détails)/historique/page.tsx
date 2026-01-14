@@ -198,16 +198,10 @@ const mapToTimelineItemProps = ({
 }: MapToTimelineItemProps) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
-    .with({ category: 'abandon' }, (readmodel) =>
-      mapToAbandonTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
-    )
+    .with({ category: 'abandon' }, mapToAbandonTimelineItemProps)
     .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
-    .with({ category: 'actionnaire' }, (readmodel) =>
-      mapToActionnaireTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
-    )
-    .with({ category: 'représentant-légal' }, (readmodel) =>
-      mapToReprésentantLégalTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
-    )
+    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
+    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, (readmodel) =>
       mapToLauréatTimelineItemProps({
         readmodel,
@@ -221,14 +215,11 @@ const mapToTimelineItemProps = ({
       mapToPuissanceTimelineItemProps({
         event: readmodel,
         unitéPuissance,
-        isHistoriqueProjet: true,
       }),
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
-    .with({ category: 'délai' }, (readmodel) =>
-      mapToDélaiTimelineItemProps({ event: readmodel, isHistoriqueProjet: true }),
-    )
+    .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
     .with({ category: 'installation' }, mapToInstallationTimelineItemProps)
     .with(

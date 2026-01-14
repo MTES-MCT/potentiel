@@ -80,9 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.rôle)}
-          historique={historique.items.map((item) =>
-            mapToActionnaireTimelineItemProps({ event: item }),
-          )}
+          historique={historique.items.map(mapToActionnaireTimelineItemProps)}
           dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
         />
       );

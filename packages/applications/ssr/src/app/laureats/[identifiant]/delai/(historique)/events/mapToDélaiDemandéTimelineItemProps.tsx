@@ -7,13 +7,9 @@ import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRa
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
-export const mapToDélaiDemandéTimelineItemProps = ({
-  event,
-  isHistoriqueProjet,
-}: {
-  event: Lauréat.Délai.DélaiDemandéEvent;
-  isHistoriqueProjet?: true;
-}): TimelineItemProps => {
+export const mapToDélaiDemandéTimelineItemProps = (
+  event: Lauréat.Délai.DélaiDemandéEvent,
+): TimelineItemProps => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
     event.payload;
 
@@ -30,7 +26,7 @@ export const mapToDélaiDemandéTimelineItemProps = ({
       ),
       ariaLabel: `Télécharger le justificatif joint à la demande de délai déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: isHistoriqueProjet && {
+    redirect: {
       url: Routes.Délai.détail(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande de délai déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',

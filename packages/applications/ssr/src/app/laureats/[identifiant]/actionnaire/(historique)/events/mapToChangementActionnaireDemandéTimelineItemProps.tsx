@@ -5,13 +5,9 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
-export const mapToChangementActionnaireDemandéTimelineItemProps = ({
-  event,
-  isHistoriqueProjet,
-}: {
-  event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent;
-  isHistoriqueProjet?: true;
-}): TimelineItemProps => {
+export const mapToChangementActionnaireDemandéTimelineItemProps = (
+  event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
+): TimelineItemProps => {
   const {
     demandéLe,
     demandéPar,
@@ -33,7 +29,7 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = ({
       ),
       ariaLabel: `Télécharger le justificatif de la demande de changement d'actionnaire déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: isHistoriqueProjet && {
+    redirect: {
       url: Routes.Actionnaire.changement.détails(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande de changement d'actionnaire déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',

@@ -92,9 +92,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             changement.demande.statut,
             informationEnregistréeEstPossible,
           )}
-          historique={historique.items.map((item) =>
-            mapToReprésentantLégalTimelineItemProps({ event: item }),
-          )}
+          historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
           dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
         />
       );

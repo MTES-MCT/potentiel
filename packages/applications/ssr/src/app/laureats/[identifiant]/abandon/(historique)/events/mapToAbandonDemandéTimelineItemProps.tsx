@@ -6,13 +6,9 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
-export const mapToAbandonDemandéTimelineItemProps = ({
-  event,
-  isHistoriqueProjet,
-}: {
-  event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1;
-  isHistoriqueProjet?: true;
-}): TimelineItemProps => {
+export const mapToAbandonDemandéTimelineItemProps = (
+  event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
+): TimelineItemProps => {
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;
 
   return {
@@ -28,7 +24,7 @@ export const mapToAbandonDemandéTimelineItemProps = ({
       ),
       ariaLabel: `Télécharger le justificatif de la demande d'abandon déposée le ${formatDateToText(demandéLe)}`,
     },
-    redirect: isHistoriqueProjet && {
+    redirect: {
       url: Routes.Abandon.détail(identifiantProjet, demandéLe),
       ariaLabel: `Voir le détail de la demande d'abandon déposée le ${FormattedDate({ date: demandéLe })}`,
       label: 'Détail de la demande',
