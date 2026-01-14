@@ -1,26 +1,25 @@
 import { Parser, ParserOptions } from '@json2csv/plainjs';
 
 // Utility type to extract string keys from a type
-type StringKeys<T> = Extract<keyof T, string>;
+type FieldKeys<T> = T extends Array<infer U> ? keyof U : keyof T;
 
-export type ToCSVProps<TData extends object> = {
-  data: TData | Array<TData>;
-  fields: Array<StringKeys<TData> | { label: string; value: StringKeys<TData> }>;
+export type ToCSVProps<TData> = {
+  data: Array<TData>;
+  fields: FieldKeys<TData>[] | { label: string; value: FieldKeys<TData> }[];
   parserOptions?: Omit<ParserOptions, 'fields'>;
 };
 
-export const toCSV = async <TData extends object>({
+export const toCSV = async <TData extends Record<string, unknown>>({
   data,
   fields,
   parserOptions,
 }: ToCSVProps<TData>) => {
-  const defaultOptions: ParserOptions = {
-    fields,
+  const options: ParserOptions = {
     delimiter: ';',
     withBOM: true,
+    fields,
+    ...parserOptions,
   };
-
-  const options = { ...defaultOptions, ...parserOptions };
 
   const csvParser = new Parser(options);
   return csvParser.parse(data);

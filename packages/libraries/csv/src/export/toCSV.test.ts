@@ -21,10 +21,7 @@ test(`Étant donné des données à exporter en CSV
       props2: 'D',
     },
   ];
-
-  const fields = ['props1', 'props2'];
-
-  const csv = await toCSV({ data, fields });
+  const csv = await toCSV({ data, fields: ['props1', 'props2'] });
 
   const schema = z.object({
     props1: z.string(),

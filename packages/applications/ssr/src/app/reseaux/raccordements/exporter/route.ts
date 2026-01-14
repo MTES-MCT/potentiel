@@ -84,7 +84,7 @@ export const GET = async (_: Request) =>
         }),
       );
 
-      const csv = await ExportCSV.toCSV<DossierRaccordementCSV[]>({
+      const csv = await ExportCSV.toCSV({
         data,
         fields,
       });
