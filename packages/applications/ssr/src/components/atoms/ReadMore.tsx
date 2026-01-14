@@ -13,10 +13,15 @@ export const ReadMore = ({ text, maxLength = 100, className }: Props) => {
 
   return (
     <>
-      <span className={className}>{isTruncated ? `${text.substring(0, maxLength)}...` : text}</span>
-      <button onClick={() => setIsTruncated(!isTruncated)} className="text-theme-blueFrance ml-2">
-        {isTruncated ? 'Voir plus' : 'Voir moins'}
-      </button>
+      <span className={className}>
+        {isTruncated ? `${text.substring(0, maxLength)}... ` : text}
+        <span
+          onClick={() => setIsTruncated(!isTruncated)}
+          className="cursor-pointer text-sm text-dsfr-text-title-blueFrance-default font-medium whitespace-nowrap"
+        >
+          {isTruncated ? ' Voir plus' : ' Voir moins'}
+        </span>
+      </span>
     </>
   );
 };
