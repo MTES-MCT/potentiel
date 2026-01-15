@@ -1,5 +1,38 @@
 {
+  "name": "Potentiel",
+  "stack": "scalingo-24",
   "scripts": {
-    "first-deploy": ".database/scripts/restore-test-env-db.sh"
+    "first-deploy": "bash .database/scripts/restore-test-env-db.sh"
+  },
+  "formation": {
+    "web": {
+      "amount": 0,
+      "size": "M"
+    },
+    "worker": {
+      "amount": 0,
+      "size": "S"
+    }
+  },
+  "addons": [
+    {
+      "plan": "postgresql:postgresql-sandbox"
+    },
+    {
+      "plan": "redis:redis-sandbox"
+    }
+  ],
+  "env": {
+    "IS_REVIEW_APP": {
+      "value": "true"
+    },
+    "BASE_URL": {
+      "description": "BASE_URL",
+      "generator": "url"
+    },
+    "NEXTAUTH_PROVIDERS": {
+      "value": "email",
+      "description": "seule la connexion par lien magique est disponible par défaut dans une review app. Pour keycloak une configuration est nécessaire"
+    }
   }
 }
