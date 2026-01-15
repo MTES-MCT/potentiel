@@ -22,7 +22,7 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
         <span className="font-semibold">{référenceDossierRaccordement}</span>
       </div>
     ),
-    content: (
+    details: (
       <span>
         Date de mise en service :{' '}
         <FormattedDate className="font-semibold" date={dateMiseEnService} />
