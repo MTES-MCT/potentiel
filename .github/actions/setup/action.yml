@@ -23,13 +23,13 @@ runs:
           packages/*/node_modules
           packages/*/*/node_modules
         key: ${{ inputs.cache-key }}
-    # - name: Restore turbo build cache
-    #   uses: actions/cache/restore@v4
-    #   with:
-    #     path: |
-    #       .turbo
-    #       packages/*/dist
-    #       packages/*/*/dist
-    #     key: ${{ runner.os }}-turbo-${{ github.sha }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-turbo-
+    - name: Restore turbo build cache
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          .turbo
+          packages/*/dist
+          packages/*/*/dist
+        key: ${{ runner.os }}-turbo-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-turbo-
