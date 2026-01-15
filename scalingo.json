@@ -1,6 +1,6 @@
 {
   "name": "Potentiel",
-  "stack": "scalingo-22",
+  "stack": "scalingo-24",
   "scripts": {
     "first-deploy": "bash .database/scripts/restore-test-env-db.sh"
   },
