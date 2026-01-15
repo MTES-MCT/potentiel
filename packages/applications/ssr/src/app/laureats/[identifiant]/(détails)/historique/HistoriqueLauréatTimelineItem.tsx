@@ -15,7 +15,7 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
   return (
     <TimelineItemBase {...props}>
       {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
-      {file && <TimelineItemFile {...file} />}
+      {file && !link && <TimelineItemFile {...file} />}
       {link && (
         <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2">
           {link.label}
