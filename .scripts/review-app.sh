@@ -1,9 +1,24 @@
 #! /usr/bin/env bash
 
+set -euo pipefail
+
 # Crédits : https://github.com/betagouv/rdv-service-public/blob/production/scripts/create_review_app.rb
 
 target_app=potentiel-dev
 target_app_region=osc-fr1 
+
+# Vérifier que gh est installé
+if ! command -v gh &> /dev/null; then
+  echo "Erreur: gh (GitHub CLI) n'est pas installé."
+  exit 1
+fi
+
+# Vérifier que l'utilisateur est authentifié
+if ! gh auth status --hostname github.com --active &> /dev/null; then
+  echo "Erreur: vous n'êtes pas authentifié avec GitHub CLI. Exécutez 'gh auth login'."
+  exit 1
+fi
+
 
 pr_number=$(gh pr view --json number --jq '.number')
 
@@ -11,10 +26,13 @@ review_app_name=$(echo "${target_app}-pr${pr_number}")
 review_app_url="https://${review_app_name}.${target_app_region}.scalingo.io/"
 
 
-if ! scalingo --app "$review_app_name" stats >/dev/null 2>&1; then
-  echo "La review app n'existe pas, création en cours..."
-  scalingo --region $target_app_region --app ${target_app} integration-link-manual-review-app "$pr_number"
+if scalingo --app "$review_app_name" stats >/dev/null 2>&1; then
+  echo "La review app existe déjà: ${review_app_url}"
+  exit 0
 fi
+
+echo "Création de la review app pour la PR #${pr_number}..."
+scalingo --region "$target_app_region" --app "$target_app" integration-link-manual-review-app "$pr_number"
 
 gh pr comment -b "[Review app](${review_app_url})" >/dev/null 2>&1
 
