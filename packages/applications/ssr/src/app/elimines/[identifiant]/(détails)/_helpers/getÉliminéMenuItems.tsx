@@ -67,8 +67,12 @@ const getÉliminéActions = async ({
     technologie: undefined,
   });
 
-  if (Option.isSome(recours)) {
-    if (recours.statut.estEnCours() && role.aLaPermission('recours.consulter.détail')) {
+  const peutDemanderUnRecours =
+    role.aLaPermission('recours.demander') &&
+    cahierDesCharges.changementEstDisponible('demande', 'recours');
+
+  if (Option.isSome(recours) && recours.statut.estEnCours()) {
+    if (role.aLaPermission('recours.consulter.détail')) {
       actions.push(
         link(
           'Consulter le recours',
@@ -76,9 +80,12 @@ const getÉliminéActions = async ({
         ),
       );
     }
-  } else if (
-    role.aLaPermission('recours.demander') &&
-    cahierDesCharges.changementEstDisponible('demande', 'recours')
+  }
+
+  if (
+    peutDemanderUnRecours &&
+    ((Option.isSome(recours) && !recours.statut.estEnCours()) ||
+      (Option.isNone(recours) && peutDemanderUnRecours))
   ) {
     actions.push(
       link(
