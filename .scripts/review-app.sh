@@ -17,5 +17,11 @@ if ! scalingo --app "$review_app_name" stats >/dev/null 2>&1; then
 fi
 
 gh pr comment -b "[Review app](${review_app_url})" >/dev/null 2>&1
-echo "L'application sera disponible à l'adresse ${review_app_url} une fois le déploiement terminé."
+
+echo "Le déploiement de la review app sera déclanché dès que la CI sera passée avec succès."
 echo "Logs du déploiement: https://dashboard.scalingo.com/apps/${target_app_region}/${review_app_name}/deploy/list"
+echo ""
+echo "Une fois le déploiement terminé (et pas avant, sinon la DB ne sera pas restaurée), il est nécessaire de scale les containers web et worker à 1 pour que l'application fonctionne correctement:"
+echo " scalingo --region ${target_app_region} --app ${review_app_name} scale web=1 worker=1"
+echo ""
+echo "L'application sera disponible à l'adresse ${review_app_url}."
