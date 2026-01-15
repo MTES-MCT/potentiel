@@ -10,7 +10,7 @@ if [[ "$APPLICATION_NAME" == *"production"* ]]; then
   exit 1
 fi
 
-dbclient-fetcher pgsql
+dbclient-fetcher pgsql 16
 
 if [ -f "./.database/potentiel-dev.dump" ]; then
 	pg_restore --clean --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
