@@ -5,7 +5,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
@@ -95,7 +94,6 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >

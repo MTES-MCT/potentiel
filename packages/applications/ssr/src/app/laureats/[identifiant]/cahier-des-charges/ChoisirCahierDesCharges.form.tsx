@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -61,7 +60,6 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         submitLabel: 'Choisir',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(identifiantProjet),
         },
       }}
     >

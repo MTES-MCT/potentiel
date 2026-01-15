@@ -7,7 +7,6 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -71,7 +70,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         submitLabel: 'Corriger',
         secondaryAction: {
           type: 'back',
-          href: Routes.Candidature.détails(candidature.identifiantProjet),
         },
       }}
     >

@@ -1,4 +1,5 @@
 'use client';
+
 import { FC, useState } from 'react';
 import Link from 'next/link';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
@@ -67,7 +68,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
         submitLabel,
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(identifiantProjet),
         },
       }}
     >

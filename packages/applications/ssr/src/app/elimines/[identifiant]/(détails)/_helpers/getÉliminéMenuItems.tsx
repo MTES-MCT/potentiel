@@ -98,7 +98,7 @@ const getÉliminéActions = async ({
   if (role.aLaPermission('candidature.corriger')) {
     actions.push(
       link(
-        'Modifier la candidature',
+        'Corriger la candidature',
         `${Routes.Candidature.corriger(identifiantProjet.formatter())}`,
       ),
     );

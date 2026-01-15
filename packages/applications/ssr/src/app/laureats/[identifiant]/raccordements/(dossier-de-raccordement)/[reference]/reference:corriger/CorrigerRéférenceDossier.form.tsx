@@ -19,13 +19,12 @@ export type CorrigerRéférenceDossierFormProps = {
   identifiantProjet: string;
   dossierRaccordement: PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>;
   gestionnaireRéseau: PlainType<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
-  lienRetour: string;
 };
+
 export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormProps> = ({
   identifiantProjet,
   dossierRaccordement: { référence },
   gestionnaireRéseau,
-  lienRetour,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerRéférenceDossierFormKeys>
@@ -47,7 +46,6 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
         submitLabel: 'Corriger',
         secondaryAction: {
           type: 'back',
-          href: lienRetour,
         },
       }}
     >

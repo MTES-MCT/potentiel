@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -34,7 +33,6 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         submitLabel: 'Confirmer',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >

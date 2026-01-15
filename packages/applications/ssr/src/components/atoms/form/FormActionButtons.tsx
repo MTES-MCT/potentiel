@@ -1,5 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
+'use client';
+
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
 
 import { SubmitButton } from './SubmitButton';
 
@@ -13,7 +16,6 @@ export type FormActionButtonsProps = {
       }
     | {
         type: 'back';
-        href: string;
       };
 };
 
@@ -22,12 +24,14 @@ export const FormActionButtons = ({
   submitLabel,
   submitDisabled,
 }: FormActionButtonsProps) => {
+  const router = useRouter();
+
   return (
     <>
       {secondaryAction ? (
         secondaryAction.type === 'back' ? (
           <Button
-            linkProps={{ href: secondaryAction.href }}
+            onClick={() => router.back()}
             priority="secondary"
             iconId="fr-icon-arrow-left-line"
           >

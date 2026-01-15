@@ -5,7 +5,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -55,7 +54,6 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         submitDisabled: nécessiteLaConfirmationPourChangementDeRégion && !changementRégionConfirmé,
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >
