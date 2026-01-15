@@ -271,7 +271,7 @@ Il est possible de crée un environnement temporaire pour une Pull Request, grâ
 
 ### Manuellement
 
-Déclancher le déploiement depuis l'application `potentiel-dev`, onglet Review Apps, Manual deployment.
+Déclencher le déploiement depuis l'application `potentiel-dev`, onglet Review Apps, Manual deployment.
 Si le déploiement n'est pas immédiat, c'est probablement que la CI n'est pas terminée sur Github. Il est possible de déclancher manuellement pour ne pas attendre, sous Deploy.
 
 Une fois le premier déploiement terminé, modifier dans Resources le nombre d'instances de 0 à 1 pour chaque container.
