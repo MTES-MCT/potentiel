@@ -32,7 +32,7 @@
     },
     "NEXTAUTH_PROVIDERS": {
       "value": "email",
-      "description": "seul la connexion par lien magique est disponible sans configuration dans une review app"
+      "description": "seule la connexion par lien magique est disponible par défaut dans une review app. Pour keycloak une configuration est nécessaire"
     }
   }
 }

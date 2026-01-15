@@ -39,6 +39,7 @@
   - [Environnements](#environnements)
     - [Remise à zéro d'un environnement de test](#raz-environnement)
   - [Déploiement](#deploiement)
+  - [Review app](#review-app)
   - [Apporter des changements](#apporter-des-changements)
   - [Faire un hotfix](#faire-un-hotfix)
   - [Récupérer les modifications d'une branche release vers main](#-récupérer-les-modifications-dune-branche-release-vers-main)
@@ -259,6 +260,25 @@ Le projet potentiel suit la stratégie de branche de release : [Release Flow](ht
 Les différentes étapes du workflow déclenchent des déploiements automatiquement depuis les workflows github configurés.
 
 Pour plus de détail vous pouvez consulter les diagrammes [release flow](../ci/release-flow.drawio.svg) et [workflows](../ci/workflows.drawio.svg).
+
+## <a id="review-app"></a> Review App
+
+Il est possible de crée un environnement temporaire pour une Pull Request, grâce aux [Review apps Scalingo](https://doc.scalingo.com/platform/app/review-apps).
+
+> Par défaut, seule l'authentification par lien magique est disponible.
+>
+> Pour activer Keycloak, modifier NEXTAUTH_PROVIDERS et ajouter l'URL de la review app aux URLs autorisées dans Keycloak.
+
+### Manuellement
+
+Déclancher le déploiement depuis l'application `potentiel-dev`, onglet Review Apps, Manual deployment.
+Si le déploiement n'est pas immédiat, c'est probablement que la CI n'est pas terminée sur Github. Il est possible de déclancher manuellement pour ne pas attendre, sous Deploy.
+
+Une fois le premier déploiement terminé, modifier dans Resources le nombre d'instances de 0 à 1 pour chaque container.
+
+### Via script
+
+Lancer le script `scripts/review-app.sh` depuis la branche liée à la PR souhaitée (la PR doit exister), et suivre les instructions.
 
 ## <a id="apporter-des-changements"></a> Apporter des changements
 
