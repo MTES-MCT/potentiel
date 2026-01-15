@@ -36,7 +36,7 @@ scalingo --region "$target_app_region" --app "$target_app" integration-link-manu
 
 gh pr comment -b "[Review app](${review_app_url})" >/dev/null 2>&1
 
-echo "Le déploiement de la review app sera déclanché dès que la CI sera passée avec succès."
+echo "Le déploiement de la review app sera déclenchée dès que la CI sera passée avec succès."
 echo "Logs du déploiement: https://dashboard.scalingo.com/apps/${target_app_region}/${review_app_name}/deploy/list"
 echo ""
 echo "Une fois le déploiement terminé (et pas avant, sinon la DB ne sera pas restaurée), il est nécessaire de scale les containers web et worker à 1 pour que l'application fonctionne correctement :"
