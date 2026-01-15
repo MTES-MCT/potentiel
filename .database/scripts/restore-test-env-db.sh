@@ -13,7 +13,11 @@ fi
 dbclient-fetcher pgsql
 
 if [ -f "./.database/potentiel-dev.dump" ]; then
-	pg_restore --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
+  if [[ "${REVIEW_APP:-}" == "true" ]]; then
+    pg_restore --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
+  else
+    pg_restore --clean --no-acl --no-owner -d $SCALINGO_POSTGRESQL_URL < ./.database/potentiel-dev.dump
+  fi
 	echo "✨ Potentiel Database has been restored with potentiel-dev dump file✨"
 else
 	echo "❌ Potentiel database dump file not found"
