@@ -1,7 +1,7 @@
 import Information from '@codegouvfr/react-dsfr/picto/Information';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
 import React, { FC, ReactNode } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
@@ -12,7 +12,7 @@ import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type ÉtapeProjet = {
-  type: 'designation' | 'recours-demandé';
+  type: 'designation' | 'recours-demandé' | 'recours-annulé' | 'recours-rejeté';
   date: DateTime.RawType;
 };
 
@@ -44,13 +44,26 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                 )}
               </ÉtapeProjet>
             ))
-            .with({ type: 'recours-demandé' }, ({ date }) => (
-              <ÉtapeProjet key={étape.type} titre="Recours demandé" date={date}>
-                <TertiaryLink href={Routes.Recours.détail(identifiantProjet, date)}>
-                  Voir les détails du recours
-                </TertiaryLink>
-              </ÉtapeProjet>
-            ))
+            .with(
+              { type: P.union('recours-demandé', 'recours-annulé', 'recours-rejeté') },
+              ({ date, type }) => (
+                <ÉtapeProjet
+                  key={étape.type}
+                  titre={
+                    type === 'recours-demandé'
+                      ? 'Recours demandé'
+                      : type === 'recours-annulé'
+                        ? 'Recours demandé, puis annulé'
+                        : 'Recours demandé, puis rejeté'
+                  }
+                  date={date}
+                >
+                  <TertiaryLink href={Routes.Recours.détail(identifiantProjet, date)}>
+                    Voir les détails du recours
+                  </TertiaryLink>
+                </ÉtapeProjet>
+              ),
+            )
             .exhaustive(),
         )}
       </ul>

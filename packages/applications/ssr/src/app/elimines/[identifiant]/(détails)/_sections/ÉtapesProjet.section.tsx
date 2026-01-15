@@ -61,9 +61,23 @@ const mapToÉtapesData = ({ éliminé, recours }: GetÉtapesData) => {
     },
   ];
 
-  if (recours?.dateDemande) {
+  if (recours?.statut.estEnCours()) {
     étapes.push({
       type: 'recours-demandé',
+      date: recours.dateDemande.formatter(),
+    });
+  }
+
+  if (recours?.statut.estAnnulé()) {
+    étapes.push({
+      type: 'recours-annulé',
+      date: recours.dateDemande.formatter(),
+    });
+  }
+
+  if (recours?.statut.estRejeté()) {
+    étapes.push({
+      type: 'recours-rejeté',
       date: recours.dateDemande.formatter(),
     });
   }
