@@ -6,11 +6,11 @@
   },
   "formation": {
     "web": {
-      "amount": 1,
+      "amount": 0,
       "size": "M"
     },
     "worker": {
-      "amount": 1,
+      "amount": 0,
       "size": "S"
     }
   },
@@ -23,10 +23,6 @@
     }
   ],
   "env": {
-    "MAINTENANCE_MODE": {
-      "description": "L'application doit démarrer la première fois en mode maintenance afin de permettre au script first-deploy de s'éxécuter.",
-      "value": "true"
-    },
     "IS_REVIEW_APP": {
       "value": "true"
     },
