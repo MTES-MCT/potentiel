@@ -52,6 +52,5 @@ export const AcheteurObligéMenuLegacy = (
         Tous les dossiers de raccordement
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem href={Routes.Export.page}>Export de données</Header.MenuItem>
   </>
 );
