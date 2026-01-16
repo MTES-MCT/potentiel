@@ -17,7 +17,6 @@ export const handleRelanceÉchéanceAchèvement = async ({
     .exhaustive();
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(région);
 
   await sendEmail({
     messageSubject: `Potentiel - Projet ${nom} arrivant à échéance`,
@@ -30,15 +29,21 @@ export const handleRelanceÉchéanceAchèvement = async ({
       nombre_mois,
     },
   });
-  await sendEmail({
-    messageSubject: `Potentiel - Projet ${nom} arrivant à échéance dans le département ${département}`,
-    recipients: dreals,
-    templateId: 7207229,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      url,
-      nombre_mois,
-    },
-  });
+
+  // Les DREALS sont notifiés uniquement pour le rappel à un mois
+  if (typeTâchePlanifiée === 'achèvement.rappel-échéance-un-mois') {
+    const dreals = await listerDrealsRecipients(région);
+
+    await sendEmail({
+      messageSubject: `Potentiel - Projet ${nom} arrivant à échéance dans le département ${département}`,
+      recipients: dreals,
+      templateId: 7207229,
+      variables: {
+        nom_projet: nom,
+        departement_projet: département,
+        url,
+        nombre_mois,
+      },
+    });
+  }
 };
