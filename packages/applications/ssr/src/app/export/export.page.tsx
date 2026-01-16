@@ -11,7 +11,7 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions }) => (
-  <PageTemplate banner={<Heading1>Exporter des données projets</Heading1>}>
+  <PageTemplate banner={<Heading1>Exporter des données projets</Heading1>} feature={'export'}>
     <div className="mb-4">
       Cette page permet d'accéder à des liens pour exporter des données projets
     </div>
