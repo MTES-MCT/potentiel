@@ -84,8 +84,7 @@ const getÉliminéActions = async ({
 
   if (
     peutDemanderUnRecours &&
-    ((Option.isSome(recours) && !recours.statut.estEnCours()) ||
-      (Option.isNone(recours) && peutDemanderUnRecours))
+    ((Option.isSome(recours) && !recours.statut.estEnCours()) || Option.isNone(recours))
   ) {
     actions.push(
       link(
