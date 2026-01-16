@@ -3,8 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-applications/routes';
-
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
@@ -35,7 +33,6 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
         submitLabel: 'Transmettre',
         secondaryAction: {
           type: 'back',
-          href: Routes.Raccordement.détail(identifiantProjet),
         },
       }}
     >

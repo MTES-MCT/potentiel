@@ -3,7 +3,7 @@ import Badge from '@mui/material/Badge';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { getTâches } from '../taches/_helpers/getTâches';
+import { getTâches } from '../../../app/laureats/[identifiant]/(détails)/taches/_helpers/getTâches';
 
 type GetMenuItemsProps = {
   identifiantProjet: IdentifiantProjet.ValueType;

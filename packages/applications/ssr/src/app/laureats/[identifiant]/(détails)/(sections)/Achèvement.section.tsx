@@ -4,9 +4,10 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { Section } from '../(components)/Section';
-import { getAchèvement, getLauréatInfos, SectionWithErrorHandling } from '../../_helpers';
+import { getAchèvement, getLauréatInfos } from '../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 

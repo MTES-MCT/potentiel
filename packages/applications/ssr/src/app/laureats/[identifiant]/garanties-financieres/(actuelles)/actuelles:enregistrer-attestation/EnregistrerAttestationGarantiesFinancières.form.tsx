@@ -1,7 +1,6 @@
 'use client';
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
 import { now } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -39,7 +38,6 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         submitLabel: 'Enregistrer',
         secondaryAction: {
           type: 'back',
-          href: Routes.GarantiesFinancières.détail(identifiantProjet),
         },
       }}
     >

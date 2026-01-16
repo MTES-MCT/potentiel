@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
@@ -41,7 +40,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >

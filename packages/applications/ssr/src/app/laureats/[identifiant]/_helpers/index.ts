@@ -6,4 +6,3 @@ export * from './getRaccordement';
 export * from './getRecours';
 export * from './peutEffectuerUnChangement';
 export * from './types';
-export * from './SectionWithErrorHandling';

@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -59,7 +58,6 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         submitLabel,
         secondaryAction: {
           type: 'back',
-          href: Routes.GarantiesFinancières.détail(identifiantProjet),
         },
       }}
     >

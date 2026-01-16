@@ -6,8 +6,7 @@ import { Tile } from '@/components/organisms/Tile';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Heading3 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { SectionPage } from '../(components)/SectionPage';
+import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
 type Props = {
   tâches: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;

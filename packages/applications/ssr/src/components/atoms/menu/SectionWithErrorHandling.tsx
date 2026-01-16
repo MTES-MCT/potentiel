@@ -3,7 +3,7 @@ import { captureException } from '@sentry/core';
 
 import { OperationRejectedError } from '@potentiel-domain/core';
 
-import { Section } from '../(détails)/(components)/Section';
+import { Section } from './Section';
 
 export const SectionWithErrorHandling = async (
   render: Promise<JSX.Element | null> | (() => Promise<JSX.Element | null>),

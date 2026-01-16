@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -65,7 +64,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.Raccordement.détail(identifiantProjet),
         },
       }}
     >

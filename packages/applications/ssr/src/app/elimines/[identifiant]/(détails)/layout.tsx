@@ -4,20 +4,20 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Menu } from '@/components/atoms/menu/Menu';
 
-import { getLauréatMenuItems } from './_helpers/getLauréatMenuItems';
+import { getÉliminéMenuItems } from './_helpers/getÉliminéMenuItems';
 
 type LayoutProps = {
   children: React.ReactNode;
   params: { identifiant: string };
 };
 
-export default async function LauréatDétailsLayout({ children, params }: LayoutProps) {
+export default async function ÉliminéDétailsLayout({ children, params }: LayoutProps) {
   return withUtilisateur(async (utilisateur) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       decodeParameter(params.identifiant),
     );
 
-    const items = await getLauréatMenuItems({ identifiantProjet, utilisateur });
+    const items = await getÉliminéMenuItems({ identifiantProjet, utilisateur });
 
     return (
       <div className="flex flex-col gap-2">

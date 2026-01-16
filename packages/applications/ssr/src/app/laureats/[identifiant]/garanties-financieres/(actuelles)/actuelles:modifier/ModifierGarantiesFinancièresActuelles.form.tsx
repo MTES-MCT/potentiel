@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
@@ -40,7 +39,6 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.GarantiesFinancières.détail(identifiantProjet),
         },
       }}
     >

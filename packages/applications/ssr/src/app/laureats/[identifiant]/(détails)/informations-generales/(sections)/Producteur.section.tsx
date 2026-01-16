@@ -3,8 +3,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getAction, getProducteurInfos } from '@/app/laureats/[identifiant]/_helpers';
-
-import { Section } from '../../(components)/Section';
+import { Section } from '@/components/atoms/menu/Section';
 
 import { ProducteurDétails } from './ProducteurDétails';
 

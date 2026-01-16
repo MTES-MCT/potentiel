@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -35,7 +34,6 @@ export const EnregistrerChangementActionnaireForm: FC<
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >

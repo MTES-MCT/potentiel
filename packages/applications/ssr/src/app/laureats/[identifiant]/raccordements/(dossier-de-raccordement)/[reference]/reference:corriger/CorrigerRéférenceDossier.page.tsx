@@ -17,7 +17,6 @@ export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPagePr
           dossierRaccordement={props.dossierRaccordement}
           gestionnaireRéseau={props.gestionnaireRéseau}
           identifiantProjet={props.identifiantProjet}
-          lienRetour={props.lienRetour}
         />
       ),
     }}

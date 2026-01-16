@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
-import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
@@ -80,7 +79,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         submitLabel: 'Modifier',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(projet.identifiantProjet),
         },
       }}
     >

@@ -2,15 +2,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  getAction,
-  getInstallationInfos,
-  SectionWithErrorHandling,
-} from '@/app/laureats/[identifiant]/_helpers';
+import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
-
-import { Section } from '../../(components)/Section';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
 type InstallateurSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

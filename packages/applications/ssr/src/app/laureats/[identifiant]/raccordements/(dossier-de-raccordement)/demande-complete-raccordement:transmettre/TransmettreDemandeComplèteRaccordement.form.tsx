@@ -70,17 +70,9 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Transmettre',
-        secondaryAction: aDéjàTransmisUneDemandeComplèteDeRaccordement
-          ? {
-              type: 'back',
-              href: Routes.Raccordement.détail(
-                IdentifiantProjet.bind(identifiantProjet).formatter(),
-              ),
-            }
-          : {
-              type: 'back',
-              href: Routes.Projet.details(identifiantProjetValue),
-            },
+        secondaryAction: {
+          type: 'back',
+        },
       }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />

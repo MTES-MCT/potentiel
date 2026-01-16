@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -82,7 +81,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
         submitLabel: 'Demander',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
         },
       }}
     >

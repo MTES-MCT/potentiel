@@ -6,8 +6,8 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
+import { BadgeTâches } from '@/components/atoms/menu/BadgeTâches';
 
-import { BadgeTâches } from '../(components)/BadgeTâches';
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 

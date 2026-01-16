@@ -4,8 +4,7 @@ import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ImprimerButton } from '@/components/atoms/ImprimerButton';
-
-import { SectionPage } from '../(components)/SectionPage';
+import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
 export type HistoriqueLauréatAction = 'imprimer';
 

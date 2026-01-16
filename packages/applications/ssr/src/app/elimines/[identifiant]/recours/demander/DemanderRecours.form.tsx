@@ -3,8 +3,6 @@
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
-
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
@@ -28,7 +26,6 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         submitLabel: 'Demander',
         secondaryAction: {
           type: 'back',
-          href: Routes.Projet.details(identifiantProjet),
         },
       }}
     >

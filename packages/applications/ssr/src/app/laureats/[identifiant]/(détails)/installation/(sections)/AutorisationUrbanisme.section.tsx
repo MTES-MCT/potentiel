@@ -2,9 +2,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { getLauréatInfos, SectionWithErrorHandling } from '@/app/laureats/[identifiant]/_helpers';
-
-import { Section } from '../../(components)/Section';
+import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { Section } from '@/components/atoms/menu/Section';
 
 import { AutorisationUrbanismeDétails } from './AutorisationUrbanismeDétails';
 

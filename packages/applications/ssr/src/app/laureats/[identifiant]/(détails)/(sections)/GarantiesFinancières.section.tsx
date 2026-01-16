@@ -7,9 +7,10 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { Section } from '../(components)/Section';
-import { getAchèvement, getGarantiesFinancières, SectionWithErrorHandling } from '../../_helpers';
+import { getAchèvement, getGarantiesFinancières } from '../../_helpers';
 
 import { GarantiesFinancièresDétails } from './GarantiesFinancièresDétails';
 
