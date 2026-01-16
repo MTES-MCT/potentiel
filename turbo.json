@@ -3,7 +3,7 @@
   "globalDependencies": ["package.json"],
   "tasks": {
     "build": {
-      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs}"],
+      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:dev", "^build"],
       "outputLogs": "new-only"

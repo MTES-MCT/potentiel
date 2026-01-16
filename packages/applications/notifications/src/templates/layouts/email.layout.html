@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -51,6 +51,12 @@
       }
       .footer {
         padding-bottom: 20px;
+      }
+
+      br {
+        display: block;
+        margin: 0;
+        line-height: 0.7;
       }
 
       /* Responsive */
@@ -106,11 +112,7 @@
                   width="100%"
                   cellpadding="0"
                   cellspacing="0"
-                  style="
-                    background: #ffffff;
-                    border-radius: 6px;
-                    overflow: hidden;
-                  "
+                  style="background: #ffffff; border-radius: 6px; overflow: hidden"
                 >
                   <tr>
                     <td class="content">{{{body}}}</td>
@@ -118,15 +120,18 @@
 
                   <tr>
                     <td class="footer">
-                      Cordialement,
-                      <br /><br />
-                      Direction Générale de l'Energie et du Climat (DGEC)<br />
-                      Sous-Direction des systèmes électriques et des énergies
-                      renouvelables (SD3)<br />
-                      Bureau de la production électrique et des énergies
-                      renouvelables terrestres (3B)<br />
-                      <br /><br />
-                      <div align="center">
+                      <p>Cordialement,</p>
+                      <div style="line-height: 1.2">
+                        Direction Générale de l'Energie et du Climat (DGEC)
+                      </div>
+                      <div style="line-height: 1.2">
+                        Sous-Direction des systèmes électriques et des énergies renouvelables (SD3)
+                      </div>
+                      <div style="line-height: 1.2">
+                        Bureau de la production électrique et des énergies renouvelables terrestres
+                        (3B)
+                      </div>
+                      <div align="center" style="margin-top: 10px; margin-bottom: 10px">
                         <table border="0" cellpadding="0" cellspacing="0">
                           <tbody>
                             <tr>
@@ -140,12 +145,11 @@
                                     style="
                                       color: rgb(0, 0, 145);
                                       font-size: 14px;
-                                      font-family: Arial, sans-serif, serif,
-                                        'EmojiFont';
+                                      font-family: Arial, sans-serif, serif, 'EmojiFont';
                                     "
                                     ><b
-                                      >Besoin d'aide ? Retrouvez le guide
-                                      d'utilisation de Potentiel : ici !</b
+                                      >Besoin d'aide ? Retrouvez le guide d'utilisation de Potentiel
+                                      : ici !</b
                                     ></span
                                   ></a
                                 >
@@ -154,14 +158,13 @@
                           </tbody>
                         </table>
                       </div>
-                      <br /><br />
-                      <span style="font-weight: bold">
-                        Potentiel est un service du Ministère en charge de
-                        l’énergie.<br />
-                        Cette plateforme en développement continu permet la
-                        gestion des projets photovoltaïques et éoliens soutenus
-                        par les appels d’offres de l’État.
-                      </span>
+                      <div style="font-weight: bold; line-height: 1.2">
+                        Potentiel est un service du Ministère en charge de l'énergie.
+                      </div>
+                      <div style="font-weight: bold; line-height: 1.2">
+                        Cette plateforme en développement continu permet la gestion des projets
+                        photovoltaïques et éoliens soutenus par les appels d'offres de l'État.
+                      </div>
                     </td>
                   </tr>
                 </table>
