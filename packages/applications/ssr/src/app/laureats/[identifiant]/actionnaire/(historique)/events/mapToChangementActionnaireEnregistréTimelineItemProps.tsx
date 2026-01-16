@@ -2,7 +2,6 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementActionnaireEnregistréTimelineItemProps = (
@@ -34,8 +33,8 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

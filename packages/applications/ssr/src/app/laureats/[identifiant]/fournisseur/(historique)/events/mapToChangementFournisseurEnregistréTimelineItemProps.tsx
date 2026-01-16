@@ -3,7 +3,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
@@ -47,8 +46,8 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
             />{' '}
           </div>
         )}
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

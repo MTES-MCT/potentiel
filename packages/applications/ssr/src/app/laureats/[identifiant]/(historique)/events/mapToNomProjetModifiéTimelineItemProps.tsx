@@ -1,7 +1,6 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToNomProjetModifiéTimelineItemProps = (
@@ -38,8 +37,8 @@ export const mapToNomProjetModifiéTimelineItemProps = (
         <div>
           Ancien nom : <span className="font-semibold">{ancienNomProjet}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

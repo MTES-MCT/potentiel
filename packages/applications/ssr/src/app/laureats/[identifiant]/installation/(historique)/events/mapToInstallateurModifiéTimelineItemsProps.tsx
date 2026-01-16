@@ -1,7 +1,6 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToInstallateurModifiéTimelineItemsProps = (
@@ -28,8 +27,8 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
         <div>
           Nouvel installateur : <span className="font-semibold">{installateur}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

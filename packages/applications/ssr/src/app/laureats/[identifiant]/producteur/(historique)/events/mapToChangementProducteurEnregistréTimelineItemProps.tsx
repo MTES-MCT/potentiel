@@ -2,7 +2,6 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
@@ -28,8 +27,8 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
         <div>
           Nouveau producteur : <span className="font-semibold">{producteur}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

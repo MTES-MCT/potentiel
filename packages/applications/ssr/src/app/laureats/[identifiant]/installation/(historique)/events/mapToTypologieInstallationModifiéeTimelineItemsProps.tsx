@@ -1,7 +1,6 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 import { DétailTypologieInstallation } from './DétailTypologieInstallation';
@@ -35,8 +34,8 @@ export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
       <div className="flex flex-col gap-2">
         <div>Nouvelle typologie du projet :</div>
         <DétailTypologieInstallation typologieInstallation={typologieInstallation} />
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };

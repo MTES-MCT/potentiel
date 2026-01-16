@@ -2,7 +2,6 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
@@ -36,8 +35,8 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
         <div>
           Durée : <span className="font-semibold">{nombreDeMois} mois</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
       </div>
     ),
+    reason: raison,
   };
 };
