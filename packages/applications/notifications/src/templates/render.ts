@@ -6,7 +6,7 @@ import { registerHelpers } from './helpers/registerHelpers.js';
 registerHelpers();
 
 /**
- * Render a template by name with the given data
+ * Render a template by its name with the given data
  */
 export function render({ key, values }: TemplateDefinitions) {
   const spec = templates[key];
