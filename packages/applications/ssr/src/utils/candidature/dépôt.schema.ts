@@ -30,7 +30,7 @@ export const dépôtSchema = z.object({
   nomProjet: nomProjetSchema,
   sociétéMère: sociétéMèreSchema,
   nomCandidat: nomCandidatSchema,
-  puissanceProductionAnnuelle: puissanceOuPuissanceDeSiteSchema,
+  puissance: puissanceOuPuissanceDeSiteSchema,
   prixReference: prixRéférenceSchema,
   nomReprésentantLégal: nomReprésentantLégalSchema,
   emailContact: emailContactSchema,

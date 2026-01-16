@@ -129,7 +129,7 @@ const action: FormAction<FormState, typeof schema> = async (
             // seront récupérées lors de la désignation lauréate de la candidature
             attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
-            puissanceProductionAnnuelle: convertirKWcEnMWc(dépôt.puissanceProductionAnnuelle),
+            puissance: convertirKWcEnMWc(dépôt.puissance),
             puissanceDeSite:
               dépôt.puissanceDeSite !== undefined
                 ? convertirKWcEnMWc(dépôt.puissanceDeSite)

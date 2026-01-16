@@ -17,7 +17,7 @@ type ÉliminéListItemReadModel = {
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['dépôt']['nomReprésentantLégal'];
   puissance: {
     unité: Candidature.UnitéPuissance.ValueType;
-    valeur: Candidature.ConsulterCandidatureReadModel['dépôt']['puissanceProductionAnnuelle'];
+    valeur: Candidature.ConsulterCandidatureReadModel['dépôt']['puissance'];
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
@@ -116,7 +116,7 @@ const mapToReadModel: MapToReadModelProps = ({
   localité,
   nomReprésentantLégal,
   nomCandidat: producteur,
-  puissanceProductionAnnuelle: puissance,
+  puissance: puissance,
   unitéPuissance,
   emailContact,
   prixReference,

@@ -56,7 +56,7 @@ export class ÉliminéWorld {
         nomCandidat,
         autorisationDUrbanisme,
         localité,
-        puissanceProductionAnnuelle,
+        puissance,
         prixReference,
         nomReprésentantLégal,
         sociétéMère,
@@ -76,7 +76,7 @@ export class ÉliminéWorld {
       autorisationDUrbanisme,
       prixReference,
       nomProjet,
-      puissanceProductionAnnuelle,
+      puissance,
       actionnariat,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé

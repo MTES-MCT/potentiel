@@ -266,12 +266,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['puissanceProductionAnnuelle'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['puissanceProductionAnnuelle']}
+        state={validationErrors['puissance'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['puissance']}
         label={`Puissance (en ${unitéPuissance})`}
         nativeInputProps={{
-          name: 'puissanceProductionAnnuelle',
-          defaultValue: candidature.puissanceProductionAnnuelle,
+          name: 'puissance',
+          defaultValue: candidature.puissance,
           required: true,
           'aria-required': true,
           type: 'number',

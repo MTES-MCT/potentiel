@@ -50,7 +50,7 @@ export type CandidatureEntity = Entity<
     nomCandidat: string;
     nomReprésentantLégal: string;
     emailContact: string;
-    puissanceProductionAnnuelle: number;
+    puissance: number;
     prixReference: number;
     // Peut valoir N/A pour les AOs avec une seule technologie
     technologie: TypeTechnologie.RawType;

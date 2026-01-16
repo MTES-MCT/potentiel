@@ -80,13 +80,13 @@ export const registerListerProjetsÀRéclamerQuery = ({
 const mapToReadModel = ({
   identifiantProjet,
   nomProjet,
-  puissanceProductionAnnuelle,
+  puissance,
   localité,
   emailContact,
 }: Candidature.CandidatureEntity): ProjetÀRéclamerReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  puissance: puissanceProductionAnnuelle,
+  puissance,
   région: localité.région,
   emailContact,
 });

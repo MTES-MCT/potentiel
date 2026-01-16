@@ -298,7 +298,7 @@ export class PuissanceAggregate extends AbstractAggregate<
   private getRatioChangement(nouvellePuissance: number) {
     return RatioChangementPuissance.bind({
       ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
-      puissanceInitiale: this.lauréat.projet.candidature.puissanceProductionAnnuelle,
+      puissanceInitiale: this.lauréat.projet.candidature.puissance,
       puissanceMaxFamille: this.lauréat.projet.famille?.puissanceMax,
       nouvellePuissance,
       volumeRéservé: this.lauréat.projet.candidature.volumeRéservé,

@@ -18,7 +18,7 @@ type CandidatureImportéeEventPayload = {
   nomProjet: string;
   sociétéMère: string;
   nomCandidat: string;
-  puissanceProductionAnnuelle: number;
+  puissance: number;
   prixReference: number;
   noteTotale: number;
   nomReprésentantLégal: string;

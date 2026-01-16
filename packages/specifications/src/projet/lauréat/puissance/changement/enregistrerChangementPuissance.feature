@@ -130,10 +130,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offres                | PPE2 - Innovation |
-            | période                       | 1                 |
-            | famille                       | 1                 |
-            | puissance production annuelle | 1                 |
+            | appel d'offres | PPE2 - Innovation |
+            | période        | 1                 |
+            | famille        | 1                 |
+            | puissance      | 1                 |
         # la puissance max par famille est 3 pour cette famille
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 3.1 |
@@ -141,10 +141,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offres                | PPE2 - Sol |
-            | période                       | 3          |
-            | note totale                   | 34         |
-            | puissance production annuelle | 1          |
+            | appel d'offres | PPE2 - Sol |
+            | période        | 3          |
+            | note totale    | 34         |
+            | puissance      | 1          |
         # le volume réservé de l'AO est de 5
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 6 |

@@ -69,7 +69,7 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
     region: candidature.dépôt.localité.région,
     actionnariat: candidature.dépôt.actionnariat?.type,
     puissanceALaPointe: candidature.dépôt.puissanceALaPointe,
-    puissanceProductionAnnuelle: candidature.dépôt.puissanceProductionAnnuelle,
+    puissance: candidature.dépôt.puissance,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
     puissanceDeSite: candidature.dépôt.puissanceDeSite,
     numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
@@ -114,7 +114,7 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
       currentValue: lauréat.lauréat.localité.région,
       estEnCoursDeModification: false,
     },
-    puissanceProductionAnnuelle: {
+    puissance: {
       currentValue: lauréat.puissance.puissance,
       estEnCoursDeModification: !!lauréat.puissance.dateDemandeEnCours,
     },

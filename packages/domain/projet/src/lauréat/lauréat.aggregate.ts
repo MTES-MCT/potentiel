@@ -289,7 +289,7 @@ export class LauréatAggregate extends AbstractAggregate<
     // champs mixte, dont une valeur dépend de l'appel d'offres
     await this.puissance.importer({
       importéeLe: notifiéLe,
-      puissance: this.projet.candidature.puissanceProductionAnnuelle,
+      puissance: this.projet.candidature.puissance,
       puissanceDeSite:
         this.projet.appelOffre.champsSupplémentaires?.puissanceDeSite &&
         this.projet.candidature.dépôt.puissanceDeSite
