@@ -117,3 +117,11 @@ services:
       - 9001:9000
       - 9091:9090
     profiles: ['test']
+  smtp_test:
+    container_name: potentiel_smtp_tests_integration
+    image: axllent/mailpit
+    restart: always
+    ports:
+      - 1026:1025
+      - 8026:8025
+    profiles: ['test']
