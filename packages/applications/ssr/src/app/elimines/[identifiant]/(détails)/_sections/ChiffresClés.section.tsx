@@ -22,18 +22,13 @@ export const ChiffresClésSection = async ({ identifiantProjet }: ChiffresClésS
       return notFound();
     }
 
-    const {
-      prixReference,
-      evaluationCarboneSimplifiée,
-      puissanceProductionAnnuelle,
-      unitéPuissance,
-    } = éliminé;
+    const { prixReference, evaluationCarboneSimplifiée, puissance, unitéPuissance } = éliminé;
 
     return (
       <Section title={sectionTitle}>
         <ChiffresClésProjet
           puissance={{
-            valeur: puissanceProductionAnnuelle,
+            valeur: puissance,
             unité: unitéPuissance.unité,
           }}
           prixRéférence={prixReference}
