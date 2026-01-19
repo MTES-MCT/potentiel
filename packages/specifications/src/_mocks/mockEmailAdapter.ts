@@ -27,7 +27,7 @@ export function addEmailSpyMiddleware(this: PotentielWorld) {
     this.notificationWorld.ajouterNotification({
       templateId: -1,
       messageSubject: subject ?? 'pas de sujet',
-      recipients: recipients.map((recipient: string | { email: string }) =>
+      recipients: recipients.map((recipient) =>
         typeof recipient === 'string' ? { email: recipient } : recipient,
       ),
       variables: values,
