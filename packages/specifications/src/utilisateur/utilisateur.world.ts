@@ -13,6 +13,7 @@ import {
 import { CREFixture } from './fixtures/cre.fixture';
 import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture';
 import { InviterPorteurFixture } from './fixtures/inviter/inviterPorteur.fixture';
+import { CocontractantFixture } from './fixtures/cocontractant.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -32,6 +33,13 @@ export class UtilisateurWorld {
   get drealFixture() {
     return this.#drealFixture;
   }
+
+  #cocontractantFixture: CocontractantFixture;
+
+  get cocontractantFixture() {
+    return this.#cocontractantFixture;
+  }
+
   #grdFixture: GRDFixture;
 
   get grdFixture() {
@@ -72,6 +80,7 @@ export class UtilisateurWorld {
     this.#porteurFixture = new PorteurFixture('porteur-projet');
     this.#validateurFixture = new ValidateurFixture('dgec-validateur');
     this.#drealFixture = new DREALFixture('dreal');
+    this.#cocontractantFixture = new CocontractantFixture('cocontractant');
     this.#grdFixture = new GRDFixture('grd');
     this.#adminFixture = new AdminFixture('admin');
     this.#creFixture = new CREFixture('cre');

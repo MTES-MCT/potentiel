@@ -10,3 +10,5 @@ export * from './listerDgecRecipients.js';
 export * from './listerDrealsRecipients.js';
 export * from './listerPorteursRecipients.js';
 export * from './listerRecipientsAutoritéInstructrice.js';
+export * from './listerCreRecipients.js';
+export * from './listerCocontractantRecipients.js';

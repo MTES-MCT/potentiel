@@ -28,6 +28,23 @@ EtantDonné(
 );
 
 EtantDonné(
+  'le cocontractant {string} associé à la zone du projet',
+  async function (this: PotentielWorld, nom: string) {
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    const cocontractant = this.utilisateurWorld.cocontractantFixture.créer({
+      nom,
+      zone: Zone.déterminer(région).nom,
+    });
+
+    await inviterUtilisateur.call(this, {
+      rôle: cocontractant.role,
+      zone: cocontractant.zone,
+      email: cocontractant.email,
+    });
+  },
+);
+
+EtantDonné(
   /le DGEC Validateur sans (.*)/,
   async function (this: PotentielWorld, informationManquante: string) {
     const validateur = this.utilisateurWorld.validateurFixture.créer(
