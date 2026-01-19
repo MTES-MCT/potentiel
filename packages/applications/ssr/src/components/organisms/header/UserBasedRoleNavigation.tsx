@@ -1,9 +1,8 @@
 import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
-import { match, P } from 'ts-pattern';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
 
 import { NavLinks } from './NavLinks';
@@ -16,442 +15,222 @@ export function UserBasedRoleNavigation() {
   return <NavLinks items={navigationItems} />;
 }
 
-const toutesLesDemandesWording = 'Toutes les demandes';
-
-const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
-  const projetMenuLinks: Array<MenuProps.Link> = [
-    {
-      text: 'Lauréats',
+type MenuItem = { label: string; url: string; permission: Role.Policy | false };
+const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuProps.Link> =>
+  items
+    .filter(({ permission }) => typeof permission === 'string' && rôle.aLaPermission(permission))
+    .map(({ label, url }) => ({
+      text: label,
       linkProps: {
-        href: Routes.Lauréat.lister(),
+        href: url,
       },
+    }));
+
+const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
+  const projetMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Lauréats',
+      url: Routes.Lauréat.lister(),
+      permission: 'lauréat.lister',
     },
     {
-      text: 'Éliminés',
-      linkProps: {
-        href: Routes.Éliminé.lister(),
-      },
+      label: 'Éliminés',
+      url: Routes.Éliminé.lister(),
+      permission: 'éliminé.lister',
     },
   ];
 
-  const demandesMenuLinks: Array<MenuProps.Link> = [
+  const toutesDemandesMenuLinks: Array<MenuItem> = [
     {
-      text: 'Abandon',
-      linkProps: {
-        href: Routes.Abandon.lister({
-          statut: utilisateur.estPorteur()
-            ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
-            : ['demandé', 'en-instruction', 'confirmé'],
-          autorite: utilisateur.estDGEC() ? 'dgec' : utilisateur.estDreal() ? 'dreal' : undefined,
-        }),
-      },
+      label: 'Actionnaire',
+      url: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
+      permission: 'actionnaire.listerChangement',
     },
     {
-      text: 'Recours',
-      linkProps: {
-        href: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
-      },
+      label: 'Délai',
+      url: Routes.Délai.lister({
+        statut: ['demandé', 'en-instruction'],
+        autoriteCompetente: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+      }),
+      permission: 'délai.listerDemandes',
     },
     {
-      text: 'Représentant légal',
-      linkProps: {
-        href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
-      },
+      label: 'Dispositif de stockage',
+      url: Routes.Installation.changement.dispositifDeStockage.lister,
+      permission: 'installation.dispositifDeStockage.listerChangement',
     },
     {
-      text: 'Actionnaire',
-      linkProps: {
-        href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
-      },
+      label: 'Fournisseur',
+      url: Routes.Fournisseur.changement.lister,
+      permission: 'fournisseur.listerChangement',
+    },
+    {
+      label: 'Installateur',
+      url: Routes.Installation.changement.installateur.lister,
+      permission: 'installation.installateur.listerChangement',
+    },
+    {
+      label: "Nature de l'exploitation",
+      url: Routes.NatureDeLExploitation.changement.lister,
+      permission: 'natureDeLExploitation.listerChangement',
+    },
+    {
+      label: 'Nom du projet',
+      url: Routes.Lauréat.changement.nomProjet.lister,
+      permission: 'nomProjet.listerChangement',
+    },
+    {
+      label: 'Puissance',
+      url: Routes.Puissance.changement.lister({
+        statut: ['demandé'],
+      }),
+      permission: 'puissance.listerChangement',
+    },
+    {
+      label: 'Producteur',
+      url: Routes.Producteur.changement.lister,
+      permission: 'producteur.listerChangement',
     },
 
     {
-      text: 'Puissance',
-      linkProps: {
-        href: Routes.Puissance.changement.lister({
-          statut: ['demandé'],
-        }),
-      },
+      label: 'Recours',
+      url: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
+      permission: 'recours.consulter.liste',
     },
     {
-      text: 'Producteur',
-      linkProps: {
-        href: Routes.Producteur.changement.lister,
-      },
+      label: 'Représentant légal',
+      url: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
+      permission: 'représentantLégal.listerChangement',
     },
     {
-      text: 'Fournisseur',
-      linkProps: {
-        href: Routes.Fournisseur.changement.lister,
-      },
-    },
-    {
-      text: 'Délai',
-      linkProps: {
-        href: Routes.Délai.lister({
-          statut: ['demandé', 'en-instruction'],
-          autoriteCompetente: utilisateur.rôle.estDGEC()
-            ? 'dgec'
-            : utilisateur.rôle.estDreal()
-              ? 'dreal'
-              : undefined,
-        }),
-      },
-    },
-    {
-      text: "Nature de l'exploitation",
-      linkProps: {
-        href: Routes.NatureDeLExploitation.changement.lister,
-      },
-    },
-    {
-      text: 'Installateur',
-      linkProps: {
-        href: Routes.Installation.changement.installateur.lister,
-      },
-    },
-    {
-      text: 'Dispositif de stockage',
-      linkProps: {
-        href: Routes.Installation.changement.dispositifDeStockage.lister,
-      },
-    },
-    {
-      text: 'Nom du projet',
-      linkProps: {
-        href: Routes.Lauréat.changement.nomProjet.lister,
-      },
+      label: 'Abandon',
+      url: Routes.Abandon.lister({
+        statut: rôle.estPorteur()
+          ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
+          : ['demandé', 'en-instruction', 'confirmé'],
+        autorite: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+      }),
+      permission: 'abandon.lister.demandes',
     },
   ];
 
-  const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
+  const garantiesFinancièresMenuLinks: Array<MenuItem> = [
     {
-      text: 'Garanties financières à traiter',
-      linkProps: {
-        href: Routes.GarantiesFinancières.dépôt.lister(),
-      },
+      label: 'Garanties financières à traiter',
+      url: Routes.GarantiesFinancières.dépôt.lister(),
+      permission: 'garantiesFinancières.dépôt.lister',
     },
     {
-      text: 'Projets avec garanties financières en attente',
-      linkProps: {
-        href: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
-      },
+      label: 'Projets avec garanties financières en attente',
+      url: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
+      permission: 'garantiesFinancières.enAttente.lister',
     },
     {
-      text: 'Demandes de mainlevée',
-      linkProps: {
-        href: Routes.GarantiesFinancières.demandeMainlevée.lister({
-          statut: ['demandé', 'en-instruction'],
-        }),
-      },
+      label: 'Demandes de mainlevée',
+      url: Routes.GarantiesFinancières.demandeMainlevée.lister({
+        statut: ['demandé', 'en-instruction'],
+      }),
+      permission: 'garantiesFinancières.mainlevée.lister',
     },
   ];
 
-  return match(utilisateur.rôle.nom)
-    .returnType<MainNavigationProps['items']>()
-    .with(P.union('admin', 'dgec-validateur'), () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Demandes',
-        menuLinks: demandesMenuLinks,
-      },
-      {
-        text: 'Garanties Financières',
-        menuLinks: garantiesFinancièresMenuLinks,
-      },
-      {
-        text: 'Candidatures',
-        menuLinks: [
-          {
-            text: 'Nouveaux candidats',
-            linkProps: {
-              href: Routes.Candidature.importer(),
-            },
-          },
-          {
-            text: 'Candidats à notifier',
-            linkProps: {
-              href: Routes.Période.lister({
-                statut: 'a-notifier',
-              }),
-            },
-          },
-          {
-            text: 'Correction par lot',
-            linkProps: {
-              href: Routes.Candidature.corrigerParLot,
-            },
-          },
-          {
-            text: 'Tous les candidats',
-            linkProps: {
-              href: Routes.Candidature.lister({ estNotifié: false }),
-            },
-          },
-        ],
-      },
-      {
-        text: 'Raccordements',
-        menuLinks: [
-          {
-            text: 'Tous les dossiers de raccordement',
-            linkProps: {
-              href: Routes.Raccordement.lister,
-            },
-          },
-          {
-            text: 'Importer des dates de mise en service',
-            linkProps: {
-              href: Routes.Raccordement.importer,
-            },
-          },
-          {
-            text: 'Corriger des références dossier',
-            linkProps: {
-              href: Routes.Raccordement.corrigerRéférencesDossier,
-            },
-          },
-        ],
-      },
-      {
-        text: 'Gestion des accès',
-        menuLinks: [
-          {
-            text: 'Utilisateurs',
-            linkProps: {
-              href: Routes.Utilisateur.lister({ actif: true }),
-            },
-          },
-          {
-            text: 'Inviter un utilisateur',
-            linkProps: {
-              href: Routes.Utilisateur.inviter,
-            },
-          },
-        ],
-      },
-      {
-        text: 'Outils',
-        menuLinks: [
-          {
-            text: 'Tableau de bord',
-            linkProps: {
-              href: 'https://potentiel.e2.rie.gouv.fr/',
-            },
-          },
-          {
-            text: 'Gérer les gestionnaires de réseau',
-            linkProps: {
-              href: Routes.Gestionnaire.lister,
-            },
-          },
-        ],
-      },
-    ])
-    .with('dreal', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Demandes',
-        menuLinks: demandesMenuLinks,
-      },
-      {
-        text: 'Garanties Financières',
-        menuLinks: garantiesFinancièresMenuLinks,
-      },
-      {
-        text: 'Raccordements',
-        linkProps: {
-          href: Routes.Raccordement.lister,
+  const candidatureMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Nouveaux candidats',
+      url: Routes.Candidature.importer(),
+      permission: 'candidature.importer',
+    },
+    {
+      label: 'Candidats à notifier',
+      url: Routes.Période.lister({
+        statut: 'a-notifier',
+      }),
+      permission: 'période.lister',
+    },
+    {
+      label: 'Correction par lot',
+      url: Routes.Candidature.corrigerParLot,
+      permission: 'candidature.corriger',
+    },
+    {
+      label: 'Tous les candidats',
+      url: Routes.Candidature.lister({ estNotifié: false }),
+      permission: 'candidature.lister',
+    },
+  ];
+
+  const raccordementsMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Tous les dossiers de raccordement',
+      url: Routes.Raccordement.lister,
+      permission: 'raccordement.listerDossierRaccordement',
+    },
+    {
+      label: 'Importer des dates de mise en service',
+      url: Routes.Raccordement.importer,
+      permission: 'raccordement.date-mise-en-service.transmettre',
+    },
+    {
+      label: 'Corriger des références dossier',
+      url: Routes.Raccordement.corrigerRéférencesDossier,
+      permission: rôle.estPorteur() ? false : 'raccordement.référence-dossier.modifier',
+    },
+  ];
+
+  const outilsMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Gérer les utilisateurs',
+      url: Routes.Utilisateur.lister({ actif: true }),
+      permission: 'utilisateur.lister',
+    },
+    {
+      label: 'Gérer les gestionnaires de réseau',
+      url: Routes.Gestionnaire.lister,
+      permission: 'réseau.gestionnaire.lister',
+    },
+  ];
+
+  const menu: MainNavigationProps.Item[] = [
+    {
+      text: 'Projets',
+      menuLinks: mapToMenuProps(projetMenuLinks, rôle),
+    },
+    {
+      text: 'Demandes',
+      menuLinks: mapToMenuProps(toutesDemandesMenuLinks, rôle),
+    },
+    {
+      text: 'Garanties Financières',
+      menuLinks: mapToMenuProps(garantiesFinancièresMenuLinks, rôle),
+    },
+    {
+      text: 'Candidatures',
+      menuLinks: mapToMenuProps(candidatureMenuLinks, rôle),
+    },
+    {
+      text: 'Raccordements',
+      menuLinks: mapToMenuProps(raccordementsMenuLinks, rôle),
+    },
+    {
+      text: 'Outils',
+      menuLinks: mapToMenuProps(outilsMenuLinks, rôle),
+    },
+    ...mapToMenuProps(
+      [
+        {
+          label: 'Projets à réclamer',
+          url: Routes.Utilisateur.réclamerProjet,
+          permission: 'accès.réclamerProjet',
         },
-      },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: 'https://potentiel.e2.rie.gouv.fr/',
+        {
+          label: 'Tableau de bord',
+          url: 'https://potentiel.e2.rie.gouv.fr/',
+          permission: 'statistiquesDGEC.consulter',
         },
-      },
-    ])
-    .with('porteur-projet', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Demandes',
-        menuLinks: demandesMenuLinks,
-      },
-      {
-        text: 'Garanties Financières',
-        menuLinks: garantiesFinancièresMenuLinks,
-      },
-      {
-        text: 'Projets à réclamer',
-        linkProps: {
-          href: Routes.Utilisateur.réclamerProjet,
-        },
-      },
-    ])
-    .with('caisse-des-dépôts', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-    ])
-    .with('cre', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Demandes',
-        menuLinks: demandesMenuLinks.filter((link) => link.text !== toutesLesDemandesWording),
-      },
-      {
-        text: 'Raccordements',
-        linkProps: {
-          href: Routes.Raccordement.lister,
-        },
-      },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: 'https://potentiel.e2.rie.gouv.fr/',
-        },
-      },
-    ])
-    .with('ademe', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: 'https://potentiel.e2.rie.gouv.fr/',
-        },
-      },
-    ])
-    .with('cocontractant', () => [
-      {
-        text: 'Projets',
-        menuLinks: projetMenuLinks,
-      },
-      {
-        text: 'Demandes',
-        menuLinks: [
-          {
-            text: 'Représentant légal',
-            linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
-            },
-          },
-          {
-            text: 'Actionnaire(s)',
-            linkProps: {
-              href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
-            },
-          },
-          {
-            text: 'Puissance',
-            linkProps: {
-              href: Routes.Puissance.changement.lister({
-                statut: ['demandé'],
-              }),
-            },
-          },
-          {
-            text: 'Producteur',
-            linkProps: {
-              href: Routes.Producteur.changement.lister,
-            },
-          },
-          {
-            text: 'Fournisseur',
-            linkProps: {
-              href: Routes.Fournisseur.changement.lister,
-            },
-          },
-          {
-            text: 'Délai',
-            linkProps: {
-              href: Routes.Délai.lister({
-                statut: ['demandé', 'en-instruction'],
-                autoriteCompetente: utilisateur.rôle.estDGEC()
-                  ? 'dgec'
-                  : utilisateur.rôle.estDreal()
-                    ? 'dreal'
-                    : undefined,
-              }),
-            },
-          },
-          {
-            text: "Nature de l'exploitation",
-            linkProps: {
-              href: Routes.NatureDeLExploitation.changement.lister,
-            },
-          },
-          {
-            text: 'Installateur',
-            linkProps: {
-              href: Routes.Installation.changement.installateur.lister,
-            },
-          },
-          {
-            text: 'Dispositif de stockage',
-            linkProps: {
-              href: Routes.Installation.changement.dispositifDeStockage.lister,
-            },
-          },
-          {
-            text: 'Nom du projet',
-            linkProps: {
-              href: Routes.Lauréat.changement.nomProjet.lister,
-            },
-          },
-        ],
-      },
-      {
-        text: 'Raccordements',
-        menuLinks: [
-          {
-            text: 'Tous les dossiers de raccordement',
-            linkProps: {
-              href: Routes.Raccordement.lister,
-            },
-          },
-        ],
-      },
-    ])
-    .with('grd', () => [
-      {
-        text: 'Raccordements',
-        menuLinks: [
-          {
-            text: 'Tous les dossiers de raccordement',
-            linkProps: {
-              href: Routes.Raccordement.lister,
-            },
-          },
-          {
-            text: 'Importer des dates de mise en service',
-            linkProps: {
-              href: Routes.Raccordement.importer,
-            },
-          },
-          {
-            text: 'Corriger des références dossier',
-            linkProps: {
-              href: Routes.Raccordement.corrigerRéférencesDossier,
-            },
-          },
-        ],
-      },
-    ])
-    .exhaustive();
+      ],
+      rôle,
+    ),
+  ];
+
+  return menu.filter(({ menuLinks, linkProps }) => menuLinks?.length || linkProps?.href);
 };
