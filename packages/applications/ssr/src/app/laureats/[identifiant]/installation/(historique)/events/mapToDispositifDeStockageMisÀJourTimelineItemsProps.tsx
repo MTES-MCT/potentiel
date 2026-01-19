@@ -1,4 +1,5 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -38,5 +39,15 @@ export const mapToDispositifDeStockageMisÀJourTimelineItemsProps = (
       </div>
     ),
     reason: raison,
+    ...(event.type === 'ChangementDispositifDeStockageEnregistré-V1' && {
+      link: {
+        url: Routes.Installation.changement.dispositifDeStockage.détails(
+          identifiantProjet,
+          event.payload.enregistréLe,
+        ),
+        label: 'Détail du changement',
+        ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(event.payload.enregistréLe)}`,
+      },
+    }),
   };
 };

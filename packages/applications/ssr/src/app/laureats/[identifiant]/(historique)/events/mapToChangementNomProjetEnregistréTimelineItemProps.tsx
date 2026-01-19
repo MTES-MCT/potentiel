@@ -1,4 +1,5 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -40,5 +41,10 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
+    link: {
+      url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };

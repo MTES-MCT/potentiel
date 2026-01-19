@@ -1,5 +1,6 @@
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -36,5 +37,10 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
+    link: {
+      url: Routes.Actionnaire.changement.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement d'actionnaire enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };

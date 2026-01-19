@@ -1,5 +1,6 @@
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -49,5 +50,10 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
       </div>
     ),
     reason: raison,
+    link: {
+      url: Routes.Fournisseur.changement.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement de fournisseur enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };
