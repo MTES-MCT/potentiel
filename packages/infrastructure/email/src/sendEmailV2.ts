@@ -19,7 +19,7 @@ export type EmailOptions = {
 let transporter: nodemailer.Transporter | null = null;
 
 const getTransporter = () => {
-  const { SEND_EMAILS_FROM, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+  const { SEND_EMAILS_FROM, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SSL } = process.env;
 
   if (!SEND_EMAILS_FROM) {
     throw new Error('SEND_EMAILS_FROM must be set to send emails');
@@ -29,7 +29,7 @@ const getTransporter = () => {
     transporter = nodemailer.createTransport({
       host: SMTP_HOST || 'localhost',
       port: Number(SMTP_PORT) || 1025,
-      secure: Number(SMTP_PORT) === 465,
+      secure: SMTP_SSL === 'true',
       auth: SMTP_USER
         ? {
             user: SMTP_USER,
@@ -62,7 +62,12 @@ export const sendEmailV2 = async ({ content, subject, recipients }: EmailOptions
   // Combined policy
   const emailPolicy = wrap(retryPolicy, globalCircuitBreaker);
   await emailPolicy.execute(async () =>
-    transporter.sendMail({ subject, html: content, to: recipients }),
+    transporter.sendMail({
+      subject,
+      html: content,
+      to: recipients.join(';'),
+      from: transporter.options.from!,
+    }),
   );
 
   logger.info('Email sent', { recipients, subject });
