@@ -23,7 +23,7 @@ export const mapToDélaiDemandéTimelineItemProps = (
         demandéLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint à la demande de délai en date du ${formatDateToText(demandéLe)}`,
+      ariaLabel: `Télécharger le justificatif de la demande de délai en date du ${formatDateToText(demandéLe)}`,
     },
     link: {
       url: Routes.Délai.détail(identifiantProjet, demandéLe),

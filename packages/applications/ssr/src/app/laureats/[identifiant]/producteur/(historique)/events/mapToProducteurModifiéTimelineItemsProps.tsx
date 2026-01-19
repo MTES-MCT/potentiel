@@ -20,7 +20,7 @@ export const mapToProducteurModifiéTimelineItemsProps = (
         modifiéLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint au changement de producteur enregistré le ${formatDateToText(modifiéLe)}`,
+      ariaLabel: `Télécharger le justificatif du changement de producteur enregistré le ${formatDateToText(modifiéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

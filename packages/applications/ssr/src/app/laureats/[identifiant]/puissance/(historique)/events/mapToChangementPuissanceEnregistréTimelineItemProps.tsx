@@ -29,7 +29,7 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
         enregistréLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint au changement de puissance en date du ${formatDateToText(enregistréLe)}`,
+      ariaLabel: `Télécharger le justificatif du changement de puissance en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

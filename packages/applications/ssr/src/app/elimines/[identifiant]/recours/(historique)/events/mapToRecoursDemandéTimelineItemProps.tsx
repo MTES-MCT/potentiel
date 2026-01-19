@@ -26,7 +26,7 @@ export const mapToRecoursDemandéTimelineItemProps = (
         demandéLe,
         format,
       ),
-      ariaLabel: `Télécharger le justificatif joint à la demande de recours en date du ${formatDateToText(demandéLe)}`,
+      ariaLabel: `Télécharger le justificatif de la demande de recours en date du ${formatDateToText(demandéLe)}`,
     },
     link: {
       label: 'Détail de la demande',

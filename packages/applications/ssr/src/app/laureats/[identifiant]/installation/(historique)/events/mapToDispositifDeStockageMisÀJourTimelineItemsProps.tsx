@@ -31,7 +31,7 @@ export const mapToDispositifDeStockageMisÀJourTimelineItemsProps = (
         date,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif joint au changement de dispositif de stockage enregistré le ${formatDateToText(date)}`,
+      ariaLabel: `Télécharger le justificatif du changement de dispositif de stockage enregistré le ${formatDateToText(date)}`,
     },
     details: (
       <div className="flex flex-col gap-2">
