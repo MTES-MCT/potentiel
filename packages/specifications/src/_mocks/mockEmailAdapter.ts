@@ -1,4 +1,4 @@
-import { MessageResult, Message, Middleware } from 'mediateur';
+import { MessageResult, Message, Middleware, mediator } from 'mediateur';
 
 import {
   EmailPayload,
@@ -15,23 +15,27 @@ export async function mockEmailAdapter(
   this.notificationWorld.ajouterNotification(emailPayload);
 }
 
-export function createEmailMiddleware(this: PotentielWorld): Middleware {
-  return async (message, next) => {
+// sendEmailV2 ne recoit pas les variables du template, mais le html de l'email.
+// On écoute donc les appels à EnvoyerNotificationCommand pour vérifier les variables.
+export function addEmailSpyMiddleware(this: PotentielWorld) {
+  const middleware: Middleware = async (message, next) => {
     const emailMessage = message as EnvoyerNotificationCommand;
-    if (emailMessage.type === 'System.Notification.Envoyer') {
-      const { subject } = render(emailMessage.data);
-      const { recipients, values } = emailMessage.data;
 
-      this.notificationWorld.ajouterNotification({
-        templateId: -1,
-        messageSubject: subject ?? 'pas de sujet',
-        recipients: recipients.map((recipient: string | { email: string }) =>
-          typeof recipient === 'string' ? { email: recipient } : recipient,
-        ),
-        variables: values,
-      });
-    }
+    const { subject } = render(emailMessage.data);
+    const { recipients, values } = emailMessage.data;
+
+    this.notificationWorld.ajouterNotification({
+      templateId: -1,
+      messageSubject: subject ?? 'pas de sujet',
+      recipients: recipients.map((recipient: string | { email: string }) =>
+        typeof recipient === 'string' ? { email: recipient } : recipient,
+      ),
+      variables: values,
+    });
 
     return await next();
   };
+
+  const messageType: EnvoyerNotificationCommand['type'] = 'System.Notification.Envoyer';
+  mediator.use({ messageType, middlewares: [middleware] });
 }

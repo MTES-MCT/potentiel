@@ -39,7 +39,7 @@ import {
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
   mockEmailAdapter,
-  createEmailMiddleware,
+  addEmailSpyMiddleware,
 } from './_mocks';
 
 should();
@@ -137,10 +137,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
 
   clear();
 
-  const emailMiddleware = createEmailMiddleware.bind(this)();
-  await bootstrap({
-    middlewares: [logMiddleware, emailMiddleware],
-  });
+  await bootstrap({ middlewares: [logMiddleware] });
+
+  addEmailSpyMiddleware.bind(this)();
 
   unsetup = await startSubscribers({
     dependencies: {
