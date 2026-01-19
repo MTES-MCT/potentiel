@@ -25,7 +25,7 @@ export function createEmailMiddleware(this: PotentielWorld): Middleware {
       this.notificationWorld.ajouterNotification({
         templateId: -1,
         messageSubject: subject ?? 'pas de sujet',
-        recipients: recipients.map((recipient) =>
+        recipients: recipients.map((recipient: string | { email: string }) =>
           typeof recipient === 'string' ? { email: recipient } : recipient,
         ),
         variables: values,
