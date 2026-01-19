@@ -3,7 +3,6 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToDélaiDemandéTimelineItemProps = (
@@ -27,7 +26,7 @@ export const mapToDélaiDemandéTimelineItemProps = (
     },
     link: {
       url: Routes.Délai.détail(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de délai en date du ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de délai en date du ${formatDateToText(demandéLe)}`,
       label: 'Détail de la demande',
     },
     details: (

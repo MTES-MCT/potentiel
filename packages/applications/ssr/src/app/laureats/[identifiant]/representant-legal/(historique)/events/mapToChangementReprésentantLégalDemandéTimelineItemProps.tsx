@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { formatDateToText } from '@/app/_helpers';
 
 import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésentantLégalLabel';
 
@@ -18,7 +18,7 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
     actor: demandéPar,
     link: {
       url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement de représentant légal en date du ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement de représentant légal en date du ${formatDateToText(demandéLe)}`,
       label: 'Détail de la demande',
     },
     details: (

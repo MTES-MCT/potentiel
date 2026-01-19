@@ -2,7 +2,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementActionnaireDemandéTimelineItemProps = (
@@ -31,7 +30,7 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
     },
     link: {
       url: Routes.Actionnaire.changement.détails(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande de changement d'actionnaire en date du ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
       label: 'Détail de la demande',
     },
     details: (

@@ -2,7 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementPuissanceDemandéTimelineItemProps = ({
   event,
@@ -31,12 +31,12 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = ({
         demandéLe,
         pièceJustificative.format,
       ),
-      ariaLabel: `Télécharger le justificatif de la demande de changement de puissance en date du ${demandéLe}`,
+      ariaLabel: `Télécharger le justificatif de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
     },
     link: {
       url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
       label: 'Détail de la demande',
-      ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
     },
     details: (
       <div className="flex flex-col gap-2">

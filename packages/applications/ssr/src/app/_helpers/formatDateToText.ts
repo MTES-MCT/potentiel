@@ -1,1 +1,4 @@
-export const formatDateToText = (date: string) => Intl.DateTimeFormat('fr').format(new Date(date));
+import { DateTime } from '@potentiel-domain/common';
+
+export const formatDateToText = (date: DateTime.RawType) =>
+  Intl.DateTimeFormat('fr').format(new Date(date));

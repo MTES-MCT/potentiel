@@ -3,7 +3,6 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { formatDateToText } from '@/app/_helpers';
 
 export const mapToAbandonDemandéTimelineItemProps = (
@@ -26,7 +25,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
     },
     link: {
       url: Routes.Abandon.détail(identifiantProjet, demandéLe),
-      ariaLabel: `Voir le détail de la demande d'abandon en date du ${FormattedDate({ date: demandéLe })}`,
+      ariaLabel: `Voir le détail de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
       label: 'Détail de la demande',
     },
     details: (
