@@ -5,6 +5,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Sol |
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
@@ -23,6 +24,9 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
         Et un email a été envoyé à la cre avec :
+            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+        Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
         Mais aucun autre email n'a été envoyé

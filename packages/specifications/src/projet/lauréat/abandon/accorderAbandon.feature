@@ -5,6 +5,8 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et le cocontractant "EDF" associé à la zone du projet
 
     Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
@@ -16,6 +18,15 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
             | nom_projet     | Du boulodrome de Marseille                                                       |
             | nouveau_statut | accordée                                                                         |
             | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                               |
+        Et un email a été envoyé à la cre avec :
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                       |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                       |
+        Et un email a été envoyé au cocontractant avec :
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                       |
 
     Scénario: Une dreal peut accorder une demande d'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
