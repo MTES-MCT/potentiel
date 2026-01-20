@@ -54,6 +54,8 @@ export const registerListerFournisseursÀLaCandidatureQuery = ({
         on: 'identifiantProjet',
       },
       where: {
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         localité: {
           région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
         },
