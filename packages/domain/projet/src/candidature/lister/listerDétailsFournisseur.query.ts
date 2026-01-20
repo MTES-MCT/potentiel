@@ -7,7 +7,7 @@ import { CandidatureEntity } from '../candidature.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, DétailCandidatureEntity, Localité } from '..';
 
-export type FournisseurÀLaCandidatureListItemReadModel = {
+export type DétailsFournisseurListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: IdentifiantProjet.ValueType['appelOffre'];
   période: IdentifiantProjet.ValueType['période'];
@@ -16,32 +16,30 @@ export type FournisseurÀLaCandidatureListItemReadModel = {
   détail: Partial<DétailCandidature.RawType>;
 };
 
-export type ListerFournisseursÀLaCandidatureReadModel = Readonly<{
-  items: Array<FournisseurÀLaCandidatureListItemReadModel>;
+export type ListerDétailsFournisseurReadModel = Readonly<{
+  items: Array<DétailsFournisseurListItemReadModel>;
   range: RangeOptions;
   total: number;
 }>;
 
-export type ListerFournisseursÀLaCandidatureQuery = Message<
-  'Candidature.Query.ListerFournisseursÀLaCandidature',
+export type ListerDétailsFournisseurQuery = Message<
+  'Candidature.Query.ListerDétailsFournisseur',
   {
     utilisateur: Email.RawType;
   },
-  ListerFournisseursÀLaCandidatureReadModel
+  ListerDétailsFournisseurReadModel
 >;
 
-export type ListerFournisseursÀLaCandidatureQueryDependencies = {
+export type ListerDétailsFournisseurQueryDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
-export const registerListerFournisseursÀLaCandidatureQuery = ({
+export const registerListerDétailsFournisseurQuery = ({
   list,
   getScopeProjetUtilisateur,
-}: ListerFournisseursÀLaCandidatureQueryDependencies) => {
-  const handler: MessageHandler<ListerFournisseursÀLaCandidatureQuery> = async ({
-    utilisateur,
-  }) => {
+}: ListerDétailsFournisseurQueryDependencies) => {
+  const handler: MessageHandler<ListerDétailsFournisseurQuery> = async ({ utilisateur }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const {
@@ -76,12 +74,12 @@ export const registerListerFournisseursÀLaCandidatureQuery = ({
       total,
     };
   };
-  mediator.register('Candidature.Query.ListerFournisseursÀLaCandidature', handler);
+  mediator.register('Candidature.Query.ListerDétailsFournisseur', handler);
 };
 
 type MapToReadModel = (
   candidature: CandidatureEntity & Joined<DétailCandidatureEntity>,
-) => FournisseurÀLaCandidatureListItemReadModel;
+) => DétailsFournisseurListItemReadModel;
 
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
@@ -99,7 +97,7 @@ export const mapToReadModel: MapToReadModel = ({
   détail: getFournisseursInfosFromDétail(détail),
 });
 
-export const fournisseursCandidatureDétailKeys = [
+const fournisseursCandidatureDétailKeys = [
   'Coût total du lot (M€)\n(Développement)',
   'Contenu local français (%)\n(Développement)',
   'Contenu local européen (%)\n(Développement)',

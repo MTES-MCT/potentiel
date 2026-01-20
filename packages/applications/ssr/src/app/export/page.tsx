@@ -162,7 +162,7 @@ const mapToAction: MapToAction = (
     });
   }
 
-  if (utilisateur.rôle.aLaPermission('candidature.exporterFournisseurs')) {
+  if (utilisateur.rôle.aLaPermission('candidature.listerDétailsFournisseur')) {
     actions.push({
       type: 'exporter-fournisseur',
       label: 'Données fournisseur à la candidature',

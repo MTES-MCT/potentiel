@@ -18,8 +18,8 @@ export const GET = async (_: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
       const fournisseursÀLaCandidature =
-        await mediator.send<Candidature.ListerFournisseursÀLaCandidatureQuery>({
-          type: 'Candidature.Query.ListerFournisseursÀLaCandidature',
+        await mediator.send<Candidature.ListerDétailsFournisseurQuery>({
+          type: 'Candidature.Query.ListerDétailsFournisseur',
           data: {
             utilisateur: utilisateur.identifiantUtilisateur.email,
           },
@@ -38,7 +38,6 @@ export const GET = async (_: Request) =>
           { label: "Appel d'offre", value: 'appelOffre' },
           { label: 'Période', value: 'periode' },
           { label: 'Région', value: 'region' },
-          { label: 'Société mère', value: 'societeMere' },
           { label: 'Société mère', value: 'societeMere' },
           ...fournisseurCandidatureFields,
         ],

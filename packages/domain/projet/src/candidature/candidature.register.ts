@@ -20,9 +20,9 @@ import { registerNotifierCandidatureCommand } from './notifier/notifierCandidatu
 import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 import { registerConsulterDétailCandidatureQuery } from './détail/consulter/consulterDétailCandidature.query';
 import {
-  ListerFournisseursÀLaCandidatureQueryDependencies,
-  registerListerFournisseursÀLaCandidatureQuery,
-} from './lister/listerFournisseursÀLaCandidature.query';
+  ListerDétailsFournisseurQueryDependencies,
+  registerListerDétailsFournisseurQuery,
+} from './lister/listerDétailsFournisseur.query';
 
 export type CandiatureCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -31,14 +31,14 @@ export type CandiatureCommandDependencies = {
 export type CandidatureQueryDependencies = ListerProjetsEligiblesPreuveRecanditureDependencies &
   ConsulterCandidatureDependencies &
   ListerCandidaturesQueryDependencies &
-  ListerFournisseursÀLaCandidatureQueryDependencies;
+  ListerDétailsFournisseurQueryDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
   registerConsulterDétailCandidatureQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);
-  registerListerFournisseursÀLaCandidatureQuery(dependencies);
+  registerListerDétailsFournisseurQuery(dependencies);
 };
 
 export const registerCandidaturesUseCases = ({

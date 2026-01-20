@@ -23,9 +23,9 @@ import {
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query';
 import {
-  ListerFournisseursÀLaCandidatureQuery,
-  ListerFournisseursÀLaCandidatureReadModel,
-} from './lister/listerFournisseursÀLaCandidature.query';
+  ListerDétailsFournisseurQuery,
+  ListerDétailsFournisseurReadModel,
+} from './lister/listerDétailsFournisseur.query';
 import {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
@@ -42,14 +42,14 @@ import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.useca
 export type CandidatureQuery =
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ListerFournisseursÀLaCandidatureQuery
+  | ListerDétailsFournisseurQuery
   | ConsulterCandidatureQuery
   | ConsulterDétailCandidatureQuery;
 
 export {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerCandidaturesQuery,
-  ListerFournisseursÀLaCandidatureQuery,
+  ListerDétailsFournisseurQuery,
   ConsulterCandidatureQuery,
   ConsulterDétailCandidatureQuery,
 };
@@ -58,7 +58,7 @@ export {
 export {
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesReadModel,
-  ListerFournisseursÀLaCandidatureReadModel,
+  ListerDétailsFournisseurReadModel,
   ConsulterCandidatureReadModel,
   ConsulterDétailCandidatureReadModel,
 };
