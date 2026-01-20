@@ -11,7 +11,12 @@ SELECT proj.value->>'identifiantProjet' AS id,
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 2) as "periode",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 3) as "famille",
-  SPLIT_PART(proj.value->>'identifiantProjet', '#', 4) as "numéroCRE",
+  SPLIT_PART(proj.value->>'identifiantProjet', '#', 4) as "numeroCRE",
+  COALESCE(
+    proj.value->>'nomProjet',
+    cand.value->>'nomProjet'
+  ) AS "nomProjet",
+  cand.value->>'nomCandidat' AS "nomCandidat",
   COALESCE(
     proj.value->>'localité.région',
     cand.value->>'localité.région'
@@ -26,6 +31,7 @@ SELECT proj.value->>'identifiantProjet' AS id,
     cand.value->>'puissanceProductionAnnuelle'
   ) as puissance,
   cand.value->>'unitéPuissance' as "unitéPuissance",
+  CAST(proj.value->>'notifiéLe' as timestamp) AS "dateNotification",
   CASE
     WHEN proj.key like 'éliminé|%' THEN 'éliminé'
     WHEN aban.key is NOT NULL THEN 'abandonné'
