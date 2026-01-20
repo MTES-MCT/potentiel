@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - Connexion avec ProConnect obligato
+subject: Potentiel - Connexion avec ProConnect obligatoire
 ---
 
 Madame, Monsieur,
