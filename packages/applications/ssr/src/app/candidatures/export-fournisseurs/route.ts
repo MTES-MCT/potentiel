@@ -25,9 +25,12 @@ export const GET = async (_: Request) =>
           },
         });
 
-      const fournisseurCandidatureFields = Candidature.fournisseursCandidatureDétailKeys.map(
-        (key) => ({ label: key.replace(/\n/g, ''), value: key }),
-      );
+      const fournisseurCandidatureFields = Array.from(
+        new Set(fournisseursÀLaCandidature.items.map(({ détail }) => Object.keys(détail)).flat()),
+      ).map((field) => ({
+        label: field,
+        value: field,
+      }));
 
       const csv = await ExportCSV.toCSV<CandidatureFournisseurCSV>({
         fields: [
@@ -35,6 +38,7 @@ export const GET = async (_: Request) =>
           { label: "Appel d'offre", value: 'appelOffre' },
           { label: 'Période', value: 'periode' },
           { label: 'Région', value: 'region' },
+          { label: 'Société mère', value: 'societeMere' },
           { label: 'Société mère', value: 'societeMere' },
           ...fournisseurCandidatureFields,
         ],
@@ -44,13 +48,7 @@ export const GET = async (_: Request) =>
           periode: fournisseur.identifiantProjet.période,
           region: fournisseur.région,
           societeMere: fournisseur.sociétéMère,
-          ...Object.entries(fournisseur.détail).reduce(
-            (acc: Record<string, string>, [key, value]) => {
-              acc[key] = value;
-              return acc;
-            },
-            {},
-          ),
+          ...fournisseur.détail,
         })),
       });
 

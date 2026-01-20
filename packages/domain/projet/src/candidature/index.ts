@@ -110,5 +110,3 @@ export * as DétailCandidature from './détail/détailCandidature.valueType';
 
 // Type
 export * from './détail/détailCandidature.valueType';
-
-export { fournisseursCandidatureDétailKeys } from './lister/listerFournisseursÀLaCandidature.query';

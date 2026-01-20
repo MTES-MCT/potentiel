@@ -13,7 +13,7 @@ export type FournisseurÀLaCandidatureListItemReadModel = {
   période: IdentifiantProjet.ValueType['période'];
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
-  détail: Partial<Record<FournisseursDétailKeys, string>>;
+  détail: Partial<DétailCandidature.RawType>;
 };
 
 export type ListerFournisseursÀLaCandidatureReadModel = Readonly<{
@@ -175,14 +175,12 @@ export const fournisseursCandidatureDétailKeys = [
   'Contenu local TOTAL :\nCommentaires',
 ] as const;
 
-type FournisseursDétailKeys = (typeof fournisseursCandidatureDétailKeys)[number];
-
 const getFournisseursInfosFromDétail = (détail: DétailCandidature.RawType) => {
   const filteredDetails: DétailCandidature.RawType = {};
 
   for (const key of fournisseursCandidatureDétailKeys) {
     if (key in détail) {
-      filteredDetails[key] = détail[key];
+      filteredDetails[key.replace(/\n/g, '')] = détail[key];
     }
   }
   return filteredDetails;
