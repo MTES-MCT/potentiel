@@ -1539,6 +1539,9 @@ const policies = {
   appelOffre: {
     consulter: [référencielPermissions.appelOffre.query.consulter],
   },
+  statistiquesDGEC: {
+    consulter: [],
+  },
 } as const;
 
 /**
@@ -1767,6 +1770,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Tâche
   'tâche.consulter',
+
+  // Statistiques
+  'statistiquesDGEC.consulter',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1789,9 +1795,6 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Recours
   'recours.consulter.liste',
-
-  // Gestionnaire réseau
-  'réseau.gestionnaire.lister',
 
   // Raccordement
   'raccordement.listerDossierRaccordement',
@@ -1847,6 +1850,9 @@ const crePolicies: ReadonlyArray<Policy> = [
   //  Candidature
   'candidature.consulterDétail',
   'candidature.consulter',
+
+  // Statistiques
+  'statistiquesDGEC.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1976,6 +1982,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Tâche
   'tâche.consulter',
+
+  // Statistiques
+  'statistiquesDGEC.consulter',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -2114,6 +2123,9 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
 
+  // Abandon
+  'abandon.lister.demandes',
+
   // Achèvement
   'achèvement.transmettreDate',
   'achèvement.listerProjetAvecAchevementATransmettre',
@@ -2204,6 +2216,9 @@ const ademePolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
 
   'projet.accèsDonnées.prix',
+
+  // Statistiques
+  'statistiquesDGEC.consulter',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
