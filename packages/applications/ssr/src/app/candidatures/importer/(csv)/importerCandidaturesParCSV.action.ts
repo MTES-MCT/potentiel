@@ -16,7 +16,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
-import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
+import { cleanDétailsEntries } from '@/utils/candidature/cleanDétailsEntries';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -80,7 +80,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     for (const line of parsedData) {
       try {
-        const rawLine = removeEmptyValues(
+        const rawLine = cleanDétailsEntries(
           rawData.find((data) => data['N°CRE'] === line.numéroCRE) ?? {},
         );
 
