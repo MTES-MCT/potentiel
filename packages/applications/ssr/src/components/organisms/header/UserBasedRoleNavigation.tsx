@@ -175,18 +175,23 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       url: Routes.Raccordement.corrigerRéférencesDossier,
       permission: rôle.estPorteur() ? false : 'raccordement.référence-dossier.modifier',
     },
-  ];
-
-  const outilsMenuLinks: Array<MenuItem> = [
-    {
-      label: 'Gérer les utilisateurs',
-      url: Routes.Utilisateur.lister({ actif: true }),
-      permission: 'utilisateur.lister',
-    },
     {
       label: 'Gérer les gestionnaires de réseau',
       url: Routes.Gestionnaire.lister,
       permission: 'réseau.gestionnaire.lister',
+    },
+  ];
+
+  const utilisateurMenuLinks: Array<MenuItem> = [
+    {
+      label: 'Utilisateurs',
+      url: Routes.Utilisateur.lister({ actif: true }),
+      permission: 'utilisateur.lister',
+    },
+    {
+      label: 'Invitater un utilisateur',
+      url: Routes.Utilisateur.inviter,
+      permission: 'utilisateur.inviter',
     },
   ];
 
@@ -212,8 +217,8 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       menuLinks: mapToMenuProps(raccordementsMenuLinks, rôle),
     },
     {
-      text: 'Outils',
-      menuLinks: mapToMenuProps(outilsMenuLinks, rôle),
+      text: 'Gestion des accès',
+      menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
     ...mapToMenuProps(
       [
