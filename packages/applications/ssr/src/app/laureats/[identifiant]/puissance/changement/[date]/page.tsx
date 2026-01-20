@@ -66,7 +66,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           puissanceInitiale={puissance.puissanceInitiale}
           unitéPuissance={puissance.unitéPuissance.formatter()}
           historique={historique.items.map((item) =>
-            mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
+            mapToPuissanceTimelineItemProps({
+              event: item,
+              unitéPuissance: puissance.unitéPuissance.formatter(),
+            }),
           )}
           actions={mapToActions(changement.demande.statut, utilisateur.rôle)}
           dateDemandeEnCours={

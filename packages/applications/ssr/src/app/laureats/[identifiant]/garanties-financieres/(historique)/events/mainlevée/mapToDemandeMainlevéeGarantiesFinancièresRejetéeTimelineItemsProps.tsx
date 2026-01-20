@@ -10,6 +10,6 @@ export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsPro
   return {
     date: rejetéLe,
     title: 'La demande de mainlevée des garanties financières a été rejetée',
-    acteur: rejetéPar,
+    actor: rejetéPar,
   };
 };

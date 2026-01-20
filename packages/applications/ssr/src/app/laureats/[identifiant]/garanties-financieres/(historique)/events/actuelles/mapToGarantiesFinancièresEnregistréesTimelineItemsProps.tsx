@@ -12,8 +12,8 @@ export const mapToGarantiesFinancièresEnregistréesTimelineItemsProps = (
   return {
     date: enregistréLe,
     title: 'Garanties financières enregistrées',
-    acteur: enregistréPar,
-    content: (
+    actor: enregistréPar,
+    details: (
       <GarantiesFinancièresTimelineItemContent
         type={type}
         dateConstitution={dateConstitution}

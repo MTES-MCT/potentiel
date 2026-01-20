@@ -6,3 +6,4 @@ export * from './getPériodeAppelOffres';
 export * from './getTechnologieTypeLabel';
 export * from './récupérerLauréat';
 export * from './vérifierQueLeCahierDesChargesPermetUnChangement';
+export * from './formatDateToText';

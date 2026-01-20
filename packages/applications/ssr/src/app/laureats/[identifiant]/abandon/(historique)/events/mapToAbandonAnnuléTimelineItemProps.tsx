@@ -10,6 +10,6 @@ export const mapToAbandonAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: "Demande d'abandon annulée",
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };

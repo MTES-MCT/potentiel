@@ -24,6 +24,6 @@ export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
         a été transmis
       </>
     ),
-    acteur: transmisePar,
+    actor: transmisePar,
   };
 };

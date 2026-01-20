@@ -1,11 +1,10 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   event: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,
@@ -22,8 +21,17 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   return {
     date: enregistréLe,
     title: 'Fournisseur modifié',
-    acteur: enregistréPar,
-    content: (
+    actor: enregistréPar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
+        enregistréLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif du changement de fournisseur en date du ${formatDateToText(enregistréLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         {évaluationCarboneSimplifiée !== undefined && (
           <div>
@@ -39,21 +47,13 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
             />{' '}
           </div>
         )}
-        <DisplayRaisonChangement raison={raison} />
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format="pdf"
-          url={Routes.Document.télécharger(
-            DocumentProjet.convertirEnValueType(
-              identifiantProjet,
-              Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-              enregistréLe,
-              pièceJustificative.format,
-            ).formatter(),
-          )}
-        />
       </div>
     ),
+    reason: raison,
+    link: {
+      url: Routes.Fournisseur.changement.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement de fournisseur enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };

@@ -15,6 +15,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
+    utilisateur,
   } = event.payload;
 
   const attestation = DocumentProjet.convertirEnValueType(
@@ -34,7 +35,8 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
   return {
     date,
     title: "Transmission de l'attestation de conformité",
-    content: (
+    actor: utilisateur,
+    details: (
       <div className="flex flex-col gap-2">
         <DownloadDocument
           className="mb-0"

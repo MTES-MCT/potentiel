@@ -1,14 +1,16 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
-export const mapToChangementPuissanceDemandéTimelineItemProps = (
-  event: Lauréat.Puissance.ChangementPuissanceDemandéEvent,
-  unitéPuissance: string,
-): TimelineItemProps => {
+export const mapToChangementPuissanceDemandéTimelineItemProps = ({
+  event,
+  unitéPuissance,
+}: {
+  event: Lauréat.Puissance.ChangementPuissanceDemandéEvent;
+  unitéPuissance: string;
+}): TimelineItemProps => {
   const {
     identifiantProjet,
     demandéLe,
@@ -21,8 +23,22 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
   return {
     date: demandéLe,
     title: 'Changement de puissance demandé',
-    acteur: demandéPar,
-    content: (
+    actor: demandéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+        demandéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
+    },
+    link: {
+      url: Routes.Puissance.changement.détails(identifiantProjet, demandéLe),
+      label: 'Détail de la demande',
+      ariaLabel: `Voir le détail de la demande de changement de puissance en date du ${formatDateToText(demandéLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvelle puissance :{' '}
@@ -38,21 +54,6 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
             </span>
           </div>
         ) : null}
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-                demandéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
   };

@@ -12,7 +12,7 @@ export const mapToGarantiesFinancièresImportéesTimelineItemsProps = (
   return {
     date: importéLe,
     title: 'Garanties financières importées',
-    content: (
+    details: (
       <GarantiesFinancièresTimelineItemContent
         type={type}
         dateConstitution={dateConstitution}

@@ -16,14 +16,11 @@ import {
 } from './events';
 import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './events/mapToChangementReprésentantLégalSuppriméTimelineItemProps';
 
-type MapToReprésentantLégalTimelineItemProps = (
-  readmodel: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
-) => TimelineItemProps;
-
-export const mapToReprésentantLégalTimelineItemProps: MapToReprésentantLégalTimelineItemProps = (
-  readmodel,
+export const mapToReprésentantLégalTimelineItemProps = (
+  event: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
 ) =>
-  match(readmodel)
+  match(event)
+    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'ReprésentantLégalImporté-V1',

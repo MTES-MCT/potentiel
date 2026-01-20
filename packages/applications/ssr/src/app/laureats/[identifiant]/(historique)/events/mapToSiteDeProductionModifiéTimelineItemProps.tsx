@@ -1,9 +1,7 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
   event: Lauréat.SiteDeProductionModifiéEvent,
@@ -14,25 +12,18 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Site de production modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.TypeDocumentSiteDeProduction.pièceJustificative.formatter(),
+        modifiéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif de la modification de site de production enregistrée le ${formatDateToText(modifiéLe)}`,
+    },
+    details: (
       <>
-        <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.TypeDocumentSiteDeProduction.pièceJustificative.formatter(),
-                modifiéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
         <div className="flex flex-col">
           <span className="font-semibold">Nouveau site de production : </span>
           <span>{localité.adresse1}</span>
@@ -46,5 +37,6 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
         </div>
       </>
     ),
+    reason: raison,
   };
 };

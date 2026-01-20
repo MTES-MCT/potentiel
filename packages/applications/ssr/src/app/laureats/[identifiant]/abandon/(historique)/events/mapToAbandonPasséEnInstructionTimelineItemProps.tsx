@@ -10,6 +10,6 @@ export const mapToAbandonPasséEnInstructionTimelineItemProps = (
   return {
     date: passéEnInstructionLe,
     title: "Demande d'abandon passée en instruction",
-    acteur: passéEnInstructionPar,
+    actor: passéEnInstructionPar,
   };
 };

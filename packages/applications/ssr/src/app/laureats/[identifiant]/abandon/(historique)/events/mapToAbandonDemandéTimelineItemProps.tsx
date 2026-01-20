@@ -2,8 +2,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToAbandonDemandéTimelineItemProps = (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
@@ -13,29 +13,28 @@ export const mapToAbandonDemandéTimelineItemProps = (
   return {
     date: demandéLe,
     title: "Demande d'abandon déposée",
-    acteur: demandéPar,
-    content: (
+    actor: demandéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
+        demandéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
+    },
+    link: {
+      url: Routes.Abandon.détail(identifiantProjet, demandéLe),
+      ariaLabel: `Voir le détail de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
+      label: 'Détail de la demande',
+    },
+    details: (
       <>
         {event.type === 'AbandonDemandé-V1' && event.payload.recandidature && (
           <div className="mb-4">
             Le projet s'inscrit dans un{' '}
             <span className="font-semibold">contexte de recandidature</span>
           </div>
-        )}
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
-                demandéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
         )}
       </>
     ),

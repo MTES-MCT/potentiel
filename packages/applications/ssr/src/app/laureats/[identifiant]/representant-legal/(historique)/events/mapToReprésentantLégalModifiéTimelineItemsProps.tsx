@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
 import { getTypeReprésentantLégalLabel } from '../../_helpers/getTypeReprésentantLégalLabel';
 
@@ -14,8 +13,8 @@ export const mapToReprésentantLégalModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Représentant légal modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Type :{' '}
@@ -26,8 +25,8 @@ export const mapToReprésentantLégalModifiéTimelineItemProps = (
         <div>
           Nom : <span className="font-semibold">{nomReprésentantLégal}</span>
         </div>
-        {raison && <DisplayRaisonChangement raison={raison} />}
       </div>
     ),
+    reason: raison,
   };
 };

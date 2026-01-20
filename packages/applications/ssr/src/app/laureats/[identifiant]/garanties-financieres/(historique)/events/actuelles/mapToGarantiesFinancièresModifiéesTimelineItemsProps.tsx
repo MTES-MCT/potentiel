@@ -12,8 +12,8 @@ export const mapToGarantiesFinancièresModifiéesTimelineItemsProps = (
   return {
     date: modifiéLe,
     title: 'Garanties financières modifiées',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    details: (
       <GarantiesFinancièresTimelineItemContent
         type={type}
         dateConstitution={dateConstitution}

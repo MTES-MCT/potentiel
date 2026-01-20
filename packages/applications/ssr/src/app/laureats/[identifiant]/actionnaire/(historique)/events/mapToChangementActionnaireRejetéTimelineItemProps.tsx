@@ -1,9 +1,8 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementActionnaireRejetéTimelineItemProps = (
   event: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent,
@@ -15,24 +14,19 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
     réponseSignée: { format },
   } = event.payload;
 
-  const réponseSignée = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
-    rejetéLe,
-    format,
-  ).formatter();
-
   return {
     date: rejetéLe,
     title: "Demande de changement d'actionnaire rejetée",
-    acteur: rejetéPar,
-    content: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format="pdf"
-        url={Routes.Document.télécharger(réponseSignée)}
-      />
-    ),
+    actor: rejetéPar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+        rejetéLe,
+        format,
+      ),
+      label: 'Télécharger la réponse signée',
+      ariaLabel: `Télécharger la réponse signée de la demande de changement d'actionnaire rejetée le ${formatDateToText(rejetéLe)}`,
+    },
   };
 };

@@ -7,6 +7,7 @@ export type DownloadDocumentProps = {
   label: string;
   url: string;
   format: string;
+  ariaLabel?: string;
 };
 
 export const DownloadDocument: FC<DownloadDocumentProps> = ({
@@ -14,6 +15,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   label,
   url,
   format,
+  ariaLabel = '',
 }) => (
   <Download
     className={clsx('print:hidden', className)}
@@ -22,6 +24,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
     linkProps={{
       href: url,
       target: '_blank',
+      'aria-label': ariaLabel,
     }}
   />
 );

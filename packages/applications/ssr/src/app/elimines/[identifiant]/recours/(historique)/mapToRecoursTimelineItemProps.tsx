@@ -5,17 +5,17 @@ import { Éliminé } from '@potentiel-domain/projet';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
-  mapToRecoursDemandéTimelineItemProps,
   mapToRecoursAnnuléTimelineItemProps,
   mapToRecoursAccordéTimelineItemProps,
   mapToRecoursRejetéTimelineItemProps,
   mapToRecoursPasséEnInstructionTimelineItemProp,
+  mapToRecoursDemandéTimelineItemProps,
 } from './events';
 
 export const mapToRecoursTimelineItemProps = (
-  record: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
+  event: Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel,
 ) =>
-  match(record)
+  match(event)
     .returnType<TimelineItemProps>()
     .with(
       {

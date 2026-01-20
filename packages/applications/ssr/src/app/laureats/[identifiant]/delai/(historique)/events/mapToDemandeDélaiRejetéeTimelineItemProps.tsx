@@ -1,9 +1,8 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToDemandeDélaiRejetéeTimelineItemProps = (
   event: Lauréat.Délai.DemandeDélaiRejetéeEvent,
@@ -13,21 +12,16 @@ export const mapToDemandeDélaiRejetéeTimelineItemProps = (
   return {
     date: rejetéeLe,
     title: 'Demande de délai rejetée',
-    acteur: rejetéePar,
-    content: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format="pdf"
-        url={Routes.Document.télécharger(
-          DocumentProjet.convertirEnValueType(
-            identifiantProjet,
-            Lauréat.Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
-            rejetéeLe,
-            réponseSignée.format,
-          ).formatter(),
-        )}
-      />
-    ),
+    actor: rejetéePar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
+        rejetéeLe,
+        réponseSignée.format,
+      ),
+      label: 'Télécharger la réponse signée',
+      ariaLabel: `Télécharger la réponse signée de la demande de délai rejetée le ${formatDateToText(rejetéeLe)}`,
+    },
   };
 };

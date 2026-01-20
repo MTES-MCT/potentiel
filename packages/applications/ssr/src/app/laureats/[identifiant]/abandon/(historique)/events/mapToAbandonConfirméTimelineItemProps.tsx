@@ -10,6 +10,6 @@ export const mapToAbandonConfirméTimelineItemProps = (
   return {
     date: confirméLe,
     title: "Demande d'abandon confirmée",
-    acteur: confirméPar,
+    actor: confirméPar,
   };
 };

@@ -15,8 +15,8 @@ export const mapToChangementReprésentantLégalAccordéTimelineItemProps = (
     title: accordAutomatique
       ? `Demande de changement de représentant légal accordée par le préfet de la région du projet`
       : `Demande de changement de représentant légal accordée`,
-    acteur: accordAutomatique ? undefined : accordéPar,
-    content: (
+    actor: accordAutomatique ? undefined : accordéPar,
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Type :{' '}

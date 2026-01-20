@@ -1,9 +1,8 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToAbandonAccordéTimelineItemProps = (
   event: Lauréat.Abandon.AbandonAccordéEvent,
@@ -15,24 +14,18 @@ export const mapToAbandonAccordéTimelineItemProps = (
     réponseSignée: { format },
   } = event.payload;
 
-  const réponseSignée = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
-    accordéLe,
-    format,
-  ).formatter();
-
   return {
     date: accordéLe,
     title: "Demande d'abandon accordée",
-    acteur: accordéPar,
-    content: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format="pdf"
-        url={Routes.Document.télécharger(réponseSignée)}
-      />
-    ),
+    actor: accordéPar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+        accordéLe,
+        format,
+      ),
+      ariaLabel: `Télécharger la réponse signée de l'abandon accordé le ${formatDateToText(accordéLe)}`,
+    },
   };
 };

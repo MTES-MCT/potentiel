@@ -1,8 +1,6 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceAccordéTimelineItemProps = (
@@ -19,20 +17,21 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
     estUneDécisionDEtat,
   } = event.payload;
 
-  const réponseSignéeDocument = réponseSignée
-    ? DocumentProjet.convertirEnValueType(
+  return {
+    date: accordéLe,
+    title: 'Changement de puissance accordé',
+    actor: accordéPar,
+    file: réponseSignée && {
+      document: DocumentProjet.convertirEnValueType(
         identifiantProjet,
         Lauréat.Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
         accordéLe,
         réponseSignée.format,
-      ).formatter()
-    : undefined;
-
-  return {
-    date: accordéLe,
-    title: 'Changement de puissance accordé',
-    acteur: accordéPar,
-    content: (
+      ),
+      label: 'Télécharger la réponse signée',
+      ariaLabel: `Télécharger la réponse signée de la demande de changement de puissance accordée le ${accordéLe}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvelle puissance :{' '}
@@ -52,14 +51,6 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
           Fait suite à une décision de l'État :{' '}
           <span className="font-semibold">{estUneDécisionDEtat ? 'Oui' : 'Non'}</span>
         </div>
-        {réponseSignéeDocument && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la réponse signée"
-            format="pdf"
-            url={Routes.Document.télécharger(réponseSignéeDocument)}
-          />
-        )}
       </div>
     ),
   };

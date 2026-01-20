@@ -1,9 +1,7 @@
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToNomProjetModifiéTimelineItemProps = (
   event: Lauréat.NomProjetModifiéEvent,
@@ -21,8 +19,17 @@ export const mapToNomProjetModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Nom du projet modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
+        modifiéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif du changement de nom enregistré le ${formatDateToText(modifiéLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouveau nom : <span className="font-semibold">{nomProjet}</span>
@@ -30,25 +37,8 @@ export const mapToNomProjetModifiéTimelineItemProps = (
         <div>
           Ancien nom : <span className="font-semibold">{ancienNomProjet}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <>
-            <DownloadDocument
-              className="mb-0"
-              label="Télécharger la pièce justificative"
-              format="pdf"
-              url={Routes.Document.télécharger(
-                DocumentProjet.convertirEnValueType(
-                  identifiantProjet,
-                  Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
-                  modifiéLe,
-                  pièceJustificative.format,
-                ).formatter(),
-              )}
-            />
-          </>
-        )}
       </div>
     ),
+    reason: raison,
   };
 };

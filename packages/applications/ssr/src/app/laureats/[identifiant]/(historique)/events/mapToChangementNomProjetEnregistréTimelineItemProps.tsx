@@ -2,8 +2,7 @@ import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   event: Lauréat.ChangementNomProjetEnregistréEvent,
@@ -21,8 +20,17 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
   return {
     date: enregistréLe,
     title: 'Nom du projet modifié',
-    acteur: enregistréPar,
-    content: (
+    actor: enregistréPar,
+    file: {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
+        enregistréLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif de la modification du nom du projet en date du ${formatDateToText(enregistréLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouveau nom : <span className="font-semibold">{nomProjet}</span>
@@ -30,21 +38,13 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
         <div>
           Ancien nom : <span className="font-semibold">{ancienNomProjet}</span>
         </div>
-        <DisplayRaisonChangement raison={raison} />
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format="pdf"
-          url={Routes.Document.télécharger(
-            DocumentProjet.convertirEnValueType(
-              identifiantProjet,
-              Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
-              enregistréLe,
-              pièceJustificative.format,
-            ).formatter(),
-          )}
-        />{' '}
       </div>
     ),
+    reason: raison,
+    link: {
+      url: Routes.Lauréat.changement.nomProjet.détails(identifiantProjet, enregistréLe),
+      label: 'Détail du changement',
+      ariaLabel: `Voir le détail du changement de nom du projet enregistré le ${formatDateToText(enregistréLe)}`,
+    },
   };
 };

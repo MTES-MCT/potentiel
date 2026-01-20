@@ -11,7 +11,7 @@ export const mapToDispositifDeStockageImportéTimelineItemProps = (
   return {
     date: importéeLe,
     title: 'Candidature :',
-    content: (
+    details: (
       <>
         {dispositifDeStockage ? (
           <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />

@@ -2,8 +2,7 @@ import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 import { DétailsDispositifDeStockage } from '../../dispositif-de-stockage/DétailsDispositifDeStockage';
 
@@ -13,39 +12,42 @@ export const mapToDispositifDeStockageMisÀJourTimelineItemsProps = (
     | Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent,
 ): TimelineItemProps => {
   const { dispositifDeStockage, raison, pièceJustificative, identifiantProjet } = event.payload;
+  const date =
+    event.type === 'ChangementDispositifDeStockageEnregistré-V1'
+      ? event.payload.enregistréLe
+      : event.payload.modifiéLe;
 
   return {
-    date:
-      event.type === 'ChangementDispositifDeStockageEnregistré-V1'
-        ? event.payload.enregistréLe
-        : event.payload.modifiéLe,
-    acteur:
+    date,
+    actor:
       event.type === 'ChangementDispositifDeStockageEnregistré-V1'
         ? event.payload.enregistréPar
         : event.payload.modifiéPar,
     title: 'Dispositif de stockage modifié',
-    content: (
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Installation.TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
+        date,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif du changement de dispositif de stockage enregistré le ${formatDateToText(date)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         <DétailsDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
-        <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Installation.TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
-                event.type == 'ChangementDispositifDeStockageEnregistré-V1'
-                  ? event.payload.enregistréLe
-                  : event.payload.modifiéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
+    reason: raison,
+    ...(event.type === 'ChangementDispositifDeStockageEnregistré-V1' && {
+      link: {
+        url: Routes.Installation.changement.dispositifDeStockage.détails(
+          identifiantProjet,
+          event.payload.enregistréLe,
+        ),
+        label: 'Détail du changement',
+        ariaLabel: `Voir le détail du changement de dispositif de stockage enregistré le ${formatDateToText(event.payload.enregistréLe)}`,
+      },
+    }),
   };
 };

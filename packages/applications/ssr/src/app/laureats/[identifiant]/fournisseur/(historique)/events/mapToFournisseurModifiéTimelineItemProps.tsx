@@ -1,11 +1,9 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToFournisseurModifiéTimelineItemProps = (
   event: Lauréat.Fournisseur.FournisseurModifiéEvent,
@@ -22,8 +20,17 @@ export const mapToFournisseurModifiéTimelineItemProps = (
   return {
     date: modifiéLe,
     title: 'Fournisseur modifié',
-    acteur: modifiéPar,
-    content: (
+    actor: modifiéPar,
+    file: pièceJustificative && {
+      document: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
+        modifiéLe,
+        pièceJustificative.format,
+      ),
+      ariaLabel: `Télécharger le justificatif du changement de fournisseur enregistré le ${formatDateToText(modifiéLe)}`,
+    },
+    details: (
       <div className="flex flex-col gap-2">
         {évaluationCarboneSimplifiée !== undefined && (
           <div>
@@ -39,23 +46,8 @@ export const mapToFournisseurModifiéTimelineItemProps = (
             />{' '}
           </div>
         )}
-        <DisplayRaisonChangement raison={raison} />
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-                modifiéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
+    reason: raison,
   };
 };

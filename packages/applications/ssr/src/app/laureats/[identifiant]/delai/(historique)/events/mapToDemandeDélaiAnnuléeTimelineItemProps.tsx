@@ -10,6 +10,6 @@ export const mapToDemandeDélaiAnnuléeTimelineItemProps = (
   return {
     date: annuléLe,
     title: 'Demande de délai annulée',
-    acteur: annuléPar,
+    actor: annuléPar,
   };
 };

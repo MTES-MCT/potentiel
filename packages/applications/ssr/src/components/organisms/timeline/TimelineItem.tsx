@@ -1,84 +1,27 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { FC, ReactNode } from 'react';
-import MuiTimelineItem from '@mui/lab/TimelineItem';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import clsx from 'clsx';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { Icon, IconProps } from '../../atoms/Icon';
-import { FormattedDate } from '../../atoms/FormattedDate';
+import { DisplayRaisonChangement } from '@/components/atoms/historique/DisplayRaisonChangement';
 
-import { TimelineItemTitle, TimelineItemTitleProps } from './TimelineItemTitle';
+import { TimelineItemBase, TimelineItemBaseProps } from './TimelineItemBase';
+import { TimelineItemFile } from './TimelineItemFile';
 
-export const ETAPE_INCONNUE_TITLE = 'Étape inconnue';
-
-export type TimelineItemProps = {
-  status?: 'error' | 'success' | 'warning' | 'info';
-  title: TimelineItemTitleProps['title'];
-  acteur?: TimelineItemTitleProps['acteur'];
-  type?: string;
-  content?: ReactNode;
-  date: Iso8601DateTime;
-  icon?: IconProps;
-  isLast?: true;
+export type TimelineItemProps = TimelineItemBaseProps & {
+  details?: ReactNode;
+  file?: { document: DocumentProjet.ValueType; ariaLabel: string; label?: string };
+  link?: { label: string; url: string; ariaLabel: string };
+  reason?: string;
 };
-export const TimelineItem: FC<TimelineItemProps> = ({
-  date,
-  title,
-  acteur,
-  content,
-  type,
-  status,
-  icon,
-  isLast,
-}) => {
-  const isÉtapeInconnue = title === ETAPE_INCONNUE_TITLE;
 
+export const TimelineItem: FC<TimelineItemProps> = ({ details, file, reason, ...props }) => {
   return (
-    <MuiTimelineItem
-      sx={{
-        minHeight: '50',
-      }}
-    >
-      <TimelineOppositeContent>
-        <div className={clsx('font-bold', icon && 'pt-3')}>
-          <FormattedDate date={date} />
-        </div>
-      </TimelineOppositeContent>
-      <TimelineSeparator>
-        <TimelineDot
-          color={
-            status === 'error' || isÉtapeInconnue
-              ? 'error'
-              : status === 'success'
-                ? 'success'
-                : status === 'warning'
-                  ? 'warning'
-                  : status === 'info'
-                    ? 'info'
-                    : 'grey'
-          }
-        >
-          {icon && <Icon id={icon.id} size="md" className="print:text-theme-black" />}
-        </TimelineDot>
-        {!isLast && <TimelineConnector />}
-      </TimelineSeparator>
-      <TimelineContent
-        color={isÉtapeInconnue ? 'error' : undefined}
-        sx={{
-          alignContent: 'flex-start',
-        }}
-      >
-        <div className={clsx(icon && 'pt-3')}>
-          <TimelineItemTitle title={title} acteur={acteur} />
-          {isÉtapeInconnue && type && ` (${type})`}
-          {content ? <div className={clsx(title && 'mt-2')}>{content}</div> : null}
-        </div>
-      </TimelineContent>
-    </MuiTimelineItem>
+    <TimelineItemBase {...props}>
+      {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
+      {reason && <DisplayRaisonChangement raison={reason} />}
+      {file && <TimelineItemFile {...file} />}
+    </TimelineItemBase>
   );
 };

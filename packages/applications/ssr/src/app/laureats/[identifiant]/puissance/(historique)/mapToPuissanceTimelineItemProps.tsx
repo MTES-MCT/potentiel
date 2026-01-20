@@ -13,23 +13,30 @@ import { mapToChangementPuissanceAccordéTimelineItemProps } from './events/mapT
 import { mapToChangementPuissanceRejetéTimelineItemProps } from './events/mapToChangementPuissanceRejetéTimelineItemProps';
 import { mapToChangementPuissanceSuppriméTimelineItemProps } from './events/mapToChangementPuissanceSuppriméTimelineItemProps';
 
-export const mapToPuissanceTimelineItemProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
-  unitéPuissance: string,
-) =>
-  match(record)
+export const mapToPuissanceTimelineItemProps = ({
+  event,
+  unitéPuissance,
+}: {
+  event: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel;
+  unitéPuissance: string;
+}) =>
+  match(event)
     .returnType<TimelineItemProps>()
-    .with({ type: 'PuissanceImportée-V1' }, (record) =>
-      mapToPuissanceImportéeTimelineItemsProps(record, unitéPuissance),
+    .with({ type: 'PuissanceImportée-V1' }, (event) =>
+      mapToPuissanceImportéeTimelineItemsProps(event, unitéPuissance),
     )
-    .with({ type: 'PuissanceModifiée-V1' }, (record) =>
-      mapToPuissanceModifiéeTimelineItemsProps(record, unitéPuissance),
+    .with({ type: 'PuissanceModifiée-V1' }, (event) =>
+      mapToPuissanceModifiéeTimelineItemsProps(event, unitéPuissance),
     )
     .with(
       {
         type: 'ChangementPuissanceDemandé-V1',
       },
-      (record) => mapToChangementPuissanceDemandéTimelineItemProps(record, unitéPuissance),
+      (event) =>
+        mapToChangementPuissanceDemandéTimelineItemProps({
+          event,
+          unitéPuissance,
+        }),
     )
     .with(
       {
@@ -37,20 +44,20 @@ export const mapToPuissanceTimelineItemProps = (
       },
       mapToChangementPuissanceAnnuléTimelineItemProps,
     )
-    .with({ type: 'ChangementPuissanceEnregistré-V1' }, (record) =>
-      mapToChangementPuissanceEnregistréTimelineItemProps(record, unitéPuissance),
+    .with({ type: 'ChangementPuissanceEnregistré-V1' }, (event) =>
+      mapToChangementPuissanceEnregistréTimelineItemProps(event, unitéPuissance),
     )
     .with(
       {
         type: 'ChangementPuissanceAccordé-V1',
       },
-      (record) => mapToChangementPuissanceAccordéTimelineItemProps(record, unitéPuissance),
+      (event) => mapToChangementPuissanceAccordéTimelineItemProps(event, unitéPuissance),
     )
     .with(
       {
         type: 'ChangementPuissanceRejeté-V1',
       },
-      (record) => mapToChangementPuissanceRejetéTimelineItemProps(record),
+      (event) => mapToChangementPuissanceRejetéTimelineItemProps(event),
     )
     .with(
       { type: 'ChangementPuissanceSupprimé-V1' },

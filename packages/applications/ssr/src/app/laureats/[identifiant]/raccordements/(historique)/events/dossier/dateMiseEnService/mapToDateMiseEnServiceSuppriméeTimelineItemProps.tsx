@@ -14,6 +14,6 @@ export const mapToDossierRacordementSuppriméTimelineItemProps = (
         <span className="font-semibold">{référenceDossierRaccordement}</span>a été supprimée
       </>
     ),
-    acteur: suppriméePar,
+    actor: suppriméePar,
   };
 };

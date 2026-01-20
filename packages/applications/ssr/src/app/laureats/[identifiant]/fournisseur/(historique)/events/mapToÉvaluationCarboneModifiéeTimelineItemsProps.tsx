@@ -10,8 +10,8 @@ export const mapToÉvaluationCarboneModifiéeTimelineItemsProps = (
   return {
     date: modifiéeLe,
     title: 'Évaluation carbone simplifiée modifiée',
-    acteur: modifiéePar,
-    content: (
+    actor: modifiéePar,
+    details: (
       <div className="flex flex-col gap-2">
         <div>
           Nouvelle évaluation carbone simplifiée :{' '}

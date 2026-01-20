@@ -6,6 +6,8 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ImprimerButton } from '@/components/atoms/ImprimerButton';
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
+import { HistoriqueLauréatTimelineItem } from './HistoriqueLauréatTimelineItem';
+
 export type HistoriqueLauréatAction = 'imprimer';
 
 export type HistoriqueLauréatPageProps = {
@@ -32,7 +34,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
       </div>
       <div className="flex flex-row gap-2">
         {historique.length > 0 ? (
-          <Timeline items={historique} />
+          <Timeline items={historique} ItemComponent={HistoriqueLauréatTimelineItem} />
         ) : (
           <div className="w-full flex justify-center mt-4">
             <span>Aucun élément à afficher</span>

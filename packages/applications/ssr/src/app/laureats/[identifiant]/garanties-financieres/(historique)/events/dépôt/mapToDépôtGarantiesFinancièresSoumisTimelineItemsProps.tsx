@@ -12,8 +12,8 @@ export const mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps = (
   return {
     date: soumisLe,
     title: 'Nouvelles garanties financières (soumises à instruction) déposées',
-    acteur: soumisPar,
-    content: (
+    actor: soumisPar,
+    details: (
       <GarantiesFinancièresTimelineItemContent
         type={type}
         dateConstitution={dateConstitution}

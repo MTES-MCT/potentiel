@@ -10,6 +10,6 @@ export const mapToInstructionDemandeMainlevéeGarantiesFinancièresDémarréeTim
   return {
     date: démarréLe,
     title: " L'instruction de la demande de mainlevée des garanties financières a été démarée",
-    acteur: démarréPar,
+    actor: démarréPar,
   };
 };
