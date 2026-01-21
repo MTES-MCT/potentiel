@@ -30,7 +30,7 @@ export type ListerGarantiesFinancièresEnAttenteReadModel = {
 export type ListerGarantiesFinancièresEnAttenteQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
   {
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     motif?: string;
     cycle?: string;
     statut?: StatutLauréat.RawType;
@@ -81,8 +81,8 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: appelOffre
-              ? Where.equal(appelOffre)
+            appelOffre: appelOffre?.length
+              ? Where.matchAny(appelOffre)
               : cycle
                 ? cycle === 'PPE2'
                   ? Where.like('PPE2')

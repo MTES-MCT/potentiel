@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Accès } from '@potentiel-domain/projet';
@@ -9,12 +10,20 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
 import { withUtilisateur } from '../../utils/withUtilisateur';
 import { mapToRangeOptions } from '../../utils/pagination';
+import { optionalStringArray } from '../_helpers/optionalStringArray';
 
 import { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
 import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
 import { chiffrerIdentifiantProjet, generateIV } from './_helpers/chiffrement';
 
-type SearchParams = 'page' | 'appelOffre' | 'periode' | 'nomProjet';
+const searchParamsSchema = z.object({
+  page: z.coerce.number().int().optional().default(1),
+  nomProjet: z.string().optional(),
+  appelOffre: optionalStringArray,
+  periode: z.string().optional(),
+});
+
+type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
@@ -28,10 +37,12 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-      const appelOffre = searchParams?.appelOffre ?? undefined;
-      const nomProjet = searchParams?.nomProjet ?? undefined;
-      const période = searchParams?.periode ?? undefined;
+      const {
+        page,
+        appelOffre,
+        nomProjet,
+        periode: période,
+      } = searchParamsSchema.parse(searchParams);
 
       const projetsÀRéclamer = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
         type: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
@@ -53,7 +64,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const périodesOption =
         appelOffres.items
-          .find((appelOffresItem) => appelOffresItem.id === appelOffre)
+          .find((ao) => appelOffre?.includes(ao.id))
           ?.periodes.map((p) => ({
             label: p.title,
             value: p.id,
@@ -67,6 +78,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
           affects: ['periode'],
         },
         {

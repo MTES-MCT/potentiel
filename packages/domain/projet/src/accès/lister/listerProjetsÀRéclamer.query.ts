@@ -22,7 +22,7 @@ export type ListerProjetsÀRéclamerReadModel = {
 export type ListerProjetsÀRéclamerQuery = Message<
   'Projet.Accès.Query.ListerProjetsÀRéclamer',
   {
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     période?: string;
     nomProjet?: string;
     nomCandidat?: string;
@@ -50,7 +50,7 @@ export const registerListerProjetsÀRéclamerQuery = ({
       {
         where: {
           estNotifiée: Where.equal(true),
-          appelOffre: Where.equal(appelOffre),
+          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(période),
           nomProjet: Where.like(nomProjet),
           nomCandidat: Where.like(nomCandidat),

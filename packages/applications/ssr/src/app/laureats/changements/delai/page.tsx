@@ -17,8 +17,10 @@ import {
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
+import { optionalStringArray } from '../../../_helpers/optionalStringArray';
+
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Délai.StatutDemandeDélai.statuts)),
   autoriteCompetente: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
 });

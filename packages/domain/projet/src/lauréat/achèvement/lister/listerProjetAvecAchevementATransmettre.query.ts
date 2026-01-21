@@ -31,7 +31,7 @@ export type ListerProjetAvecAchevementATransmettreReadModel = {
 export type ListerProjetAvecAchevementATransmettreQuery = Message<
   'Lauréat.Achevement.Query.ListerProjetAvecAchevementATransmettre',
   {
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     periode?: string;
     range?: RangeOptions;
     identifiantUtilisateur: Email.RawType;
@@ -70,7 +70,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       total: totalProjet,
     } = await list<LauréatEntity, ProjetAvecAchevementATransmettreJoins>('lauréat', {
       where: {
-        appelOffre: Where.equal(appelOffre),
+        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,

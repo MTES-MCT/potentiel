@@ -37,7 +37,7 @@ export type ListerCandidaturesQuery = Message<
   {
     range?: RangeOptions;
     statut?: StatutCandidature.RawType;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     période?: string;
     famille?: string;
     estNotifiée?: boolean;
@@ -71,7 +71,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
     } = await list<CandidatureEntity>('candidature', {
       where: {
         statut: Where.equal(statut),
-        appelOffre: Where.equal(appelOffre),
+        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(période),
         famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),

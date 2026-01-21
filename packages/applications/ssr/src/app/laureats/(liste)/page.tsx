@@ -18,10 +18,12 @@ import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getType
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 
+import { optionalStringArray } from '../../_helpers/optionalStringArray';
+
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -33,7 +35,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
@@ -73,7 +75,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
+      const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
 
       const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
@@ -134,7 +136,7 @@ export default async function Page({ searchParams }: PageProps) {
           actions={mapToActions({
             rôle: utilisateur.rôle,
             searchParams: {
-              appelOffreId: appelOffre,
+              appelOffreId: appelOffre?.length ? appelOffre[0] : undefined,
               periodeId: periode,
               familleId: famille,
               nomProjet,

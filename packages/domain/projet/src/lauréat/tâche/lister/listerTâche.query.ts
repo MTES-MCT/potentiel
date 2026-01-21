@@ -25,7 +25,7 @@ export type ListerTâchesQuery = Message<
   'Tâche.Query.ListerTâches',
   {
     email: string;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     range?: RangeOptions;
     catégorieTâche?: string;
     cycle?: string;
@@ -87,13 +87,14 @@ export const registerListerTâchesQuery = ({
         entity: 'lauréat',
         on: 'identifiantProjet',
         where: {
-          appelOffre: appelOffre
-            ? Where.equal(appelOffre)
-            : cycle
-              ? cycle === 'PPE2'
-                ? Where.like('PPE2')
-                : Where.notLike('PPE2')
-              : undefined,
+          appelOffre:
+            appelOffre && appelOffre.length > 0
+              ? Where.matchAny(appelOffre)
+              : cycle
+                ? cycle === 'PPE2'
+                  ? Where.like('PPE2')
+                  : Where.notLike('PPE2')
+                : undefined,
           nomProjet: Where.like(nomProjet),
         },
       },

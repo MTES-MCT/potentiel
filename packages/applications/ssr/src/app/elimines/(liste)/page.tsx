@@ -22,7 +22,7 @@ import { optionalStringArray } from '../../_helpers/optionalStringArray';
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {

@@ -50,7 +50,7 @@ export type ListerMainlevéesQuery = Message<
   {
     identifiantProjet?: IdentifiantProjet.RawType;
     range?: RangeOptions;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: Array<StatutMainlevéeGarantiesFinancières.RawType>;
     identifiantUtilisateur: string;
@@ -96,7 +96,7 @@ export const registerListerMainlevéesQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: Where.equal(appelOffre),
+            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },

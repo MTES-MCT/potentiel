@@ -42,7 +42,7 @@ export type ListerDossierRaccordementQuery = Message<
   {
     utilisateur: Email.RawType;
     identifiantGestionnaireRéseau?: string;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     avecDateMiseEnService?: boolean;
     range?: RangeOptions;
     référenceDossier?: string;
@@ -107,7 +107,7 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: Where.equal(appelOffre),
+            appelOffre: appelOffre && appelOffre.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },

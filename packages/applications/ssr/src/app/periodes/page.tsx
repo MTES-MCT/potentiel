@@ -139,7 +139,7 @@ const getCandidaturesStatsForPeriode = async (
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
-      appelOffre,
+      appelOffre: [appelOffre],
       période: periode,
     },
   });
@@ -166,7 +166,7 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       estNotifiée: false,
-      appelOffre,
+      appelOffre: appelOffre ? [appelOffre] : undefined,
     },
   });
   const identifiantsPériodes = [

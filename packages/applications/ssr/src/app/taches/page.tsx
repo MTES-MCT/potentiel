@@ -14,11 +14,13 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
+import { optionalStringArray } from '../_helpers/optionalStringArray';
+
 import { TâcheListPage } from './TâcheList.page';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   cycle: z.enum(['CRE4', 'PPE2']).optional(),
   catégorieTâche: z.string().optional(),
   nomProjet: z.string().optional(),
@@ -82,6 +84,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
         {
           label: `Catégorie`,
@@ -94,7 +97,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
       ];
 
       // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
-      if (appelOffre && cycle && !appelOffres.items.find((ao) => ao.id === appelOffre)) {
+      if (appelOffre && cycle && !appelOffres.items.find((ao) => appelOffre.includes(ao.id))) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(`${Routes.Tache.lister}?${newSearchParams}`, RedirectType.replace);

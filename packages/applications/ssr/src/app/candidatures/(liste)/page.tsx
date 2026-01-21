@@ -15,6 +15,8 @@ import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptional
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 
+import { optionalStringArray } from '../../_helpers/optionalStringArray';
+
 import { CandidatureListPage } from './CandidatureList.page';
 
 type PageProps = {
@@ -30,7 +32,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   statut: z.enum(Candidature.StatutCandidature.statuts).optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
   notifie: z
@@ -73,7 +75,7 @@ export default async function Page({ searchParams }: PageProps) {
       data: {},
     });
 
-    const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
+    const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
 
     const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
