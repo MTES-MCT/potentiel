@@ -14,7 +14,7 @@ import {
   DemandeDélaiListPage,
   DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type PageProps = {

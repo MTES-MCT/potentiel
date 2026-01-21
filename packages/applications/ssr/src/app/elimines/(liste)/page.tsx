@@ -13,9 +13,11 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
+
+import { optionalStringArray } from '../../_helpers/optionalStringArray';
 
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
   nomProjet: z.string().optional(),
@@ -70,7 +72,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
+      const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
 
       const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
@@ -88,6 +90,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
           affects: ['periode', 'famille'],
         },
         {
@@ -123,7 +126,8 @@ export default async function Page({ searchParams }: PageProps) {
           actions={mapToActions({
             rôle: utilisateur.rôle,
             searchParams: {
-              appelOffreId: appelOffre,
+              // quick fix en attendant le nouvel export migré
+              appelOffreId: appelOffre ? appelOffre[0] : undefined,
               periodeId: periode,
               familleId: famille,
               nomProjet,

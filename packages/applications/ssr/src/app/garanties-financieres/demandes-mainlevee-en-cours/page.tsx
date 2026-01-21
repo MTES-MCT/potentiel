@@ -12,7 +12,7 @@ import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import {

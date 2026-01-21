@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { transformToOptionalEnumArray } from '../_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '../_helpers/transformToOptionalEnumArray';
 
 import { RecoursListPage } from './RecoursList.page';
 
