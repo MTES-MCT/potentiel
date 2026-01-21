@@ -14,10 +14,7 @@ import {
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
-/**
- * This is the entrypoint to the DEV mode of the SSR app.
- * For the entrypoint of the production mode, see the `legacy` application
- */
+
 async function main() {
   setupLogger();
   const port = parseInt(process.env.PORT || '3000', 10);

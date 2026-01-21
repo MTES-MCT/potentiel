@@ -55,7 +55,6 @@ Pour installer et lancer le projet vous aurez besoin de :
    ```bash
    cp packages/applications/ssr/.env.template packages/applications/ssr/.env
    cp packages/applications/subscribers/.env.template packages/applications/subscribers/.env
-   cp packages/applications/legacy/.env.template packages/applications/legacy/.env
    ```
 
 5. Synchroniser les submodules
@@ -88,10 +87,9 @@ Pour les environnements de production et de staging, Keycloak est hébergé sur 
 
 > ⚠️ Pour démarrer l'application vous aurez besoin de Docker 🐋
 
-L'application est composée de 3 parties :
+L'application est composée de 2 parties :
 
-- le serveur web dit "ssr", qui contient les pages migrées en Next.js
-- le serveur web dit "legacy", qui contient la page projet et englobe la partie "ssr"
+- le serveur web dit "ssr", qui contient l'application elle même, et l'API
 - le serveur "worker" qui exécute les tâches de fond (projections, sagas et notifications)
 
 Ces composants peuvent être lancés individuellement ou de manière simultanée.
