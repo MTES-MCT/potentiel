@@ -30,3 +30,5 @@ export const changement = {
     lister: `/laureats/changements/nom-projet`,
   },
 };
+
+export const exporter = '/laureats/export';
