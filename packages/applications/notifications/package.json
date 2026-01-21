@@ -10,7 +10,8 @@
     "#sendEmail": "./dist/sendEmail.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "npm run build:templates && tsc",
+    "build:templates": "tsx scripts/build-templates.ts"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
@@ -22,9 +23,14 @@
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
+    "handlebars": "4.7.8",
     "mediateur": "0.3.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/markdown-it": "^14.1.2",
+    "gray-matter": "4.0.3",
+    "juice": "8.0.0",
+    "markdown-it": "13.0.1"
   }
 }

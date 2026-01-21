@@ -3,13 +3,15 @@ import { AuthOptions } from 'next-auth';
 import { Provider } from 'next-auth/providers';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import EmailProvider from 'next-auth/providers/email';
+import { mediator } from 'mediateur';
 
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
-import { sendEmail } from '@potentiel-infrastructure/email';
+import { EnvoyerNotificationCommand } from '@potentiel-applications/notifications';
+import { SendEmailV2 } from '@potentiel-applications/notifications';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -30,6 +32,10 @@ const pool = new Pool({
   application_name: 'potentiel_auth',
   options: '-c search_path=auth',
 });
+
+const sendEmail: SendEmailV2 = async (data) => {
+  await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
+};
 
 const getAuthProviders = () => {
   const providers: Array<Provider> = [];

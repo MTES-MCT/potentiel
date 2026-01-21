@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
-    "node-mailjet": "6.0.8"
+    "node-mailjet": "6.0.8",
+    "nodemailer": "7.0.12"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/nodemailer": "7.0.4"
   }
 }

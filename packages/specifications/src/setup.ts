@@ -39,6 +39,7 @@ import {
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
   mockEmailAdapter,
+  addEmailSpyMiddleware,
 } from './_mocks';
 
 should();
@@ -102,6 +103,9 @@ BeforeAll(async () => {
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
   process.env.TEAM_EMAIL = 'team@test.test';
+  process.env.SEND_EMAILS_FROM = 'tests@test.test';
+  process.env.SMTP_HOST = 'localhost';
+  process.env.SMTP_PORT = '1026';
 
   disableNodeMaxListenerWarning();
 
@@ -133,9 +137,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
 
   clear();
 
-  await bootstrap({
-    middlewares: [logMiddleware],
-  });
+  await bootstrap({ middlewares: [logMiddleware] });
+
+  addEmailSpyMiddleware.bind(this)();
 
   unsetup = await startSubscribers({
     dependencies: {

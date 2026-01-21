@@ -10,8 +10,8 @@ import { SendEmailV3_1 } from 'node-mailjet';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { mapToSendEmailMode } from './sendEmailMode';
-import { getMailjetClient } from './getMailjetClient';
+import { mapToSendEmailMode } from './sendEmailMode.js';
+import { getMailjetClient } from './getMailjetClient.js';
 
 type Recipient = {
   email: string;

@@ -3,20 +3,20 @@
   "globalDependencies": ["package.json"],
   "tasks": {
     "build": {
-      "inputs": ["src/**/*.{ts,tsx,tsp}"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "src/**/*.d.ts"],
       "dependsOn": ["^build:dev", "^build"],
       "outputLogs": "new-only"
     },
     "build:dev": {
-      "inputs": ["src/**/*.{ts,tsx,tsp}"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "src/**/*.d.ts"],
       "dependsOn": ["^build:dev"],
       "outputLogs": "new-only"
     },
     "build:test": {
-      "inputs": ["src/**/*.{ts,tsx,tsp}"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "inputs": ["src/**/*.{ts,tsx,tsp,md,hbs,html}", "!src/**/*.d.ts"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "src/**/*.d.ts"],
       "dependsOn": ["^build:test"],
       "outputLogs": "new-only"
     },

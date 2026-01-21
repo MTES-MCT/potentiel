@@ -4,7 +4,7 @@ import { FournisseurNotification } from '@potentiel-applications/notifications';
 import { SetupProjet } from '../setup.js';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
+export const setupFournisseur: SetupProjet = async () => {
   const fournisseur = createSubscriptionSetup('fournisseur');
 
   FournisseurProjector.register();
@@ -17,7 +17,7 @@ export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Fournisseur',
   });
 
-  FournisseurNotification.register({ sendEmail });
+  FournisseurNotification.register();
   await fournisseur.setupSubscription<
     FournisseurNotification.SubscriptionEvent,
     FournisseurNotification.Execute

@@ -152,3 +152,6 @@ packages/infrastructure/ds-api-client/src/graphql/client.ts
 
 # Generated Typespec Server
 packages/applications/api-documentation/src/generated/
+
+# Generated Email templates
+packages/applications/notifications/src/templates/**/index.d.ts
