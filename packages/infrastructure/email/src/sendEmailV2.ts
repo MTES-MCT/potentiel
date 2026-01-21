@@ -24,16 +24,19 @@ const getTransporter = () => {
   if (!SEND_EMAILS_FROM) {
     throw new Error('SEND_EMAILS_FROM must be set to send emails');
   }
+  if (!SMTP_HOST || !SMTP_PORT) {
+    throw new Error('SMTP_HOST and SMTP_PORT must be set to send emails');
+  }
 
   if (!transporter) {
     transporter = nodemailer.createTransport({
-      host: SMTP_HOST || 'localhost',
-      port: Number(SMTP_PORT) || 1025,
+      host: SMTP_HOST,
+      port: Number(SMTP_PORT),
       secure: SMTP_SSL === 'true',
       auth: SMTP_USER
         ? {
             user: SMTP_USER,
-            pass: SMTP_PASS || '',
+            pass: SMTP_PASS,
           }
         : undefined,
       from: SEND_EMAILS_FROM,

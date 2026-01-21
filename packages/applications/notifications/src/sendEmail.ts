@@ -19,6 +19,10 @@ export type EmailPayload = {
 export type SendEmail = (email: EmailPayload) => Promise<void>;
 
 export type EmailPayloadV2 = TemplateDefinitions & {
+  /**
+   * List of recipients' email addresses
+   * The Recipient type is used only for transition from v1 to v2, and will be removed in the future
+   */
   recipients: (string | Recipient)[];
 };
 export type SendEmailV2 = (email: EmailPayloadV2) => Promise<void>;
