@@ -18,7 +18,6 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   }
   const utilisateur = context?.utilisateur;
   if (!utilisateur) {
-    // l'application legacy exécute ses propres subscribers (sagas)
     if (context?.app === 'subscribers') {
       return await next();
     }
