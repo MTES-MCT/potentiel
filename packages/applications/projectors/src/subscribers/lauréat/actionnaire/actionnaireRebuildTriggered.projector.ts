@@ -3,7 +3,7 @@ import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-w
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { clearProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers/index.js';
 
 export const actionnaireRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {
   await clearProjection<Lauréat.Actionnaire.ActionnaireEntity>(`actionnaire`, id);

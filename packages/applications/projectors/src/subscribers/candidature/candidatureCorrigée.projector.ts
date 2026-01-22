@@ -4,7 +4,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { getAppelOffres } from './_helpers/getAppelOffres';
+import { getAppelOffres } from './_helpers/getAppelOffres.js';
 
 export const candidatureCorrigéeProjector = async ({
   payload,

@@ -1,1 +1,1 @@
-export { clearProjection } from './clearProjection';
+export { clearProjection } from './clearProjection.js';

@@ -4,11 +4,11 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { fournisseurImportéProjector } from './fournisseurImporté.projector';
-import { fournisseurRebuildTriggeredProjector } from './fournisseurRebuildTrigerred.projector';
-import { évaluationCarboneModifiéeProjector } from './évaluationCarboneModifiée.projector';
-import { changementFournisseurEnregistréProjector } from './changementFournisseurEnregistré.projector';
-import { fournisseurModifiéProjector } from './fournisseurModifié.projector';
+import { fournisseurImportéProjector } from './fournisseurImporté.projector.js';
+import { fournisseurRebuildTriggeredProjector } from './fournisseurRebuildTrigerred.projector.js';
+import { évaluationCarboneModifiéeProjector } from './évaluationCarboneModifiée.projector.js';
+import { changementFournisseurEnregistréProjector } from './changementFournisseurEnregistré.projector.js';
+import { fournisseurModifiéProjector } from './fournisseurModifié.projector.js';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent | RebuildTriggered;
 

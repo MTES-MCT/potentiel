@@ -1,7 +1,7 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { clearProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers/index.js';
 
 export const gestionnaireRéseauRebuildTriggeredProjector = async ({
   payload: { id },

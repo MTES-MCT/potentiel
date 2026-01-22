@@ -3,7 +3,7 @@ import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-w
 import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 
-import { clearProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers/index.js';
 
 export const raccordementRebuildTriggeredProjector = async ({
   payload: { id },

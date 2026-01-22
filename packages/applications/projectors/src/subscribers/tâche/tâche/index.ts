@@ -4,11 +4,11 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { tâcheAjoutéeProjector } from './tâcheAjoutée.projector';
-import { tâcheRenouvelléeProjector } from './tâcheRenouvellée.projector';
-import { tâcheRelancéeProjector } from './tâcheRelancée.projector';
-import { tâcheAchevéeProjector } from './tâcheAchevée.projector';
-import { tâcheRebuildTriggered } from './tâcheRebuildTriggered.projector';
+import { tâcheAjoutéeProjector } from './tâcheAjoutée.projector.js';
+import { tâcheRenouvelléeProjector } from './tâcheRenouvellée.projector.js';
+import { tâcheRelancéeProjector } from './tâcheRelancée.projector.js';
+import { tâcheAchevéeProjector } from './tâcheAchevée.projector.js';
+import { tâcheRebuildTriggered } from './tâcheRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = Lauréat.Tâche.TâcheEvent | RebuildTriggered;
 

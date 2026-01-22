@@ -3,7 +3,7 @@ import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Where } from '@potentiel-domain/entity';
 import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-write';
 
-import { clearProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers/index.js';
 
 export const représentantLégalRebuildTriggeredProjector = async ({
   payload: { id },

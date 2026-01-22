@@ -4,14 +4,14 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector';
-import { gestionnaireRéseauRaccordementModifiéV1Projector } from './gestionnaireRéseauRaccordementModifiéV1.projector';
-import { gestionnaireRéseauInconnuAttribuéV1Projector } from './gestionnaireRéseauInconnuAttribuéV1.projector';
-import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector';
-import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector';
-import { référenceDossierRacordementModifiéeV1Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV1.projector';
-import { référenceDossierRacordementModifiéeV2Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV2.projector';
-import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector';
+import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector.js';
+import { gestionnaireRéseauRaccordementModifiéV1Projector } from './gestionnaireRéseauRaccordementModifiéV1.projector.js';
+import { gestionnaireRéseauInconnuAttribuéV1Projector } from './gestionnaireRéseauInconnuAttribuéV1.projector.js';
+import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector.js';
+import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector.js';
+import { référenceDossierRacordementModifiéeV1Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV1.projector.js';
+import { référenceDossierRacordementModifiéeV2Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV2.projector.js';
+import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
 import {
   accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector,
   demandeComplèteDeRaccordementTransmiseV1Projector,
@@ -20,19 +20,19 @@ import {
   demandeComplèteRaccordementModifiéeV1Projector,
   demandeComplèteRaccordementModifiéeV2Projector,
   demandeComplèteRaccordementModifiéeV3Projector,
-} from './dossier-raccordement/demandeComplèteDeRaccordement';
+} from './dossier-raccordement/demandeComplèteDeRaccordement/index.js';
 import {
   propositionTechniqueEtFinancièreModifiéeV1Projector,
   propositionTechniqueEtFinancièreModifiéeV2Projector,
   propositionTechniqueEtFinancièreSignéeTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV2Projector,
-} from './dossier-raccordement/propositionTechniqueEtFinancière';
+} from './dossier-raccordement/propositionTechniqueEtFinancière/index.js';
 import {
   dateMiseEnServiceSuppriméeV1Projector,
   dateMiseEnServiceTransmiseV1Projector,
   dateMiseEnServiceTransmiseV2Projector,
-} from './dossier-raccordement/dateMiseEnService';
+} from './dossier-raccordement/dateMiseEnService/index.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
 

@@ -1,7 +1,7 @@
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { référenceDossierRacordementModifiéeV1Projector } from './référenceDossierRacordementModifiéeV1.projector';
+import { référenceDossierRacordementModifiéeV1Projector } from './référenceDossierRacordementModifiéeV1.projector.js';
 
 export const référenceDossierRacordementModifiéeV2Projector = async ({
   payload: {

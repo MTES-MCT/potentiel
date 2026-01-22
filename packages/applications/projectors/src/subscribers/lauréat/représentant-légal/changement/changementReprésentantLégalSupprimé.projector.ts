@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
+import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal.js';
 
 export const changementReprésentantLégalSuppriméProjector = async (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,

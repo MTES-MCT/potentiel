@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getCahierDesCharges } from '../utils/getCahierDesCharges';
+import { getCahierDesCharges } from '../utils/getCahierDesCharges.js';
 
 export const abandonDemandéProjector = async (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,

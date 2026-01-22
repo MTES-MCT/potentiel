@@ -4,14 +4,14 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { délaiRebuildTriggeredProjector } from './délaiRebuildTrigerred.projector';
-import { délaiDemandéProjector } from './délaiDemandé.projector';
-import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projector';
-import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
-import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector';
-import { délaiAccordéProjector } from './délaiAccordée.projector';
-import { demandeDélaiCorrigéeProjector } from './demandeDélaiCorrigée.projector';
-import { demandeDélaiSuppriméeProjector } from './demandeDélaiSuppriméeProjector';
+import { délaiRebuildTriggeredProjector } from './délaiRebuildTrigerred.projector.js';
+import { délaiDemandéProjector } from './délaiDemandé.projector.js';
+import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projector.js';
+import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector.js';
+import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector.js';
+import { délaiAccordéProjector } from './délaiAccordée.projector.js';
+import { demandeDélaiCorrigéeProjector } from './demandeDélaiCorrigée.projector.js';
+import { demandeDélaiSuppriméeProjector } from './demandeDélaiSuppriméeProjector.js';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent | RebuildTriggered;
 

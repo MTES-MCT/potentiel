@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getCahierDesCharges } from '../utils/getCahierDesCharges';
+import { getCahierDesCharges } from '../utils/getCahierDesCharges.js';
 
 export const délaiDemandéProjector = async ({
   payload: {

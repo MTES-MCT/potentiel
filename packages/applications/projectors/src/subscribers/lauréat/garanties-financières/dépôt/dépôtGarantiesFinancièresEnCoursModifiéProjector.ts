@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getDépôtGf } from '../_utils';
+import { getDépôtGf } from '../_utils/index.js';
 
 export const dépôtGarantiesFinancièresEnCoursModifiéProjector = async ({
   payload: {

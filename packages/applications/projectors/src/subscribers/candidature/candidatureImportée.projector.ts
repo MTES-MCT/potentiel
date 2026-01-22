@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getAppelOffres } from './_helpers/getAppelOffres';
+import { getAppelOffres } from './_helpers/getAppelOffres.js';
 
 export const candidatureImportéeProjector = async ({
   payload,

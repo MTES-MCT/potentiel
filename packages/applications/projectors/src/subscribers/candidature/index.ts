@@ -4,16 +4,16 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector';
-import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector';
-import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector';
-import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector';
-import { candidatureImportéeProjector } from './candidatureImportée.projector';
-import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector';
-import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector';
-import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector';
-import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector';
-import { détailCandidatureImportéProjector } from './détailCandidatureImporté.projector';
+import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector.js';
+import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector.js';
+import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector.js';
+import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector.js';
+import { candidatureImportéeProjector } from './candidatureImportée.projector.js';
+import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector.js';
+import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector.js';
+import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector.js';
+import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector.js';
+import { détailCandidatureImportéProjector } from './détailCandidatureImporté.projector.js';
 
 export type SubscriptionEvent = Candidature.CandidatureEvent | RebuildTriggered;
 
