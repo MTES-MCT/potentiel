@@ -62,6 +62,7 @@ export class ÉliminéWorld {
         sociétéMère,
         actionnariat,
         evaluationCarboneSimplifiée,
+        puissanceDeSite,
       },
       unitéPuissance,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
@@ -80,6 +81,7 @@ export class ÉliminéWorld {
       puissance,
       actionnariat,
       evaluationCarboneSimplifiée,
+      puissanceDeSite,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
         ? undefined

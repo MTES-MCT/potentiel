@@ -25,6 +25,9 @@ export const DonnéesCandidatureDétail: FC<DonnéesCandidatureDétailProps> = (
     nomReprésentantLégal,
     autorisationDUrbanisme,
     actionnariat,
+    puissance,
+    puissanceDeSite,
+    unitéPuissance,
   },
 }) => (
   <ul className="flex-col gap-4 mt-2">
@@ -36,21 +39,32 @@ export const DonnéesCandidatureDétail: FC<DonnéesCandidatureDétailProps> = (
     <li>
       <span className="font-bold">Nom du représentant légal : </span> {nomReprésentantLégal}
     </li>
-    {autorisationDUrbanisme && (
-      <>
+    <li className="flex flex-col gap-1">
+      <span className="font-bold">Performances :</span>
+      <ul className="list-disc list-inside">
         <li>
-          <span className="font-bold">Numéro de l'autorisation d'urbanisme : </span>{' '}
-          {autorisationDUrbanisme.numéro}
+          Puissance installée : {puissance} {unitéPuissance.unité}
         </li>
-        <li>
-          <span className="font-bold">Date d'obtention de l'autorisation d'urbanisme : </span>
-          {
+        {puissanceDeSite && (
+          <li>
+            Puissance de site : {puissanceDeSite} {unitéPuissance.unité}
+          </li>
+        )}
+      </ul>
+    </li>
+    {autorisationDUrbanisme && (
+      <li className="flex flex-col gap-1">
+        <span className="font-bold">Autorisation d'urbanisme :</span>
+        <ul className="list-disc list-inside">
+          <li>Numéro : {autorisationDUrbanisme.numéro}</li>
+          <li>
+            Date d'obtention :{' '}
             <FormattedDate
               date={DateTime.convertirEnValueType(autorisationDUrbanisme.date.date).formatter()}
             />
-          }
-        </li>
-      </>
+          </li>
+        </ul>
+      </li>
     )}
     <li className="flex gap-2 items-center">
       <span className="font-bold">Adresse email de candidature :</span>
