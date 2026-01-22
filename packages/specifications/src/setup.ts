@@ -23,7 +23,8 @@ import {
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
-import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { startSubscribers } from '@potentiel-applications/subscribers';
 
 import { waitForExpect } from '#helpers';
