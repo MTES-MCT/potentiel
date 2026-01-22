@@ -24,6 +24,7 @@
     "build:dev": "turbo run build --filter=@potentiel-applications/subscribers",
     "build:cli": "turbo run build --filter=@potentiel/cli...",
     "build:test": "turbo run build --filter=@potentiel-applications/ssr^...",
+    "clean": "turbo run clean && rm -rf .turbo",
     "predev": "npm run up && npm run build:dev",
     "dev": "npx --offline foreman start --procfile Procfile.dev --port 3000",
     "dev:web": "npm run dev -w @potentiel-applications/ssr",

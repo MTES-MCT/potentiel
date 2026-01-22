@@ -7,7 +7,8 @@
   "type": "module",
   "scripts": {
     "codegen": "tsp compile ./src && ./scripts/patch-openapi.sh",
-    "build": "npm run codegen && tsc"
+    "build": "npm run codegen && tsc",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "devDependencies": {
     "@typespec/compiler": "1.6.0",

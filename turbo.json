@@ -20,6 +20,9 @@
       "dependsOn": ["^build:test"],
       "outputLogs": "new-only"
     },
+    "clean": {
+      "cache": false
+    },
     "dev": {
       "dependsOn": ["^build:dev"],
       "cache": false

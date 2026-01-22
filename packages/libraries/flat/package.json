@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "prebuild": "tsc --emitDeclarationOnly --declaration --project tsconfig.json",
-    "build": "npm run prebuild && esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js"
+    "build": "npm run prebuild && esbuild src/index.ts --platform=node --bundle --format=cjs --outfile=dist/index.js",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "flat": "6.0.1"

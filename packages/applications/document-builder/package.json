@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "tsc && copyfiles -f src/assets/docx/* dist/assets/docx && copyfiles -f src/assets/images/* dist/assets/images && copyfiles -f src/assets/fonts/arimo/* dist/assets/fonts/arimo",
-    "storybook": "storybook dev -p 6006"
+    "storybook": "storybook dev -p 6006",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
