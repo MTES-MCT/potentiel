@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test --test-concurrency=1"
+    "test": "tsx --test --test-concurrency=1",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-domain/core": "*",

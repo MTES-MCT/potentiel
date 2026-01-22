@@ -11,7 +11,8 @@
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
     "lint": "eslint ./src --ext .ts,.tsx",
-    "format": "prettier './src/**/*.{ts,tsx,css}' --write"
+    "format": "prettier './src/**/*.{ts,tsx,css}' --write",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@hqoss/monads": "0.5.0",

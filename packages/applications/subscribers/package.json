@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/run.js",
-    "dev": "tsx ./src/run.ts"
+    "dev": "tsx ./src/run.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-applications/bootstrap": "*",

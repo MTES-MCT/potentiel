@@ -9,7 +9,8 @@
     "prebuild": "npm run codegen",
     "build": "npm run prebuild && tsc",
     "codegen": "graphql-codegen --config codegen.ts",
-    "test": "tsx --test src/**/*.test.ts"
+    "test": "tsx --test src/**/*.test.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-domain/projet": "*",

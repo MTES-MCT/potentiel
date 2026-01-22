@@ -5,7 +5,8 @@
     "potentiel-cli": "./bin/run.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "oclif": {
     "bin": "potentiel-cli",

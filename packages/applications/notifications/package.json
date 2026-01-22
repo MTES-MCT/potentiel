@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "npm run build:templates && tsc",
-    "build:templates": "tsx scripts/build-templates.ts"
+    "build:templates": "tsx scripts/build-templates.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",

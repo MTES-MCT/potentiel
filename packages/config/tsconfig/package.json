@@ -3,5 +3,8 @@
   "private": true,
   "devDependencies": {
     "@tsconfig/node24": "24.0.1"
+  },
+  "scripts": {
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   }
 }
