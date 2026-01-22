@@ -3,14 +3,28 @@
   "compilerOptions": {
     "jsx": "react",
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   "references": [
-    { "path": "../../domain/appel-offre" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/common" },
-    { "path": "../../libraries/monitoring" },
-    { "path": "../../libraries/monads" },
-    { "path": "../../infrastructure/pg-event-sourcing" }
+    {
+      "path": "../../domain/appel-offre"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
+    }
   ]
 }

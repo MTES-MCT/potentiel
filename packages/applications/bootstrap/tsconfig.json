@@ -2,22 +2,52 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   "references": [
-    { "path": "../../domain/appel-offre" },
-    { "path": "../../domain/période" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/réseau" },
-    { "path": "../../domain/utilisateur" },
-    { "path": "../../domain/core" },
-    { "path": "../../infrastructure/domain-adapters" },
-    { "path": "../../infrastructure/email" },
-    { "path": "../../infrastructure/ore-client" },
-    { "path": "../../infrastructure/pg-event-sourcing" },
-    { "path": "../../infrastructure/pg-projection-read" },
-    { "path": "../../libraries/pg-helpers" },
-    { "path": "../../libraries/monitoring" },
-    { "path": "../request-context" }
+    {
+      "path": "../../domain/appel-offre"
+    },
+    {
+      "path": "../../domain/période"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/réseau"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../../domain/core"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/email"
+    },
+    {
+      "path": "../../infrastructure/ore-client"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../infrastructure/pg-projection-read"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../request-context"
+    }
   ]
 }
