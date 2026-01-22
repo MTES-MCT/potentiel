@@ -13,11 +13,10 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 

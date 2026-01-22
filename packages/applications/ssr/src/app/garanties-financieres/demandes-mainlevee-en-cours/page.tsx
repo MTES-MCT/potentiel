@@ -12,10 +12,9 @@ import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import {
   ListeDemandeMainlevéePage,

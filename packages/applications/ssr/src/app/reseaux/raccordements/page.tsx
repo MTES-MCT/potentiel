@@ -11,9 +11,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
-import { ListFilterItem } from '../../../components/molecules/ListFilters';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 

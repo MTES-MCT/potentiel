@@ -16,8 +16,7 @@ import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,

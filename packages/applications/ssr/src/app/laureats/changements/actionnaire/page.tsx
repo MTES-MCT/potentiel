@@ -9,10 +9,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-
-import { optionalStringArray } from '../../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers';
 
 import {
   ChangementActionnaireListPage,

@@ -10,9 +10,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
-
-import { optionalStringArray } from '../../../_helpers/optionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { optionalStringArray } from '@/app/_helpers';
 
 import {
   ChangementReprésentantLégalListPage,

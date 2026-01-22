@@ -11,11 +11,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalEnumArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { CandidatureListPage } from './CandidatureList.page';
 

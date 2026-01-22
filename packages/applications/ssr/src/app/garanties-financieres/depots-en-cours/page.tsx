@@ -13,8 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
-
-import { optionalStringArray } from '../../_helpers/optionalStringArray';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import {
   ListDépôtsGarantiesFinancièresPage,

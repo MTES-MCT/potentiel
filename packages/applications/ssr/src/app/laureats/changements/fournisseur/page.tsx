@@ -9,9 +9,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-
-import { optionalStringArray } from '../../../_helpers/optionalStringArray';
-import { ListFilterItem } from '../../../../components/molecules/ListFilters';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { optionalStringArray } from '@/app/_helpers';
 
 import {
   ChangementFournisseurListPage,
