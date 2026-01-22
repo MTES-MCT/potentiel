@@ -31,8 +31,8 @@ export const MagicLinkForm: FC<MagicLinkFormProps> = ({ callbackUrl }) => {
         </div>
       </modal.Component>
       <form
-        action="javascript:void(0);"
-        onSubmit={() => {
+        onSubmit={(e) => {
+          e.preventDefault();
           if (email.endsWith('@developpement-durable.gouv.fr')) {
             modal.open();
           } else {
