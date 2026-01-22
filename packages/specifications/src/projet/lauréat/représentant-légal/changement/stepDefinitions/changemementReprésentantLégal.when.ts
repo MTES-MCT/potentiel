@@ -5,10 +5,10 @@ import { match } from 'ts-pattern';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
-import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture';
-import { récupérerTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture.js';
+import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture.js';
+import { récupérerTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then.js';
 
 Quand(
   'le porteur demande le changement de représentant pour le projet lauréat',

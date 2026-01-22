@@ -1,7 +1,7 @@
 import { Période } from '@potentiel-domain/periode';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { NotifierPériodeFixture } from './fixtures/notifierPériode.fixture';
+import { NotifierPériodeFixture } from './fixtures/notifierPériode.fixture.js';
 
 export class PériodeWorld {
   #identifiantPériode!: Période.IdentifiantPériode.ValueType;

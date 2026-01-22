@@ -4,11 +4,11 @@ import { mediator } from 'mediateur';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
-import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given.js';
+import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given.js';
 
-import { importerCandidature } from './candidature.given';
+import { importerCandidature } from './candidature.given.js';
 
 Quand(
   `le DGEC validateur importe la candidature {string} avec :`,

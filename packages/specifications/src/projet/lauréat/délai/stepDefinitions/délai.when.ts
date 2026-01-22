@@ -5,8 +5,8 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture';
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
 
 Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
   await demanderDélai.call(this, {

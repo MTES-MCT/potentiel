@@ -1,14 +1,14 @@
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../potentiel.world.js';
 
-import { RecoursWord } from './recours/recours.world';
+import { RecoursWord } from './recours/recours.world.js';
 import {
   NotifierÉliminé,
   NotifierÉliminéFixture,
   NotifierÉliminéProps,
-} from './fixtures/notifierÉliminé.fixture';
+} from './fixtures/notifierÉliminé.fixture.js';
 
 export class ÉliminéWorld {
   #éliminéFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();

@@ -1,13 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../potentiel.world.js';
+import { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
 
 export async function récupérerTâchePlanifiée(
   typeTâche: string,

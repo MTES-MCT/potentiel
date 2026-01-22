@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   'le porteur enregistre un changement de producteur pour le projet lauréat',

@@ -1,11 +1,11 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { LauréatWorld } from '../lauréat.world';
+import { LauréatWorld } from '../lauréat.world.js';
 
-import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture';
-import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture';
-import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture';
-import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture';
+import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
+import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
+import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
+import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
 
 export class AchèvementWorld {
   #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;

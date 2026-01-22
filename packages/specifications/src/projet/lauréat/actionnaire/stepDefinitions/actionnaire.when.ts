@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) modifie l'actionnaire pour le projet (lauréat|éliminé)/,

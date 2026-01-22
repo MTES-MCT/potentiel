@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (this: PotentielWorld) {
   try {

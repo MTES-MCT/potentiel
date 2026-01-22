@@ -3,12 +3,12 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
-import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
-import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
-import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
-import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture';
-import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture';
+import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture.js';
+import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture.js';
+import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture.js';
+import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture.js';
+import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture.js';
+import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture.js';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();

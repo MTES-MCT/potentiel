@@ -1,8 +1,8 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../potentiel.world.js';
 
-import { retirerAccèsProjet } from './accès.when';
+import { retirerAccèsProjet } from './accès.when.js';
 
 EtantDonné(
   `l'accès retiré au projet {lauréat-éliminé}`,

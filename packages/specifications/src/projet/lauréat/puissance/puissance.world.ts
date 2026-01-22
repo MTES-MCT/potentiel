@@ -2,8 +2,8 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
-import { ChangementPuissanceWorld } from './changement/changementPuissance.world';
+import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture.js';
+import { ChangementPuissanceWorld } from './changement/changementPuissance.world.js';
 
 export class PuissanceWorld {
   #changementPuissanceWorld!: ChangementPuissanceWorld;

@@ -5,10 +5,10 @@ import { Email } from '@potentiel-domain/common';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { Accès, Candidature } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
-import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
-import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given.js';
+import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });

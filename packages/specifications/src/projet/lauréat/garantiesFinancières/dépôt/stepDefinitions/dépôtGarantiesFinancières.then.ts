@@ -1,14 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { expectFileContent } from '../../../../../helpers/expectFileContent';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { expectFileContent } from '../../../../../helpers/expectFileContent.js';
 
 Alors(
   'le dépôt de garanties financières devrait être consultable pour le projet lauréat',

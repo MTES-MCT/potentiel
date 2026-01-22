@@ -4,7 +4,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../potentiel.world.js';
 
 EtantDonné(
   `la candidature lauréate legacy {string} avec :`,

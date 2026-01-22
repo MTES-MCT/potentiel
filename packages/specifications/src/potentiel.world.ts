@@ -1,16 +1,16 @@
 import { IWorldOptions, World } from '@cucumber/cucumber';
 
-import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
-import { LauréatWorld } from './projet/lauréat/lauréat.world';
-import { ÉliminéWorld } from './projet/éliminé/éliminé.world';
-import { RaccordementWorld } from './raccordement/raccordement.world';
-import { TâcheWorld } from './tâche/tâche.world';
-import { UtilisateurWorld } from './utilisateur/utilisateur.world';
-import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world';
-import { NotificationWorld } from './notification/notification.world';
-import { CandidatureWorld } from './candidature/candidature.world';
-import { PériodeWorld } from './période/période.world';
-import { AccèsWorld } from './accès/accès.world';
+import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world.js';
+import { LauréatWorld } from './projet/lauréat/lauréat.world.js';
+import { ÉliminéWorld } from './projet/éliminé/éliminé.world.js';
+import { RaccordementWorld } from './raccordement/raccordement.world.js';
+import { TâcheWorld } from './tâche/tâche.world.js';
+import { UtilisateurWorld } from './utilisateur/utilisateur.world.js';
+import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world.js';
+import { NotificationWorld } from './notification/notification.world.js';
+import { CandidatureWorld } from './candidature/candidature.world.js';
+import { PériodeWorld } from './période/période.world.js';
+import { AccèsWorld } from './accès/accès.world.js';
 
 export class PotentielWorld extends World {
   #périodeWorld!: PériodeWorld;

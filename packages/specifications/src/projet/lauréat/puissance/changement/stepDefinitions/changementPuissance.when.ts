@@ -3,10 +3,10 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture';
-import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple';
-import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture.js';
+import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple.js';
+import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture.js';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet lauréat avec :',

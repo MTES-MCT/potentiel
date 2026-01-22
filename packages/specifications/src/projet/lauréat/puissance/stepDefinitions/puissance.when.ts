@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   `le DGEC validateur modifie la puissance pour le projet {lauréat-éliminé}`,

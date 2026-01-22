@@ -1,9 +1,9 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given.js';
 
-import { notifierLauréat } from './lauréat.given';
+import { notifierLauréat } from './lauréat.given.js';
 
 EtantDonné(
   'le projet lauréat legacy {string} avec :',

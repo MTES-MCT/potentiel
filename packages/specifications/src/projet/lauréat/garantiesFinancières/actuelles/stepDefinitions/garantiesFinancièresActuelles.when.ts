@@ -1,12 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
 
 import {
   enregistrerAttestation,
   enregistrerGarantiesFinancièresActuelles,
   modifierGarantiesFinancièresActuelles,
-} from './garantiesFinancièresActuelles.given';
+} from './garantiesFinancièresActuelles.given.js';
 
 Quand(
   `un admin modifie les garanties financières actuelles du projet lauréat avec :`,

@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Email } from '@potentiel-domain/common';
 import { Role, Région, Zone } from '@potentiel-domain/utilisateur';
 
-import { Fixture } from '../../../fixture';
+import { Fixture } from '../../../fixture.js';
 
 interface InviterUtilisateur {
   readonly email: string;

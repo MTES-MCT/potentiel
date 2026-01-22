@@ -5,8 +5,8 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';
 
 async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,

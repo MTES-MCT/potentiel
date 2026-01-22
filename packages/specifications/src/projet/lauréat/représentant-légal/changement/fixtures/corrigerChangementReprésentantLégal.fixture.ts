@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
+import { AbstractFixture } from '../../../../../fixture.js';
+import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 type PièceJustificative = { format: string; content: ReadableStream };
 

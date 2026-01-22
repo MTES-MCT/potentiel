@@ -1,13 +1,13 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 import {
   accorderChangementActionnaire,
   annulerChangementActionnaire,
   demanderChangementActionnaire,
   rejeterChangementActionnaire,
-} from './actionnaire.when';
+} from './actionnaire.when.js';
 
 EtantDonné(
   "une demande de changement d'actionnaire en cours pour le projet lauréat",

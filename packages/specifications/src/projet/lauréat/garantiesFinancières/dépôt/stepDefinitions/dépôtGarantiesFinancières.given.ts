@@ -1,8 +1,8 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
 
-import { soumettreDépôt } from './dépôtGarantiesFinancières.when';
+import { soumettreDépôt } from './dépôtGarantiesFinancières.when.js';
 
 EtantDonné(
   'un dépôt de garanties financières avec :',

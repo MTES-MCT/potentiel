@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { AbstractFixture } from '../../../fixture';
-import { RaccordementWorld } from '../../raccordement.world';
+import { AbstractFixture } from '../../../fixture.js';
+import { RaccordementWorld } from '../../raccordement.world.js';
 
 interface TransmettreDateDeMiseEnService {
   dateMiseEnService: string;

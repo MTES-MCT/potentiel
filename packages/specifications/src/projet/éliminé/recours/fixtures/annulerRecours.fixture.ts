@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture.js';
 
 interface AnnulerRecours {
   readonly annuléLe: string;

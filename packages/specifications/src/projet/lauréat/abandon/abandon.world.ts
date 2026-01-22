@@ -3,15 +3,15 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
-import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';
-import { ConfirmerAbandonFixture } from './fixtures/confirmerAbandon.fixture';
-import { DemanderAbandonFixture } from './fixtures/demanderAbandon.fixture';
-import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmationAbandon.fixture';
-import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
-import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
-import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
-import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture';
+import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture.js';
+import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture.js';
+import { ConfirmerAbandonFixture } from './fixtures/confirmerAbandon.fixture.js';
+import { DemanderAbandonFixture } from './fixtures/demanderAbandon.fixture.js';
+import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmationAbandon.fixture.js';
+import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture.js';
+import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture.js';
+import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture.js';
+import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture.js';
 
 export class AbandonWord {
   #accorderAbandonFixture: AccorderAbandonFixture;

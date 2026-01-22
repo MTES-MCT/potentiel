@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -9,9 +8,11 @@ import { Document } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
-import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { convertReadableStreamToString } from '../../../helpers/convertReadableToString.js';
+import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(
   `la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,

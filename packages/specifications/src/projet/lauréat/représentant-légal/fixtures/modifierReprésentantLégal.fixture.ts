@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture.js';
 
 export interface ModifierReprésentantLégal {
   readonly nomReprésentantLégal: string;

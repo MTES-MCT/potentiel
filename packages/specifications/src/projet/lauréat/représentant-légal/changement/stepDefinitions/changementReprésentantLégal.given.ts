@@ -5,9 +5,9 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
-import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given.js';
+import { notifierLauréat } from '../../../stepDefinitions/lauréat.given.js';
 
 EtantDonné(
   /une demande de changement de représentant légal en cours pour le projet lauréat/,

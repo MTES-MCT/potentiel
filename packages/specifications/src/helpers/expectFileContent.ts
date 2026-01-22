@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { DocumentProjet, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { convertReadableStreamToString } from './convertReadableToString';
+import { convertReadableStreamToString } from './convertReadableToString.js';
 
 export const expectFileContent = async (
   actual: Option.Type<DocumentProjet.ValueType>,

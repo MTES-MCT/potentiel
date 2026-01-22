@@ -1,17 +1,21 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
-import { FieldToExempleMapper, mapDateTime, mapToExemple } from '../../../../helpers/mapToExemple';
+import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
+import {
+  FieldToExempleMapper,
+  mapDateTime,
+  mapToExemple,
+} from '../../../../helpers/mapToExemple.js';
 
 import {
   EnregistrerGarantiesFinancièresFixture,
   EnregistrerGarantiesFinancièresProps,
-} from './fixtures/enregistrerGarantiesFinancières.fixture';
-import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
-import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
-import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
-import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture';
+} from './fixtures/enregistrerGarantiesFinancières.fixture.js';
+import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture.js';
+import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture.js';
+import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture.js';
+import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture.js';
 
 export class GarantiesFinancièresActuellesWorld {
   readonly modifier: ModifierGarantiesFinancièresFixture;

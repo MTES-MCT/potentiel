@@ -6,8 +6,8 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { getRôle, RôleUtilisateur } from '../../../helpers';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { getRôle, RôleUtilisateur } from '../../../helpers/index.js';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',

@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture';
+import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture.js';
 
 export class EnregistrerAttestationGarantiesFinancièresFixture extends EnregistrerGarantiesFinancièresFixture {
   mapToExpected() {

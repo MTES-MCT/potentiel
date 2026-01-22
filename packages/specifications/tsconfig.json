@@ -2,41 +2,21 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "nodenext",
+    "moduleResolution": "node16"
   },
   "references": [
-    {
-      "path": "../domain/core"
-    },
-    {
-      "path": "../domain/utilisateur"
-    },
-    {
-      "path": "../domain/période"
-    },
-    {
-      "path": "../libraries/file-storage"
-    },
-    {
-      "path": "../libraries/monads"
-    },
-    {
-      "path": "../libraries/pg-helpers"
-    },
-    {
-      "path": "../infrastructure/pg-event-sourcing"
-    },
-    {
-      "path": "../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../applications/bootstrap"
-    },
-    {
-      "path": "../applications/notifications"
-    },
-    {
-      "path": "../applications/subscribers"
-    }
+    { "path": "../domain/core" },
+    { "path": "../domain/utilisateur" },
+    { "path": "../domain/période" },
+    { "path": "../libraries/file-storage" },
+    { "path": "../libraries/monads" },
+    { "path": "../libraries/pg-helpers" },
+    { "path": "../infrastructure/pg-event-sourcing" },
+    { "path": "../infrastructure/domain-adapters" },
+    { "path": "../applications/bootstrap" },
+    { "path": "../applications/notifications" },
+    { "path": "../applications/subscribers" }
   ]
 }

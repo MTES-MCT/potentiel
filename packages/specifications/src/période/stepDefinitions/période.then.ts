@@ -1,5 +1,4 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
@@ -12,8 +11,10 @@ import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../potentiel.world.js';
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString.js';
 
 Alors(
   `la période devrait être notifiée avec les lauréats et les éliminés`,

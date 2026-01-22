@@ -4,8 +4,8 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../fixture';
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
+import { AbstractFixture } from '../../../fixture.js';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
 type PièceJustificative = { format: string; content: ReadableStream };
 

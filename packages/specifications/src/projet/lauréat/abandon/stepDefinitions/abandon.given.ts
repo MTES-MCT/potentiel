@@ -6,9 +6,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given';
-import { notifierLauréat } from '../../stepDefinitions/lauréat.given';
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given.js';
+import { notifierLauréat } from '../../stepDefinitions/lauréat.given.js';
 
 EtantDonné(
   /une demande d'abandon en cours pour le projet lauréat/,

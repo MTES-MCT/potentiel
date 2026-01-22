@@ -1,7 +1,7 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
-import { AbstractFixture } from '../../fixture';
+import { AbstractFixture } from '../../fixture.js';
 
 interface CorrigerCandidature {
   dépôtValue: Candidature.Dépôt.RawType;

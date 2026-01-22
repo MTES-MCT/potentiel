@@ -1,14 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { expectFileContent } from '../../../../helpers/expectFileContent';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
 Alors(
   "l'installation du projet lauréat devrait être mise à jour",

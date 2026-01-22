@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
 export type SetCommonGarantiesFinancièresDataProps = {
   identifiantProjet: IdentifiantProjet.ValueType;

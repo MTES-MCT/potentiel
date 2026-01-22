@@ -1,3 +1,3 @@
-import { SoumettreDépôtGarantiesFinancièresFixture } from './soumettre.fixture';
+import { SoumettreDépôtGarantiesFinancièresFixture } from './soumettre.fixture.js';
 
 export class ModifierDépôtGarantiesFinancièresFixture extends SoumettreDépôtGarantiesFinancièresFixture {}

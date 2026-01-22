@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { AbstractFixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../fixture.js';
 
 export interface ModifierPuissance {
   readonly puissance: number;

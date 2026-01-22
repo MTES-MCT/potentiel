@@ -2,13 +2,13 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { Email } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world.js';
 
 import {
   transmettreDemandeComplèteRaccordement,
   transmettreDemandeComplèteRaccordementSansAccuséRéception,
   transmettreDemandeComplèteRaccordementSansDateDeQualification,
-} from './demandeComplèteRaccordement.when';
+} from './demandeComplèteRaccordement.when.js';
 
 EtantDonné(
   'une demande complète de raccordement pour le projet lauréat',

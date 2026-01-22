@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AbstractFixture } from '../../../fixture';
+import { AbstractFixture } from '../../../fixture.js';
 
 export interface ChoisirCahierDesCharges {
   readonly cahierDesCharges: string;

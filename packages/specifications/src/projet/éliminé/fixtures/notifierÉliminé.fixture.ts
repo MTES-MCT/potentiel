@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { AbstractFixture } from '../../../fixture';
+import { AbstractFixture } from '../../../fixture.js';
 
 export interface NotifierÉliminé {
   readonly identifiantProjet: string;

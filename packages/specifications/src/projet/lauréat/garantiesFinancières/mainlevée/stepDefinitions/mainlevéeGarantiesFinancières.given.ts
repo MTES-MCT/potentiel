@@ -3,16 +3,16 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { modifierGarantiesFinancièresActuelles } from '../../actuelles/stepDefinitions/garantiesFinancièresActuelles.given';
-import { exécuterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.when';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { modifierGarantiesFinancièresActuelles } from '../../actuelles/stepDefinitions/garantiesFinancièresActuelles.given.js';
+import { exécuterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.when.js';
 
 import {
   accorderMainlevée,
   demanderMainlevée,
   démarrerInstructionMainlevée,
   rejeterMainlevée,
-} from './mainlevéeGarantiesFinancières.when';
+} from './mainlevéeGarantiesFinancières.when.js';
 
 EtantDonné(
   'une demande de mainlevée de garanties financières',

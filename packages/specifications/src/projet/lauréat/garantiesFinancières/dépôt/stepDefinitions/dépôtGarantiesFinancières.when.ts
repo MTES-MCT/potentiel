@@ -3,10 +3,10 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../.././../potentiel.world';
-import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
-import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
-import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
+import { PotentielWorld } from '../../../.././../potentiel.world.js';
+import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture.js';
+import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture.js';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet lauréat',

@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { convertFixtureFileToReadableStream } from '../../../helpers';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '../../../helpers/index.js';
 
 Quand(
   'un administrateur modifie le site de production du projet',

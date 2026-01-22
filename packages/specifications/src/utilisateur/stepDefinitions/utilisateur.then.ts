@@ -1,14 +1,15 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterUtilisateurQuery, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../potentiel.world.js';
+import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then.js';
 
 Alors(
   /(l'utilisateur|le porteur) devrait être désactivé/,
