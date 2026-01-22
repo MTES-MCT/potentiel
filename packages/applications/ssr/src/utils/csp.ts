@@ -2,6 +2,8 @@ import { randomBytes } from 'node:crypto';
 import { IncomingMessage, ServerResponse } from 'node:http';
 
 export const setCspHeader = (request: IncomingMessage, response: ServerResponse) => {
+  const isDev = process.env.NODE_ENV !== 'production';
+
   const nonce = randomBytes(16).toString('base64');
 
   const cspHeaderValues = {
@@ -28,6 +30,8 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
       "'sha256-UEZfoO3SfsYbnIIAoHHUiIGOhT+nhTDv2gd4I5588HQ='",
       'metabase.potentiel.beta.gouv.fr',
       'client.crisp.chat',
+      // https://nextjs.org/docs/app/guides/content-security-policy#development-environment
+      ...(isDev ? ["'unsafe-eval'"] : []),
     ],
   };
 
@@ -36,6 +40,8 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
     .join('; ');
 
   // Case matters - Next.js will parse the header to find the nonce and inject it into its own scripts
-  request.headers['content-security-policy'] = cspHeader;
-  response.setHeader('content-security-policy', cspHeader);
+  const headerName = isDev ? 'content-security-policy-report-only' : 'content-security-policy';
+
+  request.headers[headerName] = cspHeader;
+  response.setHeader(headerName, cspHeader);
 };
