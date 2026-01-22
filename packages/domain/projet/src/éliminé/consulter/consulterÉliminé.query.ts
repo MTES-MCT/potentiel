@@ -22,6 +22,7 @@ export type ConsulterÉliminéReadModel = {
   | 'nomProjet'
   | 'nomCandidat'
   | 'puissance'
+  | 'puissanceDeSite'
   | 'prixReference'
   | 'nomReprésentantLégal'
   | 'sociétéMère'
@@ -79,6 +80,7 @@ const mapToReadModel: MapToReadModel = (
   sociétéMère: candidature.dépôt.sociétéMère,
   prixReference: candidature.dépôt.prixReference,
   puissance: candidature.dépôt.puissance,
+  puissanceDeSite: candidature.dépôt.puissanceDeSite,
   unitéPuissance: candidature.unitéPuissance,
   attestationDésignation: candidature.notification?.attestation,
   autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme
