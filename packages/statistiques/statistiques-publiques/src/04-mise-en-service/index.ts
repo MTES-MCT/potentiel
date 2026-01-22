@@ -1,11 +1,11 @@
-import { computeNombreTotalProjetEnService } from './nombreTotalProjetEnService.statistic';
-import { computeNombreTotalPTFDéposées } from './nombreTotalPTFDéposées.statistic';
-import { computeNombreTotalRéférencesRaccordement } from './nombreTotalRéférencesRaccordement.statistic';
-import { computepourcentageProjetAvecDCRQuiOntUnePTF } from './pourcentageProjetAvecDCRQuiOntUnePTF.statistic';
-import { computePourcentageProjetEnService } from './pourcentageProjetEnService.statistic';
-import { computePourcentagePTFDéposées } from './pourcentagePTFDéposées.statistic';
-import { computePourcentageRéférencesRaccordement } from './pourcentageRéférencesRaccordement.statistic';
-import { computePuissanceTotaleMiseEnService } from './puissanceTotaleMiseEnService.stastistic';
+import { computeNombreTotalProjetEnService } from './nombreTotalProjetEnService.statistic.js';
+import { computeNombreTotalPTFDéposées } from './nombreTotalPTFDéposées.statistic.js';
+import { computeNombreTotalRéférencesRaccordement } from './nombreTotalRéférencesRaccordement.statistic.js';
+import { computepourcentageProjetAvecDCRQuiOntUnePTF } from './pourcentageProjetAvecDCRQuiOntUnePTF.statistic.js';
+import { computePourcentageProjetEnService } from './pourcentageProjetEnService.statistic.js';
+import { computePourcentagePTFDéposées } from './pourcentagePTFDéposées.statistic.js';
+import { computePourcentageRéférencesRaccordement } from './pourcentageRéférencesRaccordement.statistic.js';
+import { computePuissanceTotaleMiseEnService } from './puissanceTotaleMiseEnService.stastistic.js';
 
 export const computeMiseEnService = async () => {
   await computeNombreTotalRéférencesRaccordement();
