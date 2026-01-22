@@ -4,7 +4,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
-import { RéférencielGRD } from './référencielGRD';
+import { RéférencielGRD } from './référencielGRD.js';
 
 export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) => {
   if (gestionnaires.length === 0) {

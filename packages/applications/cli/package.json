@@ -1,6 +1,7 @@
 {
   "name": "@potentiel/cli",
   "private": true,
+  "type": "module",
   "bin": {
     "potentiel-cli": "./bin/run.js"
   },

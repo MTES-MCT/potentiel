@@ -1,7 +1,5 @@
-#!/usr/bin/env -S npm exec --offline tsx
+#!/usr/bin/env node
 
-(async () => {
-  const oclif = await import('@oclif/core');
-  // eslint-disable-next-line no-undef
-  await oclif.execute({ development: true, dir: __dirname });
-})();
+import { execute } from '@oclif/core';
+
+await execute({ development: true, dir: import.meta.url });

@@ -9,7 +9,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { parseCsvFile } from '../../helpers/parse-file';
+import { parseCsvFile } from '../../helpers/parse-file.js';
 
 const csvSchema = z.object({
   appelOffre: z.string(),
