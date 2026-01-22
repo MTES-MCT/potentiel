@@ -5,7 +5,7 @@ import { assert } from 'chai';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   "un administrateur modifie l'évaluation carbone du projet",

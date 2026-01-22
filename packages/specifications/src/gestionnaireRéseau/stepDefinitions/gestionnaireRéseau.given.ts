@@ -4,8 +4,8 @@ import { faker } from '@faker-js/faker';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { fakeLocations } from '../../helpers/getFakeLocation';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { fakeLocations } from '../../helpers/getFakeLocation.js';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();

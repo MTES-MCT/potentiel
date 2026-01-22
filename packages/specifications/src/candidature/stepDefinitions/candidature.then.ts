@@ -1,16 +1,17 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
-import waitForExpect from 'wait-for-expect';
 
 import { Candidature } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { Document } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-import { sleep } from '../../helpers/sleep';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../potentiel.world.js';
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString.js';
+import { sleep } from '../../helpers/sleep.js';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;

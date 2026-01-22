@@ -7,11 +7,11 @@ import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
-import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 
-import { choisirCahierDesCharges } from './lauréat.when';
+import { choisirCahierDesCharges } from './lauréat.when.js';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'classé' });

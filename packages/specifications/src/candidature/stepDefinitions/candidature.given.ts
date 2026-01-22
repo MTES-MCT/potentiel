@@ -4,8 +4,8 @@ import { mediator } from 'mediateur';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { DeepPartial } from '../../fixture';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { DeepPartial } from '../../fixture.js';
 
 EtantDonné(
   `la candidature lauréate {string} avec :`,

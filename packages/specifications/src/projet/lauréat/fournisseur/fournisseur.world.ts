@@ -4,8 +4,8 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
-import { MettreÀJourFournisseurFixture } from './fixtures/mettreÀJourFournisseur.fixture';
+import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture.js';
+import { MettreÀJourFournisseurFixture } from './fixtures/mettreÀJourFournisseur.fixture.js';
 
 export class FournisseurWorld {
   constructor() {}

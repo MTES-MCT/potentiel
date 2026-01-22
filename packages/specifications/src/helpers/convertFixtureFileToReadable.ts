@@ -1,4 +1,4 @@
-import { convertStringToReadableStream } from './convertStringToReadable';
+import { convertStringToReadableStream } from './convertStringToReadable.js';
 
 export const convertFixtureFileToReadableStream = ({
   format,

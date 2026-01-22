@@ -1,12 +1,13 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
   `des garanties financières devraient être attendues pour le projet lauréat`,

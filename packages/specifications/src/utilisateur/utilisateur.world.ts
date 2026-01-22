@@ -1,19 +1,19 @@
-import { FieldToExempleMapper, mapToExemple } from '../helpers/mapToExemple';
-import { PotentielWorld } from '../potentiel.world';
+import { FieldToExempleMapper, mapToExemple } from '../helpers/mapToExemple.js';
+import { PotentielWorld } from '../potentiel.world.js';
 
-import { PorteurFixture } from './fixtures/porteur.fixture';
-import { ValidateurFixture } from './fixtures/validateur.fixture';
-import { DREALFixture } from './fixtures/dreal.fixture';
-import { AdminFixture } from './fixtures/admin.fixture';
-import { GRDFixture } from './fixtures/grd.fixture';
+import { PorteurFixture } from './fixtures/porteur.fixture.js';
+import { ValidateurFixture } from './fixtures/validateur.fixture.js';
+import { DREALFixture } from './fixtures/dreal.fixture.js';
+import { AdminFixture } from './fixtures/admin.fixture.js';
+import { GRDFixture } from './fixtures/grd.fixture.js';
 import {
   InviterUtilisateurFixture,
   InviterUtilisateurProps,
-} from './fixtures/inviter/inviter.fixture';
-import { CREFixture } from './fixtures/cre.fixture';
-import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture';
-import { InviterPorteurFixture } from './fixtures/inviter/inviterPorteur.fixture';
-import { CocontractantFixture } from './fixtures/cocontractant.fixture';
+} from './fixtures/inviter/inviter.fixture.js';
+import { CREFixture } from './fixtures/cre.fixture.js';
+import { ModifierRôleUtilisateurFixture } from './fixtures/inviter/modifier.fixture.js';
+import { InviterPorteurFixture } from './fixtures/inviter/inviterPorteur.fixture.js';
+import { CocontractantFixture } from './fixtures/cocontractant.fixture.js';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;

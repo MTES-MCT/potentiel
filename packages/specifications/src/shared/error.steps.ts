@@ -1,6 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../potentiel.world';
+import { PotentielWorld } from '../potentiel.world.js';
 
 Alors(
   /(.*) devrait être informé que "(.*)"/,

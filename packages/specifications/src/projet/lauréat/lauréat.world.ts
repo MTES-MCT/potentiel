@@ -8,28 +8,28 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../potentiel.world.js';
 
-import { AbandonWord } from './abandon/abandon.world';
-import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
-import { ActionnaireWorld } from './actionnaire/actionnaire.world';
-import { AchèvementWorld } from './achèvement/achèvement.world';
-import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enregistrerChangementNomProjet.fixture';
+import { AbandonWord } from './abandon/abandon.world.js';
+import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world.js';
+import { ActionnaireWorld } from './actionnaire/actionnaire.world.js';
+import { AchèvementWorld } from './achèvement/achèvement.world.js';
+import { EnregistrerChangementNomProjetFixture } from './nom-projet/fixture/enregistrerChangementNomProjet.fixture.js';
 import {
   NotifierLauréat,
   NotifierLauréatFixture,
   NotifierLauréatProps,
-} from './fixtures/notifierLauréat.fixture';
-import { PuissanceWorld } from './puissance/puissance.world';
-import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
-import { ProducteurWorld } from './producteur/producteur.world';
-import { FournisseurWorld } from './fournisseur/fournisseur.world';
-import { DélaiWorld } from './délai/délai.world';
-import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
-import { InstallationWorld } from './installation/installation.world';
-import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
-import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
-import { ModifierNomProjetFixture } from './nom-projet/fixture/modifierNomProjet.fixture';
+} from './fixtures/notifierLauréat.fixture.js';
+import { PuissanceWorld } from './puissance/puissance.world.js';
+import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture.js';
+import { ProducteurWorld } from './producteur/producteur.world.js';
+import { FournisseurWorld } from './fournisseur/fournisseur.world.js';
+import { DélaiWorld } from './délai/délai.world.js';
+import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world.js';
+import { InstallationWorld } from './installation/installation.world.js';
+import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world.js';
+import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture.js';
+import { ModifierNomProjetFixture } from './nom-projet/fixture/modifierNomProjet.fixture.js';
 
 export class LauréatWorld {
   #lauréatFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();

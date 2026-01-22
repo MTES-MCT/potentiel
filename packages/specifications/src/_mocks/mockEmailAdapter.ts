@@ -6,7 +6,7 @@ import {
   render,
 } from '@potentiel-applications/notifications';
 
-import { PotentielWorld } from '../potentiel.world';
+import { PotentielWorld } from '../potentiel.world.js';
 
 export async function mockEmailAdapter(
   this: PotentielWorld,

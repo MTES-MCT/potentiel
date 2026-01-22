@@ -4,8 +4,8 @@ import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/p
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { AbstractFixture } from '../../../../fixture';
-import { LauréatWorld } from '../../lauréat.world';
+import { AbstractFixture } from '../../../../fixture.js';
+import { LauréatWorld } from '../../lauréat.world.js';
 
 interface TransmettreDateAchèvement {
   readonly dateAchèvement: string;

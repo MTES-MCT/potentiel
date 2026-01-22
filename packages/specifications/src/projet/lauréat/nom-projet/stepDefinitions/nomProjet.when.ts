@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
 Quand('un administrateur modifie le nom du projet', async function (this: PotentielWorld) {
   try {

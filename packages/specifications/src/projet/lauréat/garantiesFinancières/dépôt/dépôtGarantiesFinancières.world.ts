@@ -1,15 +1,19 @@
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
+import {
+  mapToExemple,
+  FieldToExempleMapper,
+  mapDateTime,
+} from '../../../../helpers/mapToExemple.js';
+import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
 
-import { ModifierDépôtGarantiesFinancièresFixture } from './fixtures/modifier.fixture';
+import { ModifierDépôtGarantiesFinancièresFixture } from './fixtures/modifier.fixture.js';
 import {
   SoumettreDépôtGarantiesFinancièresFixture,
   SoumettreDépôtGarantiesFinancièresProps,
-} from './fixtures/soumettre.fixture';
-import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/valider.fixture';
+} from './fixtures/soumettre.fixture.js';
+import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/valider.fixture.js';
 
 export class DépôtGarantiesFinancièresWorld {
   readonly soumettre: SoumettreDépôtGarantiesFinancièresFixture;

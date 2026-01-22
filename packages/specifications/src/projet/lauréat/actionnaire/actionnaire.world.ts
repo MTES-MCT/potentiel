@@ -3,12 +3,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture';
-import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture';
-import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
-import { EnregistrerChangementActionnaireFixture } from './fixtures/enregistrerChangementActionnaire.fixture';
-import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture';
-import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture';
+import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture.js';
+import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture.js';
+import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture.js';
+import { EnregistrerChangementActionnaireFixture } from './fixtures/enregistrerChangementActionnaire.fixture.js';
+import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture.js';
+import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture.js';
 
 export class ActionnaireWorld {
   #modifierActionnaireFixture: ModifierActionnaireFixture;

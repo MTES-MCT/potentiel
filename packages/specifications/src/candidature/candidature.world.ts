@@ -3,10 +3,10 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { mapToExemple } from '../helpers/mapToExemple';
+import { mapToExemple } from '../helpers/mapToExemple.js';
 
-import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
-import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
+import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture.js';
+import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture.js';
 import {
   autorisationDUrbanismeExempleMap,
   dispositifDeStockageExempleMap,
@@ -16,7 +16,7 @@ import {
   instructionExempleMap,
   localitéExempleMap,
   natureDeLExploitationExempleMap,
-} from './candidature.exempleMap';
+} from './candidature.exempleMap.js';
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;

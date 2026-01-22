@@ -1,6 +1,6 @@
-import { Fixture } from '../../fixture';
+import { Fixture } from '../../fixture.js';
 
-import { Utilisateur, AbstractUtilisateur } from './utilisateur';
+import { Utilisateur, AbstractUtilisateur } from './utilisateur.js';
 
 interface DREAL extends Utilisateur<'dreal'> {
   readonly région: string;

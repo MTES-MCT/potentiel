@@ -1,13 +1,13 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
 
 import {
   demanderChangementPuissance,
   accorderChangementPuissance,
   annulerChangementPuissance,
   rejeterChangementPuissance,
-} from './changementPuissance.when';
+} from './changementPuissance.when.js';
 
 EtantDonné(
   'une demande de changement de puissance pour le projet lauréat avec :',

@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -8,8 +7,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Document } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString.js';
 
 Alors(
   'la demande de changement de puissance devrait être consultable',

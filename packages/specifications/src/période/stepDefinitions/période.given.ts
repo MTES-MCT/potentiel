@@ -1,11 +1,11 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';
-import { Candidat } from '../fixtures/notifierPériode.fixture';
-import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given.js';
+import { Candidat } from '../fixtures/notifierPériode.fixture.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 
-import { notifierPériode } from './période.when';
+import { notifierPériode } from './période.when.js';
 
 const candidats = [
   {

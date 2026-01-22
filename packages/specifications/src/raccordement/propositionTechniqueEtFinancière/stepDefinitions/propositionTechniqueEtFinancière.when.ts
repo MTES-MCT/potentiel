@@ -5,8 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { getRôle, RôleUtilisateur } from '../../../helpers';
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { getRôle, RôleUtilisateur } from '../../../helpers/index.js';
 
 Quand(
   `le porteur transmet une proposition technique et financière pour le projet lauréat`,

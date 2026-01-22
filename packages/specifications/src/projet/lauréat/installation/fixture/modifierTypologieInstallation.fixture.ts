@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../fixture';
-import { LauréatWorld } from '../../lauréat.world';
+import { AbstractFixture } from '../../../../fixture.js';
+import { LauréatWorld } from '../../lauréat.world.js';
 
 interface ModifierTypologieInstallation {
   readonly modifiéeLe: string;

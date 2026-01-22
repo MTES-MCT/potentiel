@@ -6,8 +6,8 @@ import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 
-import { AbstractFixture, DeepPartial } from '../../fixture';
-import { getFakeLocation } from '../../helpers/getFakeLocation';
+import { AbstractFixture, DeepPartial } from '../../fixture.js';
+import { getFakeLocation } from '../../helpers/getFakeLocation.js';
 
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;

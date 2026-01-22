@@ -1,12 +1,12 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { LauréatWorld } from '../projet/lauréat/lauréat.world';
+import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
 
-import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture';
-import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture';
-import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world';
-import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world';
+import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture.js';
+import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
+import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
+import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =

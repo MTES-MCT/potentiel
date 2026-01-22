@@ -1,13 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../potentiel.world.js';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat`,

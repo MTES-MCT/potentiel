@@ -1,5 +1,5 @@
-import { ModifierPropositionTechniqueEtFinancièreFixture } from './fixtures/modifierPropositionTechniqueEtFinancière.fixture';
-import { TransmettrePropositionTechniqueEtFinancièreFixture } from './fixtures/transmettrePropositionTechniqueEtFinancière.fixture';
+import { ModifierPropositionTechniqueEtFinancièreFixture } from './fixtures/modifierPropositionTechniqueEtFinancière.fixture.js';
+import { TransmettrePropositionTechniqueEtFinancièreFixture } from './fixtures/transmettrePropositionTechniqueEtFinancière.fixture.js';
 
 export class PropositionTechniqueEtFinancièreWorld {
   readonly transmettreFixture = new TransmettrePropositionTechniqueEtFinancièreFixture();

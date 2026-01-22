@@ -1,5 +1,5 @@
-import { RemplacerAccèsProjetFixture } from './fixtures/remplacer/remplacerAccèsProjet.fixture';
-import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture';
+import { RemplacerAccèsProjetFixture } from './fixtures/remplacer/remplacerAccèsProjet.fixture.js';
+import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture.js';
 
 export class AccèsWorld {
   #réclamerProjet: RéclamerProjetFixture;

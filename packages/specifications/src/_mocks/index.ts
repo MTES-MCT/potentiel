@@ -1,3 +1,3 @@
-export * from './mockRécupererGarantiesFinancières';
-export * from './mockRécupérerGRDParVilleAdapter';
-export * from './mockEmailAdapter';
+export * from './mockRécupererGarantiesFinancières.js';
+export * from './mockRécupérerGRDParVilleAdapter.js';
+export * from './mockEmailAdapter.js';

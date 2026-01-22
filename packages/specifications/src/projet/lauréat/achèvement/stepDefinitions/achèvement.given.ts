@@ -5,8 +5,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable';
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
 EtantDonné(
   'une attestation de conformité transmise pour le projet lauréat',

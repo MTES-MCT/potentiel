@@ -3,11 +3,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
-import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
-import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
-import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
-import { RejeterChangementPuissanceFixture } from './fixture/rejeterChangementPuissance.fixture';
+import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture.js';
+import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture.js';
+import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture.js';
+import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture.js';
+import { RejeterChangementPuissanceFixture } from './fixture/rejeterChangementPuissance.fixture.js';
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Document, Lauréat } from '@potentiel-domain/projet';
@@ -8,8 +7,10 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { expectFileContent } from '../../../../helpers/expectFileContent';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
 Alors(
   'une attestation de conformité devrait être consultable pour le projet lauréat',

@@ -1,14 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { expectFileContent } from '../../../../../helpers/expectFileContent';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { expectFileContent } from '../../../../../helpers/expectFileContent.js';
 
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable`,

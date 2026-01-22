@@ -5,7 +5,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world.js';
 Quand(
   `le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
   async function (this: PotentielWorld) {

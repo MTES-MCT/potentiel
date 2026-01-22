@@ -1,13 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 
 import { Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../potentiel.world.js';
 
 Alors('le projet éliminé devrait être consultable', async function (this: PotentielWorld) {
   await waitForExpect(async () => {

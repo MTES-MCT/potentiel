@@ -1,6 +1,6 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 import {
   annulerDemandeDélai,
@@ -8,7 +8,7 @@ import {
   rejeterDemandeDélai,
   passerDemanderDélaiEnInstruction,
   accorderDemandeDélai,
-} from './délai.when';
+} from './délai.when.js';
 
 EtantDonné(
   'une demande de délai en cours pour le projet lauréat',

@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world.js';
 
 EtantDonné(
   'une date de mise en service pour le dossier de raccordement du projet lauréat',

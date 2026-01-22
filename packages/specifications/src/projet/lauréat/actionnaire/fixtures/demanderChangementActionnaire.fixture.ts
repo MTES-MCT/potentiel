@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
-import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { AbstractFixture } from '../../../../fixture.js';
 
 interface DemanderChangementActionnaire {
   readonly pièceJustificative: { format: string; content: ReadableStream };

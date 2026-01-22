@@ -3,13 +3,13 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { LauréatWorld } from '../lauréat.world';
+import { LauréatWorld } from '../lauréat.world.js';
 
-import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositifDeStockage.fixture';
-import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
-import { ModifierTypologieInstallationFixture } from './fixture/modifierTypologieInstallation.fixture';
-import { EnregistrerChangementInstallateurFixture } from './fixture/enregistrerChangementInstallateur.fixture';
-import { EnregistrerChangementDispositifDeStockageFixture } from './fixture/enregistrerChangementDispositifStockage.fixture';
+import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositifDeStockage.fixture.js';
+import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture.js';
+import { ModifierTypologieInstallationFixture } from './fixture/modifierTypologieInstallation.fixture.js';
+import { EnregistrerChangementInstallateurFixture } from './fixture/enregistrerChangementInstallateur.fixture.js';
+import { EnregistrerChangementDispositifDeStockageFixture } from './fixture/enregistrerChangementDispositifStockage.fixture.js';
 
 export class InstallationWorld {
   #modifierInstallateurFixture: ModifierInstallateurFixture;

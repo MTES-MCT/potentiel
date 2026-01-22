@@ -1,8 +1,8 @@
-import { LauréatWorld } from '../lauréat.world';
+import { LauréatWorld } from '../lauréat.world.js';
 
-import { GarantiesFinancièresActuellesWorld } from './actuelles/garantiesFinancièresActuelles.world';
-import { DépôtGarantiesFinancièresWorld } from './dépôt/dépôtGarantiesFinancières.world';
-import { MainlevéeGarantiesFinancièresWorld } from './mainlevée/mainlevéeGarantiesFinancières.world';
+import { GarantiesFinancièresActuellesWorld } from './actuelles/garantiesFinancièresActuelles.world.js';
+import { DépôtGarantiesFinancièresWorld } from './dépôt/dépôtGarantiesFinancières.world.js';
+import { MainlevéeGarantiesFinancièresWorld } from './mainlevée/mainlevéeGarantiesFinancières.world.js';
 
 export class GarantiesFinancièresWorld {
   readonly actuelles: GarantiesFinancièresActuellesWorld;

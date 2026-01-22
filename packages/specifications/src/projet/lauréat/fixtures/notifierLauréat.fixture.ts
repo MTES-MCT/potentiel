@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../fixture';
-import { getFakeLocation } from '../../../helpers/getFakeLocation';
+import { AbstractFixture } from '../../../fixture.js';
+import { getFakeLocation } from '../../../helpers/getFakeLocation.js';
 
 export interface NotifierLauréat {
   readonly identifiantProjet: string;

@@ -9,7 +9,7 @@ import {
   mapNumber,
   mapOptionalBoolean,
   mapValueType,
-} from '../helpers/mapToExemple';
+} from '../helpers/mapToExemple.js';
 
 export const dépôtExempleMap: FieldToExempleMapper<
   Omit<

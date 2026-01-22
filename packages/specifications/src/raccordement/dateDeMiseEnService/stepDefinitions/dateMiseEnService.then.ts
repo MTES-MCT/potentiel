@@ -1,13 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../potentiel.world.js';
+import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(
   `la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat`,

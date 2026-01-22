@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -8,7 +7,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../potentiel.world.js';
 
 Alors(
   "l'utilisateur invité a accès au projet {lauréat-éliminé}",

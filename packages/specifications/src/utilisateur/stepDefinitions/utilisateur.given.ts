@@ -5,10 +5,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Role, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 
-import { désactiverUtilisateur, inviterPorteur, inviterUtilisateur } from './utilisateur.when';
+import { désactiverUtilisateur, inviterPorteur, inviterUtilisateur } from './utilisateur.when.js';
 
 EtantDonné(
   'la dreal {string} associée à la région du projet',

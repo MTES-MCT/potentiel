@@ -4,9 +4,9 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
-import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
+import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture.js';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet lauréat avec :',

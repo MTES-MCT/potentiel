@@ -19,7 +19,6 @@ import {
   DeleteObjectsCommand,
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
-import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
@@ -27,20 +26,22 @@ import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { startSubscribers } from '@potentiel-applications/subscribers';
 
-import { PotentielWorld } from './potentiel.world';
-import { sleep } from './helpers/sleep';
-import { getFakeFormat } from './helpers/getFakeFormat';
-import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
-import { getFakeContent, getFakeDocument } from './helpers/getFakeContent';
-import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
-import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
-import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from './potentiel.world.js';
+import { sleep } from './helpers/sleep.js';
+import { getFakeFormat } from './helpers/getFakeFormat.js';
+import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet.js';
+import { getFakeContent, getFakeDocument } from './helpers/getFakeContent.js';
+import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
+import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5.js';
 import {
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
   mockEmailAdapter,
   addEmailSpyMiddleware,
-} from './_mocks';
+} from './_mocks/index.js';
 
 should();
 setWorldConstructor(PotentielWorld);

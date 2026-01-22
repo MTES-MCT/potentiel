@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -8,7 +7,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Alors(
   'le changement enregistré du producteur du projet lauréat devrait être consultable',

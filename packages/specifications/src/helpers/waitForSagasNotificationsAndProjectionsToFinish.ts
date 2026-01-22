@@ -1,7 +1,8 @@
-import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+
+import { waitForExpect } from '#helpers';
 
 const queryPendingAcknowledgements = `
 select 

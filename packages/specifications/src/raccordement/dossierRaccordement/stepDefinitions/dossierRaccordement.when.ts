@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
   `le porteur supprime le dossier de raccordement pour le projet lauréat`,

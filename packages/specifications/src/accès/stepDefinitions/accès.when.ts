@@ -5,8 +5,8 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 import { Accès } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture.js';
 
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} avec le même email que celui de la candidature`,

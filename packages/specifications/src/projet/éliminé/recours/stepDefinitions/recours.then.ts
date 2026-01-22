@@ -1,6 +1,5 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -8,8 +7,10 @@ import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Document } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import { waitForExpect } from '#helpers';
+
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString.js';
 
 Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,

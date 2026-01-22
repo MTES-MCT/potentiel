@@ -3,7 +3,11 @@
   "description": "Tests d'intégration de l'application Potentiel",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "private": true,
+  "imports": {
+    "#helpers": "./dist/helpers/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint ./src --ext .ts",

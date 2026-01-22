@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from './convertStringToReadable';
-import { getFakeFormat } from './getFakeFormat';
+import { convertStringToReadableStream } from './convertStringToReadable.js';
+import { getFakeFormat } from './getFakeFormat.js';
 
 export const getFakeContent = (): ReadableStream => {
   return convertStringToReadableStream(faker.word.words());

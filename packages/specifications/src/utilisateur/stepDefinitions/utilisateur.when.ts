@@ -15,10 +15,10 @@ import {
 import { Accès } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture';
+import { PotentielWorld } from '../../potentiel.world.js';
+import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture.js';
 
-import { getPayloadForRôle } from './utilisateur.given';
+import { getPayloadForRôle } from './utilisateur.given.js';
 
 Quand(
   /le porteur invite (un autre porteur|l'administrateur) sur le projet (lauréat|éliminé)/,
