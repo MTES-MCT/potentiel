@@ -14,9 +14,11 @@ import { Routes } from '@potentiel-applications/routes';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { candidatureCsvSchema } from '@/utils/candidature';
-import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
-import { cleanDétailsEntries } from '@/utils/candidature/cleanDétailsEntries';
+import {
+  candidatureCsvSchema,
+  cleanDétailsKeys,
+  mapCsvRowToFournisseurs,
+} from '@/utils/candidature';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -80,7 +82,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     for (const line of parsedData) {
       try {
-        const rawLine = cleanDétailsEntries(
+        const rawLine = cleanDétailsKeys(
           rawData.find((data) => data['N°CRE'] === line.numéroCRE) ?? {},
         );
 
