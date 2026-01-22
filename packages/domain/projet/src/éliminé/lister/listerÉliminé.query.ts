@@ -1,10 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { CandidatureEntity, Localité } from '../../candidature';
+import { ÉliminéEntity } from '../éliminé.entity';
 
 type ÉliminéListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -62,25 +64,38 @@ export const registerListerÉliminéQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const éliminés = await list<CandidatureEntity>('candidature', {
-      range,
-      orderBy: {
-        nomProjet: 'ascending',
+    const éliminés = await list<CandidatureEntity, [ÉliminéEntity, AppelOffre.AppelOffreEntity]>(
+      'candidature',
+      {
+        range,
+        orderBy: {
+          nomProjet: 'ascending',
+        },
+        where: {
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          appelOffre: appelOffre && appelOffre.length > 0 ? Where.matchAny(appelOffre) : undefined,
+          période: Where.equal(periode),
+          famille: Where.equal(famille),
+          nomProjet: Where.like(nomProjet),
+          localité: scope.type === 'région' ? { région: Where.matchAny(scope.régions) } : undefined,
+          actionnariat:
+            typeActionnariat && typeActionnariat.length > 0
+              ? Where.matchAny(typeActionnariat)
+              : undefined,
+        },
+        join: [
+          {
+            entity: 'éliminé',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'appel-offre',
+            on: 'appelOffre',
+          },
+        ],
       },
-      where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        appelOffre: appelOffre && appelOffre.length > 0 ? Where.matchAny(appelOffre) : undefined,
-        période: Where.equal(periode),
-        famille: Where.equal(famille),
-        nomProjet: Where.like(nomProjet),
-        localité: scope.type === 'région' ? { région: Where.matchAny(scope.régions) } : undefined,
-        actionnariat:
-          typeActionnariat && typeActionnariat.length > 0
-            ? Where.matchAny(typeActionnariat)
-            : undefined,
-      },
-    });
+    );
 
     return {
       ...éliminés,
@@ -91,7 +106,9 @@ export const registerListerÉliminéQuery = ({
   mediator.register('Éliminé.Query.ListerÉliminé', handler);
 };
 
-type MapToReadModelProps = (args: CandidatureEntity) => ÉliminéListItemReadModel;
+type MapToReadModelProps = (
+  args: CandidatureEntity & Joined<ÉliminéEntity>,
+) => ÉliminéListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
