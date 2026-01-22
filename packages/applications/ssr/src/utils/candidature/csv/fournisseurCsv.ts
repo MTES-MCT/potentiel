@@ -54,7 +54,7 @@ const mapDétailsToFournisseur = (key: string) => {
  * en un array ayant pour forme :
  * ```
  * [
- *  { typeFournisseur: 'cellules', nomDuFabricant:"AAA", lieuDeFabrication: 'Chine' },
+ *  { typeFournisseur: 'cellules', nomDuFabricant:"AAA", lieuDeFabrication: 'Chine', },
  *  { typeFournisseur: 'cellules', nomDuFabricant:"BBB", lieuDeFabrication: 'Italie' },
  *  { typeFournisseur: 'polysilicium', nomDuFabricant:"CCC", lieuDeFabrication: 'Etats-Unis' },
  * ]

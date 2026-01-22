@@ -6,6 +6,39 @@ import { Email } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, DétailCandidatureEntity, Localité } from '..';
+import { Fournisseur } from '../../lauréat';
+
+/*
+Type de fournisseur (Cellules, Polysillicium, Poste de conversion, Développement, etc)
+
+Nom du fournisseur
+
+Lieu de fabrication
+
+Coût total du lot (M€) 
+
+Contenu local français (%)
+
+Contenu local européen (%)
+
+Technologie
+
+Puissance crête (Wc)
+
+Rendement nominal
+*/
+
+export type DétailFournisseur = {
+  type: Fournisseur.TypeFournisseur.RawType;
+  nom?: Fournisseur.Fournisseur.ValueType['nomDuFabricant'];
+  lieuFabrication?: Fournisseur.Fournisseur.ValueType['lieuDeFabrication'];
+  coûtTotalLot?: string;
+  contenuLocalFrançais?: string;
+  contenuLocalEuropéen?: string;
+  technologie?: string;
+  puissanceCrêteWc?: string;
+  rendementNominal?: string; // à voir si on le garde ou pas
+};
 
 export type DétailsFournisseurListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -13,7 +46,7 @@ export type DétailsFournisseurListItemReadModel = {
   période: IdentifiantProjet.ValueType['période'];
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
-  détail: Partial<DétailCandidature.RawType>;
+  fournisseurs: Array<DétailFournisseur>;
 };
 
 export type ListerDétailsFournisseurReadModel = Readonly<{
@@ -94,92 +127,16 @@ export const mapToReadModel: MapToReadModel = ({
   période,
   région,
   sociétéMère,
-  détail: getFournisseursInfosFromDétail(détail),
+  fournisseurs: getFournisseursFromDétail(détail),
 });
 
-const fournisseursCandidatureDétailKeys = [
-  'Coût total du lot (M€)\n(Développement)',
-  'Contenu local français (%)\n(Développement)',
-  'Contenu local européen (%)\n(Développement)',
-  'Contenu local développement :\nCommentaires',
-  'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)',
-  'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)',
-  'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)',
-  'Contenu local Fabrication de composants et assemblage :\nCommentaires',
-  'Technologie (Modules ou films)',
-  'Référence commerciale \n(Modules ou films)',
-  'Lieu(x) de fabrication \n(Modules ou films)',
-  'Puissance crête (Wc) \n(Modules ou films)',
-  'Rendement nominal \n(Modules ou films)',
-  'Coût des modules €/Wc',
-  'Diamètre du rotor (m)\n(AO éolien)',
-  'Hauteur bout de pâle (m)\n(AO éolien)',
-  'Coût total du lot (M€)\n(Modules ou films)',
-  'Contenu local français (%)\n(Modules ou films)',
-  'Contenu local européen (%)\n(Modules ou films)',
-  'Nom du fabricant (Cellules)',
-  'Lieu(x) de fabrication (Cellules)',
-  'Coût total du lot (M€)\n(Cellules)',
-  'Contenu local français (%)\n(Cellules)',
-  'Contenu local européen (%)\n(Cellules)',
-  'Nom du fabricant \n(Plaquettes de silicium (wafers))',
-  'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
-  'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))',
-  'Contenu local français (%)\n(Plaquettes de silicium (wafers))',
-  'Contenu local européen (%)\n(Plaquettes de silicium (wafers))',
-  'Nom du fabricant \n(Polysilicium)',
-  'Lieu(x) de fabrication \n(Polysilicium)',
-  'Coût total du lot (M€)\n(Polysilicium)',
-  'Contenu local français (%)\n(Polysilicium)',
-  'Contenu local européen (%)\n(Polysilicium)',
-  'Nom du fabricant \n(Postes de conversion)',
-  'Lieu(x) de fabrication \n(Postes de conversion)',
-  'Coût total du lot (M€)\n(Postes de conversion)',
-  'Contenu local français (%)\n(Postes de conversion)',
-  'Contenu local européen (%)\n(Postes de conversion)',
-  'Nom du fabricant \n(Structure)',
-  'Lieu(x) de fabrication \n(Structure)',
-  'Coût total du lot (M€)\n(Structure)',
-  'Contenu local français (%)\n(Structure)',
-  'Contenu local européen (%)\n(Structure)',
-  'Technologie \n(Dispositifs de stockage de l’énergie *)',
-  'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
-  'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)',
-  'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)',
-  'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)',
-  'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)',
-  'Technologie \n(Dispositifs de suivi de la course du soleil *)',
-  'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
-  'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)',
-  'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)',
-  'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)',
-  'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)',
-  'Référence commerciale \n(Autres technologies)',
-  'Nom du fabricant \n(Autres technologies)',
-  'Lieu(x) de fabrication \n(Autres technologies)',
-  'Coût total du lot (M€)\n(Autres technologies)',
-  'Contenu local français (%)\n(Autres technologies)',
-  'Contenu local européen (%)\n(Autres technologies)',
-  'Coût total du lot (M€)\n(Installation et mise en service )',
-  'Contenu local français (%)\n(Installation et mise en service) ',
-  'Contenu local européen (%)\n(Installation et mise en service)',
-  'Commentaires contenu local\n(Installation et mise en service)',
-  'Coût total du lot (M€)\n(raccordement)',
-  'Contenu local français (%)\n(raccordement)',
-  'Contenu local européen (%)\n(raccordement)',
-  'Contenu local TOTAL :\ncoût total (M€)',
-  'Contenu local TOTAL français (%)',
-  'Contenu local TOTAL européen (%)',
-  'Contenu local TOTAL :\nCommentaires',
-] as const;
-
-const getFournisseursInfosFromDétail = (détail: DétailCandidature.RawType) => {
-  const filteredDetails: DétailCandidature.RawType = {};
-
-  for (const key of fournisseursCandidatureDétailKeys) {
-    if (key in détail) {
-      filteredDetails[key.replace(/\n/g, '')] = détail[key];
-    }
-  }
-  return filteredDetails;
+/***
+ * TODO : Cette fonction doit analyser les clés du détail de candidature
+ * pour en extraire une liste de fournisseurs (type DétailFournisseur)
+ * en se basant sur les clés listées dans les différents fichiers
+ * `*.fournisseur.csvKeys.ts`
+ */
+const getFournisseursFromDétail = (détail: DétailCandidature.RawType): Array<DétailFournisseur> => {
+  console.log('Détail reçu pour extraction des fournisseurs : ', détail);
+  return [];
 };
