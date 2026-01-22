@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run prebuild && tsx -r dotenv/config src/server.ts",
-    "start": "node -r dotenv/config dist/server.js",
+    "start": "NODE_ENV=production node -r dotenv/config dist/server.js",
     "build": "npm run prebuild && npm run build:server && next build",
     "build:server": "tsc -p tsconfig.server.json",
     "lint": "next lint",
