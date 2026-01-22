@@ -17,6 +17,7 @@ export const PropositionDeValeur = () => (
           width={752}
           height={445}
           alt=""
+          priority
         />
       </div>
       <p className="text-lg md:text-base lg:text-xl font-medium md:font-semibold md:text-center md:m-0 md:mt-10 md:mb-0 lg:px-16 lg:leading-loose">
