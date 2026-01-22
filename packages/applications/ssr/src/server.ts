@@ -14,6 +14,7 @@ import {
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
+import { setCspHeader } from './utils/csp';
 
 async function main() {
   setupLogger();
@@ -32,6 +33,8 @@ async function main() {
   const apiHandler = createApiServer('/api/v1');
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
+
+    setCspHeader(req, res);
 
     if (parsedUrl.pathname?.startsWith('/api/v1')) {
       return await runWebWithContext({
