@@ -74,7 +74,7 @@ export const registerListerÉliminéQuery = ({
         where: {
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-          appelOffre: appelOffre && appelOffre.length > 0 ? Where.matchAny(appelOffre) : undefined,
+          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
