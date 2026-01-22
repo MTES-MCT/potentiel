@@ -72,7 +72,6 @@ export const registerListerDemandesAbandonQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        // viovio vérifier ça
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         demande: {
           estUneRecandidature: Where.equal(recandidature),
