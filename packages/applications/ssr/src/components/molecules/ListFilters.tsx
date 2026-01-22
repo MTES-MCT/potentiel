@@ -51,9 +51,18 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
       }
     }
 
-    if (value.length !== 1) {
+    if (!value.length) {
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
+      }
+    }
+
+    // cas spécifique pour appel d'offre, période et famille
+    if (value.length > 1 && searchParamKey === 'appelOffre') {
+      for (const affected of affects ?? []) {
+        if (affected === 'periode' || affected === 'famille') {
+          newSearchParams.delete(affected);
+        }
       }
     }
 
