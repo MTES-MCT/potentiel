@@ -72,6 +72,8 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 - `build:test` : Build le projet pour les tests.
 
+- `clean` : Supprime les artefacts générés par le build.
+
 - `dev` : Lance l'application ssr en mode développement
 
 - `lint` : Exécute ESLint pour identifier et signaler les patterns trouvés dans le code.
