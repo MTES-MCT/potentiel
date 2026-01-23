@@ -1,19 +1,38 @@
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { formatDateForDocument } from '@potentiel-applications/document-builder';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-export const GET = async (_: Request) =>
+export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
+      const { searchParams } = new URL(request.url);
+
+      const appelOffre = searchParams.get('appelOffre') ?? undefined;
+      const periode = searchParams.get('periode') ?? undefined;
+      const famille = searchParams.get('famille') ?? undefined;
+      const statut = searchParams.get('statut') ?? undefined;
+      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
+          appelOffre,
+          famille,
+          periode,
+          statut: statut
+            ? Lauréat.StatutLauréat.convertirEnValueType(statut).formatter()
+            : undefined,
+          typeActionnariat: typeActionnariat.length
+            ? typeActionnariat.map((value) =>
+                Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
+              )
+            : undefined,
         },
       });
 

@@ -31,4 +31,31 @@ export const changement = {
   },
 };
 
-export const exporter = '/laureats/export';
+export const exporter = (filters: {
+  appelOffre?: string;
+  periode?: string;
+  famille?: string;
+  statut?: string;
+  typeActionnariat?: string[];
+}) => {
+  const searchParams = new URLSearchParams();
+
+  if (filters.appelOffre) {
+    searchParams.append('appelOffre', filters.appelOffre);
+  }
+  if (filters.periode) {
+    searchParams.append('periode', filters.periode);
+  }
+  if (filters.famille) {
+    searchParams.append('famille', filters.famille);
+  }
+  if (filters.statut) {
+    searchParams.append('statut', filters.statut);
+  }
+  if (filters.typeActionnariat?.length) {
+    filters.typeActionnariat.forEach((value) => {
+      searchParams.append('typeActionnariat', value);
+    });
+  }
+  return `/laureats/export${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};
