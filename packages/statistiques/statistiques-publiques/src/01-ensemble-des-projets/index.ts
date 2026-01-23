@@ -1,6 +1,6 @@
-import { computeNombreDeProjetLauréatParAppelOffre } from './nombreDeProjetLauréatParAppelOffre.statistic';
-import { computeNombreTotalProjet } from './nombreTotalProjet.statistic';
-import { computeTotalPuissanceParAppelOffre } from './totalPuissanceParAppelOffre.statistic';
+import { computeNombreDeProjetLauréatParAppelOffre } from './nombreDeProjetLauréatParAppelOffre.statistic.js';
+import { computeNombreTotalProjet } from './nombreTotalProjet.statistic.js';
+import { computeTotalPuissanceParAppelOffre } from './totalPuissanceParAppelOffre.statistic.js';
 
 export const computeEnsembleDesProjets = async () => {
   await computeNombreDeProjetLauréatParAppelOffre();

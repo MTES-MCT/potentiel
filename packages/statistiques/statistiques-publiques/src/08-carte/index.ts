@@ -1,4 +1,4 @@
-import { computeProjetLauréatParDépartement } from './projetLauréatParDépartement.statistic';
+import { computeProjetLauréatParDépartement } from './projetLauréatParDépartement.statistic.js';
 
 export const computeCarte = async () => {
   await computeProjetLauréatParDépartement();

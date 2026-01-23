@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getCountProjetsLauréatsNonAbandonnésParCycle } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
+import { getCountProjetsLauréatsNonAbandonnésParCycle } from '../_utils/getCountProjetsLauréatsNonAbandonnés.js';
 
 export const computePourcentageProjetEnServiceParCycle = async (cycle: 'PPE2' | 'CRE4') => {
   const statisticType =
