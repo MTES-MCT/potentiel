@@ -8,7 +8,9 @@
         "name": "@0no-co/graphqlsp",
         "schema": "./schema.graphql"
       }
-    ]
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   "include": ["./src"],
   "references": [

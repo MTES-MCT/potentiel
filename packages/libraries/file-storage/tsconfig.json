@@ -2,7 +2,13 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
-  "references": [{ "path": "../monitoring" }]
+  "references": [
+    {
+      "path": "../monitoring"
+    }
+  ]
 }

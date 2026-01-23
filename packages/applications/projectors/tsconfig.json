@@ -2,20 +2,46 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   "references": [
-    { "path": "../../domain/entity" },
-    { "path": "../../domain/inmemory-referential" },
-    { "path": "../../domain/période" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/réseau" },
-    { "path": "../../infrastructure/domain-adapters" },
-    { "path": "../../infrastructure/pg-event-sourcing" },
-    { "path": "../../infrastructure/pg-projection-read" },
-    { "path": "../../infrastructure/pg-projection-write" },
-    { "path": "../../libraries/flat" },
-    { "path": "../../libraries/monads" },
-    { "path": "../../libraries/monitoring" }
+    {
+      "path": "../../domain/entity"
+    },
+    {
+      "path": "../../domain/inmemory-referential"
+    },
+    {
+      "path": "../../domain/période"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/réseau"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../infrastructure/pg-projection-read"
+    },
+    {
+      "path": "../../infrastructure/pg-projection-write"
+    },
+    {
+      "path": "../../libraries/flat"
+    },
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    }
   ]
 }

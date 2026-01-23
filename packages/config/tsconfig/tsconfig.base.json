@@ -1,10 +1,6 @@
 {
   "extends": "@tsconfig/node24/tsconfig.json",
   "compilerOptions": {
-    // override module
-    "module": "commonjs",
-    "moduleResolution": "node",
-
     "incremental": true,
     "composite": true,
     "declaration": true,

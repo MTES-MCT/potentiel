@@ -2,14 +2,28 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
   "references": [
-    { "path": "../../domain/common" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/période" },
-    { "path": "../../infrastructure/domain-adapters" },
-    { "path": "../../infrastructure/pg-projection-read" },
-    { "path": "../../libraries/monads" }
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/période"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/pg-projection-read"
+    },
+    {
+      "path": "../../libraries/monads"
+    }
   ]
 }

@@ -2,7 +2,16 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "module": "commonjs",
+    "moduleResolution": "node"
   },
-  "references": [{ "path": "../../domain/projet" }, { "path": "../../domain/common" }]
+  "references": [
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/common"
+    }
+  ]
 }
