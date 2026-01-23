@@ -9,6 +9,7 @@ import { LauréatEntity, Raccordement } from '../..';
 import { CandidatureEntity, Localité } from '../../../candidature';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement';
 import { AchèvementEntity } from '../achèvement.entity';
+import { PuissanceEntity } from '../../puissance';
 
 type ProjetAvecAchevementATransmettre = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -20,6 +21,8 @@ type ProjetAvecAchevementATransmettre = {
   coefficientKChoisi: boolean;
   dateNotification: DateTime.ValueType;
   localité: Localité.ValueType;
+  puissance: number;
+  puissanceInitiale: number;
 };
 
 export type ListerProjetAvecAchevementATransmettreReadModel = {
@@ -49,6 +52,7 @@ type ProjetAvecAchevementATransmettreJoins = [
   CandidatureEntity,
   AchèvementEntity,
   DossierRaccordementEntity,
+  PuissanceEntity,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
   list,
@@ -105,6 +109,10 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
           on: 'identifiantProjet',
           joinKey: 'identifiantProjet',
         },
+        {
+          entity: 'puissance',
+          on: 'identifiantProjet',
+        },
       ],
       range,
     });
@@ -143,12 +151,13 @@ type MapToReadModelProps = (
 
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
-  candidature: { prixReference, coefficientKChoisi },
+  candidature: { prixReference, coefficientKChoisi, puissance: puissanceInitiale },
   localité,
   nomProjet,
   notifiéLe,
   raccordement: { identifiantGestionnaireRéseau },
   'dossier-raccordement': dossier,
+  puissance: { puissance },
 }) => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -167,5 +176,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     prix: prixReference,
     coefficientKChoisi: !!coefficientKChoisi,
     dateNotification: DateTime.convertirEnValueType(notifiéLe),
+    puissance,
+    puissanceInitiale,
   };
 };

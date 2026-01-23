@@ -34,8 +34,19 @@ model ProjetAvecAchevementATransmettre {
   @encodedName("application/json", "dateDCR")
   dateDcr?: string;
 
+  /** Prix de vente, en € par MWh */
   prix: float32;
+
+  /**
+   * Indique si le porteur de projet a choisi d'appliquer le coefficient K, afin d'indexer le prix sur l'inflation
+   */
   coefficientKChoisi: boolean;
+
+  /** Puissance actuelle du projet, en MW */
+  puissance: float32;
+
+  /** Puissance du projet à la candidature, en MW */
+  puissanceInitiale: float32;
 }
 
 model TransmettreDateAchevementBody {
