@@ -12,7 +12,7 @@ export const computeNombreTotalPTFDéposées = async () => {
       $1, 
       (
         select 
-            count(p.key)
+            count(distinct p.value->>'identifiantProjet')
         from
             domain_views.projection p
         where 

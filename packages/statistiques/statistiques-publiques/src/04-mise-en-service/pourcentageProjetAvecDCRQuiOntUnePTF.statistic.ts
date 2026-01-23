@@ -14,7 +14,7 @@ export const computepourcentageProjetAvecDCRQuiOntUnePTF = async () => {
         SELECT
           (
             SELECT
-              count(p.key)::decimal
+              count(distinct p.value->>'identifiantProjet')::decimal
             FROM
               domain_views.projection p
             WHERE
@@ -23,7 +23,7 @@ export const computepourcentageProjetAvecDCRQuiOntUnePTF = async () => {
               AND p.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
           )::decimal / (
             SELECT
-              count(p.key)
+              count(distinct p.value->>'identifiantProjet')
             FROM
               domain_views.projection p
             WHERE
