@@ -16,7 +16,7 @@ export const computePourcentageRéférencesRaccordement = async () => {
         SELECT
         (
           SELECT
-            count(p.key)
+            count(distinct p.value->>'identifiantProjet')
           FROM
             domain_views.projection p
           WHERE
