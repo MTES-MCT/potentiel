@@ -12,9 +12,9 @@ import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { addGRDs } from '../../helpers/réseau/addGRDs';
-import { updateGRDs } from '../../helpers/réseau/updateGRDs';
-import { mapToRéférencielGRD } from '../../helpers/réseau/référencielGRD';
+import { addGRDs } from '../../helpers/réseau/addGRDs.js';
+import { updateGRDs } from '../../helpers/réseau/updateGRDs.js';
+import { mapToRéférencielGRD } from '../../helpers/réseau/référencielGRD.js';
 
 const envSchema = z.object({
   ORE_ENDPOINT: z.string().url(),

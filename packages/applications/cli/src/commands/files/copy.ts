@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 import { copyFile } from '@potentiel-libraries/file-storage';
 
-import { csvFlags, parseCsvFile } from '../../helpers/parse-file';
-import { makeReporter, reporterFlags } from '../../helpers/reporter';
+import { csvFlags, parseCsvFile } from '../../helpers/parse-file.js';
+import { makeReporter, reporterFlags } from '../../helpers/reporter.js';
 
 const schema = z.object({
   from: z.string(),

@@ -1,9 +1,9 @@
 import { Hook } from '@oclif/core';
 import z from 'zod';
 
-import { getHealthcheckClient } from '../../helpers/healthcheck';
+import { getHealthcheckClient } from '../../helpers/healthcheck.js';
 
-import { CommandWithHealthcheckClient } from './finally';
+import { CommandWithHealthcheckClient } from './finally.js';
 
 const configSchema = z.object({
   SENTRY_CRONS: z.string(),
