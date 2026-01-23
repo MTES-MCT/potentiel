@@ -44,15 +44,25 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
     newSearchParams.delete(searchParamKey);
 
-    if (value.length === 0) {
+    if (value.length) {
+      newSearchParams.delete('page');
+      for (const v of value) {
+        newSearchParams.append(searchParamKey, v);
+      }
+    }
+
+    if (!value.length) {
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
       }
-    } else {
-      newSearchParams.delete('page');
+    }
 
-      for (const v of value) {
-        newSearchParams.append(searchParamKey, v);
+    // cas spécifique pour appel d'offre, période et famille
+    if (value.length > 1 && searchParamKey === 'appelOffre') {
+      for (const affected of affects ?? []) {
+        if (affected === 'periode' || affected === 'famille') {
+          newSearchParams.delete(affected);
+        }
       }
     }
 
@@ -65,7 +75,14 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         const disabled =
           filters.some(
             (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
-          ) || options.length === 0;
+          ) ||
+          filters.some(
+            (f) =>
+              f.affects?.includes(searchParamKey) &&
+              searchParams.getAll(f.searchParamKey) &&
+              searchParams.getAll(f.searchParamKey).length > 1,
+          ) ||
+          options.length === 0;
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (

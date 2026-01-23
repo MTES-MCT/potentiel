@@ -29,7 +29,7 @@ export type ListerChangementPuissanceQuery = Message<
   {
     utilisateur: Email.RawType;
     statut?: Array<StatutChangementPuissance.RawType>;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     nomProjet?: string;
     range: RangeOptions;
   },
@@ -67,7 +67,7 @@ export const registerListerChangementPuissanceQuery = ({
             entity: 'lauréat',
             on: 'identifiantProjet',
             where: {
-              appelOffre: Where.equal(appelOffre),
+              appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
               nomProjet: Where.like(nomProjet),
               localité: {
                 région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,

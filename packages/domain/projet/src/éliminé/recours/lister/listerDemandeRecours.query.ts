@@ -30,7 +30,7 @@ export type ListerDemandeRecoursQuery = Message<
   {
     utilisateur: Email.RawType;
     statut?: Array<StatutRecours.RawType>;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     nomProjet?: string;
     range?: RangeOptions;
   },
@@ -69,7 +69,7 @@ export const registerListerDemandeRecoursQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            appelOffre: Where.equal(appelOffre),
+            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             nomProjet: Where.like(nomProjet),
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,

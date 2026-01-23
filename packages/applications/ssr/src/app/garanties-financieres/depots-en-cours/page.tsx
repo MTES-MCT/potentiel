@@ -13,23 +13,24 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import {
   ListDépôtsGarantiesFinancièresPage,
   ListDépôtsGarantiesFinancièresProps,
 } from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
+type PageProps = {
+  searchParams?: Record<SearchParams, string>;
+};
+
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   cycle: z.enum(['CRE4', 'PPE2']).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
-
-type PageProps = {
-  searchParams?: Record<string, string>;
-};
 
 export const metadata: Metadata = {
   title: 'Garanties financières en attente de validation - Potentiel',
@@ -75,11 +76,12 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
       ];
 
       // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
-      if (appelOffre && cycle && !appelOffres.items.find((ao) => ao.id === appelOffre)) {
+      if (appelOffre && cycle && !appelOffres.items.find((ao) => appelOffre.includes(ao.id))) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(

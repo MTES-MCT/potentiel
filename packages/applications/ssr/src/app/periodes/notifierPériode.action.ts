@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { appelOffre, per
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
       data: {
-        appelOffre,
+        appelOffre: [appelOffre],
         période: periode,
         estNotifiée: false,
       },

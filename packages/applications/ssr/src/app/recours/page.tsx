@@ -6,17 +6,17 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-
-import { transformToOptionalEnumArray } from '../_helpers/transformToOptionalStringArray';
+import { optionalStringArray } from '@/app/_helpers';
 
 import { RecoursListPage } from './RecoursList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(z.enum(Éliminé.Recours.StatutRecours.statuts)),
 });
 
@@ -80,6 +80,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
       ];
 

@@ -13,15 +13,16 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
@@ -73,7 +74,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
+      const appelOffresFiltré = appelOffres.items.find((a) => appelOffre?.includes(a.id));
 
       const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
@@ -99,6 +100,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
           affects: ['periode', 'famille'],
         },
         {
@@ -134,7 +136,7 @@ export default async function Page({ searchParams }: PageProps) {
           actions={mapToActions({
             rôle: utilisateur.rôle,
             searchParams: {
-              appelOffreId: appelOffre,
+              appelOffreId: appelOffre?.length ? appelOffre[0] : undefined,
               periodeId: periode,
               familleId: famille,
               nomProjet,

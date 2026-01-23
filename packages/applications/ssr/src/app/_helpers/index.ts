@@ -7,3 +7,5 @@ export * from './getTechnologieTypeLabel';
 export * from './récupérerLauréat';
 export * from './vérifierQueLeCahierDesChargesPermetUnChangement';
 export * from './formatDateToText';
+export * from './optionalStringArray';
+export * from './transformToOptionalEnumArray';

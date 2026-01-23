@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import z from 'zod';
 
 import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -14,10 +15,16 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PériodeListPage } from './PériodeList.page';
 import { PériodeListItemProps } from './PériodeListItem';
 
-type SearchParams = 'page' | 'appelOffre' | 'statut';
+const paramsSchema = z.object({
+  page: z.coerce.number().int().optional().default(1),
+  appelOffre: z.string().optional(),
+  statut: z.enum(['notifiee', 'a-notifier']).optional(),
+});
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 type PageProps = {
-  searchParams?: Partial<Record<SearchParams, string>>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -28,11 +35,9 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-      const appelOffre = searchParams?.appelOffre ?? undefined;
+      const { page, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const estNotifiée =
-        searchParams?.statut === undefined ? undefined : searchParams.statut === 'notifiee';
+      const estNotifiée = statut === undefined ? undefined : statut === 'notifiee';
 
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
@@ -139,7 +144,7 @@ const getCandidaturesStatsForPeriode = async (
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
-      appelOffre,
+      appelOffre: [appelOffre],
       période: periode,
     },
   });
@@ -166,7 +171,7 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
     type: 'Candidature.Query.ListerCandidatures',
     data: {
       estNotifiée: false,
-      appelOffre,
+      appelOffre: appelOffre ? [appelOffre] : undefined,
     },
   });
   const identifiantsPériodes = [

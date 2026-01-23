@@ -16,6 +16,7 @@ import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
@@ -25,7 +26,7 @@ import { ListItemProjetAvecGarantiesFinancièresEnAttenteActions } from './ListI
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   cycle: z.enum(['CRE4', 'PPE2']).optional(),
   motif: z.string().optional(),
   statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
@@ -34,7 +35,7 @@ const searchParamsSchema = z.object({
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Partial<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = {
@@ -89,6 +90,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
         {
           label: 'Motif',
@@ -103,7 +105,7 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
-      if (appelOffre && cycle && !appelOffres.items.find((ao) => ao.id === appelOffre)) {
+      if (appelOffre && cycle && !appelOffres.items.find((ao) => appelOffre.includes(ao.id))) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(

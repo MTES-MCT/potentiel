@@ -11,11 +11,13 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -23,14 +25,16 @@ export const metadata: Metadata = {
   description: 'Liste des dossiers de raccordement',
 };
 
-const paramsSchema = z.object({
+const searchParamsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   referenceDossier: z.string().optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
   statutProjet: z.enum(['actif', 'achevé']).optional(),
 });
+
+type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -42,7 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
         page,
         referenceDossier,
         statutProjet,
-      } = paramsSchema.parse(searchParams);
+      } = searchParamsSchema.parse(searchParams);
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
@@ -73,7 +77,7 @@ export default async function Page({ searchParams }: PageProps) {
             })
           ).items;
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
           searchParamKey: 'statutProjet',
@@ -89,6 +93,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
         {
           label: 'Gestionnaires réseaux',
@@ -114,12 +119,14 @@ export default async function Page({ searchParams }: PageProps) {
             },
           ],
         },
-      ].filter((filter) => filter.options.length > 0);
+      ];
+
+      const filteredFilters = filters.filter((filter) => filter.options.length);
 
       return (
         <DossierRaccordementListPage
           list={mapToPlainObject(mapToProps(dossiers))}
-          filters={filters}
+          filters={filteredFilters}
         />
       );
     }),

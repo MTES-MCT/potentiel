@@ -10,7 +10,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { optionalStringArray } from '@/app/_helpers';
 
 import {
   ChangementReprésentantLégalListPage,
@@ -18,7 +19,7 @@ import {
 } from './ChangementReprésentantLégalList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(
     z.enum(Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.statuts),
   ),
@@ -88,6 +89,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
       ];
 

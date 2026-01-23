@@ -35,7 +35,7 @@ export type ListerÉliminéQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
     nomProjet?: string;
@@ -74,7 +74,7 @@ export const registerListerÉliminéQuery = ({
         where: {
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-          appelOffre: Where.equal(appelOffre),
+          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),

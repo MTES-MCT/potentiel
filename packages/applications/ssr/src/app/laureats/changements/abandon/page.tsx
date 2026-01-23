@@ -10,12 +10,13 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { optionalStringArray } from '@/app/_helpers';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Record<SearchParams, string>;
 };
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ const paramsSchema = z.object({
     .optional()
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
   nomProjet: z.string().optional(),
-  appelOffre: z.string().optional(),
+  appelOffre: optionalStringArray,
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Abandon.StatutAbandon.statuts)),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
@@ -95,6 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          multiple: true,
         },
 
         {

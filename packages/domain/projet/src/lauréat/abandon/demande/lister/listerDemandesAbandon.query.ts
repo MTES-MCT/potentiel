@@ -34,7 +34,7 @@ export type ListerDemandesAbandonQuery = Message<
     utilisateur: Email.RawType;
     recandidature?: boolean;
     statut?: Array<StatutAbandon.RawType>;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
     autoritéCompétente?: AutoritéCompétente.RawType;
@@ -72,7 +72,7 @@ export const registerListerDemandesAbandonQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        statut: Where.matchAny(statut),
+        statut: statut?.length ? Where.matchAny(statut) : undefined,
         demande: {
           estUneRecandidature: Where.equal(recandidature),
           recandidature: {
@@ -85,7 +85,7 @@ export const registerListerDemandesAbandonQuery = ({
         entity: 'lauréat',
         on: 'identifiantProjet',
         where: {
-          appelOffre: Where.equal(appelOffre),
+          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           nomProjet: Where.like(nomProjet),
           localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
         },

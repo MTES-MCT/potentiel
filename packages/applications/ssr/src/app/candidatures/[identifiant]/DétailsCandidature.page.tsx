@@ -13,9 +13,9 @@ import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helper
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
-import { getNatureDeLExploitationTypeLabel } from '../../_helpers/getNatureDeLExploitationTypeLabel';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',
