@@ -11,6 +11,7 @@ import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauré
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector.js';
 import { nomProjetModifiéProjector } from './nomProjetModifié.projector.js';
 import { changementNomProjetEnregistréProjector } from './changementNomProjetEnregistré.projector.js';
+import { StatutLauréatModifiéProjector } from './statutLauréatModifié.projector.js';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent | RebuildTriggered;
 
@@ -27,6 +28,7 @@ export const register = () => {
       .with({ type: 'SiteDeProductionModifié-V1' }, siteDeProductionModifiéProjector)
       .with({ type: 'CahierDesChargesChoisi-V1' }, cahierDesChargesChoisiProjector)
       .with({ type: 'ChangementNomProjetEnregistré-V1' }, changementNomProjetEnregistréProjector)
+      .with({ type: 'StatutLauréatModifié-V1' }, StatutLauréatModifiéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat', handler);

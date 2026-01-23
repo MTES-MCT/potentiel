@@ -15,7 +15,7 @@ import {
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
 } from './historique/lister/listerHistoriqueProjet.query';
-import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
+import { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
 import { EnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
 import {
@@ -99,10 +99,11 @@ export {
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
-export { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
+export { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event';
 export { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event';
 export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
 export { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
+export { StatutLauréatModifiéEvent } from './statut/statutModifié.event';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';

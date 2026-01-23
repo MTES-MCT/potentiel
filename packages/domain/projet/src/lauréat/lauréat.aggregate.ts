@@ -15,8 +15,8 @@ import {
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
-import { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
-import { ModifierSiteDeProductionOptions } from './modifier/modifierSiteDeProduction.option';
+import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event';
+import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option';
 import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -50,6 +50,8 @@ import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.e
 import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option';
 import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options';
 import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
+import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option';
+import { StatutLauréatModifiéEvent } from './statut/statutModifié.event';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -77,6 +79,13 @@ export class LauréatAggregate extends AbstractAggregate<
   #estNotifié: boolean = false;
   get estNotifié() {
     return this.#estNotifié;
+  }
+
+  #statut: StatutLauréat.ValueType = StatutLauréat.actif;
+  get statut() {
+    this.vérifierQueLeLauréatExiste();
+
+    return this.#statut;
   }
 
   get référenceCahierDesCharges() {
@@ -141,20 +150,6 @@ export class LauréatAggregate extends AbstractAggregate<
   #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
   get natureDeLExploitation() {
     return this.#natureDeLExploitation;
-  }
-
-  get statut() {
-    this.vérifierQueLeLauréatExiste();
-
-    if (this.achèvement.estAchevé) {
-      return StatutLauréat.achevé;
-    }
-
-    if (this.abandon.statut.estAccordé()) {
-      return StatutLauréat.abandonné;
-    }
-
-    return StatutLauréat.actif;
   }
 
   async init() {
@@ -328,6 +323,27 @@ export class LauréatAggregate extends AbstractAggregate<
     }
 
     await this.achèvement.calculerDateAchèvementPrévisionnel({ type: 'notification' });
+  }
+
+  async modifierStatut({ modifiéLe, modifiéPar, statut }: ModifierStatutLauréatOptions) {
+    this.vérifierQueLeLauréatExiste();
+
+    // Faut il vérifier quelque chose ?
+    // if (this.#statut.estÉgaleÀ(statut)) {
+    //   throw new StatutLauréatNonModifiéError();
+    // }
+
+    const event: StatutLauréatModifiéEvent = {
+      type: 'StatutLauréatModifié-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        statut: statut.formatter(),
+      },
+    };
+
+    await this.publish(event);
   }
 
   async modifierSiteDeProduction({
@@ -547,6 +563,7 @@ export class LauréatAggregate extends AbstractAggregate<
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
         this.applyCahierDesChargesChoisi(event),
       )
+      .with({ type: 'StatutLauréatModifié-V1' }, (event) => this.applyStatutLauréatModifié(event))
       .exhaustive();
   }
 
@@ -586,5 +603,9 @@ export class LauréatAggregate extends AbstractAggregate<
   }: CahierDesChargesChoisiEvent) {
     this.#référenceCahierDesCharges =
       AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(cahierDesCharges);
+  }
+
+  private applyStatutLauréatModifié({ payload: { statut } }: StatutLauréatModifiéEvent) {
+    this.#statut = StatutLauréat.bind({ statut });
   }
 }
