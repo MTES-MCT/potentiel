@@ -79,7 +79,7 @@ export const registerListerLauréatQuery = ({
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
-        AchèvementEntity,
+        LeftJoin<AchèvementEntity>,
         LeftJoin<AbandonEntity>,
       ]
     >('lauréat', {
@@ -122,6 +122,7 @@ export const registerListerLauréatQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
+          type: 'left',
           where:
             statut === 'achevé'
               ? { estAchevé: Where.equal(true) }
@@ -160,7 +161,7 @@ type MapToReadModelProps = (
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
-        AchèvementEntity,
+        LeftJoin<AchèvementEntity>,
         LeftJoin<AbandonEntity>,
       ]
     >,
@@ -203,7 +204,7 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
     statut: abandon?.estAbandonné
       ? StatutLauréat.abandonné
-      : achèvement.estAchevé
+      : achèvement?.estAchevé
         ? StatutLauréat.achevé
         : StatutLauréat.actif,
   };
