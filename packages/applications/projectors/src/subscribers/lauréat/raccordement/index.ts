@@ -27,6 +27,7 @@ import {
   propositionTechniqueEtFinancièreSignéeTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV2Projector,
+  propositionTechniqueEtFinancièreTransmiseV3Projector,
 } from './dossier-raccordement/propositionTechniqueEtFinancière/index.js';
 import {
   dateMiseEnServiceSuppriméeV1Projector,
@@ -115,6 +116,10 @@ export const register = () => {
           .with(
             { type: 'PropositionTechniqueEtFinancièreTransmise-V2' },
             propositionTechniqueEtFinancièreTransmiseV2Projector,
+          )
+          .with(
+            { type: 'PropositionTechniqueEtFinancièreTransmise-V3' },
+            propositionTechniqueEtFinancièreTransmiseV3Projector,
           )
           .with(
             { type: 'PropositionTechniqueEtFinancièreModifiée-V1' },

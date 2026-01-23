@@ -35,6 +35,7 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
       'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
       'PropositionTechniqueEtFinancièreTransmise-V1',
       'PropositionTechniqueEtFinancièreTransmise-V2',
+      'PropositionTechniqueEtFinancièreTransmise-V3',
       'RéférenceDossierRacordementModifiée-V1',
       'RéférenceDossierRacordementModifiée-V2',
       'GestionnaireRéseauAttribué-V1',

@@ -32,6 +32,7 @@ import {
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
+  PropositionTechniqueEtFinancièreTransmiseEventV2,
   RaccordementSuppriméEvent,
   RéférenceDossierRaccordement,
   RéférenceDossierRacordementModifiéeEvent,
@@ -72,6 +73,7 @@ export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV2
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
   | PropositionTechniqueEtFinancièreTransmiseEventV1
+  | PropositionTechniqueEtFinancièreTransmiseEventV2
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
   | DemandeComplèteRaccordementModifiéeEventV2
@@ -417,6 +419,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     dateSignature,
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
+    transmiseLe,
+    transmisePar,
   }: TransmettrePropositionTechniqueEtFinancièreOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAbandonné();
@@ -430,7 +434,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
-      type: 'PropositionTechniqueEtFinancièreTransmise-V2',
+      type: 'PropositionTechniqueEtFinancièreTransmise-V3',
       payload: {
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
@@ -438,6 +442,8 @@ export class RaccordementAggregate extends AbstractAggregate<
         propositionTechniqueEtFinancièreSignée: {
           format: formatPropositionTechniqueEtFinancièreSignée,
         },
+        transmiseLe: transmiseLe.formatter(),
+        transmisePar: transmisePar.formatter(),
       },
     };
 
@@ -742,6 +748,10 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this),
       )
       .with(
+        { type: 'PropositionTechniqueEtFinancièreTransmise-V3' },
+        this.applyPropositionTechniqueEtFinancièreTransmiseEventV3.bind(this),
+      )
+      .with(
         { type: 'PropositionTechniqueEtFinancièreModifiée-V1' },
         this.applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this),
       )
@@ -871,6 +881,31 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private applyPropositionTechniqueEtFinancièreTransmiseEventV2({
+    payload: {
+      identifiantProjet,
+      dateSignature,
+      référenceDossierRaccordement,
+      propositionTechniqueEtFinancièreSignée: { format },
+    },
+  }: PropositionTechniqueEtFinancièreTransmiseEventV2) {
+    this.applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)({
+      type: 'PropositionTechniqueEtFinancièreTransmise-V1',
+      payload: {
+        dateSignature,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
+    this.applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)({
+      type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
+      payload: {
+        format,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
+  }
+  private applyPropositionTechniqueEtFinancièreTransmiseEventV3({
     payload: {
       identifiantProjet,
       dateSignature,

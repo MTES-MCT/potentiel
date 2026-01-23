@@ -69,6 +69,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
           'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
           'PropositionTechniqueEtFinancièreTransmise-V1',
           'PropositionTechniqueEtFinancièreTransmise-V2',
+          'PropositionTechniqueEtFinancièreTransmise-V3',
         ),
       },
       dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps,

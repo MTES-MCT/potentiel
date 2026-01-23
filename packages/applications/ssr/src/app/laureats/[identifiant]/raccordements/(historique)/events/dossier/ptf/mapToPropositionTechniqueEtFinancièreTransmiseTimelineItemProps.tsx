@@ -9,6 +9,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
   event: (
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV2
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
   ) & { createdAt: string },
 ): TimelineItemProps => {
