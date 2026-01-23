@@ -1,8 +1,6 @@
-import { allCandidatureCSVDetailsKeys } from '../../allDétailCandidatureCSVKeys';
+import { Candidature } from '../../../..';
 
-export const fournisseurGenieCivilCSVDetailsKeys: Array<
-  (typeof allCandidatureCSVDetailsKeys)[number]
-> = [
+export const CSVDétailKeys: Partial<Array<keyof Candidature.DétailCandidature.RawType>> = [
   /**
    * TODO : Vérifier avec le métier les clés suivantes qui semblent dupliquées + analyse données
    */

@@ -1,8 +1,6 @@
-import { allCandidatureCSVDetailsKeys } from '../../allDétailCandidatureCSVKeys';
+import { Candidature } from '../../../..';
 
-export const fournisseurDispositifDeStockageDeLEnergieCSVDetailsKeys: Array<
-  (typeof allCandidatureCSVDetailsKeys)[number]
-> = [
+export const CSVDétailKeys: Partial<Array<keyof Candidature.DétailCandidature.RawType>> = [
   'Contenu local européen (%) (Dispositifs de stockage de l’énergie *)',
   'Contenu local français (%) (Dispositifs de stockage de l’énergie *)',
   'Coût total du lot (M€) (Dispositifs de stockage de l’énergie *)',

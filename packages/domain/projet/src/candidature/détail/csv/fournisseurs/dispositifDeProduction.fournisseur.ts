@@ -1,8 +1,6 @@
-import { allCandidatureCSVDetailsKeys } from '../../allDétailCandidatureCSVKeys';
+import { Candidature } from '../../../..';
 
-export const fournisseurDispositifDeProductionCSVDetailsKeys: Array<
-  (typeof allCandidatureCSVDetailsKeys)[number]
-> = [
+export const CSVDétailKeys: Partial<Array<keyof Candidature.DétailCandidature.RawType>> = [
   'Nom du fabricant  (dispositif de production)',
 
   'Nom du fabricant  (dispositif de production) 1',

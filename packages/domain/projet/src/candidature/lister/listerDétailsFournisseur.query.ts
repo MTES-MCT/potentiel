@@ -8,30 +8,10 @@ import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, DétailCandidatureEntity, Localité } from '..';
 import { Fournisseur } from '../../lauréat';
 
-/*
-Type de fournisseur (Cellules, Polysillicium, Poste de conversion, Développement, etc)
-
-Nom du fournisseur
-
-Lieu de fabrication
-
-Coût total du lot (M€) 
-
-Contenu local français (%)
-
-Contenu local européen (%)
-
-Technologie
-
-Puissance crête (Wc)
-
-Rendement nominal
-*/
-
 export type DétailFournisseur = {
-  type: Fournisseur.TypeFournisseur.RawType;
-  nom?: Fournisseur.Fournisseur.ValueType['nomDuFabricant'];
-  lieuFabrication?: Fournisseur.Fournisseur.ValueType['lieuDeFabrication'];
+  typeFournisseur: Fournisseur.TypeFournisseur.RawType;
+  nomDuFabricant?: Fournisseur.Fournisseur.ValueType['nomDuFabricant'];
+  lieuDeFabrication?: Fournisseur.Fournisseur.ValueType['lieuDeFabrication'];
   coûtTotalLot?: string;
   contenuLocalFrançais?: string;
   contenuLocalEuropéen?: string;
@@ -42,8 +22,6 @@ export type DétailFournisseur = {
 
 export type DétailsFournisseurListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  appelOffre: IdentifiantProjet.ValueType['appelOffre'];
-  période: IdentifiantProjet.ValueType['période'];
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
   fournisseurs: Array<DétailFournisseur>;
@@ -116,15 +94,11 @@ type MapToReadModel = (
 
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  appelOffre,
-  période,
   localité: { région },
   sociétéMère,
   'détail-candidature': { détail },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  appelOffre,
-  période,
   région,
   sociétéMère,
   fournisseurs: getFournisseursFromDétail(détail),
@@ -138,5 +112,6 @@ export const mapToReadModel: MapToReadModel = ({
  */
 const getFournisseursFromDétail = (détail: DétailCandidature.RawType): Array<DétailFournisseur> => {
   console.log('Détail reçu pour extraction des fournisseurs : ', détail);
+
   return [];
 };

@@ -1,18 +1,27 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-type CandidatureFournisseurCSV = {
+type DétailFournisseurCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
   appelOffre: IdentifiantProjet.ValueType['appelOffre'];
   periode: IdentifiantProjet.ValueType['période'];
   region: Candidature.Localité.ValueType['région'];
   societeMere: string;
-} & Record<string, string>;
+  typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
+  nomFabricant: string;
+  lieuFabrication: string;
+  coutTotalLot: string;
+  contenuLocalFrançais: string;
+  contenuLocalEuropéen: string;
+  technologie: string;
+  puissanceCrêteWc: string;
+  rendementNominal: string;
+};
 
 export const GET = async (_: Request) =>
   apiAction(async () =>
@@ -25,30 +34,47 @@ export const GET = async (_: Request) =>
           },
         });
 
-      const fournisseurCandidatureFields = Array.from(
-        new Set(fournisseursÀLaCandidature.items.map(({ détail }) => Object.keys(détail)).flat()),
-      ).map((field) => ({
-        label: field,
-        value: field,
-      }));
+      const data: Array<DétailFournisseurCSV> = [];
 
-      const csv = await ExportCSV.toCSV<CandidatureFournisseurCSV>({
+      for (const projet of fournisseursÀLaCandidature.items) {
+        for (const fournisseur of projet.fournisseurs) {
+          data.push({
+            identifiantProjet: projet.identifiantProjet.formatter(),
+            appelOffre: projet.identifiantProjet.appelOffre,
+            periode: projet.identifiantProjet.période,
+            region: projet.région,
+            societeMere: projet.sociétéMère,
+            typeFournisseur: fournisseur.typeFournisseur,
+            nomFabricant: fournisseur.nomDuFabricant ?? '',
+            lieuFabrication: fournisseur.lieuDeFabrication ?? '',
+            coutTotalLot: fournisseur.coûtTotalLot ?? '',
+            contenuLocalFrançais: fournisseur.contenuLocalFrançais ?? '',
+            contenuLocalEuropéen: fournisseur.contenuLocalEuropéen ?? '',
+            technologie: fournisseur.technologie ?? '',
+            puissanceCrêteWc: fournisseur.puissanceCrêteWc ?? '',
+            rendementNominal: fournisseur.rendementNominal ?? '',
+          });
+        }
+      }
+
+      const csv = await ExportCSV.toCSV<DétailFournisseurCSV>({
         fields: [
           { label: 'Identifiant projet', value: 'identifiantProjet' },
           { label: "Appel d'offre", value: 'appelOffre' },
           { label: 'Période', value: 'periode' },
           { label: 'Région', value: 'region' },
           { label: 'Société mère', value: 'societeMere' },
-          ...fournisseurCandidatureFields,
+          { label: 'Type de fournisseur', value: 'typeFournisseur' },
+          { label: 'Nom du fabricant', value: 'nomFabricant' },
+          { label: 'Lieu de fabrication', value: 'lieuFabrication' },
+          { label: 'Coût total du lot', value: 'coutTotalLot' },
+          { label: 'Contenu local français (%)', value: 'contenuLocalFrançais' },
+          { label: 'Contenu local européen (%)', value: 'contenuLocalEuropéen' },
+          { label: 'Technologie', value: 'technologie' },
+          { label: 'Puissance crête (Wc)', value: 'puissanceCrêteWc' },
+          { label: 'Rendement nominal (%)', value: 'rendementNominal' },
         ],
-        data: fournisseursÀLaCandidature.items.map((fournisseur) => ({
-          identifiantProjet: fournisseur.identifiantProjet.formatter(),
-          appelOffre: fournisseur.identifiantProjet.appelOffre,
-          periode: fournisseur.identifiantProjet.période,
-          region: fournisseur.région,
-          societeMere: fournisseur.sociétéMère,
-          ...fournisseur.détail,
-        })),
+        data,
       });
 
       const fileName = `export_candidature_fournisseurs.csv`;
