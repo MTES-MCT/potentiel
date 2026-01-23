@@ -4,10 +4,10 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Accès } from '@potentiel-domain/projet';
 
-import { accèsRebuildTriggeredProjector } from './accèsRebuildTriggered.projector';
-import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector';
-import { accèsProjetAutoriséProjector } from './accèsProjetAutorisé.projector';
-import { accèsProjetRemplacéProjector } from './accèsProjetRemplacé.projector';
+import { accèsRebuildTriggeredProjector } from './accèsRebuildTriggered.projector.js';
+import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector.js';
+import { accèsProjetAutoriséProjector } from './accèsProjetAutorisé.projector.js';
+import { accèsProjetRemplacéProjector } from './accèsProjetRemplacé.projector.js';
 
 export type SubscriptionEvent = Accès.AccèsEvent | RebuildTriggered;
 

@@ -4,12 +4,12 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { recoursDemandéProjector } from './recoursDemandé.projector';
-import { recoursAccordéProjector } from './recoursAccordé.projector';
-import { recoursRejetéProjector } from './recoursRejeté.projector';
-import { recoursAnnuléProjector } from './recoursAnnulé.projector';
-import { recoursPasséEnInstructionProjector } from './recoursPasséEnInstruction.projector';
-import { recoursRebuildTriggeredProjector } from './recoursRebuildTriggered.projector';
+import { recoursDemandéProjector } from './recoursDemandé.projector.js';
+import { recoursAccordéProjector } from './recoursAccordé.projector.js';
+import { recoursRejetéProjector } from './recoursRejeté.projector.js';
+import { recoursAnnuléProjector } from './recoursAnnulé.projector.js';
+import { recoursPasséEnInstructionProjector } from './recoursPasséEnInstruction.projector.js';
+import { recoursRebuildTriggeredProjector } from './recoursRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent | RebuildTriggered;
 

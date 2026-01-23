@@ -1,7 +1,7 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { clearProjection } from '../../../helpers';
+import { clearProjection } from '../../../helpers/index.js';
 
 export const installationRebuildTriggeredProjector = async ({
   payload: { id },

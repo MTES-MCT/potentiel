@@ -3,7 +3,7 @@ import { IdentifiantProjet, CahierDesCharges, Lauréat } from '@potentiel-domain
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getAppelOffres } from '../../candidature/_helpers/getAppelOffres';
+import { getAppelOffres } from '../../candidature/_helpers/getAppelOffres.js';
 
 export const getCahierDesCharges = async (
   identifiantProjet: IdentifiantProjet.ValueType,

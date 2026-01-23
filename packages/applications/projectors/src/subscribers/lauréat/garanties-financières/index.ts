@@ -9,7 +9,7 @@ import {
   dépôtGarantiesFinancièresEnCoursModifiéProjector,
   dépôtGarantiesFinancièresEnCoursSuppriméProjector,
   dépôtGarantiesFinancièresEnCoursValidéProjector,
-} from './dépôt';
+} from './dépôt/index.js';
 import {
   garantiesFinancièresDemandéesProjector,
   typeGarantiesFinancièresImportéProjector,
@@ -18,16 +18,16 @@ import {
   garantiesFinancièresModifiéesProjector,
   garantiesFinancièresÉchuesProjector,
   garantiesFinancièresImportéesProjector,
-} from './actuelles';
-import { historiqueGarantiesFinancièresEffacéProjector } from './historiqueGarantiesFinancièresEffacé.projector';
+} from './actuelles/index.js';
+import { historiqueGarantiesFinancièresEffacéProjector } from './historiqueGarantiesFinancièresEffacé.projector.js';
 import {
   demandeMainlevéeGarantiesFinancièresAccordéeProjector,
   demandeMainlevéeGarantiesFinancièresAnnuléeProjector,
   demandeMainlevéeGarantiesFinancièresRejetéeProjector,
   instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjector,
   mainlevéeGarantiesFinancièresDemandéeProjector,
-} from './mainlevée';
-import { garantiesFinancièresRebuildTriggeredProjector } from './garantiesFinancièresRebuildTriggered.projector';
+} from './mainlevée/index.js';
+import { garantiesFinancièresRebuildTriggeredProjector } from './garantiesFinancièresRebuildTriggered.projector.js';
 
 export type SubscriptionEvent =
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEvent

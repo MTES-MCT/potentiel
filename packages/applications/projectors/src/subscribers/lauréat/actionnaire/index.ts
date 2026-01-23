@@ -4,15 +4,15 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { actionnaireImportéProjector } from './actionnaireImporté.projector';
-import { actionnaireModifiéProjector } from './actionnaireModifié.projector';
-import { actionnaireRebuildTriggered } from './actionnaireRebuildTriggered.projector';
-import { changementActionnaireAccordéProjector } from './changementActionnaireAccordé.projector';
-import { changementActionnaireAnnuléProjector } from './changementActionnaireAnnulé.projector';
-import { changementActionnaireDemandéProjector } from './changementActionnaireDemandé.projector';
-import { changementActionnaireRejetéProjector } from './changementActionnaireRejeté.projector';
-import { changementActionnaireSuppriméProjector } from './changementActionnaireSupprimé.projector';
-import { changementActionnaireEnregistréProjector } from './changementActionnaireEnregistré.projector';
+import { actionnaireImportéProjector } from './actionnaireImporté.projector.js';
+import { actionnaireModifiéProjector } from './actionnaireModifié.projector.js';
+import { actionnaireRebuildTriggered } from './actionnaireRebuildTriggered.projector.js';
+import { changementActionnaireAccordéProjector } from './changementActionnaireAccordé.projector.js';
+import { changementActionnaireAnnuléProjector } from './changementActionnaireAnnulé.projector.js';
+import { changementActionnaireDemandéProjector } from './changementActionnaireDemandé.projector.js';
+import { changementActionnaireRejetéProjector } from './changementActionnaireRejeté.projector.js';
+import { changementActionnaireSuppriméProjector } from './changementActionnaireSupprimé.projector.js';
+import { changementActionnaireEnregistréProjector } from './changementActionnaireEnregistré.projector.js';
 
 export type SubscriptionEvent = Lauréat.Actionnaire.ActionnaireEvent | RebuildTriggered;
 

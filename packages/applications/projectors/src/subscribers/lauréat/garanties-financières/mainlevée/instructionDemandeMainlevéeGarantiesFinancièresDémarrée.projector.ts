@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getMainlevéeGf } from '../_utils';
+import { getMainlevéeGf } from '../_utils/index.js';
 
 export const instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjector = async ({
   payload: { identifiantProjet, démarréLe, démarréPar },

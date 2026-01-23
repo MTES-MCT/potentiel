@@ -4,8 +4,8 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Période } from '@potentiel-domain/periode';
 
-import { périodeNotifiéeProjector } from './périodeNotifiée.projector';
-import { périodeRebuildTriggered } from './périodeRebuildTriggered.projector';
+import { périodeNotifiéeProjector } from './périodeNotifiée.projector.js';
+import { périodeRebuildTriggered } from './périodeRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = Période.PériodeNotifiéeEvent | RebuildTriggered;
 

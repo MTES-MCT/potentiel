@@ -4,16 +4,16 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { abandonRebuildTriggered } from './abandonRebuildTriggered.projector';
-import { abandonDemandéProjector } from './abandonDemandé.projector';
-import { abandonAccordéProjector } from './abandonAccordé.projector';
-import { abandonRejetéProjector } from './abandonRejeté.projector';
-import { abandonAnnuléProjector } from './abandonAnnulé.projector';
-import { abandonConfirméProjector } from './abandonConfirmé.projector';
-import { confirmationAbandonDemandéeProjector } from './confirmationAbandonDemandée.projector';
-import { preuveCandidatureDemandéeProjector } from './preuveCandidatureDemandée.projector';
-import { preuveCandidatureTransmiseProjector } from './preuveRecandidatureTransmise.projector';
-import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector';
+import { abandonRebuildTriggered } from './abandonRebuildTriggered.projector.js';
+import { abandonDemandéProjector } from './abandonDemandé.projector.js';
+import { abandonAccordéProjector } from './abandonAccordé.projector.js';
+import { abandonRejetéProjector } from './abandonRejeté.projector.js';
+import { abandonAnnuléProjector } from './abandonAnnulé.projector.js';
+import { abandonConfirméProjector } from './abandonConfirmé.projector.js';
+import { confirmationAbandonDemandéeProjector } from './confirmationAbandonDemandée.projector.js';
+import { preuveCandidatureDemandéeProjector } from './preuveCandidatureDemandée.projector.js';
+import { preuveCandidatureTransmiseProjector } from './preuveRecandidatureTransmise.projector.js';
+import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector.js';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent | RebuildTriggered;
 

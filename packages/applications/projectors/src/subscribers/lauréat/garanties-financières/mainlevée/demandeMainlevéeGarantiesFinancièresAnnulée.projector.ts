@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getMainlevéeGf } from '../_utils';
+import { getMainlevéeGf } from '../_utils/index.js';
 
 export const demandeMainlevéeGarantiesFinancièresAnnuléeProjector = async ({
   payload: { identifiantProjet },

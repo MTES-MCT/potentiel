@@ -3,7 +3,7 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
-import { mapToUtilisateurPayload } from './utilisateurInvité.projector';
+import { mapToUtilisateurPayload } from './utilisateurInvité.projector.js';
 
 export const rôleUtilisateurModifiéProjector = async ({ payload }: RôleUtilisateurModifiéEvent) => {
   const { identifiantUtilisateur } = payload;

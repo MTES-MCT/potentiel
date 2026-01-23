@@ -2,7 +2,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { mapToCandidatureToUpsert } from './candidatureImportée.projector';
+import { mapToCandidatureToUpsert } from './candidatureImportée.projector.js';
 
 export const candidatureImportéeV1Projector = async ({
   payload,

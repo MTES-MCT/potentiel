@@ -4,13 +4,13 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 
-import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector';
-import { porteurInvitéProjector } from './porteurInvité.projector';
-import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
-import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector';
-import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector';
-import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector';
-import { rôleUtilisateurModifiéProjector } from './rôleUtilisateurModifié.projector';
+import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector.js';
+import { porteurInvitéProjector } from './porteurInvité.projector.js';
+import { utilisateurInvitéProjector } from './utilisateurInvité.projector.js';
+import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector.js';
+import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector.js';
+import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector.js';
+import { rôleUtilisateurModifiéProjector } from './rôleUtilisateurModifié.projector.js';
 
 export type SubscriptionEvent = UtilisateurEvent | RebuildTriggered;
 

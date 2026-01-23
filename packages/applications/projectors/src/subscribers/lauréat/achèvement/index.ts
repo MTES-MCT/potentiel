@@ -4,11 +4,11 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector';
-import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector';
-import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector';
-import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector';
-import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector';
+import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector.js';
+import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector.js';
+import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector.js';
+import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector.js';
+import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent | RebuildTriggered;
 

@@ -4,13 +4,13 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { installationRebuildTriggeredProjector } from './installationRebuildTrigerred.projector';
-import { installationImportéeProjector } from './installationImportée.projector';
-import { installateurModifiéProjector } from './installateur/installateurModifié.projector';
-import { typologieInstallationModifiéeProjector } from './typologie-de-installation/typologieInstallationModifiée.projector';
-import { changementDispositifDeStockageEnregistréProjector } from './dispositif-de-stockage/changementDispositifDeStockageEnregistré.projector';
-import { changementInstallateurEnregistréProjector } from './installateur/changementInstallateurEnregistré.projector';
-import { dispositifDeStockageModifiéProjector } from './dispositif-de-stockage/dispositifDeStockageModifié.projector';
+import { installationRebuildTriggeredProjector } from './installationRebuildTrigerred.projector.js';
+import { installationImportéeProjector } from './installationImportée.projector.js';
+import { installateurModifiéProjector } from './installateur/installateurModifié.projector.js';
+import { typologieInstallationModifiéeProjector } from './typologie-de-installation/typologieInstallationModifiée.projector.js';
+import { changementDispositifDeStockageEnregistréProjector } from './dispositif-de-stockage/changementDispositifDeStockageEnregistré.projector.js';
+import { changementInstallateurEnregistréProjector } from './installateur/changementInstallateurEnregistré.projector.js';
+import { dispositifDeStockageModifiéProjector } from './dispositif-de-stockage/dispositifDeStockageModifié.projector.js';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent | RebuildTriggered;
 
