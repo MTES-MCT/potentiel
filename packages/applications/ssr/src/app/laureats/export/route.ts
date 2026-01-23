@@ -12,7 +12,7 @@ export const GET = async (request: Request) =>
     withUtilisateur(async (utilisateur) => {
       const { searchParams } = new URL(request.url);
 
-      const appelOffre = searchParams.get('appelOffre') ?? undefined;
+      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
       const periode = searchParams.get('periode') ?? undefined;
       const famille = searchParams.get('famille') ?? undefined;
       const statut = searchParams.get('statut') ?? undefined;

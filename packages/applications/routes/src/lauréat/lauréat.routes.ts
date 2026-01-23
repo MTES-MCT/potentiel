@@ -32,7 +32,7 @@ export const changement = {
 };
 
 export const exporter = (filters: {
-  appelOffre?: string;
+  appelOffre?: string[];
   periode?: string;
   famille?: string;
   statut?: string;
@@ -40,8 +40,10 @@ export const exporter = (filters: {
 }) => {
   const searchParams = new URLSearchParams();
 
-  if (filters.appelOffre) {
-    searchParams.append('appelOffre', filters.appelOffre);
+  if (filters.appelOffre?.length) {
+    filters.appelOffre.forEach((value) => {
+      searchParams.append('appelOffre', value);
+    });
   }
   if (filters.periode) {
     searchParams.append('periode', filters.periode);

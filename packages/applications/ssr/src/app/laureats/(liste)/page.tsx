@@ -136,7 +136,7 @@ export default async function Page({ searchParams }: PageProps) {
           actions={mapToActions({
             rôle: utilisateur.rôle,
             searchParams: {
-              appelOffre: appelOffre?.length ? appelOffre[0] : undefined,
+              appelOffre,
               periode,
               famille,
               statut,
@@ -152,7 +152,7 @@ export default async function Page({ searchParams }: PageProps) {
 type MapToActionsProps = {
   rôle: Role.ValueType;
   searchParams: {
-    appelOffre?: string;
+    appelOffre?: string[];
     periode?: string;
     famille?: string;
     statut?: Lauréat.StatutLauréat.RawType;

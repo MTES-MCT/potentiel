@@ -68,7 +68,7 @@ export type ListerLauréatEnrichiQuery = Message<
   {
     utilisateur: Email.RawType;
     statut?: StatutLauréat.RawType;
-    appelOffre?: string;
+    appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
@@ -115,7 +115,7 @@ export const registerListerLauréatEnrichiQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        appelOffre: Where.equal(appelOffre),
+        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
