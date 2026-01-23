@@ -27,10 +27,6 @@
       "dependsOn": ["^build:dev"],
       "cache": false
     },
-    "test:legacy": {
-      "dependsOn": ["^build:test"],
-      "cache": false
-    },
     "test": {
       "dependsOn": ["^build:test"],
       "cache": false

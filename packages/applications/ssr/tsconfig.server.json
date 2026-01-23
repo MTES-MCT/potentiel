@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "isolatedModules": false,
+    "noEmit": false,
+    "module": "nodenext",
+    "moduleResolution": "node16"
+  },
+  "include": ["src/server.ts"]
+}

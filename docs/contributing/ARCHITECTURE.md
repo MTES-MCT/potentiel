@@ -2,17 +2,12 @@
 
 Dans cette documentation, vous trouverez les éléments clés concernant l'architecture du projet **Potentiel**.
 
-Actuellement, le projet est divisé en deux parties :
-- **Legacy** : code source est contenu dans le répertoire `src`.
-- **Nouveau socle** : code source est contenu dans le répertoire `packages`.
+L'application se base principalement sur deux patterns (qui seront abordés plus en détail dans la suite de cette documentation) :
 
-La partie `Legacy` correspond au MVP qui a été mise en place et qui fait vivre le projet au quotidien. Cette partie est en cours de migration dans un nouveau socle ayant un design plus simple et plus efficace. Il permet une meilleur maintenance et évolutivé du code, ainsi qu'une testabilité accrue via la mise en place du `Behavior Driven Development`. Dans la suite de cette documentation, le focus sera mis sur l'architecture du nouveau socle.
-
-Il se base principalement sur deux patterns (qui seront abordés plus en détail dans la suite de cette documentation) :
 - Event Sourcing
 - Mediator
 
-La mise en place des fonctionnalités dans le nouveau socle suis l'approche DDD (Domain Driven Design) ainsi que la méthode de test BDD (Behavior Driven Development).
+Le développement suit l'approche DDD (Domain Driven Design) ainsi que la méthode de test BDD (Behavior Driven Development).
 
 ## Event Sourcing
 
@@ -45,6 +40,7 @@ Cette fonction permet de mettre en place une projection des données. La respons
 Le projet utilise le pattern Mediator via la bibliothèque `mediateur`. Ce pattern permet d'établir une communication entre deux éléments d'un logiciel sans avoir de couplage. Pour cela, l'appelant passera par un médiateur qui sera capable de localiser et d'envoyer un message aux destinataires concernés. Ce pattern est utilisé pour le découpage et la mise à l'échelle du code. Il permet aussi de mettre en place facilement le principe de responsabilité (cf : [SOLID](https://en.wikipedia.org/wiki/SOLID)). Il est aussi utile pour mettre en place d'autre pattern, comme CQRS (Command & Query Responsability Sepration).
 
 Le pattern CQRS définit qu'une application peut être découpé en deux partie, l'une dédiée à l'écriture (appelée `Command`), l'autre à la lecture (appelée `Query`). Chaque partie dispose de besoins spécifiques :
+
 - Query : Facilité de requêtage, performance, ...
 - Command : Execution de la logique, intégrité, validation, ...
 
