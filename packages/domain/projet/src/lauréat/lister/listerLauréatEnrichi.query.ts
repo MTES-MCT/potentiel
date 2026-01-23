@@ -12,6 +12,7 @@ import {
   DétailCandidature,
   DétailCandidatureEntity,
   Localité,
+  TypeActionnariat,
   UnitéPuissance,
 } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
@@ -38,6 +39,8 @@ type LauréatEnrichiListItemReadModel = {
   région: Localité.ValueType['région'];
 
   actionnaire: Actionnaire.ConsulterActionnaireReadModel['actionnaire'];
+
+  typeActionnariat?: TypeActionnariat.ValueType;
 
   raisonSocialeGestionnaireRéseau?: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel['raisonSociale'];
 
@@ -68,6 +71,7 @@ export type ListerLauréatEnrichiQuery = Message<
     appelOffre?: string;
     periode?: string;
     famille?: string;
+    typeActionnariat?: Array<TypeActionnariat.RawType>;
   },
   ListerLauréatEnrichiReadModel
 >;
@@ -87,6 +91,7 @@ export const registerListerLauréatEnrichiQuery = ({
     periode,
     famille,
     statut,
+    typeActionnariat,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -119,6 +124,12 @@ export const registerListerLauréatEnrichiQuery = ({
         {
           entity: 'candidature',
           on: 'identifiantProjet',
+          where: {
+            actionnariat:
+              typeActionnariat && typeActionnariat.length > 0
+                ? Where.matchAny(typeActionnariat)
+                : undefined,
+          },
         },
         {
           entity: 'puissance',
@@ -204,7 +215,7 @@ const mapToReadModel: MapToReadModelProps = ({
     identifiantProjet,
     localité,
     puissance,
-    candidature: { prixReference, unitéPuissance },
+    candidature: { prixReference, unitéPuissance, actionnariat },
     abandon,
     achèvement,
     actionnaire,
@@ -230,6 +241,10 @@ const mapToReadModel: MapToReadModelProps = ({
     ...localité,
 
     actionnaire: actionnaire.actionnaire.nom,
+
+    typeActionnariat: actionnariat
+      ? TypeActionnariat.convertirEnValueType(actionnariat)
+      : undefined,
 
     raisonSocialeGestionnaireRéseau: gestionnaireRéseau,
 

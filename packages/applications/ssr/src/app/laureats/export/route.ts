@@ -37,6 +37,7 @@ export const GET = async (_: Request) =>
           { value: 'département', label: 'Département' },
           { value: 'région', label: 'Région' },
           { value: 'actionnaire', label: 'Actionnaire' },
+          { value: 'typeActionnariat', label: "Type d'actionnariat" },
           { value: 'raisonSocialeGestionnaireRéseau', label: 'Gestionnaire réseau' },
           { value: 'dateAchèvementPrévisionnelle', label: "Date d'achèvement prévisionnelle" },
           { value: 'dateAchèvementRéelle', label: "Date d'achèvement réelle" },
@@ -58,6 +59,7 @@ export const GET = async (_: Request) =>
           identifiantProjet: item.identifiantProjet.formatter(),
           statut: item.statut.formatter(),
           unitéPuissance: item.unitéPuissance.formatter(),
+          typeActionnariat: item.typeActionnariat?.formatter(),
           dateAchèvementPrévisionnelle: formatDateForDocument(
             item.dateAchèvementPrévisionnelle?.date,
           ),
