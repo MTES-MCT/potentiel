@@ -28,6 +28,7 @@ import {
   ChangementImpossibleCarProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
+  StatutLauréatNonModifiéError,
 } from './lauréat.error';
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
 import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option';
@@ -328,10 +329,9 @@ export class LauréatAggregate extends AbstractAggregate<
   async modifierStatut({ modifiéLe, modifiéPar, statut }: ModifierStatutLauréatOptions) {
     this.vérifierQueLeLauréatExiste();
 
-    // Faut il vérifier quelque chose ?
-    // if (this.#statut.estÉgaleÀ(statut)) {
-    //   throw new StatutLauréatNonModifiéError();
-    // }
+    if (this.#statut.estÉgaleÀ(statut)) {
+      throw new StatutLauréatNonModifiéError();
+    }
 
     const event: StatutLauréatModifiéEvent = {
       type: 'StatutLauréatModifié-V1',
