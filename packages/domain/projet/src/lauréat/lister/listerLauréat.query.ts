@@ -203,7 +203,7 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
     statut: abandon?.estAbandonné
       ? StatutLauréat.abandonné
-      : achèvement?.estAchevé
+      : achèvement.estAchevé
         ? StatutLauréat.achevé
         : StatutLauréat.actif,
   };
