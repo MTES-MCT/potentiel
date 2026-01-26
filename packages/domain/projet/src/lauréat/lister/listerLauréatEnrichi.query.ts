@@ -103,7 +103,7 @@ export const registerListerLauréatEnrichiQuery = ({
         CandidatureEntity,
         PuissanceEntity,
         ActionnaireEntity,
-        LeftJoin<AchèvementEntity>,
+        AchèvementEntity,
         LeftJoin<AbandonEntity>,
         DétailCandidatureEntity,
         LeftJoin<RaccordementEntity>,
@@ -144,7 +144,6 @@ export const registerListerLauréatEnrichiQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
-          type: 'left',
           where:
             statut === 'achevé'
               ? { estAchevé: Where.equal(true) }
@@ -203,7 +202,7 @@ type MapToReadModelProps = (args: {
         CandidatureEntity,
         PuissanceEntity,
         ActionnaireEntity,
-        LeftJoin<AchèvementEntity>,
+        AchèvementEntity,
         LeftJoin<AbandonEntity>,
         LeftJoin<RaccordementEntity>,
         DétailCandidatureEntity,
