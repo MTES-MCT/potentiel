@@ -33,7 +33,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions }) => (
     <div>
       {actions.includes('lister-éliminé-enrichi') && (
         <DownloadDocument
-          label="Exporter les lauréats"
+          label="Exporter les éliminés"
           url={Routes.Éliminé.exporter({})}
           format="csv"
         />
