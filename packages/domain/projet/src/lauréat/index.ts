@@ -36,7 +36,6 @@ import {
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query';
-import { ModifierStatutLauréatCommand } from './statut/modifierStatutLauréat.command';
 
 // Query
 export type LauréatQuery =
@@ -92,9 +91,6 @@ export {
   ChoisirCahierDesChargesUseCase,
   EnregistrerChangementNomProjetUseCase,
 };
-
-// Command
-export { ModifierStatutLauréatCommand };
 
 // Events
 export { LauréatEvent } from './lauréat.event';

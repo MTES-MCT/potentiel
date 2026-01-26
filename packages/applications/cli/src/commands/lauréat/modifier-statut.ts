@@ -1,9 +1,9 @@
 import { Command } from '@oclif/core';
-import { mediator } from 'mediateur';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 type Projet = {
   id: IdentifiantProjet.RawType;
@@ -34,15 +34,17 @@ export class EmettreModifierStatutLauréatEvent extends Command {
           `Traitement du projet abandonné ${indexAbandonné + 1} sur ${totalAbandonné} : ${projet.id}`,
         );
 
-        await mediator.send<Lauréat.ModifierStatutLauréatCommand>({
-          type: 'Lauréat.Command.ModifierStatut',
-          data: {
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.id),
-            modifiéLe: DateTime.convertirEnValueType(projet.date),
-            modifiéPar: Email.système,
-            statut: Lauréat.StatutLauréat.abandonné,
+        const event: Lauréat.StatutLauréatModifiéEvent = {
+          type: 'StatutLauréatModifié-V1',
+          payload: {
+            identifiantProjet: projet.id,
+            modifiéLe: projet.date,
+            modifiéPar: Email.système.formatter(),
+            statut: Lauréat.StatutLauréat.abandonné.formatter(),
           },
-        });
+        };
+
+        await publish(`lauréat|${projet.id}`, event);
       } catch (e) {
         console.error(`Erreur pour le projet abandonné ${projet.id}  : ${e}`);
       }
@@ -55,17 +57,16 @@ export class EmettreModifierStatutLauréatEvent extends Command {
         console.log(
           `Traitement du projet achevé ${indexAchevé + 1} sur ${totalAchevé} : ${projet.id}`,
         );
-        for (const projet of projetAchevé) {
-          await mediator.send<Lauréat.ModifierStatutLauréatCommand>({
-            type: 'Lauréat.Command.ModifierStatut',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.id),
-              modifiéLe: DateTime.convertirEnValueType(projet.date),
-              modifiéPar: Email.système,
-              statut: Lauréat.StatutLauréat.achevé,
-            },
-          });
-        }
+        const event: Lauréat.StatutLauréatModifiéEvent = {
+          type: 'StatutLauréatModifié-V1',
+          payload: {
+            identifiantProjet: projet.id,
+            modifiéLe: projet.date,
+            modifiéPar: Email.système.formatter(),
+            statut: Lauréat.StatutLauréat.achevé.formatter(),
+          },
+        };
+        await publish(`lauréat|${projet.id}`, event);
       } catch (e) {
         console.error(`Erreur pour le projet achevé ${projet.id}  : ${e}`);
       }
