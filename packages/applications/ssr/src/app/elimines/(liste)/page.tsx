@@ -128,6 +128,7 @@ export default async function Page({ searchParams }: PageProps) {
               appelOffre,
               periode,
               famille,
+              typeActionnariat,
             },
           })}
         />
@@ -142,12 +143,13 @@ type MapToActionsProps = {
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
+    typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
   };
 };
 
 const mapToActions = ({
   rôle,
-  searchParams: { appelOffre, periode, famille },
+  searchParams: { appelOffre, periode, famille, typeActionnariat },
 }: MapToActionsProps) => {
   const actions: ÉliminéListPageProps['actions'] = [];
 
@@ -161,6 +163,7 @@ const mapToActions = ({
       appelOffre,
       periode,
       famille,
+      typeActionnariat,
     }),
   });
 
