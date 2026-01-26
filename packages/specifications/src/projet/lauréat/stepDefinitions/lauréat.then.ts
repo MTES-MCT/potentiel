@@ -20,8 +20,6 @@ Alors('le projet lauréat devrait être consultable', async function (this: Pote
       },
     });
 
-    console.log(lauréat);
-
     const actual = mapToPlainObject(lauréat);
     const expected = mapToPlainObject(this.lauréatWorld.mapToExpected());
 
@@ -64,8 +62,6 @@ Alors(
           identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         },
       });
-
-      console.log(lauréat);
 
       assert(Option.isSome(lauréat), "Le projet lauréat n'existe pas");
 
