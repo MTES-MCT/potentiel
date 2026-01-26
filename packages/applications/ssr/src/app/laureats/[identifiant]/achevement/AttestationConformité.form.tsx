@@ -38,7 +38,7 @@ export type AttestationConformitéFormProps = {
   attestationConformité?: DocumentProjet.RawType;
   preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
 
-  preuveTransmissionAuCocontractantOptionnelle?: true;
+  estUneModification?: true;
 
   demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
@@ -52,13 +52,14 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   preuveTransmissionAuCocontractant,
   demanderMainlevée,
   lauréatNotifiéLe,
-  preuveTransmissionAuCocontractantOptionnelle,
+  estUneModification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       ModifierAttestationConformitéFormKeys | TransmettreAttestationConformitéFormKeys
     >
   >({});
+  const [hasChanged, setHasChanged] = useState<boolean>(false);
 
   return (
     <Form
@@ -66,6 +67,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel,
+        submitDisabled: !hasChanged,
         secondaryAction: {
           type: 'back',
         },
@@ -84,19 +86,21 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           state={validationErrors['attestation'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['attestation']}
           formats={['pdf']}
+          onChange={() => setHasChanged(true)}
         />
 
         <UploadNewOrModifyExistingDocument
           name="preuveTransmissionAuCocontractant"
-          required={!preuveTransmissionAuCocontractantOptionnelle}
+          required={!estUneModification}
           formats={['pdf']}
           documentKeys={
             preuveTransmissionAuCocontractant ? [preuveTransmissionAuCocontractant] : undefined
           }
-          label={`Preuve de transmission au co-contractant${preuveTransmissionAuCocontractantOptionnelle ? ' (optionnel)' : ''}`}
+          label={`Preuve de transmission au co-contractant${estUneModification ? ' (optionnel)' : ''}`}
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
+          onChange={() => setHasChanged(true)}
         />
 
         <div className="w-fit">
@@ -111,6 +115,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
             defaultValue={dateTransmissionAuCocontractant}
             state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
+            onChange={() => setHasChanged(true)}
           />
         </div>
 
@@ -128,6 +133,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
                     'aria-disabled': !demanderMainlevée.canBeDone,
                     name: 'demanderMainlevee',
                     value: 'true',
+                    onChange: () => setHasChanged(true),
                   },
                 },
               ]}
