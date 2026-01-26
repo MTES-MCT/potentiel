@@ -87,6 +87,10 @@ import {
   ListerHistoriqueLauréatDependencies,
   registerListerHistoriqueLauréatQuery,
 } from './listerHistorique/listerHistoriqueLauréat.query';
+import {
+  ListerLauréatEnrichiDependencies,
+  registerListerLauréatEnrichiQuery,
+} from './lister/listerLauréatEnrichi.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -106,7 +110,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   InstallationQueryDependencies &
   TâcheQueryDependencies &
   NatureDeLExploitationQueryDependencies &
-  ListerHistoriqueLauréatDependencies;
+  ListerHistoriqueLauréatDependencies &
+  ListerLauréatEnrichiDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -147,6 +152,7 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterChangementNomProjetQuery(dependencies);
   registerListerChangementNomProjetQuery(dependencies);
   registerListerHistoriqueLauréatQuery(dependencies);
+  registerListerLauréatEnrichiQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);

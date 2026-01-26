@@ -503,6 +503,7 @@ const référencielPermissions = {
       consulter: 'Lauréat.Query.ConsulterLauréat',
       lister: 'Lauréat.Query.ListerLauréat',
       listerHistorique: 'Lauréat.Query.ListerHistoriqueLauréat',
+      listerLauréatEnrichi: 'Lauréat.Query.ListerLauréatEnrichi',
     },
   },
   éliminé: {
@@ -1401,6 +1402,7 @@ const policies = {
       référencielPermissions.lauréat.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
+    listerLauréatEnrichi: [référencielPermissions.lauréat.query.listerLauréatEnrichi],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1707,6 +1709,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Lauréat
   'lauréat.modifier',
   'lauréat.modifierSiteDeProduction',
+  'lauréat.listerLauréatEnrichi',
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
@@ -1788,6 +1791,8 @@ const dgecValidateurPolicies: ReadonlyArray<Policy> = [
 const crePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+  'lauréat.listerLauréatEnrichi',
+
   'projet.accèsDonnées.prix',
 
   // Abandon
@@ -1911,6 +1916,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'nomProjet.modifier',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
+  'lauréat.listerLauréatEnrichi',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -1990,6 +1996,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+  'lauréat.listerLauréatEnrichi',
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2214,7 +2221,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
 const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-
+  'lauréat.listerLauréatEnrichi',
   'projet.accèsDonnées.prix',
 
   // Statistiques

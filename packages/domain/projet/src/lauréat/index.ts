@@ -31,6 +31,11 @@ import {
   ListerHistoriqueLauréatQuery,
   ListerHistoriqueLauréatReadModel,
 } from './listerHistorique/listerHistoriqueLauréat.query';
+import {
+  LauréatEnrichiListItemReadModel,
+  ListerLauréatEnrichiQuery,
+  ListerLauréatEnrichiReadModel,
+} from './lister/listerLauréatEnrichi.query';
 
 // Query
 export type LauréatQuery =
@@ -40,7 +45,8 @@ export type LauréatQuery =
   | ListerHistoriqueProjetQuery
   | ConsulterChangementNomProjetQuery
   | ListerChangementNomProjetQuery
-  | ListerHistoriqueLauréatQuery;
+  | ListerHistoriqueLauréatQuery
+  | ListerLauréatEnrichiQuery;
 
 export {
   ConsulterLauréatQuery,
@@ -50,6 +56,7 @@ export {
   ConsulterChangementNomProjetQuery,
   ListerChangementNomProjetQuery,
   ListerHistoriqueLauréatQuery,
+  ListerLauréatEnrichiQuery,
 };
 
 // ReadModel
@@ -65,6 +72,8 @@ export {
   ConsulterChangementNomProjetReadModel,
   ListerChangementNomProjetReadModel,
   ListerHistoriqueLauréatReadModel,
+  ListerLauréatEnrichiReadModel,
+  LauréatEnrichiListItemReadModel,
 };
 
 // Port
