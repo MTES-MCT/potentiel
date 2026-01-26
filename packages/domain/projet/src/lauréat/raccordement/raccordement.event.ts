@@ -173,7 +173,11 @@ export type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1 = DomainEve
   }
 >;
 
-export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
+/**
+ * @deprecated Utilisez PropositionTechniqueEtFinancièreTransmiseEvent à la place.
+ * la v3 ajoute la tracabilité (transmiseLe, transmisePar)
+ */
+export type PropositionTechniqueEtFinancièreTransmiseEventV2 = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise-V2',
   {
     dateSignature: DateTime.RawType;
@@ -182,6 +186,20 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
     propositionTechniqueEtFinancièreSignée: {
       format: string;
     };
+  }
+>;
+
+export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
+  'PropositionTechniqueEtFinancièreTransmise-V3',
+  {
+    dateSignature: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+    propositionTechniqueEtFinancièreSignée: {
+      format: string;
+    };
+    transmiseLe: DateTime.RawType;
+    transmisePar: Email.RawType;
   }
 >;
 
@@ -288,6 +306,7 @@ export type RaccordementEvent =
   | DemandeComplèteRaccordementTransmiseEventV2
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
   | PropositionTechniqueEtFinancièreTransmiseEventV1
+  | PropositionTechniqueEtFinancièreTransmiseEventV2
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
   | DemandeComplèteRaccordementModifiéeEventV2

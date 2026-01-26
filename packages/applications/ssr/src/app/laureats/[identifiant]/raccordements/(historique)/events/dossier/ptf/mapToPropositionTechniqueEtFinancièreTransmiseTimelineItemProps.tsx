@@ -1,41 +1,37 @@
-import { match } from 'ts-pattern';
-
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = (
   event: (
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV2
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
   ) & { createdAt: string },
 ): TimelineItemProps => {
-  const { date, référenceDossierRaccordement } = match(event)
-    .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => {
-      const { référenceDossierRaccordement } = event.payload;
+  const référenceDossierRaccordement = event.payload.référenceDossierRaccordement;
+  const transmiseLe: DateTime.RawType =
+    'transmiseLe' in event.payload
+      ? event.payload.transmiseLe
+      : DateTime.convertirEnValueType(event.createdAt).formatter();
 
-      return {
-        date: DateTime.convertirEnValueType(event.createdAt).formatter(),
-        référenceDossierRaccordement,
-      };
-    })
-    .otherwise((event) => {
-      const { référenceDossierRaccordement, dateSignature } = event.payload;
+  const transmisePar: string | undefined =
+    'transmisePar' in event.payload ? event.payload.transmisePar : undefined;
 
-      return {
-        date: dateSignature,
-        référenceDossierRaccordement,
-      };
-    });
+  const signéeLe: DateTime.RawType | undefined =
+    'dateSignature' in event.payload ? event.payload.dateSignature : undefined;
+  const signéeLeText = signéeLe ? `, signée le ${formatDateToText(signéeLe)}, ` : '';
 
   return {
-    date,
+    date: transmiseLe,
+    actor: transmisePar,
     title: (
       <>
-        La proposition technique et financière a été transmise pour le dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>
+        La proposition technique et financière{signéeLeText} a été transmise pour le dossier de
+        raccordement <span className="font-semibold">{référenceDossierRaccordement}</span>
       </>
     ),
   };

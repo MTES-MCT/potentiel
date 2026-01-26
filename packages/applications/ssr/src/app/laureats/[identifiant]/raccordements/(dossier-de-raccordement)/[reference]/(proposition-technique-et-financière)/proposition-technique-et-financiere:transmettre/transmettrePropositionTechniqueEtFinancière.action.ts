@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -23,21 +24,24 @@ export type TransmettrePropositionTechniqueEtFinancièreFormKeys = keyof zod.inf
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, referenceDossier, dateSignature, propositionTechniqueEtFinanciereSignee },
-) => {
-  await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      référenceDossierRaccordementValue: referenceDossier,
-      dateSignatureValue: new Date(dateSignature).toISOString(),
-      propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
-    },
-  });
+) =>
+  withUtilisateur(async (utilisateur) => {
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierRaccordementValue: referenceDossier,
+        dateSignatureValue: new Date(dateSignature).toISOString(),
+        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
+        transmiseLeValue: new Date().toISOString(),
+        transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
+      },
+    });
 
-  return {
-    status: 'success',
-    redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
-  };
-};
+    return {
+      status: 'success',
+      redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    };
+  });
 
 export const transmettrePropositionTechniqueEtFinancièreAction = formAction(action, schema);

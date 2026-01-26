@@ -84,13 +84,15 @@ async function transmettrePropositionTechniqueEtFinancière(
     });
 
   try {
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettrePropositionTechniqueEtFinancièreUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         dateSignatureValue: dateSignature,
         référenceDossierRaccordementValue: référenceDossier,
         identifiantProjetValue: identifiantProjet,
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        transmiseLeValue: new Date().toISOString(),
+        transmiseParValue: this.utilisateurWorld.porteurFixture.email,
       },
     });
   } catch (e) {

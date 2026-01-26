@@ -24,6 +24,8 @@ EtantDonné(
         référenceDossierRaccordementValue: référenceDossier,
         dateSignatureValue: dateSignature,
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        transmiseLeValue: new Date().toISOString(),
+        transmiseParValue: this.utilisateurWorld.porteurFixture.email,
       },
     });
   },

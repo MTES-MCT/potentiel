@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
@@ -19,6 +19,8 @@ export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    transmiseLeValue: string;
+    transmiseParValue: string;
   }
 >;
 
@@ -28,6 +30,8 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     propositionTechniqueEtFinancièreSignéeValue: { format, content },
+    transmiseLeValue,
+    transmiseParValue,
   }) => {
     const propositionTechniqueEtFinancièreSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -59,6 +63,8 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
         identifiantProjet,
         référenceDossierRaccordement,
         formatPropositionTechniqueEtFinancièreSignée: format,
+        transmiseLe: DateTime.convertirEnValueType(transmiseLeValue),
+        transmisePar: Email.convertirEnValueType(transmiseParValue),
       },
     });
   };
