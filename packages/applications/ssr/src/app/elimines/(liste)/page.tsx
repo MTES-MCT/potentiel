@@ -125,11 +125,10 @@ export default async function Page({ searchParams }: PageProps) {
           actions={mapToActions({
             rôle: utilisateur.rôle,
             searchParams: {
-              // quick fix en attendant le nouvel export migré
-              appelOffreId: appelOffre ? appelOffre[0] : undefined,
-              periodeId: periode,
-              familleId: famille,
-              nomProjet,
+              appelOffre,
+              periode,
+              famille,
+              typeActionnariat,
             },
           })}
         />
@@ -141,16 +140,16 @@ export default async function Page({ searchParams }: PageProps) {
 type MapToActionsProps = {
   rôle: Role.ValueType;
   searchParams: {
-    appelOffreId?: string;
-    periodeId?: string;
-    familleId?: string;
-    nomProjet?: string;
+    appelOffre?: Array<string>;
+    periode?: string;
+    famille?: string;
+    typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
   };
 };
 
 const mapToActions = ({
   rôle,
-  searchParams: { appelOffreId, periodeId, familleId, nomProjet },
+  searchParams: { appelOffre, periode, famille, typeActionnariat },
 }: MapToActionsProps) => {
   const actions: ÉliminéListPageProps['actions'] = [];
 
@@ -160,12 +159,11 @@ const mapToActions = ({
 
   actions.push({
     label: 'Télécharger un export (format CSV)',
-    href: Routes.Projet.exportCsv({
-      appelOffreId,
-      periodeId,
-      familleId,
-      nomProjet: nomProjet,
-      statut: 'éliminé',
+    href: Routes.Éliminé.exporter({
+      appelOffre,
+      periode,
+      famille,
+      typeActionnariat,
     }),
   });
 
