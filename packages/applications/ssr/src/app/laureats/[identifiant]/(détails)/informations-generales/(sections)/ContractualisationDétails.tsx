@@ -39,9 +39,11 @@ export const ContractualisationDétails = ({
         <span>{prixRéférence} €/MWh</span>
       </div>
     )}
-    <div className="flex flex-col gap-1">
-      <Heading6>Coefficient K</Heading6>
-      <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
-    </div>
+    {coefficientKChoisi !== undefined && (
+      <div className="flex flex-col gap-1">
+        <Heading6>Coefficient K</Heading6>
+        <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
+      </div>
+    )}
   </>
 );
