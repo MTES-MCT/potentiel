@@ -39,7 +39,7 @@ export type ListerLauréatQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
-    statut?: StatutLauréat.RawType;
+    statut?: Array<StatutLauréat.RawType>;
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
@@ -86,7 +86,7 @@ export const registerListerLauréatQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
-        statut: Where.equal(statut),
+        statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
       join: [
         {

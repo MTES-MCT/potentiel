@@ -16,7 +16,6 @@ import {
 } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
 import { Actionnaire, StatutLauréat } from '..';
-import { AbandonEntity } from '../abandon';
 import { AchèvementEntity } from '../achèvement';
 import { ActionnaireEntity } from '../actionnaire';
 import { RaccordementEntity } from '../raccordement';
@@ -68,7 +67,7 @@ export type ListerLauréatEnrichiQuery = Message<
   'Lauréat.Query.ListerLauréatEnrichi',
   {
     utilisateur: Email.RawType;
-    statut?: StatutLauréat.RawType;
+    statut?: Array<StatutLauréat.RawType>;
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
@@ -103,7 +102,6 @@ export const registerListerLauréatEnrichiQuery = ({
         PuissanceEntity,
         ActionnaireEntity,
         AchèvementEntity,
-        LeftJoin<AbandonEntity>,
         DétailCandidatureEntity,
         LeftJoin<RaccordementEntity>,
       ]
@@ -117,6 +115,7 @@ export const registerListerLauréatEnrichiQuery = ({
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+        statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
@@ -143,23 +142,6 @@ export const registerListerLauréatEnrichiQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
-          where:
-            statut === 'achevé'
-              ? { estAchevé: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAchevé: Where.equal(false) }
-                : undefined,
-        },
-        {
-          entity: 'abandon',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statut === 'abandonné'
-              ? { estAbandonné: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAbandonné: Where.notEqual(true) }
-                : undefined,
         },
         {
           entity: 'détail-candidature',
@@ -202,7 +184,6 @@ type MapToReadModelProps = (args: {
         PuissanceEntity,
         ActionnaireEntity,
         AchèvementEntity,
-        LeftJoin<AbandonEntity>,
         LeftJoin<RaccordementEntity>,
         DétailCandidatureEntity,
       ]
@@ -214,9 +195,9 @@ const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     identifiantProjet,
     localité,
+    statut,
     puissance,
     candidature: { prixReference, unitéPuissance, actionnariat },
-    abandon,
     achèvement,
     actionnaire,
     'détail-candidature': détailCandidature,
@@ -224,11 +205,7 @@ const mapToReadModel: MapToReadModelProps = ({
   gestionnaireRéseau,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-  const statutValueType = abandon?.estAbandonné
-    ? StatutLauréat.abandonné
-    : achèvement?.estAchevé
-      ? StatutLauréat.achevé
-      : StatutLauréat.actif;
+  const statutValueType = StatutLauréat.convertirEnValueType(statut);
 
   return {
     identifiantProjet: identifiantProjetValueType,

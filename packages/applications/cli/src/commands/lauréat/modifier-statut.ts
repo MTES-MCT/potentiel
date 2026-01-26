@@ -26,12 +26,12 @@ export class EmettreModifierStatutLauréatEvent extends Command {
     const projetAbandonné = await executeSelect<Projet>(queryAbandon);
     const projetAchevé = await executeSelect<Projet>(queryAchèvement);
 
-    const indexAbandonné = 0;
+    let indexAbandonné = 1;
     const totalAbandonné = projetAbandonné.length;
     for (const projet of projetAbandonné) {
       try {
         console.log(
-          `Traitement du projet abandonné ${indexAbandonné + 1} sur ${totalAbandonné} : ${projet.id}`,
+          `Traitement du projet abandonné ${indexAbandonné} sur ${totalAbandonné} : ${projet.id}`,
         );
 
         const event: Lauréat.StatutLauréatModifiéEvent = {
@@ -45,18 +45,17 @@ export class EmettreModifierStatutLauréatEvent extends Command {
         };
 
         await publish(`lauréat|${projet.id}`, event);
+        indexAbandonné++;
       } catch (e) {
         console.error(`Erreur pour le projet abandonné ${projet.id}  : ${e}`);
       }
     }
 
-    const indexAchevé = 0;
+    let indexAchevé = 1;
     const totalAchevé = projetAchevé.length;
     for (const projet of projetAchevé) {
       try {
-        console.log(
-          `Traitement du projet achevé ${indexAchevé + 1} sur ${totalAchevé} : ${projet.id}`,
-        );
+        console.log(`Traitement du projet achevé ${indexAchevé} sur ${totalAchevé} : ${projet.id}`);
         const event: Lauréat.StatutLauréatModifiéEvent = {
           type: 'StatutLauréatModifié-V1',
           payload: {
@@ -67,6 +66,7 @@ export class EmettreModifierStatutLauréatEvent extends Command {
           },
         };
         await publish(`lauréat|${projet.id}`, event);
+        indexAchevé++;
       } catch (e) {
         console.error(`Erreur pour le projet achevé ${projet.id}  : ${e}`);
       }

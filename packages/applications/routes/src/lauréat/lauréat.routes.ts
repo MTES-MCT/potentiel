@@ -35,7 +35,7 @@ export const exporter = (filters: {
   appelOffre?: string[];
   periode?: string;
   famille?: string;
-  statut?: string;
+  statut?: string[];
   typeActionnariat?: string[];
 }) => {
   const searchParams = new URLSearchParams();
@@ -51,8 +51,10 @@ export const exporter = (filters: {
   if (filters.famille) {
     searchParams.append('famille', filters.famille);
   }
-  if (filters.statut) {
-    searchParams.append('statut', filters.statut);
+  if (filters.statut?.length) {
+    filters.statut.forEach((value) => {
+      searchParams.append('statut', value);
+    });
   }
   if (filters.typeActionnariat?.length) {
     filters.typeActionnariat.forEach((value) => {
