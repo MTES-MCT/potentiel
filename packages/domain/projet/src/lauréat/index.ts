@@ -32,6 +32,7 @@ import {
   ListerHistoriqueLauréatReadModel,
 } from './listerHistorique/listerHistoriqueLauréat.query';
 import {
+  LauréatEnrichiListItemReadModel,
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query';
@@ -72,6 +73,7 @@ export {
   ListerChangementNomProjetReadModel,
   ListerHistoriqueLauréatReadModel,
   ListerLauréatEnrichiReadModel,
+  LauréatEnrichiListItemReadModel,
 };
 
 // Port

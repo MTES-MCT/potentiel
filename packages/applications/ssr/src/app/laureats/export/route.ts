@@ -36,11 +36,9 @@ export const GET = async (request: Request) =>
         },
       });
 
-      type LauréatEnrichiCSVListItem = {
-        [K in keyof Lauréat.ListerLauréatEnrichiReadModel['items'][number]]: string | number;
-      };
-
-      const csv = await ExportCSV.toCSV<LauréatEnrichiCSVListItem>({
+      const csv = await ExportCSV.toCSV<
+        Record<keyof Lauréat.LauréatEnrichiListItemReadModel, string | number | undefined>
+      >({
         fields: [
           { value: 'identifiantProjet', label: 'Identifiant projet' },
           { value: 'appelOffre', label: "Appel d'offres" },

@@ -22,11 +22,11 @@ import { AchèvementEntity } from '../achèvement';
 import { ActionnaireEntity } from '../actionnaire';
 import { RaccordementEntity } from '../raccordement';
 
-type LauréatEnrichiListItemReadModel = {
+export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: IdentifiantProjet.ValueType['appelOffre'];
   période: IdentifiantProjet.ValueType['période'];
-  famille?: IdentifiantProjet.ValueType['famille'];
+  famille: IdentifiantProjet.ValueType['famille'] | undefined;
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: Dépôt.ValueType['nomProjet'];
   statut: StatutLauréat.ValueType;
@@ -40,23 +40,25 @@ type LauréatEnrichiListItemReadModel = {
 
   actionnaire: Actionnaire.ConsulterActionnaireReadModel['actionnaire'];
 
-  typeActionnariat?: TypeActionnariat.ValueType;
+  typeActionnariat: TypeActionnariat.ValueType | undefined;
 
-  raisonSocialeGestionnaireRéseau?: GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel['raisonSociale'];
+  raisonSocialeGestionnaireRéseau:
+    | GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel['raisonSociale']
+    | undefined;
 
-  dateAchèvementPrévisionnelle?: DateTime.ValueType;
-  dateAchèvementRéelle?: DateTime.ValueType;
+  dateAchèvementPrévisionnelle: DateTime.ValueType | undefined;
+  dateAchèvementRéelle: DateTime.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
   puissance: Dépôt.ValueType['puissance'];
   unitéPuissance: UnitéPuissance.ValueType;
 
-  technologieÉolien?: DétailCandidature.RawType[number];
-  diamètreRotorEnMètres?: DétailCandidature.RawType[number];
-  hauteurBoutDePâleEnMètres?: DétailCandidature.RawType[number];
-  installationRenouvellée?: DétailCandidature.RawType[number];
-  nombreDAérogénérateurs?: DétailCandidature.RawType[number];
-  puissanceUnitaireDesAérogénérateurs?: DétailCandidature.RawType[number];
+  technologieÉolien: DétailCandidature.RawType[number] | undefined;
+  diamètreRotorEnMètres: DétailCandidature.RawType[number] | undefined;
+  hauteurBoutDePâleEnMètres: DétailCandidature.RawType[number] | undefined;
+  installationRenouvellée: DétailCandidature.RawType[number] | undefined;
+  nombreDAérogénérateurs: DétailCandidature.RawType[number] | undefined;
+  puissanceUnitaireDesAérogénérateurs: DétailCandidature.RawType[number] | undefined;
 };
 
 export type ListerLauréatEnrichiReadModel = {
