@@ -4,20 +4,31 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
-import { LinkAction } from '@/components/atoms/LinkAction';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export type ExportPageProps = {
-  actions: Array<'exporter-raccordement'>;
+  actions: Array<'exporter-raccordement' | 'lister-lauréat-enrichi'>;
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions }) => (
-  <PageTemplate banner={<Heading1>Exporter des données projets</Heading1>} feature={'export'}>
-    <div className="mb-4">
-      Cette page permet d'accéder à des liens pour exporter des données projets
+  <PageTemplate banner={<Heading1>Exporter des données</Heading1>} feature={'export'}>
+    <div>
+      {actions.includes('exporter-raccordement') && (
+        <DownloadDocument
+          label="Exporter les données de raccordement"
+          url={Routes.Raccordement.exporter}
+          format="csv"
+        />
+      )}
     </div>
-
-    {actions.includes('exporter-raccordement') && (
-      <LinkAction label="Exporter les données raccordement" href={Routes.Raccordement.exporter} />
-    )}
+    <div>
+      {actions.includes('lister-lauréat-enrichi') && (
+        <DownloadDocument
+          label="Exporter les lauréats"
+          url={Routes.Lauréat.exporter({})}
+          format="csv"
+        />
+      )}
+    </div>
   </PageTemplate>
 );

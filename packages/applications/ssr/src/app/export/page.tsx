@@ -23,9 +23,15 @@ export default async function Page() {
 type MapToAction = (utilisateur: PotentielUtilisateur) => ExportPageProps['actions'];
 
 const mapToAction: MapToAction = (utilisateur) => {
+  const actions: ExportPageProps['actions'] = [];
+
   if (utilisateur.rôle.aLaPermission('raccordement.listerDossierRaccordement')) {
-    return ['exporter-raccordement'];
+    actions.push('exporter-raccordement');
   }
 
-  return [];
+  if (utilisateur.rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
+    actions.push('lister-lauréat-enrichi');
+  }
+
+  return actions;
 };
