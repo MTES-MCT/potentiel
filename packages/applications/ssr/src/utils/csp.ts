@@ -10,17 +10,16 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
     'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
     'connect-src': [
       "'self'",
-      'potentiel.beta.gouv.fr',
-      'client.crisp.chat',
+      'https://potentiel.beta.gouv.fr',
+      'https://client.crisp.chat',
       'wss://client.relay.crisp.chat',
-      process.env.NEXT_PUBLIC_GEO_API_URL
-        ? new URL(process.env.NEXT_PUBLIC_GEO_API_URL).hostname
-        : '',
+      'https://sentry.incubateur.net',
+      process.env.NEXT_PUBLIC_GEO_API_URL ?? '',
     ],
-    'font-src': ["'self'", 'client.crisp.chat'],
-    'frame-src': ['metabase.potentiel.beta.gouv.fr', 'blob:'],
-    'img-src': ["'self'", 'data:', 'image.crisp.chat'],
-    'style-src': ["'self'", "'unsafe-inline'", 'data:', 'client.crisp.chat'],
+    'font-src': ["'self'", 'https://client.crisp.chat'],
+    'frame-src': ['https://metabase.potentiel.beta.gouv.fr', 'blob:'],
+    'img-src': ["'self'", 'data:', 'https://image.crisp.chat'],
+    'style-src': ["'self'", "'unsafe-inline'", 'data:', 'https://client.crisp.chat'],
     'script-src': [
       "'self'",
       // every inline <script> must have this nonce, or will be forbidden to run
@@ -28,8 +27,8 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
       // whitelist the react-dsfr script. This may change in future versions of react-dsfr.
       // an alternative solution can be found here: https://react-dsfr.codegouv.studio/content-security-policy
       "'sha256-UEZfoO3SfsYbnIIAoHHUiIGOhT+nhTDv2gd4I5588HQ='",
-      'metabase.potentiel.beta.gouv.fr',
-      'client.crisp.chat',
+      'https://metabase.potentiel.beta.gouv.fr',
+      'https://client.crisp.chat',
       // https://nextjs.org/docs/app/guides/content-security-policy#development-environment
       ...(isDev ? ["'unsafe-eval'"] : []),
     ],
