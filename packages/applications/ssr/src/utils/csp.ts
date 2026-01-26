@@ -7,7 +7,7 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
   const nonce = randomBytes(16).toString('base64');
 
   const cspHeaderValues = {
-    'default-src': ["'self'", 'blob:', 'metabase.potentiel.beta.gouv.fr'],
+    'default-src': ["'self'", 'blob:', 'https://metabase.potentiel.beta.gouv.fr'],
     'connect-src': [
       "'self'",
       'https://potentiel.beta.gouv.fr',
@@ -23,6 +23,7 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
     'script-src': [
       "'self'",
       // every inline <script> must have this nonce, or will be forbidden to run
+      // also used by Next.js to inject its own scripts
       `'nonce-${nonce}'`,
       // whitelist the react-dsfr script. This may change in future versions of react-dsfr.
       // an alternative solution can be found here: https://react-dsfr.codegouv.studio/content-security-policy
