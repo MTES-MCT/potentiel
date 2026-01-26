@@ -2,12 +2,13 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { DocumentProjet } from '../../document-projet';
 import { ProjetAbandonnéError } from '../abandon/abandon.error';
+import { Lauréat } from '../..';
 
 import {
   DateAchèvementPrévisionnel,
@@ -176,6 +177,11 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
     await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
     await this.annulerTâchesPlanifiéesRappelsÉchéance();
+    await this.lauréat.modifierStatut({
+      modifiéLe: date,
+      statut: Lauréat.StatutLauréat.achevé,
+      modifiéPar: Email.système,
+    });
   }
 
   async modifierAttestationConformité({
@@ -251,6 +257,11 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.annulerTâchesPlanifiéesRappelsÉchéance();
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
     await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
+    await this.lauréat.modifierStatut({
+      modifiéLe: transmiseLe,
+      statut: Lauréat.StatutLauréat.achevé,
+      modifiéPar: Email.système,
+    });
   }
 
   async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
