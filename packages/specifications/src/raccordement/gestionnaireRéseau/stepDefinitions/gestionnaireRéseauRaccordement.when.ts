@@ -4,6 +4,7 @@ import { mediator, Message } from 'mediateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Email } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
 Quand(
@@ -13,6 +14,7 @@ Quand(
       this,
       'GESTIONNAIRE NON RÉFÉRENCÉ',
       Role.porteur,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
     );
   },
 );
@@ -54,6 +56,7 @@ Quand(
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.codeEIC,
       // system can't be mocked as a role but it doesn't change anything here
       Role.porteur,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
     );
   },
 );
@@ -65,7 +68,12 @@ Quand(
       raisonSocialGestionnaireRéseau,
     );
 
-    await modifierGestionnaireRéseauRaccordement.call(this, codeEIC, Role.porteur);
+    await modifierGestionnaireRéseauRaccordement.call(
+      this,
+      codeEIC,
+      Role.porteur,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+    );
   },
 );
 
@@ -75,7 +83,12 @@ Quand(
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialGestionnaireRéseau,
     );
-    await modifierGestionnaireRéseauRaccordement.call(this, codeEIC, Role.dreal);
+    await modifierGestionnaireRéseauRaccordement.call(
+      this,
+      codeEIC,
+      Role.dreal,
+      Email.convertirEnValueType(this.utilisateurWorld.drealFixture.email),
+    );
   },
 );
 
@@ -83,6 +96,7 @@ async function modifierGestionnaireRéseauRaccordement(
   this: PotentielWorld,
   codeEIC: string,
   rôle: Role.ValueType,
+  email: Email.ValueType,
 ) {
   const { identifiantProjet } = this.lauréatWorld;
   try {
@@ -92,6 +106,8 @@ async function modifierGestionnaireRéseauRaccordement(
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantGestionnaireRéseauValue: codeEIC,
         rôleValue: rôle.nom,
+        modifiéLeValue: new Date().toISOString(),
+        modifiéParValue: email.formatter(),
       },
     });
   } catch (e) {

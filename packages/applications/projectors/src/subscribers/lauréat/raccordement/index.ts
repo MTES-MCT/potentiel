@@ -34,6 +34,7 @@ import {
   dateMiseEnServiceTransmiseV1Projector,
   dateMiseEnServiceTransmiseV2Projector,
 } from './dossier-raccordement/dateMiseEnService/index.js';
+import { gestionnaireRéseauRaccordementModifiéV2Projector } from './gestionnaireRéseauRaccordementModifiéV2.projector.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
 
@@ -53,6 +54,10 @@ export const register = () => {
       .with(
         { type: 'GestionnaireRéseauRaccordementModifié-V1' },
         gestionnaireRéseauRaccordementModifiéV1Projector,
+      )
+      .with(
+        { type: 'GestionnaireRéseauRaccordementModifié-V2' },
+        gestionnaireRéseauRaccordementModifiéV2Projector,
       )
       // Suppression du raccordement
       .with({ type: 'RaccordementSupprimé-V1' }, raccordementSuppriméV1Projector)

@@ -2,9 +2,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector.js';
 
-export const gestionnaireRéseauRaccordementModifiéV1Projector = async ({
+export const gestionnaireRéseauRaccordementModifiéV2Projector = async ({
   payload: { identifiantGestionnaireRéseau, identifiantProjet },
-}: Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEventV1) => {
+}: Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEvent) => {
   await gestionnaireRéseauAttribuéV1Projector({
     type: 'GestionnaireRéseauAttribué-V1',
     payload: {

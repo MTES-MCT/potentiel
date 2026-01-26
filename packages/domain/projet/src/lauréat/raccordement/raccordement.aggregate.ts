@@ -27,6 +27,7 @@ import {
   GestionnaireRéseauAttribuéEvent,
   GestionnaireRéseauInconnuAttribuéEvent,
   GestionnaireRéseauRaccordementModifiéEvent,
+  GestionnaireRéseauRaccordementModifiéEventV1,
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreModifiéeEventV1,
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
@@ -79,7 +80,8 @@ export type DeprecateEvent =
   | DemandeComplèteRaccordementModifiéeEventV2
   | PropositionTechniqueEtFinancièreModifiéeEventV1
   | DateMiseEnServiceTransmiseV1Event
-  | RéférenceDossierRacordementModifiéeEventV1;
+  | RéférenceDossierRacordementModifiéeEventV1
+  | GestionnaireRéseauRaccordementModifiéEventV1;
 
 export type RaccordementEvent =
   | DeprecateEvent
@@ -648,6 +650,8 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierGestionnaireRéseau({
     identifiantGestionnaireRéseau,
     rôle,
+    modifiéLe,
+    modifiéPar,
   }: ModifierGestionnaireRéseauOptions) {
     if (!identifiantGestionnaireRéseau.estInconnu()) {
       const gestionnaireRéseau = await this.loadGestionnaireRéseau(
@@ -683,10 +687,12 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
     } else {
       const event: GestionnaireRéseauRaccordementModifiéEvent = {
-        type: 'GestionnaireRéseauRaccordementModifié-V1',
+        type: 'GestionnaireRéseauRaccordementModifié-V2',
         payload: {
           identifiantProjet: this.identifiantProjet.formatter(),
           identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+          modifiéPar: modifiéPar.formatter(),
+          modifiéLe: modifiéLe.formatter(),
         },
       };
 
@@ -768,8 +774,13 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.applyDateMiseEnServiceTransmiseEventV2.bind(this),
       )
       .with(
-        { type: 'GestionnaireRéseauRaccordementModifié-V1' },
-        this.applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this),
+        {
+          type: P.union(
+            'GestionnaireRéseauRaccordementModifié-V2',
+            'GestionnaireRéseauRaccordementModifié-V1',
+          ),
+        },
+        this.applyGestionnaireRéseauRaccordementModifiéEvent.bind(this),
       )
       .with(
         { type: 'GestionnaireRéseauInconnuAttribué-V1' },
@@ -1069,9 +1080,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.#dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
   }
 
-  private applyGestionnaireRéseauRaccordementModifiéEventV1({
+  private applyGestionnaireRéseauRaccordementModifiéEvent({
     payload: { identifiantGestionnaireRéseau },
-  }: GestionnaireRéseauRaccordementModifiéEvent) {
+  }: GestionnaireRéseauRaccordementModifiéEventV1 | GestionnaireRéseauRaccordementModifiéEvent) {
     this.#identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
