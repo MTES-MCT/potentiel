@@ -6,13 +6,23 @@ import {
   ConsulterÉliminéReadModel,
 } from './consulter/consulterÉliminé.query';
 import { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query';
+import {
+  ListerÉliminéEnrichiQuery,
+  ListerÉliminéEnrichiReadModel,
+  ÉliminéEnrichiListItemReadModel,
+} from './lister/listerÉliminéEnrichi.query';
 
 // Query
-export type ÉliminéQuery = ConsulterÉliminéQuery | ListerÉliminéQuery;
-export { ConsulterÉliminéQuery, ListerÉliminéQuery };
+export type ÉliminéQuery = ConsulterÉliminéQuery | ListerÉliminéQuery | ListerÉliminéEnrichiQuery;
+export { ConsulterÉliminéQuery, ListerÉliminéQuery, ListerÉliminéEnrichiQuery };
 
 // ReadModel
-export { ConsulterÉliminéReadModel, ListerÉliminéReadModel };
+export {
+  ConsulterÉliminéReadModel,
+  ListerÉliminéReadModel,
+  ListerÉliminéEnrichiReadModel,
+  ÉliminéEnrichiListItemReadModel,
+};
 
 // UseCases
 

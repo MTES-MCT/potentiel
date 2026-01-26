@@ -507,7 +507,11 @@ const référencielPermissions = {
     },
   },
   éliminé: {
-    query: { consulter: 'Éliminé.Query.ConsulterÉliminé', lister: 'Éliminé.Query.ListerÉliminé' },
+    query: {
+      consulter: 'Éliminé.Query.ConsulterÉliminé',
+      lister: 'Éliminé.Query.ListerÉliminé',
+      listerÉliminéEnrichi: 'Éliminé.Query.ListerÉliminéEnrichi',
+    },
     command: {
       notifier: 'Éliminé.Command.NotifierÉliminé',
     },
@@ -1422,6 +1426,7 @@ const policies = {
       référencielPermissions.éliminé.query.lister,
       référencielPermissions.appelOffre.query.lister,
     ],
+    listerÉliminéEnrichi: [référencielPermissions.éliminé.query.listerÉliminéEnrichi],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
@@ -1776,6 +1781,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Statistiques
   'statistiquesDGEC.consulter',
+
+  // Éliminé
+  'éliminé.listerÉliminéEnrichi',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1858,6 +1866,9 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Statistiques
   'statistiquesDGEC.consulter',
+
+  // Éliminé
+  'éliminé.listerÉliminéEnrichi',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1991,6 +2002,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Statistiques
   'statistiquesDGEC.consulter',
+
+  // Éliminé
+  'éliminé.listerÉliminéEnrichi',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -2123,6 +2137,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'nomProjet.enregistrerChangement',
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
+
+  // Éliminé
+  'éliminé.listerÉliminéEnrichi',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -2226,6 +2243,9 @@ const ademePolicies: ReadonlyArray<Policy> = [
 
   // Statistiques
   'statistiquesDGEC.consulter',
+
+  // Éliminé
+  'éliminé.listerÉliminéEnrichi',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {

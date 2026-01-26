@@ -6,6 +6,10 @@ import {
   ListerÉliminéDependencies,
   registerListerÉliminéQuery,
 } from './lister/listerÉliminé.query';
+import {
+  ListerÉliminéEnrichiDependencies,
+  registerListerÉliminéEnrichiQuery,
+} from './lister/listerÉliminéEnrichi.query';
 import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command';
 import {
   RecoursCommandDependencies,
@@ -16,7 +20,8 @@ import {
 
 export type EliminéQueryDependencies = ConsulterÉliminéDependencies &
   ListerÉliminéDependencies &
-  RecoursQueryDependencies;
+  RecoursQueryDependencies &
+  ListerÉliminéEnrichiDependencies;
 
 export type EliminéCommandDependencies = RecoursCommandDependencies;
 
@@ -29,6 +34,7 @@ export const registerEliminéUseCases = (dependencies: EliminéCommandDependenci
 export const registerEliminéQueries = (dependencies: EliminéQueryDependencies) => {
   registerConsulterÉliminéQuery(dependencies);
   registerListerÉliminéQuery(dependencies);
+  registerListerÉliminéEnrichiQuery(dependencies);
 
   registerRecoursQueries(dependencies);
 };
