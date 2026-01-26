@@ -67,7 +67,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel,
-        submitDisabled: !hasChanged,
+        submitDisabled: !hasChanged && estUneModification,
         secondaryAction: {
           type: 'back',
         },
