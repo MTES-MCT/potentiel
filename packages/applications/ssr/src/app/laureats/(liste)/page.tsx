@@ -159,7 +159,6 @@ type MapToActionsProps = {
     typeActionnariat?: Candidature.TypeActionnariat.RawType[];
   };
 };
-//TODO : ajouter type actionnariat
 const mapToActions = ({
   rôle: rôleUtilisateur,
   searchParams: { appelOffre, periode, famille, statut, typeActionnariat },

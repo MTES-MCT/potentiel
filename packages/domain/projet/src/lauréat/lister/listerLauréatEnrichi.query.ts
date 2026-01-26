@@ -9,7 +9,6 @@ import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import {
   CandidatureEntity,
   Dépôt,
-  DétailCandidature,
   DétailCandidatureEntity,
   Localité,
   TypeActionnariat,
@@ -53,12 +52,12 @@ export type LauréatEnrichiListItemReadModel = {
   puissance: Dépôt.ValueType['puissance'];
   unitéPuissance: UnitéPuissance.ValueType;
 
-  technologieÉolien: DétailCandidature.RawType[number] | undefined;
-  diamètreRotorEnMètres: DétailCandidature.RawType[number] | undefined;
-  hauteurBoutDePâleEnMètres: DétailCandidature.RawType[number] | undefined;
-  installationRenouvellée: DétailCandidature.RawType[number] | undefined;
-  nombreDAérogénérateurs: DétailCandidature.RawType[number] | undefined;
-  puissanceUnitaireDesAérogénérateurs: DétailCandidature.RawType[number] | undefined;
+  technologieÉolien: string | undefined;
+  diamètreRotorEnMètres: string | undefined;
+  hauteurBoutDePâleEnMètres: string | undefined;
+  installationRenouvellée: string | undefined;
+  nombreDAérogénérateurs: string | undefined;
+  puissanceUnitaireDesAérogénérateurs: string | undefined;
 };
 
 export type ListerLauréatEnrichiReadModel = {
