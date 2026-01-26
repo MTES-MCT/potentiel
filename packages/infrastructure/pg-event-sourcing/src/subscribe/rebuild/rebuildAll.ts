@@ -19,10 +19,6 @@ export const rebuildAll = async <TEvent extends DomainEvent>(
   let progress = 0;
   let errors = 0;
 
-  const interval = setInterval(() => {
-    logger.info(`Rebuild progress: ${progress}/${streams.length}`);
-  }, 1000);
-
   const streams = await loadStreamList({
     category: rebuildAllTriggered.payload.category,
     eventTypes:
@@ -32,6 +28,10 @@ export const rebuildAll = async <TEvent extends DomainEvent>(
           ? subscriber.eventType
           : [subscriber.eventType],
   });
+
+  const interval = setInterval(() => {
+    logger.info(`Rebuild progress: ${progress}/${streams.length}`);
+  }, 1000);
 
   await subscriber.eventHandler(rebuildAllTriggered as unknown as TEvent);
 
