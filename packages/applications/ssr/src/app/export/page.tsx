@@ -33,5 +33,9 @@ const mapToAction: MapToAction = (utilisateur) => {
     actions.push('lister-lauréat-enrichi');
   }
 
+  if (utilisateur.rôle.aLaPermission('éliminé.listerÉliminéEnrichi')) {
+    actions.push('lister-éliminé-enrichi');
+  }
+
   return actions;
 };

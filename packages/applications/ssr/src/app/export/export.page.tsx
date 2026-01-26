@@ -7,7 +7,7 @@ import { Heading1 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export type ExportPageProps = {
-  actions: Array<'exporter-raccordement' | 'lister-lauréat-enrichi'>;
+  actions: Array<'exporter-raccordement' | 'lister-lauréat-enrichi' | 'lister-éliminé-enrichi'>;
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions }) => (
@@ -26,6 +26,15 @@ export const ExportPage: FC<ExportPageProps> = ({ actions }) => (
         <DownloadDocument
           label="Exporter les lauréats"
           url={Routes.Lauréat.exporter({})}
+          format="csv"
+        />
+      )}
+    </div>
+    <div>
+      {actions.includes('lister-éliminé-enrichi') && (
+        <DownloadDocument
+          label="Exporter les lauréats"
+          url={Routes.Éliminé.exporter({})}
           format="csv"
         />
       )}
