@@ -61,7 +61,7 @@ export default async function Page({ searchParams }: PageProps) {
           },
         });
 
-      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
+      const appelOffresFiltrésParCycle = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
         data: { cycle },
       });
@@ -86,7 +86,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
-          options: appelOffres.items.map((appelOffre) => ({
+          options: appelOffresFiltrésParCycle.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
           })),
@@ -105,7 +105,11 @@ export default async function Page({ searchParams }: PageProps) {
       ];
 
       // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
-      if (appelOffre && cycle && !appelOffres.items.find((ao) => appelOffre.includes(ao.id))) {
+      if (
+        appelOffre?.length &&
+        cycle &&
+        !appelOffresFiltrésParCycle.items.find((ao) => appelOffre.includes(ao.id))
+      ) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(
