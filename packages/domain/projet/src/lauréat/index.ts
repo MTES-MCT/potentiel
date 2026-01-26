@@ -36,7 +36,7 @@ import {
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query';
-import { ModifierStatutLauréatUseCase } from './statut/modifierStatutLauréat.usecase';
+import { ModifierStatutLauréatCommand } from './statut/modifierStatutLauréat.command';
 
 // Query
 export type LauréatQuery =
@@ -85,15 +85,16 @@ export type LauréatUseCase =
   | ModifierSiteDeProductionUseCase
   | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase
-  | EnregistrerChangementNomProjetUseCase
-  | ModifierStatutLauréatUseCase;
+  | EnregistrerChangementNomProjetUseCase;
 export {
   ModifierSiteDeProductionUseCase,
   ModifierNomProjetUseCase,
   ChoisirCahierDesChargesUseCase,
   EnregistrerChangementNomProjetUseCase,
-  ModifierStatutLauréatUseCase,
 };
+
+// Command
+export { ModifierStatutLauréatCommand };
 
 // Events
 export { LauréatEvent } from './lauréat.event';

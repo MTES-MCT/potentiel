@@ -23,5 +23,6 @@ export const registerModifierStatutLauréatCommand = (
 
     await projet.lauréat.modifierStatut(payload);
   };
+
   mediator.register('Lauréat.Command.ModifierStatut', handler);
 };

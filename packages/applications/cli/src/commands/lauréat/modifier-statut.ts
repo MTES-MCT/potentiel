@@ -34,17 +34,17 @@ export class EmettreModifierStatutLauréatEvent extends Command {
           `Traitement du projet abandonné ${indexAbandonné + 1} sur ${totalAbandonné} : ${projet.id}`,
         );
 
-        await mediator.send<Lauréat.ModifierStatutLauréatUseCase>({
-          type: 'Lauréat.UseCase.ModifierStatut',
+        await mediator.send<Lauréat.ModifierStatutLauréatCommand>({
+          type: 'Lauréat.Command.ModifierStatut',
           data: {
-            identifiantProjetValue: projet.id,
-            modifiéLeValue: projet.date,
-            modifiéParValue: Email.système.formatter(),
-            statutValue: Lauréat.StatutLauréat.abandonné.statut,
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.id),
+            modifiéLe: DateTime.convertirEnValueType(projet.date),
+            modifiéPar: Email.système,
+            statut: Lauréat.StatutLauréat.abandonné,
           },
         });
       } catch (e) {
-        console.error('Erreur lors du traitement des projets abandonnés : ', e);
+        console.error(`Erreur pour le projet abandonné ${projet.id}  : ${e}`);
       }
     }
 
@@ -56,18 +56,18 @@ export class EmettreModifierStatutLauréatEvent extends Command {
           `Traitement du projet achevé ${indexAchevé + 1} sur ${totalAchevé} : ${projet.id}`,
         );
         for (const projet of projetAchevé) {
-          await mediator.send<Lauréat.ModifierStatutLauréatUseCase>({
-            type: 'Lauréat.UseCase.ModifierStatut',
+          await mediator.send<Lauréat.ModifierStatutLauréatCommand>({
+            type: 'Lauréat.Command.ModifierStatut',
             data: {
-              identifiantProjetValue: projet.id,
-              modifiéLeValue: projet.date,
-              modifiéParValue: Email.système.formatter(),
-              statutValue: Lauréat.StatutLauréat.achevé.statut,
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(projet.id),
+              modifiéLe: DateTime.convertirEnValueType(projet.date),
+              modifiéPar: Email.système,
+              statut: Lauréat.StatutLauréat.achevé,
             },
           });
         }
       } catch (e) {
-        console.error(`Erreur on ${projet.id}  : ${e}`);
+        console.error(`Erreur pour le projet achevé ${projet.id}  : ${e}`);
       }
     }
 
