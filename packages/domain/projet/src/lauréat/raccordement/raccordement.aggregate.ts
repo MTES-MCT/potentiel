@@ -12,6 +12,8 @@ import { TâcheAggregate } from '../tâche/tâche.aggregate';
 import { TypeTâche } from '../tâche';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 
+import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from '.';
+
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DateMiseEnServiceSuppriméeEvent,
@@ -35,13 +37,11 @@ import {
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV2,
+  RaccordementEvent,
   RaccordementSuppriméEvent,
-  RéférenceDossierRaccordement,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
-  TypeTâchePlanifiéeRaccordement,
-} from '.';
-
+} from './raccordement.event';
 import {
   DateDansLeFuturError,
   DateIdentiqueDeMiseEnServiceDéjàTransmiseError,
@@ -69,36 +69,6 @@ import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/suppr
 import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options';
 import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options';
 import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.options';
-
-export type DeprecateEvent =
-  | DemandeComplèteRaccordementTransmiseEventV1
-  | DemandeComplèteRaccordementTransmiseEventV2
-  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEventV2
-  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
-  | DemandeComplèteRaccordementModifiéeEventV1
-  | DemandeComplèteRaccordementModifiéeEventV2
-  | PropositionTechniqueEtFinancièreModifiéeEventV1
-  | DateMiseEnServiceTransmiseV1Event
-  | RéférenceDossierRacordementModifiéeEventV1
-  | GestionnaireRéseauRaccordementModifiéEventV1
-  | DossierDuRaccordementSuppriméEventV1;
-
-export type RaccordementEvent =
-  | DeprecateEvent
-  | DemandeComplèteRaccordementTransmiseEvent
-  | PropositionTechniqueEtFinancièreTransmiseEvent
-  | DateMiseEnServiceTransmiseEvent
-  | DateMiseEnServiceSuppriméeEvent
-  | DemandeComplèteRaccordementModifiéeEvent
-  | RéférenceDossierRacordementModifiéeEvent
-  | PropositionTechniqueEtFinancièreModifiéeEvent
-  | GestionnaireRéseauRaccordementModifiéEvent
-  | GestionnaireRéseauInconnuAttribuéEvent
-  | GestionnaireRéseauAttribuéEvent
-  | DossierDuRaccordementSuppriméEvent
-  | RaccordementSuppriméEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;

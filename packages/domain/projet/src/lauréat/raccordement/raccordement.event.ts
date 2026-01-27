@@ -40,7 +40,7 @@ export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
 >;
 
 /**
- * @deprecated la V2 ajoute la traçabilité
+ * @deprecated Passage à une V2 pour l'ajout de données de traçabilité
  */
 export type DossierDuRaccordementSuppriméEventV1 = DomainEvent<
   'DossierDuRaccordementSupprimé-V1',
