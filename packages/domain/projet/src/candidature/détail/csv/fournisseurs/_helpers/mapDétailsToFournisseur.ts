@@ -8,8 +8,8 @@ const champsCsvFournisseur: Record<TypeFournisseur.RawType, string> = {
   polysilicium: 'Polysilicium',
   'postes-conversion': 'Postes de conversion',
   structure: 'Structure',
-  'dispositifs-stockage-energie': "Dispositifs de stockage de l'énergie *",
-  'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil *',
+  'dispositifs-stockage-energie': "Dispositifs de stockage de l'énergie",
+  'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil',
   'autres-technologies': 'Autres technologies',
   'dispositif-de-production': 'dispositif de production',
   'dispositif-de-stockage': 'Dispositif de stockage',
@@ -38,12 +38,29 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
  * - "Adresse (string)" → field: "Adresse", type: "string", index: undefined
  */
 
-const regex =
-  /^(?<field>Nom du fabricant|Lieu\(x\) de fabrication|Coût total du lot \(M€\)|Contenu local français \(%\)|Contenu local européen \(%\)|Technologie|Puissance crête Wc|Rendement nominal \(%\))\s*\((?<type>[^()]+)\)\s*(?<index>\d+)?$/;
+// const regex =
+//   /^(?<field>Nom du fabricant|Lieu\(x\) de fabrication|Coût total du lot \(M€\)|Coût total du lot \(Mi\)|Contenu local français \(%\)|Contenu local européen \(%\)|Technologie|Puissance crête \(Wc\)|Rendement nominal \(%\))\s*\((?<type>.+)\)\s*(?<index>\d+)?$/;
+
+const regex = /^(?<field>[^()]+)\s*\((?<type>.+)\)\s*(?<index>\d+)?$/;
+
+export const splitDétailsIntoTypeFieldIndex = (key: string) => {
+  const { type, index, field } =
+    key
+      .replaceAll('’', "'")
+      .replaceAll('\n', '')
+      .replaceAll('*', '')
+      .replaceAll('(x)', '')
+      .replaceAll('(%)', '')
+      .replaceAll('(M€)', '')
+      .replaceAll('(Mi)', '')
+      .replaceAll('(Wc)', '')
+      .trim()
+      .match(regex)?.groups ?? {};
+  return { type, field, index };
+};
 
 export const mapDétailsToFournisseur = (key: string) => {
-  const { type, index, field } =
-    key.replaceAll('’', "'").replaceAll('\n', '').match(regex)?.groups ?? {};
+  const { field, type, index } = splitDétailsIntoTypeFieldIndex(key);
   if (type && labelCsvToTypeFournisseur[type]) {
     return {
       type: TypeFournisseur.convertirEnValueType(labelCsvToTypeFournisseur[type]).formatter(),

@@ -1,6 +1,28 @@
 import { Candidature } from '../../../../..';
 
-import { mapDétailsToFournisseur } from './mapDétailsToFournisseur';
+import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur';
+
+const csvLabelToTypeFournisseur: Record<string, string> = {
+  'modules ou films': 'module-ou-films',
+  cellules: 'cellules',
+  'plaquettes de silicium (wafers)': 'plaquettes-silicium',
+  polysilicium: 'polysilicium',
+  'postes de conversion': 'postes-conversion',
+  structure: 'structure',
+  "dispositifs de stockage de l'énergie": 'dispositifs-stockage-energie',
+  'dispositifs de suivi de la course du soleil': 'dispositifs-suivi-course-soleil',
+  'autres technologies': 'autres-technologies',
+  'dispositif de production': 'dispositif-de-production',
+  'dispositif de stockage': 'dispositif-de-stockage',
+  'poste de conversion': 'poste-conversion',
+  développement: 'développement',
+  developpement: 'développement',
+  raccordement: 'raccordement',
+  turbine: 'turbine',
+  'génie civil': 'génie-civil',
+  'fourniture, transport, montage': 'fourniture-transport-montage',
+  'installation et mise en service': 'installation-mise-en-service',
+};
 
 /**
  * Convertit un objet ayant pour forme :
@@ -32,11 +54,17 @@ export const mapDétailCSVToDétailFournisseur = (
 ): Candidature.DétailFournisseur[] => {
   // on récupère le type de fournisseur (cellules), la propriété (Nom du fabricant...), l'index (1,2,3...) et la valeur (AAA)
   const fieldsArray = Object.entries(payload)
-    .map(([key, value]) => {
-      const fournisseur = mapDétailsToFournisseur(key);
+    .map(([key, valeur]) => {
+      const fournisseur = splitDétailsIntoTypeFieldIndex(key);
 
-      if (fournisseur) {
-        return { ...fournisseur, valeur: value };
+      if (!fournisseur.type) {
+        return;
+      }
+      const type = csvLabelToTypeFournisseur[fournisseur.type.toLowerCase().trim()];
+      const field = fournisseur.field.trim();
+
+      if (type && field) {
+        return { type, field, index: fournisseur.index, valeur };
       }
     })
     .filter((item) => item !== undefined);
@@ -48,16 +76,15 @@ export const mapDétailCSVToDétailFournisseur = (
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(
         (acc, { field, valeur }) => {
+          // TODO faut-il ajouter 'Référence commerciale',
           if (field === 'Nom du fabricant') acc.nomDuFabricant = valeur ?? undefined;
-          if (field === 'Lieu(x) de fabrication') acc.lieuDeFabrication = valeur ?? undefined;
-          if (field === 'Coût total du lot (M€)') acc.coûtTotalLot = valeur ?? undefined;
-          if (field === 'Contenu local français (%)')
-            acc.contenuLocalFrançais = valeur ?? undefined;
-          if (field === 'Contenu local européen (%)')
-            acc.contenuLocalEuropéen = valeur ?? undefined;
+          if (field === 'Lieu de fabrication') acc.lieuDeFabrication = valeur ?? undefined;
+          if (field === 'Coût total du lot') acc.coûtTotalLot = valeur ?? undefined;
+          if (field === 'Contenu local français') acc.contenuLocalFrançais = valeur ?? undefined;
+          if (field === 'Contenu local européen') acc.contenuLocalEuropéen = valeur ?? undefined;
           if (field === 'Technologie') acc.technologie = valeur ?? undefined;
-          if (field === 'Puissance crête Wc') acc.puissanceCrêteWc = valeur ?? undefined;
-          if (field === 'Rendement nominal (%)') acc.rendementNominal = valeur ?? undefined;
+          if (field === 'Puissance crête') acc.puissanceCrêteWc = valeur ?? undefined;
+          if (field === 'Rendement nominal') acc.rendementNominal = valeur ?? undefined;
           return acc;
         },
         {

@@ -82,8 +82,9 @@ export const mapCsvRowToFournisseurs = (
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(
         (prev, { field, valeur }) => {
+          // TODO extraire cette logique dans le domaine
           if (field === 'Nom du fabricant') prev.nomDuFabricant = valeur;
-          if (field === 'Lieu(x) de fabrication') prev.lieuDeFabrication = valeur;
+          if (field === 'Lieu de fabrication') prev.lieuDeFabrication = valeur;
           return prev;
         },
         {

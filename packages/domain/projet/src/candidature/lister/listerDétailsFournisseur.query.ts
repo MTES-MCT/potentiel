@@ -6,13 +6,12 @@ import { Email } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, DétailCandidatureEntity, Localité } from '..';
-import { Fournisseur } from '../../lauréat';
 import { autresTechnologies } from '../détail/csv/fournisseurs';
 
 export type DétailFournisseur = {
-  typeFournisseur: Fournisseur.TypeFournisseur.RawType;
-  nomDuFabricant?: Fournisseur.Fournisseur.ValueType['nomDuFabricant'];
-  lieuDeFabrication?: Fournisseur.Fournisseur.ValueType['lieuDeFabrication'];
+  typeFournisseur: string;
+  nomDuFabricant?: string;
+  lieuDeFabrication?: string;
   coûtTotalLot?: string;
   contenuLocalFrançais?: string;
   contenuLocalEuropéen?: string;
