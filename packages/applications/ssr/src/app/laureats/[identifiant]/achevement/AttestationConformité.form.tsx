@@ -59,7 +59,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       ModifierAttestationConformitéFormKeys | TransmettreAttestationConformitéFormKeys
     >
   >({});
-  const [hasChanged, setHasChanged] = useState<boolean>(false);
 
   return (
     <Form
@@ -67,7 +66,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel,
-        submitDisabled: !hasChanged && estUneModification,
         secondaryAction: {
           type: 'back',
         },
@@ -86,7 +84,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           state={validationErrors['attestation'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['attestation']}
           formats={['pdf']}
-          onChange={() => setHasChanged(true)}
         />
 
         <UploadNewOrModifyExistingDocument
@@ -100,7 +97,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
-          onChange={() => setHasChanged(true)}
         />
 
         <div className="w-fit">
@@ -115,7 +111,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
             defaultValue={dateTransmissionAuCocontractant}
             state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
-            onChange={() => setHasChanged(true)}
           />
         </div>
 
@@ -133,7 +128,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
                     'aria-disabled': !demanderMainlevée.canBeDone,
                     name: 'demanderMainlevee',
                     value: 'true',
-                    onChange: () => setHasChanged(true),
                   },
                 },
               ]}

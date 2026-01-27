@@ -14,7 +14,6 @@ type InputDateProps = {
   value?: Iso8601DateTime;
   state: InputProps['state'];
   stateRelatedMessage: InputProps['stateRelatedMessage'];
-  onChange?: () => void;
 };
 
 export const InputDate: FC<InputDateProps> = ({
@@ -28,7 +27,6 @@ export const InputDate: FC<InputDateProps> = ({
   value,
   state,
   stateRelatedMessage,
-  onChange,
 }) => {
   return (
     <Input
@@ -43,7 +41,6 @@ export const InputDate: FC<InputDateProps> = ({
         max: formatDateForInput(max),
         defaultValue: formatDateForInput(defaultValue),
         value: formatDateForInput(value),
-        onChange,
       }}
       state={state}
       stateRelatedMessage={stateRelatedMessage}
