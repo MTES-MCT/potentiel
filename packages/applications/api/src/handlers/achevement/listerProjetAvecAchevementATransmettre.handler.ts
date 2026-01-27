@@ -35,6 +35,8 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
           coefficientKChoisi,
           dateNotification,
           nomProjet,
+          puissance,
+          puissanceInitiale,
         }) => ({
           identifiantProjet: identifiantProjet.formatter(),
           nomProjet,
@@ -54,6 +56,8 @@ export const listerProjetAvecAchevementATransmettreHandler: AchevementV1['lister
             departement: localité.département,
             region: localité.région,
           },
+          puissance,
+          puissanceInitiale,
         }),
       ),
     };
