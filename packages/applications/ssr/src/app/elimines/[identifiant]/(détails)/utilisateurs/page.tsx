@@ -69,9 +69,9 @@ const mapToProps: MapToProps = ({
     accès: accès.map((identifiantUtilisateur) => ({
       identifiantProjet: identifiantProjet.formatter(),
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
-      peutRetirerAccès: !identifiantUtilisateur.estÉgaleÀ(
-        utilisateurQuiInvite.identifiantUtilisateur,
-      ),
+      peutRetirerAccès:
+        !identifiantUtilisateur.estÉgaleÀ(utilisateurQuiInvite.identifiantUtilisateur) &&
+        utilisateurQuiInvite.rôle.aLaPermission('accès.retirerAccèsProjet'),
     })),
     identifiantProjet: identifiantProjet.formatter(),
     nombreDeProjets,
@@ -82,6 +82,7 @@ const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
   if (!utilisateur.rôle.estPorteur()) {
     return undefined;
   }
+
   const accès = await mediator.send<Accès.ListerAccèsQuery>({
     type: 'Projet.Accès.Query.ListerAccès',
     data: {
