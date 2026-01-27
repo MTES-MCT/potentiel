@@ -195,6 +195,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
+  const newCsvExportEnabled = getContext()?.features.includes('export');
   const menu: MainNavigationProps.Item[] = [
     {
       text: 'Projets',
@@ -220,6 +221,16 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       text: 'Gestion des accès',
       menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
+    ...(newCsvExportEnabled
+      ? [
+          {
+            text: 'Export de données',
+            linkProps: {
+              href: Routes.Export.page,
+            },
+          },
+        ]
+      : []),
     ...mapToMenuProps(
       [
         {
