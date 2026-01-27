@@ -20,6 +20,7 @@ import {
   total,
   turbine,
 } from './fournisseurs';
+
 export const getDétailCandidatureCSVFournisseurKeys = () => {
   const fournisseursCandidatureDétailKeys: Partial<
     Array<keyof Candidature.DétailCandidature.RawType>

@@ -47,29 +47,39 @@ export const mapDétailCSVToDétailFournisseur = (
     .filter((champsParTypeEtIndex) => !!champsParTypeEtIndex)
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(
-        (prev, { field, valeur }) => {
-          if (field === 'Nom du fabricant') prev.nomDuFabricant = valeur;
-          if (field === 'Lieu(x) de fabrication') prev.lieuDeFabrication = valeur;
-          if (field === 'Coût total du lot (M€)') prev.coûtTotalLot = valeur;
-          if (field === 'Contenu local français (%)') prev.contenuLocalFrançais = valeur;
-          if (field === 'Contenu local européen (%)') prev.contenuLocalEuropéen = valeur;
-          if (field === 'Technologie') prev.technologie = valeur;
-          if (field === 'Puissance crête Wc') prev.puissanceCrêteWc = valeur;
-          if (field === 'Rendement nominal (%)') prev.rendementNominal = valeur;
-          return prev;
+        (acc, { field, valeur }) => {
+          if (field === 'Nom du fabricant') acc.nomDuFabricant = valeur ?? undefined;
+          if (field === 'Lieu(x) de fabrication') acc.lieuDeFabrication = valeur ?? undefined;
+          if (field === 'Coût total du lot (M€)') acc.coûtTotalLot = valeur ?? undefined;
+          if (field === 'Contenu local français (%)')
+            acc.contenuLocalFrançais = valeur ?? undefined;
+          if (field === 'Contenu local européen (%)')
+            acc.contenuLocalEuropéen = valeur ?? undefined;
+          if (field === 'Technologie') acc.technologie = valeur ?? undefined;
+          if (field === 'Puissance crête Wc') acc.puissanceCrêteWc = valeur ?? undefined;
+          if (field === 'Rendement nominal (%)') acc.rendementNominal = valeur ?? undefined;
+          return acc;
         },
         {
           typeFournisseur: champsParTypeEtIndex[0].type,
-          lieuDeFabrication: '',
-          nomDuFabricant: '',
-          coûtTotalLot: '',
-          contenuLocalFrançais: '',
-          contenuLocalEuropéen: '',
-          puissanceCrêteWc: '',
-          rendementNominal: '',
-          technologie: '',
+          lieuDeFabrication: undefined,
+          nomDuFabricant: undefined,
+          coûtTotalLot: undefined,
+          contenuLocalFrançais: undefined,
+          contenuLocalEuropéen: undefined,
+          technologie: undefined,
+          puissanceCrêteWc: undefined,
+          rendementNominal: undefined,
         } as Candidature.DétailFournisseur,
       ),
     )
-    .filter((fournisseur) => fournisseur.typeFournisseur);
+    .filter((fournisseur) => fournisseur.typeFournisseur)
+    .map((fournisseur) => {
+      return Object.fromEntries(
+        Object.entries(fournisseur).filter(([_, value]) => value !== undefined && value !== ''),
+      );
+    })
+    .filter(
+      (fournisseur) => Object.keys(fournisseur).length > 1,
+    ) as Candidature.DétailFournisseur[];
 };

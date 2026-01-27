@@ -1,5 +1,5 @@
 export * as autresTechnologies from './autresTechnologies.fournisseur';
-export * as cellules from './cellules.fournisseur.csvKeys.';
+export * as cellules from './cellules.fournisseur';
 export * as dispositifDeProduction from './dispositifDeProduction.fournisseur';
 export * as dispositifDeStockageDeLEnergie from './dispositifDeStockageDeLEnergie.fournisseur';
 export * as dispositifDeSuiviDeLaCourseDuSoleil from './dispositifDeSuiviDeLaCourseDuSoleil.fournisseur';

@@ -37,7 +37,9 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
  * - "Nom (string) 1" → field: "Nom", type: "string", index: "1"
  * - "Adresse (string)" → field: "Adresse", type: "string", index: undefined
  */
-const regex = /^(?<field>[\w\s()]*)\s*\((?<type>(?:[^()]|\([^()]*\))*)\)\s*(?<index>\d+)?$/;
+
+const regex =
+  /^(?<field>Nom du fabricant|Lieu\(x\) de fabrication|Coût total du lot \(M€\)|Contenu local français \(%\)|Contenu local européen \(%\)|Technologie|Puissance crête Wc|Rendement nominal \(%\))\s*\((?<type>[^()]+)\)\s*(?<index>\d+)?$/;
 
 export const mapDétailsToFournisseur = (key: string) => {
   const { type, index, field } =
@@ -45,7 +47,7 @@ export const mapDétailsToFournisseur = (key: string) => {
   if (type && labelCsvToTypeFournisseur[type]) {
     return {
       type: TypeFournisseur.convertirEnValueType(labelCsvToTypeFournisseur[type]).formatter(),
-      field,
+      field: field.trim(),
       index,
     };
   }

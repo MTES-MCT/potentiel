@@ -29,12 +29,5 @@ export const CSVDétailKeys: Partial<Array<keyof Candidature.DétailCandidature.
   'Lieu(x) de fabrication (Autres technologies) 5',
 ];
 
-export const mapToDétailFournisseur = (détail: Candidature.DétailCandidature.RawType) => {
-  const fournisseurs: Array<Candidature.DétailFournisseur> = [];
-
-  const test = mapDétailCSVToDétailFournisseur(détail);
-
-  console.log('AUTRES TECHNOLOGIES - mapToDétailFournisseur - test', test);
-
-  return fournisseurs;
-};
+export const mapToDétailFournisseur = (détail: Candidature.DétailCandidature.RawType) =>
+  mapDétailCSVToDétailFournisseur(détail);

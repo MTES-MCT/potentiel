@@ -7,6 +7,7 @@ import { CandidatureEntity } from '../candidature.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, DétailCandidatureEntity, Localité } from '..';
 import { Fournisseur } from '../../lauréat';
+import { autresTechnologies } from '../détail/csv/fournisseurs';
 
 export type DétailFournisseur = {
   typeFournisseur: Fournisseur.TypeFournisseur.RawType;
@@ -108,10 +109,12 @@ export const mapToReadModel: MapToReadModel = ({
  * TODO : Cette fonction doit analyser les clés du détail de candidature
  * pour en extraire une liste de fournisseurs (type DétailFournisseur)
  * en se basant sur les clés listées dans les différents fichiers
- * `*.fournisseur.csvKeys.ts`
+ * `*.fournisseur.ts`
  */
 const getFournisseursFromDétail = (détail: DétailCandidature.RawType): Array<DétailFournisseur> => {
-  console.log('Détail reçu pour extraction des fournisseurs : ', détail);
+  const fournisseurs: Array<DétailFournisseur> = [];
+
+  fournisseurs.push(...autresTechnologies.mapToDétailFournisseur(détail));
 
   return [];
 };

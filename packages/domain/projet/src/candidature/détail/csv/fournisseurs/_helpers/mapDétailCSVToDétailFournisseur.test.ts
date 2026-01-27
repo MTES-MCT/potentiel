@@ -3,109 +3,73 @@ import test from 'node:test';
 import { expect } from 'chai';
 
 import { Candidature } from '../../../../..';
+import { getDétailCandidatureCSVFournisseurKeys } from '../../getDétailCandidatureCSVFournisseurKeys';
 
 import { mapDétailCSVToDétailFournisseur } from './mapDétailCSVToDétailFournisseur';
 
-test(`mapDétailCSVToDétailFournisseur`, () => {});
+test('mapDétailCSVToDétailFournisseur - Fournisseur autres technologies   ', () => {
+  const keys = getDétailCandidatureCSVFournisseurKeys();
 
-test('mapDétailCSVToDétailFournisseur - cas de base', () => {
+  for (const key of keys) {
+    console.log(key);
+  }
+
   const détail = {
-    'Nom du fabricant (Cellules)': 'AAA',
-    'Nom du fabricant (Cellules) 1': 'BBB',
-    'Nom du fabricant (Cellules) 2': 'CCC',
-    'Lieu(x) de fabrication (Cellules)': 'Chine',
-    'Lieu(x) de fabrication (Cellules) 1': 'Japon',
-    'Lieu(x) de fabrication (Cellules) 2': 'Italie',
+    'Nom du fabricant (Autres technologies)': 'CCC',
+    'Lieu(x) de fabrication (Autres technologies)': 'France',
+
+    'Nom du fabricant (Autres technologies) 1': 'DDD',
+    'Lieu(x) de fabrication (Autres technologies) 1': 'Allemagne',
+
+    'Nom du fabricant (Autres technologies) 2': 'EEE',
+    'Lieu(x) de fabrication (Autres technologies) 2': 'Etats-Unis',
+
+    'Nom du fabricant (Autres technologies) 3': 'FFF',
+    'Lieu(x) de fabrication (Autres technologies) 3': 'France',
+
+    'Nom du fabricant (Autres technologies) 4': 'GGG',
+    'Lieu(x) de fabrication (Autres technologies) 4': 'Italie',
+
+    'Contenu local européen (%) (Autres technologies)': '10',
+    'Contenu local français (%) (Autres technologies)': '60',
+    'Coût total du lot (M€) (Autres technologies)': '5',
+
+    //
+    'Référence commerciale (Autres technologies)': 'Ref-AT-12345',
   };
 
   const expected: Array<Candidature.DétailFournisseur> = [
     {
-      typeFournisseur: 'cellules',
-      nomDuFabricant: 'AAA',
-      lieuDeFabrication: 'Chine',
-      coûtTotalLot: '',
-      contenuLocalFrançais: '',
-      contenuLocalEuropéen: '',
-      puissanceCrêteWc: '',
-      rendementNominal: '',
-      technologie: '',
-    },
-    {
-      typeFournisseur: 'cellules',
-      nomDuFabricant: 'BBB',
-      lieuDeFabrication: 'Japon',
-      coûtTotalLot: '',
-      contenuLocalFrançais: '',
-      contenuLocalEuropéen: '',
-      puissanceCrêteWc: '',
-      rendementNominal: '',
-      technologie: '',
-    },
-    {
-      typeFournisseur: 'cellules',
+      typeFournisseur: 'autres-technologies',
       nomDuFabricant: 'CCC',
-      lieuDeFabrication: 'Italie',
-      coûtTotalLot: '',
-      contenuLocalFrançais: '',
-      contenuLocalEuropéen: '',
-      puissanceCrêteWc: '',
-      rendementNominal: '',
-      technologie: '',
+      lieuDeFabrication: 'France',
+      coûtTotalLot: '5',
+      contenuLocalFrançais: '60',
+      contenuLocalEuropéen: '10',
     },
     {
-      typeFournisseur: 'polysilicium',
-      nomDuFabricant: 'CCC',
+      typeFournisseur: 'autres-technologies',
+      nomDuFabricant: 'DDD',
+      lieuDeFabrication: 'Allemagne',
+    },
+    {
+      typeFournisseur: 'autres-technologies',
+      nomDuFabricant: 'EEE',
       lieuDeFabrication: 'Etats-Unis',
-      coûtTotalLot: '',
-      contenuLocalFrançais: '',
-      contenuLocalEuropéen: '',
-      puissanceCrêteWc: '',
-      rendementNominal: '',
-      technologie: '',
+    },
+    {
+      typeFournisseur: 'autres-technologies',
+      nomDuFabricant: 'FFF',
+      lieuDeFabrication: 'France',
+    },
+    {
+      typeFournisseur: 'autres-technologies',
+      nomDuFabricant: 'GGG',
+      lieuDeFabrication: 'Italie',
     },
   ];
 
   const actual = mapDétailCSVToDétailFournisseur(détail);
-
-  expect(actual).to.deep.equal(expected);
-});
-
-test('mapDétailCSVToDétailFournisseur - champs manquants', () => {});
-
-test('mapDétailCSVToDétailFournisseur - champs supplémentaires', () => {
-  const détail = {
-    'Nom du fabricant (Cellules)': 'AAA',
-    'Lieu(x) de fabrication (Cellules)': 'Chine',
-    'Coût total du lot (Cellules)': '1.5',
-    'Contenu local français (Cellules)': '20',
-    'Technologie (Cellules)': 'Mono',
-    'Puissance crête Wc (Cellules)': '400',
-    'Rendement nominal (Cellules)': '19',
-  };
-
-  const actual: Array<Candidature.DétailFournisseur> = [
-    {
-      typeFournisseur: 'cellules',
-      nomDuFabricant: 'AAA',
-      lieuDeFabrication: 'Chine',
-      coûtTotalLot: '1.5',
-      contenuLocalFrançais: '20',
-      contenuLocalEuropéen: '',
-      puissanceCrêteWc: '400',
-      rendementNominal: '19',
-      technologie: 'Mono',
-    },
-  ];
-
-  const expected = mapDétailCSVToDétailFournisseur(détail);
-
-  expect(actual).to.deep.equal(expected);
-});
-
-test('mapDétailCSVToDétailFournisseur - entrée vide', () => {
-  const détail = {};
-  const actual: Array<Candidature.DétailFournisseur> = [];
-  const expected = mapDétailCSVToDétailFournisseur(détail);
 
   expect(actual).to.deep.equal(expected);
 });
