@@ -8,6 +8,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et le gestionnaire de réseau "Arc Energies Maurienne"
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement
         Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
