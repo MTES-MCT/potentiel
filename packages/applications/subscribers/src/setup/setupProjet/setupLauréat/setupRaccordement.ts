@@ -41,6 +41,7 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
       'RéférenceDossierRacordementModifiée-V2',
       'GestionnaireRéseauAttribué-V1',
       'DossierDuRaccordementSupprimé-V1',
+      'DossierDuRaccordementSupprimé-V2',
       'DateMiseEnServiceSupprimée-V1',
       'RaccordementSupprimé-V1',
     ],

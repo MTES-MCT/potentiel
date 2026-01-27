@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -143,7 +143,9 @@ export const register = () => {
 
           // Suppression du dossier
           .with(
-            { type: 'DossierDuRaccordementSupprimé-V1' },
+            {
+              type: P.union('DossierDuRaccordementSupprimé-V1', 'DossierDuRaccordementSupprimé-V2'),
+            },
             dossierDuRaccordementSuppriméV1Projector,
           )
           .exhaustive(),

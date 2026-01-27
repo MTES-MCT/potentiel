@@ -12,6 +12,8 @@ import { TâcheAggregate } from '../tâche/tâche.aggregate';
 import { TypeTâche } from '../tâche';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 
+import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from '.';
+
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DateMiseEnServiceSuppriméeEvent,
@@ -24,6 +26,7 @@ import {
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
   DossierDuRaccordementSuppriméEvent,
+  DossierDuRaccordementSuppriméEventV1,
   GestionnaireRéseauAttribuéEvent,
   GestionnaireRéseauInconnuAttribuéEvent,
   GestionnaireRéseauRaccordementModifiéEvent,
@@ -34,13 +37,11 @@ import {
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV2,
+  RaccordementEvent,
   RaccordementSuppriméEvent,
-  RéférenceDossierRaccordement,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
-  TypeTâchePlanifiéeRaccordement,
-} from '.';
-
+} from './raccordement.event';
 import {
   DateDansLeFuturError,
   DateIdentiqueDeMiseEnServiceDéjàTransmiseError,
@@ -68,35 +69,6 @@ import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/suppr
 import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options';
 import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options';
 import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.options';
-
-export type DeprecateEvent =
-  | DemandeComplèteRaccordementTransmiseEventV1
-  | DemandeComplèteRaccordementTransmiseEventV2
-  | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEventV1
-  | PropositionTechniqueEtFinancièreTransmiseEventV2
-  | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
-  | DemandeComplèteRaccordementModifiéeEventV1
-  | DemandeComplèteRaccordementModifiéeEventV2
-  | PropositionTechniqueEtFinancièreModifiéeEventV1
-  | DateMiseEnServiceTransmiseV1Event
-  | RéférenceDossierRacordementModifiéeEventV1
-  | GestionnaireRéseauRaccordementModifiéEventV1;
-
-export type RaccordementEvent =
-  | DeprecateEvent
-  | DemandeComplèteRaccordementTransmiseEvent
-  | PropositionTechniqueEtFinancièreTransmiseEvent
-  | DateMiseEnServiceTransmiseEvent
-  | DateMiseEnServiceSuppriméeEvent
-  | DemandeComplèteRaccordementModifiéeEvent
-  | RéférenceDossierRacordementModifiéeEvent
-  | PropositionTechniqueEtFinancièreModifiéeEvent
-  | GestionnaireRéseauRaccordementModifiéEvent
-  | GestionnaireRéseauInconnuAttribuéEvent
-  | GestionnaireRéseauAttribuéEvent
-  | DossierDuRaccordementSuppriméEvent
-  | RaccordementSuppriméEvent;
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -289,7 +261,11 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
   }
 
-  async supprimerDossier({ référenceDossier }: SupprimerDossierDuRaccordementOptions) {
+  async supprimerDossier({
+    référenceDossier,
+    suppriméLe,
+    suppriméPar,
+  }: SupprimerDossierDuRaccordementOptions) {
     const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
     if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
@@ -297,10 +273,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
-      type: 'DossierDuRaccordementSupprimé-V1',
+      type: 'DossierDuRaccordementSupprimé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         référenceDossier: référenceDossier.formatter(),
+        suppriméLe: suppriméLe.formatter(),
+        suppriméPar: suppriméPar.formatter(),
       },
     };
 
@@ -794,6 +772,10 @@ export class RaccordementAggregate extends AbstractAggregate<
         { type: 'DossierDuRaccordementSupprimé-V1' },
         this.applyDossierDuRaccordementSuppriméEventV1.bind(this),
       )
+      .with(
+        { type: 'DossierDuRaccordementSupprimé-V2' },
+        this.applyDossierDuRaccordementSuppriméEventV2.bind(this),
+      )
       .with({ type: 'RaccordementSupprimé-V1' }, this.applyRaccordementSuppriméEventV1.bind(this))
       .with(
         { type: 'DateMiseEnServiceSupprimée-V1' },
@@ -812,6 +794,12 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
+    payload,
+  }: DossierDuRaccordementSuppriméEventV1) {
+    this.#dossiers.delete(payload.référenceDossier);
+  }
+
+  private applyDossierDuRaccordementSuppriméEventV2({
     payload,
   }: DossierDuRaccordementSuppriméEvent) {
     this.#dossiers.delete(payload.référenceDossier);

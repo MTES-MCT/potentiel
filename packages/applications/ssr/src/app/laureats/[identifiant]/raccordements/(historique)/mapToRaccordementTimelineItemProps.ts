@@ -32,7 +32,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     )
     .with(
       {
-        type: 'DossierDuRaccordementSupprimé-V1',
+        type: P.union('DossierDuRaccordementSupprimé-V1', 'DossierDuRaccordementSupprimé-V2'),
       },
       dossierRaccordement.mapToDossierRaccordementSuppriméTimelineItemProps,
     )
