@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
@@ -12,7 +12,7 @@ type DétailFournisseurCSV = {
   periode: IdentifiantProjet.ValueType['période'];
   region: Candidature.Localité.ValueType['région'];
   societeMere: string;
-  typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
+  typeFournisseur: string;
   nomFabricant: string;
   lieuFabrication: string;
   coutTotalLot: string;
