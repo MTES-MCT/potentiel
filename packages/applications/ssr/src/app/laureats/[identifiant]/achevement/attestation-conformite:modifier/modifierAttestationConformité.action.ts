@@ -19,6 +19,8 @@ const schema = zod.object({
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
+  attestationHasChanged: zod.stringbool(),
+  preuveTransmissionAuCocontractantHasChanged: zod.stringbool(),
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
@@ -31,9 +33,14 @@ const action: FormAction<FormState, typeof schema> = async (
     dateTransmissionAuCocontractant,
     attestation,
     preuveTransmissionAuCocontractant,
+    attestationHasChanged,
+    preuveTransmissionAuCocontractantHasChanged,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    console.log('viovio');
+    console.log(attestationHasChanged);
+    console.log(preuveTransmissionAuCocontractantHasChanged);
     await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
       type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
       data: {
