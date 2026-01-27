@@ -292,11 +292,24 @@ export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   }
 >;
 
-export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
+/**
+ * @deprecated Passage à une V2 pour l'ajout de données de traçabilité
+ */
+export type GestionnaireRéseauRaccordementModifiéEventV1 = DomainEvent<
   'GestionnaireRéseauRaccordementModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+  }
+>;
+
+export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
+  'GestionnaireRéseauRaccordementModifié-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    modifiéLe: DateTime.RawType;
+    modifiéPar: Email.RawType;
   }
 >;
 //#endregion GRD Raccordement
@@ -313,6 +326,7 @@ export type RaccordementEvent =
   | PropositionTechniqueEtFinancièreModifiéeEventV1
   | DateMiseEnServiceTransmiseV1Event
   | RéférenceDossierRacordementModifiéeEventV1
+  | GestionnaireRéseauRaccordementModifiéEventV1
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseEvent

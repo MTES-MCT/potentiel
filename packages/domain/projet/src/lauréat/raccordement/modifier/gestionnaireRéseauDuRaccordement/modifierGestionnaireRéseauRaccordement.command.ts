@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -11,6 +12,8 @@ export type ModifierGestionnaireRéseauRaccordementCommand = Message<
     identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     rôle: Role.ValueType;
+    modifiéPar: Email.ValueType;
+    modifiéLe: DateTime.ValueType;
   }
 >;
 
@@ -21,12 +24,16 @@ export const registerModifierGestionnaireRéseauProjetCommand = (
     identifiantProjet,
     identifiantGestionnaireRéseau,
     rôle,
+    modifiéLe,
+    modifiéPar,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.raccordement.modifierGestionnaireRéseau({
       identifiantGestionnaireRéseau,
       rôle,
+      modifiéLe,
+      modifiéPar,
     });
   };
 

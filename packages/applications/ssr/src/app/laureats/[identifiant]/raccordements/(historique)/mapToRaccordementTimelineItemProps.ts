@@ -106,7 +106,10 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
     )
     .with(
       {
-        type: 'GestionnaireRéseauRaccordementModifié-V1',
+        type: P.union(
+          'GestionnaireRéseauRaccordementModifié-V1',
+          'GestionnaireRéseauRaccordementModifié-V2',
+        ),
       },
       gestionnaireRéseau.mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps,
     )

@@ -25,6 +25,8 @@ EtantDonné(
         identifiantGestionnaireRéseauValue: codeEIC,
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         rôleValue: this.utilisateurWorld.adminFixture.role,
+        modifiéParValue: this.utilisateurWorld.adminFixture.email,
+        modifiéLeValue: this.lauréatWorld.notifierLauréatFixture.notifiéLe,
       },
     });
   },
@@ -43,6 +45,8 @@ EtantDonné(
           GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         rôleValue: this.utilisateurWorld.adminFixture.role,
+        modifiéParValue: this.utilisateurWorld.adminFixture.email,
+        modifiéLeValue: this.lauréatWorld.notifierLauréatFixture.notifiéLe,
       },
     });
   },
@@ -60,6 +64,8 @@ EtantDonné(
         identifiantGestionnaireRéseauValue: 'inconnu',
         identifiantProjetValue: identifiantProjet.formatter(),
         rôleValue: this.utilisateurWorld.porteurFixture.role,
+        modifiéParValue: this.utilisateurWorld.adminFixture.email,
+        modifiéLeValue: this.lauréatWorld.notifierLauréatFixture.notifiéLe,
       },
     });
 

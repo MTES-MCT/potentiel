@@ -29,6 +29,7 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
       'DemandeComplèteRaccordementModifiée-V2',
       'DemandeComplèteRaccordementModifiée-V3',
       'GestionnaireRéseauRaccordementModifié-V1',
+      'GestionnaireRéseauRaccordementModifié-V2',
       'GestionnaireRéseauInconnuAttribué-V1',
       'PropositionTechniqueEtFinancièreModifiée-V1',
       'PropositionTechniqueEtFinancièreModifiée-V2',
