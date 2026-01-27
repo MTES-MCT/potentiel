@@ -39,11 +39,24 @@ export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   }
 >;
 
-export type DossierDuRaccordementSuppriméEvent = DomainEvent<
+/**
+ * @deprecated la V2 ajoute la traçabilité
+ */
+export type DossierDuRaccordementSuppriméEventV1 = DomainEvent<
   'DossierDuRaccordementSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossier: RéférenceDossierRaccordement.RawType;
+  }
+>;
+
+export type DossierDuRaccordementSuppriméEvent = DomainEvent<
+  'DossierDuRaccordementSupprimé-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossier: RéférenceDossierRaccordement.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
   }
 >;
 //#endregion Dossier Raccordement
@@ -327,6 +340,7 @@ export type RaccordementEvent =
   | DateMiseEnServiceTransmiseV1Event
   | RéférenceDossierRacordementModifiéeEventV1
   | GestionnaireRéseauRaccordementModifiéEventV1
+  | DossierDuRaccordementSuppriméEventV1
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseEvent

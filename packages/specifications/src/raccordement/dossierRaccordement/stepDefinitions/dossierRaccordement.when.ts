@@ -17,6 +17,8 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
+          suppriméLeValue: new Date().toISOString(),
+          suppriméParValue: this.utilisateurWorld.porteurFixture.email,
         },
       });
     } catch (e) {
@@ -36,6 +38,8 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
+          suppriméLeValue: new Date().toISOString(),
+          suppriméParValue: this.utilisateurWorld.porteurFixture.email,
         },
       });
     } catch (e) {

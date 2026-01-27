@@ -24,6 +24,7 @@ import {
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
   DossierDuRaccordementSuppriméEvent,
+  DossierDuRaccordementSuppriméEventV1,
   GestionnaireRéseauAttribuéEvent,
   GestionnaireRéseauInconnuAttribuéEvent,
   GestionnaireRéseauRaccordementModifiéEvent,
@@ -81,7 +82,8 @@ export type DeprecateEvent =
   | PropositionTechniqueEtFinancièreModifiéeEventV1
   | DateMiseEnServiceTransmiseV1Event
   | RéférenceDossierRacordementModifiéeEventV1
-  | GestionnaireRéseauRaccordementModifiéEventV1;
+  | GestionnaireRéseauRaccordementModifiéEventV1
+  | DossierDuRaccordementSuppriméEventV1;
 
 export type RaccordementEvent =
   | DeprecateEvent
@@ -289,7 +291,11 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
   }
 
-  async supprimerDossier({ référenceDossier }: SupprimerDossierDuRaccordementOptions) {
+  async supprimerDossier({
+    référenceDossier,
+    suppriméLe,
+    suppriméPar,
+  }: SupprimerDossierDuRaccordementOptions) {
     const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
     if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
@@ -297,10 +303,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
-      type: 'DossierDuRaccordementSupprimé-V1',
+      type: 'DossierDuRaccordementSupprimé-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         référenceDossier: référenceDossier.formatter(),
+        suppriméLe: suppriméLe.formatter(),
+        suppriméPar: suppriméPar.formatter(),
       },
     };
 
@@ -794,6 +802,10 @@ export class RaccordementAggregate extends AbstractAggregate<
         { type: 'DossierDuRaccordementSupprimé-V1' },
         this.applyDossierDuRaccordementSuppriméEventV1.bind(this),
       )
+      .with(
+        { type: 'DossierDuRaccordementSupprimé-V2' },
+        this.applyDossierDuRaccordementSuppriméEventV2.bind(this),
+      )
       .with({ type: 'RaccordementSupprimé-V1' }, this.applyRaccordementSuppriméEventV1.bind(this))
       .with(
         { type: 'DateMiseEnServiceSupprimée-V1' },
@@ -812,6 +824,12 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private applyDossierDuRaccordementSuppriméEventV1({
+    payload,
+  }: DossierDuRaccordementSuppriméEventV1) {
+    this.#dossiers.delete(payload.référenceDossier);
+  }
+
+  private applyDossierDuRaccordementSuppriméEventV2({
     payload,
   }: DossierDuRaccordementSuppriméEvent) {
     this.#dossiers.delete(payload.référenceDossier);
