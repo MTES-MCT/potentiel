@@ -187,7 +187,7 @@ const mapToActions = ({
           appelOffreId: appelOffre?.[0],
           familleId: famille,
           periodeId: periode,
-          statut,
+          statut: statut?.[0],
         }),
   });
 
