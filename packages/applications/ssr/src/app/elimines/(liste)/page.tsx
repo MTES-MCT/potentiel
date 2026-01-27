@@ -8,6 +8,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -157,14 +158,22 @@ const mapToActions = ({
     return actions;
   }
 
+  const newCsvExportEnabled = getContext()?.features.includes('export');
   actions.push({
     label: 'Télécharger un export (format CSV)',
-    href: Routes.Éliminé.exporter({
-      appelOffre,
-      periode,
-      famille,
-      typeActionnariat,
-    }),
+    href: newCsvExportEnabled
+      ? Routes.Éliminé.exporter({
+          appelOffre,
+          periode,
+          famille,
+          typeActionnariat,
+        })
+      : Routes.Projet.exportCsv({
+          appelOffreId: appelOffre?.[0],
+          familleId: famille,
+          periodeId: periode,
+          statut: 'éliminé',
+        }),
   });
 
   return actions;
