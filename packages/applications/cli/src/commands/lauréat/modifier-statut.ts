@@ -1,6 +1,6 @@
 import { Command } from '@oclif/core';
 
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -72,8 +72,6 @@ export class EmettreModifierStatutLauréatEvent extends Command {
       }
     }
 
-    console.log('Rebuild des projections lauréat...');
-
-    await executeQuery(`call event_store.rebuild('lauréat')`);
+    console.log('Publication des événements terminée');
   }
 }
