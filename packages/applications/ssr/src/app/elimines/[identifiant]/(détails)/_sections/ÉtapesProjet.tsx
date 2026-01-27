@@ -37,7 +37,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                 {doitAfficherAttestationDésignation && (
                   <DownloadDocument
                     className="mb-0"
-                    label="Télécharger l'attestation"
+                    label="Télécharger l'avis de rejet"
                     format="pdf"
                     url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
                   />
