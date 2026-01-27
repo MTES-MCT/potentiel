@@ -29,7 +29,6 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   const [documentSelection, setDocumentSelection] = useState<
     'keep_existing_document' | 'edit_document'
   >(noExistingDocument ? 'edit_document' : 'keep_existing_document');
-  console.log(documentSelection);
 
   return (
     <>
