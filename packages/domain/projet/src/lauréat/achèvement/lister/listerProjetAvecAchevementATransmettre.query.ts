@@ -8,7 +8,6 @@ import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Raccordement } from '../..';
 import { CandidatureEntity, Localité } from '../../../candidature';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement';
-import { AchèvementEntity } from '../achèvement.entity';
 import { PuissanceEntity } from '../../puissance';
 
 type ProjetAvecAchevementATransmettre = {
@@ -50,7 +49,6 @@ export type ListerProjetAvecAchevementATransmettreDependencies = {
 type ProjetAvecAchevementATransmettreJoins = [
   RaccordementEntity,
   CandidatureEntity,
-  AchèvementEntity,
   DossierRaccordementEntity,
   PuissanceEntity,
 ];
@@ -81,6 +79,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
         localité: {
           région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
         },
+        statut: Where.notEqual('achevé'),
       },
       join: [
         {
@@ -96,13 +95,6 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
         {
           entity: 'candidature',
           on: 'identifiantProjet',
-        },
-        {
-          entity: 'achèvement',
-          on: 'identifiantProjet',
-          where: {
-            estAchevé: Where.equal(false),
-          },
         },
         {
           entity: 'dossier-raccordement',

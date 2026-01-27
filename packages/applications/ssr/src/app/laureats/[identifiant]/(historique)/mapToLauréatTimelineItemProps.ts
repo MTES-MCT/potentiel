@@ -27,7 +27,7 @@ export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
   match(readmodel)
     .with(
       {
-        type: P.union('NomEtLocalitéLauréatImportés-V1'),
+        type: P.union('NomEtLocalitéLauréatImportés-V1', 'StatutLauréatModifié-V1'),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )

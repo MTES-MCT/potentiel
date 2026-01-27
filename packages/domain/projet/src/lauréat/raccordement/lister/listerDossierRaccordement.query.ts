@@ -166,7 +166,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   référence,
   miseEnService,
   demandeComplèteRaccordement,
-  lauréat: { nomProjet, localité, notifiéLe },
+  lauréat: { nomProjet, localité, notifiéLe, statut },
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance, prixReference },
@@ -196,7 +196,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   nomCandidat,
   prixReference,
   sociétéMère,
-  statutProjet: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
+  statutProjet: StatutLauréat.convertirEnValueType(statut),
   dateAchèvement: achèvement.réel?.date
     ? DateTime.convertirEnValueType(achèvement.réel.date)
     : undefined,

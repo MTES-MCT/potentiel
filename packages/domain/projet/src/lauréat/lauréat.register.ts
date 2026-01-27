@@ -10,8 +10,8 @@ import {
   ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,
 } from './consulter/consulterLauréat.query';
-import { registerModifierSiteDeProductionCommand } from './modifier/modifierSiteDeProduction.command';
-import { registerModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
+import { registerModifierSiteDeProductionCommand } from './site-de-production/modifierSiteDeProduction.command';
+import { registerModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';

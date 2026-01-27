@@ -30,6 +30,12 @@ export class LauréatNonModifiéError extends InvalidOperationError {
   }
 }
 
+export class StatutLauréatNonModifiéError extends InvalidOperationError {
+  constructor() {
+    super("Le statut du projet n'a pas été modifié");
+  }
+}
+
 export class CahierDesChargesIndisponibleError extends InvalidOperationError {
   constructor() {
     super("Ce cahier des charges n'est pas disponible pour cette période");

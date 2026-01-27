@@ -1,16 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Find, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
-import { Abandon, StatutLauréat } from '..';
+import { StatutLauréat } from '..';
 import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
-import { AchèvementEntity } from '../achèvement';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,15 +42,12 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [CandidatureEntity, AchèvementEntity, LeftJoin<Abandon.AbandonEntity>];
+type LauréatJoins = [CandidatureEntity];
+
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
-      join: [
-        { entity: 'candidature', on: 'identifiantProjet' },
-        { entity: 'achèvement', on: 'identifiantProjet' },
-        { entity: 'abandon', on: 'identifiantProjet', type: 'left' },
-      ],
+      join: [{ entity: 'candidature', on: 'identifiantProjet' }],
     });
 
     if (Option.isNone(lauréat)) {
@@ -77,8 +73,7 @@ const mapToReadModel: MapToReadModel = (
     notifiéPar,
     nomProjet,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
-    abandon,
-    achèvement,
+    statut,
   },
   candidature,
 ) => ({
@@ -94,11 +89,7 @@ const mapToReadModel: MapToReadModel = (
     département,
     région,
   }),
-  statut: achèvement.estAchevé
-    ? StatutLauréat.achevé
-    : abandon && abandon.estAbandonné
-      ? StatutLauréat.abandonné
-      : StatutLauréat.actif,
+  statut: StatutLauréat.convertirEnValueType(statut),
   technologie: candidature.technologie,
   unitéPuissance: candidature.unitéPuissance,
   emailContact: candidature.dépôt.emailContact,

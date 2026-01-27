@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity';
-import { Achèvement, LauréatEntity, Puissance, StatutLauréat } from '../..';
+import { LauréatEntity, Puissance, StatutLauréat } from '../..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { Localité, UnitéPuissance } from '../../../candidature';
 
@@ -52,7 +52,6 @@ type ListerDossierRaccordementManquantJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
-  Achèvement.AchèvementEntity,
   LeftJoin<DossierRaccordementEntity>,
 ];
 export const registerListerDossierRaccordementManquantsQuery = ({
@@ -108,10 +107,6 @@ export const registerListerDossierRaccordementManquantsQuery = ({
           on: 'identifiantGestionnaireRéseau',
         },
         {
-          entity: 'achèvement',
-          on: 'identifiantProjet',
-        },
-        {
           entity: 'dossier-raccordement',
           on: 'identifiantProjet',
           type: 'left',
@@ -144,13 +139,12 @@ export const mapToReadModel: MapToReadModelProps = ({
   candidature: { unitéPuissance, nomCandidat, sociétéMère, emailContact },
   identifiantGestionnaireRéseau,
   puissance: { puissance },
-  lauréat: { notifiéLe, nomProjet, localité },
+  lauréat: { notifiéLe, nomProjet, localité, statut },
   'gestionnaire-réseau': gestionnaireRéseau,
-  achèvement,
 }) => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    statut: achèvement.estAchevé ? StatutLauréat.achevé : StatutLauréat.actif,
+    statut: StatutLauréat.convertirEnValueType(statut),
     puissance,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
     nomProjet,

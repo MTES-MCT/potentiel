@@ -4,12 +4,15 @@ import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '..';
 
+import { StatutLauréat } from '.';
+
 export type LauréatEntity = Entity<
   'lauréat',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     notifiéLe: DateTime.RawType;
     notifiéPar: Email.RawType;
+    statut: StatutLauréat.RawType;
     nomProjet: string;
     appelOffre: string;
     période: string;

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
@@ -10,8 +10,6 @@ import { PuissanceEntity } from '../puissance';
 import { ProducteurEntity } from '../producteur';
 import { ReprésentantLégalEntity } from '../représentantLégal';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '..';
-import { AbandonEntity } from '../abandon';
-import { AchèvementEntity } from '../achèvement';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -41,7 +39,7 @@ export type ListerLauréatQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
-    statut?: StatutLauréat.RawType;
+    statut?: Array<StatutLauréat.RawType>;
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
@@ -74,14 +72,7 @@ export const registerListerLauréatQuery = ({
 
     const lauréats = await list<
       LauréatEntity,
-      [
-        PuissanceEntity,
-        ProducteurEntity,
-        ReprésentantLégalEntity,
-        CandidatureEntity,
-        AchèvementEntity,
-        LeftJoin<AbandonEntity>,
-      ]
+      [PuissanceEntity, ProducteurEntity, ReprésentantLégalEntity, CandidatureEntity]
     >('lauréat', {
       range,
       orderBy: {
@@ -95,6 +86,7 @@ export const registerListerLauréatQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
+        statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
       join: [
         {
@@ -119,27 +111,6 @@ export const registerListerLauréatQuery = ({
                 : undefined,
           },
         },
-        {
-          entity: 'achèvement',
-          on: 'identifiantProjet',
-          where:
-            statut === 'achevé'
-              ? { estAchevé: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAchevé: Where.equal(false) }
-                : undefined,
-        },
-        {
-          entity: 'abandon',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statut === 'abandonné'
-              ? { estAbandonné: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAbandonné: Where.notEqual(true) }
-                : undefined,
-        },
       ],
     });
 
@@ -154,22 +125,14 @@ export const registerListerLauréatQuery = ({
 
 type MapToReadModelProps = (
   args: LauréatEntity &
-    Joined<
-      [
-        PuissanceEntity,
-        ProducteurEntity,
-        ReprésentantLégalEntity,
-        CandidatureEntity,
-        AchèvementEntity,
-        LeftJoin<AbandonEntity>,
-      ]
-    >,
+    Joined<[PuissanceEntity, ProducteurEntity, ReprésentantLégalEntity, CandidatureEntity]>,
 ) => LauréatListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
   nomProjet,
   identifiantProjet,
   localité,
+  statut,
   'représentant-légal': représentantLégal,
   producteur,
   puissance,
@@ -180,8 +143,6 @@ const mapToReadModel: MapToReadModelProps = ({
     actionnariat,
     unitéPuissance,
   },
-  abandon,
-  achèvement,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -201,10 +162,6 @@ const mapToReadModel: MapToReadModelProps = ({
     typeActionnariat: actionnariat
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
-    statut: abandon?.estAbandonné
-      ? StatutLauréat.abandonné
-      : achèvement.estAchevé
-        ? StatutLauréat.achevé
-        : StatutLauréat.actif,
+    statut: StatutLauréat.convertirEnValueType(statut),
   };
 };

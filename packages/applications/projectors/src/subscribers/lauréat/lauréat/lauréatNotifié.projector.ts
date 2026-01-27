@@ -15,6 +15,7 @@ export const lauréatNotifiéV1Projector = async ({
     notifiéLe,
     notifiéPar,
     cahierDesCharges: 'initial',
+    statut: Lauréat.StatutLauréat.actif.statut,
 
     // Ces valeurs manquantes sont systématiquements surchargées par NomEtLocalitéLauréatImportés
     nomProjet: '!! VALEUR MANQUANTE !!',
@@ -44,5 +45,6 @@ export const lauréatNotifiéProjector = async ({
     nomProjet,
     localité,
     cahierDesCharges: 'initial',
+    statut: Lauréat.StatutLauréat.actif.statut,
   });
 };

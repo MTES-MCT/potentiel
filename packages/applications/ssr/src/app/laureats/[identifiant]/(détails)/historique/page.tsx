@@ -182,6 +182,7 @@ const isLauréatNotifié = (
     .with({ type: 'SiteDeProductionModifié-V1' }, () => false)
     .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, () => false)
     .with({ type: 'ChangementNomProjetEnregistré-V1' }, () => false)
+    .with({ type: 'StatutLauréatModifié-V1' }, () => false)
     .exhaustive();
 };
 

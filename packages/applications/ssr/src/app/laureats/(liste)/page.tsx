@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
+  statut: transformToOptionalEnumArray(z.enum(Lauréat.StatutLauréat.statuts)),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),
@@ -93,6 +93,7 @@ export default async function Page({ searchParams }: PageProps) {
             label: getStatutLauréatLabel(value),
             value,
           })),
+          multiple: true,
         },
         {
           label: `Appel d'offres`,
@@ -156,7 +157,7 @@ type MapToActionsProps = {
     appelOffre?: string[];
     periode?: string;
     famille?: string;
-    statut?: Lauréat.StatutLauréat.RawType;
+    statut?: Lauréat.StatutLauréat.RawType[];
     typeActionnariat?: Candidature.TypeActionnariat.RawType[];
   };
 };
@@ -186,7 +187,7 @@ const mapToActions = ({
           appelOffreId: appelOffre?.[0],
           familleId: famille,
           periodeId: periode,
-          statut,
+          statut: statut?.[0],
         }),
   });
 

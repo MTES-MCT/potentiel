@@ -1,14 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
 import { GarantiesFinancièresEnAttenteEntity, MotifDemandeGarantiesFinancières } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { StatutLauréat } from '../../..';
-import { AbandonEntity } from '../../../abandon';
-import { AchèvementEntity } from '../../../achèvement';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -65,57 +63,37 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<
-      GarantiesFinancièresEnAttenteEntity,
-      [LauréatEntity, AchèvementEntity, LeftJoin<AbandonEntity>]
-    >('projet-avec-garanties-financieres-en-attente', {
-      orderBy: { dernièreMiseÀJour: { date: 'descending' } },
-      range,
-      where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        motif: Where.equal(motif),
-      },
-      join: [
-        {
-          entity: 'lauréat',
-          on: 'identifiantProjet',
-          where: {
-            appelOffre: appelOffre?.length
-              ? Where.matchAny(appelOffre)
-              : cycle
-                ? cycle === 'PPE2'
-                  ? Where.like('PPE2')
-                  : Where.notLike('PPE2')
-                : undefined,
-            localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+    } = await list<GarantiesFinancièresEnAttenteEntity, [LauréatEntity]>(
+      'projet-avec-garanties-financieres-en-attente',
+      {
+        orderBy: { dernièreMiseÀJour: { date: 'descending' } },
+        range,
+        where: {
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          motif: Where.equal(motif),
+        },
+        join: [
+          {
+            entity: 'lauréat',
+            on: 'identifiantProjet',
+            where: {
+              appelOffre: appelOffre?.length
+                ? Where.matchAny(appelOffre)
+                : cycle
+                  ? cycle === 'PPE2'
+                    ? Where.like('PPE2')
+                    : Where.notLike('PPE2')
+                  : undefined,
+              localité: {
+                région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              },
+              statut: Where.equal(statut),
             },
           },
-        },
-        {
-          entity: 'achèvement',
-          on: 'identifiantProjet',
-          where:
-            statut === 'achevé'
-              ? { estAchevé: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAchevé: Where.equal(false) }
-                : undefined,
-        },
-        {
-          entity: 'abandon',
-          on: 'identifiantProjet',
-          type: 'left',
-          where:
-            statut === 'abandonné'
-              ? { estAbandonné: Where.equal(true) }
-              : statut === 'actif'
-                ? { estAbandonné: Where.notEqual(true) }
-                : undefined,
-        },
-      ],
-    });
+        ],
+      },
+    );
 
     return {
       items: items.map((item) => mapToReadModel(item)),
@@ -131,26 +109,18 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 };
 
 const mapToReadModel = ({
-  lauréat: { nomProjet },
+  lauréat: { nomProjet, statut },
   identifiantProjet,
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
-  abandon,
-  achèvement,
 }: GarantiesFinancièresEnAttenteEntity &
-  Joined<
-    [LauréatEntity, LeftJoin<AbandonEntity>, AchèvementEntity]
-  >): GarantiesFinancièresEnAttenteListItemReadModel => ({
+  Joined<[LauréatEntity]>): GarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
-  statut: abandon?.estAbandonné
-    ? StatutLauréat.abandonné
-    : achèvement?.estAchevé
-      ? StatutLauréat.achevé
-      : StatutLauréat.actif,
+  statut: StatutLauréat.convertirEnValueType(statut),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
