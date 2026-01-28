@@ -4,7 +4,7 @@ subject: Potentiel - Déclaration de changement de fournisseur pour le projet {{
 
 Madame, Monsieur,
 
-Un changement de fournisseurs a été enregistré pour le projet {{ nom_projet }} situé dans le département {{ departement_projet }}.
+Un **changement de fournisseurs** a été enregistré pour le projet **{{ nom_projet }}** situé dans le département **{{ departement_projet }}**.
 
 Pour consulter le projet, connectez-vous à Potentiel.
 

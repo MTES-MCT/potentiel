@@ -20,7 +20,7 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
       {reason && !link && <DisplayRaisonChangement raison={reason} />}
       {file && !link && <TimelineItemFile {...file} />}
       {link && (
-        <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2">
+        <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2 font-normal">
           {link.label}
         </TertiaryLink>
       )}

@@ -11,6 +11,7 @@ export const TimelineItemFile: FC<{
   label?: string;
 }> = ({ document, ariaLabel, label }) => (
   <DownloadDocument
+    small
     className="mb-0"
     label={label ?? 'Télécharger le document joint'}
     ariaLabel={ariaLabel}

@@ -1,10 +1,9 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToAttestationConformitéModifiéeTimelineItemProps = (
   event: Lauréat.Achèvement.AttestationConformitéModifiéeEvent,
@@ -24,7 +23,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
         Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
         date,
         attestation.format,
-      ).formatter()
+      )
     : undefined;
 
   const preuveTransmission = preuveTransmissionAuCocontractant
@@ -33,7 +32,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
         Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
         dateTransmissionAuCocontractant,
         preuveTransmissionAuCocontractant.format,
-      ).formatter()
+      )
     : undefined;
 
   return {
@@ -43,19 +42,17 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     details: (
       <div className="flex flex-col gap-2">
         {attestationConformité && (
-          <DownloadDocument
-            className="mb-0"
+          <TimelineItemFile
+            document={attestationConformité}
             label="Télécharger l'attestation de conformité"
-            format="pdf"
-            url={Routes.Document.télécharger(attestationConformité)}
+            ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
           />
         )}
         {preuveTransmission && (
-          <DownloadDocument
-            className="mb-0"
+          <TimelineItemFile
             label="Télécharger la preuve de transmission au cocontractant"
-            format="pdf"
-            url={Routes.Document.télécharger(preuveTransmission)}
+            document={preuveTransmission}
+            ariaLabel={`Télécharger la preuve de transmission au cocontractant du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
           />
         )}
         <div>
