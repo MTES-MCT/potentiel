@@ -189,7 +189,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       permission: 'utilisateur.lister',
     },
     {
-      label: 'Invitater un utilisateur',
+      label: 'Inviter un utilisateur',
       url: Routes.Utilisateur.inviter,
       permission: 'utilisateur.inviter',
     },
