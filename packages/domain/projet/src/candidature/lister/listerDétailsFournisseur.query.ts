@@ -6,7 +6,7 @@ import { Email } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidatureEntity, Localité } from '..';
-import { mapDétailCSVToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailCSVToDétailFournisseur';
+import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur';
 
 export type DétailFournisseur = {
   typeFournisseur: string;
@@ -102,5 +102,5 @@ export const mapToReadModel: MapToReadModel = ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   région,
   sociétéMère,
-  fournisseurs: mapDétailCSVToDétailFournisseur(détail),
+  fournisseurs: mapDétailToDétailFournisseur(détail),
 });

@@ -4,9 +4,9 @@ import { expect } from 'chai';
 
 import { Candidature } from '../../../../..';
 
-import { mapDétailCSVToDétailFournisseur } from './mapDétailCSVToDétailFournisseur';
+import { mapDétailToDétailFournisseur } from './mapDétailToDétailFournisseur';
 
-test('mapDétailCSVToDétailFournisseur - Mélange de fournisseur avec des données complètes  ', () => {
+test('mapDétailToDétailFournisseur - Mélange de fournisseur avec des données complètes  ', () => {
   const détail = {
     'Nom du fabricant (Autres technologies)': 'CCC',
     'Lieu(x) de fabrication (Autres technologies)': 'France',
@@ -90,7 +90,7 @@ test('mapDétailCSVToDétailFournisseur - Mélange de fournisseur avec des donn�
     },
   ];
 
-  const actual = mapDétailCSVToDétailFournisseur(détail);
+  const actual = mapDétailToDétailFournisseur(détail);
 
   expect(actual).to.deep.equal(expected);
 });
@@ -120,7 +120,7 @@ test('mapDétailCSVToDétailFournisseur - Mélange de fournisseur avec des donn�
     },
   ];
 
-  const actual = mapDétailCSVToDétailFournisseur(détail);
+  const actual = mapDétailToDétailFournisseur(détail);
 
   expect(actual).to.deep.equal(expected);
 });

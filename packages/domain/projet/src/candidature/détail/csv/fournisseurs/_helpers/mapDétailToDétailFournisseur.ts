@@ -2,7 +2,7 @@ import { Candidature } from '../../../../..';
 
 import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur';
 
-const csvLabelToTypeFournisseur: Record<string, string> = {
+const labelToTypeFournisseur: Record<string, string> = {
   'modules ou films': 'module-ou-films',
   cellules: 'cellules',
   'plaquettes de silicium (wafers)': 'plaquettes-silicium',
@@ -52,7 +52,7 @@ const csvLabelToTypeFournisseur: Record<string, string> = {
  * ```
  *
  */
-export const mapDétailCSVToDétailFournisseur = (
+export const mapDétailToDétailFournisseur = (
   payload: Record<string, string>,
 ): Candidature.DétailFournisseur[] => {
   // on récupère le type de fournisseur (cellules), la propriété (Nom du fabricant...), l'index (1,2,3...) et la valeur (AAA)
@@ -63,7 +63,7 @@ export const mapDétailCSVToDétailFournisseur = (
       if (!fournisseur.type) {
         return;
       }
-      const type = csvLabelToTypeFournisseur[fournisseur.type.toLowerCase().trim()];
+      const type = labelToTypeFournisseur[fournisseur.type.toLowerCase().trim()];
       const field = fournisseur.field.trim();
 
       if (type && field) {
