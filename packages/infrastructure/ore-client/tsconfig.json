@@ -8,16 +8,16 @@
   },
   "references": [
     {
-      "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../libraries/monads"
+      "path": "../../domain/réseau"
     },
     {
       "path": "../../libraries/http-client"
     },
     {
-      "path": "../../domain/réseau"
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
     }
   ]
 }

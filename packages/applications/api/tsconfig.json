@@ -5,13 +5,27 @@
     "rootDir": "src"
   },
   "references": [
-    { "path": "../request-context" },
-    { "path": "../api-documentation" },
-    { "path": "../../libraries/monitoring" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/common" },
-    { "path": "../../domain/entity" },
-    { "path": "../../domain/core" }
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/core"
+    },
+    {
+      "path": "../../domain/entity"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../api-documentation"
+    },
+    {
+      "path": "../request-context"
+    }
   ],
   "include": ["src/"]
 }

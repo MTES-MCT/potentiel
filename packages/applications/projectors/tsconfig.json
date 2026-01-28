@@ -12,10 +12,10 @@
       "path": "../../domain/inmemory-referential"
     },
     {
-      "path": "../../domain/période"
+      "path": "../../domain/projet"
     },
     {
-      "path": "../../domain/projet"
+      "path": "../../domain/période"
     },
     {
       "path": "../../domain/réseau"
@@ -40,6 +40,9 @@
     },
     {
       "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
     }
   ]
 }

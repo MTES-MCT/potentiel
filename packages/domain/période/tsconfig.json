@@ -14,7 +14,7 @@
       "path": "../../libraries/monitoring"
     },
     {
-      "path": "../entity"
+      "path": "../appel-offre"
     },
     {
       "path": "../common"
@@ -23,10 +23,10 @@
       "path": "../core"
     },
     {
-      "path": "../projet"
+      "path": "../entity"
     },
     {
-      "path": "../appel-offre"
+      "path": "../projet"
     },
     {
       "path": "../utilisateur"

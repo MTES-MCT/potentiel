@@ -12,19 +12,19 @@
       "path": "../../domain/appel-offre"
     },
     {
-      "path": "../../domain/projet"
-    },
-    {
       "path": "../../domain/common"
     },
     {
-      "path": "../../libraries/monitoring"
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
     },
     {
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../infrastructure/pg-event-sourcing"
+      "path": "../../libraries/monitoring"
     }
   ]
 }

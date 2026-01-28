@@ -11,10 +11,10 @@
       "path": "../../domain/entity"
     },
     {
-      "path": "../../libraries/pg-helpers"
+      "path": "../../libraries/flat"
     },
     {
-      "path": "../../libraries/flat"
+      "path": "../../libraries/pg-helpers"
     },
     {
       "path": "../pg-projection-read"

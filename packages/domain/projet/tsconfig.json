@@ -11,22 +11,22 @@
       "path": "../../libraries/monads"
     },
     {
+      "path": "../appel-offre"
+    },
+    {
+      "path": "../common"
+    },
+    {
       "path": "../core"
     },
     {
       "path": "../entity"
     },
     {
-      "path": "../common"
+      "path": "../réseau"
     },
     {
       "path": "../utilisateur"
-    },
-    {
-      "path": "../appel-offre"
-    },
-    {
-      "path": "../réseau"
     }
   ]
 }

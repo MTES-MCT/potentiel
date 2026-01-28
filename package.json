@@ -42,7 +42,8 @@
     "specs": "npm run prespecs && npm run test -w @potentiel/specifications -- ",
     "specs:select": "npm run prespecs && npm run test:select -w @potentiel/specifications",
     "update:dump": "./.database/scripts/update-potentiel-dump.sh",
-    "update:dump-metabase": "./.database/scripts/update-metabase-dump.sh"
+    "update:dump-metabase": "./.database/scripts/update-metabase-dump.sh",
+    "update:ts-references": "update-ts-references"
   },
   "repository": {
     "type": "git",
@@ -80,6 +81,7 @@
     "turbo": "2.6.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.46.3",
+    "update-ts-references": "^4.0.0",
     "wait-for-expect": "3.0.2"
   },
   "engines": {
