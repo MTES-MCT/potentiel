@@ -27,7 +27,7 @@ const regex = /^(?<field>[\w\s()]*)\s+\((?<type>(?:[^()]|\([^()]*\))*)\)\s(?<ind
 
 const mapDétailsToFournisseur = (key: string) => {
   const { type, index, field } =
-    key.replaceAll('’', "'").replaceAll('\n', '').match(regex)?.groups ?? {};
+    key.replaceAll('’', "'").replaceAll('\n', '').replaceAll('(x)', '').match(regex)?.groups ?? {};
   if (type && labelCsvToTypeFournisseur[type]) {
     return {
       type: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
@@ -74,6 +74,8 @@ export const mapCsvRowToFournisseurs = (
       }
     })
     .filter((item) => item !== undefined);
+
+  console.log(fieldsArray);
 
   // on construit l'objet complet en groupant par type et index
   // l'index n'est pas utilisé en tant que tel car des valeurs pourraient être omises

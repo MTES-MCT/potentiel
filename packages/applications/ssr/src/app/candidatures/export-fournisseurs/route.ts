@@ -1,27 +1,18 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type DétailFournisseurCSV = {
-  identifiantProjet: IdentifiantProjet.RawType;
-  appelOffre: IdentifiantProjet.ValueType['appelOffre'];
-  periode: IdentifiantProjet.ValueType['période'];
-  region: Candidature.Localité.ValueType['région'];
+  identifiantProjet: string;
+  appelOffre: string;
+  periode: string;
+  region: string;
   societeMere: string;
-  typeFournisseur: string;
-  nomFabricant: string;
-  lieuFabrication: string;
-  coutTotalLot: string;
-  contenuLocalFrançais: string;
-  contenuLocalEuropéen: string;
-  technologie: string;
-  puissanceCrêteWc: string;
-  rendementNominal: string;
-};
+} & Candidature.DétailFournisseur;
 
 export const GET = async (_: Request) =>
   apiAction(async () =>
@@ -45,14 +36,15 @@ export const GET = async (_: Request) =>
             region: projet.région,
             societeMere: projet.sociétéMère,
             typeFournisseur: fournisseur.typeFournisseur,
-            nomFabricant: fournisseur.nomDuFabricant ?? '',
-            lieuFabrication: fournisseur.lieuDeFabrication ?? '',
-            coutTotalLot: fournisseur.coûtTotalLot ?? '',
+            nomDuFabricant: fournisseur.nomDuFabricant ?? '',
+            lieuDeFabrication: fournisseur.lieuDeFabrication ?? '',
+            coûtTotalLot: fournisseur.coûtTotalLot ?? '',
             contenuLocalFrançais: fournisseur.contenuLocalFrançais ?? '',
             contenuLocalEuropéen: fournisseur.contenuLocalEuropéen ?? '',
             technologie: fournisseur.technologie ?? '',
             puissanceCrêteWc: fournisseur.puissanceCrêteWc ?? '',
             rendementNominal: fournisseur.rendementNominal ?? '',
+            référenceCommerciale: fournisseur.référenceCommerciale ?? '',
           });
         }
       }
@@ -65,14 +57,15 @@ export const GET = async (_: Request) =>
           { label: 'Région', value: 'region' },
           { label: 'Société mère', value: 'societeMere' },
           { label: 'Type de fournisseur', value: 'typeFournisseur' },
-          { label: 'Nom du fabricant', value: 'nomFabricant' },
-          { label: 'Lieu de fabrication', value: 'lieuFabrication' },
-          { label: 'Coût total du lot', value: 'coutTotalLot' },
+          { label: 'Nom du fabricant', value: 'nomDuFabricant' },
+          { label: 'Lieu de fabrication', value: 'lieuDeFabrication' },
+          { label: 'Coût total du lot', value: 'coûtTotalLot' },
           { label: 'Contenu local français (%)', value: 'contenuLocalFrançais' },
           { label: 'Contenu local européen (%)', value: 'contenuLocalEuropéen' },
           { label: 'Technologie', value: 'technologie' },
           { label: 'Puissance crête (Wc)', value: 'puissanceCrêteWc' },
-          { label: 'Rendement nominal (%)', value: 'rendementNominal' },
+          { label: 'Rendement nominal (%)', value: 'rendementNominal' }, // TODO: voir si on garde ou pas
+          { label: 'Référence commerciale', value: 'référenceCommerciale' }, // TODO: voir si on garde ou pas
         ],
         data,
       });
