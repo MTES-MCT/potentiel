@@ -218,13 +218,13 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       menuLinks: mapToMenuProps(raccordementsMenuLinks, rôle),
     },
     {
-      text: 'Gestion des accès',
+      text: 'Accès',
       menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
     ...(newCsvExportEnabled
       ? [
           {
-            text: 'Export de données',
+            text: 'Export',
             linkProps: {
               href: Routes.Export.page,
             },

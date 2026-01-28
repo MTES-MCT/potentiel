@@ -63,4 +63,35 @@ export const modifierDateMiseEnService = (
     référenceDossierRaccordement,
   )}/date-mise-en-service:modifier`;
 
-export const exporter = `/reseaux/raccordements/exporter`;
+export const exporter = (filters: {
+  appelOffre?: string[];
+  periode?: string;
+  famille?: string;
+  statut?: string[];
+  typeActionnariat?: string[];
+}) => {
+  const searchParams = new URLSearchParams();
+
+  if (filters.appelOffre?.length) {
+    filters.appelOffre.forEach((value) => {
+      searchParams.append('appelOffre', value);
+    });
+  }
+  if (filters.periode) {
+    searchParams.append('periode', filters.periode);
+  }
+  if (filters.famille) {
+    searchParams.append('famille', filters.famille);
+  }
+  if (filters.statut?.length) {
+    filters.statut.forEach((value) => {
+      searchParams.append('statut', value);
+    });
+  }
+  if (filters.typeActionnariat?.length) {
+    filters.typeActionnariat.forEach((value) => {
+      searchParams.append('typeActionnariat', value);
+    });
+  }
+  return `/reseaux/raccordements/exporter${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};

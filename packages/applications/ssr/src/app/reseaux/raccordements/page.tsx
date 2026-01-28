@@ -59,7 +59,7 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
           }),
           référenceDossier: referenceDossier,
-          statutProjet,
+          statutProjet: statutProjet ? [statutProjet] : undefined,
         },
       });
 

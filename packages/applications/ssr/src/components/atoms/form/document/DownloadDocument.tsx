@@ -25,6 +25,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
       href: url,
       target: '_blank',
       'aria-label': ariaLabel,
+      prefetch: false,
     }}
   />
 );
