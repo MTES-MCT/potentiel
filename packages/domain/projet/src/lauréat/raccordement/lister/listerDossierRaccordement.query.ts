@@ -117,6 +117,7 @@ export const registerListerDossierRaccordementQuery = ({
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },
+            statut: Where.matchAny(statutProjet),
           },
         },
         {
@@ -142,14 +143,6 @@ export const registerListerDossierRaccordementQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
-          where:
-            !statutProjet || statutProjet.length === 0
-              ? undefined
-              : statutProjet.includes('achevé')
-                ? { estAchevé: Where.equal(true) }
-                : statutProjet.includes('actif')
-                  ? { estAchevé: Where.equal(false) }
-                  : undefined,
         },
       ],
       orderBy: {
