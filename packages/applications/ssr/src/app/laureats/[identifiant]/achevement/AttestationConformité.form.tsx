@@ -38,7 +38,7 @@ export type AttestationConformitéFormProps = {
   attestationConformité?: DocumentProjet.RawType;
   preuveTransmissionAuCocontractant?: DocumentProjet.RawType;
 
-  preuveTransmissionAuCocontractantOptionnelle?: true;
+  estUneModification?: true;
 
   demanderMainlevée: { visible: boolean; canBeDone: boolean };
 };
@@ -52,7 +52,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   preuveTransmissionAuCocontractant,
   demanderMainlevée,
   lauréatNotifiéLe,
-  preuveTransmissionAuCocontractantOptionnelle,
+  estUneModification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
@@ -88,12 +88,12 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
 
         <UploadNewOrModifyExistingDocument
           name="preuveTransmissionAuCocontractant"
-          required={!preuveTransmissionAuCocontractantOptionnelle}
+          required={!estUneModification}
           formats={['pdf']}
           documentKeys={
             preuveTransmissionAuCocontractant ? [preuveTransmissionAuCocontractant] : undefined
           }
-          label={`Preuve de transmission au co-contractant${preuveTransmissionAuCocontractantOptionnelle ? ' (optionnel)' : ''}`}
+          label={`Preuve de transmission au co-contractant${estUneModification ? ' (optionnel)' : ''}`}
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
@@ -34,7 +34,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
     <RadioButtons
       className={className}
       legend={label}
-      name={`${name}_document_selector`}
+      name={`${name}_document_selection`}
       disabled={disabled}
       options={[
         {

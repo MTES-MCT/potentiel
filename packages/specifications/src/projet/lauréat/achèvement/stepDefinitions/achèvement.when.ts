@@ -86,7 +86,7 @@ Quand(
         type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: convertFixtureFileToReadableStream(attestation),
+          attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           utilisateurValue: utilisateur,
@@ -113,7 +113,42 @@ Quand(
         type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: convertFixtureFileToReadableStream(attestation),
+          attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
+          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+          dateValue: date,
+          preuveTransmissionAuCocontractantValue:
+            preuve && convertFixtureFileToReadableStream(preuve),
+          utilisateurValue: utilisateur,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "l'admin modifie l'attestation de conformité pour le projet lauréat avec les mêmes valeurs",
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.adminFixture.email,
+          // Quand un document n'est pas changé, on transmet undefined au usecase
+          attestation: undefined,
+          preuve: undefined,
+          dateTransmissionAuCocontractant:
+            this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture
+              .dateTransmissionAuCocontractant,
+        });
+
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           preuveTransmissionAuCocontractantValue:
@@ -148,7 +183,7 @@ Quand(
         type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: convertFixtureFileToReadableStream(attestation),
+          attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           preuveTransmissionAuCocontractantValue:

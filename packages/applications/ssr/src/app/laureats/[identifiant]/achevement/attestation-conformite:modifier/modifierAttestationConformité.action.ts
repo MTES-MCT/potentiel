@@ -19,6 +19,11 @@ const schema = zod.object({
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
+  attestation_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
+  preuveTransmissionAuCocontractant_document_selection: zod.enum([
+    'keep_existing_document',
+    'edit_document',
+  ]),
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
@@ -31,6 +36,8 @@ const action: FormAction<FormState, typeof schema> = async (
     dateTransmissionAuCocontractant,
     attestation,
     preuveTransmissionAuCocontractant,
+    attestation_document_selection,
+    preuveTransmissionAuCocontractant_document_selection,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -38,8 +45,12 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: attestation,
-        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
+        attestationValue:
+          attestation_document_selection === 'keep_existing_document' ? undefined : attestation,
+        preuveTransmissionAuCocontractantValue:
+          preuveTransmissionAuCocontractant_document_selection === 'keep_existing_document'
+            ? undefined
+            : preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
         ).toISOString(),

@@ -9,8 +9,8 @@ export type ModifierAttestationConformitéCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    attestation: DocumentProjet.ValueType;
     dateTransmissionAuCocontractant: DateTime.ValueType;
+    attestation?: DocumentProjet.ValueType;
     preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
     date: DateTime.ValueType;
   }
