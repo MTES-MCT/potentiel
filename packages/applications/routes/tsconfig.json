@@ -8,10 +8,10 @@
   },
   "references": [
     {
-      "path": "../../domain/projet"
+      "path": "../../domain/common"
     },
     {
-      "path": "../../domain/common"
+      "path": "../../domain/projet"
     }
   ]
 }

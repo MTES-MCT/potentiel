@@ -15,13 +15,13 @@
   "include": ["./src"],
   "references": [
     {
+      "path": "../../domain/projet"
+    },
+    {
       "path": "../../libraries/monads"
     },
     {
       "path": "../../libraries/monitoring"
-    },
-    {
-      "path": "../../domain/projet"
     }
   ]
 }

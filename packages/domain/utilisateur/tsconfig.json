@@ -11,13 +11,13 @@
       "path": "../../libraries/monads"
     },
     {
+      "path": "../common"
+    },
+    {
       "path": "../core"
     },
     {
       "path": "../entity"
-    },
-    {
-      "path": "../common"
     }
   ]
 }

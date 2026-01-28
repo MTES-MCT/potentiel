@@ -8,10 +8,22 @@
   },
   "references": [
     {
-      "path": "../../libraries/monads"
+      "path": "../../domain/inmemory-referential"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/réseau"
+    },
+    {
+      "path": "../../domain/utilisateur"
     },
     {
       "path": "../../libraries/file-storage"
+    },
+    {
+      "path": "../../libraries/monads"
     },
     {
       "path": "../../libraries/monitoring"
@@ -20,16 +32,10 @@
       "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../../domain/utilisateur"
+      "path": "../ds-api-client"
     },
     {
-      "path": "../../domain/projet"
-    },
-    {
-      "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../../infrastructure/ds-api-client"
+      "path": "../pg-projection-read"
     }
   ]
 }

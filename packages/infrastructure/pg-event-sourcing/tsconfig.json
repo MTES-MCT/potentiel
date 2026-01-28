@@ -8,13 +8,16 @@
   },
   "references": [
     {
+      "path": "../../domain/core"
+    },
+    {
       "path": "../../libraries/monads"
     },
     {
       "path": "../../libraries/monitoring"
     },
     {
-      "path": "../../domain/core"
+      "path": "../../libraries/pg-helpers"
     }
   ]
 }

@@ -1,0 +1,3 @@
+withoutRootConfig: true
+ignorePathMappings:
+  - '@potentiel-config/tsconfig'

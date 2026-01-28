@@ -11,10 +11,13 @@
       "path": "../../domain/appel-offre"
     },
     {
-      "path": "../../domain/période"
+      "path": "../../domain/core"
     },
     {
       "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/période"
     },
     {
       "path": "../../domain/réseau"
@@ -23,25 +26,13 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../domain/core"
-    },
-    {
       "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../infrastructure/email"
-    },
-    {
-      "path": "../../infrastructure/ore-client"
     },
     {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
       "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../../libraries/pg-helpers"
     },
     {
       "path": "../../libraries/monitoring"

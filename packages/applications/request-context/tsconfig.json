@@ -8,28 +8,28 @@
   },
   "references": [
     {
-      "path": "../../applications/routes"
-    },
-    {
-      "path": "../../applications/notifications"
-    },
-    {
       "path": "../../domain/common"
     },
     {
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../libraries/auth-pg-adapter"
+      "path": "../../infrastructure/email"
     },
     {
-      "path": "../../libraries/pg-helpers"
+      "path": "../../libraries/auth-pg-adapter"
     },
     {
       "path": "../../libraries/monads"
     },
     {
-      "path": "../../infrastructure/email"
+      "path": "../../libraries/pg-helpers"
+    },
+    {
+      "path": "../notifications"
+    },
+    {
+      "path": "../routes"
     }
   ]
 }
