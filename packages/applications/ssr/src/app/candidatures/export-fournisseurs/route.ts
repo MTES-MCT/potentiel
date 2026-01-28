@@ -25,29 +25,18 @@ export const GET = async (_: Request) =>
           },
         });
 
-      const data: Array<DétailFournisseurCSV> = [];
-
-      for (const projet of fournisseursÀLaCandidature.items) {
-        for (const fournisseur of projet.fournisseurs) {
-          data.push({
+      const fournisseurs = fournisseursÀLaCandidature.items
+        .map((projet) =>
+          projet.fournisseurs.map((fournisseur) => ({
             identifiantProjet: projet.identifiantProjet.formatter(),
             appelOffre: projet.identifiantProjet.appelOffre,
             periode: projet.identifiantProjet.période,
             region: projet.région,
             societeMere: projet.sociétéMère,
-            typeFournisseur: fournisseur.typeFournisseur,
-            nomDuFabricant: fournisseur.nomDuFabricant ?? '',
-            lieuDeFabrication: fournisseur.lieuDeFabrication ?? '',
-            coûtTotalLot: fournisseur.coûtTotalLot ?? '',
-            contenuLocalFrançais: fournisseur.contenuLocalFrançais ?? '',
-            contenuLocalEuropéen: fournisseur.contenuLocalEuropéen ?? '',
-            technologie: fournisseur.technologie ?? '',
-            puissanceCrêteWc: fournisseur.puissanceCrêteWc ?? '',
-            rendementNominal: fournisseur.rendementNominal ?? '',
-            référenceCommerciale: fournisseur.référenceCommerciale ?? '',
-          });
-        }
-      }
+            ...fournisseur,
+          })),
+        )
+        .flat();
 
       const csv = await ExportCSV.toCSV<DétailFournisseurCSV>({
         fields: [
@@ -67,7 +56,7 @@ export const GET = async (_: Request) =>
           { label: 'Rendement nominal (%)', value: 'rendementNominal' }, // TODO: voir si on garde ou pas
           { label: 'Référence commerciale', value: 'référenceCommerciale' }, // TODO: voir si on garde ou pas
         ],
-        data,
+        data: fournisseurs,
       });
 
       const fileName = `export_candidature_fournisseurs.csv`;
