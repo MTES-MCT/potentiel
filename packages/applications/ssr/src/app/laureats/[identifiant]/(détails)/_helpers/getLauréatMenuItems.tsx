@@ -131,6 +131,7 @@ export const getLauréatMenuItems = async ({
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
+    linkToSection('Documents', 'documents'),
     linkToSection('Imprimer la page', 'imprimer'),
   ].filter((item) => !!item);
 };
