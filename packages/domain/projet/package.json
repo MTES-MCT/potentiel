@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "test": "tsx --test **/*.test.ts"
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",

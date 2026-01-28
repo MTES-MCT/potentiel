@@ -7,7 +7,11 @@ import { ListFilters, ListFiltersProps } from '@/components/molecules/ListFilter
 
 export type ExportPageProps = {
   actions: Array<{
-    type: 'exporter-raccordement' | 'lister-lauréat-enrichi' | 'lister-éliminé-enrichi';
+    type:
+      | 'exporter-raccordement'
+      | 'exporter-fournisseur'
+      | 'lister-lauréat-enrichi'
+      | 'lister-éliminé-enrichi';
     label: string;
     url: string;
     description?: string;
@@ -23,29 +27,20 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
       </div>
 
       <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
-        {actions.map((action) => (
-          <li key={action.type}>
-            <ExportCard label={action.label} url={action.url} description={action.description} />
+        {actions.map(({ type, label, url, description }) => (
+          <li key={type}>
+            <Card
+              border
+              linkProps={{ href: url }}
+              size="small"
+              enlargeLink
+              endDetail="Format : CSV"
+              title={<>{label}</>}
+              desc={description}
+            />
           </li>
         ))}
       </ul>
     </div>
   </PageTemplate>
-);
-
-type ExportCardProps = {
-  label: string;
-  description?: string;
-  url: string;
-};
-const ExportCard: React.FC<ExportCardProps> = ({ url, description, label }) => (
-  <Card
-    border
-    linkProps={{ href: url }}
-    size="small"
-    enlargeLink
-    endDetail="Format : CSV"
-    title={<>{label}</>}
-    desc={description}
-  />
 );
