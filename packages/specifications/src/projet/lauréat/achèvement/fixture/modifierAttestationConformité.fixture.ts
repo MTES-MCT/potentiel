@@ -12,7 +12,7 @@ interface ModifierAttestationConformitéDocument {
 }
 
 interface ModifierAttestationConformité {
-  readonly attestation: ModifierAttestationConformitéDocument;
+  readonly attestation?: ModifierAttestationConformitéDocument;
   readonly preuve?: ModifierAttestationConformitéDocument;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
