@@ -1,3 +1,4 @@
+import '@potentiel-libraries/monads';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { seedAppelOffre, seedPériodes } from '@potentiel-applications/projectors';

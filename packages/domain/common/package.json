@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@date-fns/utc": "2.1.0",
-    "@potentiel-domain/core": "*",
-    "@potentiel-libraries/iso8601-datetime": "*",
-    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-libraries/iso8601-datetime": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
     "date-fns": "4.1.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "workspace:*",
     "tsx": "4.20.4"
   }
 }

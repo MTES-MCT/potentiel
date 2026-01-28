@@ -13,7 +13,7 @@
     "pg": "8.16.3"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "workspace:*",
     "@types/pg": "8.15.5"
   }
 }

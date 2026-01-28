@@ -1,7 +1,7 @@
 import { describe, it, after, before, beforeEach } from 'node:test';
+import { randomBytes } from 'node:crypto';
 
 import { should } from 'chai';
-import { v4 } from 'uuid';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { DomainEvent } from '@potentiel-domain/core';
@@ -13,7 +13,7 @@ import { publish } from './publish.js';
 should();
 
 describe(`publish`, () => {
-  const streamId = `aggregateCategory|${v4()}` as const;
+  const streamId = `aggregateCategory|${randomBytes(10).toString('hex')}` as const;
 
   before(async () => {
     process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';

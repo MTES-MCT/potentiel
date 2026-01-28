@@ -13,6 +13,6 @@
     "cockatiel": "3.2.1"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

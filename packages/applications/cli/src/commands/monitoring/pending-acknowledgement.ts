@@ -5,7 +5,6 @@ import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { MattermostTransport } from '../../helpers/monitoring/mattermost.js';
 import { reportCronStatus } from '../../helpers/monitoring/sentry.js';
 
 export class PendingAcknowlegement extends Command {
@@ -16,9 +15,10 @@ export class PendingAcknowlegement extends Command {
     const logger = createLogger({
       transports: [
         new SentryTransport(),
-        new MattermostTransport({
-          level: 'error',
-        }),
+        // TODO
+        // new MattermostTransport({
+        //   level: 'error',
+        // }),
       ],
     });
     initLogger(logger);

@@ -11,6 +11,9 @@ const config: CodegenConfig = {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
 
+        // workardound for pnpm issue : https://github.com/dotansimha/graphql-code-generator/issues/8133
+        { add: { content: 'import type { DocumentNode } from "graphql/language/ast"' } },
+
         { add: { content: '//#region Types', placement: 'content' } },
         'typescript',
         { add: { content: '//#endregion\n', placement: 'content' } },

@@ -11,22 +11,28 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-infrastructure/pg-event-sourcing": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
     "@react-pdf/renderer": "4.3.2",
     "docxtemplater": "3.61.0",
+    "mediateur": "catalog:",
     "pizzip": "3.1.8"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "workspace:*",
+    "@potentiel-domain/inmemory-referential": "workspace:*",
     "@storybook/addon-essentials": "8.6.12",
     "@storybook/addon-links": "8.6.12",
     "@storybook/addon-webpack5-compiler-swc": "1.0.6",
+    "@storybook/react": "8.6.12",
     "@storybook/react-webpack5": "8.6.12",
-    "copyfiles": "2.4.1"
+    "@types/react": "18.3.20",
+    "copyfiles": "2.4.1",
+    "date-fns": "4.1.0",
+    "react": "18.3.1"
   }
 }

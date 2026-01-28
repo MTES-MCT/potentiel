@@ -10,19 +10,23 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/inmemory-referential": "*",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-infrastructure/pg-projection-read": "*",
-    "@potentiel-infrastructure/ds-api-client": "*",
-    "@potentiel-libraries/file-storage": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/inmemory-referential": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/reseau": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
+    "@potentiel-infrastructure/ds-api-client": "workspace:*",
+    "@potentiel-infrastructure/pg-projection-read": "workspace:*",
+    "@potentiel-infrastructure/pg-event-sourcing": "workspace:*",
+    "@potentiel-libraries/file-storage": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "@potentiel-libraries/pg-helpers": "workspace:*",
     "pdf-lib": "1.17.1"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

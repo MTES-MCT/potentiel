@@ -11,15 +11,17 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/core": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "@potentiel-libraries/pg-helpers": "workspace:*",
     "cockatiel": "3.2.1",
-    "pg": "8.16.3"
+    "pg": "8.16.3",
+    "pg-format": "1.0.4"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "@types/pg": "8.15.5"
+    "@potentiel-config/tsconfig": "workspace:*",
+    "@types/pg": "8.15.5",
+    "@types/pg-format": "1.0.5"
   }
 }

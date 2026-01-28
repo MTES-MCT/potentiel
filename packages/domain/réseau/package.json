@@ -10,13 +10,14 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*"
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "mediateur": "catalog:"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

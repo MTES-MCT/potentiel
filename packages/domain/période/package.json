@@ -10,17 +10,17 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/entity": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "mediateur": "0.3.0"
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "mediateur": "catalog:"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

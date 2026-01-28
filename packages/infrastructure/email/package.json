@@ -10,12 +10,13 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "cockatiel": "3.2.1",
     "node-mailjet": "6.0.8",
     "nodemailer": "7.0.12"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "workspace:*",
     "@types/nodemailer": "7.0.4"
   }
 }

@@ -3,7 +3,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-import { v4 as uuid } from 'uuid';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
@@ -34,7 +33,7 @@ export const TransmettrePreuveRecandidatureForm = ({
   projetsÀSélectionner,
 }: TransmettrePreuveRecandidatureFormProps) => {
   // trick to reset the form when re-opening the modal
-  const id = uuid();
+  const id = Date.now();
   const title = 'Transmettre la preuve de recandidature';
 
   const [validationErrors, setValidationErrors] = useState<

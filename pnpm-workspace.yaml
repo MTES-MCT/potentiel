@@ -1,0 +1,15 @@
+packages:
+  - ./packages/config/*
+  - ./packages/libraries/*
+  - ./packages/domain/*
+  - ./packages/infrastructure/*
+  - ./packages/statistiques/*
+  - ./packages/applications/*
+  - ./packages/specifications
+
+catalog:
+  mediateur: 0.3.0
+  zod: 4.1.9
+
+hoistPattern:
+  - '!graphql'

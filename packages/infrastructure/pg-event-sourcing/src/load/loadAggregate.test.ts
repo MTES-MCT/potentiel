@@ -1,7 +1,7 @@
 import { describe, it, after, before, beforeEach } from 'node:test';
+import { randomBytes } from 'node:crypto';
 
 import { should } from 'chai';
-import { v4 } from 'uuid';
 
 import { DomainEvent, AbstractAggregate } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -33,7 +33,7 @@ class CustomAggregate extends AbstractAggregate<CustomEvent, 'aggregateCategory'
 }
 
 describe(`loadAggregate`, () => {
-  const aggregateId = `aggregateCategory|${v4()}` as const;
+  const aggregateId = `aggregateCategory|${randomBytes(10).toString('hex')}` as const;
   before(async () => {
     process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
 
