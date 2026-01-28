@@ -5,7 +5,7 @@ import { Email } from '@potentiel-domain/common';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { Dépôt, DétailCandidatureEntity, Localité } from '..';
+import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '..';
 import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur';
 
 export type DétailFournisseur = {
@@ -27,6 +27,7 @@ export type DétailsFournisseurListItemReadModel = {
   statutCandidature: Candidature.StatutCandidature.ValueType;
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
+  typeActionnariat?: TypeActionnariat.ValueType;
   fournisseurs: Array<DétailFournisseur>;
 };
 
@@ -40,6 +41,10 @@ export type ListerDétailsFournisseurQuery = Message<
   'Candidature.Query.ListerDétailsFournisseur',
   {
     utilisateur: Email.RawType;
+    appelOffre?: Array<string>;
+    periode?: string;
+    famille?: string;
+    typeActionnariat?: Array<TypeActionnariat.RawType>;
   },
   ListerDétailsFournisseurReadModel
 >;
@@ -53,7 +58,13 @@ export const registerListerDétailsFournisseurQuery = ({
   list,
   getScopeProjetUtilisateur,
 }: ListerDétailsFournisseurQueryDependencies) => {
-  const handler: MessageHandler<ListerDétailsFournisseurQuery> = async ({ utilisateur }) => {
+  const handler: MessageHandler<ListerDétailsFournisseurQuery> = async ({
+    utilisateur,
+    appelOffre,
+    periode,
+    famille,
+    typeActionnariat,
+  }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const {
@@ -71,6 +82,10 @@ export const registerListerDétailsFournisseurQuery = ({
         localité: {
           région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
         },
+        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+        période: Where.equal(periode),
+        famille: Where.equal(famille),
+        actionnariat: typeActionnariat?.length ? Where.matchAny(typeActionnariat) : undefined,
       },
       orderBy: {
         appelOffre: 'ascending',
@@ -101,6 +116,7 @@ export const mapToReadModel: MapToReadModel = ({
   nomProjet,
   statut,
   sociétéMère,
+  actionnariat,
   'détail-candidature': { détail },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -108,5 +124,8 @@ export const mapToReadModel: MapToReadModel = ({
   statutCandidature: Candidature.StatutCandidature.convertirEnValueType(statut),
   région,
   sociétéMère,
+  typeActionnariat: actionnariat
+    ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
+    : undefined,
   fournisseurs: mapDétailToDétailFournisseur(détail),
 });

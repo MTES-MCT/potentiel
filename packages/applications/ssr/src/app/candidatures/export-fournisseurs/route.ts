@@ -16,16 +16,32 @@ type DétailFournisseurCSV = {
   statutCandidature: Candidature.StatutCandidature.RawType;
   region: string;
   societeMere: string;
+  typeActionnariat?: Candidature.TypeActionnariat.RawType;
 } & Candidature.DétailFournisseur;
 
-export const GET = async (_: Request) =>
+export const GET = async (request: Request) =>
   apiAction(async () =>
     withUtilisateur(async (utilisateur) => {
+      const { searchParams } = new URL(request.url);
+
+      const appelOffre = searchParams.getAll('appelOffre') ?? undefined;
+      const periode = searchParams.get('periode') ?? undefined;
+      const famille = searchParams.get('famille') ?? undefined;
+      const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+
       const fournisseursÀLaCandidature =
         await mediator.send<Candidature.ListerDétailsFournisseurQuery>({
           type: 'Candidature.Query.ListerDétailsFournisseur',
           data: {
             utilisateur: utilisateur.identifiantUtilisateur.email,
+            appelOffre,
+            famille,
+            periode,
+            typeActionnariat: typeActionnariat.length
+              ? typeActionnariat.map((value) =>
+                  Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
+                )
+              : undefined,
           },
         });
 
@@ -41,6 +57,7 @@ export const GET = async (_: Request) =>
             statutCandidature: projet.statutCandidature.formatter(),
             region: projet.région,
             societeMere: projet.sociétéMère,
+            typeActionnariat: projet.typeActionnariat?.formatter(),
             ...fournisseur,
           })),
         )
@@ -57,6 +74,7 @@ export const GET = async (_: Request) =>
           { label: 'Statut de la candidature', value: 'statutCandidature' },
           { label: 'Région', value: 'region' },
           { label: 'Société mère', value: 'societeMere' },
+          { label: "Type d'actionnariat", value: 'typeActionnariat' },
           { label: 'Type de fournisseur', value: 'typeFournisseur' },
           { label: 'Nom du fabricant', value: 'nomDuFabricant' },
           { label: 'Lieu de fabrication', value: 'lieuDeFabrication' },
