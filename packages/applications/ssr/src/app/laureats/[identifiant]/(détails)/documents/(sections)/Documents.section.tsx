@@ -1,27 +1,40 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-import { Section } from '@/components/atoms/menu/Section';
 
-import { DocumentsDétails } from './DocumentsDétails';
+import { DocumentItem, DocumentsList } from './DocumentsDétails';
 
 type DocumentsSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-const sectionTitle = 'Attestation';
+const sectionTitle = 'Documents';
 export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =>
   SectionWithErrorHandling(
-    withUtilisateur(async ({ rôle }) => {
-      const lauréat = await getLauréatInfos(identifiantProjet);
+    (async () => {
+      const documents: Array<DocumentItem> = [];
 
-      return (
-        <Section title={sectionTitle}>
-          <DocumentsDétails attestation={lauréat.attestationDésignation} />
-        </Section>
-      );
-    }),
+      const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
+
+      if (attestationDésignation) {
+        documents.push({
+          type: attestationDésignation.typeDocument,
+          date: attestationDésignation.dateCréation,
+          format: attestationDésignation.format,
+          documentKey: attestationDésignation.formatter(),
+          peutÊtreTéléchargé: true,
+        });
+        documents.push({
+          type: attestationDésignation.typeDocument,
+          date: attestationDésignation.dateCréation,
+          format: attestationDésignation.format,
+          documentKey: attestationDésignation.formatter(),
+          peutÊtreTéléchargé: false,
+        });
+      }
+
+      return <DocumentsList documents={documents} />;
+    })(),
     sectionTitle,
   );
