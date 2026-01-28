@@ -31,79 +31,77 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   >(noExistingDocument ? 'edit_document' : 'keep_existing_document');
 
   return (
-    <>
-      <RadioButtons
-        className={className}
-        legend={label}
-        name={`${name}_document_selection`}
-        disabled={disabled}
-        options={[
-          {
-            label: (
-              <div>
-                {hasManyDocuments ? (
-                  <KeepManyDocuments
-                    showLink={documentSelection === 'keep_existing_document'}
-                    name={name}
-                    documentKeys={documentKeys}
-                  />
-                ) : hasOnlyOneDocument ? (
-                  <KeepSingleDocument documentKey={documentKeys[0]} />
-                ) : (
-                  <>Aucun document à conserver</>
-                )}
+    <RadioButtons
+      className={className}
+      legend={label}
+      name={`${name}_document_selection`}
+      disabled={disabled}
+      options={[
+        {
+          label: (
+            <div>
+              {hasManyDocuments ? (
+                <KeepManyDocuments
+                  showLink={documentSelection === 'keep_existing_document'}
+                  name={name}
+                  documentKeys={documentKeys}
+                />
+              ) : hasOnlyOneDocument ? (
+                <KeepSingleDocument documentKey={documentKeys[0]} />
+              ) : (
+                <>Aucun document à conserver</>
+              )}
 
-                {documentSelection === 'keep_existing_document' &&
-                  documentKeys.map((documentKey) => (
-                    <input
-                      key={documentKey}
-                      name={name}
-                      required={required}
-                      aria-required={required}
-                      type="text"
-                      hidden
-                      value={documentKey}
-                    />
-                  ))}
-              </div>
-            ),
-            nativeInputProps: {
-              checked: documentSelection === 'keep_existing_document',
-              onChange: () => setDocumentSelection('keep_existing_document'),
-              value: 'keep_existing_document',
-              disabled: noExistingDocument,
-            },
-          },
-          {
-            label: (
-              <div>
-                <div>
-                  {noExistingDocument ? 'Ajouter un document' : 'Modifier le document existant'}
-                </div>
-                {documentSelection === 'edit_document' && (
-                  <UploadDocument
+              {documentSelection === 'keep_existing_document' &&
+                documentKeys.map((documentKey) => (
+                  <input
+                    key={documentKey}
                     name={name}
                     required={required}
-                    hintText={hintText}
-                    multiple={multiple}
-                    label=""
-                    formats={formats}
-                    onChange={onChange}
+                    aria-required={required}
+                    type="text"
+                    hidden
+                    value={documentKey}
                   />
-                )}
-              </div>
-            ),
-            nativeInputProps: {
-              checked: documentSelection === 'edit_document',
-              onChange: () => setDocumentSelection('edit_document'),
-              value: 'edit_document',
-            },
+                ))}
+            </div>
+          ),
+          nativeInputProps: {
+            checked: documentSelection === 'keep_existing_document',
+            onChange: () => setDocumentSelection('keep_existing_document'),
+            value: 'keep_existing_document',
+            disabled: noExistingDocument,
           },
-        ]}
-        state={state}
-        stateRelatedMessage={stateRelatedMessage}
-      />
-    </>
+        },
+        {
+          label: (
+            <div>
+              <div>
+                {noExistingDocument ? 'Ajouter un document' : 'Modifier le document existant'}
+              </div>
+              {documentSelection === 'edit_document' && (
+                <UploadDocument
+                  name={name}
+                  required={required}
+                  hintText={hintText}
+                  multiple={multiple}
+                  label=""
+                  formats={formats}
+                  onChange={onChange}
+                />
+              )}
+            </div>
+          ),
+          nativeInputProps: {
+            checked: documentSelection === 'edit_document',
+            onChange: () => setDocumentSelection('edit_document'),
+            value: 'edit_document',
+          },
+        },
+      ]}
+      state={state}
+      stateRelatedMessage={stateRelatedMessage}
+    />
   );
 };
 
