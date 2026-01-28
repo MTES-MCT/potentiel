@@ -131,7 +131,7 @@ const mapToAction: MapToAction = (
   if (utilisateur.rôle.aLaPermission('raccordement.listerDossierRaccordement')) {
     actions.push({
       type: 'exporter-raccordement',
-      label: 'Exporter les dossiers de raccordement',
+      label: 'Dossiers de raccordement',
       url: Routes.Raccordement.exporter({
         appelOffre,
         periode,
@@ -147,7 +147,7 @@ const mapToAction: MapToAction = (
   if (utilisateur.rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
     actions.push({
       type: 'lister-lauréat-enrichi',
-      label: 'Exporter les lauréats',
+      label: 'Projets lauréats',
       url: Routes.Lauréat.exporter({ appelOffre, periode, famille, statut, typeActionnariat }),
       description: 'Exporter la liste des projets lauréats',
     });
@@ -156,7 +156,7 @@ const mapToAction: MapToAction = (
   if (utilisateur.rôle.aLaPermission('éliminé.listerÉliminéEnrichi')) {
     actions.push({
       type: 'lister-éliminé-enrichi',
-      label: 'Exporter les éliminés',
+      label: 'Projets éliminés',
       url: Routes.Éliminé.exporter({ appelOffre, periode, famille, typeActionnariat }),
       description: 'Exporter la liste des projets éliminés',
     });
