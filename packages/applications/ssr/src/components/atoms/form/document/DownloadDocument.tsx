@@ -8,6 +8,7 @@ export type DownloadDocumentProps = {
   url: string;
   format: string;
   ariaLabel?: string;
+  small?: boolean;
 };
 
 export const DownloadDocument: FC<DownloadDocumentProps> = ({
@@ -16,10 +17,14 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   url,
   format,
   ariaLabel = '',
+  small,
 }) => (
   <Download
     className={clsx('print:hidden', className)}
     label={label}
+    classes={{
+      link: small ? '!text-sm' : undefined,
+    }}
     details={(extension(format) || format).toUpperCase()}
     linkProps={{
       href: url,
