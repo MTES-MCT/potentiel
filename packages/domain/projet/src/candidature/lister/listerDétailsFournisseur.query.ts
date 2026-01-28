@@ -17,7 +17,8 @@ export type DétailFournisseur = {
   contenuLocalEuropéen?: string;
   technologie?: string;
   puissanceCrêteWc?: string;
-  rendementNominal?: string; // à voir si on le garde ou pas
+  rendementNominal?: string; // TODO : à voir si on le garde ou pas
+  référenceCommerciale?: string; // TODO : à voir si on le garde ou pas
 };
 
 export type DétailsFournisseurListItemReadModel = {

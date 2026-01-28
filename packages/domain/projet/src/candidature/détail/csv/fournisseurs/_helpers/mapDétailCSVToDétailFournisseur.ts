@@ -22,6 +22,7 @@ const csvLabelToTypeFournisseur: Record<string, string> = {
   'génie civil': 'génie-civil',
   'fourniture, transport, montage': 'fourniture-transport-montage',
   'installation et mise en service': 'installation-mise-en-service',
+  'fabrication de composants et assemblage': 'fabrication-de-composants-et-assemblage',
 };
 
 /**
@@ -36,6 +37,7 @@ const csvLabelToTypeFournisseur: Record<string, string> = {
  *  "Lieu(x) de fabrication (Cellules) 2": "Italie",
  *  "Nom du fabricant (Polysilicium) 1": "CCC",
  *  "Lieu(x) de fabrication (Polysilicium) 1": "Etats-Unis",
+ *  "Contenu local Fabrication de composants et assemblage : Pourcentage de contenu local européen": "10"
  * }
  * ```
  * en un array ayant pour forme :
@@ -45,6 +47,7 @@ const csvLabelToTypeFournisseur: Record<string, string> = {
  *  { typeFournisseur: 'cellules', nomDuFabricant:"BBB", lieuDeFabrication: 'Japon', },
  *  { typeFournisseur: 'cellules', nomDuFabricant:"CCC", lieuDeFabrication: 'Italie' },
  *  { typeFournisseur: 'polysilicium', nomDuFabricant:"CCC", lieuDeFabrication: 'Etats-Unis' },
+ *  { typeFournisseur: 'fabrication-de-composants-et-assemblage', contenuLocalEuropéen: '10' },
  * ]
  * ```
  *
@@ -76,7 +79,6 @@ export const mapDétailCSVToDétailFournisseur = (
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(
         (acc, { field, valeur }) => {
-          // TODO faut-il ajouter 'Référence commerciale',
           if (field === 'Nom du fabricant') acc.nomDuFabricant = valeur ?? undefined;
           if (field === 'Lieu de fabrication') acc.lieuDeFabrication = valeur ?? undefined;
           if (field === 'Coût total du lot') acc.coûtTotalLot = valeur ?? undefined;
@@ -84,7 +86,8 @@ export const mapDétailCSVToDétailFournisseur = (
           if (field === 'Contenu local européen') acc.contenuLocalEuropéen = valeur ?? undefined;
           if (field === 'Technologie') acc.technologie = valeur ?? undefined;
           if (field === 'Puissance crête') acc.puissanceCrêteWc = valeur ?? undefined;
-          if (field === 'Rendement nominal') acc.rendementNominal = valeur ?? undefined;
+          if (field === 'Rendement nominal') acc.rendementNominal = valeur ?? undefined; // TODO : à voir si on le garde ou pas
+          if (field === 'Référence commerciale') acc.référenceCommerciale = valeur ?? undefined; // TODO : à voir si on le garde ou pas
           return acc;
         },
         {
@@ -96,7 +99,8 @@ export const mapDétailCSVToDétailFournisseur = (
           contenuLocalEuropéen: undefined,
           technologie: undefined,
           puissanceCrêteWc: undefined,
-          rendementNominal: undefined,
+          rendementNominal: undefined, // TODO : à voir si on le garde ou pas
+          référenceCommerciale: undefined, // TODO : à voir si on le garde ou pas
         } as Candidature.DétailFournisseur,
       ),
     )
