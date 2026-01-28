@@ -18,6 +18,12 @@ export class AttestationDeConformitéDéjàTransmiseError extends InvalidOperati
   }
 }
 
+export class AttestationDeConformitéNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super("Aucune modification n'a été transmise");
+  }
+}
+
 export class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError extends InvalidOperationError {
   constructor() {
     super(

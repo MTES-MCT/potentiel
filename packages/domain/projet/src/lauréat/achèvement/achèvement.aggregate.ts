@@ -25,6 +25,7 @@ import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèv
 import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option';
 import {
   AttestationDeConformitéDéjàTransmiseError,
+  AttestationDeConformitéNonModifiéeError,
   AucuneAttestationDeConformitéÀCorrigerError,
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
@@ -202,6 +203,17 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new AucuneAttestationDeConformitéÀCorrigerError();
     }
 
+    if (
+      !attestation &&
+      !preuveTransmissionAuCocontractant &&
+      Option.isSome(this.#preuveTransmissionAuCocontractant) &&
+      dateTransmissionAuCocontractant.estÉgaleÀ(
+        DateTime.convertirEnValueType(this.#preuveTransmissionAuCocontractant.dateCréation),
+      )
+    ) {
+      throw new AttestationDeConformitéNonModifiéeError();
+    }
+
     const event: AttestationConformitéModifiéeEvent = {
       type: 'AttestationConformitéModifiée-V1',
       payload: {
@@ -360,12 +372,14 @@ export class AchèvementAggregate extends AbstractAggregate<
       dateTransmissionAuCocontractant,
     },
   }: AttestationConformitéModifiéeEvent) {
-    this.#attestationConformité = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      date,
-      attestation.format,
-    );
+    if (attestation) {
+      this.#attestationConformité = DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+        date,
+        attestation.format,
+      );
+    }
 
     if (preuveTransmissionAuCocontractant) {
       this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(

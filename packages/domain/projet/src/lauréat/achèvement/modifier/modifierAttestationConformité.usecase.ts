@@ -12,7 +12,7 @@ export type ModifierAttestationConformitéUseCase = Message<
   'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
   {
     identifiantProjetValue: string;
-    attestationValue: {
+    attestationValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -36,12 +36,14 @@ export const registerModifierAttestationConformitéUseCase = () => {
     utilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const attestation = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      dateValue,
-      attestationValue.format,
-    );
+    const attestation = attestationValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+          dateValue,
+          attestationValue.format,
+        )
+      : undefined;
     const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
       dateTransmissionAuCocontractantValue,
     );
@@ -58,13 +60,15 @@ export const registerModifierAttestationConformitéUseCase = () => {
 
     const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: attestationValue.content,
-        documentProjet: attestation,
-      },
-    });
+    if (attestation) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: attestationValue!.content,
+          documentProjet: attestation,
+        },
+      });
+    }
 
     if (preuveTransmissionAuCocontractant) {
       await mediator.send<EnregistrerDocumentProjetCommand>({

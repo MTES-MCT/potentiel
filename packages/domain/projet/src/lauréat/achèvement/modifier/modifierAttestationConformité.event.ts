@@ -7,8 +7,8 @@ export type AttestationConformitéModifiéeEvent = DomainEvent<
   'AttestationConformitéModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    attestation: { format: string };
     dateTransmissionAuCocontractant: DateTime.RawType;
+    attestation?: { format: string };
     preuveTransmissionAuCocontractant?: { format: string };
     date: DateTime.RawType;
     utilisateur: Email.RawType;

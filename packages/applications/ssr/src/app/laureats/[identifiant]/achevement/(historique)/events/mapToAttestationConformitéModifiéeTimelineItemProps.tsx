@@ -11,19 +11,21 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
 ): TimelineItemProps => {
   const {
     identifiantProjet,
-    attestation: { format },
+    attestation,
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
   } = event.payload;
 
-  const attestation = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-    date,
-    format,
-  ).formatter();
+  const attestationConformité = attestation
+    ? DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+        date,
+        attestation.format,
+      ).formatter()
+    : undefined;
 
   const preuveTransmission = preuveTransmissionAuCocontractant
     ? DocumentProjet.convertirEnValueType(
@@ -40,12 +42,14 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     actor: utilisateur,
     details: (
       <div className="flex flex-col gap-2">
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger l'attestation de conformité"
-          format="pdf"
-          url={Routes.Document.télécharger(attestation)}
-        />
+        {attestationConformité && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger l'attestation de conformité"
+            format="pdf"
+            url={Routes.Document.télécharger(attestationConformité)}
+          />
+        )}
         {preuveTransmission && (
           <DownloadDocument
             className="mb-0"

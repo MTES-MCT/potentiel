@@ -4,9 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,16 +13,17 @@ import {
   keepOrUpdateSingleOptionalDocument,
 } from '@/utils/zod/document/keepOrUpdateDocument';
 
-import { getAchèvement } from '../../_helpers';
-
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: keepOrUpdateManyDocuments({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
-  attestationHasChanged: zod.stringbool(),
-  preuveTransmissionAuCocontractantHasChanged: zod.stringbool(),
+  attestation_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
+  preuveTransmissionAuCocontractant_document_selection: zod.enum([
+    'keep_existing_document',
+    'edit_document',
+  ]),
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
@@ -37,41 +36,21 @@ const action: FormAction<FormState, typeof schema> = async (
     dateTransmissionAuCocontractant,
     attestation,
     preuveTransmissionAuCocontractant,
-    attestationHasChanged,
-    preuveTransmissionAuCocontractantHasChanged,
+    attestation_document_selection,
+    preuveTransmissionAuCocontractant_document_selection,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    if (!attestationHasChanged && !preuveTransmissionAuCocontractantHasChanged) {
-      const achèvement = await getAchèvement(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-      );
-
-      if (
-        achèvement.estAchevé &&
-        Option.isSome(achèvement.preuveTransmissionAuCocontractant) &&
-        DateTime.convertirEnValueType(
-          achèvement.preuveTransmissionAuCocontractant.dateCréation,
-        ).estÉgaleÀ(
-          DateTime.convertirEnValueType(new Date(dateTransmissionAuCocontractant).toISOString()),
-        )
-      )
-        return {
-          status: 'validation-error',
-          errors: {
-            attestation: 'Au moins une modification doit être transmise',
-            preuveTransmissionAuCocontractant: 'Au moins une modification doit être transmise',
-            dateTransmissionAuCocontractant: 'Au moins une modification doit être transmise',
-          },
-        };
-    }
-
     await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
       type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: attestation,
-        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
+        attestationValue:
+          attestation_document_selection === 'keep_existing_document' ? undefined : attestation,
+        preuveTransmissionAuCocontractantValue:
+          preuveTransmissionAuCocontractant_document_selection === 'keep_existing_document'
+            ? undefined
+            : preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
         ).toISOString(),

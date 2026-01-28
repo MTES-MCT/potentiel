@@ -35,7 +35,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
       <RadioButtons
         className={className}
         legend={label}
-        name={`${name}_document_selector`}
+        name={`${name}_document_selection`}
         disabled={disabled}
         options={[
           {
@@ -102,11 +102,6 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
         ]}
         state={state}
         stateRelatedMessage={stateRelatedMessage}
-      />
-      <input
-        name={`${name}HasChanged`}
-        type="hidden"
-        value={documentSelection === 'edit_document' ? 'true' : 'false'}
       />
     </>
   );
