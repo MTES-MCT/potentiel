@@ -1,9 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
@@ -20,19 +19,16 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsPr
     Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
     accordéLe,
     format,
-  ).formatter();
+  );
 
   return {
     date: accordéLe,
     title: 'La demande de mainlevée des garanties financières a été accordée',
     actor: accordéPar,
-    details: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format="pdf"
-        url={Routes.Document.télécharger(réponseSignée)}
-      />
-    ),
+    file: {
+      document: réponseSignée,
+      label: 'Télécharger la réponse signée',
+      ariaLabel: `Télécharger la réponse signée de la demande de mainlevée des garanties financières accordée le ${formatDateToText(accordéLe)}`,
+    },
   };
 };

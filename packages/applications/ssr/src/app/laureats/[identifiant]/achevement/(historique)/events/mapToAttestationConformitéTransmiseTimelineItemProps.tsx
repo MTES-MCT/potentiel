@@ -1,10 +1,9 @@
-import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemProps } from '@/components/organisms/timeline';
+import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
 export const mapToAttestationConformitéTransmiseTimelineItemProps = (
   event: Lauréat.Achèvement.AttestationConformitéTransmiseEvent,
@@ -23,14 +22,14 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
     date,
     format,
-  ).formatter();
+  );
 
   const preuveTransmission = DocumentProjet.convertirEnValueType(
     identifiantProjet,
     Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant.format,
-  ).formatter();
+  );
 
   return {
     date,
@@ -38,17 +37,15 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     actor: utilisateur,
     details: (
       <div className="flex flex-col gap-2">
-        <DownloadDocument
-          className="mb-0"
+        <TimelineItemFile
           label="Télécharger l'attestation de conformité"
-          format="pdf"
-          url={Routes.Document.télécharger(attestation)}
+          document={attestation}
+          ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
         />
-        <DownloadDocument
-          className="mb-0"
+        <TimelineItemFile
           label="Télécharger la preuve de transmission au cocontractant"
-          format="pdf"
-          url={Routes.Document.télécharger(preuveTransmission)}
+          document={preuveTransmission}
+          ariaLabel={`Télécharger la preuve de transmission au cocontractant du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
         />
         <div>
           Date de transmission au cocontractant :{' '}
