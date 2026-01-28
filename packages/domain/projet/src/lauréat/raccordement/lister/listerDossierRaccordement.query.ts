@@ -8,7 +8,7 @@ import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
 import { AchèvementEntity } from '../../achèvement';
-import { Localité, UnitéPuissance } from '../../../candidature';
+import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -42,12 +42,15 @@ export type ListerDossierRaccordementQuery = Message<
   {
     utilisateur: Email.RawType;
     identifiantGestionnaireRéseau?: string;
-    appelOffre?: Array<string>;
     avecDateMiseEnService?: boolean;
     range?: RangeOptions;
     référenceDossier?: string;
     région?: string;
-    statutProjet?: StatutLauréat.RawType;
+    statutProjet?: Array<StatutLauréat.RawType>;
+    appelOffre?: Array<string>;
+    periode?: string;
+    famille?: string;
+    typeActionnariat?: Array<TypeActionnariat.RawType>;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -77,6 +80,9 @@ export const registerListerDossierRaccordementQuery = ({
     range,
     utilisateur,
     statutProjet,
+    typeActionnariat,
+    periode,
+    famille,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
     const {
@@ -116,6 +122,14 @@ export const registerListerDossierRaccordementQuery = ({
         {
           entity: 'candidature',
           on: 'identifiantProjet',
+          where: {
+            actionnariat:
+              typeActionnariat && typeActionnariat.length > 0
+                ? Where.matchAny(typeActionnariat)
+                : undefined,
+            période: Where.equal(periode),
+            famille: Where.equal(famille),
+          },
         },
         {
           entity: 'puissance',
@@ -129,11 +143,13 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'achèvement',
           on: 'identifiantProjet',
           where:
-            statutProjet === 'achevé'
-              ? { estAchevé: Where.equal(true) }
-              : statutProjet === 'actif'
-                ? { estAchevé: Where.equal(false) }
-                : undefined,
+            !statutProjet || statutProjet.length === 0
+              ? undefined
+              : statutProjet.includes('achevé')
+                ? { estAchevé: Where.equal(true) }
+                : statutProjet.includes('actif')
+                  ? { estAchevé: Where.equal(false) }
+                  : undefined,
         },
       ],
       orderBy: {
