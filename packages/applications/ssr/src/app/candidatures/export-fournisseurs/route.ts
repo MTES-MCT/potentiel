@@ -1,15 +1,19 @@
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type DétailFournisseurCSV = {
-  identifiantProjet: string;
-  appelOffre: string;
-  periode: string;
+  identifiantProjet: IdentifiantProjet.RawType;
+  appelOffre: IdentifiantProjet.ValueType['appelOffre'];
+  periode: IdentifiantProjet.ValueType['période'];
+  famille: IdentifiantProjet.ValueType['famille'];
+  numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
+  nomProjet: string;
+  statutCandidature: Candidature.StatutCandidature.RawType;
   region: string;
   societeMere: string;
 } & Candidature.DétailFournisseur;
@@ -31,6 +35,10 @@ export const GET = async (_: Request) =>
             identifiantProjet: projet.identifiantProjet.formatter(),
             appelOffre: projet.identifiantProjet.appelOffre,
             periode: projet.identifiantProjet.période,
+            famille: projet.identifiantProjet.famille,
+            numéroCRE: projet.identifiantProjet.numéroCRE,
+            nomProjet: projet.nomProjet,
+            statutCandidature: projet.statutCandidature.formatter(),
             region: projet.région,
             societeMere: projet.sociétéMère,
             ...fournisseur,
@@ -43,6 +51,10 @@ export const GET = async (_: Request) =>
           { label: 'Identifiant projet', value: 'identifiantProjet' },
           { label: "Appel d'offre", value: 'appelOffre' },
           { label: 'Période', value: 'periode' },
+          { label: 'Famille', value: 'famille' },
+          { label: 'Numéro CRE', value: 'numéroCRE' },
+          { label: 'Nom du projet', value: 'nomProjet' },
+          { label: 'Statut de la candidature', value: 'statutCandidature' },
           { label: 'Région', value: 'region' },
           { label: 'Société mère', value: 'societeMere' },
           { label: 'Type de fournisseur', value: 'typeFournisseur' },

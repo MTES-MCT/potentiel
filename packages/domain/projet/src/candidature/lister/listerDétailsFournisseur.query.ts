@@ -4,7 +4,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { CandidatureEntity } from '../candidature.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidatureEntity, Localité } from '..';
 import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur';
 
@@ -23,6 +23,8 @@ export type DétailFournisseur = {
 
 export type DétailsFournisseurListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  nomProjet: string;
+  statutCandidature: Candidature.StatutCandidature.ValueType;
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
   fournisseurs: Array<DétailFournisseur>;
@@ -96,10 +98,14 @@ type MapToReadModel = (
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   localité: { région },
+  nomProjet,
+  statut,
   sociétéMère,
   'détail-candidature': { détail },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
+  statutCandidature: Candidature.StatutCandidature.convertirEnValueType(statut),
   région,
   sociétéMère,
   fournisseurs: mapDétailToDétailFournisseur(détail),
