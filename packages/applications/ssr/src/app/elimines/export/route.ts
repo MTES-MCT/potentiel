@@ -75,8 +75,9 @@ export const GET = async (request: Request) =>
       await mediator.send<AjouterStatistiqueUtilisationCommand>({
         type: 'System.Statistiques.AjouterStatistiqueUtilisation',
         data: {
-          type: 'exportÉliminéEnrichi',
+          type: 'exportCsv',
           données: {
+            typeExport: 'éliminéEnrichi',
             utilisateur: { role: utilisateur.rôle.nom },
             filtres: getFiltresActifs({
               appelOffre,

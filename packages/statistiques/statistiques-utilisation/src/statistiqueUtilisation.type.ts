@@ -13,12 +13,9 @@ type StatistiqueConnexion = {
 };
 
 type StatistiqueExport = {
-  type:
-    | 'exportDossierRaccordement'
-    | 'exportLauréatEnrichi'
-    | 'exportÉliminéEnrichi'
-    | 'exportDétailsFournisseur';
+  type: 'exportCsv';
   données: {
+    typeExport: 'dossierRaccordement' | 'lauréatEnrichi' | 'éliminéEnrichi' | 'détailsFournisseur';
     utilisateur: {
       role: Role.RawType;
     };
