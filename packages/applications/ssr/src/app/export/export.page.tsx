@@ -16,7 +16,7 @@ export type ExportPageProps = {
     label: string;
     url: string;
     description?: string;
-    applicableFilters: Array<string>;
+    availableFilters: Array<string>;
   }>;
   filters: ListFiltersProps['filters'];
 };
@@ -29,7 +29,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
       </div>
 
       <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
-        {actions.map(({ type, label, url, description, applicableFilters }) => (
+        {actions.map(({ type, label, url, description, availableFilters }) => (
           <li key={type}>
             <Card
               border
@@ -39,7 +39,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
               end={
                 <FiltersTagList
                   filters={filters.filter((filter) =>
-                    applicableFilters.includes(filter.searchParamKey),
+                    availableFilters.includes(filter.searchParamKey),
                   )}
                 />
               }
