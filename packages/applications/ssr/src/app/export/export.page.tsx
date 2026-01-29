@@ -20,7 +20,7 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
-  <PageTemplate banner={<Heading1>Exporter des données</Heading1>} feature={'export'}>
+  <PageTemplate banner={<Heading1>Exporter des données</Heading1>}>
     <div className="flex flex-col md:flex-row gap-5 md:gap-10">
       <div className="flex flex-col gap-3 pb-2 md:w-1/4">
         <ListFilters filters={filters} />

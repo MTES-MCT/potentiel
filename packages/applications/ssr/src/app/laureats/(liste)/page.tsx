@@ -8,7 +8,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -171,25 +170,18 @@ const mapToActions = ({
     return actions;
   }
 
-  const newCsvExportEnabled = getContext()?.features.includes('export');
-
-  actions.push({
-    label: 'Télécharger un export (format CSV)',
-    href: newCsvExportEnabled
-      ? Routes.Lauréat.exporter({
-          appelOffre,
-          periode,
-          famille,
-          statut,
-          typeActionnariat,
-        })
-      : Routes.Projet.exportCsv({
-          appelOffreId: appelOffre?.[0],
-          familleId: famille,
-          periodeId: periode,
-          statut: statut?.[0],
-        }),
-  });
+  if (rôleUtilisateur.aLaPermission('lauréat.listerLauréatEnrichi')) {
+    actions.push({
+      label: 'Télécharger un export (format CSV)',
+      href: Routes.Lauréat.exporter({
+        appelOffre,
+        periode,
+        famille,
+        statut,
+        typeActionnariat,
+      }),
+    });
+  }
 
   return actions;
 };
