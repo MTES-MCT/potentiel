@@ -35,8 +35,8 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
               border
               linkProps={{ href: url }}
               size="small"
-              endDetail="Format : CSV"
-              footer={
+              endDetail={<span className="block w-full text-right">Format du fichier : csv</span>}
+              end={
                 <FiltersTagList
                   filters={filters.filter((filter) =>
                     applicableFilters.includes(filter.searchParamKey),
