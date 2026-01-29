@@ -139,6 +139,7 @@ const mapToAction: MapToAction = (
         statut,
         typeActionnariat,
       }),
+      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat'],
       description:
         'Exporter la liste des dossiers de raccordement. Un même projet peut avoir plusieurs dossiers de raccordement.',
     });
@@ -149,6 +150,7 @@ const mapToAction: MapToAction = (
       type: 'lister-lauréat-enrichi',
       label: 'Projets lauréats',
       url: Routes.Lauréat.exporter({ appelOffre, periode, famille, statut, typeActionnariat }),
+      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat'],
       description: 'Exporter la liste des projets lauréats',
     });
   }
@@ -158,6 +160,8 @@ const mapToAction: MapToAction = (
       type: 'lister-éliminé-enrichi',
       label: 'Projets éliminés',
       url: Routes.Éliminé.exporter({ appelOffre, periode, famille, typeActionnariat }),
+      availableFilters: ['appelOffre', 'periode', 'famille', 'typeActionnariat'],
+
       description: 'Exporter la liste des projets éliminés',
     });
   }
@@ -172,6 +176,7 @@ const mapToAction: MapToAction = (
         famille,
         typeActionnariat,
       }),
+      availableFilters: ['appelOffre', 'periode', 'famille', 'typeActionnariat'],
       description:
         "Exporter l'intégralité des données fournisseurs telles qu'importées à la candidature du projet, sans tenir compte des éventuelles modifications apportées au cours de la vie du projet",
     });
