@@ -6,14 +6,32 @@
   },
   "include": ["src"],
   "references": [
-    { "path": "../../domain/période" },
-    { "path": "../../domain/projet" },
-    { "path": "../../domain/utilisateur" },
-    { "path": "../../domain/appel-offre" },
-    { "path": "../../domain/common" },
-    { "path": "../../infrastructure/domain-adapters" },
-    { "path": "../../infrastructure/pg-event-sourcing" },
-    { "path": "../../libraries/monitoring" },
-    { "path": "../routes" }
+    {
+      "path": "../../domain/appel-offre"
+    },
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/période"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../routes"
+    }
   ]
 }

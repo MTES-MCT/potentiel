@@ -6,10 +6,10 @@
   },
   "references": [
     {
-      "path": "../bootstrap"
+      "path": "../../domain/common"
     },
     {
-      "path": "../document-builder"
+      "path": "../../domain/projet"
     },
     {
       "path": "../../domain/réseau"
@@ -18,16 +18,13 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../domain/common"
-    },
-    {
-      "path": "../../domain/projet"
-    },
-    {
       "path": "../../infrastructure/domain-adapters"
     },
     {
       "path": "../../infrastructure/ds-api-client"
+    },
+    {
+      "path": "../../infrastructure/email"
     },
     {
       "path": "../../infrastructure/ore-client"
@@ -37,9 +34,6 @@
     },
     {
       "path": "../../infrastructure/pg-projection-read"
-    },
-    {
-      "path": "../../infrastructure/email"
     },
     {
       "path": "../../libraries/csv"
@@ -55,6 +49,12 @@
     },
     {
       "path": "../../statistiques/statistiques-publiques"
+    },
+    {
+      "path": "../bootstrap"
+    },
+    {
+      "path": "../document-builder"
     }
   ]
 }

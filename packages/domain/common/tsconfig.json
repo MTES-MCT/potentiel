@@ -8,6 +8,9 @@
   },
   "references": [
     {
+      "path": "../../libraries/iso8601-datetime"
+    },
+    {
       "path": "../../libraries/monads"
     },
     {
