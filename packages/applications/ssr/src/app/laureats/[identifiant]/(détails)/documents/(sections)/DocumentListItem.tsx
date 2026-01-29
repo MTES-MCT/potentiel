@@ -28,7 +28,7 @@ export const DocumentListItem: FC<DocumentListItemProps> = ({
       actions={
         peutÊtreTéléchargé ? (
           <DownloadDocument
-            className="mb-4"
+            className="mb-0"
             url={Routes.Document.télécharger(documentKey)}
             format="docx"
             label="Télécharger le document"
