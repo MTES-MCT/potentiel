@@ -6,6 +6,12 @@ export class DemandeDeDélaiInexistanteError extends InvalidOperationError {
   }
 }
 
+export class DemandeCorrigéeSansModificationError extends InvalidOperationError {
+  constructor() {
+    super('La correction de la demande ne contient aucune modification');
+  }
+}
+
 export class DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal extends InvalidOperationError {
   constructor() {
     super('La demande de délai est déjà instruite par le même utilisateur dreal');

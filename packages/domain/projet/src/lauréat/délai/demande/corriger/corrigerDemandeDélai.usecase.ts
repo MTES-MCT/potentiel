@@ -17,7 +17,7 @@ export type CorrigerDemandeDélaiUseCase = Message<
     dateCorrectionValue: string;
     nombreDeMoisValue: number;
     raisonValue: string;
-    pièceJustificativeValue: {
+    pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -38,12 +38,14 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
 
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-      dateDemandeValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentDemandeDélai.pièceJustificative.formatter(),
+          dateDemandeValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
 
     await mediator.send<CorrigerDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.CorrigerDemandeDélai',
@@ -57,13 +59,15 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
       },
     });
 
-    await mediator.send<CorrigerDocumentProjetCommand>({
-      type: 'Document.Command.CorrigerDocumentProjet',
-      data: {
-        content: pièceJustificativeValue.content,
-        documentProjetKey: pièceJustificative.formatter(),
-      },
-    });
+    if (pièceJustificativeValue) {
+      await mediator.send<CorrigerDocumentProjetCommand>({
+        type: 'Document.Command.CorrigerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue.content,
+          documentProjetKey: pièceJustificative!.formatter(),
+        },
+      });
+    }
   };
 
   mediator.register('Lauréat.Délai.UseCase.CorrigerDemandeDélai', runner);

@@ -7,5 +7,5 @@ export type CorrigerDemandeDélaiOptions = {
   dateCorrection: DateTime.ValueType;
   nombreDeMois: number;
   raison: string;
-  pièceJustificative: DocumentProjet.ValueType;
+  pièceJustificative?: DocumentProjet.ValueType;
 };

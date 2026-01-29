@@ -10,21 +10,23 @@ interface CorrigerDemandeDélai {
   readonly corrigéePar: string;
   readonly nombreDeMois: number;
   readonly raison: string;
-  readonly pièceJustificative: PièceJustificative;
+  readonly pièceJustificative?: PièceJustificative;
 }
 
 export class CorrigerDemandeDélaiFixture
   extends AbstractFixture<CorrigerDemandeDélai>
   implements CorrigerDemandeDélai
 {
-  #format!: string;
-  #content!: string;
+  #format?: string;
+  #content?: string;
 
-  get pièceJustificative(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get pièceJustificative(): PièceJustificative | undefined {
+    return this.#format && this.#content
+      ? {
+          format: this.#format,
+          content: convertStringToReadableStream(this.#content),
+        }
+      : undefined;
   }
 
   #corrigéeLe!: string;
@@ -70,8 +72,8 @@ export class CorrigerDemandeDélaiFixture
     this.#corrigéePar = fixture.corrigéePar;
     this.#raison = fixture.raison;
     this.#nombreDeMois = fixture.nombreDeMois;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#format = fixture.pièceJustificative ? fixture.pièceJustificative.format : undefined;
+    this.#content = fixture.pièceJustificative ? content : undefined;
 
     this.aÉtéCréé = true;
 

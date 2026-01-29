@@ -261,6 +261,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     if (this.demande.statut.estRejeté()) {
       throw new ChangementDéjàRejetéError();
     }
+
     const event: ChangementReprésentantLégalCorrigéEvent = {
       type: 'ChangementReprésentantLégalCorrigé-V1',
       payload: {

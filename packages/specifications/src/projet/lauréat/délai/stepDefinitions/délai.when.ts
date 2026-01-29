@@ -46,9 +46,16 @@ Quand(
 );
 
 Quand(
-  /le porteur corrige la demande de délai pour le projet lauréat/,
+  'le porteur corrige la demande de délai pour le projet lauréat',
   async function (this: PotentielWorld) {
     await corrigerDemandeDélai.call(this);
+  },
+);
+
+Quand(
+  'le porteur corrige la demande de délai pour le projet lauréat avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    await corrigerDemandeDélai.call(this, true);
   },
 );
 
@@ -76,14 +83,24 @@ export async function demanderDélai(
   }
 }
 
-export async function corrigerDemandeDélai(this: PotentielWorld) {
+export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesValeurs?: true) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { nombreDeMois, raison, pièceJustificative, corrigéeLe, corrigéePar } =
-      this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.créer({
-        corrigéePar: this.utilisateurWorld.porteurFixture.email,
-      });
+      this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.créer(
+        avecLesMêmesValeurs
+          ? {
+              corrigéePar: this.utilisateurWorld.porteurFixture.email,
+              nombreDeMois: this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois,
+              raison: this.lauréatWorld.délaiWorld.demanderDélaiFixture.raison,
+              // Quand un document n'est pas changé, on transmet undefined au usecase
+              pièceJustificative: undefined,
+            }
+          : {
+              corrigéePar: this.utilisateurWorld.porteurFixture.email,
+            },
+      );
 
     const { demandéLe } = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
       ? this.lauréatWorld.délaiWorld.demanderDélaiFixture
