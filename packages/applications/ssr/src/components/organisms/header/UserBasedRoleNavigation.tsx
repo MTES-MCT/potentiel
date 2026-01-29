@@ -15,10 +15,20 @@ export function UserBasedRoleNavigation() {
   return <NavLinks items={navigationItems} />;
 }
 
-type MenuItem = { label: string; url: string; permission: Role.Policy | false };
+type MenuItem = {
+  label: string;
+  url: string;
+  permission: Role.Policy | Array<Role.Policy> | false;
+};
 const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuProps.Link> =>
   items
-    .filter(({ permission }) => typeof permission === 'string' && rôle.aLaPermission(permission))
+    .filter(({ permission }) => {
+      if (Array.isArray(permission)) {
+        return permission.some((perm) => typeof perm === 'string' && rôle.aLaPermission(perm));
+      }
+
+      return typeof permission === 'string' && rôle.aLaPermission(permission);
+    })
     .map(({ label, url }) => ({
       text: label,
       linkProps: {
@@ -195,7 +205,6 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
     },
   ];
 
-  const newCsvExportEnabled = getContext()?.features.includes('export');
   const menu: MainNavigationProps.Item[] = [
     {
       text: 'Projets',
@@ -221,16 +230,21 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       text: 'Accès',
       menuLinks: mapToMenuProps(utilisateurMenuLinks, rôle),
     },
-    ...(newCsvExportEnabled
-      ? [
-          {
-            text: 'Export',
-            linkProps: {
-              href: Routes.Export.page,
-            },
-          },
-        ]
-      : []),
+    ...mapToMenuProps(
+      [
+        {
+          label: 'Export',
+          url: Routes.Export.page,
+          permission: [
+            'raccordement.listerDossierRaccordement',
+            'candidature.listerDétailsFournisseur',
+            'lauréat.listerLauréatEnrichi',
+            'éliminé.listerÉliminéEnrichi',
+          ],
+        },
+      ],
+      rôle,
+    ),
     ...mapToMenuProps(
       [
         {
