@@ -22,6 +22,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         type: 'Export du projet',
         date: DateTime.now().formatter(),
         format: 'csv',
+        // ajouter un filtre sur l'identifiant projet
         documentKey: Routes.Lauréat.exporter({}),
         // qui peut télécharger l'export
         peutÊtreTéléchargé: true,
@@ -60,6 +61,8 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           });
         }
       }
+
+      // ajouter les documents des demandes, voir selon les rôles pour le get
 
       return <DocumentsList documents={documents} />;
     })(),
