@@ -17,13 +17,21 @@ const schema = zod.object({
   nombreDeMois: zod.coerce.number().min(1),
   raison: zod.string().min(1),
   pieceJustificative: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  pieceJustificative_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
 });
 
 export type CorrigerDemandeDélaiFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, dateDemande, pieceJustificative, nombreDeMois, raison },
+  {
+    identifiantProjet,
+    dateDemande,
+    pieceJustificative,
+    pieceJustificative_document_selection,
+    nombreDeMois,
+    raison,
+  },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     const dateCorrectionValue = DateTime.now().formatter();
@@ -35,7 +43,10 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: dateDemande,
         dateCorrectionValue,
-        pièceJustificativeValue: pieceJustificative,
+        pièceJustificativeValue:
+          pieceJustificative_document_selection === 'edit_document'
+            ? pieceJustificative
+            : undefined,
         raisonValue: raison,
         nombreDeMoisValue: nombreDeMois,
       },

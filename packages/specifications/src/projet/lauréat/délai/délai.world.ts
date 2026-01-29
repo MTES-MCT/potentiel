@@ -133,7 +133,9 @@ export class DélaiWorld {
         identifiantProjet.formatter(),
         Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
         this.#demanderDélaiFixture.demandéLe,
-        this.#corrigerDemandeDélaiFixture.pièceJustificative.format,
+        this.#corrigerDemandeDélaiFixture.pièceJustificative
+          ? this.#corrigerDemandeDélaiFixture.pièceJustificative.format
+          : this.#demanderDélaiFixture.pièceJustificative.format,
       );
     }
 

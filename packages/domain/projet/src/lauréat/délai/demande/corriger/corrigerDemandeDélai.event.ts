@@ -12,7 +12,7 @@ export type DemandeDélaiCorrigéeEvent = DomainEvent<
     raison: string;
     corrigéeLe: DateTime.RawType;
     corrigéePar: Email.RawType;
-    pièceJustificative: {
+    pièceJustificative?: {
       format: string;
     };
   }

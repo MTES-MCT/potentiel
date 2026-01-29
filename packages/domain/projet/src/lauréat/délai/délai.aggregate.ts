@@ -16,6 +16,7 @@ import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDé
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
+  DemandeCorrigéeSansModificationError,
 } from './demande/demandeDélai.error';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
@@ -32,6 +33,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     statut: StatutDemandeDélai.ValueType;
     nombreDeMois: number;
     demandéLe: DateTime.RawType;
+    raison: string;
 
     instruction?: {
       passéEnInstructionPar: Email.ValueType;
@@ -87,9 +89,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     pièceJustificative,
     raison,
   }: CorrigerDemandeDélaiOptions) {
-    if (!this.#demande) {
-      throw new DemandeDeDélaiInexistanteError();
-    }
+    this.vérifierSiCorrectionEstValide({
+      nombreDeMois,
+      pièceJustificative,
+      raison,
+    });
 
     const event: DemandeDélaiCorrigéeEvent = {
       type: 'DemandeDélaiCorrigée-V1',
@@ -97,10 +101,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         corrigéeLe: dateCorrection.formatter(),
         corrigéePar: identifiantUtilisateur.formatter(),
-        dateDemande: this.#demande.demandéLe,
+        dateDemande: this.#demande!.demandéLe,
         nombreDeMois,
         raison,
-        pièceJustificative: { format: pièceJustificative.format },
+        pièceJustificative: pièceJustificative ? { format: pièceJustificative.format } : undefined,
       },
     };
 
@@ -265,13 +269,16 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       .exhaustive();
   }
 
-  private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe } }: DélaiDemandéEvent) {
-    this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe };
+  private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe, raison } }: DélaiDemandéEvent) {
+    this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe, raison };
   }
 
-  private applyDemandeDélaiCorrigée({ payload: { nombreDeMois } }: DemandeDélaiCorrigéeEvent) {
+  private applyDemandeDélaiCorrigée({
+    payload: { nombreDeMois, raison },
+  }: DemandeDélaiCorrigéeEvent) {
     if (this.#demande) {
       this.#demande.nombreDeMois = nombreDeMois;
+      this.#demande.raison = raison;
     }
   }
 
@@ -300,5 +307,23 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
   private applyDemandeDélaiAccordée(_: DélaiAccordéEvent) {
     this.#demande = undefined;
+  }
+
+  private vérifierSiCorrectionEstValide({
+    nombreDeMois,
+    pièceJustificative,
+    raison,
+  }: Pick<CorrigerDemandeDélaiOptions, 'nombreDeMois' | 'pièceJustificative' | 'raison'>) {
+    if (!this.#demande || !this.#demande.statut.estEnCours()) {
+      throw new DemandeDeDélaiInexistanteError();
+    }
+
+    if (
+      !pièceJustificative &&
+      nombreDeMois === this.#demande.nombreDeMois &&
+      raison === this.#demande.raison
+    ) {
+      throw new DemandeCorrigéeSansModificationError();
+    }
   }
 }
