@@ -98,6 +98,8 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 - `update:dump-metabase` : Génére un fichier .dump de la base `metabase`
 
+- `update:ts-references` : Met à jour les références des fichiers tsconfig.json en fonction des dépendences de chaque paquet.
+
 ## <a id="environnements"></a> Environnements
 
 Liste des environnements sur Scalingo :
