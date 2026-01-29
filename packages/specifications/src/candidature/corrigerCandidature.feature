@@ -16,8 +16,8 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat | abcd                  |
             | détails      | {"Note carbone": "1"} |
-        Et le détail de la candidature devrait être consultable
         Alors la candidature devrait être consultable
+        Et le détail de la candidature devrait être consultable
 
     Scénario: Corriger une candidature avec des champs de localité uniquement
         Quand le DGEC validateur corrige la candidature avec :

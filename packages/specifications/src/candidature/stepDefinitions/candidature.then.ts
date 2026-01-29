@@ -16,10 +16,6 @@ import { sleep } from '../../helpers/sleep.js';
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;
 
-  const expectedDétails =
-    this.candidatureWorld.corrigerCandidature.détailsValue ??
-    this.candidatureWorld.importerCandidature.détailsValue;
-
   await waitForExpect(async () => {
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -43,18 +39,6 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     // mapToExpected utilise le ValueType Dépôt, donc une erreur dans ce valueType pourrait ne pas être détectée dans ce test.
     // on compare donc aussi les valeurs des champs du dépôt
     shallowCompareObject(expectedDépôtValue, candidature.dépôt.formatter());
-
-    const détailsImport = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: candidature.détailsImport.formatter(),
-      },
-    });
-
-    assert(Option.isSome(détailsImport), `Détails d'import non trouvé`);
-
-    const actualContent = await convertReadableStreamToString(détailsImport.content);
-    expect(actualContent).to.equal(JSON.stringify(expectedDétails));
   });
 });
 

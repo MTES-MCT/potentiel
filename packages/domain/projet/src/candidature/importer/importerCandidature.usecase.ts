@@ -4,7 +4,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
 import { Dépôt, DétailCandidature, Instruction } from '..';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../document-projet';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -28,22 +27,6 @@ export const registerImporterCandidatureUseCase = () => {
       payload.identifiantProjetValue,
     );
     const importéLe = DateTime.convertirEnValueType(payload.importéLe);
-
-    // pour le moment, on garde ce fichier de détails car tous les champs n'ont pas vocation à être extraits
-    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
-    const blob = new Blob([buf]);
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: blob.stream(),
-        documentProjet: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          'candidature/import',
-          importéLe.formatter(),
-          'application/json',
-        ),
-      },
-    });
 
     await mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',

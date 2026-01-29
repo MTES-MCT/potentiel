@@ -9,6 +9,7 @@ Fonctionnalité: Importer une candidature (garanties financières)
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors la candidature devrait être consultable
+        Et le détail de la candidature devrait être consultable
 
         Exemples:
             | appel d'offres           | type GF                   | date d'échéance |
