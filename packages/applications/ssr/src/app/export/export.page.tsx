@@ -4,6 +4,7 @@ import { Card } from '@codegouvfr/react-dsfr/Card';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { ListFilters, ListFiltersProps } from '@/components/molecules/ListFilters';
+import { FiltersTagList } from '@/components/molecules/FiltersTagList';
 
 export type ExportPageProps = {
   actions: Array<{
@@ -15,6 +16,7 @@ export type ExportPageProps = {
     label: string;
     url: string;
     description?: string;
+    applicableFilters: Array<string>;
   }>;
   filters: ListFiltersProps['filters'];
 };
@@ -27,14 +29,20 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => (
       </div>
 
       <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
-        {actions.map(({ type, label, url, description }) => (
+        {actions.map(({ type, label, url, description, applicableFilters }) => (
           <li key={type}>
             <Card
               border
               linkProps={{ href: url }}
               size="small"
-              enlargeLink
               endDetail="Format : CSV"
+              footer={
+                <FiltersTagList
+                  filters={filters.filter((filter) =>
+                    applicableFilters.includes(filter.searchParamKey),
+                  )}
+                />
+              }
               title={<>{label}</>}
               desc={description}
             />
