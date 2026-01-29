@@ -14,23 +14,14 @@ export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, op
       'Cette opération ne peut être réalisée que par un gestionnaire de réseau.',
     );
   }
-  const { after } = options ?? {};
-
-  // FIXME: typespec ne gère pas bien le booléen opetionnel dans les query params
-  const avecDateMiseEnService =
-    new URLSearchParams(ctx.request.url!.split('?')[1]).get('avecDateMiseEnService') ?? undefined;
+  const { after, avecDateMiseEnService } = options ?? {};
 
   const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
     data: {
       identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
       utilisateur: utilisateur.identifiantUtilisateur.email,
-      avecDateMiseEnService:
-        avecDateMiseEnService === 'true'
-          ? true
-          : avecDateMiseEnService === 'false'
-            ? false
-            : undefined,
+      avecDateMiseEnService,
       range: mapToRangeOptions(after),
     },
   });
