@@ -26,6 +26,9 @@
       "path": "../../libraries/pg-helpers"
     },
     {
+      "path": "../../statistiques/statistiques-utilisation"
+    },
+    {
       "path": "../notifications"
     },
     {

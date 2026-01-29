@@ -1,0 +1,21 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
+    }
+  ]
+}

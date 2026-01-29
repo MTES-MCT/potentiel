@@ -19,6 +19,7 @@
     "@potentiel-libraries/auth-pg-adapter": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-statistiques/statistiques-utilisation": "*",
     "mediateur": "0.3.0",
     "next-auth": "4.24.13",
     "nodemailer": "7.0.11",

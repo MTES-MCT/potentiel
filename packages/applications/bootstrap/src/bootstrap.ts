@@ -2,6 +2,7 @@ import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmailV2 } from '@potentiel-infrastructure/email';
+import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
@@ -9,7 +10,7 @@ import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { setupProjet } from './setupProjet';
 import { setupPériode } from './setupPériode';
-import { setupStatistiques } from './setupStatistiques';
+import { setupStatistiqueUtilisation } from './setupStatistiqueUtilisation';
 import { setupNotifications } from './setupNotifications';
 
 type BootstrapProps = {
@@ -22,7 +23,9 @@ export const bootstrap = async ({ middlewares }: BootstrapProps) => {
 
   mediator.use({ middlewares });
 
-  setupStatistiques();
+  setupStatistiqueUtilisation({
+    ajouterStatistiqueUtilisation: StatistiquesAdapter.ajouterStatistique,
+  });
   setupNotifications({ sendEmail: sendEmailV2 });
   setupUtilisateur();
   setupAppelOffre();

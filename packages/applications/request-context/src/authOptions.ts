@@ -12,12 +12,12 @@ import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
 import { EnvoyerNotificationCommand } from '@potentiel-applications/notifications';
 import { SendEmailV2 } from '@potentiel-applications/notifications';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-statistiques/statistiques-utilisation';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
-import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { canConnectWithProvider } from './canConnectWithProvider';
 import { buildSendVerificationRequest } from './sendVerificationRequest';
 
@@ -93,7 +93,20 @@ export const authOptions: AuthOptions = {
     signIn: async ({ account, user }) => {
       if (user?.email) {
         const utilisateur = await getSessionUtilisateurFromEmail(user.email);
-        await ajouterStatistiqueConnexion(utilisateur, account?.provider ?? '');
+
+        await mediator.send<AjouterStatistiqueUtilisationCommand>({
+          type: 'System.Statistiques.AjouterStatistiqueUtilisation',
+          data: {
+            type: 'connexionUtilisateur',
+            données: {
+              utilisateur: {
+                role: utilisateur.rôle.nom,
+                email: utilisateur.identifiantUtilisateur.email,
+              },
+              provider: account?.provider ?? '',
+            },
+          },
+        });
       }
     },
   },
