@@ -22,7 +22,7 @@ type StatistiqueExport = {
     utilisateur: {
       role: Role.RawType;
     };
-    filtres?: Record<string, string>;
+    filtres?: Record<string, string | string[]>;
   };
 };
 

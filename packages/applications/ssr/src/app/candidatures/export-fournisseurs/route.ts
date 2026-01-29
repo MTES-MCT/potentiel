@@ -2,9 +2,11 @@ import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-statistiques/statistiques-utilisation';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 
 type DétailFournisseurCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -87,6 +89,22 @@ export const GET = async (request: Request) =>
           { label: 'Référence commerciale', value: 'référenceCommerciale' }, // TODO: voir si on garde ou pas
         ],
         data: fournisseurs,
+      });
+
+      await mediator.send<AjouterStatistiqueUtilisationCommand>({
+        type: 'System.Statistiques.AjouterStatistiqueUtilisation',
+        data: {
+          type: 'exportDétailsFournisseur',
+          données: {
+            utilisateur: { role: utilisateur.rôle.nom },
+            filtres: getFiltresActifs({
+              appelOffre,
+              periode,
+              famille,
+              typeActionnariat,
+            }),
+          },
+        },
       });
 
       const fileName = `export_candidature_fournisseurs.csv`;

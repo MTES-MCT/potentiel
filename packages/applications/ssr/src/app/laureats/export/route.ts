@@ -3,9 +3,11 @@ import { mediator } from 'mediateur';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { formatDateForDocument } from '@potentiel-applications/document-builder';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-statistiques/statistiques-utilisation';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 
 export const GET = async (request: Request) =>
   apiAction(async () =>
@@ -84,6 +86,23 @@ export const GET = async (request: Request) =>
             ? formatDateForDocument(item.dateAchèvementRéelle.date)
             : '',
         })),
+      });
+
+      await mediator.send<AjouterStatistiqueUtilisationCommand>({
+        type: 'System.Statistiques.AjouterStatistiqueUtilisation',
+        data: {
+          type: 'exportLauréatEnrichi',
+          données: {
+            utilisateur: { role: utilisateur.rôle.nom },
+            filtres: getFiltresActifs({
+              appelOffre,
+              periode,
+              famille,
+              statut,
+              typeActionnariat,
+            }),
+          },
+        },
       });
 
       const fileName = `export_laureats.csv`;
