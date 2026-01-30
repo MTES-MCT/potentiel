@@ -49,6 +49,7 @@ describe('listProjection', () => {
     typeof category2,
     {
       moreData2: string;
+      foo?: number;
     }
   >;
   type FakeProjection3 = Entity<
@@ -59,6 +60,7 @@ describe('listProjection', () => {
   >;
   const fakeData2: Omit<FakeProjection2, 'type'> = {
     moreData2: 'foo',
+    foo: 1,
   };
   const fakeData3: Omit<FakeProjection3, 'type'> = {
     moreData3: 'foo',
@@ -765,6 +767,44 @@ describe('listProjection', () => {
             type: 'left',
             where: {
               moreData3: Where.notEqualNull(),
+            },
+          },
+        ],
+      });
+
+      actual.should.have.all.keys(Object.keys(expected));
+
+      actual.items.should.have.deep.members(expectedItems);
+    });
+
+    it('should find projections with multiple joined projection and multiple where clauses per join', async () => {
+      const expected = mapToListResultItems(fakeData1.slice(0, 1));
+      const expectedItems = expected.items.map((item) => ({
+        ...item,
+        [category2]: fakeData2,
+        [category3]: fakeData3,
+      }));
+
+      const actual = await listProjection<
+        FakeProjection1,
+        [LeftJoin<FakeProjection2>, LeftJoin<FakeProjection3>]
+      >(category1, {
+        join: [
+          {
+            on: 'data.value',
+            entity: category2,
+            type: 'left',
+            where: {
+              moreData2: Where.equal('foo'),
+              foo: Where.equal(1),
+            },
+          },
+          {
+            entity: category3,
+            on: 'data.value',
+            type: 'left',
+            where: {
+              moreData3: Where.equal('foo'),
             },
           },
         ],
