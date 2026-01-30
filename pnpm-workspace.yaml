@@ -1,3 +1,9 @@
+# Prevent build scripts (postinstall) from dependencies
+strictDepBuilds: true
+
+# Protection against supply chain attacks, wait 1 week before using a new package version
+minimumReleaseAge: 10080
+
 packages:
   - ./packages/config/*
   - ./packages/libraries/*

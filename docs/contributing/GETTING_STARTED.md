@@ -38,26 +38,32 @@ Pour installer et lancer le projet vous aurez besoin de :
    cd potentiel
    ```
 
-2. Installer Node.js via la commande **nvm** à la racine du projet (**nvm** utilisera la configuration contenue dans le fichier **[.nvmrc](/.nvmrc)**) :
+2. (optionnel) Installer Node.js via la commande **nvm** à la racine du projet (**nvm** utilisera la configuration contenue dans le fichier **[.nvmrc](/.nvmrc)**) :
 
    ```bash
    nvm install
    ```
 
-3. Installer les dépendances :
+3. (optionnel) Configurer PNPM
 
    ```bash
-   npm install
+   corepack enable
    ```
 
-4. Configurer les variables d'environnement à la base des applications :
+4. Installer les dépendances :
+
+   ```bash
+   pnpm install
+   ```
+
+5. Configurer les variables d'environnement à la base des applications :
 
    ```bash
    cp packages/applications/ssr/.env.template packages/applications/ssr/.env
    cp packages/applications/subscribers/.env.template packages/applications/subscribers/.env
    ```
 
-5. Synchroniser les submodules
+6. Synchroniser les submodules
 
    Il faut retourner à la racine du repo et exécuter :
 

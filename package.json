@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "start": "npx --offline foreman start --procfile Procfile --port 3000",
+    "start": "nf start --procfile Procfile --port 3000",
     "start:web": "pnpm run start -w @potentiel-applications/ssr",
     "start:subscribers": "pnpm run start -w @potentiel-applications/subscribers",
     "up": "./.scripts/docker-up.sh",
@@ -17,7 +17,7 @@
     "build:test": "turbo run build --filter=@potentiel-applications/ssr^...",
     "clean": "turbo run clean && rm -rf .turbo",
     "predev": "pnpm run up && npm run build:dev",
-    "dev": "npx --offline foreman start --procfile Procfile.dev --port 3000",
+    "dev": "nf start --procfile Procfile.dev --port 3000",
     "dev:web": "pnpm run dev -w @potentiel-applications/ssr",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -73,15 +73,17 @@
     "update-ts-references": "^4.0.0",
     "wait-for-expect": "3.0.2"
   },
-  "engines": {
-    "node": "^24.10.0"
-  },
   "dependencies": {
     "isomorphic-dompurify": "2.23.0",
     "prettier-plugin-gherkin": "2.4.1",
     "ts-pattern": "5.7.0"
   },
   "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": "^24.10.0",
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm"
+  },
   "gitmoji": {
     "autoAdd": false,
     "emojiFormat": "emoji",
