@@ -70,21 +70,24 @@ const buildJoinWhereClause = (
   joins: JoinOptions[],
   startIndex: number,
 ): [clause: string, values: Array<unknown>] => {
-  const whereClausesAndValues = joins.reduce((prev, curr) => {
+  const whereClauses: string[] = [];
+  const whereValues: unknown[] = [];
+
+  for (const curr of joins) {
     if (curr.where) {
-      const [clause, values] = buildWhereClause(curr.where, curr.entity, startIndex + prev.length);
+      const [clause, values] = buildWhereClause(
+        curr.where,
+        curr.entity,
+        startIndex + whereValues.length,
+      );
       if (clause) {
-        prev.push([clause, values] as WhereClausesAndValues);
+        whereClauses.push(clause);
+        whereValues.push(...values);
       }
     }
-    return prev;
-  }, [] as WhereClausesAndValues[]);
+  }
 
-  const whereClauses = combineClauses(whereClausesAndValues.map(([clause]) => clause));
-
-  const whereValues = whereClausesAndValues.map(([, values]) => values).flat();
-
-  return [whereClauses, whereValues];
+  return [combineClauses(whereClauses), whereValues];
 };
 
 const combineClauses = (clauses: string[]) => clauses.filter(Boolean).join(' AND ');
