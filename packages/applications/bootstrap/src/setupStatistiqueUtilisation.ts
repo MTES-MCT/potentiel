@@ -1,7 +1,7 @@
 import {
   AjouterStatistiqueUtilisationPort,
   registerStatistiquesUtilisationCommands,
-} from '@potentiel-statistiques/statistiques-utilisation';
+} from '@potentiel-domain/statistiques-utilisation';
 
 export type SetupStatistiqueUtilisationDependencies = {
   ajouterStatistiqueUtilisation: AjouterStatistiqueUtilisationPort;

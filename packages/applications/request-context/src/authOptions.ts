@@ -12,7 +12,7 @@ import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
 import { EnvoyerNotificationCommand } from '@potentiel-applications/notifications';
 import { SendEmailV2 } from '@potentiel-applications/notifications';
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-statistiques/statistiques-utilisation';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';

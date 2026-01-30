@@ -14,6 +14,9 @@
       "path": "../../domain/utilisateur"
     },
     {
+      "path": "../../domain/statistiques-utilisation"
+    },
+    {
       "path": "../../infrastructure/email"
     },
     {
@@ -24,9 +27,6 @@
     },
     {
       "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../../statistiques/statistiques-utilisation"
     },
     {
       "path": "../notifications"

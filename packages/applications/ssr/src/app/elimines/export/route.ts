@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
-import { AjouterStatistiqueUtilisationCommand } from '@potentiel-statistiques/statistiques-utilisation';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';

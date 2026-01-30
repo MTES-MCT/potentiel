@@ -19,7 +19,6 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pg-helpers": "*",
-    "@potentiel-statistiques/statistiques-utilisation": "*",
     "pdf-lib": "1.17.1"
   },
   "devDependencies": {
