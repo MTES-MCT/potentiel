@@ -15,11 +15,12 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/reseau": "*",
+    "@potentiel-domain/statistiques-utilisation": "*",
+    "@potentiel-domain/core": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/monitoring": "*",
-    "@potentiel-domain/core": "*",
     "mediateur": "0.3.0"
   },
   "devDependencies": {

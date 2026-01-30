@@ -30,6 +30,7 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
+    "@potentiel-domain/statistiques-utilisation": "*",
     "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-infrastructure/filigrane-facile-client": "*",
     "@potentiel-infrastructure/geo-api-client": "*",

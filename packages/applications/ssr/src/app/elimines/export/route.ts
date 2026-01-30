@@ -2,9 +2,11 @@ import { mediator } from 'mediateur';
 
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 
 export const GET = async (request: Request) =>
   apiAction(async () =>
@@ -68,6 +70,23 @@ export const GET = async (request: Request) =>
           unitéPuissance: item.unitéPuissance.formatter(),
           typeActionnariat: item.typeActionnariat?.formatter(),
         })),
+      });
+
+      await mediator.send<AjouterStatistiqueUtilisationCommand>({
+        type: 'System.Statistiques.AjouterStatistiqueUtilisation',
+        data: {
+          type: 'exportCsv',
+          données: {
+            typeExport: 'éliminéEnrichi',
+            utilisateur: { role: utilisateur.rôle.nom },
+            filtres: getFiltresActifs({
+              appelOffre,
+              periode,
+              famille,
+              typeActionnariat,
+            }),
+          },
+        },
       });
 
       const fileName = `export_elimines.csv`;

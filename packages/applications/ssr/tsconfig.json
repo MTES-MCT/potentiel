@@ -41,6 +41,9 @@
       "path": "../../domain/utilisateur"
     },
     {
+      "path": "../../domain/statistiques-utilisation"
+    },
+    {
       "path": "../../infrastructure/ds-api-client"
     },
     {

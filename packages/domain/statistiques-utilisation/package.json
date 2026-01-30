@@ -1,0 +1,20 @@
+{
+  "name": "@potentiel-domain/statistiques-utilisation",
+  "description": "Statistiques d'utilisation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/utilisateur": "*",
+    "mediateur": "0.3.0"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}

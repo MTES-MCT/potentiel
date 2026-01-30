@@ -2,9 +2,11 @@ import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 
 type DossierRaccordementCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -119,6 +121,24 @@ export const GET = async (request: Request) =>
       });
 
       const fileName = `export_projet_raccordement.csv`;
+
+      await mediator.send<AjouterStatistiqueUtilisationCommand>({
+        type: 'System.Statistiques.AjouterStatistiqueUtilisation',
+        data: {
+          type: 'exportCsv',
+          données: {
+            typeExport: 'dossierRaccordement',
+            utilisateur: { role: utilisateur.rôle.nom },
+            filtres: getFiltresActifs({
+              appelOffre,
+              periode,
+              famille,
+              statut,
+              typeActionnariat,
+            }),
+          },
+        },
+      });
 
       return new Response(csv, {
         headers: {
