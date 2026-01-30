@@ -43,7 +43,7 @@
     "clsx": "2.1.1",
     "crisp-sdk-web": "1.0.25",
     "mediateur": "0.3.0",
-    "next": "14.2.35",
+    "next": "16.1.5",
     "next-auth": "4.24.13",
     "next-swagger-doc": "0.4.1",
     "pdf-lib": "1.17.1",
