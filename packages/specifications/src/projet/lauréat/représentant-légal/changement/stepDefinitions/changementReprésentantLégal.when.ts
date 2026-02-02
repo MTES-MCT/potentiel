@@ -79,7 +79,7 @@ Quand(
 );
 
 Quand(
-  /le porteur corrige la demande de changement de représentant légal pour le projet lauréat/,
+  'le porteur corrige la demande de changement de représentant légal pour le projet lauréat',
   async function (this: PotentielWorld) {
     await corrigerDemandeChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
@@ -91,7 +91,24 @@ Quand(
 );
 
 Quand(
-  /le porteur corrige une demande inexistante de changement de représentant légal pour le projet lauréat/,
+  'le porteur corrige la demande de changement de représentant légal pour le projet lauréat avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    const { demandéPar, nomReprésentantLégal, typeReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+        .demanderOuEnregistrerChangementReprésentantLégalFixture;
+
+    await corrigerDemandeChangement.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      corrigéPar: demandéPar,
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative: undefined,
+    });
+  },
+);
+
+Quand(
+  'le porteur corrige une demande inexistante de changement de représentant légal pour le projet lauréat',
   async function (this: PotentielWorld) {
     await corrigerDemandeChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),

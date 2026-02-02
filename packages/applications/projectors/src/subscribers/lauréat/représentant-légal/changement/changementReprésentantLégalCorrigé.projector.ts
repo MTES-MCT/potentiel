@@ -17,7 +17,9 @@ export const changementReprésentantLégalCorrigéProjector = async ({
           ...représentantLégal.changementEnCours.demande,
           nomReprésentantLégal,
           typeReprésentantLégal,
-          pièceJustificative,
+          ...(pièceJustificative && {
+            pièceJustificative,
+          }),
         },
       },
     );

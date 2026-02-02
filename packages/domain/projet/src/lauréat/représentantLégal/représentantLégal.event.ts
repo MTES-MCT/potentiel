@@ -68,7 +68,7 @@ export type ChangementReprésentantLégalCorrigéEvent = DomainEvent<
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
     corrigéLe: DateTime.RawType;
     corrigéPar: Email.RawType;
-    pièceJustificative: {
+    pièceJustificative?: {
       format: string;
     };
   }

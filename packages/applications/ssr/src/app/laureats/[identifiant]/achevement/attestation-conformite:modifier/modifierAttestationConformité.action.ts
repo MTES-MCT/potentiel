@@ -9,6 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
+  documentSelectionSchema,
   keepOrUpdateManyDocuments,
   keepOrUpdateSingleOptionalDocument,
 } from '@/utils/zod/document/keepOrUpdateDocument';
@@ -19,7 +20,7 @@ const schema = zod.object({
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
-  attestation_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
+  attestation_document_selection: documentSelectionSchema,
   preuveTransmissionAuCocontractant_document_selection: zod.enum([
     'keep_existing_document',
     'edit_document',

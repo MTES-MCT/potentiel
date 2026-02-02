@@ -6,6 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet, IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
+import { DemandeCorrigéeSansModificationError } from '../lauréat.error';
 
 import {
   TypeDocumentChangementReprésentantLégal,
@@ -254,13 +255,11 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     pièceJustificative,
   }: CorrigerChangementOptions) {
-    if (this.demande.statut.estAccordé()) {
-      throw new ChangementDéjàAccordéError();
-    }
-
-    if (this.demande.statut.estRejeté()) {
-      throw new ChangementDéjàRejetéError();
-    }
+    this.vérifierSiCorrectionEstValide({
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative,
+    });
 
     const event: ChangementReprésentantLégalCorrigéEvent = {
       type: 'ChangementReprésentantLégalCorrigé-V1',
@@ -270,7 +269,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         typeReprésentantLégal: typeReprésentantLégal.formatter(),
         corrigéLe: dateCorrection.formatter(),
         corrigéPar: identifiantUtilisateur.formatter(),
-        pièceJustificative: { format: pièceJustificative.format },
+        pièceJustificative: pièceJustificative && { format: pièceJustificative.format },
       },
     };
     await this.publish(event);
@@ -463,22 +462,21 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   }
 
   private applyChangementReprésentantLégalCorrigé({
-    payload: {
-      identifiantProjet,
-      nomReprésentantLégal,
-      typeReprésentantLégal,
-      pièceJustificative: { format },
-    },
+    payload: { identifiantProjet, nomReprésentantLégal, typeReprésentantLégal, pièceJustificative },
   }: ChangementReprésentantLégalCorrigéEvent) {
     if (this.#demande) {
       this.#demande.nom = nomReprésentantLégal;
       this.#demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
-      this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        this.#demande.demandéLe.formatter(),
-        format,
-      );
+      if (pièceJustificative) {
+        {
+          this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
+            identifiantProjet,
+            TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+            this.#demande.demandéLe.formatter(),
+            pièceJustificative.format,
+          );
+        }
+      }
     }
   }
 
@@ -544,5 +542,30 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
   private applyChangementReprésentantLégalSupprimé(_: ChangementReprésentantLégalSuppriméEvent) {
     this.#demande = undefined;
+  }
+
+  private vérifierSiCorrectionEstValide({
+    nomReprésentantLégal,
+    typeReprésentantLégal,
+    pièceJustificative,
+  }: Pick<
+    CorrigerChangementOptions,
+    'nomReprésentantLégal' | 'pièceJustificative' | 'typeReprésentantLégal'
+  >) {
+    if (
+      this.demande.nom === nomReprésentantLégal &&
+      this.demande.type.estÉgaleÀ(typeReprésentantLégal) &&
+      !pièceJustificative
+    ) {
+      throw new DemandeCorrigéeSansModificationError();
+    }
+
+    if (this.demande.statut.estAccordé()) {
+      throw new ChangementDéjàAccordéError();
+    }
+
+    if (this.demande.statut.estRejeté()) {
+      throw new ChangementDéjàRejetéError();
+    }
   }
 }

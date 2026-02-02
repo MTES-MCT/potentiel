@@ -9,7 +9,10 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
+import {
+  documentSelectionSchema,
+  keepOrUpdateSingleDocument,
+} from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -17,7 +20,7 @@ const schema = zod.object({
   nombreDeMois: zod.coerce.number().min(1),
   raison: zod.string().min(1),
   pieceJustificative: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  pieceJustificative_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
+  pieceJustificative_document_selection: documentSelectionSchema,
 });
 
 export type CorrigerDemandeDélaiFormKeys = keyof zod.infer<typeof schema>;
