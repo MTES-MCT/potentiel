@@ -47,9 +47,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateDemandeValue: dateDemande,
         dateCorrectionValue,
         pièceJustificativeValue:
-          pieceJustificativeDocumentSelection === 'edit_document'
-            ? pieceJustificative
-            : undefined,
+          pieceJustificativeDocumentSelection === 'edit_document' ? pieceJustificative : undefined,
         raisonValue: raison,
         nombreDeMoisValue: nombreDeMois,
       },
