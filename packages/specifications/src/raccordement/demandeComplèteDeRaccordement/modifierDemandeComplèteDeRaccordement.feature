@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @demande-complète-raccordement
+@select
 Fonctionnalité: Modifier une DCR
 
     Contexte:
@@ -23,6 +24,13 @@ Fonctionnalité: Modifier une DCR
     Scénario: Un administrateur modifie une DCR pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Quand l'administrateur modifie la demande complète de raccordement
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Un administrateur modifie une DCR pour un projet achevé
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand l'administrateur modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -76,11 +84,23 @@ Fonctionnalité: Modifier une DCR
             | La date de qualification | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
-    Plan du scénario: Impossible de modifier une DCR complète si le projet est déjà en service
+    Plan du scénario: Impossible pour un profil non admin de modifier une DCR complète si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand <role> modifie la demande complète de raccordement
         Alors <role> devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"
+
+        Exemples:
+            | role       |
+            | le porteur |
+            | la dreal   |
+
+    @select
+    Scénario: Impossible pour un profil non admin de modifier une DCR complète si le projet est achevé
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une attestation de conformité transmise pour le projet lauréat
+        Quand <role> modifie la demande complète de raccordement
+        Alors <role> devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
         Exemples:
             | role       |
