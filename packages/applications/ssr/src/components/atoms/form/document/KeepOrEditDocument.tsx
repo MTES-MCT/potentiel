@@ -34,7 +34,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
     <RadioButtons
       className={className}
       legend={label}
-      name={`${name}_document_selection`}
+      name={`${name}DocumentSelection`}
       disabled={disabled}
       options={[
         {

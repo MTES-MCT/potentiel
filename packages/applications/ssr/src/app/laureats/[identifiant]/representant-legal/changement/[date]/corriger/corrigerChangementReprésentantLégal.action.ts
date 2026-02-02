@@ -21,7 +21,7 @@ const commonSchema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1),
   dateDemande: zod.string().min(1),
-  piecesJustificatives_document_selection: documentSelectionSchema,
+  piecesJustificativesDocumentSelection: documentSelectionSchema,
 });
 
 const schema = zod.discriminatedUnion('typeSociete', [
@@ -55,7 +55,7 @@ const action: FormAction<FormState, typeof schema> = async (
     nomRepresentantLegal,
     piecesJustificatives,
     dateDemande,
-    piecesJustificatives_document_selection,
+    piecesJustificativesDocumentSelection,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (
         typeReprésentantLégalValue: typeRepresentantLegal,
         nomReprésentantLégalValue: nomRepresentantLegal,
         pièceJustificativeValue:
-          piecesJustificatives_document_selection === 'keep_existing_document'
+          piecesJustificativesDocumentSelection === 'keep_existing_document'
             ? undefined
             : piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
