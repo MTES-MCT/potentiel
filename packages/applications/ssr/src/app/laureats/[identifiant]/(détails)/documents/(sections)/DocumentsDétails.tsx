@@ -6,9 +6,8 @@ export type DocumentItem = {
   type: string;
   date: string;
   format: string;
-  documentKey: string;
   peutÊtreTéléchargé: boolean;
-};
+} & ({ documentKey: string; url: undefined } | { url: string; documentKey: undefined });
 
 export type DocumentListItemProps = { documents: Array<DocumentItem> };
 
@@ -30,12 +29,13 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
       ) : (
         <div>
           <div className="flex flex-col gap-4 mt-4">
-            {documents.map(({ type, documentKey, date, peutÊtreTéléchargé }) => (
+            {documents.map(({ type, documentKey, url, date, peutÊtreTéléchargé }) => (
               <li key={documentKey}>
                 <Tile className="flex flex-col md:flex-row md:justify-between">
                   <DocumentListItem
                     type={mapTypeToTypeLabel(type)}
                     documentKey={documentKey}
+                    url={url}
                     date={date}
                     peutÊtreTéléchargé={peutÊtreTéléchargé}
                   />

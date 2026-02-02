@@ -8,11 +8,13 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { DownloadDocument } from '../../../../../../components/atoms/form/document/DownloadDocument';
 import { Heading3 } from '../../../../../../components/atoms/headings';
 import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
+import { TertiaryLink } from '../../../../../../components/atoms/form/TertiaryLink';
 
 export type DocumentListItemProps = {
   type: string;
   date: string;
-  documentKey: string;
+  documentKey?: string;
+  url?: string;
   peutÊtreTéléchargé: boolean;
 };
 
@@ -20,19 +22,22 @@ export const DocumentListItem: FC<DocumentListItemProps> = ({
   type,
   date,
   documentKey,
+  url,
   peutÊtreTéléchargé,
 }) => {
   return (
     <ListItem
       heading={<Heading3>{type}</Heading3>}
       actions={
-        peutÊtreTéléchargé ? (
+        peutÊtreTéléchargé && documentKey ? (
           <DownloadDocument
             className="mb-0"
             url={Routes.Document.télécharger(documentKey)}
             format="docx"
             label="Télécharger le document"
           />
+        ) : peutÊtreTéléchargé && url ? (
+          <TertiaryLink href={url}>Télécharger</TertiaryLink>
         ) : (
           <></>
         )

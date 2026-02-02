@@ -25,7 +25,8 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         type: 'Export du projet',
         date: DateTime.now().formatter(),
         format: 'csv',
-        documentKey: Routes.Lauréat.exporter({ nomProjet: lauréat.nomProjet }),
+        url: Routes.Lauréat.exporter({ nomProjet: lauréat.nomProjet }),
+        documentKey: undefined,
         peutÊtreTéléchargé: rôle.aLaPermission('lauréat.listerLauréatEnrichi'),
       });
 
@@ -37,6 +38,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           date: attestationDésignation.dateCréation,
           format: attestationDésignation.format,
           documentKey: attestationDésignation.formatter(),
+          url: undefined,
           peutÊtreTéléchargé: true,
         });
       }
@@ -49,6 +51,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           date: achèvement.attestation.dateCréation,
           format: achèvement.attestation.format,
           documentKey: achèvement.attestation.formatter(),
+          url: undefined,
           peutÊtreTéléchargé: true,
         });
 
@@ -58,6 +61,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
             format: achèvement.preuveTransmissionAuCocontractant.format,
             documentKey: achèvement.preuveTransmissionAuCocontractant.formatter(),
+            url: undefined,
             peutÊtreTéléchargé: true,
           });
         }
@@ -66,6 +70,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       // ajouter les documents des demandes, voir selon les rôles pour le get
       // garanties financières attestation de conformité
       // raccordement ?
+      // trier les documents par date
 
       return <DocumentsList documents={documents} />;
     }),
