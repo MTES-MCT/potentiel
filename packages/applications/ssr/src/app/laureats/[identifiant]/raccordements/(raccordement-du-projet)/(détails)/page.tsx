@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -65,7 +65,9 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(raccordement.gestionnaireRéseau)}
           dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
-          actions={mapToRaccordementActions(utilisateur)}
+          actions={mapToRaccordementActions({
+            rôle: utilisateur.rôle,
+          })}
           lienRetour={lienRetour}
         />
       );
@@ -106,9 +108,11 @@ const mapToDossierActions = (
     }),
   );
 
-const mapToRaccordementActions = ({
-  rôle,
-}: Utilisateur.ValueType): DétailsRaccordementPageProps['actions'] => ({
+type MapToRaccordementActionsProps = (args: {
+  rôle: Role.ValueType;
+}) => DétailsRaccordementPageProps['actions'];
+
+const mapToRaccordementActions: MapToRaccordementActionsProps = ({ rôle }) => ({
   gestionnaireRéseau: {
     modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
   },
