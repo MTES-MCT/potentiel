@@ -14,10 +14,8 @@ import {
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
-/**
- * This is the entrypoint to the DEV mode of the SSR app.
- * For the entrypoint of the production mode, see the `legacy` application
- */
+import { setCspHeader } from './utils/csp';
+
 async function main() {
   setupLogger();
   const port = parseInt(process.env.PORT || '3000', 10);
@@ -35,6 +33,8 @@ async function main() {
   const apiHandler = createApiServer('/api/v1');
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
+
+    setCspHeader(req, res);
 
     if (parsedUrl.pathname?.startsWith('/api/v1')) {
       return await runWebWithContext({

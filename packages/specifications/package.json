@@ -29,7 +29,8 @@
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/pg-helpers": "*",
-    "mediateur": "0.3.0"
+    "mediateur": "0.3.0",
+    "mime-types": "3.0.2"
   },
   "devDependencies": {
     "@cucumber/cucumber": "11.3.0",

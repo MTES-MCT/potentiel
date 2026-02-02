@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
-import { format } from 'date-fns';
+
+import { formatDateForDocument } from '../../_utils';
 
 type HeaderProps = {
   dateCourrier: string;
@@ -59,7 +60,7 @@ export const Header: FC<HeaderProps> = ({
           </Text>
 
           <Text style={{ fontSize: 10, marginBottom: 90 }}>
-            Paris, le {format(new Date(dateCourrier), 'dd/MM/yyyy')}
+            Paris, le {formatDateForDocument(new Date(dateCourrier))}
           </Text>
 
           <View style={{ fontSize: 10 }}>

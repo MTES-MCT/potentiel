@@ -1,6 +1,7 @@
 import { Command } from '@oclif/core';
 
-import { createLogger, getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

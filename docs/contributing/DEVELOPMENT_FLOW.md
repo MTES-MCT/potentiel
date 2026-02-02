@@ -7,35 +7,6 @@
   - [Approche/Méthode](#approche-methode)
   - [Organisation du code source](#organisation-du-code-source)
   - [Scripts NPM](#scripts-npm)
-    - [`prepare`](#prepare)
-    - [`start`](#start)
-    - [`up`](#up)
-    - [`down`](#down)
-    - [`prestart:legacy`](#prestartlegacy)
-    - [`start:legacy`](#startlegacy)
-    - [`build`](#build)
-    - [`build:dev`](#builddev)
-    - [`build:test`](#buildtest)
-    - [`predev`](#predev)
-    - [`dev`](#dev)
-    - [`lint`](#lint)
-    - [`lint:fix`](#lintfix)
-    - [`format`](#format)
-    - [`storybook:documents`](#storybookdocuments)
-    - [`up:test`](#uptest)
-    - [`down:test`](#downtest)
-    - [`pretest`](#pretest)
-    - [`pretest:legacy`](#pretestlegacy)
-    - [`test:legacy`](#testlegacy)
-    - [`pretest:libraries`](#pretestlibraries)
-    - [`test:libraries`](#testlibraries)
-    - [`prespecs`](#prespecs)
-    - [`specs`](#specs)
-    - [`prespecs:select`](#prespecsselect)
-    - [`specs:select`](#specsselect)
-    - [`update:dump`](#updatedump)
-    - [`update:dump-metabase`](#updatedump-metabase)
-    - [`version`](#version)
   - [Environnements](#environnements)
     - [Remise à zéro d'un environnement de test](#raz-environnement)
   - [Déploiement](#deploiement)
@@ -73,9 +44,9 @@ Nous avons donc :
 ├── .vscode : fichiers partagés pour l'IDE VS Code
 ├── docs : documentation sur le projet
 ├── keycloak-legacy :
-├── packages : code source des nouvelles fonctionnalités implémentées sur le nouveau socle
+├── packages
 |   ├── applications
-|   |   ├── web : application web
+|   |   ├── ssr : application web, point d'entrée de l'application
 |   ├── domain : core source métier
 |   ├── libraries : librairies du projet
 |   ├── specifications : scénarios de tests de toute l'application
@@ -87,145 +58,47 @@ Nous avons donc :
 
 Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des scripts NPM du projet :
 
-#### `prepare`
+- `prepare` : Exécute Husky, un outil pour gérer les hooks Git avec lint-staged. Cela permet de configurer automatiquement les hooks Git après l'installation des dépendances.
 
-- **Description**: Exécute Husky, un outil pour gérer les hooks Git avec lint-staged. Cela permet de configurer automatiquement les hooks Git après l'installation des dépendances.
-- **Commande**: `husky`
+- `start` : Lance l'application comme en production, en démarrant `web` et `subscribers`
 
-#### `start`
+- `up` : Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
 
-- **Description**: Lance l'application en exécutant le script `start` pour tous les workspaces qui le définissent, si présent.
-- **Commande**: `npm run start --workspaces --if-present`
+- `down` : Arrête et supprime les conteneurs Docker qui ont été lancés avec le profil `app`, en supprimant également les orphelins.
 
-#### `up`
+- `build` : Build le projet dans son ensemble
 
-- **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
-- **Commande**: cf [.docker-scripts/up.sh](../../.docker-scripts/up.sh)
+- `build:dev` : Build les dépendences nécessaires aux applications et specifications.
 
-#### `down`
+- `build:test` : Build le projet pour les tests.
 
-- **Description**: Arrête et supprime les conteneurs Docker qui ont été lancés avec le profil `app`, en supprimant également les orphelins.
-- **Commande**: cf [.docker-scripts/down.sh](../../.docker-scripts/down.sh)
+- `clean` : Supprime les artefacts générés par le build.
 
-#### `prestart:legacy`
+- `dev` : Lance l'application ssr en mode développement
 
-- **Description**: Script exécuté avant `start:legacy`, qui build le projet et démarre les services docker.
-- **Commande**: `npm run build & npm run up`
+- `lint` : Exécute ESLint pour identifier et signaler les patterns trouvés dans le code.
 
-#### `start:legacy`
+- `lint:fix` : Exécute ESLint avec l'option `--fix` pour corriger automatiquement les problèmes de code détectables.
 
-- **Description**: Lance les services locaux nécessaire au fonctionnement de l'app (Postgres, S3, Keycloack), éxecute les migrations de base de données, compile l'ensemble du projet et le lance en mode watch (partie legacy)
-- **Commande**: `npm run start:dev --workspaces --if-present`
+- `format` : Formate le code dans tous les workspaces qui définissent le script `format`, si présent.
 
-#### `build`
+- `storybook:documents` : Build le Storybook pour les documents.
 
-- **Description**: Build le projet en utilisant Turbo, qui permet d'exécuter des commandes en parallèle et de gérer les dépendances entre les packages.
-- **Commande**: `turbo run build`
+- `up:test` : Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
 
-#### `build:dev`
+- `down:test` : Arrête et supprime les conteneurs Docker lancés pour les tests, en supprimant également les orphelins.
 
-- **Description**: Build le projet pour le développement, en excluant l'application legacy, SSR et les spécifications.
-- **Commande**: `turbo run build --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/ssr --filter=!@potentiel/specifications`
+- `test:libraries` : Exécute les tests pour les bibliothèques.
 
-#### `build:test`
+- `specs` : Exécute les spécifications.
 
-- **Description**: Build le projet pour les tests, en excluant l'application legacy et SSR.
-- **Commande**: `turbo run build --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/ssr`
+- `specs:select` : Exécute une sélection de spécifications.
 
-#### `predev`
+- `update:dump` : Génére un fichier .dump de la base `potentiel`
 
-- **Description**: Script exécuté avant `dev`, qui démarre les services docker et construit le projet pour le développement.
-- **Commande**: `npm run up && npm run build:dev`
+- `update:dump-metabase` : Génére un fichier .dump de la base `metabase`
 
-#### `dev`
-
-- **Description**: Lance l'application ssr en mode développement
-- **Commande**: `npm run dev --workspaces --if-present`
-
-#### `lint`
-
-- **Description**: Exécute ESLint pour identifier et signaler les patterns trouvés dans le code.
-- **Commande**: `eslint .`
-
-#### `lint:fix`
-
-- **Description**: Exécute ESLint avec l'option `--fix` pour corriger automatiquement les problèmes de code détectables.
-- **Commande**: `eslint . --fix`
-
-#### `format`
-
-- **Description**: Formate le code dans tous les workspaces qui définissent le script `format`, si présent.
-- **Commande**: `npm run format --workspaces --if-present`
-
-#### `storybook:documents`
-
-- **Description**: Build le Storybook pour les documents.
-- **Commande**: `npm run storybook build -w @potentiel-applications/document-builder`
-
-#### `up:test`
-
-- **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
-- **Commande**: cf [.docker-scripts/up-test.sh](../../.docker-scripts/up-test.sh)
-
-#### `down:test`
-
-- **Description**: Arrête et supprime les conteneurs Docker lancés pour les tests, en supprimant également les orphelins.
-- **Commande**: cf [.docker-scripts/down-test.sh](../../.docker-scripts/down-test.sh)
-
-#### `pretest`
-
-- **Description**: Build le projet pour les tests, arrête les services Docker de test s'ils sont lancés, puis les relance.
-- **Commande**: `npm run build:test && npm run down:test && npm run up:test`
-
-#### `pretest:legacy`
-
-- **Description**: Exécute les étapes de préparation des tests pour l'application legacy.
-- **Commande**: `npm run pretest`
-
-#### `test:legacy`
-
-- **Description**: Exécute les tests pour l'application legacy.
-- **Commande**: `turbo run test --filter=@potentiel-applications/legacy`
-
-#### `pretest:libraries`
-
-- **Description**: Exécute les étapes de préparation des tests pour les bibliothèques.
-- **Commande**: `npm run pretest`
-
-#### `test:libraries`
-
-- **Description**: Exécute les tests pour les bibliothèques, excluant l'application legacy.
-- **Commande**: `turbo run test --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/legacy`
-
-#### `prespecs`
-
-- **Description**: Prépare l'environnement pour exécuter les spécifications.
-- **Commande**: `npm run pretest`
-
-#### `specs`
-
-- **Description**: Exécute les spécifications.
-- **Commande**: `npm run test -w @potentiel/specifications`
-
-#### `prespecs:select`
-
-- **Description**: Prépare l'environnement pour exécuter une sélection de spécifications.
-- **Commande**: `npm run pretest`
-
-#### `specs:select`
-
-- **Description**: Exécute une sélection de spécifications.
-- **Commande**: `npm run test:select -w @potentiel/specifications`
-
-#### `update:dump`
-
-- **Description**: Génére un fichier .dump de la base `potentiel`
-- **Commande**: cf [.database/scripts/update-potentiel-dump.sh](../../.database/scripts/update-potentiel-dump.sh)
-
-#### `update:dump-metabase`
-
-- **Description**: Génére un fichier .dump de la base `metabase`
-- **Commande**: cf [.database/scripts/update-potentiel-dump.sh](../../.database/scripts/update-potentiel-dump.sh)
+- `update:ts-references` : Met à jour les références des fichiers tsconfig.json en fonction des dépendences de chaque paquet.
 
 ## <a id="environnements"></a> Environnements
 

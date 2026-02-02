@@ -18,7 +18,6 @@ export default eslintTs.config(
   {
     ignores: [
       '**/dist/',
-      '**/legacy/',
       '**/.storybook',
       '**/.next',
       '**/potentiel-keycloak',
