@@ -1,6 +1,5 @@
 # language: fr
 @représentant-légal
-@select
 Fonctionnalité: Corriger la demande de changement de représentant légal d'un projet lauréat
 
     Contexte:
