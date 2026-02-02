@@ -8,13 +8,13 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { DownloadDocument } from '../../../../../../components/atoms/form/document/DownloadDocument';
 import { Heading3 } from '../../../../../../components/atoms/headings';
 import { FormattedDate } from '../../../../../../components/atoms/FormattedDate';
-import { TertiaryLink } from '../../../../../../components/atoms/form/TertiaryLink';
 
 export type DocumentListItemProps = {
   type: string;
   date: string;
   documentKey?: string;
   url?: string;
+  format: string;
   peutÊtreTéléchargé: boolean;
 };
 
@@ -23,21 +23,20 @@ export const DocumentListItem: FC<DocumentListItemProps> = ({
   date,
   documentKey,
   url,
+  format,
   peutÊtreTéléchargé,
 }) => {
   return (
     <ListItem
       heading={<Heading3>{type}</Heading3>}
       actions={
-        peutÊtreTéléchargé && documentKey ? (
+        peutÊtreTéléchargé && (documentKey || url) ? (
           <DownloadDocument
             className="mb-0"
-            url={Routes.Document.télécharger(documentKey)}
-            format="docx"
+            url={documentKey ? Routes.Document.télécharger(documentKey) : url!}
+            format={format}
             label="Télécharger le document"
           />
-        ) : peutÊtreTéléchargé && url ? (
-          <TertiaryLink href={url}>Télécharger</TertiaryLink>
         ) : (
           <></>
         )
@@ -45,7 +44,8 @@ export const DocumentListItem: FC<DocumentListItemProps> = ({
     >
       <div className="flex flex-col gap-2">
         <span>
-          Transmis le <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
+          Document en date du{' '}
+          <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
         </span>
       </div>
     </ListItem>
