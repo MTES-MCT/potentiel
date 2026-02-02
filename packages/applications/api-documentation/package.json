@@ -11,10 +11,10 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "devDependencies": {
-    "@typespec/compiler": "1.6.0",
-    "@typespec/http": "1.6.0",
-    "@typespec/http-server-js": "0.58.0-alpha.21",
-    "@typespec/openapi3": "1.6.0",
-    "@typespec/rest": "0.76.0"
+    "@typespec/compiler": "1.8.0",
+    "@typespec/http": "1.8.0",
+    "@typespec/http-server-js": "0.58.0-alpha.23",
+    "@typespec/openapi3": "1.8.0",
+    "@typespec/rest": "0.78.0"
   }
 }
