@@ -19,11 +19,13 @@ export const GET = async (request: Request) =>
       const famille = searchParams.get('famille') ?? undefined;
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const nomProjet = searchParams.get('nomProjet') ?? undefined;
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
+          nomProjet,
           appelOffre,
           famille,
           periode,
@@ -101,6 +103,7 @@ export const GET = async (request: Request) =>
               famille,
               statut,
               typeActionnariat,
+              nomProjet,
             }),
           },
         },

@@ -5,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { getAchèvement, getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DocumentItem, DocumentsList } from './DocumentsDétails';
 
@@ -15,17 +16,17 @@ type DocumentsSectionProps = {
 const sectionTitle = 'Documents';
 export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =>
   SectionWithErrorHandling(
-    (async () => {
+    withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
+
+      const lauréat = await getLauréatInfos(identifiantProjet);
 
       documents.push({
         type: 'Export du projet',
         date: DateTime.now().formatter(),
         format: 'csv',
-        // ajouter un filtre sur l'identifiant projet
-        documentKey: Routes.Lauréat.exporter({}),
-        // qui peut télécharger l'export
-        peutÊtreTéléchargé: true,
+        documentKey: Routes.Lauréat.exporter({ nomProjet: lauréat.nomProjet }),
+        peutÊtreTéléchargé: rôle.aLaPermission('lauréat.listerLauréatEnrichi'),
       });
 
       const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
@@ -63,8 +64,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // ajouter les documents des demandes, voir selon les rôles pour le get
+      // garanties financières attestation de conformité
+      // raccordement ?
 
       return <DocumentsList documents={documents} />;
-    })(),
+    }),
     sectionTitle,
   );
