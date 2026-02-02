@@ -287,6 +287,10 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierGestionnaireRéseauOptions) {
+    if (!this.#identifiantGestionnaireRéseau.estInconnu() && rôle.estÉgaleÀ(Role.porteur)) {
+      await this.lauréat.vérifierNonAchevé();
+    }
+
     if (!identifiantGestionnaireRéseau.estInconnu()) {
       const gestionnaireRéseau = await this.loadGestionnaireRéseau(
         identifiantGestionnaireRéseau.codeEIC,

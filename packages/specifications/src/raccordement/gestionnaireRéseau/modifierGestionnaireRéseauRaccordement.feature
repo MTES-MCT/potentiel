@@ -31,6 +31,17 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Quand le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé
         Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
 
+    Scénario: Un porteur de projet modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
+        Etant donné le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat
+        Et une attestation de conformité transmise pour le projet lauréat
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
+
+    Scénario: Un administrateur modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Quand une dreal modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
+
     Scénario: Le système modifie le gestionnaire de réseau d'un raccordement avec un gestionnaire inconnu
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le système modifie le gestionnaire de réseau du projet avec un gestionnaire inconnu
@@ -50,6 +61,11 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le porteur devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
+
+    Scénario: Impossible pour un porteur de projet de modifier le gestionnaire de réseau d'un raccordement si le projet est achevé
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
     Scénario: Impossible pour une dreal de modifier le gestionnaire de réseau d'un raccordement avec mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
