@@ -32,7 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     if (identifiantGestionnaireReseau) {
-      await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+      await mediator.send<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -44,7 +44,7 @@ const action: FormAction<FormState, typeof schema> = async (
       });
     }
 
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,

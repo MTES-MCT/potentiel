@@ -2,12 +2,13 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -35,7 +36,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
+      const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
       const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
@@ -65,7 +66,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(raccordement.gestionnaireRéseau)}
           dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
-          actions={mapToRaccordementActions(utilisateur)}
+          actions={mapToRaccordementActions({
+            rôle: utilisateur.rôle,
+            statutLauréat: lauréat.statut,
+            identiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
+          })}
           lienRetour={lienRetour}
         />
       );
@@ -106,11 +111,23 @@ const mapToDossierActions = (
     }),
   );
 
-const mapToRaccordementActions = ({
+type MapToRaccordementActionsProps = (args: {
+  rôle: Role.ValueType;
+  statutLauréat: Lauréat.StatutLauréat.ValueType;
+  identiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+}) => DétailsRaccordementPageProps['actions'];
+
+const mapToRaccordementActions: MapToRaccordementActionsProps = ({
   rôle,
-}: Utilisateur.ValueType): DétailsRaccordementPageProps['actions'] => ({
+  statutLauréat,
+  identiantGestionnaireActuel,
+}) => ({
   gestionnaireRéseau: {
-    modifier: rôle.aLaPermission('raccordement.gestionnaire.modifier'),
+    modifier:
+      rôle.aLaPermission('raccordement.gestionnaire.modifier') &&
+      (statutLauréat.estActif() ||
+        (statutLauréat.estAchevé() && !rôle.estPorteur()) ||
+        (statutLauréat.estAchevé() && identiantGestionnaireActuel.estInconnu())),
   },
   créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
 });
