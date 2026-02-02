@@ -306,6 +306,10 @@ export class RaccordementAggregate extends AbstractAggregate<
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
     this.lauréat.vérifierPasEnCoursAbandon();
 
+    if (!rôle.estDGEC()) {
+      this.lauréat.vérifierNonAchevé();
+    }
+
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
