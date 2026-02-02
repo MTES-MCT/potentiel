@@ -254,6 +254,12 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     pièceJustificative,
   }: CorrigerChangementOptions) {
+    console.log(
+      this.demande.nom === nomReprésentantLégal &&
+        this.demande.type.estÉgaleÀ(typeReprésentantLégal) &&
+        !pièceJustificative,
+    );
+
     if (this.demande.statut.estAccordé()) {
       throw new ChangementDéjàAccordéError();
     }
@@ -270,7 +276,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         typeReprésentantLégal: typeReprésentantLégal.formatter(),
         corrigéLe: dateCorrection.formatter(),
         corrigéPar: identifiantUtilisateur.formatter(),
-        pièceJustificative: { format: pièceJustificative.format },
+        pièceJustificative: pièceJustificative && { format: pièceJustificative.format },
       },
     };
     await this.publish(event);
@@ -463,22 +469,21 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   }
 
   private applyChangementReprésentantLégalCorrigé({
-    payload: {
-      identifiantProjet,
-      nomReprésentantLégal,
-      typeReprésentantLégal,
-      pièceJustificative: { format },
-    },
+    payload: { identifiantProjet, nomReprésentantLégal, typeReprésentantLégal, pièceJustificative },
   }: ChangementReprésentantLégalCorrigéEvent) {
     if (this.#demande) {
       this.#demande.nom = nomReprésentantLégal;
       this.#demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
-      this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        this.#demande.demandéLe.formatter(),
-        format,
-      );
+      if (pièceJustificative) {
+        {
+          this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
+            identifiantProjet,
+            TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+            this.#demande.demandéLe.formatter(),
+            pièceJustificative.format,
+          );
+        }
+      }
     }
   }
 

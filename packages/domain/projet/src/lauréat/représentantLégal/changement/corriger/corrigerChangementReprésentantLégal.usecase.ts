@@ -15,7 +15,7 @@ export type CorrigerChangementReprésentantLégalUseCase = Message<
     identifiantProjetValue: string;
     nomReprésentantLégalValue: string;
     typeReprésentantLégalValue: string;
-    pièceJustificativeValue: {
+    pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -42,12 +42,14 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
     const typeReprésentantLégal = TypeReprésentantLégal.convertirEnValueType(
       typeReprésentantLégalValue,
     );
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      dateDemandeValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+          dateDemandeValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
 
     await mediator.send<CorrigerChangementReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.CorrigerChangementReprésentantLégal',
@@ -61,13 +63,15 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
       },
     });
 
-    await mediator.send<CorrigerDocumentProjetCommand>({
-      type: 'Document.Command.CorrigerDocumentProjet',
-      data: {
-        content: pièceJustificativeValue.content,
-        documentProjetKey: pièceJustificative.formatter(),
-      },
-    });
+    if (pièceJustificativeValue) {
+      await mediator.send<CorrigerDocumentProjetCommand>({
+        type: 'Document.Command.CorrigerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue.content,
+          documentProjetKey: pièceJustificative!.formatter(),
+        },
+      });
+    }
   };
 
   mediator.register(

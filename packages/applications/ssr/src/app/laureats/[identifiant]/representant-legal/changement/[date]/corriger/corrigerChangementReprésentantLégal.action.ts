@@ -20,6 +20,7 @@ const commonSchema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1),
   dateDemande: zod.string().min(1),
+  pieceJustificative_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
 });
 
 const schema = zod.discriminatedUnion('typeSociete', [
@@ -53,9 +54,11 @@ const action: FormAction<FormState, typeof schema> = async (
     nomRepresentantLegal,
     piecesJustificatives,
     dateDemande,
+    pieceJustificative_document_selection,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    console.log(pieceJustificative_document_selection);
     await mediator.send<Lauréat.ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
       data: {

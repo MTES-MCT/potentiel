@@ -11,7 +11,7 @@ export type CorrigerChangementReprésentantLégalCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-    pièceJustificative: DocumentProjet.ValueType;
+    pièceJustificative?: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateCorrection: DateTime.ValueType;
   }
