@@ -16,7 +16,7 @@ export type CréerCorrectionChangementReprésentantLégalFixture = Partial<
 export interface CorrigerChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
-  readonly pièceJustificative: PièceJustificative;
+  readonly pièceJustificative?: PièceJustificative;
   readonly corrigéLe: string;
   readonly corrigéPar: string;
 }
@@ -89,8 +89,10 @@ export class CorrigerChangementReprésentantLégalFixture
       ...partialFixture,
     };
 
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    if (fixture.pièceJustificative) {
+      this.#format = fixture.pièceJustificative.format;
+      this.#content = content;
+    }
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;

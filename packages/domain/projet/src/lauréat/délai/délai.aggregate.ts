@@ -5,6 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { Lauréat } from '../..';
+import { DemandeCorrigéeSansModificationError } from '../lauréat.error';
 
 import { AutoritéCompétente, DemandeDélaiPasséeEnInstructionEvent, StatutDemandeDélai } from '.';
 
@@ -16,7 +17,6 @@ import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDé
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
-  DemandeCorrigéeSansModificationError,
 } from './demande/demandeDélai.error';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';

@@ -9,6 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
+  documentSelectionSchema,
   keepOrUpdateManyDocuments,
   keepOrUpdateSingleDocument,
 } from '@/utils/zod/document/keepOrUpdateDocument';
@@ -20,7 +21,7 @@ const commonSchema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1),
   dateDemande: zod.string().min(1),
-  pieceJustificative_document_selection: zod.enum(['keep_existing_document', 'edit_document']),
+  piecesJustificatives_document_selection: documentSelectionSchema,
 });
 
 const schema = zod.discriminatedUnion('typeSociete', [
@@ -54,18 +55,20 @@ const action: FormAction<FormState, typeof schema> = async (
     nomRepresentantLegal,
     piecesJustificatives,
     dateDemande,
-    pieceJustificative_document_selection,
+    piecesJustificatives_document_selection,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    console.log(pieceJustificative_document_selection);
     await mediator.send<Lauréat.ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
         typeReprésentantLégalValue: typeRepresentantLegal,
         nomReprésentantLégalValue: nomRepresentantLegal,
-        pièceJustificativeValue: piecesJustificatives,
+        pièceJustificativeValue:
+          piecesJustificatives_document_selection === 'keep_existing_document'
+            ? undefined
+            : piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: dateDemande,
         dateCorrectionValue: new Date().toISOString(),

@@ -67,3 +67,9 @@ export class ChangementImpossibleCarProjetAchevéError extends InvalidOperationE
     super('Impossible de faire un changement pour un projet achevé');
   }
 }
+
+export class DemandeCorrigéeSansModificationError extends InvalidOperationError {
+  constructor() {
+    super('La correction de la demande ne contient aucune modification');
+  }
+}

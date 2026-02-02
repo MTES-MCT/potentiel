@@ -6,6 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet, IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
+import { DemandeCorrigéeSansModificationError } from '../lauréat.error';
 
 import {
   TypeDocumentChangementReprésentantLégal,
@@ -254,19 +255,11 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     pièceJustificative,
   }: CorrigerChangementOptions) {
-    console.log(
-      this.demande.nom === nomReprésentantLégal &&
-        this.demande.type.estÉgaleÀ(typeReprésentantLégal) &&
-        !pièceJustificative,
-    );
-
-    if (this.demande.statut.estAccordé()) {
-      throw new ChangementDéjàAccordéError();
-    }
-
-    if (this.demande.statut.estRejeté()) {
-      throw new ChangementDéjàRejetéError();
-    }
+    this.vérifierSiCorrectionEstValide({
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative,
+    });
 
     const event: ChangementReprésentantLégalCorrigéEvent = {
       type: 'ChangementReprésentantLégalCorrigé-V1',
@@ -549,5 +542,30 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
   private applyChangementReprésentantLégalSupprimé(_: ChangementReprésentantLégalSuppriméEvent) {
     this.#demande = undefined;
+  }
+
+  private vérifierSiCorrectionEstValide({
+    nomReprésentantLégal,
+    typeReprésentantLégal,
+    pièceJustificative,
+  }: Pick<
+    CorrigerChangementOptions,
+    'nomReprésentantLégal' | 'pièceJustificative' | 'typeReprésentantLégal'
+  >) {
+    if (
+      this.demande.nom === nomReprésentantLégal &&
+      this.demande.type.estÉgaleÀ(typeReprésentantLégal) &&
+      !pièceJustificative
+    ) {
+      throw new DemandeCorrigéeSansModificationError();
+    }
+
+    if (this.demande.statut.estAccordé()) {
+      throw new ChangementDéjàAccordéError();
+    }
+
+    if (this.demande.statut.estRejeté()) {
+      throw new ChangementDéjàRejetéError();
+    }
   }
 }

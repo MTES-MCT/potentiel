@@ -103,7 +103,8 @@ async function vérifierDemande(this: PotentielWorld) {
       } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
 
       const expectedContent = await convertReadableStreamToString(
-        corrigerChangementReprésentantLégalFixture.aÉtéCréé
+        corrigerChangementReprésentantLégalFixture.aÉtéCréé &&
+          corrigerChangementReprésentantLégalFixture.pièceJustificative
           ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
           : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
       );

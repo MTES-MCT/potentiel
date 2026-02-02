@@ -1,5 +1,6 @@
 # language: fr
 @représentant-légal
+@select
 Fonctionnalité: Corriger la demande de changement de représentant légal d'un projet lauréat
 
     Contexte:
@@ -29,3 +30,8 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
         Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat
         Alors le porteur devrait être informé que "Le changement de représentant légal a déjà été rejeté"
+
+    Scénario: Impossible de corriger le changement de représentant légal d'un projet lauréat sans modification
+        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat avec les mêmes valeurs
+        Alors le porteur devrait être informé que "La correction de la demande ne contient aucune modification"
