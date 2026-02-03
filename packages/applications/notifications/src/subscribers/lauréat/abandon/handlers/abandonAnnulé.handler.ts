@@ -1,40 +1,44 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
+  getLauréat,
   listerPorteursRecipients,
   listerRecipientsAutoritéInstructrice,
 } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { abandonNotificationTemplateId } from '../constant.js';
-import { AbandonNotificationsProps } from '../type.js';
-
-export const handleAbandonAnnulé = async ({
-  sendEmail,
-  event,
-  projet,
-}: AbandonNotificationsProps<Lauréat.Abandon.AbandonAnnuléEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const { appelOffre, période } = identifiantProjet;
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+export const handleAbandonAnnulé = async ({ payload }: Lauréat.Abandon.AbandonAnnuléEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
-    identifiantProjet,
+    identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'abandon',
   });
 
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appelOffre,
+    période,
+    url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
+  };
+
   await sendEmail({
-    templateId: abandonNotificationTemplateId.annuler,
-    messageSubject: `Potentiel - Demande d'abandon annulée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    key: 'abandon/annuler',
     recipients: porteurs,
-    bcc: adminRecipients,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      nouveau_statut: 'annulée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
-    },
+    values,
   });
+
+  for (const recipient of adminRecipients) {
+    await sendEmail({
+      key: 'abandon/annuler',
+      recipients: [recipient],
+      values,
+    });
+  }
 };

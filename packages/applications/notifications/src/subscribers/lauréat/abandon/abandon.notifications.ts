@@ -31,13 +31,7 @@ export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies)
 
     await match(event)
       .with({ type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2') }, handleAbandonDemandé)
-      .with({ type: 'AbandonAnnulé-V1' }, (event) =>
-        handleAbandonAnnulé({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
+      .with({ type: 'AbandonAnnulé-V1' }, handleAbandonAnnulé)
       .with({ type: 'ConfirmationAbandonDemandée-V1' }, (event) =>
         handleConfirmationAbandonDemandée({
           sendEmail,
