@@ -1,4 +1,6 @@
-import { Tile } from '../../../../../../components/organisms/Tile';
+import Notice from '@codegouvfr/react-dsfr/Notice';
+
+import { Tile } from '@/components/organisms/Tile';
 
 import { DocumentItem, DocumentListItem } from './DocumentListItem';
 
@@ -15,6 +17,16 @@ const mapTypeToTypeLabel = (type: string): string => {
 export const DocumentsList = ({ documents }: DocumentListItemProps) => {
   return (
     <>
+      <Notice
+        title="À propos"
+        description={
+          <span>
+            Retrouvez dans cette section les documents essentiels de la vie de votre projet
+          </span>
+        }
+        isClosable={false}
+        severity="info"
+      />
       {documents.length === 0 ? (
         <div className="flex flex-col items-center justify-center my-16">
           <p className="text-lg font-semibold">Aucun document n'a été transmis pour ce projet</p>

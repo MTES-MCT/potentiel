@@ -11,8 +11,8 @@ import {
   getAchèvement,
   getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
 import { DocumentsList } from './DocumentsDétails';
 import { DocumentItem } from './DocumentListItem';
@@ -103,7 +103,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
 
       if (achèvement.estAchevé) {
         documents.push({
-          type: achèvement.attestation.typeDocument,
+          type: 'Attestation de conformité',
           date: achèvement.attestation.dateCréation,
           format: achèvement.attestation.format,
           documentKey: achèvement.attestation.formatter(),
@@ -112,7 +112,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
 
         if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
           documents.push({
-            type: achèvement.preuveTransmissionAuCocontractant.typeDocument,
+            type: 'Preuve de transmission au co-contractant',
             date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
             format: achèvement.preuveTransmissionAuCocontractant.format,
             documentKey: achèvement.preuveTransmissionAuCocontractant.formatter(),

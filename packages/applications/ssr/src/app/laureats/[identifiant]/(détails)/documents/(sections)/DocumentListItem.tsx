@@ -49,7 +49,10 @@ export const DocumentListItem: FC<DocumentItem> = ({
       }
     >
       <div className="flex flex-row gap-2">
-        <Tag iconId="ri-calendar-2-fill" className="bg-dsfr-background-alt-blueFrance-default">
+        <Tag
+          iconId="ri-calendar-2-fill"
+          className="bg-dsfr-background-alt-greenTilleulVerveine-default"
+        >
           <span>
             Document en date du{' '}
             <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
