@@ -12,10 +12,9 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être en attente de confirmation
         Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Demande d'abandon en attente de confirmation pour le projet Du boulodrome de Marseille |
-            | nom_projet     | Du boulodrome de Marseille                                                                         |
-            | nouveau_statut | en attente de confirmation                                                                         |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                                 |
+            | sujet      | Potentiel - Demande d'abandon en attente de confirmation pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                                 |
 
     Scénario: La DGEC demande de confirmer la demande d'abandon d'un projet lauréat en instruction
         Etant donné une demande d'abandon en instruction pour le projet lauréat
