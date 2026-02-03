@@ -17,6 +17,7 @@ export const GET = async (request: Request) =>
       const periode = searchParams.get('periode') ?? undefined;
       const famille = searchParams.get('famille') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const nomProjet = searchParams.get('nomProjet') ?? undefined;
 
       const éliminéEnrichiList = await mediator.send<Éliminé.ListerÉliminéEnrichiQuery>({
         type: 'Éliminé.Query.ListerÉliminéEnrichi',
@@ -25,6 +26,7 @@ export const GET = async (request: Request) =>
           appelOffre,
           famille,
           periode,
+          nomProjet,
           typeActionnariat: typeActionnariat.length
             ? typeActionnariat.map((value) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),

@@ -15,6 +15,7 @@ export const getÉliminé: GetÉliminé = cache(async (identifiantProjet: string
       identifiantProjet,
     },
   });
+
   if (Option.isSome(éliminé)) {
     return éliminé;
   }

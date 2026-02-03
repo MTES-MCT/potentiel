@@ -56,6 +56,7 @@ export type ListerÉliminéEnrichiQuery = Message<
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
+    nomProjet?: string;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
   },
   ListerÉliminéEnrichiReadModel
@@ -75,6 +76,7 @@ export const registerListerÉliminéEnrichiQuery = ({
     appelOffre,
     periode,
     famille,
+    nomProjet,
     typeActionnariat,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
@@ -93,6 +95,7 @@ export const registerListerÉliminéEnrichiQuery = ({
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
+          nomProjet: Where.equal(nomProjet),
           localité: scope.type === 'région' ? { région: Where.matchAny(scope.régions) } : undefined,
           actionnariat:
             typeActionnariat && typeActionnariat.length > 0

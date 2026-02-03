@@ -22,7 +22,7 @@ export const getÉliminéMenuItems = async ({
   utilisateur,
 }: GetÉliminéMenuItemsProps): Promise<SideMenuProps.Item[]> => {
   const utilisateursMenu = utilisateur.rôle.aLaPermission('accès.consulter')
-    ? link('Utilisateurs', `${Routes.Éliminé.détails(identifiantProjet.formatter())}/utilisateurs`)
+    ? link('Utilisateurs', Routes.Éliminé.détails.utilisateurs(identifiantProjet.formatter()))
     : undefined;
 
   const actions = await getÉliminéActions({
@@ -31,9 +31,10 @@ export const getÉliminéMenuItems = async ({
   });
 
   return [
-    link('Tableau de bord', `${Routes.Éliminé.détails(identifiantProjet.formatter())}`),
+    link('Tableau de bord', Routes.Éliminé.détails.tableauDeBord(identifiantProjet.formatter())),
     utilisateursMenu,
     ...actions,
+    link('Documents', Routes.Éliminé.détails.documents(identifiantProjet.formatter())),
   ].filter((item) => !!item);
 };
 
@@ -76,7 +77,7 @@ const getÉliminéActions = async ({
       actions.push(
         link(
           'Consulter le recours',
-          `${Routes.Éliminé.détails(identifiantProjet.formatter())}/recours`,
+          `${Routes.Éliminé.détails.tableauDeBord(identifiantProjet.formatter())}/recours`,
         ),
       );
     }
@@ -89,7 +90,7 @@ const getÉliminéActions = async ({
     actions.push(
       link(
         'Demander un recours',
-        `${Routes.Éliminé.détails(identifiantProjet.formatter())}/recours/demander`,
+        `${Routes.Éliminé.détails.tableauDeBord(identifiantProjet.formatter())}/recours/demander`,
       ),
     );
   }

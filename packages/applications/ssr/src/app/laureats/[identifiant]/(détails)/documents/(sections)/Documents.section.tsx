@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -13,9 +14,8 @@ import {
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
-
-import { DocumentsList } from './DocumentsDétails';
-import { DocumentItem } from './DocumentListItem';
+import { DocumentItem } from '@/components/organisms/document/DocumentListItem';
+import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 
 type DocumentsSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -122,7 +122,18 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       return (
-        <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
+        <>
+          <Notice
+            title="À propos"
+            description={
+              <span>
+                Retrouvez dans cette section les documents essentiels de la vie de votre projet
+              </span>
+            }
+            severity="info"
+          />
+          <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
+        </>
       );
     }),
     sectionTitle,

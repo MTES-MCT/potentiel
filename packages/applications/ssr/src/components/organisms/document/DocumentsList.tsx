@@ -1,32 +1,12 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
-
 import { Tile } from '@/components/organisms/Tile';
 
 import { DocumentItem, DocumentListItem } from './DocumentListItem';
 
 export type DocumentListItemProps = { documents: Array<DocumentItem> };
 
-const mapTypeToTypeLabel = (type: string): string => {
-  const typeToTypeLabelMapper: Record<string, string> = {
-    attestation: 'Attestation de désignation',
-  };
-
-  return typeToTypeLabelMapper[type] ?? type;
-};
-
 export const DocumentsList = ({ documents }: DocumentListItemProps) => {
   return (
     <>
-      <Notice
-        title="À propos"
-        description={
-          <span>
-            Retrouvez dans cette section les documents essentiels de la vie de votre projet
-          </span>
-        }
-        isClosable={false}
-        severity="info"
-      />
       {documents.length === 0 ? (
         <div className="flex flex-col items-center justify-center my-16">
           <p className="text-lg font-semibold">Aucun document n'a été transmis pour ce projet</p>
@@ -39,7 +19,7 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
                 <li key={documentKey}>
                   <Tile className="flex flex-col md:flex-row md:justify-between">
                     <DocumentListItem
-                      type={mapTypeToTypeLabel(type)}
+                      type={type}
                       documentKey={documentKey}
                       url={url}
                       format={format}
