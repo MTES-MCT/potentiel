@@ -5,7 +5,7 @@ import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { AuthenticationError } from '../errors';
+import { AuthenticationError } from '../errors.js';
 
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {

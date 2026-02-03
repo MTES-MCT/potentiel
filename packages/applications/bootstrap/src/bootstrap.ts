@@ -4,14 +4,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmailV2 } from '@potentiel-infrastructure/email';
 import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-import { setupDocumentProjet } from './setupDocumentProjet';
-import { setupAppelOffre } from './setupAppelOffre';
-import { setupUtilisateur } from './setupUtilisateur';
-import { setupRéseau } from './setupRéseau';
-import { setupProjet } from './setupProjet';
-import { setupPériode } from './setupPériode';
-import { setupStatistiqueUtilisation } from './setupStatistiqueUtilisation';
-import { setupNotifications } from './setupNotifications';
+import { setupDocumentProjet } from './setupDocumentProjet.js';
+import { setupAppelOffre } from './setupAppelOffre.js';
+import { setupUtilisateur } from './setupUtilisateur.js';
+import { setupRéseau } from './setupRéseau.js';
+import { setupProjet } from './setupProjet.js';
+import { setupPériode } from './setupPériode.js';
+import { setupStatistiqueUtilisation } from './setupStatistiqueUtilisation.js';
+import { setupNotifications } from './setupNotifications.js';
 
 type BootstrapProps = {
   middlewares: Array<Middleware>;
