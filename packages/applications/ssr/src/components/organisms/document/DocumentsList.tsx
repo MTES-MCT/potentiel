@@ -14,23 +14,19 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
       ) : (
         <div>
           <div className="flex flex-col gap-4 mt-4">
-            {documents.map(
-              ({ type, documentKey, url, date, peutÊtreTéléchargé, format, demande }) => (
-                <li key={documentKey}>
-                  <Tile className="flex flex-col md:flex-row md:justify-between">
-                    <DocumentListItem
-                      type={type}
-                      documentKey={documentKey}
-                      url={url}
-                      format={format}
-                      date={date}
-                      demande={demande}
-                      peutÊtreTéléchargé={peutÊtreTéléchargé}
-                    />
-                  </Tile>
-                </li>
-              ),
-            )}
+            {documents.map(({ type, url, date, format, demande }) => (
+              <li key={type + date}>
+                <Tile className="flex flex-col md:flex-row md:justify-between">
+                  <DocumentListItem
+                    type={type}
+                    url={url}
+                    format={format}
+                    date={date}
+                    demande={demande}
+                  />
+                </Tile>
+              </li>
+            ))}
           </div>
         </div>
       )}

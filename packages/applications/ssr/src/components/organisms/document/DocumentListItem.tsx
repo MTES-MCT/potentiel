@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import Tag from '@codegouvfr/react-dsfr/Tag';
 
-import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 
 import { ListItem } from '@/components/molecules/ListItem';
@@ -13,21 +12,11 @@ export type DocumentItem = {
   type: string;
   date: string;
   format: string;
-  peutÊtreTéléchargé: boolean;
-  demande?: { date: string };
-  documentKey?: string;
   url?: string;
+  demande?: { date: string };
 };
 
-export const DocumentListItem: FC<DocumentItem> = ({
-  type,
-  date,
-  documentKey,
-  url,
-  format,
-  peutÊtreTéléchargé,
-  demande,
-}) => {
+export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, demande }) => {
   return (
     <ListItem
       heading={
@@ -36,10 +25,10 @@ export const DocumentListItem: FC<DocumentItem> = ({
         </div>
       }
       actions={
-        peutÊtreTéléchargé && (documentKey || url) ? (
+        url ? (
           <DownloadDocument
             className="mb-0"
-            url={documentKey ? Routes.Document.télécharger(documentKey) : url!}
+            url={url}
             format={format}
             label="Télécharger le document"
           />

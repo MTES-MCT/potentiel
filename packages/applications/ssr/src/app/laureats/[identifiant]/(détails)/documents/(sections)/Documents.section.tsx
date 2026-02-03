@@ -36,8 +36,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           type: attestationDésignation.typeDocument,
           date: attestationDésignation.dateCréation,
           format: attestationDésignation.format,
-          documentKey: attestationDésignation.formatter(),
-          peutÊtreTéléchargé: true,
+          url: Routes.Document.télécharger(attestationDésignation.formatter()),
         });
       }
 
@@ -46,8 +45,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         type: 'Export des données du projet',
         date: DateTime.now().formatter(),
         format: 'csv',
-        url: Routes.Lauréat.exporter({ nomProjet }),
-        peutÊtreTéléchargé: rôle.aLaPermission('lauréat.listerLauréatEnrichi'),
+        url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
+          ? Routes.Lauréat.exporter({ nomProjet })
+          : undefined,
       });
 
       // ABANDON
@@ -69,11 +69,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: "Pièce(s) justificative(s) de la demande d'abandon",
             date: demandeAbandon.demande.pièceJustificative.dateCréation,
             format: demandeAbandon.demande.pièceJustificative.format,
-            documentKey: demandeAbandon.demande.pièceJustificative.formatter(),
+            url: Routes.Document.télécharger(demandeAbandon.demande.pièceJustificative.formatter()),
             demande: {
               date: demandeAbandon.demande.demandéLe.formatter(),
             },
-            peutÊtreTéléchargé: true,
           });
         }
 
@@ -82,8 +81,12 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: "Réponse signée de l'accord de la demande d'abandon",
             date: demandeAbandon.demande.accord.réponseSignée.dateCréation,
             format: demandeAbandon.demande.accord.réponseSignée.format,
-            documentKey: demandeAbandon.demande.accord.réponseSignée.formatter(),
-            peutÊtreTéléchargé: true,
+            url: Routes.Document.télécharger(
+              demandeAbandon.demande.accord.réponseSignée.formatter(),
+            ),
+            demande: {
+              date: demandeAbandon.demande.demandéLe.formatter(),
+            },
           });
         }
 
@@ -92,8 +95,12 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: "Réponse signée du rejet de la demande d'abandon",
             date: demandeAbandon.demande.rejet.réponseSignée.dateCréation,
             format: demandeAbandon.demande.rejet.réponseSignée.format,
-            documentKey: demandeAbandon.demande.rejet.réponseSignée.formatter(),
-            peutÊtreTéléchargé: true,
+            url: Routes.Document.télécharger(
+              demandeAbandon.demande.rejet.réponseSignée.formatter(),
+            ),
+            demande: {
+              date: demandeAbandon.demande.demandéLe.formatter(),
+            },
           });
         }
       }
@@ -106,8 +113,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           type: 'Attestation de conformité',
           date: achèvement.attestation.dateCréation,
           format: achèvement.attestation.format,
-          documentKey: achèvement.attestation.formatter(),
-          peutÊtreTéléchargé: true,
+          url: Routes.Document.télécharger(achèvement.attestation.formatter()),
         });
 
         if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
@@ -115,8 +121,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: 'Preuve de transmission au co-contractant',
             date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
             format: achèvement.preuveTransmissionAuCocontractant.format,
-            documentKey: achèvement.preuveTransmissionAuCocontractant.formatter(),
-            peutÊtreTéléchargé: true,
+            url: Routes.Document.télécharger(
+              achèvement.preuveTransmissionAuCocontractant.formatter(),
+            ),
           });
         }
       }

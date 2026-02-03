@@ -36,18 +36,18 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           type: 'Avis de rejet',
           date: éliminé.attestationDésignation.dateCréation,
           format: éliminé.attestationDésignation.format,
-          documentKey: éliminé.attestationDésignation.formatter(),
-          peutÊtreTéléchargé: true,
+          url: Routes.Document.télécharger(éliminé.attestationDésignation.formatter()),
         });
       }
 
-      // EXPORT ELIMINÉS
+      // EXPORT
       documents.push({
         type: 'Export des données du projet',
         date: DateTime.now().formatter(),
         format: 'csv',
-        url: Routes.Éliminé.exporter({ nomProjet: éliminé.nomProjet }),
-        peutÊtreTéléchargé: rôle.aLaPermission('lauréat.listerLauréatEnrichi'),
+        url: rôle.aLaPermission('éliminé.listerÉliminéEnrichi')
+          ? Routes.Éliminé.exporter({ nomProjet: éliminé.nomProjet })
+          : undefined,
       });
 
       const recours = await getRecours(identifiantProjet);
@@ -71,11 +71,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: 'Pièce(s) justificative(s) de la demande de recours',
             date: demandeRecours.demande.pièceJustificative.dateCréation,
             format: demandeRecours.demande.pièceJustificative.format,
-            documentKey: demandeRecours.demande.pièceJustificative.formatter(),
+            url: Routes.Document.télécharger(demandeRecours.demande.pièceJustificative.formatter()),
             demande: {
               date: demandeRecours.demande.demandéLe.formatter(),
             },
-            peutÊtreTéléchargé: true,
           });
         }
 
@@ -84,8 +83,12 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             type: 'Réponse signée du rejet de la demande de recours',
             date: demandeRecours.demande.rejet.réponseSignée.dateCréation,
             format: demandeRecours.demande.rejet.réponseSignée.format,
-            documentKey: demandeRecours.demande.rejet.réponseSignée.formatter(),
-            peutÊtreTéléchargé: true,
+            url: Routes.Document.télécharger(
+              demandeRecours.demande.rejet.réponseSignée.formatter(),
+            ),
+            demande: {
+              date: demandeRecours.demande.demandéLe.formatter(),
+            },
           });
         }
       }
