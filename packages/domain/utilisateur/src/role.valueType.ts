@@ -1198,6 +1198,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.command.modifierDemandeComplète,
       ],
       'modifier-après-mise-en-service': [],
+      'modifier-après-achèvement': [],
     },
     'proposition-technique-et-financière': {
       transmettre: [
@@ -1217,6 +1218,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.command.modifierPropostionTechniqueEtFinancière,
       ],
       'modifier-après-mise-en-service': [],
+      'modifier-après-achèvement': [],
     },
     'date-mise-en-service': {
       transmettre: [
@@ -1266,6 +1268,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.modifierGestionnaireRéseau,
         référencielPermissions.lauréat.raccordement.command.modifierGestionnaireRéseau,
       ],
+      'modifier-après-achèvement': [],
     },
   },
   actionnaire: {
@@ -1657,9 +1660,11 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',
+  'raccordement.demande-complète-raccordement.modifier-après-achèvement',
   'raccordement.proposition-technique-et-financière.transmettre',
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
+  'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
   'raccordement.date-mise-en-service.importer',
