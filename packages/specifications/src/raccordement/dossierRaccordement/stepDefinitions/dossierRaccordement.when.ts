@@ -1,15 +1,27 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  `le porteur supprime le dossier de raccordement pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(le porteur|l'administrateur) supprime le dossier de raccordement pour le projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le porteur' | "l'administrateur") {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
+
+    const { suppriméParValue, rôleValue } = match(rôle)
+      .with("l'administrateur", () => ({
+        suppriméParValue: this.utilisateurWorld.adminFixture.email,
+        rôleValue: this.utilisateurWorld.adminFixture.role,
+      }))
+      .with('le porteur', () => ({
+        suppriméParValue: this.utilisateurWorld.porteurFixture.email,
+        rôleValue: this.utilisateurWorld.porteurFixture.role,
+      }))
+      .exhaustive();
 
     try {
       await mediator.send<Lauréat.Raccordement.SupprimerDossierDuRaccordementUseCase>({
@@ -18,7 +30,8 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
           suppriméLeValue: new Date().toISOString(),
-          suppriméParValue: this.utilisateurWorld.porteurFixture.email,
+          suppriméParValue,
+          rôleValue,
         },
       });
     } catch (e) {
@@ -28,8 +41,8 @@ Quand(
 );
 
 Quand(
-  `le porteur supprime le dossier de raccordement pour le projet lauréat avec pour référence {string}`,
-  async function (this: PotentielWorld, référenceDossier) {
+  `le porteur supprime un dossier de raccordement non référencé pour le projet lauréat`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
     try {
@@ -37,9 +50,10 @@ Quand(
         type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierValue: référenceDossier,
+          référenceDossierValue: 'référence-non-connue',
           suppriméLeValue: new Date().toISOString(),
           suppriméParValue: this.utilisateurWorld.porteurFixture.email,
+          rôleValue: this.utilisateurWorld.porteurFixture.role,
         },
       });
     } catch (e) {

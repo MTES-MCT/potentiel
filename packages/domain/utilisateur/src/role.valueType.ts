@@ -1259,6 +1259,8 @@ const policies = {
         référencielPermissions.lauréat.raccordement.usecase.supprimerDossierDuRaccordement,
         référencielPermissions.lauréat.raccordement.command.supprimerDossierDuRaccordement,
       ],
+      'supprimer-après-mise-en-service': [],
+      'supprimer-après-achèvement': [],
     },
     gestionnaire: {
       modifier: [
@@ -1673,6 +1675,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.date-mise-en-service.importer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
+  'raccordement.dossier.supprimer-après-mise-en-service',
+  'raccordement.dossier.supprimer-après-achèvement',
   'raccordement.listerDossierRaccordement',
 
   // Garanties financières

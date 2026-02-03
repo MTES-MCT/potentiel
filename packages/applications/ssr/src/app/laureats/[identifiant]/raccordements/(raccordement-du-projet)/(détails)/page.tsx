@@ -24,6 +24,7 @@ import {
   getModificationDCRAction,
   getModificationGestionnaireRéseauAction,
   getModificationPTFAction,
+  getSupprimerDossierAction,
 } from './_helpers';
 
 type PageProps = IdentifiantParameter;
@@ -98,7 +99,11 @@ const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLaur�
     mapToPlainObject({
       ...dossier,
       actions: {
-        supprimer: rôle.aLaPermission('raccordement.dossier.supprimer'),
+        supprimer: getSupprimerDossierAction({
+          rôle,
+          statutLauréat,
+          dossierEnService: !!dossier.miseEnService?.dateMiseEnService?.date,
+        }),
 
         demandeComplèteRaccordement: {
           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
