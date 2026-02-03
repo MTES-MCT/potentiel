@@ -1269,6 +1269,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.command.modifierGestionnaireRéseau,
       ],
       'modifier-après-achèvement': [],
+      'modifier-après-mise-en-service': [],
     },
   },
   actionnaire: {
@@ -1657,6 +1658,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'raccordement.gestionnaire.modifier',
+  'raccordement.gestionnaire.modifier-après-mise-en-service',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',

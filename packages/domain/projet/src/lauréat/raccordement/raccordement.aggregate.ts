@@ -11,6 +11,7 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâcheAggregate } from '../tâche/tâche.aggregate';
 import { TypeTâche } from '../tâche';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
+import { ChangementImpossibleCarProjetAchevéError } from '../lauréat.error';
 
 import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from '.';
 
@@ -287,8 +288,19 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierGestionnaireRéseauOptions) {
-    if (!this.#identifiantGestionnaireRéseau.estInconnu() && rôle.estÉgaleÀ(Role.porteur)) {
-      await this.lauréat.vérifierNonAchevé();
+    if (
+      this.aUneDateDeMiseEnService() &&
+      !rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service')
+    ) {
+      throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
+    }
+
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !this.#identifiantGestionnaireRéseau.estInconnu() &&
+      !rôle.aLaPermission('raccordement.gestionnaire.modifier-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
 
     if (!identifiantGestionnaireRéseau.estInconnu()) {
@@ -303,13 +315,6 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.identifiantProjet,
         identifiantGestionnaireRéseau,
       );
-    }
-
-    if (
-      this.aUneDateDeMiseEnService() &&
-      (rôle.estÉgaleÀ(Role.porteur) || rôle.estÉgaleÀ(Role.dreal))
-    ) {
-      throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
     }
 
     if (identifiantGestionnaireRéseau.estInconnu()) {
@@ -614,6 +619,15 @@ export class RaccordementAggregate extends AbstractAggregate<
       );
     }
 
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission(
+        'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
+      )
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
+    }
+
     const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
       type: 'PropositionTechniqueEtFinancièreModifiée-V2',
       payload: {
@@ -828,6 +842,14 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError(
         référenceDossierRaccordement.formatter(),
       );
+    }
+
+    if (
+      dcrComplète &&
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
 
     const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
