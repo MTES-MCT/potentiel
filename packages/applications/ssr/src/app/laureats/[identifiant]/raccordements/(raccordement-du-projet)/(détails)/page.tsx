@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -20,7 +20,11 @@ import {
   DétailsRaccordementDuProjetPage,
   DétailsRaccordementPageProps,
 } from './DétailsRaccordementDuProjet.page';
-import { getModificationDCRAction, getModificationPTFAction } from './_helpers';
+import {
+  getModificationDCRAction,
+  getModificationGestionnaireRéseauAction,
+  getModificationPTFAction,
+} from './_helpers';
 
 type PageProps = IdentifiantParameter;
 
@@ -65,11 +69,16 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsRaccordementDuProjetPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(raccordement.gestionnaireRéseau)}
-          dossiers={mapToDossierActions(utilisateur, raccordement.dossiers)}
+          dossiers={mapToDossierActions({
+            rôle: utilisateur.rôle,
+            dossiers: raccordement.dossiers,
+            statutLauréat: lauréat.statut,
+          })}
           actions={mapToRaccordementActions({
             rôle: utilisateur.rôle,
             statutLauréat: lauréat.statut,
-            identiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
+            identifiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
+            dossiers: raccordement.dossiers,
           })}
           lienRetour={lienRetour}
         />
@@ -78,10 +87,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   );
 }
 
-const mapToDossierActions = (
-  { rôle }: Utilisateur.ValueType,
-  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'],
-): DétailsRaccordementPageProps['dossiers'] =>
+type MapToDossierActions = (args: {
+  rôle: Role.ValueType;
+  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
+  statutLauréat: Lauréat.StatutLauréat.ValueType;
+}) => DétailsRaccordementPageProps['dossiers'];
+
+const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLauréat }) =>
   dossiers.map((dossier) =>
     mapToPlainObject({
       ...dossier,
@@ -90,7 +102,11 @@ const mapToDossierActions = (
 
         demandeComplèteRaccordement: {
           transmettre: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
-          modifier: getModificationDCRAction(rôle, dossier),
+          modifier: getModificationDCRAction({
+            rôle,
+            dossier,
+            statutLauréat,
+          }),
           modifierRéférence:
             rôle.aLaPermission('raccordement.référence-dossier.modifier') &&
             !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
@@ -100,7 +116,11 @@ const mapToDossierActions = (
           transmettre: rôle.aLaPermission(
             'raccordement.proposition-technique-et-financière.transmettre',
           ),
-          modifier: getModificationPTFAction(rôle, dossier),
+          modifier: getModificationPTFAction({
+            rôle,
+            dossier,
+            statutLauréat,
+          }),
         },
 
         miseEnService: {
@@ -111,23 +131,27 @@ const mapToDossierActions = (
     }),
   );
 
-type MapToRaccordementActionsProps = (args: {
+type MapToRaccordementActions = (args: {
   rôle: Role.ValueType;
   statutLauréat: Lauréat.StatutLauréat.ValueType;
-  identiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
 }) => DétailsRaccordementPageProps['actions'];
 
-const mapToRaccordementActions: MapToRaccordementActionsProps = ({
+const mapToRaccordementActions: MapToRaccordementActions = ({
   rôle,
   statutLauréat,
-  identiantGestionnaireActuel,
+  identifiantGestionnaireActuel,
+  dossiers,
 }) => ({
   gestionnaireRéseau: {
-    modifier:
-      rôle.aLaPermission('raccordement.gestionnaire.modifier') &&
-      (statutLauréat.estActif() ||
-        (statutLauréat.estAchevé() && !rôle.estPorteur()) ||
-        (statutLauréat.estAchevé() && identiantGestionnaireActuel.estInconnu())),
+    modifier: getModificationGestionnaireRéseauAction({
+      rôle,
+      statutLauréat,
+      identifiantGestionnaireActuel,
+      aUnDossierEnService:
+        dossiers.filter((dossier) => !!dossier.miseEnService?.dateMiseEnService?.date).length > 0,
+    }),
   },
   créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
 });

@@ -33,6 +33,7 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
         identifiantGestionnaireRéseauValue,
       );
     const rôle = Role.convertirEnValueType(rôleValue);
+
     await mediator.send<ModifierGestionnaireRéseauRaccordementCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
       data: {
