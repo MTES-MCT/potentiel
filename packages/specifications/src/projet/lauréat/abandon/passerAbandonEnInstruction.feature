@@ -11,10 +11,9 @@ Fonctionnalité: Passer la demande d'abandon d'un projet lauréat en instruction
         Quand l'administrateur passe la demande d'abandon du projet lauréat en instruction
         Alors la demande d'abandon du projet lauréat devrait être en instruction
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - La demande d'abandon pour le projet Du boulodrome de Marseille est en instruction |
-            | nom_projet     | Du boulodrome de Marseille                                                                    |
-            | nouveau_statut | en instruction                                                                                |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                            |
+            | sujet      | Potentiel - La demande d'abandon pour le projet Du boulodrome de Marseille est en instruction |
+            | nom_projet | Du boulodrome de Marseille                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                            |
 
     Scénario: Un administrateur reprend l'instruction de la demande d'abandon du projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
