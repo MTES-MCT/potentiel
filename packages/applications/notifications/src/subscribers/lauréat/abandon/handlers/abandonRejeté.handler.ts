@@ -1,29 +1,23 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { abandonNotificationTemplateId } from '../constant.js';
-import { AbandonNotificationsProps } from '../type.js';
-
-export const handleAbandonRejeté = async ({
-  sendEmail,
-  event,
-  projet,
-}: AbandonNotificationsProps<Lauréat.Abandon.AbandonRejetéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const { appelOffre, période } = identifiantProjet;
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+export const handleAbandonRejeté = async ({ payload }: Lauréat.Abandon.AbandonRejetéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.rejeter,
-    messageSubject: `Potentiel - Demande d'abandon rejetée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    key: 'abandon/rejeter',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      nouveau_statut: 'rejetée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
+      url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
+      appelOffre,
+      période,
     },
   });
 };
