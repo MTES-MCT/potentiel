@@ -37,9 +37,7 @@ export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies)
       .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
       .with({ type: 'AbandonRejeté-V1' }, handleAbandonRejeté)
       .with({ type: 'AbandonPasséEnInstruction-V1' }, handleAbandonPasséEnInstruction)
-      .with({ type: 'PreuveRecandidatureDemandée-V1' }, (event) =>
-        handlePreuveRecandidatureDemandée({ sendEmail, event, projet }),
-      )
+      .with({ type: 'PreuveRecandidatureDemandée-V1' }, handlePreuveRecandidatureDemandée)
       .with({ type: 'PreuveRecandidatureTransmise-V1' }, () => Promise.resolve())
       .exhaustive();
   };
