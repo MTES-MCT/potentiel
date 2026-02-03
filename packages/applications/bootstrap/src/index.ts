@@ -1,3 +1,3 @@
-export { bootstrap } from './bootstrap';
-export * from './errors';
-export * from './middlewares';
+export { bootstrap } from './bootstrap.js';
+export * from './errors.js';
+export * from './middlewares/index.js';

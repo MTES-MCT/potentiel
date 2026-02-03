@@ -1,2 +1,2 @@
-export { logMiddleware } from './log.middleware';
-export { permissionMiddleware } from './permission.middleware';
+export { logMiddleware } from './log.middleware.js';
+export { permissionMiddleware } from './permission.middleware.js';
