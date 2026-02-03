@@ -1,13 +1,6 @@
 import { Tile } from '../../../../../../components/organisms/Tile';
 
-import { DocumentListItem } from './DocumentListItem';
-
-export type DocumentItem = {
-  type: string;
-  date: string;
-  format: string;
-  peutÊtreTéléchargé: boolean;
-} & ({ documentKey: string; url: undefined } | { url: string; documentKey: undefined });
+import { DocumentItem, DocumentListItem } from './DocumentListItem';
 
 export type DocumentListItemProps = { documents: Array<DocumentItem> };
 
@@ -29,20 +22,23 @@ export const DocumentsList = ({ documents }: DocumentListItemProps) => {
       ) : (
         <div>
           <div className="flex flex-col gap-4 mt-4">
-            {documents.map(({ type, documentKey, url, date, peutÊtreTéléchargé, format }) => (
-              <li key={documentKey}>
-                <Tile className="flex flex-col md:flex-row md:justify-between">
-                  <DocumentListItem
-                    type={mapTypeToTypeLabel(type)}
-                    documentKey={documentKey}
-                    url={url}
-                    format={format}
-                    date={date}
-                    peutÊtreTéléchargé={peutÊtreTéléchargé}
-                  />
-                </Tile>
-              </li>
-            ))}
+            {documents.map(
+              ({ type, documentKey, url, date, peutÊtreTéléchargé, format, demande }) => (
+                <li key={documentKey}>
+                  <Tile className="flex flex-col md:flex-row md:justify-between">
+                    <DocumentListItem
+                      type={mapTypeToTypeLabel(type)}
+                      documentKey={documentKey}
+                      url={url}
+                      format={format}
+                      date={date}
+                      demande={demande}
+                      peutÊtreTéléchargé={peutÊtreTéléchargé}
+                    />
+                  </Tile>
+                </li>
+              ),
+            )}
           </div>
         </div>
       )}
