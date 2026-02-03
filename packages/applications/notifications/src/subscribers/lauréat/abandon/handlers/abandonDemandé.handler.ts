@@ -1,42 +1,46 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
+  getLauréat,
   listerPorteursRecipients,
   listerRecipientsAutoritéInstructrice,
 } from '#helpers';
-
-import { AbandonNotificationsProps } from '../type.js';
-import { abandonNotificationTemplateId } from '../constant.js';
+import { sendEmail } from '#sendEmail';
 
 export const handleAbandonDemandé = async ({
-  sendEmail,
-  event,
-  projet,
-}: AbandonNotificationsProps<
-  Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1
->) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const { appelOffre, période } = identifiantProjet;
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
-    identifiantProjet,
+    identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'abandon',
   });
 
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appelOffre,
+    période,
+    url: `${getBaseUrl()}${Routes.Abandon.détail(payload.identifiantProjet, payload.demandéLe)}`,
+  };
+
   await sendEmail({
-    templateId: abandonNotificationTemplateId.demander,
-    messageSubject: `Potentiel - Nouvelle demande d'abandon pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    key: 'abandon/demander',
     recipients: porteurs,
-    bcc: adminRecipients,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      nouveau_statut: 'envoyée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter(), event.payload.demandéLe)}`,
-    },
+    values,
   });
+
+  for (const recipient of adminRecipients) {
+    await sendEmail({
+      key: 'abandon/demander',
+      recipients: [recipient],
+      values,
+    });
+  }
 };

@@ -30,13 +30,7 @@ export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies)
     const projet = await getLauréat(event.payload.identifiantProjet);
 
     await match(event)
-      .with({ type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2') }, (event) =>
-        handleAbandonDemandé({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
+      .with({ type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2') }, handleAbandonDemandé)
       .with({ type: 'AbandonAnnulé-V1' }, (event) =>
         handleAbandonAnnulé({
           sendEmail,
