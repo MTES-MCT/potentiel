@@ -14,10 +14,9 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet     | Du boulodrome de Marseille                                                       |
-            | nouveau_statut | accordée                                                                         |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                               |
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                               |
         Et un email a été envoyé à la cre avec :
             | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                       |

@@ -58,13 +58,7 @@ export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies)
           projet,
         }),
       )
-      .with({ type: 'AbandonAccordé-V1' }, (event) =>
-        handleAbandonAccordé({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
+      .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
       .with({ type: 'AbandonRejeté-V1' }, (event) =>
         handleAbandonRejeté({ sendEmail, event, projet }),
       )

@@ -4,11 +4,10 @@ import { mkdir, writeFile } from 'fs/promises';
 
 import { flatten } from '@potentiel-libraries/flat';
 
-import { fournisseurNotificationTemplateId } from '../src/subscribers/lauréat/fournisseur/constant';
+import { abandonNotificationTemplateId } from '../src/subscribers/lauréat/abandon/constant';
 
 const allTemplates = {
-  'lauréat/fournisseur': fournisseurNotificationTemplateId,
-  // utilisateur: utilisateurNotificationTemplateId,
+  abandon: abandonNotificationTemplateId,
 };
 
 /**
@@ -37,15 +36,22 @@ const main = async () => {
       };
 
       const content = data.Data[0]['Text-part'];
-      const index = content.indexOf("Besoin d'aide ?");
+      const index = content.indexOf("<<Besoin d'aide ?");
 
-      const cleanedTeamplate = content
+      const cleanContent = content
         .slice(0, index)
         .trim()
         .replaceAll(/{{var:(.+?)(?::"")?}}/g, '{{ $1 }}')
-        .replaceAll(/^(.*)\[{{ (.+?) }}\].*$/gm, "{{ cta $2 '$1' }}");
+        .replaceAll(/^<<(.*)>>\W?\[{{ (.+?) }}\].*$/gm, "{{ cta $2 '$1' }}");
 
-      await writeFile(`${dirName}/${key.replaceAll('.', '_')}.md`, cleanedTeamplate);
+      const template: string[] = [];
+      template.push('---');
+      template.push(`subject: Potentiel - {{ REPLACE_ME }}`);
+      template.push('---');
+      template.push('');
+      template.push(cleanContent);
+
+      await writeFile(`${dirName}/${key.replaceAll('.', '_')}.md`, template.join('\n'));
     }
   }
 };

@@ -1,39 +1,43 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
+  getLauréat,
   listerCocontractantRecipients,
   listerCreRecipients,
   listerDrealsRecipients,
   listerPorteursRecipients,
 } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { abandonNotificationTemplateId } from '../constant.js';
-import { AbandonNotificationsProps } from '../type.js';
-
-export const handleAbandonAccordé = async ({
-  sendEmail,
-  event,
-  projet,
-}: AbandonNotificationsProps<Lauréat.Abandon.AbandonAccordéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const { appelOffre, période } = identifiantProjet;
-  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
+export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.AbandonAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
   const cocontractantsRecipients = await listerCocontractantRecipients(projet.région);
 
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
+    appelOffre,
+    période,
+  };
+
   await sendEmail({
-    templateId: abandonNotificationTemplateId.accorder,
-    messageSubject: `Potentiel - Demande d'abandon accordée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    key: 'abandon/accorder',
     recipients: porteursRecipients,
-    bcc: [...drealRecipients, ...creRecipients, ...cocontractantsRecipients],
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      nouveau_statut: 'accordée',
-      abandon_url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}`,
-    },
+    values,
   });
+
+  for (const recipient of [...creRecipients, ...drealRecipients, ...cocontractantsRecipients]) {
+    await sendEmail({
+      key: 'abandon/accorder',
+      recipients: [recipient],
+      values,
+    });
+  }
 };
