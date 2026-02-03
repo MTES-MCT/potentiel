@@ -1,5 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator, Message } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -63,37 +64,42 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal) modifie le gestionnaire de réseau du projet avec :/,
-  async function (this: PotentielWorld, rôle: 'porteur' | 'dreal', datatable: DataTable) {
+  /(le porteur|la dreal|l'administrateur) modifie le gestionnaire de réseau du projet avec :/,
+  async function (
+    this: PotentielWorld,
+    rôleString: 'le porteur' | 'la dreal' | "l'administrateur",
+    datatable: DataTable,
+  ) {
     const exemples = datatable.rowsHash();
 
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       exemples['raison sociale du gestionnaire réseau'],
     );
 
-    await modifierGestionnaireRéseauRaccordement.call(this, {
-      world: this,
-      codeEIC,
-      rôle: rôle === 'porteur' ? Role.porteur : Role.dreal,
-      email:
-        rôle === 'porteur'
-          ? Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email)
-          : Email.convertirEnValueType(this.utilisateurWorld.drealFixture.email),
-    });
-  },
-);
+    const { email, rôle } = match(rôleString)
+      .returnType<{
+        rôle: Role.ValueType;
+        email: Email.ValueType;
+      }>()
+      .with('le porteur', () => ({
+        rôle: Role.porteur,
+        email: Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+      }))
+      .with('la dreal', () => ({
+        rôle: Role.dreal,
+        email: Email.convertirEnValueType(this.utilisateurWorld.drealFixture.email),
+      }))
+      .with("l'administrateur", () => ({
+        rôle: Role.admin,
+        email: Email.convertirEnValueType(this.utilisateurWorld.adminFixture.email),
+      }))
+      .exhaustive();
 
-Quand(
-  `la dreal modifie le gestionnaire de réseau du projet avec le gestionnaire {string}`,
-  async function (this: PotentielWorld, raisonSocialGestionnaireRéseau: string) {
-    const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-      raisonSocialGestionnaireRéseau,
-    );
     await modifierGestionnaireRéseauRaccordement.call(this, {
       world: this,
       codeEIC,
-      rôle: Role.dreal,
-      email: Email.convertirEnValueType(this.utilisateurWorld.drealFixture.email),
+      rôle,
+      email,
     });
   },
 );

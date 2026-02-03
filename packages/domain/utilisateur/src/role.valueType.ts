@@ -1659,6 +1659,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Raccordement
   'raccordement.gestionnaire.modifier',
   'raccordement.gestionnaire.modifier-après-mise-en-service',
+  'raccordement.gestionnaire.modifier-après-achèvement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.demande-complète-raccordement.modifier-après-mise-en-service',

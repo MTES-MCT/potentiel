@@ -78,6 +78,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             rôle: utilisateur.rôle,
             statutLauréat: lauréat.statut,
             identifiantGestionnaireActuel: raccordement.identifiantGestionnaireRéseau,
+            dossiers: raccordement.dossiers,
           })}
           lienRetour={lienRetour}
         />
@@ -134,18 +135,22 @@ type MapToRaccordementActions = (args: {
   rôle: Role.ValueType;
   statutLauréat: Lauréat.StatutLauréat.ValueType;
   identifiantGestionnaireActuel: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+  dossiers: Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'];
 }) => DétailsRaccordementPageProps['actions'];
 
 const mapToRaccordementActions: MapToRaccordementActions = ({
   rôle,
   statutLauréat,
   identifiantGestionnaireActuel,
+  dossiers,
 }) => ({
   gestionnaireRéseau: {
     modifier: getModificationGestionnaireRéseauAction({
       rôle,
       statutLauréat,
       identifiantGestionnaireActuel,
+      aUnDossierEnService:
+        dossiers.filter((dossier) => !!dossier.miseEnService?.dateMiseEnService?.date).length > 0,
     }),
   },
   créerNouveauDossier: rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),

@@ -43,7 +43,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Scénario: Un administrateur modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Quand la dreal modifie le gestionnaire de réseau du projet avec :
+        Quand l'administrateur modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
@@ -73,7 +73,6 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | raison sociale du gestionnaire réseau | Enedis |
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
-    @select
     Plan du scénario: Impossible pour un profil non admin de modifier le gestionnaire de réseau d'un raccordement si le projet est achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
@@ -86,7 +85,6 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | le porteur |
             | la dreal   |
 
-    @select
     Plan du scénario: Impossible pour un profil non admin de modifier le gestionnaire de réseau d'un raccordement si le projet a un dossier avec date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
