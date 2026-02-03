@@ -19,21 +19,15 @@ export type DocumentItem = {
 export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, demande }) => {
   return (
     <ListItem
-      heading={
-        <div>
-          <Heading3>{type}</Heading3>
-        </div>
-      }
+      heading={<Heading3>{type}</Heading3>}
       actions={
-        url ? (
+        url && (
           <DownloadDocument
             className="mb-0"
             url={url}
             format={format}
             label="Télécharger le document"
           />
-        ) : (
-          <></>
         )
       }
     >
