@@ -6,7 +6,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getAchèvement, getLauréat } from '@/app/laureats/[identifiant]/_helpers';
+import {
+  getAbandonInfos,
+  getAchèvement,
+  getLauréatInfos,
+} from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -23,13 +27,8 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
 
-      const {
-        lauréat: { nomProjet, attestationDésignation },
-        actionnaire,
-        représentantLégal,
-        abandon,
-        puissance,
-      } = await getLauréat(identifiantProjet);
+      const { nomProjet, attestationDésignation } = await getLauréatInfos(identifiantProjet);
+      const abandon = await getAbandonInfos(identifiantProjet);
 
       // ATTESTATION
       if (attestationDésignation) {
@@ -50,86 +49,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         url: Routes.Lauréat.exporter({ nomProjet }),
         peutÊtreTéléchargé: rôle.aLaPermission('lauréat.listerLauréatEnrichi'),
       });
-
-      // DEMANDES EN COURS
-      if (actionnaire.dateDemandeEnCours) {
-        const changement =
-          await mediator.send<Lauréat.Actionnaire.ConsulterChangementActionnaireQuery>({
-            type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-            data: {
-              identifiantProjet: identifiantProjet,
-              demandéLe: actionnaire.dateDemandeEnCours.formatter(),
-            },
-          });
-
-        if (Option.isNone(changement)) {
-          return notFound();
-        }
-
-        if (changement.demande.pièceJustificative) {
-          documents.push({
-            type: "Pièce(s) justificative(s) de la demande de changement d'actionnaire",
-            date: changement.demande.pièceJustificative.dateCréation,
-            format: changement.demande.pièceJustificative.format,
-            documentKey: changement.demande.pièceJustificative.formatter(),
-            demande: {
-              date: changement.demande.demandéeLe.formatter(),
-            },
-            peutÊtreTéléchargé: true,
-          });
-        }
-      }
-
-      if (puissance.dateDemandeEnCours) {
-        const changement = await mediator.send<Lauréat.Puissance.ConsulterChangementPuissanceQuery>(
-          {
-            type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
-            data: {
-              identifiantProjet: identifiantProjet,
-              demandéLe: puissance.dateDemandeEnCours.formatter(),
-            },
-          },
-        );
-
-        if (Option.isNone(changement)) {
-          return notFound();
-        }
-
-        if (changement.demande.pièceJustificative) {
-          documents.push({
-            type: 'Pièce(s) justificative(s) de la demande de changement de puissance',
-            date: changement.demande.pièceJustificative.dateCréation,
-            format: changement.demande.pièceJustificative.format,
-            documentKey: changement.demande.pièceJustificative.formatter(),
-            peutÊtreTéléchargé: true,
-          });
-        }
-      }
-
-      if (représentantLégal.demandeEnCours?.demandéLe) {
-        const changement =
-          await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-            type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-            data: {
-              identifiantProjet: identifiantProjet,
-              demandéLe: représentantLégal.demandeEnCours?.demandéLe,
-            },
-          });
-
-        if (Option.isNone(changement)) {
-          return notFound();
-        }
-
-        if (changement.demande.pièceJustificative) {
-          documents.push({
-            type: 'Pièce(s) justificative(s) de la demande de changement de représentant légal',
-            date: changement.demande.pièceJustificative.dateCréation,
-            format: changement.demande.pièceJustificative.format,
-            documentKey: changement.demande.pièceJustificative.formatter(),
-            peutÊtreTéléchargé: true,
-          });
-        }
-      }
 
       // ABANDON
       if (abandon) {
@@ -201,10 +120,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           });
         }
       }
-
-      // TODO V2 - à discuter : récupérer toutes les demandes (mêmes "anciennes") et les informations enregistrées ?
-
-      // trier les documents par date
 
       return (
         <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
