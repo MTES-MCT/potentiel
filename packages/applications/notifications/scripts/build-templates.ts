@@ -23,6 +23,28 @@ const srcDirRoot = path.join(__dirname, '../src/templates');
 const outDirRoot = path.join(__dirname, '../dist/templates');
 const layoutPath = path.join(__dirname, '../src/templates/layouts/email.layout.html');
 
+const extractVariables = (template: string) => {
+  const { body } = Handlebars.parse(template);
+
+  return body.reduce((acc, curr) => {
+    const node = curr as hbs.AST.MustacheStatement;
+    if (node.type !== 'MustacheStatement') {
+      return acc;
+    }
+
+    if (node.params.length > 0) {
+      acc.push(
+        ...node.params
+          .filter((p) => p.type === 'PathExpression')
+          .map((p) => (p as hbs.AST.PathExpression).original),
+      );
+    } else if (node.path.type === 'PathExpression') {
+      acc.push((node.path as hbs.AST.PathExpression).original);
+    }
+    return acc;
+  }, [] as string[]);
+};
+
 const extractTemplates = (name: string, layout?: string) => {
   const srcDir = path.join(srcDirRoot, name);
   const outDir = path.join(outDirRoot, name);
@@ -75,23 +97,12 @@ const extractTemplates = (name: string, layout?: string) => {
       ? Handlebars.precompile(frontmatter.subject)
       : null;
 
-    const variables = Handlebars.parse(assembled).body.reduce((acc, curr) => {
-      const node = curr as hbs.AST.MustacheStatement;
-      if (node.type !== 'MustacheStatement') {
-        return acc;
-      }
-
-      if (node.params.length > 0) {
-        acc.push(
-          ...node.params
-            .filter((p) => p.type === 'PathExpression')
-            .map((p) => (p as hbs.AST.PathExpression).original),
-        );
-      } else if (node.path.type === 'PathExpression') {
-        acc.push((node.path as hbs.AST.PathExpression).original);
-      }
-      return acc;
-    }, [] as string[]);
+    const variables = [
+      ...new Set<string>([
+        ...extractVariables(assembled),
+        ...(frontmatter.subject ? extractVariables(frontmatter.subject as string) : []),
+      ]),
+    ];
 
     // Write an ESM module that exports the precompiled template spec
     const templateName = file.replace(/\.(md|hbs)$/, '');
