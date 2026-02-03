@@ -28,6 +28,7 @@
     "@potentiel-applications/request-context": "workspace:*",
     "@potentiel-applications/routes": "workspace:*",
     "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/common": "workspace:*",
     "@potentiel-domain/entity": "workspace:*",
     "@potentiel-domain/projet": "workspace:*",
     "@potentiel-domain/reseau": "workspace:*",

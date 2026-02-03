@@ -15,6 +15,7 @@
     "@potentiel-domain/inmemory-referential": "workspace:*",
     "@potentiel-domain/projet": "workspace:*",
     "@potentiel-domain/reseau": "workspace:*",
+    "@potentiel-domain/statistiques-utilisation": "workspace:*",
     "@potentiel-domain/utilisateur": "workspace:*",
     "@potentiel-domain/entity": "workspace:*",
     "@potentiel-infrastructure/ds-api-client": "workspace:*",
