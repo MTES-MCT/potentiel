@@ -3,9 +3,6 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat } from '#helpers';
-import { SendEmail } from '#sendEmail';
-
 import {
   handleAbandonAccordé,
   handleAbandonAnnulé,
@@ -21,14 +18,8 @@ export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Abandon', SubscriptionEvent>;
 
-export type RegisterAbandonNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const projet = await getLauréat(event.payload.identifiantProjet);
-
     await match(event)
       .with({ type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2') }, handleAbandonDemandé)
       .with({ type: 'AbandonAnnulé-V1' }, handleAbandonAnnulé)
