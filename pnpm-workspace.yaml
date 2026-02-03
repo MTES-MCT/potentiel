@@ -1,8 +1,10 @@
 # Prevent build scripts (postinstall) from dependencies
 strictDepBuilds: true
 
-# Protection against supply chain attacks, wait 1 week before using a new package version
-minimumReleaseAge: 10080
+# Protections against supply chain attacks (https://pnpm.io/fr/supply-chain-security)
+# minimumReleaseAge: 10080
+# blockExoticSubdeps: true
+# trustPolicy: no-downgrade
 
 packages:
   - ./packages/config/*
