@@ -22,12 +22,12 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: Un administrateur supprime un dossier du raccordement pour un projet achevé
-        Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: Un porteur supprime le dernier dossier du raccordement d'un projet
-        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
 
