@@ -1,10 +1,10 @@
 ---
-subject: Potentiel - Demande de recours passée en instruction pour le projet {{ nom_projet }} ({{ appelOffre }} {{ période }})
+subject: Potentiel - {{ nom_projet }} - Recours passée en instruction
 ---
 
 Madame, Monsieur,
 
-La demande de recours pour le projet **{{ nom_projet }}** situé dans le département **{{ departement_projet }}** est **en instruction**. 
+La demande de recours pour le projet **{{ nom_projet }} ({{ appelOffre }} période {{ période }})** situé dans le département **{{ departement_projet }}** est **en instruction**. 
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 

@@ -11,13 +11,13 @@ Fonctionnalité: Annuler la demande de recours d'un projet éliminé
         Quand le porteur annule le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être annulé
         Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - Demande de recours annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours annulé |
+            | nom_projet | Du boulodrome de Marseille                              |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours      |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande de recours annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours annulé |
+            | nom_projet | Du boulodrome de Marseille                              |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours      |
 
     Scénario: Un porteur annule le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé

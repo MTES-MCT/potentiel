@@ -24,8 +24,10 @@ export const handleRecoursAccordé = async ({ payload }: Éliminé.Recours.Recou
   for (const recipients of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
     await sendEmail({
       key: 'recours/accorder',
+
       values: {
         nom_projet: projet.nom,
+
         departement_projet: projet.département,
         appelOffre,
         période,

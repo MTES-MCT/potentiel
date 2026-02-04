@@ -1,5 +1,6 @@
 # language: fr
 @recours
+@select
 Fonctionnalité: Accorder la demande de recours d'un projet éliminé
 
     Contexte:
@@ -18,21 +19,21 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | motif | recours-accordé |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
         Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                           |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours accordé |
+            | nom_projet | Du boulodrome de Marseille                               |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                           |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours accordé |
+            | nom_projet | Du boulodrome de Marseille                               |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
         Et un email a été envoyé à la cre avec :
-            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                           |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours accordé |
+            | nom_projet | Du boulodrome de Marseille                               |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                           |
-            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours accordé |
+            | nom_projet | Du boulodrome de Marseille                               |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
         Mais aucun autre email n'a été envoyé
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
 
