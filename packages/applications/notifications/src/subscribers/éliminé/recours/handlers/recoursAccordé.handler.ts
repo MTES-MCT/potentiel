@@ -1,38 +1,37 @@
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
+  getÉliminé,
   listerCreRecipients,
   listerDgecRecipients,
   listerDrealsRecipients,
   listerPorteursRecipients,
 } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+export const handleRecoursAccordé = async ({ payload }: Éliminé.Recours.RecoursAccordéEvent) => {
+  const projet = await getÉliminé(payload.identifiantProjet);
 
-export const handleRecoursAccordé = async ({
-  sendEmail,
-  event,
-  projet,
-}: RecoursNotificationsProps<Éliminé.Recours.RecoursAccordéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
 
-  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(identifiantProjet);
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
+  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
 
-  await sendEmail({
-    templateId: recoursNotificationTemplateId.accorder,
-    messageSubject: `Potentiel - Demande de recours accordée pour le projet ${projet.nom} (${identifiantProjet.appelOffre} période ${identifiantProjet.période})`,
-    recipients: porteursRecipients,
-    bcc: [...adminRecipients, ...creRecipients, ...drealRecipients],
-    variables: {
-      nom_projet: projet.nom,
-      redirect_url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(identifiantProjet.formatter())}`,
-      departement_projet: projet.département,
-    },
-  });
+  for (const recipient of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
+    await sendEmail({
+      key: 'recours/accorder',
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appelOffre,
+        période,
+        url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(projet.identifiantProjet.formatter())}`,
+      },
+      recipients: recipient,
+    });
+  }
 };

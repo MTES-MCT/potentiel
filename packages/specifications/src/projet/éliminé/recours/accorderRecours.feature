@@ -20,15 +20,19 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
         Et un email a été envoyé à la cre avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                   |
         Mais aucun autre email n'a été envoyé
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
 

@@ -39,9 +39,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       .with({ type: 'RecoursDemandé-V1' }, handleRecoursDemandé)
       .with({ type: 'RecoursAnnulé-V1' }, handleRecoursAnnulé)
       .with({ type: 'RecoursPasséEnInstruction-V1' }, handleRecoursPasséEnInstruction)
-      .with({ type: 'RecoursAccordé-V1' }, (event) =>
-        handleRecoursAccordé({ sendEmail, event, projet }),
-      )
+      .with({ type: 'RecoursAccordé-V1' }, handleRecoursAccordé)
       .with({ type: 'RecoursRejeté-V1' }, (event) =>
         handleRecoursRejeté({ sendEmail, event, projet }),
       )
