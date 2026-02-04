@@ -6,6 +6,7 @@ import { sendEmail } from '#sendEmail';
 
 export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.RecoursDemandéEvent) => {
   const projet = await getÉliminé(payload.identifiantProjet);
+
   const { appelOffre, période } = projet.identifiantProjet;
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
@@ -15,7 +16,7 @@ export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.Recou
     departement_projet: projet.département,
     appelOffre,
     période,
-    url: `${getBaseUrl()}${Routes.Recours.demander(payload.identifiantProjet)}`,
+    url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
   };
 
   await sendEmail({
