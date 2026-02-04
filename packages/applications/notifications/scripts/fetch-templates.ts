@@ -4,10 +4,8 @@ import { mkdir, writeFile } from 'fs/promises';
 
 import { flatten } from '@potentiel-libraries/flat';
 
-import { abandonNotificationTemplateId } from '../src/subscribers/lauréat/abandon/constant';
-
 const allTemplates = {
-  abandon: abandonNotificationTemplateId,
+  // abandon: abandonNotificationTemplateId,
 };
 
 /**

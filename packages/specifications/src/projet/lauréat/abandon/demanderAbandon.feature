@@ -14,15 +14,13 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                          |
-            | nouveau_statut | envoyée                                                                             |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
+            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet          | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                          |
-            | nouveau_statut | envoyée                                                                             |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
+            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

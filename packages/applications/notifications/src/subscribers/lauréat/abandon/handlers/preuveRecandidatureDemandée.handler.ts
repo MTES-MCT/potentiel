@@ -1,27 +1,24 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
-
-import { AbandonNotificationsProps } from '../type.js';
-import { abandonNotificationTemplateId } from '../constant.js';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handlePreuveRecandidatureDemandée = async ({
-  sendEmail,
-  event,
-  projet,
-}: AbandonNotificationsProps<Lauréat.Abandon.PreuveRecandidatureDemandéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const { appelOffre, période } = identifiantProjet;
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Abandon.PreuveRecandidatureDemandéeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.demanderPreuveRecandidature,
-    messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${appelOffre} période ${période})`,
+    key: 'abandon/demanderPreuveRecandidature',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
-      lien_transmettre_preuve_recandidature: `${getBaseUrl()}${Routes.Abandon.détailRedirection(identifiantProjet.formatter())}/`,
+      appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(projet.identifiantProjet.formatter())}/`,
     },
   });
 };

@@ -92,9 +92,10 @@ const extractTemplates = (name: string, layout?: string) => {
     // Handlebars.runtime.template can turn into a template function.
     const precompiledSpec = Handlebars.precompile(assembled);
 
-    // Also precompile the subject if it exists
+    // Also precompile the subject if it exists.
+    // As it is plain text, we disable HTML escaping
     const subjectPrecompiled = frontmatter.subject
-      ? Handlebars.precompile(frontmatter.subject)
+      ? Handlebars.precompile(frontmatter.subject, { noEscape: true })
       : null;
 
     const variables = [

@@ -17,9 +17,11 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
         Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
 
     Scénario: Un porteur annule la demande d'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -30,15 +32,13 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Quand le porteur annule la demande d'abandon pour le projet lauréat
         Et la demande d'abandon du projet lauréat devrait être annulée
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                         |
-            | nouveau_statut | annulée                                                                            |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
+            | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet          | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                         |
-            | nouveau_statut | annulée                                                                            |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
+            | sujet      | Potentiel - Demande d'abandon annulée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                 |
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée pour le projet lauréat

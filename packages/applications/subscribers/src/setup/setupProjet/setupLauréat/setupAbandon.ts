@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
+export const setupAbandon: SetupProjet = async () => {
   const abandon = createSubscriptionSetup('abandon');
 
   AbandonProjector.register();
@@ -27,7 +27,7 @@ export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Abandon',
   });
 
-  AbandonNotification.register({ sendEmail });
+  AbandonNotification.register();
   await abandon.setupSubscription<
     AbandonNotification.SubscriptionEvent,
     AbandonNotification.Execute

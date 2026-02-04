@@ -3,7 +3,7 @@
 Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "L'hélice qui tourne"
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
         Et le cocontractant "EDF" associé à la zone du projet
@@ -14,21 +14,21 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                       |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                               |
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
+            | nom_projet | L'hélice qui tourne                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                        |
         Et un email a été envoyé à la cre avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                       |
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
+            | nom_projet | L'hélice qui tourne                                                       |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                       |
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
+            | nom_projet | L'hélice qui tourne                                                       |
         Et un email a été envoyé au cocontractant avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                       |
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
+            | nom_projet | L'hélice qui tourne                                                       |
 
     Scénario: Une dreal peut accorder une demande d'abandon si elle en a l'autorité
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat "L'hélice qui tourne" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
@@ -38,7 +38,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Et le statut du projet lauréat devrait être "abandonné"
 
     Scénario: La DGEC peut accorder l'abandon si l'autorité compétente est la DREAL
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat "L'hélice qui tourne" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
@@ -80,7 +80,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Alors l'administrateur devrait être informé que "Aucune demande d'abandon n'est en cours"
 
     Scénario: Impossible pour une DREAL d'accorder l'abandon si l'autorité compétente est la DGEC
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat "L'hélice qui tourne" avec :
             | appel d'offres | PPE2 - Eolien |
             | période        | 8             |
         Et la dreal "Dreal du sud" associée à la région du projet

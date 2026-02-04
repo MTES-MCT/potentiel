@@ -15,15 +15,13 @@ Fonctionnalité: Confirmer la demande d'abandon d'un projet lauréat
         Quand le porteur confirme sa demande d'abandon pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être confirmée
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Demande d'abandon confirmée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                           |
-            | nouveau_statut | confirmée                                                                            |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                   |
+            | sujet      | Potentiel - Demande d'abandon confirmée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                   |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet          | Potentiel - Demande d'abandon confirmée pour le projet Du boulodrome de Marseille .* |
-            | nom_projet     | Du boulodrome de Marseille                                                           |
-            | nouveau_statut | confirmée                                                                            |
-            | abandon_url    | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                   |
+            | sujet      | Potentiel - Demande d'abandon confirmée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                   |
 
         Exemples:
             | Appel d'offre            | Période |
