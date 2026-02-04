@@ -19,19 +19,19 @@ type GetLauréatMenuItemsProps = {
 };
 
 const domainesMap: Record<AppelOffre.DomainesConcernésParChangement, boolean> = {
+  abandon: true,
   actionnaire: true,
   délai: true,
   dispositifDeStockage: true,
   fournisseur: true,
   installateur: true,
   natureDeLExploitation: true,
-  typologieInstallation: true,
   nomProjet: true,
   producteur: true,
   puissance: true,
   représentantLégal: true,
   siteDeProduction: true,
-  abandon: true,
+  typologieInstallation: true,
   // non utilisé pour lauréat
   recours: false,
 };
@@ -106,9 +106,10 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine].filter(
-    (item) => !!item,
-  );
+  const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine]
+    .filter((item) => !!item)
+    .toSorted((a, b) => a.text.localeCompare(b.text));
+
   const modificationMenu =
     modifications.length > 0
       ? {

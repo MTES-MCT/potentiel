@@ -180,7 +180,7 @@ export const mapChangements: MapChangements = {
   abandon: {
     demanderChangement: {
       label: "Demander l'abandon",
-      labelMenu: "Demander l'abandon",
+      labelMenu: 'Abandon',
       url: Routes.Abandon.demander,
       permission: 'abandon.demander',
     },
@@ -188,7 +188,7 @@ export const mapChangements: MapChangements = {
   délai: {
     demanderChangement: {
       label: 'Demander un délai',
-      labelMenu: 'Demander un délai',
+      labelMenu: 'Délai',
       url: Routes.Délai.demander,
       permission: 'délai.demander',
     },
