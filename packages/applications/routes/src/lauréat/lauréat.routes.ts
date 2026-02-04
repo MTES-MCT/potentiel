@@ -36,13 +36,13 @@ export const exporter = (filters: {
   periode?: string;
   famille?: string;
   statut?: string[];
-  nomProjet?: string;
+  identifiantProjet?: string;
   typeActionnariat?: string[];
 }) => {
   const searchParams = new URLSearchParams();
 
-  if (filters.nomProjet) {
-    searchParams.append('nomProjet', filters.nomProjet);
+  if (filters.identifiantProjet) {
+    searchParams.append('identifiantProjet', filters.identifiantProjet);
   }
   if (filters.appelOffre?.length) {
     filters.appelOffre.forEach((value) => {

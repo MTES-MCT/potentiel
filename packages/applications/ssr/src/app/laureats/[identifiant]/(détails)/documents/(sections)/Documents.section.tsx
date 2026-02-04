@@ -27,7 +27,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
 
-      const { nomProjet, attestationDésignation } = await getLauréatInfos(identifiantProjet);
+      const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
       const abandon = await getAbandonInfos(identifiantProjet);
 
       // ATTESTATION
@@ -46,7 +46,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         date: DateTime.now().formatter(),
         format: 'csv',
         url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
-          ? Routes.Lauréat.exporter({ nomProjet })
+          ? Routes.Lauréat.exporter({ identifiantProjet })
           : undefined,
       });
 

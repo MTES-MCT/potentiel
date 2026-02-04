@@ -71,7 +71,7 @@ export type ListerLauréatEnrichiQuery = Message<
     appelOffre?: Array<string>;
     periode?: string;
     famille?: string;
-    nomProjet?: string;
+    identifiantProjet?: IdentifiantProjet.RawType;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
   },
   ListerLauréatEnrichiReadModel
@@ -91,11 +91,20 @@ export const registerListerLauréatEnrichiQuery = ({
     appelOffre,
     periode,
     famille,
-    nomProjet,
+    identifiantProjet,
     statut,
     typeActionnariat,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+
+    const identifiantProjets =
+      scope.type === 'projet'
+        ? identifiantProjet
+          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
+          : scope.identifiantProjets
+        : identifiantProjet
+          ? [identifiantProjet]
+          : undefined;
 
     const lauréats = await list<
       LauréatEntity,
@@ -114,13 +123,11 @@ export const registerListerLauréatEnrichiQuery = ({
         famille: 'ascending',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(identifiantProjets),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        nomProjet: Where.equal(nomProjet),
         localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
       },
       join: [

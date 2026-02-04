@@ -15,7 +15,7 @@ export const exporter = (filters: {
   periode?: string;
   famille?: string;
   typeActionnariat?: string[];
-  nomProjet?: string;
+  identifiantProjet?: string;
 }) => {
   const searchParams = new URLSearchParams();
 
@@ -30,8 +30,8 @@ export const exporter = (filters: {
   if (filters.famille) {
     searchParams.append('famille', filters.famille);
   }
-  if (filters.nomProjet) {
-    searchParams.append('nomProjet', filters.nomProjet);
+  if (filters.identifiantProjet) {
+    searchParams.append('identifiantProjet', filters.identifiantProjet);
   }
   if (filters.typeActionnariat?.length) {
     filters.typeActionnariat.forEach((value) => {

@@ -46,7 +46,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         date: DateTime.now().formatter(),
         format: 'csv',
         url: rôle.aLaPermission('éliminé.listerÉliminéEnrichi')
-          ? Routes.Éliminé.exporter({ nomProjet: éliminé.nomProjet })
+          ? Routes.Éliminé.exporter({ identifiantProjet })
           : undefined,
       });
 
