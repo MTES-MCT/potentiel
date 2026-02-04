@@ -13,12 +13,15 @@ Fonctionnalité: Rejeter le recours d'un projet éliminé
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - Demande de recours rejetée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                          |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                  |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande de recours rejetée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                          |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                  |
         Et un email a été envoyé à la cre avec :
             | sujet      | Potentiel - Demande de recours rejetée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                          |
+            | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours                                  |
 
     Scénario: Un DGEC validateur rejette le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
