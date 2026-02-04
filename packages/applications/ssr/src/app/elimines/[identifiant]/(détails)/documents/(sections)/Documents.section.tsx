@@ -66,18 +66,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           return notFound();
         }
 
-        if (demandeRecours.demande.pièceJustificative) {
-          documents.push({
-            type: 'Pièce(s) justificative(s) de la demande de recours',
-            date: demandeRecours.demande.pièceJustificative.dateCréation,
-            format: demandeRecours.demande.pièceJustificative.format,
-            url: Routes.Document.télécharger(demandeRecours.demande.pièceJustificative.formatter()),
-            demande: {
-              date: demandeRecours.demande.demandéLe.formatter(),
-            },
-          });
-        }
-
         if (demandeRecours.demande.rejet) {
           documents.push({
             type: 'Réponse signée du rejet de la demande de recours',

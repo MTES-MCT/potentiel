@@ -36,10 +36,7 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
           iconId="ri-calendar-2-fill"
           className="bg-dsfr-background-alt-greenTilleulVerveine-default"
         >
-          <span>
-            Document en date du{' '}
-            <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
-          </span>
+          <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
         </Tag>
         {demande && (
           <Tag iconId="ri-calendar-2-fill" className="bg-dsfr-background-alt-blueFrance-default">

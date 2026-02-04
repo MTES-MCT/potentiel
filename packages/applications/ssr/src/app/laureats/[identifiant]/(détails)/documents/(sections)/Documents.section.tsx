@@ -33,7 +33,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       // ATTESTATION
       if (attestationDésignation) {
         documents.push({
-          type: attestationDésignation.typeDocument,
+          type: 'Attestation de désignation',
           date: attestationDésignation.dateCréation,
           format: attestationDésignation.format,
           url: Routes.Document.télécharger(attestationDésignation.formatter()),
@@ -64,12 +64,14 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           return notFound();
         }
 
-        if (demandeAbandon.demande.pièceJustificative) {
+        if (demandeAbandon.demande.confirmation?.réponseSignée) {
           documents.push({
-            type: "Pièce(s) justificative(s) de la demande d'abandon",
-            date: demandeAbandon.demande.pièceJustificative.dateCréation,
-            format: demandeAbandon.demande.pièceJustificative.format,
-            url: Routes.Document.télécharger(demandeAbandon.demande.pièceJustificative.formatter()),
+            type: "Réponse signée de la confirmation de la demande d'abandon",
+            date: demandeAbandon.demande.confirmation.réponseSignée.dateCréation,
+            format: demandeAbandon.demande.confirmation.réponseSignée.format,
+            url: Routes.Document.télécharger(
+              demandeAbandon.demande.confirmation.réponseSignée.formatter(),
+            ),
             demande: {
               date: demandeAbandon.demande.demandéLe.formatter(),
             },
