@@ -1,32 +1,31 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerRecipientsAutoritéInstructrice } from '#helpers';
-
-import { délaiNotificationTemplateId } from '../constant.js';
-import { DélaiNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDemandeDélaiCorrigée = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: DélaiNotificationsProps<Lauréat.Délai.DemandeDélaiCorrigéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.Délai.DemandeDélaiCorrigéeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
+  const { appelOffre, période } = projet.identifiantProjet;
+
   const recipients = await listerRecipientsAutoritéInstructrice({
-    identifiantProjet,
+    identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
   });
 
   return sendEmail({
-    templateId: délaiNotificationTemplateId.demande.corriger,
-    messageSubject: `Potentiel - Correction de la demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département}`,
+    key: 'délai/corriger',
     recipients,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });
 };

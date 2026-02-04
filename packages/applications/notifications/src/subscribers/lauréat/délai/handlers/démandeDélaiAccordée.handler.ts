@@ -1,26 +1,24 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { délaiNotificationTemplateId } from '../constant.js';
-import { DélaiNotificationsProps } from '../type.js';
+export const handleDemandeDélaiAccordée = async ({ payload }: Lauréat.Délai.DélaiAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
 
-export const handleDemandeDélaiAccordée = async ({
-  sendEmail,
-  event,
-  projet,
-}: DélaiNotificationsProps<Lauréat.Délai.DélaiAccordéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: délaiNotificationTemplateId.demande.accorder,
-    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} a été accordée`,
+    key: 'délai/accorder',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });
 };

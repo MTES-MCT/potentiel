@@ -8,13 +8,14 @@ Fonctionnalité: Demander un délai pour un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Scénario: Un porteur demande un délai pour un projet lauréat
         Quand le porteur demande un délai pour le projet lauréat
         Alors la demande de délai devrait être consultable
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet      | Potentiel - Demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                     |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Délai demandé |
+            | nom_projet | Du boulodrome de Marseille                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai       |
 
     Scénario: Impossible de demander un délai pour un projet si une demande de délai est en cours
         Etant donné une demande de délai en cours pour le projet lauréat

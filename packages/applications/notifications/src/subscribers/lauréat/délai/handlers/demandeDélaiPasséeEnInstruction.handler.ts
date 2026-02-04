@@ -1,29 +1,27 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
-
-import { délaiNotificationTemplateId } from '../constant.js';
-import { DélaiNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDemandeDélaiPasséeEnInstruction = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: DélaiNotificationsProps<Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: délaiNotificationTemplateId.demande.passerEnInstruction,
-    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} est en instruction`,
+    key: 'délai/passerEnInstruction',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });
 };

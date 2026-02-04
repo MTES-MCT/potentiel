@@ -1,27 +1,27 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
-
-import { délaiNotificationTemplateId } from '../constant.js';
-import { DélaiNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDemandeDélaiRejetée = async ({
-  sendEmail,
-  event,
-  projet,
-}: DélaiNotificationsProps<Lauréat.Délai.DemandeDélaiRejetéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Délai.DemandeDélaiRejetéeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
+  const { appelOffre, période } = projet.identifiantProjet;
+
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: délaiNotificationTemplateId.demande.rejeter,
-    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
+    key: 'délai/rejeter',
     recipients: porteurs,
-    variables: {
-      type: 'rejet',
+    values: {
+      appel_offre: appelOffre,
+      période,
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });
 };

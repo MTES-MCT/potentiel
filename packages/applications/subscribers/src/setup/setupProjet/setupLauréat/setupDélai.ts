@@ -4,7 +4,7 @@ import { DélaiNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupDélai: SetupProjet = async ({ sendEmail }) => {
+export const setupDélai: SetupProjet = async () => {
   const délai = createSubscriptionSetup('délai');
 
   DélaiProjector.registerDélaiProjectors();
@@ -23,7 +23,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Délai',
   });
 
-  DélaiNotification.registerDélaiNotifications({ sendEmail });
+  DélaiNotification.registerDélaiNotifications();
   await délai.setupSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
     name: 'notifications',
     eventType: [

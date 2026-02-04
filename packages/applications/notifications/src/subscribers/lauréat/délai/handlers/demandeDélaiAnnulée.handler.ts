@@ -1,30 +1,31 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerRecipientsAutoritéInstructrice } from '#helpers';
-
-import { délaiNotificationTemplateId } from '../constant.js';
-import { DélaiNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDemandeDélaiAnnulée = async ({
-  sendEmail,
-  event,
-  projet,
-}: DélaiNotificationsProps<Lauréat.Délai.DemandeDélaiAnnuléeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.Délai.DemandeDélaiAnnuléeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
+  const { appelOffre, période } = projet.identifiantProjet;
+
   const recipients = await listerRecipientsAutoritéInstructrice({
-    identifiantProjet,
+    identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'délai',
   });
 
   return sendEmail({
-    templateId: délaiNotificationTemplateId.demande.annuler,
-    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} a été annulée`,
+    key: 'délai/annuler',
     recipients,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });
 };
