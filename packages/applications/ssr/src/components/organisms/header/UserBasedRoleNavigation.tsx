@@ -52,6 +52,16 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
 
   const toutesDemandesMenuLinks: Array<MenuItem> = [
     {
+      label: 'Abandon',
+      url: Routes.Abandon.lister({
+        statut: rôle.estPorteur()
+          ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
+          : ['demandé', 'en-instruction', 'confirmé'],
+        autorite: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
+      }),
+      permission: 'abandon.lister.demandes',
+    },
+    {
       label: 'Actionnaire',
       url: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
       permission: 'actionnaire.listerChangement',
@@ -101,7 +111,6 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       url: Routes.Producteur.changement.lister,
       permission: 'producteur.listerChangement',
     },
-
     {
       label: 'Recours',
       url: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
@@ -111,16 +120,6 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       label: 'Représentant légal',
       url: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
       permission: 'représentantLégal.listerChangement',
-    },
-    {
-      label: 'Abandon',
-      url: Routes.Abandon.lister({
-        statut: rôle.estPorteur()
-          ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
-          : ['demandé', 'en-instruction', 'confirmé'],
-        autorite: rôle.estDGEC() ? 'dgec' : rôle.estDreal() ? 'dreal' : undefined,
-      }),
-      permission: 'abandon.lister.demandes',
     },
   ];
 
