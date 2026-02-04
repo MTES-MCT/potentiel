@@ -37,9 +37,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
 
     await match(event)
       .with({ type: 'RecoursDemandé-V1' }, handleRecoursDemandé)
-      .with({ type: 'RecoursAnnulé-V1' }, (event) =>
-        handleRecoursAnnulé({ sendEmail, event, projet }),
-      )
+      .with({ type: 'RecoursAnnulé-V1' }, handleRecoursAnnulé)
       .with({ type: 'RecoursAccordé-V1' }, (event) =>
         handleRecoursAccordé({ sendEmail, event, projet }),
       )
