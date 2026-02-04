@@ -1,29 +1,34 @@
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getÉliminé, listerDgecRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.RecoursDemandéEvent) => {
+  const projet = await getÉliminé(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
+  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
 
-export const handleRecoursDemandé = async ({
-  sendEmail,
-  event,
-  projet,
-}: RecoursNotificationsProps<Éliminé.Recours.RecoursDemandéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(identifiantProjet);
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appelOffre,
+    période,
+    url: `${getBaseUrl()}${Routes.Recours.demander(payload.identifiantProjet)}`,
+  };
 
   await sendEmail({
-    templateId: recoursNotificationTemplateId.demander,
-    messageSubject: `Potentiel - Nouvelle demande de recours pour le projet ${projet.nom} (${identifiantProjet.appelOffre} période ${identifiantProjet.période})`,
+    key: 'recours/demander',
     recipients: porteursRecipients,
-    bcc: adminRecipients,
-    variables: {
-      nom_projet: projet.nom,
-      redirect_url: `${getBaseUrl()}${Routes.Recours.détail(identifiantProjet.formatter(), event.payload.demandéLe)}`,
-      departement_projet: projet.département,
-    },
+    values,
   });
+
+  for (const recipient of adminRecipients) {
+    await sendEmail({
+      key: 'recours/demander',
+      recipients: [recipient],
+      values,
+    });
+  }
 };
