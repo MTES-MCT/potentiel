@@ -4,7 +4,7 @@ subject: Potentiel - Nouvelle demande de recours pour le projet {{nom_projet}} (
 
 Madame, Monsieur,
 
-Un **recours a été demandé** pour le projet **{{ nom_projet }}** situé dans le département **{{ departement_projet }}**.
+Un recours a été **demandé** pour le projet **{{ nom_projet }}** situé dans le département **{{ departement_projet }}**.
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 

@@ -21,7 +21,7 @@ export const handleRecoursAccordé = async ({ payload }: Éliminé.Recours.Recou
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
 
-  for (const recipient of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
+  for (const recipients of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
     await sendEmail({
       key: 'recours/accorder',
       values: {
@@ -31,7 +31,7 @@ export const handleRecoursAccordé = async ({ payload }: Éliminé.Recours.Recou
         période,
         url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(projet.identifiantProjet.formatter())}`,
       },
-      recipients: recipient,
+      recipients,
     });
   }
 };
