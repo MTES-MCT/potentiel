@@ -10,6 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierProducteurPage } from './ModifierProducteur.page';
 
@@ -19,25 +20,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Producteur.ModifierProducteurUseCase>(
+        'Lauréat.Producteur.UseCase.ModifierProducteur',
+      );
 
-    const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
-      type: 'Lauréat.Producteur.Query.ConsulterProducteur',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(producteurActuel)) {
-      return notFound();
-    }
+      const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
+        type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    return (
-      <ModifierProducteurPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        producteur={producteurActuel.producteur}
-      />
-    );
-  });
+      if (Option.isNone(producteurActuel)) {
+        return notFound();
+      }
+
+      return (
+        <ModifierProducteurPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          producteur={producteurActuel.producteur}
+        />
+      );
+    }),
+  );
 }

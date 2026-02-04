@@ -10,6 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierReprésentantLégalPage } from './ModifierReprésentantLégal.page';
 
@@ -19,27 +20,35 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>(
+        'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+      );
 
-    const représentantLégalActuel =
-      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(représentantLégalActuel)) {
-      return notFound();
-    }
+      const représentantLégalActuel =
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
-    return (
-      <ModifierReprésentantLégalPage
-        identifiantProjet={mapToPlainObject(représentantLégalActuel.identifiantProjet)}
-        nomReprésentantLégal={représentantLégalActuel.nomReprésentantLégal}
-        typeReprésentantLégal={mapToPlainObject(représentantLégalActuel.typeReprésentantLégal)}
-      />
-    );
-  });
+      if (Option.isNone(représentantLégalActuel)) {
+        return notFound();
+      }
+
+      return (
+        <ModifierReprésentantLégalPage
+          identifiantProjet={mapToPlainObject(représentantLégalActuel.identifiantProjet)}
+          nomReprésentantLégal={représentantLégalActuel.nomReprésentantLégal}
+          typeReprésentantLégal={mapToPlainObject(représentantLégalActuel.typeReprésentantLégal)}
+        />
+      );
+    }),
+  );
 }

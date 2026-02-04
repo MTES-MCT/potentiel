@@ -10,6 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierInstallateurPage } from './ModifierInstallateur.page';
 
@@ -19,27 +20,34 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Installation.ModifierInstallateurUseCase>(
+        'Lauréat.Installation.UseCase.ModifierInstallateur',
+      );
 
-    const installateurActuel = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>(
-      {
-        type: 'Lauréat.Installation.Query.ConsulterInstallateur',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      },
-    );
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(installateurActuel)) {
-      return notFound();
-    }
+      const installateurActuel =
+        await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
+          type: 'Lauréat.Installation.Query.ConsulterInstallateur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
-    return (
-      <ModifierInstallateurPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        installateur={installateurActuel.installateur}
-      />
-    );
-  });
+      if (Option.isNone(installateurActuel)) {
+        return notFound();
+      }
+
+      return (
+        <ModifierInstallateurPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          installateur={installateurActuel.installateur}
+        />
+      );
+    }),
+  );
 }

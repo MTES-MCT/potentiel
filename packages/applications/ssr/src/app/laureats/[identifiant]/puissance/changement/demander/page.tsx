@@ -21,7 +21,12 @@ export const metadata: Metadata = {
   title: 'Demander le changement de puissance du projet - Potentiel',
   description: 'Formulaire de demande de changement de puissance du projet',
 };
-
+/***
+ * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
+ * on enregistre ou on demande (2 usecase différents)
+ *
+ * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
+ */
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));

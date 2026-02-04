@@ -10,6 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierActionnairePage } from './ModifierActionnaire.page';
 
@@ -19,25 +20,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Actionnaire.ModifierActionnaireUseCase>(
+        'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+      );
 
-    const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(actionnaireActuel)) {
-      return notFound();
-    }
+      const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    return (
-      <ModifierActionnairePage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        actionnaire={actionnaireActuel.actionnaire}
-      />
-    );
-  });
+      if (Option.isNone(actionnaireActuel)) {
+        return notFound();
+      }
+
+      return (
+        <ModifierActionnairePage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          actionnaire={actionnaireActuel.actionnaire}
+        />
+      );
+    }),
+  );
 }

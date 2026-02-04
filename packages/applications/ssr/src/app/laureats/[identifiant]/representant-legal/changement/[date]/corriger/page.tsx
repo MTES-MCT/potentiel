@@ -9,6 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerChangementReprésentantLégalPage } from './CorrigerChangementReprésentantLégal.page';
 
@@ -25,31 +26,39 @@ type PageProps = {
 };
 
 export default async function Page({ params: { identifiant, date } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const demandéLe = decodeParameter(date);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>(
+        'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
+      );
 
-    const changement =
-      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          demandéLe,
-        },
-      });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const demandéLe = decodeParameter(date);
 
-    if (Option.isNone(changement)) {
-      return notFound();
-    }
+      const changement =
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            demandéLe,
+          },
+        });
 
-    return (
-      <CorrigerChangementReprésentantLégalPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        dateDemande={mapToPlainObject(changement.demande.demandéeLe)}
-        nomReprésentantLégal={changement.demande.nomReprésentantLégal}
-        typeReprésentantLégal={mapToPlainObject(changement.demande.typeReprésentantLégal)}
-        pièceJustificative={mapToPlainObject(changement.demande.pièceJustificative)}
-      />
-    );
-  });
+      if (Option.isNone(changement)) {
+        return notFound();
+      }
+
+      return (
+        <CorrigerChangementReprésentantLégalPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          dateDemande={mapToPlainObject(changement.demande.demandéeLe)}
+          nomReprésentantLégal={changement.demande.nomReprésentantLégal}
+          typeReprésentantLégal={mapToPlainObject(changement.demande.typeReprésentantLégal)}
+          pièceJustificative={mapToPlainObject(changement.demande.pièceJustificative)}
+        />
+      );
+    }),
+  );
 }

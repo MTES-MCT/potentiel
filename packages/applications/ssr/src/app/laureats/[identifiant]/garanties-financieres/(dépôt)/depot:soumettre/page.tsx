@@ -9,6 +9,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
@@ -22,31 +23,37 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjetValue = decodeParameter(identifiant);
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>(
+        'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
+      );
 
-    await récupérerLauréat(identifiantProjetValue);
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
-    await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
+      await récupérerLauréat(identifiantProjetValue);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const dépôtGarantiesFinancières =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjetValue },
-      });
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+      await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
 
-    if (Option.isSome(dépôtGarantiesFinancières)) {
-      throw new InvalidOperationError('Le projet a déjà un dépôt en attente de validation');
-    }
+      const dépôtGarantiesFinancières =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
+          data: { identifiantProjetValue: identifiantProjetValue },
+        });
 
-    return (
-      <SoumettreDépôtGarantiesFinancièresPage
-        identifiantProjet={identifiantProjetValue}
-        typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
-      />
-    );
-  });
+      if (Option.isSome(dépôtGarantiesFinancières)) {
+        throw new InvalidOperationError('Le projet a déjà un dépôt en attente de validation');
+      }
+
+      return (
+        <SoumettreDépôtGarantiesFinancièresPage
+          identifiantProjet={identifiantProjetValue}
+          typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
+        />
+      );
+    }),
+  );
 }

@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
 import { getReprésentantLégalInfos } from '../../../_helpers';
@@ -41,7 +42,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     );
   }
 
-  return PageWithErrorHandling(async () => (
-    <EnregistrerChangementReprésentantLégalPage identifiantProjet={identifiantProjet.formatter()} />
-  ));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>(
+        'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+      );
+
+      return (
+        <EnregistrerChangementReprésentantLégalPage
+          identifiantProjet={identifiantProjet.formatter()}
+        />
+      );
+    }),
+  );
 }

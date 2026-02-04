@@ -17,7 +17,7 @@ const action: FormAction<FormState, typeof demanderOuEnregistrerChangementSchema
   withUtilisateur(async (utilisateur) => {
     const dateDemandeValue = new Date().toISOString();
 
-    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

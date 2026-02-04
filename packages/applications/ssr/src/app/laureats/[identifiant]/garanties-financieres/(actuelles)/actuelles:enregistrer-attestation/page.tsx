@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { InvalidOperationError, mapToPlainObject } from '@potentiel-domain/core';
 
@@ -9,6 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { récupérerLauréat } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
@@ -20,27 +21,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjetValue = decodeParameter(identifiant);
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
+        'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+      );
 
-    await récupérerLauréat(identifiantProjetValue);
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+      await récupérerLauréat(identifiantProjetValue);
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
-      identifiantProjet.formatter(),
-    );
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    if (Option.isNone(garantiesFinancières)) {
-      throw new InvalidOperationError(`Garanties financières introuvables.`);
-    }
+      const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+        identifiantProjet.formatter(),
+      );
 
-    return (
-      <EnregistrerAttestationGarantiesFinancièresPage
-        identifiantProjet={identifiantProjetValue}
-        garantiesFinancièresActuelles={mapToPlainObject(garantiesFinancières)}
-      />
-    );
-  });
+      if (Option.isNone(garantiesFinancières)) {
+        throw new InvalidOperationError(`Garanties financières introuvables.`);
+      }
+
+      return (
+        <EnregistrerAttestationGarantiesFinancièresPage
+          identifiantProjet={identifiantProjetValue}
+          garantiesFinancièresActuelles={mapToPlainObject(garantiesFinancières)}
+        />
+      );
+    }),
+  );
 }

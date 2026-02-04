@@ -12,6 +12,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderChangementActionnairePage } from './DemanderChangementActionnaire.page';
 
@@ -21,37 +22,45 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Actionnaire.DemanderChangementUseCase>(
+        'Lauréat.Actionnaire.UseCase.DemanderChangement',
+      );
 
-    const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(actionnaire)) {
-      return notFound();
-    }
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    if (actionnaire.dateDemandeEnCours) {
+      if (Option.isNone(actionnaire)) {
+        return notFound();
+      }
+
+      if (actionnaire.dateDemandeEnCours) {
+        return (
+          <DemandeEnCoursPage
+            title="Demande de changement d'actionnaire(s)"
+            href={Routes.Actionnaire.changement.détails(
+              identifiantProjet.formatter(),
+              actionnaire.dateDemandeEnCours.formatter(),
+            )}
+          />
+        );
+      }
+
       return (
-        <DemandeEnCoursPage
-          title="Demande de changement d'actionnaire(s)"
-          href={Routes.Actionnaire.changement.détails(
-            identifiantProjet.formatter(),
-            actionnaire.dateDemandeEnCours.formatter(),
-          )}
+        <DemanderChangementActionnairePage
+          identifiantProjet={mapToPlainObject(actionnaire.identifiantProjet)}
+          actionnaire={actionnaire.actionnaire}
         />
       );
-    }
-
-    return (
-      <DemanderChangementActionnairePage
-        identifiantProjet={mapToPlainObject(actionnaire.identifiantProjet)}
-        actionnaire={actionnaire.actionnaire}
-      />
-    );
-  });
+    }),
+  );
 }

@@ -10,6 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ModifierAttestationConformitéPage,
@@ -22,31 +23,37 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>(
+        'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+      );
 
-    const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const identifiantProjet = decodeParameter(identifiant);
 
-    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      data: { identifiantProjetValue: identifiantProjet },
-    });
+      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
-    if (Option.isNone(achèvement) || !achèvement.estAchevé) {
-      return notFound();
-    }
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: { identifiantProjetValue: identifiantProjet },
+      });
 
-    const props = mapToProps(projet.identifiantProjet, achèvement, projet.notifiéLe);
-    return (
-      <ModifierAttestationConformitéPage
-        identifiantProjet={props.identifiantProjet}
-        attestationConformité={props.attestationConformité}
-        dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
-        preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
-        lauréatNotifiéLe={props.lauréatNotifiéLe}
-      />
-    );
-  });
+      if (Option.isNone(achèvement) || !achèvement.estAchevé) {
+        return notFound();
+      }
+
+      const props = mapToProps(projet.identifiantProjet, achèvement, projet.notifiéLe);
+      return (
+        <ModifierAttestationConformitéPage
+          identifiantProjet={props.identifiantProjet}
+          attestationConformité={props.attestationConformité}
+          dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
+          preuveTransmissionAuCocontractant={props.preuveTransmissionAuCocontractant}
+          lauréatNotifiéLe={props.lauréatNotifiéLe}
+        />
+      );
+    }),
+  );
 }
 
 type MapToProps = (

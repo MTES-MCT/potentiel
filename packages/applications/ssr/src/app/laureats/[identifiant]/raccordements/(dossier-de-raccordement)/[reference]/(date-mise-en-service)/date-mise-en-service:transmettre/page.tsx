@@ -35,6 +35,10 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(
+        'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
+      );
+
       const identifiantProjet = decodeParameter(identifiant);
       const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
 

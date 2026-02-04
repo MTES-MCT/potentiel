@@ -1,13 +1,14 @@
 import { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementNomProjetPage } from './EnregistrerChangementNomProjet.page';
 
@@ -17,22 +18,30 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.EnregistrerChangementNomProjetUseCase>(
+        'Lauréat.UseCase.EnregistrerChangementNomProjet',
+      );
 
-    const lauréat = await getLauréatInfos(identifiantProjet.formatter());
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    await vérifierQueLeCahierDesChargesPermetUnChangement(
-      lauréat.identifiantProjet,
-      'information-enregistrée',
-      'nomProjet',
-    );
+      const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
-    return (
-      <EnregistrerChangementNomProjetPage
-        identifiantProjet={mapToPlainObject(lauréat.identifiantProjet)}
-        nomProjet={lauréat.nomProjet}
-      />
-    );
-  });
+      await vérifierQueLeCahierDesChargesPermetUnChangement(
+        lauréat.identifiantProjet,
+        'information-enregistrée',
+        'nomProjet',
+      );
+
+      return (
+        <EnregistrerChangementNomProjetPage
+          identifiantProjet={mapToPlainObject(lauréat.identifiantProjet)}
+          nomProjet={lauréat.nomProjet}
+        />
+      );
+    }),
+  );
 }

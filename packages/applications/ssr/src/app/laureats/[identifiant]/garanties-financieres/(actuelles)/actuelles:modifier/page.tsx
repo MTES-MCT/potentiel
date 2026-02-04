@@ -10,6 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { getCahierDesCharges } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
@@ -25,30 +26,36 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjetValue = decodeParameter(identifiant);
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>(
+        'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
+      );
 
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
-    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
-      identifiantProjet.formatter(),
-    );
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    if (Option.isNone(garantiesFinancières)) {
-      return notFound();
-    }
+      const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+        identifiantProjet.formatter(),
+      );
 
-    const props = mapToProps(garantiesFinancières, cahierDesCharges);
+      if (Option.isNone(garantiesFinancières)) {
+        return notFound();
+      }
 
-    return (
-      <ModifierGarantiesFinancièresActuellesPage
-        typesGarantiesFinancières={props.typesGarantiesFinancières}
-        actuelles={props.actuelles}
-      />
-    );
-  });
+      const props = mapToProps(garantiesFinancières, cahierDesCharges);
+
+      return (
+        <ModifierGarantiesFinancièresActuellesPage
+          typesGarantiesFinancières={props.typesGarantiesFinancières}
+          actuelles={props.actuelles}
+        />
+      );
+    }),
+  );
 }
 
 type MapToProps = (

@@ -37,6 +37,10 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Accès.RéclamerAccèsProjetUseCase>(
+        'Projet.Accès.UseCase.RéclamerAccèsProjet',
+      );
+
       const {
         page,
         appelOffre,

@@ -10,6 +10,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatSansAbandon } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ModifierPropositionTechniqueEtFinancièrePage,
@@ -29,35 +30,43 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierPropositiontechniqueEtFinancièreUseCase>(
+        'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+      );
 
-    await récupérerLauréatSansAbandon(identifiantProjet.formatter());
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    const referenceDossierRaccordement = decodeParameter(reference);
+      await récupérerLauréatSansAbandon(identifiantProjet.formatter());
 
-    const dossierRaccordement =
-      await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierRaccordementValue: referenceDossierRaccordement,
-        },
-      });
+      const referenceDossierRaccordement = decodeParameter(reference);
 
-    if (Option.isNone(dossierRaccordement)) {
-      return notFound();
-    }
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: referenceDossierRaccordement,
+          },
+        });
 
-    const props = mapToProps({ identifiantProjet, dossierRaccordement });
+      if (Option.isNone(dossierRaccordement)) {
+        return notFound();
+      }
 
-    return (
-      <ModifierPropositionTechniqueEtFinancièrePage
-        identifiantProjet={props.identifiantProjet}
-        raccordement={props.raccordement}
-      />
-    );
-  });
+      const props = mapToProps({ identifiantProjet, dossierRaccordement });
+
+      return (
+        <ModifierPropositionTechniqueEtFinancièrePage
+          identifiantProjet={props.identifiantProjet}
+          raccordement={props.raccordement}
+        />
+      );
+    }),
+  );
 }
 
 type MapToProps = (params: {

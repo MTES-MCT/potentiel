@@ -21,6 +21,12 @@ export const metadata: Metadata = {
 
 type PageProps = IdentifiantParameter;
 
+/***
+ * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
+ * on peut faire appel à plusieurs usecase
+ *
+ * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
+ */
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));

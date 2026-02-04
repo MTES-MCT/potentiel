@@ -11,6 +11,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.page';
 
@@ -26,41 +27,49 @@ type PageProps = IdentifiantParameter & {
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>(
+        'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+      );
 
-    const referenceDossierRaccordement = decodeParameter(reference);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
-    const gestionnaireRéseau =
-      await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+      const referenceDossierRaccordement = decodeParameter(reference);
 
-    if (Option.isNone(gestionnaireRéseau)) {
-      return notFound();
-    }
+      const gestionnaireRéseau =
+        await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
+        });
 
-    const dossierRaccordement =
-      await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          référenceDossierRaccordementValue: referenceDossierRaccordement,
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      if (Option.isNone(gestionnaireRéseau)) {
+        return notFound();
+      }
 
-    if (Option.isNone(dossierRaccordement)) {
-      return notFound();
-    }
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            référenceDossierRaccordementValue: referenceDossierRaccordement,
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-    return (
-      <CorrigerRéférenceDossierPage
-        identifiantProjet={identifiantProjet.formatter()}
-        gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
-        dossierRaccordement={mapToPlainObject(dossierRaccordement)}
-      />
-    );
-  });
+      if (Option.isNone(dossierRaccordement)) {
+        return notFound();
+      }
+
+      return (
+        <CorrigerRéférenceDossierPage
+          identifiantProjet={identifiantProjet.formatter()}
+          gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
+          dossierRaccordement={mapToPlainObject(dossierRaccordement)}
+        />
+      );
+    }),
+  );
 }

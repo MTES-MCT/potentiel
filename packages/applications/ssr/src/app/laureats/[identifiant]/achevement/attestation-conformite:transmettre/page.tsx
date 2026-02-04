@@ -21,6 +21,12 @@ export const metadata: Metadata = {
   description: `Formulaire de transmission de l'attestation de conformité du projet et de la preuve de sa transmission au co-contractant`,
 };
 
+/***
+ * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
+ * on va appeler plusieurs usecases
+ *
+ * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
+ */
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);

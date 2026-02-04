@@ -8,6 +8,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderRecoursPage } from './DemanderRecours.page';
 
@@ -17,22 +18,28 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
-
-    const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
-      type: 'Éliminé.Query.ConsulterÉliminé',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-    if (Option.isNone(éliminé)) {
-      throw new InvalidOperationError(
-        "Vous ne pouvez pas demander le recours d'un projet non éliminé",
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Éliminé.Recours.DemanderRecoursUseCase>(
+        'Éliminé.Recours.UseCase.DemanderRecours',
       );
-    }
 
-    return <DemanderRecoursPage identifiantProjet={identifiantProjet} />;
-  });
+      const identifiantProjet = decodeParameter(identifiant);
+
+      const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+        type: 'Éliminé.Query.ConsulterÉliminé',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      if (Option.isNone(éliminé)) {
+        throw new InvalidOperationError(
+          "Vous ne pouvez pas demander le recours d'un projet non éliminé",
+        );
+      }
+
+      return <DemanderRecoursPage identifiantProjet={identifiantProjet} />;
+    }),
+  );
 }
