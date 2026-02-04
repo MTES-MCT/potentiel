@@ -15,14 +15,6 @@ services:
       - 5432:5432
     profiles: ['app']
     command: postgres -c 'max_connections=50'
-  eventBus:
-    container_name: potentiel_eventBus
-    image: redis:alpine
-    command: redis-server --requirepass localpwd
-    restart: always
-    ports:
-      - 6379:6379
-    profiles: ['app']
   metabase:
     image: metabase/metabase:v0.53.3
     container_name: metabase
