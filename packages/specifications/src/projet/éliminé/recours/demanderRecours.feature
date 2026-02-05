@@ -10,11 +10,11 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être demandé
         Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Recourd demandé |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours demandé |
             | nom_projet | Du boulodrome de Marseille                               |
             | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Recourd demandé |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Recours demandé |
             | nom_projet | Du boulodrome de Marseille                               |
             | url        | https://potentiel.beta.gouv.fr/elimines/.*/recours       |
 

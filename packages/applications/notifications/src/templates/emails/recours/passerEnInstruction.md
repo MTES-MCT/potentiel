@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} - Recours passée en instruction
+subject: Potentiel - {{ nom_projet }} - Recours passé en instruction
 ---
 
 Madame, Monsieur,
