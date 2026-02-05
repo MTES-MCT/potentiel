@@ -16,10 +16,9 @@ Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet laur
         Alors la demande de changement d'actionnaire devrait être rejetée
         Et l'actionnaire du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
-            | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                          |
-            | type       | rejet                                                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Demande de changement d'actionnaire rejetée |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                               |
 
     Scénario: Impossible de rejeter le changement d'actionnaire d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat

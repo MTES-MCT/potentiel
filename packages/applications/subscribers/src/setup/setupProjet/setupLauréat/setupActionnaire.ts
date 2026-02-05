@@ -28,6 +28,7 @@ export const setupActionnaire: SetupProjet = async () => {
   });
 
   ActionnaireNotification.register();
+
   await actionnaire.setupSubscription<
     ActionnaireNotification.SubscriptionEvent,
     ActionnaireNotification.Execute

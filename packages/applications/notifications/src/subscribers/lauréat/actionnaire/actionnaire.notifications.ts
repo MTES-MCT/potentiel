@@ -22,7 +22,7 @@ export type RegisterActionnaireNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const registerActionnaireNotifications = () => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
       .with({ type: 'ActionnaireModifié-V1' }, handleActionnaireModifié)

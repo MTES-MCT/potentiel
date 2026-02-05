@@ -11,13 +11,13 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
 
         Exemples:
             | l'utilisateur autorisé      |
@@ -29,13 +29,13 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
 
         Exemples:
             | l'utilisateur autorisé      |
@@ -47,13 +47,13 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
+            | nom_projet | Du boulodrome de Marseille                                   |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                    |
 
         Exemples:
             | l'utilisateur autorisé      |
