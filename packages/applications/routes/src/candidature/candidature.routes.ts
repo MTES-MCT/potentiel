@@ -1,4 +1,4 @@
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 type ImporterParams = {
   estUnReimport?: boolean;

@@ -1,1 +1,1 @@
-export * as Utilisateur from './utilisateur.routes';
+export * as Utilisateur from './utilisateur.routes.js';

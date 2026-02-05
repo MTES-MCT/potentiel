@@ -1,4 +1,4 @@
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 export const lister = `/reseaux/raccordements`;
 export const importer = `/reseaux/raccordements/importer`;

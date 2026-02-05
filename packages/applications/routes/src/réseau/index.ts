@@ -1,1 +1,1 @@
-export * as Gestionnaire from './gestionnaire.routes';
+export * as Gestionnaire from './gestionnaire.routes.js';

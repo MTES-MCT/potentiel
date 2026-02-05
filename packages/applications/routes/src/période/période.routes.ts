@@ -1,4 +1,4 @@
-import { withFilters } from '../_helpers/withFilters';
+import { withFilters } from '../_helpers/withFilters.js';
 
 type ListerFilters = {
   appelOffre?: string;

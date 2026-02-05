@@ -1,1 +1,1 @@
-export * as Candidature from './candidature.routes';
+export * as Candidature from './candidature.routes.js';

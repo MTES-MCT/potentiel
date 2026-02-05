@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 /**
  * Redirige vers lauréat ou éliminé selon le cas.

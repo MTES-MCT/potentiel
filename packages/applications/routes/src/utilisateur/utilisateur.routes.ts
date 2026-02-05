@@ -1,4 +1,4 @@
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 export const lister = ({ actif }: { actif?: boolean } = {}) => {
   const url = `/utilisateurs`;

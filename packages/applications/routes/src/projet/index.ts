@@ -1,1 +1,1 @@
-export * as Projet from './projet.routes';
+export * as Projet from './projet.routes.js';

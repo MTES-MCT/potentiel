@@ -1,1 +1,1 @@
-export * as Période from './période.routes';
+export * as Période from './période.routes.js';
