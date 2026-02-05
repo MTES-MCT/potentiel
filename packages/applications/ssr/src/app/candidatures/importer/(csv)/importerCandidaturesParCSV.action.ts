@@ -18,6 +18,7 @@ import {
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
+  candidatureCsvHeadersMapping,
 } from '@/utils/candidature';
 
 const schema = zod.object({
@@ -41,6 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
         encoding: 'win1252',
         delimiter: ';',
       },
+      Object.values(candidatureCsvHeadersMapping),
     );
 
     if (parsedData.length === 0) {

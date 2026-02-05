@@ -10,8 +10,9 @@ import { Heading2 } from '../headings';
 
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
-import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
+import { FormFeedbackCsvLineErrors } from './FormFeedbackCsvErrors';
 import { FormActionButtons, FormActionButtonsProps } from './FormActionButtons';
+import { FormFeedbackCsvColumnErrors } from './FormFeedbackCsvColumnErrors';
 
 export type FormProps = {
   id?: string;
@@ -99,7 +100,8 @@ export const Form: FC<FormProps> = ({
           </div>
         )}
       </div>
-      <FormFeedbackCsvErrors formState={state} />
+      {state.status === 'csv-line-error' && <FormFeedbackCsvLineErrors formState={state} />}
+      {state.status === 'csv-column-error' && <FormFeedbackCsvColumnErrors formState={state} />}
     </form>
   );
 };

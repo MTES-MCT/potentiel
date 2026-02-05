@@ -38,35 +38,53 @@ export type ActionResult = {
 
 export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
 
+type FormStateSuccess = {
+  status: 'success' | undefined;
+  result?: ActionResult;
+  redirection?: {
+    url: string;
+    message?: string;
+    linkUrl?: { url: string; label: string };
+  };
+};
+
+type FormStateValidationError = {
+  status: 'validation-error';
+  errors: ValidationErrors;
+};
+
+type FormStateRateLimitError = {
+  status: 'rate-limit-error';
+  message: string;
+};
+
+type FormStateDomainError = {
+  status: 'domain-error';
+  message: string;
+};
+
+export type FormStateCsvLineError = {
+  status: 'csv-line-error';
+  errors: Array<ImportCSV.CsvLineError>;
+};
+
+export type FormStateCsvColumnError = {
+  status: 'csv-column-error';
+  errors: Array<ImportCSV.CsvMissingColumnError>;
+};
+
+type FormStateUnknownError = {
+  status: 'unknown-error';
+};
+
 export type FormState =
-  | {
-      status: 'success' | undefined;
-      result?: ActionResult;
-      redirection?: {
-        url: string;
-        message?: string;
-        linkUrl?: { url: string; label: string };
-      };
-    }
-  | {
-      status: 'validation-error';
-      errors: ValidationErrors;
-    }
-  | {
-      status: 'rate-limit-error';
-      message: string;
-    }
-  | {
-      status: 'domain-error';
-      message: string;
-    }
-  | {
-      status: 'csv-error';
-      errors: Array<ImportCSV.CSVError>;
-    }
-  | {
-      status: 'unknown-error';
-    };
+  | FormStateSuccess
+  | FormStateValidationError
+  | FormStateRateLimitError
+  | FormStateDomainError
+  | FormStateCsvLineError
+  | FormStateCsvColumnError
+  | FormStateUnknownError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -108,15 +126,6 @@ export const formAction =
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       if (result.status === 'success' && result.redirection) {
-        /**
-         * Attendre un certain délai avant de faire la redirection pour laisser le temps à la projection d'update
-         * La durée est configurable via la variable d'environnement FORM_REDIRECTION_DELAY_MS
-         * En l'absence de variable d'environnement, pas de délai
-         */
-        await new Promise((resolve) =>
-          setTimeout(resolve, Number(process.env.FORM_REDIRECTION_DELAY_MS ?? '0')),
-        );
-
         revalidatePath(result.redirection.url);
 
         const searchParams: Record<string, string> = {};
@@ -136,9 +145,15 @@ export const formAction =
       if (isRedirectError(e) || isNotFoundError(e)) {
         throw e;
       }
-      if (e instanceof ImportCSV.CsvValidationError) {
+      if (e instanceof ImportCSV.CsvLineValidationError) {
         return {
-          status: 'csv-error' as const,
+          status: 'csv-line-error' as const,
+          errors: e.errors,
+        };
+      }
+      if (e instanceof ImportCSV.MissingRequiredColumnError) {
+        return {
+          status: 'csv-column-error' as const,
           errors: e.errors,
         };
       }

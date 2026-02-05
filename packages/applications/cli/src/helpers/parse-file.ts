@@ -31,7 +31,7 @@ export const parseCsvFile = async <T extends z.ZodRawShape>(
     });
     return await ImportCSV.fromCSV(readableStream, schema, options);
   } catch (error) {
-    if (error instanceof ImportCSV.CsvValidationError) {
+    if (error instanceof ImportCSV.CsvLineValidationError) {
       console.log(error.errors);
     }
     throw error;

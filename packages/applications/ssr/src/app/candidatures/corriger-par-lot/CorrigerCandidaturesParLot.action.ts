@@ -12,6 +12,7 @@ import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAct
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import {
+  candidatureCsvHeadersMapping,
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
@@ -29,6 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
       fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
       { encoding: 'win1252', delimiter: ';' },
+      Object.values(candidatureCsvHeadersMapping),
     );
 
     if (parsedData.length === 0) {
