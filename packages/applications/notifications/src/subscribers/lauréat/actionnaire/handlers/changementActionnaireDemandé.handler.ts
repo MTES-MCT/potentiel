@@ -1,28 +1,26 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients } from '#helpers';
-
-import { actionnaireNotificationTemplateId } from '../constant.js';
-import { ActionnaireNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementActionnaireDemandé = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: ActionnaireNotificationsProps<Lauréat.Actionnaire.ChangementActionnaireDemandéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+
   const dreals = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    templateId: actionnaireNotificationTemplateId.changement.demander,
-    messageSubject: `Potentiel - Demande de changement de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'actionnaire/demande/demander',
     recipients: dreals,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(projet.identifiantProjet.formatter(), payload.demandéLe)}`,
     },
   });
 };

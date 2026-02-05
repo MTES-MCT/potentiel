@@ -1,27 +1,30 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { actionnaireNotificationTemplateId } from '../constant.js';
-import { ActionnaireNotificationsProps } from '../type.js';
+import { getDateDemandeEnCoursActionnaire } from '../helpers/getDateDemandeEnCoursActionnaire.js';
 
 export const handleChangementActionnaireAccordé = async ({
-  sendEmail,
-  event,
-  projet,
-}: ActionnaireNotificationsProps<Lauréat.Actionnaire.ChangementActionnaireAccordéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
 
-  await sendEmail({
-    templateId: actionnaireNotificationTemplateId.changement.accorder,
-    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+
+  const demandéLe = await getDateDemandeEnCoursActionnaire(projet.identifiantProjet.formatter());
+
+  return sendEmail({
+    key: 'actionnaire/demande/accorder',
     recipients: porteurs,
-    variables: {
-      type: 'accord',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(projet.identifiantProjet.formatter(), demandéLe)}`,
     },
   });
 };

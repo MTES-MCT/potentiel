@@ -1,25 +1,29 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { actionnaireNotificationTemplateId } from '../constant.js';
-import { ActionnaireNotificationsProps } from '../type.js';
+import { getDateDemandeEnCoursActionnaire } from '../helpers/getDateDemandeEnCoursActionnaire.js';
 
 export const handleChangementActionnaireAnnulé = async ({
-  sendEmail,
-  projet,
-}: ActionnaireNotificationsProps<Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent>) => {
+  payload,
+}: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
   const dreals = await listerDrealsRecipients(projet.région);
 
-  await sendEmail({
-    templateId: actionnaireNotificationTemplateId.changement.annuler,
-    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
+  const demandéLe = await getDateDemandeEnCoursActionnaire(projet.identifiantProjet.formatter());
+
+  return sendEmail({
+    key: 'actionnaire/demande/annuler',
     recipients: dreals,
-    variables: {
-      type: 'annulation',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(projet.identifiantProjet.formatter(), demandéLe)}`,
     },
   });
 };

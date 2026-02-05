@@ -4,7 +4,7 @@ import { ActionnaireNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupActionnaire: SetupProjet = async ({ sendEmail }) => {
+export const setupActionnaire: SetupProjet = async () => {
   const actionnaire = createSubscriptionSetup('actionnaire');
 
   ActionnaireProjector.register();
@@ -27,7 +27,7 @@ export const setupActionnaire: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Actionnaire',
   });
 
-  ActionnaireNotification.register({ sendEmail });
+  ActionnaireNotification.register();
   await actionnaire.setupSubscription<
     ActionnaireNotification.SubscriptionEvent,
     ActionnaireNotification.Execute

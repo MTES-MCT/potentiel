@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat } from '#helpers';
 import { SendEmail } from '#sendEmail';
 
 import {
@@ -23,46 +22,19 @@ export type RegisterActionnaireNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterActionnaireNotificationDependencies) => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-
-    return match(event)
-      .with({ type: 'ActionnaireModifié-V1' }, async (event) =>
-        handleActionnaireModifié({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementActionnaireDemandé-V1' }, async (event) =>
-        handleChangementActionnaireDemandé({
-          sendEmail,
-          event,
-          projet,
-          baseUrl: getBaseUrl(),
-        }),
-      )
-      .with({ type: 'ChangementActionnaireAccordé-V1' }, async (event) =>
-        handleChangementActionnaireAccordé({ sendEmail, event, projet }),
-      )
-      .with({ type: 'ChangementActionnaireRejeté-V1' }, async (event) =>
-        handleChangementActionnaireRejeté({ sendEmail, event, projet }),
-      )
-      .with({ type: 'ChangementActionnaireAnnulé-V1' }, async (event) =>
-        handleChangementActionnaireAnnulé({ sendEmail, event, projet }),
-      )
-      .with({ type: 'ChangementActionnaireEnregistré-V1' }, async (event) =>
-        handleChangementActionnaireEnregistré({ sendEmail, event, projet }),
-      )
+export const registerActionnaireNotifications = () => {
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'ActionnaireModifié-V1' }, handleActionnaireModifié)
+      .with({ type: 'ChangementActionnaireDemandé-V1' }, handleChangementActionnaireDemandé)
+      .with({ type: 'ChangementActionnaireAccordé-V1' }, handleChangementActionnaireAccordé)
+      .with({ type: 'ChangementActionnaireRejeté-V1' }, handleChangementActionnaireRejeté)
+      .with({ type: 'ChangementActionnaireAnnulé-V1' }, handleChangementActionnaireAnnulé)
+      .with({ type: 'ChangementActionnaireEnregistré-V1' }, handleChangementActionnaireEnregistré)
       .with({ type: P.union('ActionnaireImporté-V1', 'ChangementActionnaireSupprimé-V1') }, () =>
         Promise.resolve(),
       )
       .exhaustive();
-  };
 
   mediator.register('System.Notification.Lauréat.Actionnaire', handler);
 };
