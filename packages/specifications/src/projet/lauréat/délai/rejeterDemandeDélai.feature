@@ -15,7 +15,7 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Délai rejeté |
             | nom_projet | Du boulodrome de Marseille                            |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
     Scénario: Impossible de rejeter le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet rejette le délai pour le projet lauréat

@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} - délai passé en instruction
+subject: Potentiel - {{ nom_projet }} - Délai passé en instruction
 ---
 
 Madame, Monsieur,

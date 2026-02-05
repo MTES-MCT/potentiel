@@ -32,7 +32,7 @@ export class NotificationWorld {
       if (variables) {
         for (const [key, value] of Object.entries(variables)) {
           if (!new RegExp(value).test(notif.variables[key])) {
-            logger.debug(
+            logger.error(
               "Une notification correspond au sujet et à l'email, mais pas aux variables",
               {
                 key,
@@ -50,7 +50,7 @@ export class NotificationWorld {
       return notif.email.estÉgaleÀ(email);
     });
     if (!notif) {
-      logger.debug(`Aucune notification trouvée`, {
+      logger.error(`Aucune notification trouvée`, {
         sujet,
         emailValue,
         notificationsEnvoyées: this.#notifications.map((x) => ({

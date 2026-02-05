@@ -8,7 +8,6 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Plan du scénario: la DREAL associée au projet accorde la demande de délai d'un projet lauréat
         Etant donné une date d'achèvement prévisionnel pour le projet lauréat au "<date achèvement prévisionnel actuelle>"
         Et une demande de délai en cours de "<durée du délai demandé>" mois pour le projet lauréat
@@ -18,7 +17,7 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
             | nom_projet | Du boulodrome de Bordeaux                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*/delai       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
         Exemples:
             | date achèvement prévisionnel actuelle | durée du délai demandé | date achèvement prévisionnel attendue |
@@ -39,7 +38,7 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
             | nom_projet | Du boulodrome de Bordeaux                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.* /delai      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat

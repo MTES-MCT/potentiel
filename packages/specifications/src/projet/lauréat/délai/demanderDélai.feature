@@ -8,7 +8,6 @@ Fonctionnalité: Demander un délai pour un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: Un porteur demande un délai pour un projet lauréat
         Quand le porteur demande un délai pour le projet lauréat
         Alors la demande de délai devrait être consultable
