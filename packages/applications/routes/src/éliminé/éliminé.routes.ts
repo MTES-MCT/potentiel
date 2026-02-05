@@ -1,14 +1,21 @@
 import { encodeParameter } from '../encodeParameter.js';
 
 export const lister = () => `/elimines`;
-export const détails = (identifiantProjet: string) =>
-  `/elimines/${encodeParameter(identifiantProjet)}`;
+
+export const détails = {
+  tableauDeBord: (identifiantProjet: string) => `/elimines/${encodeParameter(identifiantProjet)}`,
+  utilisateurs: (identifiantProjet: string) =>
+    `/elimines/${encodeParameter(identifiantProjet)}/utilisateurs`,
+  documents: (identifiantProjet: string) =>
+    `/elimines/${encodeParameter(identifiantProjet)}/documents`,
+};
 
 export const exporter = (filters: {
   appelOffre?: string[];
   periode?: string;
   famille?: string;
   typeActionnariat?: string[];
+  identifiantProjet?: string;
 }) => {
   const searchParams = new URLSearchParams();
 
@@ -22,6 +29,9 @@ export const exporter = (filters: {
   }
   if (filters.famille) {
     searchParams.append('famille', filters.famille);
+  }
+  if (filters.identifiantProjet) {
+    searchParams.append('identifiantProjet', filters.identifiantProjet);
   }
   if (filters.typeActionnariat?.length) {
     filters.typeActionnariat.forEach((value) => {

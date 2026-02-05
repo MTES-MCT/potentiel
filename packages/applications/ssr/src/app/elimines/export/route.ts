@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
@@ -17,6 +17,7 @@ export const GET = async (request: Request) =>
       const periode = searchParams.get('periode') ?? undefined;
       const famille = searchParams.get('famille') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
 
       const éliminéEnrichiList = await mediator.send<Éliminé.ListerÉliminéEnrichiQuery>({
         type: 'Éliminé.Query.ListerÉliminéEnrichi',
@@ -25,6 +26,9 @@ export const GET = async (request: Request) =>
           appelOffre,
           famille,
           periode,
+          identifiantProjet: identifiantProjet
+            ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
+            : undefined,
           typeActionnariat: typeActionnariat.length
             ? typeActionnariat.map((value) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),

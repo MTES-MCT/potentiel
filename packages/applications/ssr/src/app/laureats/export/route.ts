@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { formatDateForDocument } from '@potentiel-applications/document-builder';
 import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
@@ -19,11 +19,15 @@ export const GET = async (request: Request) =>
       const famille = searchParams.get('famille') ?? undefined;
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
+      const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
+          identifiantProjet: identifiantProjet
+            ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
+            : undefined,
           appelOffre,
           famille,
           periode,
@@ -101,6 +105,7 @@ export const GET = async (request: Request) =>
               famille,
               statut,
               typeActionnariat,
+              identifiantProjet,
             }),
           },
         },

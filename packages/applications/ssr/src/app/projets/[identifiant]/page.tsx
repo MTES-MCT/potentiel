@@ -19,7 +19,7 @@ export default async function ProjetPage({
   const éliminé = await getÉliminé(identifiantProjet);
 
   if (éliminé) {
-    redirect(Routes.Éliminé.détails(identifiantProjet));
+    redirect(Routes.Éliminé.détails.tableauDeBord(identifiantProjet));
   }
 
   const urlSearchParams = new URLSearchParams(searchParams);
