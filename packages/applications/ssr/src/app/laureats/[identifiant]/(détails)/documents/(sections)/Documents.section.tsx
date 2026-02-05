@@ -64,20 +64,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           return notFound();
         }
 
-        if (demandeAbandon.demande.confirmation?.réponseSignée) {
-          documents.push({
-            type: "Réponse signée de la confirmation de la demande d'abandon",
-            date: demandeAbandon.demande.confirmation.réponseSignée.dateCréation,
-            format: demandeAbandon.demande.confirmation.réponseSignée.format,
-            url: Routes.Document.télécharger(
-              demandeAbandon.demande.confirmation.réponseSignée.formatter(),
-            ),
-            demande: {
-              date: demandeAbandon.demande.demandéLe.formatter(),
-            },
-          });
-        }
-
         if (demandeAbandon.demande.accord) {
           documents.push({
             type: "Réponse signée de l'accord de la demande d'abandon",
@@ -87,7 +73,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
               demandeAbandon.demande.accord.réponseSignée.formatter(),
             ),
             demande: {
-              date: demandeAbandon.demande.demandéLe.formatter(),
+              url: Routes.Abandon.détail(
+                identifiantProjet,
+                demandeAbandon.demande.demandéLe.formatter(),
+              ),
             },
           });
         }
@@ -101,7 +90,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
               demandeAbandon.demande.rejet.réponseSignée.formatter(),
             ),
             demande: {
-              date: demandeAbandon.demande.demandéLe.formatter(),
+              url: Routes.Abandon.détail(
+                identifiantProjet,
+                demandeAbandon.demande.demandéLe.formatter(),
+              ),
             },
           });
         }

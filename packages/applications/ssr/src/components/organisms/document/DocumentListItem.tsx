@@ -13,7 +13,7 @@ export type DocumentItem = {
   date: string;
   format: string;
   url?: string;
-  demande?: { date: string };
+  demande?: { url: string };
 };
 
 export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, demande }) => {
@@ -39,11 +39,14 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
           <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
         </Tag>
         {demande && (
-          <Tag iconId="ri-calendar-2-fill" className="bg-dsfr-background-alt-blueFrance-default">
-            <span>
-              Demande en date du{' '}
-              <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
-            </span>
+          <Tag
+            iconId="ri-external-link-line"
+            className="bg-dsfr-background-alt-blueFrance-default"
+            linkProps={{
+              href: demande.url,
+            }}
+          >
+            <span>Détails de la demande</span>
           </Tag>
         )}
       </div>

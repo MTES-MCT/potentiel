@@ -75,7 +75,10 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
               demandeRecours.demande.rejet.réponseSignée.formatter(),
             ),
             demande: {
-              date: demandeRecours.demande.demandéLe.formatter(),
+              url: Routes.Recours.détail(
+                identifiantProjet,
+                demandeRecours.demande.demandéLe.formatter(),
+              ),
             },
           });
         }
