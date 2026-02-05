@@ -4,9 +4,9 @@ import { EnvoyerNotificationCommand } from '@potentiel-applications/notification
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 
-import { GetUtilisateurFromEmail } from './getUtilisateur';
-import { canConnectWithProvider } from './canConnectWithProvider';
-import { getBaseUrl } from './helper/getBaseUrl';
+import { GetUtilisateurFromEmail } from './getUtilisateur.js';
+import { canConnectWithProvider } from './canConnectWithProvider.js';
+import { getBaseUrl } from './helper/getBaseUrl.js';
 
 type BuildSendVerificationRequest = (
   sendEmail: (options: EnvoyerNotificationCommand['data']) => Promise<void>,

@@ -2,9 +2,7 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "module": "commonjs",
-    "moduleResolution": "node"
+    "rootDir": "src"
   },
   "references": [
     {
@@ -18,9 +16,6 @@
     },
     {
       "path": "../../infrastructure/email"
-    },
-    {
-      "path": "../../libraries/auth-pg-adapter"
     },
     {
       "path": "../../libraries/monads"

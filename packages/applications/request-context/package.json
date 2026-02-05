@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "tsx --test **/*.test.ts",
@@ -16,7 +17,7 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/statistiques-utilisation": "*",
-    "@potentiel-libraries/auth-pg-adapter": "*",
+    "@auth/pg-adapter": "1.8.0",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "0.3.0",

@@ -1,7 +1,7 @@
 import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
 
-import { SendVerificationRequestParams } from 'next-auth/providers';
+import { SendVerificationRequestParams } from 'next-auth/providers/index';
 
 import { SendEmailV2 } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
@@ -10,8 +10,8 @@ import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/util
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { buildSendVerificationRequest } from './sendVerificationRequest';
-import { GetUtilisateurFromEmail } from './getUtilisateur';
+import { buildSendVerificationRequest } from './sendVerificationRequest.js';
+import { GetUtilisateurFromEmail } from './getUtilisateur.js';
 
 type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 
