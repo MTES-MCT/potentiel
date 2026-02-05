@@ -1,1 +1,1 @@
-export * as Document from './document.routes';
+export * as Document from './document.routes.js';

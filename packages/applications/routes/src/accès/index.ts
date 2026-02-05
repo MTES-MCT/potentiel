@@ -1,1 +1,1 @@
-export * as Accès from './accès.routes';
+export * as Accès from './accès.routes.js';

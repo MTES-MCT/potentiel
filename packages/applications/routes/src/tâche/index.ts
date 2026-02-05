@@ -1,1 +1,1 @@
-export * as Tache from './tache.routes';
+export * as Tache from './tache.routes.js';

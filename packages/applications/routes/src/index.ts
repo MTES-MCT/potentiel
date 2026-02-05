@@ -14,19 +14,19 @@ import {
   GarantiesFinancières,
   Installation,
   NatureDeLExploitation,
-} from './lauréat';
-import { Candidature } from './candidature';
-import { Document } from './document';
-import { Gestionnaire } from './réseau';
-import { Projet } from './projet';
-import { Recours, Éliminé } from './éliminé';
-import { Tache } from './tâche';
-import { Période } from './période';
-import { Auth } from './auth';
-import { StatistiquesPubliques } from './statistiques-publiques';
-import { Utilisateur } from './utilisateur';
-import { Accès } from './accès';
-import { Export } from './export';
+} from './lauréat/index.js';
+import { Candidature } from './candidature/index.js';
+import { Document } from './document/index.js';
+import { Gestionnaire } from './réseau/index.js';
+import { Projet } from './projet/index.js';
+import { Recours, Éliminé } from './éliminé/index.js';
+import { Tache } from './tâche/index.js';
+import { Période } from './période/index.js';
+import { Auth } from './auth/index.js';
+import { StatistiquesPubliques } from './statistiques-publiques/index.js';
+import { Utilisateur } from './utilisateur/index.js';
+import { Accès } from './accès/index.js';
+import { Export } from './export/index.js';
 
 export const Routes = {
   Abandon,

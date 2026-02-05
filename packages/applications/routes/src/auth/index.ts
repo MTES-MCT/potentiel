@@ -1,1 +1,1 @@
-export * as Auth from './auth.routes';
+export * as Auth from './auth.routes.js';

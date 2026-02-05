@@ -1,4 +1,4 @@
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/fournisseur/modifier`;

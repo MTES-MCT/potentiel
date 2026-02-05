@@ -1,1 +1,1 @@
-export * as StatistiquesPubliques from './statistiquesPubliques.routes';
+export * as StatistiquesPubliques from './statistiquesPubliques.routes.js';

@@ -1,7 +1,7 @@
 import type { Éliminé } from '@potentiel-domain/projet';
 
-import { encodeParameter } from '../encodeParameter';
-import { withFilters } from '../_helpers/withFilters';
+import { encodeParameter } from '../encodeParameter.js';
+import { withFilters } from '../_helpers/withFilters.js';
 
 type ListerFilters = {
   statut?: Array<Éliminé.Recours.StatutRecours.RawType>;

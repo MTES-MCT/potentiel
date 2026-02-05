@@ -1,4 +1,4 @@
-import { encodeParameter } from '../encodeParameter';
+import { encodeParameter } from '../encodeParameter.js';
 
 export const transmettreDateAchèvement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/achevement/date-achevement:transmettre`;
