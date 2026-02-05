@@ -1,27 +1,25 @@
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
-
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+import { getBaseUrl, getÉliminé, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleRecoursPasséEnInstruction = async ({
-  sendEmail,
-  event,
-  projet,
-}: RecoursNotificationsProps<Éliminé.Recours.RecoursPasséEnInstructionEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Éliminé.Recours.RecoursPasséEnInstructionEvent) => {
+  const projet = await getÉliminé(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: recoursNotificationTemplateId.passerEnInstruction,
-    messageSubject: `Potentiel - La demande de recours pour le projet ${projet.nom} est en instruction`,
+    key: 'recours/passerEnInstruction',
     recipients: porteursRecipients,
-    variables: {
+    values: {
       nom_projet: projet.nom,
-      redirect_url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(identifiantProjet.formatter())}`,
       departement_projet: projet.département,
+      appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
     },
   });
 };

@@ -1,36 +1,37 @@
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
   getBaseUrl,
+  getÉliminé,
   listerCreRecipients,
   listerDgecRecipients,
+  listerDrealsRecipients,
   listerPorteursRecipients,
 } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { recoursNotificationTemplateId } from '../constant.js';
-import { RecoursNotificationsProps } from '../type.js';
+export const handleRecoursRejeté = async ({ payload }: Éliminé.Recours.RecoursRejetéEvent) => {
+  const projet = await getÉliminé(payload.identifiantProjet);
 
-export const handleRecoursRejeté = async ({
-  sendEmail,
-  event,
-  projet,
-}: RecoursNotificationsProps<Éliminé.Recours.RecoursRejetéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
 
-  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(identifiantProjet);
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
+  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
+  const drealRecipients = await listerDrealsRecipients(projet.région);
 
-  await sendEmail({
-    templateId: recoursNotificationTemplateId.rejeter,
-    messageSubject: `Potentiel - Demande de recours rejetée pour le projet ${projet.nom} (${identifiantProjet.appelOffre} période ${identifiantProjet.période})`,
-    recipients: porteursRecipients,
-    bcc: [...adminRecipients, ...creRecipients],
-    variables: {
-      nom_projet: projet.nom,
-      redirect_url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(identifiantProjet.formatter())}`,
-      departement_projet: projet.département,
-    },
-  });
+  for (const recipients of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
+    await sendEmail({
+      key: 'recours/rejeter',
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appelOffre,
+        période,
+        url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(projet.identifiantProjet.formatter())}`,
+      },
+      recipients,
+    });
+  }
 };

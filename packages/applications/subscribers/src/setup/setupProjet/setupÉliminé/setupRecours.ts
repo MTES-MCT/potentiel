@@ -4,7 +4,7 @@ import { RecoursNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupRecours: SetupProjet = async ({ sendEmail }) => {
+export const setupRecours: SetupProjet = async () => {
   const recours = createSubscriptionSetup('recours');
 
   RecoursProjector.register();
@@ -21,7 +21,7 @@ export const setupRecours: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Eliminé.Recours',
   });
 
-  RecoursNotification.register({ sendEmail });
+  RecoursNotification.register();
   await recours.setupSubscription<
     RecoursNotification.SubscriptionEvent,
     RecoursNotification.Execute

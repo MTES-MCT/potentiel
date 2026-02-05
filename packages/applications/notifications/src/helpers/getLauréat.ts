@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { getBaseUrl } from './getBaseUrl.js';
 
-class ProjetNonTrouvéError extends Error {
+export class ProjetNonTrouvéError extends Error {
   constructor() {
     super('Projet non trouvé');
   }
