@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   getCahierDesChargesPuissanceDeSiteInfos,
@@ -20,22 +21,30 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Puissance.ModifierPuissanceUseCase>(
+        'Lauréat.Puissance.UseCase.ModifierPuissance',
+      );
 
-    const puissance = await getPuissanceInfos(identifiantProjet.formatter());
-    const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos(
-      identifiantProjet.formatter(),
-    );
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    return (
-      <ModifierPuissancePage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        puissance={puissance.puissance}
-        puissanceDeSite={puissance.puissanceDeSite}
-        infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
-        unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
-      />
-    );
-  });
+      const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+      const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos(
+        identifiantProjet.formatter(),
+      );
+
+      return (
+        <ModifierPuissancePage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          puissance={puissance.puissance}
+          puissanceDeSite={puissance.puissanceDeSite}
+          infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
+          unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
+        />
+      );
+    }),
+  );
 }

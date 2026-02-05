@@ -1,9 +1,12 @@
 import { Metadata } from 'next';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { TransmettreDateAchèvementPage } from './TransmettreDateAchèvement.page';
 
@@ -13,16 +16,22 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.TransmettreDateAchèvementUseCase>(
+        'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+      );
 
-    const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const identifiantProjet = decodeParameter(identifiant);
 
-    return (
-      <TransmettreDateAchèvementPage
-        identifiantProjet={projet.identifiantProjet.formatter()}
-        lauréatNotifiéLe={projet.notifiéLe.formatter()}
-      />
-    );
-  });
+      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+
+      return (
+        <TransmettreDateAchèvementPage
+          identifiantProjet={projet.identifiantProjet.formatter()}
+          lauréatNotifiéLe={projet.notifiéLe.formatter()}
+        />
+      );
+    }),
+  );
 }

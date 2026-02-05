@@ -8,6 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerDemandeDélaiPage } from './CorrigerDemandeDélai.page';
 
@@ -24,42 +25,52 @@ type PageProps = {
 };
 
 export default async function Page({ params: { identifiant, date } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const demandéLe = decodeParameter(date);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Délai.CorrigerDemandeDélaiUseCase>(
+        'Lauréat.Délai.UseCase.CorrigerDemandeDélai',
+      );
 
-    const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
-      type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        demandéLe,
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
+      const demandéLe = decodeParameter(date);
 
-    if (Option.isNone(demande)) {
-      return notFound();
-    }
+      const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+        type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe,
+        },
+      });
 
-    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+      if (Option.isNone(demande)) {
+        return notFound();
+      }
 
-    if (Option.isNone(achèvement)) {
-      return notFound();
-    }
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
-    return (
-      <CorrigerDemandeDélaiPage
-        identifiantProjet={identifiantProjet.formatter()}
-        dateDemande={demande.demandéLe.formatter()}
-        dateAchèvementPrévisionnelActuelle={mapToPlainObject(achèvement.dateAchèvementPrévisionnel)}
-        nombreDeMois={demande.nombreDeMois}
-        raison={demande.raison}
-        pièceJustificative={demande.pièceJustificative.formatter()}
-      />
-    );
-  });
+      if (Option.isNone(achèvement)) {
+        return notFound();
+      }
+
+      return (
+        <CorrigerDemandeDélaiPage
+          identifiantProjet={identifiantProjet.formatter()}
+          dateDemande={demande.demandéLe.formatter()}
+          dateAchèvementPrévisionnelActuelle={mapToPlainObject(
+            achèvement.dateAchèvementPrévisionnel,
+          )}
+          nombreDeMois={demande.nombreDeMois}
+          raison={demande.raison}
+          pièceJustificative={demande.pièceJustificative.formatter()}
+        />
+      );
+    }),
+  );
 }

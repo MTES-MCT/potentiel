@@ -23,6 +23,9 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
   peutExécuterMessage<TMessageType extends Message = Message>(
     typeMessage: TMessageType['type'],
   ): void;
+  peutExécuterPlusieursMessages<TMessageType extends Message[] = Message[]>(
+    typeMessages: Array<TMessageType[number]['type']>,
+  ): void;
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
@@ -57,6 +60,11 @@ export const bind = <TRole extends RawType = RawType>({
 
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
+      }
+    },
+    peutExécuterPlusieursMessages(typeMessages) {
+      for (const typeMessage of typeMessages) {
+        this.peutExécuterMessage(typeMessage);
       }
     },
     estDGEC() {

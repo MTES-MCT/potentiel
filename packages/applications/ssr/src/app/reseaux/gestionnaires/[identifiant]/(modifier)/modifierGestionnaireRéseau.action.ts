@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
     contactEmail,
   },
 ) => {
-  await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
+  await mediator.send<GestionnaireRéseau.ModifierGestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.ModifierGestionnaireRéseau',
     data: {
       aideSaisieRéférenceDossierRaccordementValue: {

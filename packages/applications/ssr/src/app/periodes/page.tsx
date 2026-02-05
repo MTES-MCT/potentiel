@@ -35,6 +35,10 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Période.NotifierPériodeUseCase>(
+        'Période.UseCase.NotifierPériode',
+      );
+
       const { page, appelOffre, statut } = paramsSchema.parse(searchParams);
 
       const estNotifiée = statut === undefined ? undefined : statut === 'notifiee';

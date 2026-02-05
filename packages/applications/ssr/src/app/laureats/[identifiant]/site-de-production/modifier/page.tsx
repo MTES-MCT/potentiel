@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -20,6 +20,10 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.ModifierSiteDeProductionUseCase>(
+        'Lauréat.UseCase.ModifierSiteDeProduction',
+      );
+
       const identifiantProjet = decodeParameter(identifiant);
       const lauréat = await getLauréatInfos(
         IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),

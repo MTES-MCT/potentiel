@@ -10,6 +10,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
 
@@ -26,33 +27,39 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      decodeParameter(identifiant),
-    ).formatter();
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettrePropositionTechniqueEtFinancièreUseCase>(
+        'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+      );
 
-    await récupérerLauréatNonAbandonné(identifiantProjet);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      ).formatter();
 
-    const referenceDossierRaccordement = decodeParameter(reference);
+      await récupérerLauréatNonAbandonné(identifiantProjet);
 
-    const dossierRaccordement =
-      await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          référenceDossierRaccordementValue: referenceDossierRaccordement,
-        },
-      });
+      const referenceDossierRaccordement = decodeParameter(reference);
 
-    if (Option.isNone(dossierRaccordement)) {
-      return notFound();
-    }
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            référenceDossierRaccordementValue: referenceDossierRaccordement,
+          },
+        });
 
-    return (
-      <TransmettrePropositionTechniqueEtFinancièrePage
-        identifiantProjet={identifiantProjet}
-        referenceDossierRaccordement={referenceDossierRaccordement}
-      />
-    );
-  });
+      if (Option.isNone(dossierRaccordement)) {
+        return notFound();
+      }
+
+      return (
+        <TransmettrePropositionTechniqueEtFinancièrePage
+          identifiantProjet={identifiantProjet}
+          referenceDossierRaccordement={referenceDossierRaccordement}
+        />
+      );
+    }),
+  );
 }

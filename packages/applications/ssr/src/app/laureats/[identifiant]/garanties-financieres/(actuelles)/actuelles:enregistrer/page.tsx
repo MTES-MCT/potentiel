@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -9,6 +9,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { EnregistrerGarantiesFinancièresPage } from '@/app/laureats/[identifiant]/garanties-financieres/(actuelles)/actuelles:enregistrer/EnregistrerGarantiesFinancières.page';
 import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
@@ -19,27 +20,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjetValue = decodeParameter(identifiant);
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>(
+        'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
+      );
 
-    await récupérerLauréat(identifiantProjetValue);
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+      await récupérerLauréat(identifiantProjetValue);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
-      identifiantProjet.formatter(),
-    );
-    if (Option.isSome(garantiesFinancières)) {
-      throw new Error('Le projet possède déjà des garanties financières.');
-    }
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    return (
-      <EnregistrerGarantiesFinancièresPage
-        identifiantProjet={identifiantProjetValue}
-        typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
-      />
-    );
-  });
+      const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+        identifiantProjet.formatter(),
+      );
+      if (Option.isSome(garantiesFinancières)) {
+        throw new Error('Le projet possède déjà des garanties financières.');
+      }
+
+      return (
+        <EnregistrerGarantiesFinancièresPage
+          identifiantProjet={identifiantProjetValue}
+          typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
+        />
+      );
+    }),
+  );
 }

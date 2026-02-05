@@ -11,6 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementActionnairePage } from './EnregistrerChangementActionnaire.page';
 
@@ -20,31 +21,39 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Actionnaire.EnregistrerChangementActionnaireUseCase>(
+        'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
+      );
 
-    const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(actionnaireActuel)) {
-      return notFound();
-    }
+      const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    await vérifierQueLeCahierDesChargesPermetUnChangement(
-      actionnaireActuel.identifiantProjet,
-      'information-enregistrée',
-      'actionnaire',
-    );
+      if (Option.isNone(actionnaireActuel)) {
+        return notFound();
+      }
 
-    return (
-      <EnregistrerChangementActionnairePage
-        identifiantProjet={mapToPlainObject(actionnaireActuel.identifiantProjet)}
-        actionnaire={actionnaireActuel.actionnaire}
-      />
-    );
-  });
+      await vérifierQueLeCahierDesChargesPermetUnChangement(
+        actionnaireActuel.identifiantProjet,
+        'information-enregistrée',
+        'actionnaire',
+      );
+
+      return (
+        <EnregistrerChangementActionnairePage
+          identifiantProjet={mapToPlainObject(actionnaireActuel.identifiantProjet)}
+          actionnaire={actionnaireActuel.actionnaire}
+        />
+      );
+    }),
+  );
 }

@@ -10,6 +10,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierTypologieInstallationPage } from './ModifierTypologieInstallation.page';
 
@@ -19,23 +20,33 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Installation.ModifierTypologieInstallationUseCase>(
+        'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
+      );
 
-    const actuel = await mediator.send<Lauréat.Installation.ConsulterTypologieInstallationQuery>({
-      type: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    return Option.isNone(actuel) ? (
-      notFound()
-    ) : (
-      <ModifierTypologieInstallationPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        typologieInstallation={mapToPlainObject(actuel.typologieInstallation)}
-      />
-    );
-  });
+      const actuel = await mediator.send<Lauréat.Installation.ConsulterTypologieInstallationQuery>({
+        type: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      if (Option.isNone(actuel)) {
+        return notFound();
+      }
+
+      return (
+        <ModifierTypologieInstallationPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          typologieInstallation={mapToPlainObject(actuel.typologieInstallation)}
+        />
+      );
+    }),
+  );
 }

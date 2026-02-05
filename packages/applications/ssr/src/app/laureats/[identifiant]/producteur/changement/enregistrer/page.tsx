@@ -10,6 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers/vérifierQueLeCahierDesChargesPermetUnChangement';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementProducteurPage } from './EnregistrerChangementProducteur.page';
 
@@ -19,31 +20,39 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Producteur.EnregistrerChangementProducteurUseCase>(
+        'Lauréat.Producteur.UseCase.EnregistrerChangement',
+      );
 
-    const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
-      type: 'Lauréat.Producteur.Query.ConsulterProducteur',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    if (Option.isNone(producteurActuel)) {
-      return notFound();
-    }
+      const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
+        type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
-    await vérifierQueLeCahierDesChargesPermetUnChangement(
-      producteurActuel.identifiantProjet,
-      'information-enregistrée',
-      'producteur',
-    );
+      if (Option.isNone(producteurActuel)) {
+        return notFound();
+      }
 
-    return (
-      <EnregistrerChangementProducteurPage
-        identifiantProjet={mapToPlainObject(producteurActuel.identifiantProjet)}
-        producteur={producteurActuel.producteur}
-      />
-    );
-  });
+      await vérifierQueLeCahierDesChargesPermetUnChangement(
+        producteurActuel.identifiantProjet,
+        'information-enregistrée',
+        'producteur',
+      );
+
+      return (
+        <EnregistrerChangementProducteurPage
+          identifiantProjet={mapToPlainObject(producteurActuel.identifiantProjet)}
+          producteur={producteurActuel.producteur}
+        />
+      );
+    }),
+  );
 }

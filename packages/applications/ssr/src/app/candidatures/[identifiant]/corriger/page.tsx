@@ -9,6 +9,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerCandidaturePage, CorrigerCandidaturePageProps } from './CorrigerCandidature.page';
 
@@ -32,43 +33,50 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(params.identifiant);
-    const candidature = await getCandidature(identifiantProjet);
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
-      data: {
-        identifiantProjet,
-      },
-    });
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(
+        'Candidature.UseCase.CorrigerCandidature',
+      );
 
-    const { appelOffres, période, famille } = await getPériodeAppelOffres(
-      candidature.identifiantProjet.formatter(),
-    );
-    const cahierDesCharges = CahierDesCharges.bind({
-      appelOffre: appelOffres,
-      période,
-      famille,
-      technologie: candidature.technologie.type,
-      cahierDesChargesModificatif: undefined,
-    });
+      const identifiantProjet = decodeParameter(params.identifiant);
+      const candidature = await getCandidature(identifiantProjet);
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
+        data: {
+          identifiantProjet,
+        },
+      });
 
-    const props = mapToProps(candidature, lauréat, cahierDesCharges);
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
+        candidature.identifiantProjet.formatter(),
+      );
+      const cahierDesCharges = CahierDesCharges.bind({
+        appelOffre: appelOffres,
+        période,
+        famille,
+        technologie: candidature.technologie.type,
+        cahierDesChargesModificatif: undefined,
+      });
 
-    return (
-      <CorrigerCandidaturePage
-        candidature={props.candidature}
-        aUneAttestation={props.aUneAttestation}
-        estNotifiée={props.estNotifiée}
-        estLauréat={props.estLauréat}
-        champsSupplémentaires={props.champsSupplémentaires}
-        unitéPuissance={props.unitéPuissance}
-        typesActionnariatDisponibles={props.typesActionnariatDisponibles}
-        typesGarantiesFinancièresDisponibles={props.typesGarantiesFinancièresDisponibles}
-      />
-    );
-  });
+      const props = mapToProps(candidature, lauréat, cahierDesCharges);
+
+      return (
+        <CorrigerCandidaturePage
+          candidature={props.candidature}
+          aUneAttestation={props.aUneAttestation}
+          estNotifiée={props.estNotifiée}
+          estLauréat={props.estLauréat}
+          champsSupplémentaires={props.champsSupplémentaires}
+          unitéPuissance={props.unitéPuissance}
+          typesActionnariatDisponibles={props.typesActionnariatDisponibles}
+          typesGarantiesFinancièresDisponibles={props.typesGarantiesFinancièresDisponibles}
+        />
+      );
+    }),
+  );
 }
+
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
