@@ -108,4 +108,48 @@ SELECT VALUE->>'identifiantProjet' AS id,
   CAST(VALUE->>'rejet.rejetéLe' AS timestamp) AS rejet,
   value->>'statut' as statut
 FROM domain_views.projection
-WHERE KEY LIKE 'mainlevee-garanties-financieres|%';
+WHERE KEY LIKE 'mainlevee-garanties-financieres|%'
+UNION
+--
+-- Installateur
+SELECT VALUE->>'identifiantProjet' AS id,
+  'installateur' AS categorie,
+  CAST(VALUE->>'changement.enregistréLe' AS timestamp) AS demande,
+  NULL AS accord,
+  NULL AS rejet,
+  'information-enregistrée' as statut
+FROM domain_views.projection
+WHERE KEY LIKE 'changement-installateur|%'
+UNION
+-- 
+-- Dispositif de stockage
+SELECT VALUE->>'identifiantProjet' AS id,
+  'dispositif de stockage' AS categorie,
+  CAST(VALUE->>'changement.enregistréLe' AS timestamp) AS demande,
+  NULL AS accord,
+  NULL AS rejet,
+  'information-enregistrée' as statut
+FROM domain_views.projection
+WHERE KEY LIKE 'changement-dispositif-de-stockage|%'
+UNION
+-- 
+-- Nature de l'exploitation 
+SELECT VALUE->>'identifiantProjet' AS id,
+  'nature exploitation' AS categorie,
+  CAST(VALUE->>'changement.enregistréLe' AS timestamp) AS demande,
+  NULL AS accord,
+  NULL AS rejet,
+  'information-enregistrée' as statut
+FROM domain_views.projection
+WHERE KEY LIKE 'changement-nature-de-l-exploitation|%'
+UNION
+-- 
+-- Nom du projet 
+SELECT VALUE->>'identifiantProjet' AS id,
+  'nom du projet' AS categorie,
+  CAST(VALUE->>'changement.enregistréLe' AS timestamp) AS demande,
+  NULL AS accord,
+  NULL AS rejet,
+  'information-enregistrée' as statut
+FROM domain_views.projection
+WHERE KEY LIKE 'changement-nom-projet|%';
