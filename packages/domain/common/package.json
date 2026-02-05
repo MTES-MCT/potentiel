@@ -19,6 +19,6 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "workspace:*",
-    "tsx": "4.20.4"
+    "tsx": "catalog:"
   }
 }

@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "prebuild": "pnpm run codegen",
-    "build": "pnpm run prebuild && tsc",
+    "build": "tsc",
     "codegen": "graphql-codegen-esm --config codegen.ts",
     "test": "tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"

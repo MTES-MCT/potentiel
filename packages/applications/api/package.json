@@ -26,6 +26,7 @@
     "ajv-formats": "3.0.1"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "workspace:*"
+    "@potentiel-config/tsconfig": "workspace:*",
+    "tsx": "catalog:"
   }
 }

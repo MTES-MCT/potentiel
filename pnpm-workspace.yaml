@@ -18,6 +18,7 @@ packages:
 catalog:
   mediateur: 0.3.0
   zod: 4.1.9
+  tsx: 4.20.4
 
 hoistPattern:
   - '!graphql'
