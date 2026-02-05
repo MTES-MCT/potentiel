@@ -1,1 +1,1 @@
-export * from './sentry.transport';
+export * from './sentry.transport.js';

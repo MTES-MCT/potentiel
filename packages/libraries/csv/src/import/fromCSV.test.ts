@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { expect } from 'chai';
 
-import { fromCSV } from './fromCSV';
+import { fromCSV } from './fromCSV.js';
 
 const schema = z.object({
   identifiantProjet: z.string(),

@@ -1,6 +1,6 @@
 import { retry, ExponentialBackoff, handleType } from 'cockatiel';
 
-import { RequestError } from './requestError';
+import { RequestError } from './requestError.js';
 
 export type RetryPolicyOptions = {
   handleAnotherError?: (error: RequestError) => boolean;

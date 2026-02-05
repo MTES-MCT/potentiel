@@ -3,10 +3,10 @@ import { afterEach, describe, it } from 'node:test';
 import { expect } from 'chai';
 import winston from 'winston';
 
-import { getLogger } from './getLogger';
-import { consoleTransport } from './winston/console.transport';
-import { initLogger, resetLogger } from './logger';
-import { createLogger } from './winston/createLogger';
+import { getLogger } from './getLogger.js';
+import { consoleTransport } from './winston/console.transport.js';
+import { initLogger, resetLogger } from './logger.js';
+import { createLogger } from './winston/createLogger.js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();

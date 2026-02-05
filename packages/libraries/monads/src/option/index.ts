@@ -1,5 +1,5 @@
-export * from './none';
-export * from './some';
-export { Option as Type } from './option';
-export * from './match';
-export * from './map';
+export * from './none.js';
+export * from './some.js';
+export { Option as Type } from './option.js';
+export * from './match.js';
+export * from './map.js';

@@ -2,9 +2,9 @@ import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { download } from './download';
-import { upload } from './upload';
-import { setTestBucketEnvVariable, createOrRecreateBucket } from './test-utils.integration';
+import { download } from './download.js';
+import { upload } from './upload.js';
+import { setTestBucketEnvVariable, createOrRecreateBucket } from './test-utils.integration.js';
 
 describe(`upload file`, () => {
   const bucketName = 'potentiel';

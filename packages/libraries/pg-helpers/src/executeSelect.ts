@@ -1,4 +1,4 @@
-import { usePoolClient } from './usePoolClient';
+import { usePoolClient } from './usePoolClient.js';
 
 export const executeSelect = async <TResult extends Record<string, unknown>>(
   query: string,

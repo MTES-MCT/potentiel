@@ -1,7 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
 
-import { Option } from '.';
+import { Option } from './index.js';
 
 describe('Option', () => {
   it(`Lorsque qu'une valeur est 'none'

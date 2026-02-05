@@ -1,6 +1,6 @@
 import { QueryResult, Pool, PoolClient } from 'pg';
 
-import { getConnectionString } from './getConnectionString';
+import { getConnectionString } from './getConnectionString.js';
 
 const FIVE_MINUTES = 5 * 60 * 1000;
 

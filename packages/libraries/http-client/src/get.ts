@@ -1,5 +1,5 @@
-import { retryPolicy, RetryPolicyOptions } from './retryPolicy';
-import { RequestError } from './requestError';
+import { retryPolicy, RetryPolicyOptions } from './retryPolicy.js';
+import { RequestError } from './requestError.js';
 
 type GetOptions = {
   url: URL;

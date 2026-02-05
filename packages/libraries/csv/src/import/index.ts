@@ -1,1 +1,1 @@
-export { fromCSV, CSVError, CsvValidationError, ParseOptions } from './fromCSV';
+export { fromCSV, CSVError, CsvValidationError, ParseOptions } from './fromCSV.js';

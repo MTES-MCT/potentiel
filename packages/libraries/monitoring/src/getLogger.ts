@@ -1,4 +1,4 @@
-import { Logger, forkLogger } from './logger';
+import { Logger, forkLogger } from './logger.js';
 
 export const getLogger = (service?: string): Logger => {
   const logger = forkLogger(service);

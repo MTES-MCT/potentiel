@@ -2,7 +2,7 @@ import { test } from 'node:test';
 
 import { expect } from 'chai';
 
-import { toCSV } from './toCSV';
+import { toCSV } from './toCSV.js';
 
 test(`Étant donné des données à exporter en CSV
   Quand on transforme les données en CSV

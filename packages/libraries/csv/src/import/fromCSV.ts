@@ -2,8 +2,8 @@ import iconv from 'iconv-lite';
 import { parse } from 'csv-parse';
 import * as zod from 'zod';
 
-import { streamToArrayBuffer } from './streamToArrayBuffer';
-import { getEncoding } from './getEncoding';
+import { streamToArrayBuffer } from './streamToArrayBuffer.js';
+import { getEncoding } from './getEncoding.js';
 
 export type CSVError = {
   line: string;

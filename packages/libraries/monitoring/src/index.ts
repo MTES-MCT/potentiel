@@ -1,3 +1,3 @@
-export { Level } from './level';
-export { initLogger, resetLogger, Logger } from './logger';
-export { getLogger } from './getLogger';
+export { Level } from './level.js';
+export { initLogger, resetLogger, Logger } from './logger.js';
+export { getLogger } from './getLogger.js';
