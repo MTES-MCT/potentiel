@@ -10,10 +10,21 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Et une proposition technique et financière pour le projet lauréat
 
     Scénario: Un porteur supprime un dossier du raccordement d'un projet avec plusieurs dossiers
+        # Ajout d'un deuxième dossier pour s'assurer qu'il en reste un après suppression
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Un administrateur supprime un dossier du raccordement ayant une date de mise en service
+        Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
+        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
+
+    Scénario: Un administrateur supprime un dossier du raccordement pour un projet achevé
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: Un porteur supprime le dernier dossier du raccordement d'un projet
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
@@ -33,10 +44,15 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
-        Quand le porteur supprime le dossier de raccordement pour le projet lauréat avec pour référence "OUE-RP-2022-000033"
+        Quand le porteur supprime un dossier de raccordement non référencé pour le projet lauréat
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
-    Scénario: Impossible de supprimer un dossier ayant déjà une date de mise en service
+    Scénario: Impossible pour un porteur de projet de supprimer un dossier ayant déjà une date de mise en service
         Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le porteur devrait être informé que "Un dossier avec une date de mise en service ne peut pas être supprimé"
+
+    Scénario: Impossible pour un porteur de projet de supprimer un dossier lorsque le projet est achevé
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Quand le porteur supprime le dossier de raccordement pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"

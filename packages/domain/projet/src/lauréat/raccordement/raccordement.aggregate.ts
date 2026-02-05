@@ -423,11 +423,22 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossier,
     suppriméLe,
     suppriméPar,
+    rôle,
   }: SupprimerDossierDuRaccordementOptions) {
     const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
-    if (Option.isSome(dossierActuel.miseEnService.dateMiseEnService)) {
+    if (
+      Option.isSome(dossierActuel.miseEnService.dateMiseEnService) &&
+      !rôle.aLaPermission('raccordement.dossier.supprimer-après-mise-en-service')
+    ) {
       throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
+    }
+
+    if (
+      this.lauréat.statut.estAchevé() &&
+      !rôle.aLaPermission('raccordement.dossier.supprimer-après-achèvement')
+    ) {
+      throw new ChangementImpossibleCarProjetAchevéError();
     }
 
     const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {

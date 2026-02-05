@@ -36,6 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
         référenceDossierValue: referenceDossier,
         suppriméLeValue: new Date().toISOString(),
         suppriméParValue: utilisateur.identifiantUtilisateur.formatter(),
+        rôleValue: utilisateur.rôle.nom,
       },
     });
 

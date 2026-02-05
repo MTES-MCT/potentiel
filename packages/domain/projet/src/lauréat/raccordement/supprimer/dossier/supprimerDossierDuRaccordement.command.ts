@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
@@ -12,6 +13,7 @@ export type SupprimerDossierDuRaccordementCommand = Message<
     référenceDossier: RéférenceDossierRaccordement.ValueType;
     suppriméLe: DateTime.ValueType;
     suppriméPar: Email.ValueType;
+    rôle: Role.ValueType;
   }
 >;
 
@@ -23,6 +25,7 @@ export const registerSupprimerDossierDuRaccordementCommand = (
     identifiantProjet,
     suppriméLe,
     suppriméPar,
+    rôle,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -30,6 +33,7 @@ export const registerSupprimerDossierDuRaccordementCommand = (
       référenceDossier,
       suppriméLe,
       suppriméPar,
+      rôle,
     });
   };
 

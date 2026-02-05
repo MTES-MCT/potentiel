@@ -69,7 +69,7 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
         actions={actions.miseEnService}
       />
     </div>
-    {actions.supprimer && !miseEnService && (
+    {actions.supprimer && (
       <SupprimerDossierDuRaccordement
         identifiantProjet={identifiantProjet}
         référenceDossier={référence.référence}
