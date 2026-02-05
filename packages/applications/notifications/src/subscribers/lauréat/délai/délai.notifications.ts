@@ -2,11 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
-import { getLauréat } from '#helpers';
-import { getBaseUrl } from '#helpers';
-import { SendEmail } from '#sendEmail';
 
 import {
   handleDemandeDélaiAccordée,
@@ -21,46 +16,17 @@ export type SubscriptionEvent = Lauréat.Délai.DélaiEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Délai', SubscriptionEvent>;
 
-export type RegisterDélaiNotificationDependencies = { sendEmail: SendEmail };
-
-export const registerDélaiNotifications = ({
-  sendEmail,
-}: RegisterDélaiNotificationDependencies) => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-
-    const baseUrl = getBaseUrl();
-
-    return match(event)
-      .with({ type: 'DélaiDemandé-V1' }, async (event) =>
-        handleDélaiDemandé({ sendEmail, event, projet, baseUrl }),
-      )
-      .with({ type: 'DemandeDélaiAnnulée-V1' }, async (event) =>
-        handleDemandeDélaiAnnulée({ sendEmail, event, projet }),
-      )
-      .with({ type: 'DemandeDélaiRejetée-V1' }, async (event) =>
-        handleDemandeDélaiRejetée({ sendEmail, event, projet }),
-      )
-      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, async (event) =>
-        handleDemandeDélaiPasséeEnInstruction({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with({ type: 'DélaiAccordé-V1' }, async (event) =>
-        handleDemandeDélaiAccordée({ sendEmail, event, projet }),
-      )
-      .with({ type: 'DemandeDélaiCorrigée-V1' }, async (event) =>
-        handleDemandeDélaiCorrigée({ sendEmail, event, projet, baseUrl }),
-      )
+export const registerDélaiNotifications = () => {
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'DélaiDemandé-V1' }, handleDélaiDemandé)
+      .with({ type: 'DemandeDélaiAnnulée-V1' }, handleDemandeDélaiAnnulée)
+      .with({ type: 'DemandeDélaiRejetée-V1' }, handleDemandeDélaiRejetée)
+      .with({ type: 'DemandeDélaiCorrigée-V1' }, handleDemandeDélaiCorrigée)
+      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, handleDemandeDélaiPasséeEnInstruction)
+      .with({ type: 'DélaiAccordé-V1' }, handleDemandeDélaiAccordée)
       .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
       .exhaustive();
-  };
 
   mediator.register('System.Notification.Lauréat.Délai', handler);
 };

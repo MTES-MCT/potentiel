@@ -1,6 +1,5 @@
 # language: fr
 @recours
-@select
 Fonctionnalité: Accorder la demande de recours d'un projet éliminé
 
     Contexte:

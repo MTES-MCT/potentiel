@@ -4,23 +4,20 @@ import { Routes } from '@potentiel-applications/routes';
 import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDemandeDélaiRejetée = async ({
-  payload,
-}: Lauréat.Délai.DemandeDélaiRejetéeEvent) => {
+export const handleDemandeDélaiAccordée = async ({ payload }: Lauréat.Délai.DélaiAccordéEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-
   const { appelOffre, période } = projet.identifiantProjet;
 
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'délai/rejeter',
+    key: 'délai/accorder',
     recipients: porteurs,
     values: {
-      appel_offre: appelOffre,
-      période,
       nom_projet: projet.nom,
       departement_projet: projet.département,
+      appel_offre: appelOffre,
+      période,
       url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.dateDemande)}`,
     },
   });

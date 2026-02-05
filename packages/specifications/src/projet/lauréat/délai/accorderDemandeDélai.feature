@@ -15,9 +15,9 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "<date achèvement prévisionnel attendue>"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
-            | nom_projet | Du boulodrome de Bordeaux                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                             |
+            | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
+            | nom_projet | Du boulodrome de Bordeaux                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
         Exemples:
             | date achèvement prévisionnel actuelle | durée du délai demandé | date achèvement prévisionnel attendue |
@@ -36,9 +36,9 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être au "2028-08-02"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
-            | nom_projet | Du boulodrome de Bordeaux                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                             |
+            | sujet      | Potentiel - Du boulodrome de Bordeaux - Délai accordé |
+            | nom_projet | Du boulodrome de Bordeaux                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*   |
 
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat
