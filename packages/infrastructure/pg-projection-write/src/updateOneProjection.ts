@@ -1,7 +1,7 @@
 import format from 'pg-format';
+import { flatten } from 'flat';
 
 import { Entity } from '@potentiel-domain/entity';
-import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
@@ -38,7 +38,7 @@ export const getUpdateClause = <TProjection extends Entity>(
   readModel: DeepPartial<Omit<TProjection, 'type'>>,
   startIndex: number,
 ): [string, Array<unknown>] => {
-  const flatReadModel = flatten(readModel) as Record<string, unknown>;
+  const flatReadModel = flatten(readModel, { safe: true }) as Record<string, unknown>;
 
   // add 1 to startIndex since arrays start at 0 but sql variables start at $1
   const jsonb_set = Object.entries(flatReadModel)

@@ -2,10 +2,10 @@ import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
+import { flatten, unflatten } from 'flat';
 
 import { Entity, LeftJoin, ListResult, RangeOptions, Where } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { flatten, unflatten } from '@potentiel-libraries/flat';
 
 import {
   NegativeEndPositionError,

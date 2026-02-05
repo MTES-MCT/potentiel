@@ -2,7 +2,7 @@
 
 import { mkdir, writeFile } from 'fs/promises';
 
-import { flatten } from '@potentiel-libraries/flat';
+import { flatten } from 'flat';
 
 const allTemplates = {
   // abandon: abandonNotificationTemplateId,

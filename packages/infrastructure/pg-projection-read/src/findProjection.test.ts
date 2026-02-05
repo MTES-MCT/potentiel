@@ -2,11 +2,11 @@ import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
+import { flatten } from 'flat';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Entity } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { flatten } from '@potentiel-libraries/flat';
 
 import { findProjection } from './findProjection.js';
 

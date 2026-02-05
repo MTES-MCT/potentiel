@@ -2,9 +2,9 @@ import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
 
 import { expect, should } from 'chai';
+import { flatten } from 'flat';
 
 import { Entity, Where } from '@potentiel-domain/entity';
-import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { countProjection } from './countProjection.js';

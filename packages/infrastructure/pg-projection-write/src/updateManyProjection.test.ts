@@ -2,8 +2,8 @@ import { after, afterEach, before, beforeEach, describe, test } from 'node:test'
 import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
+import { flatten } from 'flat';
 
-import { flatten } from '@potentiel-libraries/flat';
 import { Entity } from '@potentiel-domain/entity';
 import { killPool, executeQuery } from '@potentiel-libraries/pg-helpers';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
