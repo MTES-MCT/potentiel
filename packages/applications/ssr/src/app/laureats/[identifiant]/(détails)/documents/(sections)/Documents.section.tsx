@@ -10,6 +10,7 @@ import { Routes } from '@potentiel-applications/routes';
 import {
   getAbandonInfos,
   getAchèvement,
+  getGarantiesFinancières,
   getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -97,6 +98,20 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             },
           });
         }
+      }
+
+      // GARANTIES FINANCIERES
+      const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
+
+      if (garantiesFinancièresActuelles.actuelles?.document) {
+        documents.push({
+          type: 'Attestation de constitution des garanties financières',
+          date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
+          format: garantiesFinancièresActuelles.actuelles?.document.format,
+          url: Routes.Document.télécharger(
+            garantiesFinancièresActuelles.actuelles?.document.formatter(),
+          ),
+        });
       }
 
       // ACHEVEMENT
