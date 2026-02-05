@@ -111,7 +111,7 @@ FROM domain_views.projection
 WHERE KEY LIKE 'mainlevee-garanties-financieres|%'
 UNION
 --
--- Installatateur
+-- Installateur
 SELECT VALUE->>'identifiantProjet' AS id,
   'installateur' AS categorie,
   CAST(VALUE->>'changement.enregistréLe' AS timestamp) AS demande,
