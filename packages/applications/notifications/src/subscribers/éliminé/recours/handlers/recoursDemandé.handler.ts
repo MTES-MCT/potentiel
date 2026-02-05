@@ -19,16 +19,10 @@ export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.Recou
     url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
   };
 
-  await sendEmail({
-    key: 'recours/demander',
-    recipients: porteursRecipients,
-    values,
-  });
-
-  for (const recipient of adminRecipients) {
+  for (const recipients of [porteursRecipients, adminRecipients]) {
     await sendEmail({
       key: 'recours/demander',
-      recipients: [recipient],
+      recipients,
       values,
     });
   }

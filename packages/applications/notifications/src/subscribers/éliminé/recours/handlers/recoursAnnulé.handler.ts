@@ -10,25 +10,17 @@ export const handleRecoursAnnulé = async ({ payload }: Éliminé.Recours.Recour
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
 
-  const values = {
-    nom_projet: projet.nom,
-    departement_projet: projet.département,
-    appelOffre,
-    période,
-    url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
-  };
-
-  await sendEmail({
-    key: 'recours/annuler',
-    recipients: porteursRecipients,
-    values,
-  });
-
-  for (const recipient of adminRecipients) {
+  for (const recipients of [porteursRecipients, adminRecipients]) {
     await sendEmail({
       key: 'recours/annuler',
-      recipients: [recipient],
-      values,
+      recipients,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appelOffre,
+        période,
+        url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
+      },
     });
   }
 };
