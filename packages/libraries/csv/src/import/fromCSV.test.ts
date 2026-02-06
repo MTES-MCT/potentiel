@@ -13,7 +13,7 @@ const schema = z.object({
 });
 
 const readFixture = (name: string) => {
-  const data = readFileSync(`${__dirname}/fixtures/${name}`);
+  const data = readFileSync(`${import.meta.dirname}/fixtures/${name}`);
 
   return new ReadableStream({
     start(controller) {
