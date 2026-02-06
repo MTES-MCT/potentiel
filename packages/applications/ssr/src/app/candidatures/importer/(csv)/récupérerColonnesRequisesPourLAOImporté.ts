@@ -36,6 +36,7 @@ export const récupérerColonnesRequisesPourLAOImporté: RécupérerColonnesRequ
         'obligationDeSolarisation',
         'élémentsSousOmbrière',
       ],
+      territoireProjet: ['territoireProjet'],
     } as const satisfies {
       [K in keyof AppelOffre.AppelOffreEntity['champsSupplémentaires']]: CandidatureCsvHeadersMappingKeys;
     };
