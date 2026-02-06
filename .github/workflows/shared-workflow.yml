@@ -27,7 +27,7 @@ jobs:
           key: ${{ steps.cache-key.outputs.key }}
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: pnpm ci --include=dev
+        run: pnpm i --frozen-lockfile
 
   build_dev:
     needs: setup
