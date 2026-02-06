@@ -9,7 +9,7 @@ type RunWithAuthContextProps = {
   req: IncomingMessage;
   res: ServerResponse;
   app: 'web' | 'api';
-  callback: () => void | Promise<void>;
+  callback: (req: IncomingMessage, res: ServerResponse) => void | Promise<void>;
   getUtilisateur: GetUtilisateur;
 };
 
@@ -23,13 +23,16 @@ export function runWebWithContext({
   getUtilisateur,
 }: RunWithAuthContextProps) {
   if (ignorePath(req.url ?? '')) {
-    return callback();
+    return callback(req, res);
   }
+
+  const logger = getLogger('http');
 
   const correlationId = crypto.randomUUID();
   return requestContextStorage.run(
     { app, correlationId, features: fetchFeatures(), url: req.url },
     async () => {
+      const start = Date.now();
       try {
         const utilisateur = await getUtilisateur(req, res);
         const store = requestContextStorage.getStore()!;
@@ -38,8 +41,19 @@ export function runWebWithContext({
       } catch (e) {
         getLogger().warn('Auth failed', { error: e });
       }
-
-      await callback();
+      try {
+        await callback(req, res);
+      } finally {
+        const duration = Date.now() - start;
+        logger.debug(`${req.method} ${req.url} - ${res.statusCode} - ${duration}ms`, {
+          correlationId,
+          app,
+          method: req.method,
+          url: req.url,
+          status: res.statusCode,
+          duration,
+        });
+      }
     },
   );
 }

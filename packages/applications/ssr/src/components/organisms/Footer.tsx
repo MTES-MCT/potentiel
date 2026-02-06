@@ -48,6 +48,7 @@ export const Footer = () => (
         text: 'Statistiques',
         linkProps: {
           href: Routes.StatistiquesPubliques.consulter,
+          prefetch: false,
         },
       },
     ]}

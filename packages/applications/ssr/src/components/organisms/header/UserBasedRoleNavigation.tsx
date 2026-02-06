@@ -33,6 +33,7 @@ const mapToMenuProps = (items: MenuItem[], rôle: Role.ValueType): Array<MenuPro
       text: label,
       linkProps: {
         href: url,
+        prefetch: false,
       },
     }));
 
