@@ -68,6 +68,7 @@ const technologie = {
 
 // Les colonnes du fichier Csv
 export const candidatureCsvHeadersMapping = {
+  // tous les appels d'offres
   appelOffre: `Appel d'offres`,
   période: 'Période',
   famille: 'Famille',
@@ -97,22 +98,26 @@ export const candidatureCsvHeadersMapping = {
   dateÉchéanceGf: "Date d'échéance au format JJ/MM/AAAA",
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
-  territoireProjet: 'Territoire\n(AO ZNI)',
   coefficientKChoisi: 'indexation_k',
+  territoireProjet: 'Territoire\n(AO ZNI)', // seulement pour l'appel d'offres "CRE4 - ZNI"
+  puissanceProjetInitial: 'puissance_projet_initial',
+
+  // spécifique PV "PPE2 - Sol" "PPE2 - Bâtiment", "PPE2 - Neutre", "PPE2 - ZNI"
   typeInstallationsAgrivoltaïques: 'Installations agrivoltaïques',
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
-  puissanceDeSite: 'Puissance de site',
-  puissanceProjetInitial: 'puissance_projet_initial',
-  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
-  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
+
+  // spéficique "PPE2 - Petit PV Bâtiment"
   installateur: "Identité de l'installateur",
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
+  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
+  puissanceDeSite: 'Puissance de site',
 } as const;
 
 const candidatureCsvRowSchema = z

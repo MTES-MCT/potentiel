@@ -18,8 +18,9 @@ import {
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
-  candidatureCsvHeadersMapping,
 } from '@/utils/candidature';
+
+import { récupérerColonnesRequisesPourLAOImporté } from './récupérerColonnesRequisesPourLAOImporté';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -42,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (
         encoding: 'win1252',
         delimiter: ';',
       },
-      Object.values(candidatureCsvHeadersMapping),
+      récupérerColonnesRequisesPourLAOImporté(appelOffre),
     );
 
     if (parsedData.length === 0) {
