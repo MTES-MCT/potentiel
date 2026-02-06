@@ -1,0 +1,1 @@
+CREATE INDEX idx_projection_identifiant_projet ON domain_views.projection USING btree ((value->>'identifiantProjet'));
