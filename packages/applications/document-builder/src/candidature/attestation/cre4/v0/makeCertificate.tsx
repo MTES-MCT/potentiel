@@ -3,10 +3,10 @@ import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { formatDateForPdf } from '../../helpers/formatDateForPdf';
-import { formatNumber } from '../../helpers';
-import { AttestationCRE4Options } from '../../AttestationCandidatureOptions';
-import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
+import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
+import { formatNumber } from '../../helpers/index.js';
+import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
+import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {
   const { appelOffre, période, famille } = project;

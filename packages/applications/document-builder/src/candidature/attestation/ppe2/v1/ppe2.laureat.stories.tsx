@@ -1,19 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line no-restricted-imports
-import {
-  autoconsommationMetropolePPE2,
-  batimentPPE2,
-  eolienPPE2,
-  innovationPPE2,
-  neutrePPE2,
-  solPPE2,
-} from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate } from './makeCertificate.js';
+
+const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
+const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
+const neutrePPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Neutre')!;
+const solPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Sol')!;
+const innovationPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Innovation')!;
+const autoconsommationMetropolePPE2 = appelsOffreData.find(
+  (x) => x.id === 'PPE2 - Autoconsommation Métropole',
+)!;
 
 const meta = {
   title: 'Attestations PDF/PPE2/v1',

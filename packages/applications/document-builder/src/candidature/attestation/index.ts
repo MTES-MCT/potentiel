@@ -1,2 +1,2 @@
-export * as AttestationSaga from './attestation.saga';
-export { buildCertificate } from './buildCertificate';
+export * as AttestationSaga from './attestation.saga.js';
+export { buildCertificate } from './buildCertificate.js';

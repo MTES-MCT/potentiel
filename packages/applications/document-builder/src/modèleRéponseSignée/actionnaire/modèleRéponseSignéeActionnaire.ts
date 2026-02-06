@@ -1,4 +1,4 @@
-import { ModèleRéponse } from '../modèleRéponseSignée';
+import { ModèleRéponse } from '../modèleRéponseSignée.js';
 
 export const modèleRéponseActionnaireFileName = 'actionnaire-modèle-réponse.docx';
 

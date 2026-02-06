@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 
-import { formatDateForDocument } from '../../_utils';
+import { formatDateForDocument } from '../../_utils/index.js';
 
 type HeaderProps = {
   dateCourrier: string;

@@ -1,15 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line no-restricted-imports
-import {
-  batimentPPE2,
-  eolienPPE2,
-} from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
+import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate } from './makeCertificate.js';
+
+const batimentPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Bâtiment')!;
+const eolienPPE2 = appelsOffreData.find((x) => x.id === 'PPE2 - Eolien')!;
 
 const meta = {
   title: 'Attestations PDF/PPE2/v2',

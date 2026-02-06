@@ -1,4 +1,4 @@
-export * from './générerModèleRéponseSignée';
-export { ModèleRéponse } from './modèleRéponseSignée';
+export * from './générerModèleRéponseSignée.js';
+export { ModèleRéponse } from './modèleRéponseSignée.js';
 
-export type { ModèleRéponseDélai } from './délai/modèleRéponseSignéeDélai';
+export type { ModèleRéponseDélai } from './délai/modèleRéponseSignéeDélai.js';

@@ -1,9 +1,9 @@
 import { Text } from '@react-pdf/renderer';
 import React from 'react';
 
-import { formatNumber } from '../../helpers/formatNumber';
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
-import { formatDateForPdf } from '../../helpers/formatDateForPdf';
+import { formatNumber } from '../../helpers/formatNumber.js';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 
 type IntroductionProps = {
   project: AttestationPPE2Options;

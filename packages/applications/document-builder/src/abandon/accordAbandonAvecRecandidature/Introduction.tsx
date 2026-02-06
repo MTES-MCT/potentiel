@@ -1,7 +1,7 @@
 import { Text, View } from '@react-pdf/renderer';
 import React, { FC } from 'react';
 
-import { formatDateForDocument } from '../../_utils';
+import { formatDateForDocument } from '../../_utils/index.js';
 
 type IntroductionProps = {
   projet: {

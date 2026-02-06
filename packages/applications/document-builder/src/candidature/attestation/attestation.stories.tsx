@@ -4,8 +4,8 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { makeCertificate } from './makeCertificate';
+import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
+import { makeCertificate } from './makeCertificate.js';
 
 const meta = {
   title: 'Attestations PDF',

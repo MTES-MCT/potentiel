@@ -3,16 +3,16 @@ import React from 'react';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { Certificate } from '../components/Certificate';
-import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
-import { Objet } from '../components/Objet';
-import { Signature } from '../components/Signature';
+import { Certificate } from '../components/Certificate.js';
+import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
+import { Objet } from '../components/Objet.js';
+import { Signature } from '../components/Signature.js';
 
-import { Header } from './Header';
-import { buildLauréat } from './Laureat';
-import { buildElimine } from './Elimine';
-import { Introduction } from './Introduction';
-import { Logo } from './Logo/index';
+import { Header } from './Header.js';
+import { buildLauréat } from './Laureat.js';
+import { buildElimine } from './Elimine.js';
+import { Introduction } from './Introduction.js';
+import { Logo } from './Logo/index.js';
 
 const makeCertificate = (
   project: AttestationPPE2V2Options,

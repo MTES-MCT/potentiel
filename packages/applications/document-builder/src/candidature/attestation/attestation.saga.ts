@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, DocumentProjet, Document, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { buildCertificate, BuildCertificateProps } from './buildCertificate';
+import { buildCertificate, BuildCertificateProps } from './buildCertificate.js';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureNotifiéeEvent
