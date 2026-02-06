@@ -5,9 +5,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { get } from '@potentiel-libraries/http-client';
 
-import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
-import { normaliserCommune } from './helper/normaliserCommune';
-import { isZNI } from './helper/isZNI';
+import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant.js';
+import { normaliserCommune } from './helper/normaliserCommune.js';
+import { isZNI } from './helper/isZNI.js';
 
 type GetGRDByCityProps = {
   codePostal: string;

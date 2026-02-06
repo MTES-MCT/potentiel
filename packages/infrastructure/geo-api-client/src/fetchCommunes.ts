@@ -1,6 +1,6 @@
 import { get } from '@potentiel-libraries/http-client';
 
-import { buildUrl } from './buildUrl';
+import { buildUrl } from './buildUrl.js';
 
 type GeoApiCommuneItem = {
   nom: string;

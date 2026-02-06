@@ -1,7 +1,7 @@
 import { Document } from '@potentiel-domain/projet';
 import { upload } from '@potentiel-libraries/file-storage';
 
-import { générerDocumentPdf } from './générerDocumentPdf';
+import { générerDocumentPdf } from './générerDocumentPdf.js';
 
 export const enregistrerDocumentSubstitutAdapter: Document.EnregistrerDocumentSubstitutPort =
   async (documentProjet, raison) => {

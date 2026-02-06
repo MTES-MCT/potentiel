@@ -1,7 +1,7 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { SubscriberConfiguration } from './subscriberConfiguration';
-import { checkSubscriberName } from './checkSubscriberName';
+import { SubscriberConfiguration } from './subscriberConfiguration.js';
+import { checkSubscriberName } from './checkSubscriberName.js';
 
 const upsertSubscriberQuery = `
   insert into event_store.subscriber 

@@ -1,5 +1,5 @@
-export { countProjection } from './countProjection';
-export { findProjection } from './findProjection';
-export { listProjection } from './listProjection';
-export { listHistoryProjection } from './listHistoryProjection';
-export { getWhereClause } from './getWhereClause';
+export { countProjection } from './countProjection.js';
+export { findProjection } from './findProjection.js';
+export { listProjection } from './listProjection.js';
+export { listHistoryProjection } from './listHistoryProjection.js';
+export { getWhereClause } from './getWhereClause.js';

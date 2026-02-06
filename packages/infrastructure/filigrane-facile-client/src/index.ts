@@ -1,1 +1,1 @@
-export * as FiligraneFacileClient from './ajouterFiligrane';
+export * as FiligraneFacileClient from './ajouterFiligrane.js';

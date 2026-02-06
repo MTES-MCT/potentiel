@@ -1,6 +1,6 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { Acknowledgement } from './acknowledgement';
+import { Acknowledgement } from './acknowledgement.js';
 
 const selectAcknowledgement = `
   select 

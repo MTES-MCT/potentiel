@@ -2,7 +2,7 @@ import * as zod from 'zod';
 
 import { post } from '@potentiel-libraries/http-client';
 
-import { getApiUrl } from './getApiUrl';
+import { getApiUrl } from './getApiUrl.js';
 
 const schema = zod.object({
   token: zod.string().min(1),

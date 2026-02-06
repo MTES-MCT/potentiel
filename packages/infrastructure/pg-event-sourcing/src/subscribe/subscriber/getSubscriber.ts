@@ -1,6 +1,6 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { SubscriberConfiguration } from './subscriberConfiguration';
+import { SubscriberConfiguration } from './subscriberConfiguration.js';
 
 const selectSubscriber = `
   select

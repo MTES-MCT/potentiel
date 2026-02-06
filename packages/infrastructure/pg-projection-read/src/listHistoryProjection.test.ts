@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 import { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { listHistoryProjection } from './listHistoryProjection';
+import { listHistoryProjection } from './listHistoryProjection.js';
 
 should();
 

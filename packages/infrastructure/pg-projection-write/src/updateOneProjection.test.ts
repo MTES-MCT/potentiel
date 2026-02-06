@@ -8,7 +8,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { flatten } from '@potentiel-libraries/flat';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
-import { updateOneProjection } from './updateOneProjection';
+import { updateOneProjection } from './updateOneProjection.js';
 
 describe('updateOneProjection', () => {
   let category = '';

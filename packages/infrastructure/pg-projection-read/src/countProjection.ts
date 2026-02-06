@@ -3,8 +3,8 @@ import format from 'pg-format';
 import { Entity, CountOption, JoinOptions } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { getWhereClause } from './getWhereClause';
-import { getFromClause } from './getFromClause';
+import { getWhereClause } from './getWhereClause.js';
+import { getFromClause } from './getFromClause.js';
 
 export const countProjection = async <
   TEntity extends Entity,

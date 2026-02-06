@@ -1,12 +1,12 @@
-import Mailjet from 'node-mailjet';
+import { Client } from 'node-mailjet';
 
-let client: Mailjet | undefined;
+let client: Client | undefined;
 
 export const getMailjetClient = () => {
   const { MJ_APIKEY_PUBLIC = '', MJ_APIKEY_PRIVATE = '' } = process.env;
 
   if (!client) {
-    client = Mailjet.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE);
+    client = Client.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE);
   }
 
   return client;
