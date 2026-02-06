@@ -1,12 +1,15 @@
-import { Client } from 'node-mailjet';
+import MailjetLib from 'node-mailjet';
 
-let client: Client | undefined;
+// Hack due to node-mailjet bad ESM configuration
+const Mailjet = MailjetLib.default;
+type Mailjet = MailjetLib.default;
+let client: Mailjet | undefined;
 
 export const getMailjetClient = () => {
   const { MJ_APIKEY_PUBLIC = '', MJ_APIKEY_PRIVATE = '' } = process.env;
 
   if (!client) {
-    client = Client.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE);
+    client = Mailjet.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE);
   }
 
   return client;
