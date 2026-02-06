@@ -11,8 +11,14 @@ import {
   DétailCandidatureEntity,
   Localité,
   TypeActionnariat,
+  TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature';
+import { DispositifDeStockage } from '../../lauréat/installation';
+import {
+  TypeDeNatureDeLExploitation,
+  NatureDeLExploitationEntity,
+} from '../../lauréat/nature-de-l-exploitation';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,8 +40,29 @@ export type ÉliminéEnrichiListItemReadModel = {
   typeActionnariat: TypeActionnariat.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
+  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
+  numéroAutorisationDUrbanisme: string | undefined;
+
   puissance: Dépôt.ValueType['puissance'];
+  puissanceDeSite: Dépôt.ValueType['puissanceDeSite'];
   unitéPuissance: UnitéPuissance.ValueType;
+
+  /**
+   * Champs AOS
+   */
+  installateur: Dépôt.ValueType['installateur'];
+  installationAvecDispositifDeStockage:
+    | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
+    | undefined;
+  puissanceDuDispositifDeStockageEnKW:
+    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+    | undefined;
+  capacitéDuDispositifDeStockageEnKWh:
+    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+    | undefined;
+  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
+  typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
+  tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
@@ -139,13 +166,25 @@ const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   localité,
   puissance,
+  puissanceDeSite,
   prixReference,
   unitéPuissance,
   actionnariat,
   sociétéMère,
+  coefficientKChoisi,
+  autorisationDUrbanisme,
+  installateur,
+  dispositifDeStockage,
+  typologieInstallation,
+  natureDeLExploitation,
+
   'détail-candidature': détailCandidature,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  const dispositifDeStockageValueType = dispositifDeStockage
+    ? DispositifDeStockage.convertirEnValueType(dispositifDeStockage)
+    : undefined;
 
   return {
     identifiantProjet: identifiantProjetValueType,
@@ -163,8 +202,27 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
 
     prixReference,
+    coefficientKChoisi,
+    numéroAutorisationDUrbanisme: autorisationDUrbanisme?.numéro,
+
     puissance,
+    puissanceDeSite,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+
+    installateur,
+    installationAvecDispositifDeStockage:
+      dispositifDeStockageValueType?.installationAvecDispositifDeStockage,
+    puissanceDuDispositifDeStockageEnKW:
+      dispositifDeStockageValueType?.puissanceDuDispositifDeStockageEnKW,
+    capacitéDuDispositifDeStockageEnKWh:
+      dispositifDeStockageValueType?.capacitéDuDispositifDeStockageEnKWh,
+    typologieInstallation: typologieInstallation.map(TypologieInstallation.convertirEnValueType),
+    typeNatureDeLExploitation: natureDeLExploitation
+      ? TypeDeNatureDeLExploitation.convertirEnValueType(
+          natureDeLExploitation.typeNatureDeLExploitation,
+        )
+      : undefined,
+    tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
 
     technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
     diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],

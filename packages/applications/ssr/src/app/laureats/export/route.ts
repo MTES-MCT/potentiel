@@ -8,6 +8,7 @@ import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statisti
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
+import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
 
 export const GET = async (request: Request) =>
   apiAction(async () =>
@@ -66,7 +67,46 @@ export const GET = async (request: Request) =>
           { value: 'dateAchèvementRéelle', label: "Date d'achèvement réelle" },
           { value: 'prixReference', label: 'Prix de référence' },
           { value: 'puissance', label: 'Puissance installée' },
+          { value: 'puissanceDeSite', label: 'Puissance de site' },
           { value: 'unitéPuissance', label: 'Unité de puissance' },
+          // champs aos
+          {
+            value: 'coefficientKChoisi',
+            label: 'Coefficient K choisi',
+          },
+          {
+            value: 'numéroAutorisationDUrbanisme',
+            label: "Autorisation d'urbanisme",
+          },
+          {
+            value: 'installateur',
+            label: 'Installateur',
+          },
+          {
+            value: 'installationAvecDispositifDeStockage',
+            label: 'Installation avec dispositif de stockage',
+          },
+          {
+            value: 'capacitéDuDispositifDeStockageEnKWh',
+            label: 'Capacité du dispositif de stockage (kWh)',
+          },
+          {
+            value: 'typologieInstallation',
+            label: 'Typologie de l’installation',
+          },
+          {
+            value: 'puissanceDuDispositifDeStockageEnKW',
+            label: 'Puissance du dispositif de stockage (kW)',
+          },
+          {
+            value: 'typeNatureDeLExploitation',
+            label: "Type de nature de l'exploitation",
+          },
+          {
+            value: 'tauxPrévisionnelACI',
+            label: 'Taux prévisionnel ACI (%)',
+          },
+          // champs eolien (détail candidature)
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
@@ -89,6 +129,26 @@ export const GET = async (request: Request) =>
           dateAchèvementRéelle: item.dateAchèvementRéelle
             ? formatDateForDocument(item.dateAchèvementRéelle.date)
             : '',
+          coefficientKChoisi:
+            item.coefficientKChoisi === undefined
+              ? undefined
+              : item.coefficientKChoisi
+                ? 'Oui'
+                : 'Non',
+          installationAvecDispositifDeStockage:
+            item.installationAvecDispositifDeStockage === undefined
+              ? undefined
+              : item.installationAvecDispositifDeStockage
+                ? 'Oui'
+                : 'Non',
+          puissanceDuDispositifDeStockageEnKW: item.puissanceDuDispositifDeStockageEnKW,
+          capacitéDuDispositifDeStockageEnKWh: item.capacitéDuDispositifDeStockageEnKWh,
+          typologieInstallation: item.typologieInstallation
+            ?.map(({ typologie }) => getTypologieInstallationLabel(typologie))
+            .join(', '),
+          typeNatureDeLExploitation: item.typeNatureDeLExploitation
+            ? getNatureDeLExploitationTypeLabel(item.typeNatureDeLExploitation.type)
+            : undefined,
         })),
       });
 
