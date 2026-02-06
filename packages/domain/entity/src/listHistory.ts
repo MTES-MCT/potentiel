@@ -1,4 +1,4 @@
-import { RangeOptions } from './rangeOptions';
+import { RangeOptions } from './rangeOptions.js';
 
 type DomainEvent<TType extends string = string, TPayload extends Record<string, unknown> = {}> = {
   type: TType;

@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 
 import { expect } from 'chai';
 
-import { récupérerDépartementRégionParCodePostal } from './récupérerDépartementRégionParCodePostal';
+import { récupérerDépartementRégionParCodePostal } from './récupérerDépartementRégionParCodePostal.js';
 
 describe('récupérerDépartementRégionParCodePostal', () => {
   const corseDuSud = { département: 'Corse-du-Sud', région: 'Corse' };

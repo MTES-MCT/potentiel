@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { DateTime } from '..';
+import { DateTime } from '../index.js';
 
 describe('DateTime', () => {
   describe('ajouterNombreDeJours', () => {

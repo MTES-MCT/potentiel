@@ -1,4 +1,4 @@
-import { IncludeWhereCondition, WhereCondition } from '../whereOptions';
+import { IncludeWhereCondition, WhereCondition } from '../whereOptions.js';
 
 /** Check for the presence of an element in a primitive type array */
 export const include = <T>(

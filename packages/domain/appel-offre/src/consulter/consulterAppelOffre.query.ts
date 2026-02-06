@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { AppelOffreReadModel, AppelOffreEntity } from '../appelOffre.entity';
+import { AppelOffreReadModel, AppelOffreEntity } from '../appelOffre.entity.js';
 
 export type ConsulterAppelOffreReadModel = AppelOffreReadModel;
 

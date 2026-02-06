@@ -1,4 +1,4 @@
-import { NotIncludeWhereCondition, WhereCondition } from '../whereOptions';
+import { NotIncludeWhereCondition, WhereCondition } from '../whereOptions.js';
 
 /** Check for the absence of an element in a primitive type array */
 export const notInclude = <T>(

@@ -1,11 +1,11 @@
 import {
   ConsulterAppelOffreDependencies,
   registerConsulterAppelOffreQuery,
-} from './consulter/consulterAppelOffre.query';
+} from './consulter/consulterAppelOffre.query.js';
 import {
   ListerAppelOffreDependencies,
   registerListerAppelOffreQuery,
-} from './lister/listerAppelOffre.query';
+} from './lister/listerAppelOffre.query.js';
 
 type AppelOffreQueryDependencies = ListerAppelOffreDependencies & ConsulterAppelOffreDependencies;
 

@@ -1,4 +1,4 @@
-import { LessOrEqualCondition, WhereCondition } from '../whereOptions';
+import { LessOrEqualCondition, WhereCondition } from '../whereOptions.js';
 
 export const lessOrEqual = <T>(
   value: LessOrEqualCondition<T>['value'] | undefined,

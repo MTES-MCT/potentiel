@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { defaultModifications } from '../../constants';
+import { defaultModifications } from '../../constants.js';
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   paruLe: '30/07/2021',

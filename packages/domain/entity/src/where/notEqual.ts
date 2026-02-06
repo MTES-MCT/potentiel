@@ -1,4 +1,4 @@
-import { NotEqualWhereCondition, WhereCondition } from '../whereOptions';
+import { NotEqualWhereCondition, WhereCondition } from '../whereOptions.js';
 
 export const notEqual = <T>(
   value: NotEqualWhereCondition<T>['value'] | undefined,
