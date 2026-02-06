@@ -68,7 +68,6 @@ const technologie = {
 
 // Les colonnes du fichier Csv
 export const candidatureCsvHeadersMapping = {
-  // tous les appels d'offres
   appelOffre: `Appel d'offres`,
   période: 'Période',
   famille: 'Famille',
@@ -99,16 +98,12 @@ export const candidatureCsvHeadersMapping = {
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   coefficientKChoisi: 'indexation_k',
-  territoireProjet: 'Territoire\n(AO ZNI)', // seulement pour l'appel d'offres "CRE4 - ZNI"
+  territoireProjet: 'Territoire\n(AO ZNI)', // @TODO : seulement ZNI
   puissanceProjetInitial: 'puissance_projet_initial',
-
-  // spécifique PV "PPE2 - Sol" "PPE2 - Bâtiment", "PPE2 - Neutre", "PPE2 - ZNI"
   typeInstallationsAgrivoltaïques: 'Installations agrivoltaïques',
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
-
-  // spéficique "PPE2 - Petit PV Bâtiment"
   installateur: "Identité de l'installateur",
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',

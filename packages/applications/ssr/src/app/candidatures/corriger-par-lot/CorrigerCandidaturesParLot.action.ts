@@ -12,7 +12,6 @@ import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAct
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import {
-  candidatureCsvHeadersMapping,
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
@@ -26,11 +25,11 @@ export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
+    //@TODO : besoin de l'ao pour vérifier les colonnes requises
     const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
       { encoding: 'win1252', delimiter: ';' },
-      Object.values(candidatureCsvHeadersMapping),
     );
 
     if (parsedData.length === 0) {

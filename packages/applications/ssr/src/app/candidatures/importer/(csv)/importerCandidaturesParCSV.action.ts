@@ -36,6 +36,10 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const colonnesRequises = await récupérerColonnesRequisesPourLAOImporté({
+      appelOffres: appelOffre,
+      periode,
+    });
     const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierImportCandidature.content,
       candidatureCsvSchema,
@@ -43,7 +47,7 @@ const action: FormAction<FormState, typeof schema> = async (
         encoding: 'win1252',
         delimiter: ';',
       },
-      récupérerColonnesRequisesPourLAOImporté(appelOffre),
+      colonnesRequises,
     );
 
     if (parsedData.length === 0) {
