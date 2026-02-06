@@ -106,6 +106,9 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
           on: 'identifiantProjet',
         },
       ],
+      orderBy: {
+        identifiantProjet: 'ascending',
+      },
       range,
     });
 
