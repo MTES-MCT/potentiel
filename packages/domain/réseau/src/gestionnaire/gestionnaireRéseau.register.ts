@@ -1,17 +1,17 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
-import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
-import { registerAjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';
-import { registerModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
+import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command.js';
+import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command.js';
+import { registerAjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase.js';
+import { registerModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase.js';
 import {
   ListerGestionnaireRéseauQueryDependencies,
   registerListerGestionnaireRéseauQuery,
-} from './lister/listerGestionnaireRéseau.query';
+} from './lister/listerGestionnaireRéseau.query.js';
 import {
   ConsulterGestionnaireRéseauQueryDependencies,
   registerConsulterGestionnaireRéseauQuery,
-} from './consulter/consulterGestionnaireRéseau.query';
+} from './consulter/consulterGestionnaireRéseau.query.js';
 
 export type GestionnaireRéseauQueryDependencies = ListerGestionnaireRéseauQueryDependencies &
   ConsulterGestionnaireRéseauQueryDependencies;

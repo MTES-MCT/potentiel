@@ -4,13 +4,13 @@ import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 import {
   ConsulterPériodeDependencies,
   registerConsulterPériodeQuery,
-} from './consulter/consulterPériode.query';
+} from './consulter/consulterPériode.query.js';
 import {
   ListerPériodesDependencies,
   registerListerPériodesQuery,
-} from './lister/listerPériodes.query';
-import { registerNotifierPériodeCommand } from './notifier/notifierPériode.command';
-import { registerNotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
+} from './lister/listerPériodes.query.js';
+import { registerNotifierPériodeCommand } from './notifier/notifierPériode.command.js';
+import { registerNotifierPériodeUseCase } from './notifier/notifierPériode.usecase.js';
 
 type PériodeQueryDependencies = ConsulterPériodeDependencies & ListerPériodesDependencies;
 

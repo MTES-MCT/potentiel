@@ -1,14 +1,14 @@
 import type {
   ConsulterPériodeQuery,
   ConsulterPériodeReadModel,
-} from './consulter/consulterPériode.query';
+} from './consulter/consulterPériode.query.js';
 import type {
   ListerPériodeItemReadModel,
   ListerPériodesQuery,
   ListerPériodesReadModel,
-} from './lister/listerPériodes.query';
-import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
-import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
+} from './lister/listerPériodes.query.js';
+import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event.js';
+import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecase.js';
 
 // Query
 export type PériodeQuery = ConsulterPériodeQuery | ListerPériodesQuery;
@@ -26,10 +26,10 @@ export type PériodeEvent = PériodeNotifiéeEvent;
 export type { PériodeNotifiéeEvent };
 
 // Register
-export { registerPériodeQueries, registerPériodeUseCases } from './register';
+export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
 
 // Entity
-export * from './période.entity';
+export * from './période.entity.js';
 
 // Value types
-export * as IdentifiantPériode from './identifiantPériode.valueType';
+export * as IdentifiantPériode from './identifiantPériode.valueType.js';

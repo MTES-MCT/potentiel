@@ -7,7 +7,7 @@ import {
   RôleGlobalPayload,
   RôleGrdPayload,
   SpécificitésRolePayload,
-} from '../utilisateur.valueType';
+} from '../utilisateur.valueType.js';
 
 /** @deprecated remplacé par Cocontractant dans la V2 */
 type RôleAcheteurObligéPayload = {

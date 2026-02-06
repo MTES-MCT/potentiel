@@ -4,11 +4,11 @@ import { match } from 'ts-pattern';
 import {
   AccèsProjetAutoriséEvent,
   accèsProjetAutoriséHandler,
-} from './handlers/accèsProjetAutorisé.handler';
+} from './handlers/accèsProjetAutorisé.handler.js';
 import {
   AccèsProjetRemplacéEvent,
   accèsProjetRemplacéHandler,
-} from './handlers/accèsProjetRemplacé.handler';
+} from './handlers/accèsProjetRemplacé.handler.js';
 
 export type SubscriptionEvent = AccèsProjetAutoriséEvent | AccèsProjetRemplacéEvent;
 

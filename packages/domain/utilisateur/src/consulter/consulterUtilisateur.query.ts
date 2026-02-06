@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { UtilisateurEntity } from '../utilisateur.entity';
-import * as Role from '../role.valueType';
-import { Région, Zone } from '..';
+import { UtilisateurEntity } from '../utilisateur.entity.js';
+import * as Role from '../role.valueType.js';
+import { Région, Zone } from '../index.js';
 
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: Email.ValueType;

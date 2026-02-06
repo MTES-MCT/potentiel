@@ -2,7 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import * as IdentifiantPériode from '../identifiantPériode.valueType';
+import * as IdentifiantPériode from '../identifiantPériode.valueType.js';
 
 export type PériodeNotifiéeEvent = DomainEvent<
   'PériodeNotifiée-V1',

@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, DateTime } from '@potentiel-domain/common';
 
-import { Utilisateur } from '..';
+import { Utilisateur } from '../index.js';
 
-import { InviterUtilisateurCommand } from './inviterUtilisateur.command';
+import { InviterUtilisateurCommand } from './inviterUtilisateur.command.js';
 
 export type InviterUtilisateurUseCase = Message<
   'Utilisateur.UseCase.InviterUtilisateur',

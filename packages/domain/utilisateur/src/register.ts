@@ -3,26 +3,26 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import {
   ConsulterUtilisateurDependencies,
   registerConsulterUtilisateurQuery,
-} from './consulter/consulterUtilisateur.query';
-import { registerInviterPorteurCommand } from './inviter/inviterPorteur.command';
-import { registerInviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
+} from './consulter/consulterUtilisateur.query.js';
+import { registerInviterPorteurCommand } from './inviter/inviterPorteur.command.js';
+import { registerInviterPorteurUseCase } from './inviter/inviterPorteur.usecase.js';
 import {
   ListerUtilisateursDependencies,
   registerListerUtilisateursQuery,
-} from './lister/listerUtilisateurs.query';
+} from './lister/listerUtilisateurs.query.js';
 import {
   registerTrouverUtilisateurQuery,
   TrouverUtilisateurDependencies,
-} from './trouver/trouverUtilisateur.query';
-import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
-import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
-import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
-import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
-import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
-import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase';
-import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command';
-import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
+} from './trouver/trouverUtilisateur.query.js';
+import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase.js';
+import { registerInviterCommand } from './inviter/inviterUtilisateur.command.js';
+import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase.js';
+import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command.js';
+import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase.js';
+import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command.js';
+import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateur.usecase.js';
+import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command.js';
+import { registerCréerPorteurCommand } from './créer/créerPorteur.command.js';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &

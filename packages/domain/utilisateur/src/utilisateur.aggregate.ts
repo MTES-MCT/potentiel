@@ -9,16 +9,16 @@ import {
   UtilisateurInvitéEventV1,
   UtilisateurRéactivéEvent,
   Utilisateur,
-} from '.';
+} from './index.js';
 
-import { InviterPorteurOptions } from './inviter/inviterPorteur.options';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
-import { InviterOptions } from './inviter/inviterUtilisateur.options';
-import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options';
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
-import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options';
-import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
-import { UtilisateurEvent } from './utilisateur.event';
+import { InviterPorteurOptions } from './inviter/inviterPorteur.options.js';
+import { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
+import { InviterOptions } from './inviter/inviterUtilisateur.options.js';
+import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options.js';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
+import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options.js';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
+import { UtilisateurEvent } from './utilisateur.event.js';
 import {
   DésactivationPropreCompteError,
   ModificationMêmesValeursError,
@@ -30,8 +30,8 @@ import {
   UtilisateurInconnuError,
   UtilisateurNonActifError,
   UtilisateurNonPorteurError,
-} from './utilisateur.error';
-import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options';
+} from './utilisateur.error.js';
+import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options.js';
 
 export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'utilisateur'> {
   #actif = false;

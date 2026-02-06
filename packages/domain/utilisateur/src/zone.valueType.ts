@@ -2,7 +2,7 @@ import { match, P } from 'ts-pattern';
 
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { régionsZNIHorsMayotte } from './région.valueType';
+import { régionsZNIHorsMayotte } from './région.valueType.js';
 
 export const zones = ['métropole', 'zni', 'mayotte'] as const;
 

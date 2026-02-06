@@ -5,8 +5,8 @@ import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity';
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { GestionnaireRéseauEntity } from '../gestionnaireRéseau.entity.js';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 
 export type ConsulterGestionnaireRéseauReadModel = Readonly<{
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;

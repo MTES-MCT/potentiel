@@ -1,14 +1,14 @@
 import { Email, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
+import { PorteurInvitéEvent } from './inviter/inviterPorteur.event.js';
 import {
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
-} from './inviter/inviterUtilisateur.event';
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
-import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
-import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
+} from './inviter/inviterUtilisateur.event.js';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event.js';
+import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event.js';
+import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event.js';
 
 /**
  * @deprecated La gestion des accès des projets est dorénavant dans le package projet.

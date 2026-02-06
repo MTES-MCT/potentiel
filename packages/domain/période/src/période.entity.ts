@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import * as IdentifiantPériode from './identifiantPériode.valueType';
+import * as IdentifiantPériode from './identifiantPériode.valueType.js';
 
 export type PériodeEntity = Entity<
   'période',
