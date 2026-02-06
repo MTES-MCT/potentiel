@@ -6,9 +6,9 @@ import { v4 } from 'uuid';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { loadFromStream } from '../load/loadFromStream';
+import { loadFromStream } from '../load/loadFromStream.js';
 
-import { publish } from './publish';
+import { publish } from './publish.js';
 
 should();
 

@@ -6,18 +6,18 @@ import format from 'pg-format';
 import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { isEvent, Event } from '../event';
+import { isEvent, Event } from '../event.js';
 
-import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge';
-import { rebuild } from './rebuild/rebuild';
-import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
-import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
-import { RebuildFailedError } from './errors/RebuildFailed.error';
-import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
-import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
-import { isRebuildAllEvent, RebuildTriggered } from './rebuild/rebuildTriggered.event';
-import { Subscriber } from './subscriber/subscriber';
-import { rebuildAll } from './rebuild/rebuildAll';
+import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge.js';
+import { rebuild } from './rebuild/rebuild.js';
+import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error.js';
+import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error.js';
+import { RebuildFailedError } from './errors/RebuildFailed.error.js';
+import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error.js';
+import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error.js';
+import { isRebuildAllEvent, RebuildTriggered } from './rebuild/rebuildTriggered.event.js';
+import { Subscriber } from './subscriber/subscriber.js';
+import { rebuildAll } from './rebuild/rebuildAll.js';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 

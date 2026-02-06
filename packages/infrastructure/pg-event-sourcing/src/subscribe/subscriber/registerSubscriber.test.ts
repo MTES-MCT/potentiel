@@ -4,10 +4,10 @@ import { assert, expect, should } from 'chai';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { registerSubscriber } from './registerSubscriber';
-import { getSubscriber } from './getSubscriber';
-import { SubscriberConfiguration } from './subscriberConfiguration';
-import { WrongSubscriberNameError } from './checkSubscriberName';
+import { registerSubscriber } from './registerSubscriber.js';
+import { getSubscriber } from './getSubscriber.js';
+import { SubscriberConfiguration } from './subscriberConfiguration.js';
+import { WrongSubscriberNameError } from './checkSubscriberName.js';
 
 should();
 

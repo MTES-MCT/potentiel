@@ -2,7 +2,7 @@ import { test, describe } from 'node:test';
 
 import { expect } from 'chai';
 
-import { normaliserCommune } from './normaliserCommune';
+import { normaliserCommune } from './normaliserCommune.js';
 
 describe(normaliserCommune.name, () => {
   const transformations = [

@@ -5,11 +5,11 @@ import { expect, should } from 'chai';
 import { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { registerSubscriber } from '../subscriber/registerSubscriber';
-import { publish } from '../../publish/publish';
+import { registerSubscriber } from '../subscriber/registerSubscriber.js';
+import { publish } from '../../publish/publish.js';
 
-import { retryPendingAcknowledgement } from './retryPendingAcknowledgement';
-import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
+import { retryPendingAcknowledgement } from './retryPendingAcknowledgement.js';
+import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement.js';
 
 should();
 

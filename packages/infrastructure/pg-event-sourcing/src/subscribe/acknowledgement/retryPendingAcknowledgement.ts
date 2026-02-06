@@ -1,10 +1,10 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { Subscriber } from '../subscriber/subscriber';
+import { Subscriber } from '../subscriber/subscriber.js';
 
-import { acknowledge } from './acknowledge';
-import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement';
+import { acknowledge } from './acknowledge.js';
+import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement.js';
 
 export async function retryPendingAcknowledgement<TEvent extends DomainEvent = DomainEvent>({
   streamCategory,

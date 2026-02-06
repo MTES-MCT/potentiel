@@ -1,3 +1,3 @@
-export * from './récupérerTousLesGRD';
-export * from './récupérerGRDParVille';
-export * from './type';
+export * from './récupérerTousLesGRD.js';
+export * from './récupérerGRDParVille.js';
+export * from './type.js';

@@ -1,5 +1,8 @@
-import Mailjet from 'node-mailjet';
+import MailjetLib from 'node-mailjet';
 
+// Hack due to node-mailjet bad ESM configuration
+const Mailjet = MailjetLib.default;
+type Mailjet = MailjetLib.default;
 let client: Mailjet | undefined;
 
 export const getMailjetClient = () => {

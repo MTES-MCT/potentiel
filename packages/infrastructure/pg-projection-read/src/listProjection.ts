@@ -9,14 +9,14 @@ import {
 } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { KeyValuePair } from './keyValuePair';
-import { getWhereClause } from './getWhereClause';
-import { getOrderClause } from './getOrderClause';
-import { getRangeClause } from './getRangeClause';
-import { countProjection } from './countProjection';
-import { getSelectClause } from './getSelectClause';
-import { getFromClause } from './getFromClause';
-import { mapResult } from './mapResult';
+import { KeyValuePair } from './keyValuePair.js';
+import { getWhereClause } from './getWhereClause.js';
+import { getOrderClause } from './getOrderClause.js';
+import { getRangeClause } from './getRangeClause.js';
+import { countProjection } from './countProjection.js';
+import { getSelectClause } from './getSelectClause.js';
+import { getFromClause } from './getFromClause.js';
+import { mapResult } from './mapResult.js';
 
 export const listProjection = async <
   TEntity extends Entity,

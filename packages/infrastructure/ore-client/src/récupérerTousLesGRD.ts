@@ -5,8 +5,8 @@ import {
   OREresultSchema,
   OreEndpoint,
   référentielDistributeursDEnergieUrl,
-} from './constant';
-import { OreGestionnaire } from './type';
+} from './constant.js';
+import { OreGestionnaire } from './type.js';
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;

@@ -8,7 +8,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { flatten } from '@potentiel-libraries/flat';
 
-import { findProjection } from './findProjection';
+import { findProjection } from './findProjection.js';
 
 should();
 

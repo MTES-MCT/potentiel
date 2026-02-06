@@ -8,7 +8,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { killPool, executeQuery } from '@potentiel-libraries/pg-helpers';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
-import { updateManyProjections } from './updateManyProjections';
+import { updateManyProjections } from './updateManyProjections.js';
 
 describe('updateManyProjections', () => {
   let category = '';

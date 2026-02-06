@@ -1,6 +1,6 @@
 import { getBlob } from '@potentiel-libraries/http-client';
 
-import { getApiUrl } from './getApiUrl';
+import { getApiUrl } from './getApiUrl.js';
 
 export const getWatermarkedFile = async (token: string): Promise<Blob> => {
   const url = new URL(`/api/document/${token}`, getApiUrl());

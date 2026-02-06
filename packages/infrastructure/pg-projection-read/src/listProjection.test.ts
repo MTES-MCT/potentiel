@@ -12,8 +12,8 @@ import {
   NegativeStartPositionError,
   StartPositionEqualToEndPositionError,
   StartPositionGreaterThanEndPositionError,
-} from './getRangeClause';
-import { listProjection } from './listProjection';
+} from './getRangeClause.js';
+import { listProjection } from './listProjection.js';
 
 should();
 

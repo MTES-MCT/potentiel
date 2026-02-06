@@ -1,21 +1,23 @@
 import { describe, it, after, afterEach, before, beforeEach, mock } from 'node:test';
 
 import { expect, should } from 'chai';
-import waitForExpect from 'wait-for-expect';
+import waitForExpectLib from 'wait-for-expect';
 
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { initLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { Event } from '../event';
-import { publish } from '../publish/publish';
+import { Event } from '../event.js';
+import { publish } from '../publish/publish.js';
 
-import { executeSubscribersRetry, subscribe } from './subscribe';
-import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
-import { executeRebuild } from './rebuild/executeRebuild';
-import { Unsubscribe } from './subscriber/subscriber';
-import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
-import { registerSubscriber } from './subscriber/registerSubscriber';
+import { executeSubscribersRetry, subscribe } from './subscribe.js';
+import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements.js';
+import { executeRebuild } from './rebuild/executeRebuild.js';
+import { Unsubscribe } from './subscriber/subscriber.js';
+import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement.js';
+import { registerSubscriber } from './subscriber/registerSubscriber.js';
+
+export const waitForExpect = waitForExpectLib.default;
 
 should();
 

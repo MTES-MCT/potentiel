@@ -1,5 +1,5 @@
-export * from './utilisateur';
-export * as DocumentAdapter from './document/document.adapter';
-export * as ProjetAdapter from './projet';
-export * as StatistiquesAdapter from './statistiques/statistiques.adapter';
-export * as DélaiAdapter from './délai/délai.adapter';
+export * from './utilisateur/index.js';
+export * as DocumentAdapter from './document/document.adapter.js';
+export * as ProjetAdapter from './projet/index.js';
+export * as StatistiquesAdapter from './statistiques/statistiques.adapter.js';
+export * as DélaiAdapter from './délai/délai.adapter.js';

@@ -1,7 +1,7 @@
 import { Entity, Joined } from '@potentiel-domain/entity';
 import { unflatten } from '@potentiel-libraries/flat';
 
-import { KeyValuePair } from './keyValuePair';
+import { KeyValuePair } from './keyValuePair.js';
 
 export const mapResult = <TEntity extends Entity, TJoin extends Entity | {}>({
   key,

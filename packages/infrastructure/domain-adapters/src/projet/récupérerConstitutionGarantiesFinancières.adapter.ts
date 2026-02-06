@@ -3,7 +3,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/ds-api-client';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter';
+import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter.js';
 
 export const récupererConstututionGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.RécupererConstitutionGarantiesFinancièresPort =
   async (identifiantProjet) => {

@@ -6,9 +6,9 @@ import {
   Publish,
 } from '@potentiel-domain/core';
 
-import { publish } from '../publish/publish';
+import { publish } from '../publish/publish.js';
 
-import { loadFromStream } from './loadFromStream';
+import { loadFromStream } from './loadFromStream.js';
 
 export const loadAggregate: LoadAggregate = async <
   TDomainEvent extends DomainEvent,

@@ -6,9 +6,9 @@ import { v4 } from 'uuid';
 import { DomainEvent, AbstractAggregate } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { publish } from '../publish/publish';
+import { publish } from '../publish/publish.js';
 
-import { loadAggregate } from './loadAggregate';
+import { loadAggregate } from './loadAggregate.js';
 
 should();
 

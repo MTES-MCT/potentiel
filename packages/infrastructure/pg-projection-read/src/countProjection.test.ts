@@ -7,7 +7,7 @@ import { Entity, Where } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { countProjection } from './countProjection';
+import { countProjection } from './countProjection.js';
 
 should();
 

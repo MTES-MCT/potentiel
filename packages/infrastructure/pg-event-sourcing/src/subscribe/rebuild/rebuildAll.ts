@@ -3,12 +3,12 @@ import { bulkhead } from 'cockatiel';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { loadStreamList } from '../../load/loadStreamList';
-import { Subscriber } from '../subscriber/subscriber';
-import { loadFromStream } from '../../load/loadFromStream';
-import { RebuildFailedError } from '../errors/RebuildFailed.error';
+import { loadStreamList } from '../../load/loadStreamList.js';
+import { Subscriber } from '../subscriber/subscriber.js';
+import { loadFromStream } from '../../load/loadFromStream.js';
+import { RebuildFailedError } from '../errors/RebuildFailed.error.js';
 
-import { RebuildAllTriggered } from './rebuildTriggered.event';
+import { RebuildAllTriggered } from './rebuildTriggered.event.js';
 
 export const rebuildAll = async <TEvent extends DomainEvent>(
   rebuildAllTriggered: RebuildAllTriggered,

@@ -2,7 +2,7 @@ import { test, describe } from 'node:test';
 
 import { expect } from 'chai';
 
-import { isZNI } from './isZNI';
+import { isZNI } from './isZNI.js';
 
 const codePostauxAndExpected = [
   ['97100', 'EDF Archipel Guadeloupe'],

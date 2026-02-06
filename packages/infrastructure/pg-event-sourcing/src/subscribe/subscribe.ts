@@ -5,11 +5,11 @@ import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { registerSubscriber } from './subscriber/registerSubscriber';
-import { EventStreamEmitter } from './eventStreamEmitter';
-import { Subscriber, Unsubscribe } from './subscriber/subscriber';
-import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
-import { listSubscribers } from './subscriber/listSubscribers';
+import { registerSubscriber } from './subscriber/registerSubscriber.js';
+import { EventStreamEmitter } from './eventStreamEmitter.js';
+import { Subscriber, Unsubscribe } from './subscriber/subscriber.js';
+import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement.js';
+import { listSubscribers } from './subscriber/listSubscribers.js';
 
 let isReconnecting = false;
 let client: Client | undefined;
