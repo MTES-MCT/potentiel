@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/projet": "*",
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
     "@react-pdf/renderer": "4.3.2",
     "docxtemplater": "3.61.0",
     "pizzip": "3.1.8"
