@@ -2,8 +2,8 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { GetUtilisateur } from './getUtilisateur';
-import { requestContextStorage } from './request-context';
+import { GetUtilisateur } from './getUtilisateur.js';
+import { requestContextStorage } from './request-context.js';
 
 type RunWithAuthContextProps = {
   req: IncomingMessage;

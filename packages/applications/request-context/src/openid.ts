@@ -2,7 +2,7 @@ import { Issuer } from 'openid-client';
 import { createRemoteJWKSet } from 'jose';
 import { getServerSession } from 'next-auth';
 
-import { getProviderConfiguration } from './getProviderConfiguration';
+import { getProviderConfiguration } from './getProviderConfiguration.js';
 
 export const getOpenIdClient = async (providerOption?: string) => {
   const provider = providerOption ?? (await getCurrentProvider());
