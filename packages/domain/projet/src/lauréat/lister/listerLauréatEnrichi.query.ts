@@ -118,9 +118,7 @@ export const registerListerLauréatEnrichiQuery = ({
       ]
     >('lauréat', {
       orderBy: {
-        appelOffre: 'ascending',
-        période: 'ascending',
-        famille: 'ascending',
+        identifiantProjet: 'ascending',
       },
       where: {
         identifiantProjet: Where.matchAny(identifiantProjets),

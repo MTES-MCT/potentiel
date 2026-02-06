@@ -94,9 +94,7 @@ export const registerListerÉliminéEnrichiQuery = ({
       'candidature',
       {
         orderBy: {
-          appelOffre: 'ascending',
-          période: 'ascending',
-          famille: 'ascending',
+          identifiantProjet: 'ascending',
         },
         where: {
           identifiantProjet: identifiantProjets?.length

@@ -47,9 +47,9 @@ export type ListerProjetAvecAchevementATransmettreDependencies = {
 };
 
 type ProjetAvecAchevementATransmettreJoins = [
+  LauréatEntity,
   RaccordementEntity,
   CandidatureEntity,
-  DossierRaccordementEntity,
   PuissanceEntity,
 ];
 export const registerListerProjetAvecAchevementATransmettreQuery = ({
@@ -70,44 +70,52 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       items: projets,
       range: { endPosition, startPosition },
       total: totalProjet,
-    } = await list<LauréatEntity, ProjetAvecAchevementATransmettreJoins>('lauréat', {
-      where: {
-        appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
-        période: Where.equal(periode),
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        localité: {
-          région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+    } = await list<DossierRaccordementEntity, ProjetAvecAchevementATransmettreJoins>(
+      'dossier-raccordement',
+      {
+        where: {
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
-        statut: Where.notEqual('achevé'),
-      },
-      join: [
-        {
-          entity: 'raccordement',
-          on: 'identifiantProjet',
-          where: {
-            identifiantGestionnaireRéseau:
-              scope.type === 'gestionnaire-réseau'
-                ? Where.equal(scope.identifiantGestionnaireRéseau)
-                : undefined,
+        join: [
+          {
+            entity: 'lauréat',
+            on: 'identifiantProjet',
+            where: {
+              appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+              période: Where.equal(periode),
+              localité: {
+                région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              },
+              statut: Where.notEqual('achevé'),
+            },
           },
+          {
+            entity: 'raccordement',
+            on: 'identifiantProjet',
+            where: {
+              identifiantGestionnaireRéseau:
+                scope.type === 'gestionnaire-réseau'
+                  ? Where.equal(scope.identifiantGestionnaireRéseau)
+                  : undefined,
+            },
+          },
+          {
+            entity: 'candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'puissance',
+            on: 'identifiantProjet',
+          },
+        ],
+        orderBy: {
+          identifiantProjet: 'ascending',
+          référence: 'ascending',
         },
-        {
-          entity: 'candidature',
-          on: 'identifiantProjet',
-        },
-        {
-          entity: 'dossier-raccordement',
-          on: 'identifiantProjet',
-          joinKey: 'identifiantProjet',
-        },
-        {
-          entity: 'puissance',
-          on: 'identifiantProjet',
-        },
-      ],
-      range,
-    });
+        range,
+      },
+    );
 
     if (totalProjet === 0) {
       return {
@@ -138,17 +146,16 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
 };
 
 type MapToReadModelProps = (
-  projet: LauréatEntity & Joined<ProjetAvecAchevementATransmettreJoins>,
+  projet: DossierRaccordementEntity & Joined<ProjetAvecAchevementATransmettreJoins>,
 ) => ProjetAvecAchevementATransmettre | undefined;
 
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
+  référence,
+  demandeComplèteRaccordement,
   candidature: { prixReference, coefficientKChoisi, puissance: puissanceInitiale },
-  localité,
-  nomProjet,
-  notifiéLe,
+  lauréat: { localité, nomProjet, notifiéLe },
   raccordement: { identifiantGestionnaireRéseau },
-  'dossier-raccordement': dossier,
   puissance: { puissance },
 }) => {
   return {
@@ -158,11 +165,10 @@ export const mapToReadModel: MapToReadModelProps = ({
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
-    référenceDossierRaccordement: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
-      dossier.référence,
-    ),
-    dateDCR: dossier.demandeComplèteRaccordement?.dateQualification
-      ? DateTime.convertirEnValueType(dossier.demandeComplèteRaccordement.dateQualification)
+    référenceDossierRaccordement:
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
+    dateDCR: demandeComplèteRaccordement?.dateQualification
+      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
       : undefined,
     localité: Localité.bind(localité),
     prix: prixReference,
