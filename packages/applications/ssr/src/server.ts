@@ -41,7 +41,7 @@ async function main() {
         app: 'api',
         req,
         res,
-        callback: () => apiHandler(req, res),
+        callback: apiHandler,
         getUtilisateur: getApiUser,
       });
     }
@@ -50,7 +50,7 @@ async function main() {
       app: 'web',
       req,
       res,
-      callback: () =>
+      callback: (req, res) =>
         Sentry.withScope((scope) => {
           const utilisateur = getContext()?.utilisateur;
           if (utilisateur) {

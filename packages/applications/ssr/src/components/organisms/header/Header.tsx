@@ -23,6 +23,7 @@ export const Header = () => (
     homeLinkProps={{
       href: '/',
       title: "Retour à l'accueil",
+      prefetch: false,
     }}
     quickAccessItems={[
       <UserHeaderQuickAccessItem key={0} />,

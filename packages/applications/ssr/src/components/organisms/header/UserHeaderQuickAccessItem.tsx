@@ -41,6 +41,7 @@ export async function UserHeaderQuickAccessItem() {
             iconId: 'ri-logout-box-line',
             linkProps: {
               href: Routes.Auth.signOut(),
+              prefetch: false,
             },
             text: 'Me déconnecter',
           }}
@@ -56,6 +57,7 @@ export async function UserHeaderQuickAccessItem() {
           iconId: 'ri-account-circle-line',
           linkProps: {
             href: Routes.Auth.signUp(),
+            prefetch: false,
           },
           text: "M'inscrire",
         }}
@@ -65,6 +67,7 @@ export async function UserHeaderQuickAccessItem() {
           iconId: 'ri-lock-line',
           linkProps: {
             href: Routes.Auth.signIn(),
+            prefetch: false,
           },
           text: "M'identifier",
         }}
@@ -106,6 +109,7 @@ async function TâcheHeaderQuickAccessItem({ utilisateur }: { utilisateur: Utili
           iconId: 'fr-icon-list-ordered',
           linkProps: {
             href: Routes.Tache.lister,
+            prefetch: false,
           },
           text: <div className="mr-3">Tâches</div>,
         }}
