@@ -1,6 +1,5 @@
 # language: fr
 @actionnaire
-@select
 Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
 
     Contexte:
