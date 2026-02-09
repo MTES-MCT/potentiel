@@ -2,7 +2,13 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql"
+      }
+    ]
   },
   "include": ["./src"],
   "references": [
