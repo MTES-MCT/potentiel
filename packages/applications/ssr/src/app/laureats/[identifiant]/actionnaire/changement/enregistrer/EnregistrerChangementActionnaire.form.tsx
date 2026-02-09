@@ -16,8 +16,9 @@ import {
   ModifierActionnaireFormKeys,
 } from './enregistrerChangementActionnaire.action';
 
-export type EnregistrerChangementActionnaireFormProps =
-  PlainType<Lauréat.Actionnaire.ConsulterActionnaireReadModel>;
+export type EnregistrerChangementActionnaireFormProps = PlainType<
+  Pick<Lauréat.Actionnaire.ConsulterActionnaireReadModel, 'actionnaire' | 'identifiantProjet'>
+>;
 
 export const EnregistrerChangementActionnaireForm: FC<
   EnregistrerChangementActionnaireFormProps

@@ -8,8 +8,9 @@ import { Heading1 } from '@/components/atoms/headings';
 import { DemanderChangementActionnaireForm } from './DemanderChangementActionnaire.form';
 import { InfoBoxDemandeActionnaire } from './InfoxBoxDemandeActionnaire';
 
-export type DemanderChangementActionnairePageProps =
-  PlainType<Lauréat.Actionnaire.ConsulterActionnaireReadModel>;
+export type DemanderChangementActionnairePageProps = PlainType<
+  Pick<Lauréat.Actionnaire.ConsulterActionnaireReadModel, 'actionnaire' | 'identifiantProjet'>
+>;
 
 export const DemanderChangementActionnairePage: FC<DemanderChangementActionnairePageProps> = ({
   identifiantProjet,

@@ -10,9 +10,16 @@ import { IdentifiantProjet } from '../../..';
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
-  dateDemandeEnCours?: DateTime.ValueType;
-  dateDemandeClôturée?: DateTime.ValueType;
-};
+} & (
+  | {
+      aUneDemandeEnCours: true;
+      dateDernièreDemande: DateTime.ValueType;
+    }
+  | {
+      aUneDemandeEnCours: false;
+      dateDernièreDemande?: DateTime.ValueType;
+    }
+);
 
 export type ConsulterActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ConsulterActionnaire',
@@ -44,16 +51,19 @@ export const mapToReadModel = ({ identifiantProjet, actionnaire, demande }: Acti
     return Option.none;
   }
 
+  const aUneDemandeEnCours = !!(demande && demande.statut === 'demandé');
+
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
-    dateDemandeEnCours:
-      demande && demande.statut === 'demandé'
-        ? DateTime.convertirEnValueType(demande.date)
-        : undefined,
-    dateDemandeClôturée:
-      demande && demande.statut !== 'demandé'
-        ? DateTime.convertirEnValueType(demande.date)
-        : undefined,
+    ...(aUneDemandeEnCours
+      ? {
+          aUneDemandeEnCours: true as const,
+          dateDernièreDemande: DateTime.convertirEnValueType(demande.date),
+        }
+      : {
+          aUneDemandeEnCours: false as const,
+          dateDernièreDemande: demande ? DateTime.convertirEnValueType(demande.date) : undefined,
+        }),
   };
 };

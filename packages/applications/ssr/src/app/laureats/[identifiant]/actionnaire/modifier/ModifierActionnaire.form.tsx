@@ -16,8 +16,9 @@ import {
   ModifierActionnaireFormKeys,
 } from './modifierActionnaire.action';
 
-export type ModifierActionnaireFormProps =
-  PlainType<Lauréat.Actionnaire.ConsulterActionnaireReadModel>;
+export type ModifierActionnaireFormProps = PlainType<
+  Pick<Lauréat.Actionnaire.ConsulterActionnaireReadModel, 'actionnaire' | 'identifiantProjet'>
+>;
 
 export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   identifiantProjet,

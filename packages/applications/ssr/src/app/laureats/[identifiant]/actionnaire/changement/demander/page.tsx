@@ -43,18 +43,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      if (actionnaire.dateDemandeEnCours) {
+      if (actionnaire.aUneDemandeEnCours) {
         return (
           <DemandeEnCoursPage
             title="Demande de changement d'actionnaire(s)"
             href={Routes.Actionnaire.changement.détails(
               identifiantProjet.formatter(),
-              actionnaire.dateDemandeEnCours.formatter(),
+              actionnaire.dateDernièreDemande.formatter(),
             )}
           />
         );
       }
 
+      // viovio
       return (
         <DemanderChangementActionnairePage
           identifiantProjet={mapToPlainObject(actionnaire.identifiantProjet)}

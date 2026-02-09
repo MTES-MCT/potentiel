@@ -111,7 +111,7 @@ Alors(
         },
       });
 
-      expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
+      expect(Option.isSome(actual) && actual.dateDernièreDemande).to.be.undefined;
     });
   },
 );
@@ -204,9 +204,9 @@ async function vérifierChangementActionnaire(
   });
 
   if (statut.estDemandé()) {
-    expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.not.undefined;
+    expect(Option.isSome(actionnaire) && actionnaire.aUneDemandeEnCours).to.be.true;
   } else {
-    expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.undefined;
+    expect(Option.isSome(actionnaire) && actionnaire.aUneDemandeEnCours).to.be.false;
   }
 
   if (this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé) {

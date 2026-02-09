@@ -11,6 +11,8 @@ export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/modifier`;
 
 export const changement = {
+  détailsPourRedirection: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/demande`,
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/demander`,
   enregistrer: (identifiantProjet: string) =>

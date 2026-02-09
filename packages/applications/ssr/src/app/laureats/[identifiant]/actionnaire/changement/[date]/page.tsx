@@ -70,9 +70,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         });
 
       const dateDemandeEnCoursSiDifférente =
-        actionnaire.dateDemandeEnCours &&
-        !changement.demande.demandéeLe.estÉgaleÀ(actionnaire.dateDemandeEnCours)
-          ? actionnaire.dateDemandeEnCours.formatter()
+        actionnaire.aUneDemandeEnCours &&
+        !changement.demande.demandéeLe.estÉgaleÀ(actionnaire.dateDernièreDemande)
+          ? actionnaire.dateDernièreDemande.formatter()
           : undefined;
 
       return (

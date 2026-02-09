@@ -38,12 +38,12 @@ export const ActionnariatSection = ({
         rôle.nom,
       );
 
-      const action = actionnaire.dateDemandeEnCours
+      const action = actionnaire.aUneDemandeEnCours
         ? rôle.aLaPermission('actionnaire.consulterChangement')
           ? {
               url: Routes.Actionnaire.changement.détails(
                 identifiantProjet.formatter(),
-                actionnaire.dateDemandeEnCours.formatter(),
+                actionnaire.dateDernièreDemande.formatter(),
               ),
               label: 'Voir la demande de modification',
             }

@@ -4,8 +4,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-import { getDateDernièreDemandeActionnaire } from '../helpers/getDateDemandeClôturéeActionnaire.js';
-
 export const handleChangementActionnaireAccordé = async ({
   payload,
 }: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
@@ -13,8 +11,6 @@ export const handleChangementActionnaireAccordé = async ({
   const { appelOffre, période } = projet.identifiantProjet;
 
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
-
-  const demandéLe = await getDateDernièreDemandeActionnaire(projet.identifiantProjet.formatter());
 
   return sendEmail({
     key: 'actionnaire/demande/accorder',
@@ -24,7 +20,7 @@ export const handleChangementActionnaireAccordé = async ({
       departement_projet: projet.département,
       appel_offre: appelOffre,
       période,
-      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(projet.identifiantProjet.formatter(), demandéLe)}`,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
 };
