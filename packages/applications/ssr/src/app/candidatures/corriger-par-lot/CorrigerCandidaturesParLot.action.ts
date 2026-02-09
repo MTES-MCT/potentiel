@@ -17,19 +17,31 @@ import {
   mapCsvRowToFournisseurs,
 } from '@/utils/candidature';
 
+import { récupérerColonnesRequisesPourLAOImporté } from '../importer/(csv)/récupérerColonnesRequisesPourLAOImporté';
+
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
+  appelOffre: zod.string(),
+  periode: zod.string(),
 });
 
 export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { fichierCorrectionCandidatures, appelOffre, periode },
+) =>
   withUtilisateur(async (utilisateur) => {
-    //@TODO : besoin de l'ao pour vérifier les colonnes requises
+    const colonnesRequises = await récupérerColonnesRequisesPourLAOImporté({
+      appelOffres: appelOffre,
+      periode,
+    });
+
     const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
       { encoding: 'win1252', delimiter: ';' },
+      colonnesRequises,
     );
 
     if (parsedData.length === 0) {

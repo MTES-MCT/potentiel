@@ -98,7 +98,7 @@ export const candidatureCsvHeadersMapping = {
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   coefficientKChoisi: 'indexation_k',
-  territoireProjet: 'Territoire\n(AO ZNI)', // @TODO : seulement ZNI
+  territoireProjet: 'Territoire\n(AO ZNI)',
   puissanceProjetInitial: 'puissance_projet_initial',
   typeInstallationsAgrivoltaïques: 'Installations agrivoltaïques',
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
