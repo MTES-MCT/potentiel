@@ -17,11 +17,11 @@ export const listerRecipients = async ({
   région,
   zone,
 }: ListerRecipientsProps): Promise<Recipient[]> => {
-  const dreals = await mediator.send<ListerUtilisateursQuery>({
+  const utiilisateurs = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',
     data: { roles, région, zone, identifiantGestionnaireRéseau, actif: true },
   });
-  return dreals.items
+  return utiilisateurs.items
     .map(({ identifiantUtilisateur: { email } }) => ({ email }))
     .filter(({ email }) => !email.endsWith('@clients'));
 };
