@@ -5,7 +5,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Email } from '@potentiel-domain/common';
 
-import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity.js';
+import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
+import { RaccordementEntity } from '../raccordement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
 
 import {
