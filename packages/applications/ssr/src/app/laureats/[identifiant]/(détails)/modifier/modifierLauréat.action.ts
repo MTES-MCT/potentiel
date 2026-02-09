@@ -136,8 +136,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         laureat.adresse2 != undefined ||
         laureat.codePostal != undefined ||
         laureat.commune != undefined ||
-        laureat.departement != undefined ||
-        laureat.region != undefined;
+        laureat.département != undefined ||
+        laureat.région != undefined;
 
       if (siteDeProductionModifié) {
         const lauréatAModifier = await getLauréatInfos(rawIdentifiantProjet);
@@ -151,8 +151,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
               adresse2: laureat.adresse2 ?? lauréatAModifier.localité.adresse2,
               codePostal: laureat.codePostal ?? lauréatAModifier.localité.codePostal,
               commune: laureat.commune ?? lauréatAModifier.localité.commune,
-              département: laureat.departement ?? lauréatAModifier.localité.département,
-              région: laureat.region ?? lauréatAModifier.localité.région,
+              département: laureat.département ?? lauréatAModifier.localité.département,
+              région: laureat.région ?? lauréatAModifier.localité.région,
             },
             raisonValue: '',
             modifiéLeValue: DateTime.now().formatter(),
@@ -196,8 +196,8 @@ const mapBodyToCandidatureUsecaseData = (
     adresse2: data.adresse2 ?? previous.localité.adresse2,
     codePostal: data.codePostal ?? previous.localité.codePostal,
     commune: data.commune ?? previous.localité.commune,
-    département: data.departement ?? previous.localité.département,
-    région: data.region ?? previous.localité.région,
+    département: data.département ?? previous.localité.département,
+    région: data.région ?? previous.localité.région,
   };
 
   return {

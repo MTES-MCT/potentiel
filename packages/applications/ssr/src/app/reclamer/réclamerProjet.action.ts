@@ -10,7 +10,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { withRateLimit } from '@/utils/withRateLimit';
-import { numéroCRESchema, prixRéférenceSchema } from '@/utils/candidature/candidatureFields.schema';
+import { numéroCRESchema } from '@/utils/candidature/identifiantProjet.schema';
+
+import { dépôtSchema } from '../../utils/candidature';
 
 import { déchiffrerIdentifiantProjet } from './_helpers/chiffrement';
 
@@ -23,7 +25,7 @@ const commonSchema = {
 
 const prixReferenceEtNumeroCRESchema = zod.object({
   ...commonSchema,
-  prixReference: prixRéférenceSchema,
+  prixReference: dépôtSchema.shape.prixReference,
   numeroCRE: numéroCRESchema,
   hasSameEmail: zod.literal('false'),
 });

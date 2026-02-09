@@ -15,9 +15,11 @@ import {
   dépôtSchema,
   instructionSchema,
   doitRegenererAttestationSchema,
+} from '@/utils/candidature';
+import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
-} from '@/utils/candidature';
+} from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
 
@@ -51,10 +53,10 @@ const schema = zod.object({
   numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   installateur: dépôtSchema.shape.installateur,
   natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
+  puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,
-  puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
 });
 
 export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;

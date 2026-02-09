@@ -16,6 +16,14 @@ import { applySearchParams } from '@/app/_helpers';
 import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
 
+const normalizeFormKeys = <T extends Record<string, unknown>>(data: T): T =>
+  Object.fromEntries(
+    Object.entries(data).map(([key, value]) => {
+      const decodedKey = decodeURIComponent(escape(key));
+      return [decodedKey, value];
+    }),
+  ) as T;
+
 export type ActionResult = {
   successMessage: string;
   link?: {
@@ -92,10 +100,11 @@ export const formAction =
         };
       }, {});
 
-      const data = schema
-        ? await schema.parseAsync(unflatten(dataReduced))
-        : unflatten(dataReduced);
+      const dataReducedNormalized = normalizeFormKeys(dataReduced);
 
+      const data = schema
+        ? await schema.parseAsync(unflatten(dataReducedNormalized))
+        : unflatten(dataReducedNormalized);
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       if (result.status === 'success' && result.redirection) {

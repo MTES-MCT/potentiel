@@ -1,13 +1,17 @@
 import { z } from 'zod';
 
+import { Candidature } from '@potentiel-domain/projet';
+
 import { conditionalRequiredError } from './schemaBase';
-import { motifEliminationSchema, noteTotaleSchema, statutSchema } from './candidatureFields.schema';
+import { numberSchema, optionalStringSchema } from './schemaBase';
+
+export type InstructionSchemaShape = z.infer<typeof instructionSchema>;
 
 export const instructionSchema = z
   .object({
-    statut: statutSchema,
-    motifÉlimination: motifEliminationSchema,
-    noteTotale: noteTotaleSchema,
+    statut: z.enum(Candidature.StatutCandidature.statuts),
+    motifÉlimination: optionalStringSchema,
+    noteTotale: numberSchema,
   })
   .superRefine((obj, ctx) => {
     const actualStatut = obj.statut;
@@ -23,5 +27,3 @@ export const instructionSchema = z
       });
     }
   });
-
-export type InstructionSchemaShape = z.infer<typeof instructionSchema>;

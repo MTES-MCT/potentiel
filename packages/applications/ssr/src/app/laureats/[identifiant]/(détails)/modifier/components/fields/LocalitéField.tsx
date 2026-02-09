@@ -56,14 +56,14 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
   const [candidatureCommune, setCandidatureCommune] = useState({
     commune: candidature.commune,
     codePostal: candidature.codePostal,
-    departement: candidature.departement,
-    region: candidature.region,
+    departement: candidature.département,
+    region: candidature.région,
   });
   const [lauréatCommune, setLauréatCommune] = useState({
     commune: lauréat.commune.currentValue,
     codePostal: lauréat.codePostal.currentValue,
-    departement: lauréat.departement.currentValue,
-    region: lauréat.region.currentValue,
+    departement: lauréat.département.currentValue,
+    region: lauréat.région.currentValue,
   });
   const [linked, setLinked] = useState(
     candidatureCommune.commune === lauréatCommune.commune &&
@@ -134,13 +134,13 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
           type="hidden"
           value={candidatureCommune.departement}
           name="candidature.departement"
-          disabled={candidatureCommune.region === candidature.region}
+          disabled={candidatureCommune.region === candidature.région}
         />
         <input
           type="hidden"
           value={candidatureCommune.region}
           name="candidature.region"
-          disabled={candidatureCommune.departement === candidature.departement}
+          disabled={candidatureCommune.departement === candidature.département}
         />
       </div>
       <div className="flex-[2] flex flex-row gap-2 px-2">
@@ -227,13 +227,13 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
           type="hidden"
           value={lauréatCommune.departement}
           name="laureat.departement"
-          disabled={lauréatCommune.region === lauréat.region.currentValue}
+          disabled={lauréatCommune.region === lauréat.région.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.region}
           name="laureat.region"
-          disabled={lauréatCommune.departement === lauréat.departement.currentValue}
+          disabled={lauréatCommune.departement === lauréat.département.currentValue}
         />
       </div>
     </div>

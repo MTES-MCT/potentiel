@@ -1,4 +1,4 @@
-export * from './candidatureFields.schema';
+export * from './identifiantProjet.schema';
 export * from './candidatureNotifiée.schema';
 export * from './cleanDétailsKeys';
 export * from './csv/_test-shared';
@@ -10,7 +10,6 @@ export * from './csv/getLocalité';
 export * from './csv/mapCsvToTypologieInstallation';
 export * from './dépôt.schema';
 export * from './instruction.schema';
-export * from './localité.schema';
 export type * from './nestedKeysForSchema';
 export * from './removeEmptyValues';
 export * from './schemaBase';
