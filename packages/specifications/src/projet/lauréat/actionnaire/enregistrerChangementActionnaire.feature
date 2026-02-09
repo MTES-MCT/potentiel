@@ -15,11 +15,11 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Changement d'actionnaire enregistré |
             | nom_projet | Du boulodrome de Marseille                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                    |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Changement d'actionnaire enregistré |
             | nom_projet | Du boulodrome de Marseille                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                    |
 
     Scénario: Enregistrer un changement d'actionnaire avec une valeur identique
         Quand le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
