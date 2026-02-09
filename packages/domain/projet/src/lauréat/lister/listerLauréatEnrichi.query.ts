@@ -12,6 +12,7 @@ import {
   DétailCandidatureEntity,
   Localité,
   TypeActionnariat,
+  TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
@@ -19,6 +20,11 @@ import { Actionnaire, StatutLauréat } from '..';
 import { AchèvementEntity } from '../achèvement';
 import { ActionnaireEntity } from '../actionnaire';
 import { RaccordementEntity } from '../raccordement';
+import { DispositifDeStockage, InstallationEntity } from '../installation';
+import {
+  NatureDeLExploitationEntity,
+  TypeDeNatureDeLExploitation,
+} from '../nature-de-l-exploitation';
 
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -48,8 +54,26 @@ export type LauréatEnrichiListItemReadModel = {
   dateAchèvementRéelle: DateTime.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
-  puissance: Dépôt.ValueType['puissance'];
+  numéroAutorisationDUrbanisme: string | undefined;
+
+  puissance: PuissanceEntity['puissance'];
+  puissanceDeSite: PuissanceEntity['puissanceDeSite'];
   unitéPuissance: UnitéPuissance.ValueType;
+
+  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
+  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
+  installateur: string | undefined;
+  installationAvecDispositifDeStockage:
+    | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
+    | undefined;
+  puissanceDuDispositifDeStockageEnKW:
+    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+    | undefined;
+  capacitéDuDispositifDeStockageEnKWh:
+    | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
+    | undefined;
+  typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
+  tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
@@ -82,6 +106,17 @@ export type ListerLauréatEnrichiDependencies = {
   getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
+type LauréatEnrichiJoins = [
+  CandidatureEntity,
+  PuissanceEntity,
+  ActionnaireEntity,
+  AchèvementEntity,
+  DétailCandidatureEntity,
+  LeftJoin<RaccordementEntity>,
+  LeftJoin<InstallationEntity>,
+  LeftJoin<NatureDeLExploitationEntity>,
+];
+
 export const registerListerLauréatEnrichiQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -106,17 +141,7 @@ export const registerListerLauréatEnrichiQuery = ({
           ? [identifiantProjet]
           : undefined;
 
-    const lauréats = await list<
-      LauréatEntity,
-      [
-        CandidatureEntity,
-        PuissanceEntity,
-        ActionnaireEntity,
-        AchèvementEntity,
-        DétailCandidatureEntity,
-        LeftJoin<RaccordementEntity>,
-      ]
-    >('lauréat', {
+    const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
@@ -156,6 +181,16 @@ export const registerListerLauréatEnrichiQuery = ({
           on: 'identifiantProjet',
         },
         { entity: 'raccordement', on: 'identifiantProjet', type: 'left' },
+        {
+          entity: 'installation',
+          on: 'identifiantProjet',
+          type: 'left',
+        },
+        {
+          entity: 'nature-de-l-exploitation',
+          on: 'identifiantProjet',
+          type: 'left',
+        },
       ],
     });
 
@@ -185,17 +220,7 @@ export const registerListerLauréatEnrichiQuery = ({
 
 type MapToReadModelProps = (args: {
   gestionnaireRéseau?: GestionnaireRéseau.GestionnaireRéseauEntity['raisonSociale'];
-  lauréat: LauréatEntity &
-    Joined<
-      [
-        CandidatureEntity,
-        PuissanceEntity,
-        ActionnaireEntity,
-        AchèvementEntity,
-        LeftJoin<RaccordementEntity>,
-        DétailCandidatureEntity,
-      ]
-    >;
+  lauréat: LauréatEntity & Joined<LauréatEnrichiJoins>;
 }) => LauréatEnrichiListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -204,16 +229,28 @@ const mapToReadModel: MapToReadModelProps = ({
     identifiantProjet,
     localité,
     statut,
-    puissance,
-    candidature: { prixReference, unitéPuissance, actionnariat },
+    puissance: { puissance, puissanceDeSite },
+    candidature: {
+      prixReference,
+      unitéPuissance,
+      actionnariat,
+      coefficientKChoisi,
+      autorisationDUrbanisme,
+    },
     achèvement,
     actionnaire,
     'détail-candidature': détailCandidature,
+    installation,
+    'nature-de-l-exploitation': natureDeLExploitation,
   },
   gestionnaireRéseau,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const statutValueType = StatutLauréat.convertirEnValueType(statut);
+
+  const dispositifDeStockageValueType = installation?.dispositifDeStockage
+    ? DispositifDeStockage.convertirEnValueType(installation.dispositifDeStockage)
+    : undefined;
 
   return {
     identifiantProjet: identifiantProjetValueType,
@@ -238,8 +275,29 @@ const mapToReadModel: MapToReadModelProps = ({
     dateAchèvementRéelle: achèvement?.réel && DateTime.convertirEnValueType(achèvement.réel.date),
 
     prixReference,
-    puissance: puissance.puissance,
+    coefficientKChoisi,
+    numéroAutorisationDUrbanisme: autorisationDUrbanisme?.numéro,
+
+    puissance,
+    puissanceDeSite,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+
+    installateur: installation?.installateur,
+    installationAvecDispositifDeStockage:
+      dispositifDeStockageValueType?.installationAvecDispositifDeStockage,
+    puissanceDuDispositifDeStockageEnKW:
+      dispositifDeStockageValueType?.puissanceDuDispositifDeStockageEnKW,
+    capacitéDuDispositifDeStockageEnKWh:
+      dispositifDeStockageValueType?.capacitéDuDispositifDeStockageEnKWh,
+    typologieInstallation: installation?.typologieInstallation
+      ? installation.typologieInstallation.map(TypologieInstallation.convertirEnValueType)
+      : undefined,
+    typeNatureDeLExploitation: natureDeLExploitation
+      ? TypeDeNatureDeLExploitation.convertirEnValueType(
+          natureDeLExploitation.typeNatureDeLExploitation,
+        )
+      : undefined,
+    tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
 
     technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
     diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],

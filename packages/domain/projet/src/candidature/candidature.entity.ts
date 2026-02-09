@@ -5,6 +5,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet, Lauréat } from '..';
 import { Fournisseur } from '../lauréat/fournisseur';
+import { DispositifDeStockage } from '../lauréat/installation';
 
 import {
   HistoriqueAbandon,
@@ -82,5 +83,6 @@ export type CandidatureEntity = Entity<
     technologieCalculée: AppelOffre.Technologie;
     // Calculée à partir de la technologie et de l'appel d'offres
     unitéPuissance: UnitéPuissance.RawType;
+    dispositifDeStockage?: DispositifDeStockage.RawType;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

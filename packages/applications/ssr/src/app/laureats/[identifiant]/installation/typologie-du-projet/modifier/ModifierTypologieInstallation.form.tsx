@@ -12,8 +12,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
-import { getTypologieInstallationLabel } from '../typologieInstallationLabel';
+import { getTypologieInstallationLabel } from '@/app/_helpers';
 
 import {
   modifierTypologieInstallationAction,
