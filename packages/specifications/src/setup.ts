@@ -108,7 +108,6 @@ BeforeAll(async () => {
   process.env.SEND_EMAILS_FROM = 'tests@test.test';
   process.env.SMTP_HOST = 'localhost';
   process.env.SMTP_PORT = '1026';
-  process.env.LOGGER_LEVEL = 'error';
 
   disableNodeMaxListenerWarning();
 
