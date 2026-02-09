@@ -69,11 +69,11 @@ export const GET = async (request: Request) =>
           { value: 'puissance', label: 'Puissance installée' },
           { value: 'puissanceDeSite', label: 'Puissance de site' },
           { value: 'unitéPuissance', label: 'Unité de puissance' },
-          // champs aos
           {
             value: 'coefficientKChoisi',
             label: 'Coefficient K choisi',
           },
+
           {
             value: 'numéroAutorisationDUrbanisme',
             label: "Autorisation d'urbanisme",
@@ -90,13 +90,14 @@ export const GET = async (request: Request) =>
             value: 'capacitéDuDispositifDeStockageEnKWh',
             label: 'Capacité du dispositif de stockage (kWh)',
           },
-          {
-            value: 'typologieInstallation',
-            label: 'Typologie de l’installation',
-          },
+
           {
             value: 'puissanceDuDispositifDeStockageEnKW',
             label: 'Puissance du dispositif de stockage (kW)',
+          },
+          {
+            value: 'typologieInstallation',
+            label: 'Typologie de l’installation',
           },
           {
             value: 'typeNatureDeLExploitation',
@@ -106,7 +107,6 @@ export const GET = async (request: Request) =>
             value: 'tauxPrévisionnelACI',
             label: 'Taux prévisionnel ACI (%)',
           },
-          // champs eolien (détail candidature)
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },

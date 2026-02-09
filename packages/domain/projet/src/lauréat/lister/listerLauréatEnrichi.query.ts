@@ -54,16 +54,14 @@ export type LauréatEnrichiListItemReadModel = {
   dateAchèvementRéelle: DateTime.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
-  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
   numéroAutorisationDUrbanisme: string | undefined;
 
   puissance: PuissanceEntity['puissance'];
   puissanceDeSite: PuissanceEntity['puissanceDeSite'];
   unitéPuissance: UnitéPuissance.ValueType;
 
-  /**
-   * Champs AOS
-   */
+  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
+  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
     | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
@@ -74,13 +72,9 @@ export type LauréatEnrichiListItemReadModel = {
   capacitéDuDispositifDeStockageEnKWh:
     | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
     | undefined;
-  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
 
-  /**
-   * Champs éolien (détail candidature)
-   */
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;

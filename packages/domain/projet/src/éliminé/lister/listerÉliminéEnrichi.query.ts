@@ -40,16 +40,14 @@ export type ÉliminéEnrichiListItemReadModel = {
   typeActionnariat: TypeActionnariat.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
-  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
   numéroAutorisationDUrbanisme: string | undefined;
 
   puissance: Dépôt.ValueType['puissance'];
   puissanceDeSite: Dépôt.ValueType['puissanceDeSite'];
   unitéPuissance: UnitéPuissance.ValueType;
 
-  /**
-   * Champs AOS
-   */
+  coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
+  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: Dépôt.ValueType['installateur'];
   installationAvecDispositifDeStockage:
     | DispositifDeStockage.ValueType['installationAvecDispositifDeStockage']
@@ -60,7 +58,6 @@ export type ÉliminéEnrichiListItemReadModel = {
   capacitéDuDispositifDeStockageEnKWh:
     | DispositifDeStockage.ValueType['puissanceDuDispositifDeStockageEnKW']
     | undefined;
-  typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
 
