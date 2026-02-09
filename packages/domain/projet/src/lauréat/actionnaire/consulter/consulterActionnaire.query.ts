@@ -11,6 +11,7 @@ export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
   dateDemandeEnCours?: DateTime.ValueType;
+  dateDemandeClôturée?: DateTime.ValueType;
 };
 
 export type ConsulterActionnaireQuery = Message<
@@ -31,7 +32,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 
     const actionnaire = await find<ActionnaireEntity>(
       `actionnaire|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom', 'dateDemandeEnCours'] },
+      { select: ['identifiantProjet', 'actionnaire.nom', 'demande.date', 'demande.statut'] },
     );
 
     return Option.match(actionnaire).some(mapToReadModel).none();
@@ -39,11 +40,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
   mediator.register('Lauréat.Actionnaire.Query.ConsulterActionnaire', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  actionnaire,
-  dateDemandeEnCours,
-}: ActionnaireEntity) => {
+export const mapToReadModel = ({ identifiantProjet, actionnaire, demande }: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
   }
@@ -51,8 +48,13 @@ export const mapToReadModel = ({
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
-    dateDemandeEnCours: dateDemandeEnCours
-      ? DateTime.convertirEnValueType(dateDemandeEnCours)
-      : undefined,
+    dateDemandeEnCours:
+      demande && demande.statut === 'demandé'
+        ? DateTime.convertirEnValueType(demande.date)
+        : undefined,
+    dateDemandeClôturée:
+      demande && demande.statut !== 'demandé'
+        ? DateTime.convertirEnValueType(demande.date)
+        : undefined,
   };
 };

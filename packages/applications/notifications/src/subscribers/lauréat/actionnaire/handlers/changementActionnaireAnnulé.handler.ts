@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-import { getDateDemandeEnCoursActionnaire } from '../helpers/getDateDemandeEnCoursActionnaire.js';
+import { getDateDernièreDemandeActionnaire } from '../helpers/getDateDemandeClôturéeActionnaire.js';
 
 export const handleChangementActionnaireAnnulé = async ({
   payload,
@@ -13,7 +13,7 @@ export const handleChangementActionnaireAnnulé = async ({
   const { appelOffre, période } = projet.identifiantProjet;
   const dreals = await listerDrealsRecipients(projet.région);
 
-  const demandéLe = await getDateDemandeEnCoursActionnaire(projet.identifiantProjet.formatter());
+  const demandéLe = await getDateDernièreDemandeActionnaire(projet.identifiantProjet.formatter());
 
   return sendEmail({
     key: 'actionnaire/demande/annuler',

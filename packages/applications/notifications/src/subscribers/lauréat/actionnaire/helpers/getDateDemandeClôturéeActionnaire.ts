@@ -9,7 +9,7 @@ export class DemandeEnCoursNonTrouvéeError extends Error {
   }
 }
 
-export const getDateDemandeEnCoursActionnaire = async (identifiantProjet: string) => {
+export const getDateDernièreDemandeActionnaire = async (identifiantProjet: string) => {
   const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: {
@@ -17,9 +17,9 @@ export const getDateDemandeEnCoursActionnaire = async (identifiantProjet: string
     },
   });
 
-  if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
+  if (Option.isNone(actionnaire) || !actionnaire.dateDemandeClôturée) {
     throw new DemandeEnCoursNonTrouvéeError();
   }
 
-  return actionnaire.dateDemandeEnCours.formatter();
+  return actionnaire.dateDemandeClôturée.formatter();
 };

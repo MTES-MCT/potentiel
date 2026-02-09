@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-import { getDateDemandeEnCoursActionnaire } from '../helpers/getDateDemandeEnCoursActionnaire.js';
+import { getDateDernièreDemandeActionnaire } from '../helpers/getDateDemandeClôturéeActionnaire.js';
 
 export const handleChangementActionnaireAccordé = async ({
   payload,
@@ -14,7 +14,7 @@ export const handleChangementActionnaireAccordé = async ({
 
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-  const demandéLe = await getDateDemandeEnCoursActionnaire(projet.identifiantProjet.formatter());
+  const demandéLe = await getDateDernièreDemandeActionnaire(projet.identifiantProjet.formatter());
 
   return sendEmail({
     key: 'actionnaire/demande/accorder',

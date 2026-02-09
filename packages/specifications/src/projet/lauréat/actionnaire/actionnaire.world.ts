@@ -64,6 +64,12 @@ export class ActionnaireWorld {
           : this.#modifierActionnaireFixture.aÉtéCréé
             ? this.#modifierActionnaireFixture.actionnaire
             : actionnaireInitial,
+      dateDemandeClôturée:
+        this.accorderChangementActionnaireFixture.aÉtéCréé ||
+        this.annulerChangementActionnaireFixture.aÉtéCréé ||
+        this.rejeterChangementActionnaireFixture.aÉtéCréé
+          ? DateTime.convertirEnValueType(this.#demanderChangementActionnaireFixture.demandéLe)
+          : undefined,
     };
   }
 

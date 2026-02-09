@@ -29,7 +29,7 @@ export type ListerChangementActionnaireQuery = Message<
     statut?: Array<StatutChangementActionnaire.RawType>;
     appelOffre?: Array<string>;
     nomProjet?: string;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerChangementActionnaireReadModel
 >;
