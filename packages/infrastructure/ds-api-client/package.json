@@ -17,16 +17,12 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "graphql-request": "7.2.0",
-    "graphql-tag": "2.12.6"
+    "graphql-request": "7.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript-graphql-request": "6.3.0",
     "@potentiel-config/tsconfig": "*"
-  },
-  "overrides": {
-    "graphql-tag": "2.12.6"
   }
 }
