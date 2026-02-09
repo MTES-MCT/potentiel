@@ -32,7 +32,6 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 
     const actionnaire = await find<ActionnaireEntity>(
       `actionnaire|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom', 'demande.date', 'demande.statut'] },
     );
 
     return Option.match(actionnaire).some(mapToReadModel).none();
