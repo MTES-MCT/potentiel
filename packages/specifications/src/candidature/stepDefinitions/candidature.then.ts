@@ -11,7 +11,6 @@ import { waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString.js';
-import { sleep } from '../../helpers/sleep.js';
 
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;
@@ -70,21 +69,6 @@ Alors(
       this.candidatureWorld.importerCandidature.values.emailContactValue,
       'Potentiel - Une nouvelle attestation est disponible pour le projet .*',
     );
-  },
-);
-
-Alors(
-  "le porteur n'a pas été prévenu que son attestation a été modifiée",
-  async function (this: PotentielWorld) {
-    // edge case because we want to wait for a notification that should not be sent
-    await sleep(400);
-    try {
-      this.notificationWorld.vérifierNotification(
-        this.candidatureWorld.importerCandidature.values.emailContactValue,
-      );
-    } catch (error) {
-      expect((error as Error).message).to.equal('Pas de notification');
-    }
   },
 );
 

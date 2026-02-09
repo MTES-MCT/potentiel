@@ -28,12 +28,23 @@ export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: stri
 Alors(
   'un email a été envoyé au porteur avec :',
   async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
+    await vérifierEmailEnvoyé.call(
+      this,
+      this.utilisateurWorld.porteurFixture.aÉtéCréé
+        ? this.utilisateurWorld.porteurFixture.email
+        : this.candidatureWorld.importerCandidature.values.emailContactValue,
+      data,
+    );
   },
 );
 
 Alors(`aucun email n'a été envoyé au porteur`, async function (this: PotentielWorld) {
-  await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email);
+  await vérifierEmailNonEnvoyé.call(
+    this,
+    this.utilisateurWorld.porteurFixture.aÉtéCréé
+      ? this.utilisateurWorld.porteurFixture.email
+      : this.candidatureWorld.importerCandidature.values.emailContactValue,
+  );
 });
 
 Alors(`aucun email n'a été envoyé à l'utilisateur`, async function (this: PotentielWorld) {
