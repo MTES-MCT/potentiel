@@ -1,6 +1,6 @@
-import { createDossierAccessor, GetDossierQuery } from '../../graphql';
+import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
 
-import { getTypeGarantiesFinancières } from './getTypeGarantiesFinancières';
+import { getTypeGarantiesFinancières } from './getTypeGarantiesFinancières.js';
 
 const gfDateLabels = {
   exemption: "Date de la délibération portant sur le projet objet de l'offre",

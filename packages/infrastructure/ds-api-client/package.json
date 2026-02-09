@@ -5,10 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "prebuild": "npm run codegen",
     "build": "npm run prebuild && tsc",
-    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen": "graphql-codegen-esm --config codegen.ts",
     "test": "tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
@@ -16,8 +17,7 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "graphql-request": "7.2.0",
-    "graphql-tag": "2.12.6"
+    "graphql-request": "7.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/add": "5.0.3",

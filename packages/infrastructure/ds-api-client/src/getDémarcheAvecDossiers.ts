@@ -2,13 +2,13 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getDSApiClient } from './graphql';
+import { getDSApiClient } from './graphql/index.js';
 import {
   DeepPartial,
   mapApiResponseToDépôt,
   mapApiResponseToDétails,
   mapApiResponseToFichiers,
-} from './_helpers';
+} from './_helpers/index.js';
 
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];

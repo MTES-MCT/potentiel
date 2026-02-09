@@ -1,7 +1,7 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getDossier } from './getDossier';
+import { getDossier } from './getDossier.js';
 
 export const getAttestationGarantiesFinancières = async (dossierNumber: number) => {
   const logger = getLogger('ds-api-client');

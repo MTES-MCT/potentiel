@@ -1,6 +1,6 @@
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { AddressFragmentFragment, ChampFragmentFragment, GetDossierQuery } from './client';
+import { AddressFragmentFragment, ChampFragmentFragment, GetDossierQuery } from './client.js';
 
 export type Champs = GetDossierQuery['dossier']['champs'];
 

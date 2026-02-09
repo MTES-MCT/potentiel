@@ -1,7 +1,7 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getDSApiClient } from './graphql';
+import { getDSApiClient } from './graphql/index.js';
 
 export const getDémarcheIdParDossier = async (dossierNumber: number) => {
   const sdk = getDSApiClient();

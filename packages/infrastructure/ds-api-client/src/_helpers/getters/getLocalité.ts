@@ -1,4 +1,4 @@
-import { DossierAccessor } from '../../graphql';
+import { DossierAccessor } from '../../graphql/index.js';
 
 export const getLocalité = <T extends Record<string, string>, TName extends string & keyof T>(
   accessor: DossierAccessor<T>,

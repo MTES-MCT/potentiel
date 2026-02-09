@@ -25,6 +25,8 @@ const config: CodegenConfig = {
       ],
       config: {
         enumsAsTypes: true,
+        // the default import, grapqhl-tag, results in an invalid ESM import.
+        gqlImport: 'graphql-request#gql',
       },
     },
   },
