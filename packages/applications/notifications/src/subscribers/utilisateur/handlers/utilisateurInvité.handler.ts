@@ -2,6 +2,7 @@ import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getBaseUrl, listerAdminEtValidateursRecipients, NotificationHandlerProps } from '#helpers';
 
@@ -14,6 +15,12 @@ export async function handleUtilisateurInvité({
   },
   sendEmail,
 }: NotificationHandlerProps<UtilisateurInvitéEvent>) {
+  if (identifiantUtilisateur.endsWith('@clients')) {
+    getLogger('handleUtilisateurInvité').info(
+      `L'utilisateur ${identifiantUtilisateur} est un utilisateur API, aucune notification ne sera envoyée.`,
+    );
+    return;
+  }
   const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   const { templateId, invitation_link } = match(rôle)

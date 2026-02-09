@@ -1,11 +1,9 @@
-import { mediator } from 'mediateur';
-
 import { Période } from '@potentiel-domain/periode';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
 import { getBaseUrl, NotificationHandlerProps } from '#helpers';
 
 import { périodeNotificationTemplateId } from '../constant.js';
+import { listerRecipients } from '../../../helpers/listerRecipients.js';
 
 export const handlePériodeNotifiée = async ({
   event,
@@ -15,25 +13,21 @@ export const handlePériodeNotifiée = async ({
     event.payload.identifiantPériode,
   );
 
-  const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
-    type: 'Utilisateur.Query.ListerUtilisateurs',
-    data: {
-      roles: [
-        'admin',
-        'dreal',
-        'cocontractant',
-        'ademe',
-        'dgec-validateur',
-        'caisse-des-dépôts',
-        'cre',
-      ],
-      actif: true,
-    },
+  const usersOthersThanDGECOrPorteur = await listerRecipients({
+    roles: [
+      'admin',
+      'dreal',
+      'cocontractant',
+      'ademe',
+      'dgec-validateur',
+      'caisse-des-dépôts',
+      'cre',
+    ],
   });
 
   const baseUrl = getBaseUrl();
 
-  for (const { email } of usersOthersThanDGECOrPorteur.items) {
+  for (const { email } of usersOthersThanDGECOrPorteur) {
     await sendEmail({
       templateId: périodeNotificationTemplateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
       recipients: [{ email }],
