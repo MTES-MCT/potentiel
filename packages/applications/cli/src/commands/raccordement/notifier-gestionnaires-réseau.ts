@@ -93,7 +93,9 @@ export class NotifierGestionnaireRéseau extends Command {
         },
       });
 
-      const recipients = users.items.map(({ identifiantUtilisateur: { email } }) => ({ email }));
+      const recipients = users.items
+        .map(({ identifiantUtilisateur: { email } }) => ({ email }))
+        .filter(({ email }) => !email.endsWith('@clients'));
 
       if (recipients.length === 0) {
         logger.warn(`No recipient found for ${gestionnaire.raisonSociale} (${codeEIC})`);
