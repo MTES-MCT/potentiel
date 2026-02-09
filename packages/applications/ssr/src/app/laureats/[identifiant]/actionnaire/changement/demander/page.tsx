@@ -55,7 +55,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         );
       }
 
-      // viovio
       return (
         <DemanderChangementActionnairePage
           identifiantProjet={mapToPlainObject(actionnaire.identifiantProjet)}

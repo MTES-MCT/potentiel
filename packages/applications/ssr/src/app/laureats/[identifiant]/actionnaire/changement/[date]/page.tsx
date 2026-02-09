@@ -61,8 +61,6 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      console.log('viovio', actionnaire);
-
       const historique =
         await mediator.send<Lauréat.Actionnaire.ListerHistoriqueActionnaireProjetQuery>({
           type: 'Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet',

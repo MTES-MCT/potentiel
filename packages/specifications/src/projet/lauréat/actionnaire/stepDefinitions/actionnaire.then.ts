@@ -163,9 +163,6 @@ Alors(
         ),
       );
 
-      console.log(actual);
-      console.log(expected);
-
       actual.should.be.deep.equal(expected);
     });
   },
