@@ -5,10 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "prebuild": "npm run codegen",
     "build": "npm run prebuild && tsc",
-    "codegen": "graphql-codegen --config codegen.ts",
+    "codegen": "NODE_OPTIONS=--experimental-require-module graphql-codegen-esm --config codegen.ts",
     "test": "tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
@@ -24,5 +25,8 @@
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript-graphql-request": "6.3.0",
     "@potentiel-config/tsconfig": "*"
+  },
+  "overrides": {
+    "graphql-tag": "2.12.6"
   }
 }

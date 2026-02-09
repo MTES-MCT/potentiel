@@ -1,4 +1,4 @@
-import { DossierAccessor } from '../../graphql';
+import { DossierAccessor } from '../../graphql/index.js';
 
 type GetAutorisationDUrbanismeProps<TDossier extends Record<string, string>> = {
   accessor: DossierAccessor<TDossier>;

@@ -1,7 +1,7 @@
-import { getDossier } from './getDossier';
-import { getDémarcheAvecDossiers } from './getDémarcheAvecDossiers';
-import { getDémarcheIdParDossier } from './getDémarcheIdParDossier';
-import { getAttestationGarantiesFinancières } from './getAttestationGarantiesFinancières';
+import { getDossier } from './getDossier.js';
+import { getDémarcheAvecDossiers } from './getDémarcheAvecDossiers.js';
+import { getDémarcheIdParDossier } from './getDémarcheIdParDossier.js';
+import { getAttestationGarantiesFinancières } from './getAttestationGarantiesFinancières.js';
 
 export {
   getDémarcheAvecDossiers,

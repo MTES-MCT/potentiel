@@ -2,7 +2,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { createDossierAccessor, GetDossierQuery } from '../../graphql';
+import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
 import {
   getTypeGarantiesFinancières,
   getDateConstitutionGarantiesFinancières,
@@ -11,9 +11,9 @@ import {
   getDispositifDeStockage,
   getAutorisationDUrbanisme,
   getTypologieInstallation,
-} from '../getters';
-import { DeepPartial } from '../types';
-import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation';
+} from '../getters/index.js';
+import { DeepPartial } from '../types.js';
+import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',

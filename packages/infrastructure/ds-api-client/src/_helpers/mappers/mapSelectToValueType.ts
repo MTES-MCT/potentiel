@@ -1,4 +1,4 @@
-import { DossierAccessor } from '../../graphql';
+import { DossierAccessor } from '../../graphql/index.js';
 
 export const mapSelectToValueType = <T>(
   map: Record<string, T>,

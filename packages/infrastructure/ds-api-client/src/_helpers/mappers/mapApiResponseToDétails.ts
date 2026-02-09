@@ -1,6 +1,6 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { GetDossierQuery } from '../../graphql';
+import { GetDossierQuery } from '../../graphql/index.js';
 
 type MapApiResponseToDétails = {
   champs: GetDossierQuery['dossier']['champs'];

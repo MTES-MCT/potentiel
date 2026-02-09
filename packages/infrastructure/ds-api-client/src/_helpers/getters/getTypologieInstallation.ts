@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs } from '../../graphql';
+import { Champs } from '../../graphql/index.js';
 
 export const getTypologieInstallation = (champs: Champs) => {
   const typologieInstallation: Candidature.TypologieInstallation.RawType[] = [];

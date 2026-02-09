@@ -1,8 +1,8 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { DossierAccessor } from '../../graphql';
-import { reverseRecord } from '../reverseRecord';
-import { mapSelectToValueType } from '../mappers/mapSelectToValueType';
+import { DossierAccessor } from '../../graphql/index.js';
+import { reverseRecord } from '../reverseRecord.js';
+import { mapSelectToValueType } from '../mappers/mapSelectToValueType.js';
 
 const typeGfMap = reverseRecord({
   consignation: 'Consignation',
