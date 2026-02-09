@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "npm run codegen",
     "build": "npm run prebuild && tsc",
-    "codegen": "NODE_OPTIONS=--experimental-require-module graphql-codegen-esm --config codegen.ts",
+    "codegen": "graphql-codegen-esm --config codegen.ts",
     "test": "tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
