@@ -24,14 +24,14 @@ Fonctionnalité: Désactiver un utilisateur
             | dgec-validateur   |
             | grd               |
 
-    Scénario: Un porteur de projet désactivé ne recoit plus d'email
+    Scénario: Un porteur de projet désactivé ne reçoit plus d'email
         Etant donné le porteur du projet désactivé
         Quand la DREAL associée au projet modifie l'actionnaire pour le projet lauréat
         Alors aucun email n'a été envoyé au porteur
         Mais un email a été envoyé à la dreal avec :
-            | sujet | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | sujet | Potentiel - Du boulodrome de Marseille - Actionnaire modifié |
 
-    Scénario: Un utilisateur désactivé ne recoit plus d'email
+    Scénario: Un utilisateur désactivé ne reçoit plus d'email
         Etant donné un utilisateur désactivé avec le rôle "ademe"
         Et une période avec des candidats importés
         Quand un DGEC validateur notifie la période d'un appel d'offres
