@@ -10,7 +10,7 @@ Fonctionnalité: Corriger une candidature
             | nom candidat | abcd |
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
-        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+        Et aucun email n'a été envoyé au porteur
 
     Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
         Quand le DGEC validateur corrige la candidature avec :
@@ -24,7 +24,7 @@ Fonctionnalité: Corriger une candidature
             | adresse 1 | ma nouvelle adresse |
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
-        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+        Et aucun email n'a été envoyé au porteur
 
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
@@ -46,7 +46,7 @@ Fonctionnalité: Corriger une candidature
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature ne devrait pas être régénérée
         Et le détail de la candidature devrait être consultable
-        Et le porteur n'a pas été prévenu que son attestation a été modifiée
+        Et aucun email n'a été envoyé au porteur
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
