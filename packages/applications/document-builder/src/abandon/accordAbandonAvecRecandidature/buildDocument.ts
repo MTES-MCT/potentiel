@@ -2,10 +2,10 @@ import path from 'node:path';
 
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
-import { mapToReadableStream } from '../../mapToReadableStream';
-import { fontsFolderPath, imagesFolderPath } from '../../assets';
+import { mapToReadableStream } from '../../mapToReadableStream.js';
+import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
 
-import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature';
+import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature.js';
 
 Font.register({
   family: 'Arimo',

@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc && copyfiles -f src/assets/docx/* dist/assets/docx && copyfiles -f src/assets/images/* dist/assets/images && copyfiles -f src/assets/fonts/arimo/* dist/assets/fonts/arimo",
     "storybook": "storybook dev -p 6006",
@@ -11,11 +12,11 @@
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/projet": "*",
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
     "@react-pdf/renderer": "4.3.2",
     "docxtemplater": "3.61.0",
     "pizzip": "3.1.8"

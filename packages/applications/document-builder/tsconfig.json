@@ -3,9 +3,7 @@
   "compilerOptions": {
     "jsx": "react",
     "outDir": "dist",
-    "rootDir": "src",
-    "module": "commonjs",
-    "moduleResolution": "node"
+    "rootDir": "src"
   },
   "references": [
     {

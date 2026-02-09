@@ -1,10 +1,10 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { makeCertificate as makeCre4V0Certificate } from './cre4/v0/makeCertificate';
-import { makeCertificate as makeCre4V1Certificate } from './cre4/v1/makeCertificate';
-import { makeCertificate as makePpe2V1Certificate } from './ppe2/v1/makeCertificate';
-import { makeCertificate as makePpe2V2Certificate } from './ppe2/v2/makeCertificate';
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
+import { makeCertificate as makeCre4V0Certificate } from './cre4/v0/makeCertificate.js';
+import { makeCertificate as makeCre4V1Certificate } from './cre4/v1/makeCertificate.js';
+import { makeCertificate as makePpe2V1Certificate } from './ppe2/v1/makeCertificate.js';
+import { makeCertificate as makePpe2V2Certificate } from './ppe2/v2/makeCertificate.js';
+import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
 
 export const makeCertificate = ({
   data,

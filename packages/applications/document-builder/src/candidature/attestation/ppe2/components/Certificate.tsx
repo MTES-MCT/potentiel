@@ -1,7 +1,7 @@
 import { Document, Page, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { PageFooter } from './PageFooter';
+import { PageFooter } from './PageFooter.js';
 
 export type CertificateProps = {
   header: React.ReactNode;

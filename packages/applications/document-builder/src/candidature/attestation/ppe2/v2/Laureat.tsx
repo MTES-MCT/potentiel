@@ -3,8 +3,8 @@ import React from 'react';
 
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
-import { formatNumber } from '../../helpers';
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
+import { formatNumber } from '../../helpers/index.js';
 
 type LaureatProps = {
   project: AttestationPPE2Options;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature';
+import { RéponseAbandonAvecRecandidature } from './RéponseAbandonAvecRecandidature.js';
 
 const meta = {
   title: 'Abandon/AccordAvecRecandidature',

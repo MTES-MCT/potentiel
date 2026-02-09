@@ -1,12 +1,12 @@
 import { Document, Page, View, Text } from '@react-pdf/renderer';
 import React from 'react';
 
-import { Header } from './Header';
-import { PageFooter } from './PageFooter';
-import { Objet } from './Objet';
-import { Introduction } from './Introduction';
-import { Signature } from './Signature';
-import { PassageConcernantAbandonDuCahierDesCharges } from './PassageConcernantAbandonDuCahierDesCharges';
+import { Header } from './Header.js';
+import { PageFooter } from './PageFooter.js';
+import { Objet } from './Objet.js';
+import { Introduction } from './Introduction.js';
+import { Signature } from './Signature.js';
+import { PassageConcernantAbandonDuCahierDesCharges } from './PassageConcernantAbandonDuCahierDesCharges.js';
 
 export type RéponseAbandonAvecRecandidatureProps = {
   dateCourrier: string;

@@ -13,6 +13,7 @@
     "flat": "6.0.1"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "esbuild": "0.27.0"
   }
 }

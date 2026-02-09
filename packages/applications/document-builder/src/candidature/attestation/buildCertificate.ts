@@ -6,14 +6,14 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { fontsFolderPath, imagesFolderPath } from '../../assets';
-import { mapToReadableStream } from '../../mapToReadableStream';
+import { fontsFolderPath, imagesFolderPath } from '../../assets.js';
+import { mapToReadableStream } from '../../mapToReadableStream.js';
 
-import { makeCertificate } from './makeCertificate';
-import { getDésignationCatégorie } from './helpers/getDésignationCatégorie';
-import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate';
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { formatPotentielId } from './helpers/formatPotentielId';
+import { makeCertificate } from './makeCertificate.js';
+import { getDésignationCatégorie } from './helpers/getDésignationCatégorie.js';
+import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate.js';
+import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';
+import { formatPotentielId } from './helpers/formatPotentielId.js';
 
 Font.register({
   family: 'Arimo',

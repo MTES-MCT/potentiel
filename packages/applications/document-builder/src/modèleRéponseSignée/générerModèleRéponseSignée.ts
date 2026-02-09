@@ -4,33 +4,36 @@ import path from 'path';
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
 
-import { assets } from '../assets';
+import { assets } from '../assets.js';
 
 import {
   ModèleRéponseAbandon,
   modèleRéponseAbandonFileName,
-} from './abandon/modèleRéponseSignéeAbandon';
+} from './abandon/modèleRéponseSignéeAbandon.js';
 import {
   ModèleRéponseRecours,
   modèleRéponseRecoursFileName,
-} from './recours/modèleRéponseSignéeRecours';
+} from './recours/modèleRéponseSignéeRecours.js';
 import {
   ModèleRéponseMainlevée,
   modèleRéponseMainlevéeFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMainlevée';
+} from './garantiesFinancières/modèleRéponseSignéeMainlevée.js';
 import {
   ModèleMiseEnDemeure,
   modèleRéponseMiseEnDemeureFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure';
+} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure.js';
 import {
   ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
-} from './actionnaire/modèleRéponseSignéeActionnaire';
+} from './actionnaire/modèleRéponseSignéeActionnaire.js';
 import {
   ModèleRéponsePuissance,
   modèleRéponsePuissanceFileName,
-} from './puissance/modèleRéponseSignéePuissance';
-import { ModèleRéponseDélai, modèleRéponseDélaiFileName } from './délai/modèleRéponseSignéeDélai';
+} from './puissance/modèleRéponseSignéePuissance.js';
+import {
+  ModèleRéponseDélai,
+  modèleRéponseDélaiFileName,
+} from './délai/modèleRéponseSignéeDélai.js';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon

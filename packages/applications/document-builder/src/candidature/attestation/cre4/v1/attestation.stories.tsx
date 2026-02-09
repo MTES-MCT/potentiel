@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line no-restricted-imports
-import { eolien } from '@potentiel-domain/inmemory-referential/src/appelOffre/CRE4';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { AttestationCRE4Options } from '../../AttestationCandidatureOptions';
+import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 
-import { makeCertificate } from './makeCertificate';
+import { makeCertificate } from './makeCertificate.js';
+
+const eolien = appelsOffreData.find((x) => x.id === 'Eolien')!;
 
 const meta = {
   title: 'Attestations PDF/CRE4/v1',

@@ -1,1 +1,1 @@
-export * from './formatNumber';
+export * from './formatNumber.js';
