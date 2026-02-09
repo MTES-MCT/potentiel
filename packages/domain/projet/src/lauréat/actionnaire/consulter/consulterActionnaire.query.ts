@@ -46,12 +46,15 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
   mediator.register('Lauréat.Actionnaire.Query.ConsulterActionnaire', handler);
 };
 
-export const mapToReadModel = ({ identifiantProjet, actionnaire, demande }: ActionnaireEntity) => {
+export const mapToReadModel = ({
+  identifiantProjet,
+  actionnaire,
+  aUneDemandeEnCours,
+  dateDernièreDemande,
+}: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
   }
-
-  const aUneDemandeEnCours = !!(demande && demande.statut === 'demandé');
 
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -59,11 +62,13 @@ export const mapToReadModel = ({ identifiantProjet, actionnaire, demande }: Acti
     ...(aUneDemandeEnCours
       ? {
           aUneDemandeEnCours: true as const,
-          dateDernièreDemande: DateTime.convertirEnValueType(demande.date),
+          dateDernièreDemande: DateTime.convertirEnValueType(dateDernièreDemande),
         }
       : {
           aUneDemandeEnCours: false as const,
-          dateDernièreDemande: demande ? DateTime.convertirEnValueType(demande.date) : undefined,
+          dateDernièreDemande: dateDernièreDemande
+            ? DateTime.convertirEnValueType(dateDernièreDemande)
+            : undefined,
         }),
   };
 };

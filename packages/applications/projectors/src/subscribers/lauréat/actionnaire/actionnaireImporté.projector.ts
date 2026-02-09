@@ -12,5 +12,7 @@ export const actionnaireImportéProjector = async ({
         nom: actionnaire,
         miseÀJourLe: importéLe,
       },
+      dateDernièreDemande: undefined,
+      aUneDemandeEnCours: false,
     },
   );

@@ -59,7 +59,7 @@ export class ActionnaireWorld {
       this.#demanderChangementActionnaireFixture.aÉtéCréé &&
       !this.#accorderChangementActionnaireFixture.aÉtéCréé &&
       !this.#annulerChangementActionnaireFixture.aÉtéCréé &&
-      this.#rejeterChangementActionnaireFixture.aÉtéCréé;
+      !this.#rejeterChangementActionnaireFixture.aÉtéCréé;
 
     return {
       identifiantProjet,
