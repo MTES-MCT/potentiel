@@ -1,8 +1,8 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
-import { StatutLauréat } from '..';
+import { IdentifiantProjet } from '../../index.js';
+import { StatutLauréat } from '../index.js';
 
 export type StatutLauréatModifiéEvent = DomainEvent<
   'StatutLauréatModifié-V1',

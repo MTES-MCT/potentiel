@@ -1,4 +1,4 @@
-import { TypeFournisseur } from '../../../../../lauréat/fournisseur';
+import { TypeFournisseur } from '../../../../../lauréat/fournisseur/index.js';
 
 // Etat actuel des colonnes du CSV
 const champsCsvFournisseur: Record<TypeFournisseur.RawType, string> = {

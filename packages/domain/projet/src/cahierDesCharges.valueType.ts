@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { TypeActionnariat } from './candidature';
+import { TypeActionnariat } from './candidature/index.js';
 
 export type ValueType = {
   appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;

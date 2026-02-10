@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { DispositifDeStockage } from '../..';
+import { DispositifDeStockage } from '../../index.js';
 
 export type ChangementDispositifDeStockageEntity = Entity<
   'changement-dispositif-de-stockage',

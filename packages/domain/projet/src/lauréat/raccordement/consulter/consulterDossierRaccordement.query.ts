@@ -5,10 +5,10 @@ import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { DossierRaccordementEntity } from '../raccordement.entity';
-import { DocumentProjet, IdentifiantProjet } from '../../..';
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
+import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType.js';
+import { DossierRaccordementEntity } from '../raccordement.entity.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterDossierRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

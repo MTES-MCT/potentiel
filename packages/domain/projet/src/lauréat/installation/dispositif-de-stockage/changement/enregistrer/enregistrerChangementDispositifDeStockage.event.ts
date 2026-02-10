@@ -1,8 +1,8 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../../..';
-import { DispositifDeStockage } from '../../..';
+import { IdentifiantProjet } from '../../../../../index.js';
+import { DispositifDeStockage } from '../../../index.js';
 
 export type ChangementDispositifDeStockageEnregistréEvent = DomainEvent<
   'ChangementDispositifDeStockageEnregistré-V1',

@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { RecoursEvent } from '../recours.event';
+import { RecoursEvent } from '../recours.event.js';
 
 export type HistoriqueRecoursProjetListItemReadModel = HistoryRecord<'recours', RecoursEvent>;
 

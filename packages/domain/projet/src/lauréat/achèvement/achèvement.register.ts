@@ -1,19 +1,19 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 
 import {
   ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
-} from './consulter/consulterAchèvement.query';
+} from './consulter/consulterAchèvement.query.js';
 import {
   ListerProjetAvecAchevementATransmettreDependencies,
   registerListerProjetAvecAchevementATransmettreQuery,
-} from './lister/listerProjetAvecAchevementATransmettre.query';
-import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command';
-import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
-import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
-import { registerTransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
-import { registerTransmettreDateAchèvementCommand } from './transmettre/transmettreDateAchèvement.command';
-import { registerTransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase';
+} from './lister/listerProjetAvecAchevementATransmettre.query.js';
+import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command.js';
+import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command.js';
+import { registerTransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
+import { registerTransmettreDateAchèvementCommand } from './transmettre/transmettreDateAchèvement.command.js';
+import { registerTransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
 
 export type AchèvementCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;

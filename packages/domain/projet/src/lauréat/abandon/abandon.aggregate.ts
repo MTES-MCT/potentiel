@@ -3,10 +3,10 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { IdentifiantProjet, Lauréat } from '../..';
-import { TâcheAggregate } from '../tâche/tâche.aggregate';
-import { TypeTâche } from '../tâche';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { IdentifiantProjet, Lauréat } from '../../index.js';
+import { TâcheAggregate } from '../tâche/tâche.aggregate.js';
+import { TypeTâche } from '../tâche/index.js';
 
 import {
   AbandonConfirméEvent,
@@ -15,17 +15,17 @@ import {
   PreuveRecandidatureDemandéeEvent,
   PreuveRecandidatureTransmiseEvent,
   StatutAbandon,
-} from '.';
+} from './index.js';
 
-import { AbandonEvent } from './abandon.event';
+import { AbandonEvent } from './abandon.event.js';
 import {
   AbandonDemandéEvent,
   AbandonDemandéEventV1,
-} from './demande/demander/demanderAbandon.event';
-import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event';
-import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event';
-import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event';
-import { DemanderOptions } from './demande/demander/demanderAbandon.option';
+} from './demande/demander/demanderAbandon.event.js';
+import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event.js';
+import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event.js';
+import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
+import { DemanderOptions } from './demande/demander/demanderAbandon.option.js';
 import {
   AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError,
   AbandonPasDansUnContexteDeRecandidatureError,
@@ -38,17 +38,17 @@ import {
   ProjetNotifiéAprèsLaDateMaximumError,
   ProjetNotifiéAvantLaDateMinimumError,
   TranmissionPreuveRecandidatureImpossibleError,
-} from './abandon.error';
-import { AccorderOptions } from './demande/accorder/accorderAbandon.option';
-import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event';
-import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option';
-import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
-import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
-import { DemanderConfirmationOptions } from './demande/demanderConfirmation/demanderConfirmation.option';
-import { ConfirmerOptions } from './demande/confirmer/confirmerAbandon.option';
-import { InstruireOptions } from './demande/instruire/instruireAbandon.option';
-import { AnnulerOptions } from './demande/annuler/annulerAbandon.option';
-import { RejeterOptions } from './demande/rejeter/rejeterAbandon.option';
+} from './abandon.error.js';
+import { AccorderOptions } from './demande/accorder/accorderAbandon.option.js';
+import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event.js';
+import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option.js';
+import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant.js';
+import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option.js';
+import { DemanderConfirmationOptions } from './demande/demanderConfirmation/demanderConfirmation.option.js';
+import { ConfirmerOptions } from './demande/confirmer/confirmerAbandon.option.js';
+import { InstruireOptions } from './demande/instruire/instruireAbandon.option.js';
+import { AnnulerOptions } from './demande/annuler/annulerAbandon.option.js';
+import { RejeterOptions } from './demande/rejeter/rejeterAbandon.option.js';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;

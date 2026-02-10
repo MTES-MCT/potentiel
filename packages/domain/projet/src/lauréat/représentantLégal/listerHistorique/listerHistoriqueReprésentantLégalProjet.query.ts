@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { ReprésentantLégalEvent } from '../représentantLégal.event';
+import { ReprésentantLégalEvent } from '../représentantLégal.event.js';
 
 export type HistoriqueReprésentantLégalProjetListItemReadModel = HistoryRecord<
   'représentant-légal',

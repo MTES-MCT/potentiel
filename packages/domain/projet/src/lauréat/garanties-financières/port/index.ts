@@ -1,1 +1,1 @@
-export * from './récupérerConstitutionGarantiesFinancières.port';
+export type * from './récupérerConstitutionGarantiesFinancières.port.js';

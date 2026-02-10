@@ -1,7 +1,7 @@
 import { Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
 export type AccèsProjetRetiréEvent = DomainEvent<
   'AccèsProjetRetiré-V1',

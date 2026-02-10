@@ -4,8 +4,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { LauréatEntity } from '../lauréat.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { LauréatEntity } from '../lauréat.entity.js';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -14,17 +14,17 @@ import {
   TypeActionnariat,
   TypologieInstallation,
   UnitéPuissance,
-} from '../../candidature';
-import { PuissanceEntity } from '../puissance';
-import { Actionnaire, StatutLauréat } from '..';
-import { AchèvementEntity } from '../achèvement';
-import { ActionnaireEntity } from '../actionnaire';
-import { RaccordementEntity } from '../raccordement';
-import { DispositifDeStockage, InstallationEntity } from '../installation';
+} from '../../candidature/index.js';
+import { PuissanceEntity } from '../puissance/index.js';
+import { Actionnaire, StatutLauréat } from '../index.js';
+import { AchèvementEntity } from '../achèvement/index.js';
+import { ActionnaireEntity } from '../actionnaire/index.js';
+import { RaccordementEntity } from '../raccordement/index.js';
+import { DispositifDeStockage, InstallationEntity } from '../installation/index.js';
 import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
-} from '../nature-de-l-exploitation';
+} from '../nature-de-l-exploitation/index.js';
 
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

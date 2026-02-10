@@ -1,96 +1,103 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
 
-import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
-import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
+import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command.js';
+import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase.js';
 import {
   ConsulterCahierDesChargesDependencies,
   registerConsulterCahierDesChargesQuery,
-} from './cahierDesCharges/consulter/consulterCahierDesCharges.query';
+} from './cahierDesCharges/consulter/consulterCahierDesCharges.query.js';
 import {
   ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,
-} from './consulter/consulterLauréat.query';
-import { registerModifierSiteDeProductionCommand } from './site-de-production/modifierSiteDeProduction.command';
-import { registerModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase';
-import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
-import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
-import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
-import { ProducteurQueryDependencies } from './producteur/producteur.register';
+} from './consulter/consulterLauréat.query.js';
+import { registerModifierSiteDeProductionCommand } from './site-de-production/modifierSiteDeProduction.command.js';
+import { registerModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
+import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command.js';
+import {
+  DélaiQueryDependencies,
+  registerDélaiQueries,
+  registerDélaiUseCases,
+} from './délai/index.js';
+import { registerProducteurUseCases, registerProducteurQueries } from './producteur/index.js';
+import { ProducteurQueryDependencies } from './producteur/producteur.register.js';
 import {
   AchèvementQueryDependencies,
   registerAchèvementQueries,
   registerAchèvementUseCases,
-} from './achèvement/achèvement.register';
+} from './achèvement/achèvement.register.js';
 import {
   PuissanceQueryDependencies,
   registerPuissanceQueries,
   registerPuissanceUseCases,
-} from './puissance/puissance.register';
+} from './puissance/puissance.register.js';
 import {
   AbandonQueryDependencies,
   registerAbandonQueries,
   registerAbandonUseCases,
-} from './abandon/abandon.register';
+} from './abandon/abandon.register.js';
 import {
   FournisseurQueryDependencies,
   registerFournisseurQueries,
   registerFournisseurUseCases,
-} from './fournisseur/fournisseur.register';
+} from './fournisseur/fournisseur.register.js';
 import {
   ActionnaireQueryDependencies,
   registerActionnaireQueries,
   registerActionnaireUseCases,
-} from './actionnaire/actionnaire.register';
+} from './actionnaire/actionnaire.register.js';
 import {
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
   ReprésentantLégalCommandDependencies,
   ReprésentantLégalQueryDependencies,
-} from './représentantLégal/représentantLégal.register';
+} from './représentantLégal/représentantLégal.register.js';
 import {
   RaccordementQueryDependencies,
   registerRaccordementQueries,
   registerRaccordementUseCases,
-} from './raccordement/raccordement.register';
+} from './raccordement/raccordement.register.js';
 import {
   ListerHistoriqueProjetDependencies,
   registerListerHistoriqueProjetQuery,
-} from './historique/lister/listerHistoriqueProjet.query';
-import { registerTâchePlanifiéeQuery, registerTâchePlanifiéeUseCases } from './tâche-planifiée';
+} from './historique/lister/listerHistoriqueProjet.query.js';
+import {
+  registerTâchePlanifiéeQuery,
+  registerTâchePlanifiéeUseCases,
+} from './tâche-planifiée/index.js';
 import {
   GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
-} from './garanties-financières/garantiesFinancières.register';
-import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
+} from './garanties-financières/garantiesFinancières.register.js';
+import { registerTâcheQuery, TâcheQueryDependencies } from './tâche/index.js';
 import {
   NatureDeLExploitationQueryDependencies,
   registerNatureDeLExploitationQueries,
   registerNatureDeLExploitationUseCases,
-} from './nature-de-l-exploitation/natureDeLExploitation.register';
+} from './nature-de-l-exploitation/natureDeLExploitation.register.js';
 import {
   ListerLauréatDependencies,
   registerListerLauréatQuery,
-} from './lister/listerLauréat.query';
+} from './lister/listerLauréat.query.js';
 import {
   InstallationQueryDependencies,
   registerInstallationQueries,
   registerInstallationUseCases,
-} from './installation/installation.register';
-import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command';
-import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase';
-import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet';
-import { registerListerChangementNomProjetQuery } from './nomProjet/changement/lister/listerChangementNomProjet';
-import { registerModifierNomProjetCommand } from './nomProjet/modifier/modifierNomProjet.command';
-import { registerModifierNomProjetUseCase } from './nomProjet/modifier/modifierNomProjet.usecase';
+} from './installation/installation.register.js';
+import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command.js';
+import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
+import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet.js';
+import { registerListerChangementNomProjetQuery } from './nomProjet/changement/lister/listerChangementNomProjet.js';
+import { registerModifierNomProjetCommand } from './nomProjet/modifier/modifierNomProjet.command.js';
+import { registerModifierNomProjetUseCase } from './nomProjet/modifier/modifierNomProjet.usecase.js';
 import {
   ListerHistoriqueLauréatDependencies,
   registerListerHistoriqueLauréatQuery,
-} from './listerHistorique/listerHistoriqueLauréat.query';
+} from './listerHistorique/listerHistoriqueLauréat.query.js';
 import {
   ListerLauréatEnrichiDependencies,
   registerListerLauréatEnrichiQuery,
-} from './lister/listerLauréatEnrichi.query';
+} from './lister/listerLauréatEnrichi.query.js';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &

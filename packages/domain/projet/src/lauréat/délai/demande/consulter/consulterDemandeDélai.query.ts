@@ -4,10 +4,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, StatutDemandeDélai } from '../..';
-import { Délai } from '../../..';
-import { DemandeDélaiEntity } from '../demandeDélai.entity';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
+import { Délai } from '../../../index.js';
+import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterDemandeDélaiReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
-import { CandidatureEntity } from '../candidature.entity';
-import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
-import * as StatutCandidature from '../statutCandidature.valueType';
-import { DocumentProjet, IdentifiantProjet } from '../..';
-import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '..';
+import { CandidatureEntity } from '../candidature.entity.js';
+import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
+import * as StatutCandidature from '../statutCandidature.valueType.js';
+import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '../index.js';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

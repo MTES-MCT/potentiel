@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { RaccordementEvent } from '../raccordement.event';
+import { RaccordementEvent } from '../raccordement.event.js';
 
 export type HistoriqueRaccordementProjetListItemReadModel = HistoryRecord<
   'raccordement',

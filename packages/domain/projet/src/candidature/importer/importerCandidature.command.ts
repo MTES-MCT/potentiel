@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
-import { Dépôt, DétailCandidature, Instruction } from '..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../index.js';
+import { Dépôt, DétailCandidature, Instruction } from '../index.js';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',

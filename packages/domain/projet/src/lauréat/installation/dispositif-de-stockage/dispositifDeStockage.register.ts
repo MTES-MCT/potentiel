@@ -1,21 +1,21 @@
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
 
 import {
   ConsulterChangementDispositifDeStockageDependencies,
   registerConsulterChangementDispositifDeStockageQuery,
-} from './changement/consulter/consulterChangementDispositifDeStockage.query';
-import { registerEnregistrerChangementDispositifDeStockageCommand } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.command';
-import { registerEnregistrerChangementDispositifDeStockageUseCase } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase';
+} from './changement/consulter/consulterChangementDispositifDeStockage.query.js';
+import { registerEnregistrerChangementDispositifDeStockageCommand } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.command.js';
+import { registerEnregistrerChangementDispositifDeStockageUseCase } from './changement/enregistrer/enregistrerChangementDispositifDeStockage.usecase.js';
 import {
   ListerChangementDispositifDeStockageDependencies,
   registerListerChangementDispositifDeStockageQuery,
-} from './changement/lister/listerChangementDispositifDeStockage.query';
+} from './changement/lister/listerChangementDispositifDeStockage.query.js';
 import {
   ConsulterDispositifDeStockageDependencies,
   registerConsulterDispositifDeStockageQuery,
-} from './consulter/consulterDispositifDeStockage.query';
-import { registerModifierDispositifDeStockageCommand } from './modifier/modifierDispositifDeStockage.command';
-import { registerModifierDispositifDeStockageUseCase } from './modifier/modifierDispositifDeStockage.usecase';
+} from './consulter/consulterDispositifDeStockage.query.js';
+import { registerModifierDispositifDeStockageCommand } from './modifier/modifierDispositifDeStockage.command.js';
+import { registerModifierDispositifDeStockageUseCase } from './modifier/modifierDispositifDeStockage.usecase.js';
 
 export type DispositifDeStockageQueryDependencies = ConsulterDispositifDeStockageDependencies &
   ListerChangementDispositifDeStockageDependencies &

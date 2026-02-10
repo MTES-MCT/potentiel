@@ -2,24 +2,24 @@ import {
   ArchiveGarantiesFinancièresListItemReadModel,
   ListerArchivesGarantiesFinancièresQuery,
   ListerArchivesGarantiesFinancièresReadModel,
-} from './archives/lister/listerArchivesGarantiesFinancières.query';
+} from './archives/lister/listerArchivesGarantiesFinancières.query.js';
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
-} from './consulter/consulterGarantiesFinancières.query';
+} from './consulter/consulterGarantiesFinancières.query.js';
 
 export type GarantiesFinancièresActuellesQuery =
   | ConsulterGarantiesFinancièresQuery
   | ListerArchivesGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ListerArchivesGarantiesFinancièresQuery };
+export type { ConsulterGarantiesFinancièresQuery, ListerArchivesGarantiesFinancièresQuery };
 
 export type GarantiesFinancièresActuellesReadModel =
   | ConsulterGarantiesFinancièresReadModel
   | ListerArchivesGarantiesFinancièresReadModel
   | ArchiveGarantiesFinancièresListItemReadModel;
 
-export {
+export type {
   ConsulterGarantiesFinancièresReadModel,
   ListerArchivesGarantiesFinancièresReadModel,
   ArchiveGarantiesFinancièresListItemReadModel,

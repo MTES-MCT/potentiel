@@ -5,7 +5,7 @@ import {
   MainlevéeDéjàAccordéeError,
   MainlevéeDéjàEnInstructionError,
   DernièreDemandeMainlevéeRejetéeEtAucuneEnCours,
-} from './mainlevéeGarantiesFinancières.error';
+} from './mainlevéeGarantiesFinancières.error.js';
 
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;
 

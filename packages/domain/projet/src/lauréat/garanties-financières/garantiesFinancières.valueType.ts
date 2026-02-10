@@ -3,12 +3,12 @@ import { match } from 'ts-pattern';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { TypeGarantiesFinancières } from '../../candidature';
+import { TypeGarantiesFinancières } from '../../candidature/index.js';
 
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
-} from './garantiesFinancières.error';
+} from './garantiesFinancières.error.js';
 
 export type RawType = (
   | {

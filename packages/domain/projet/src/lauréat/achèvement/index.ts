@@ -2,14 +2,14 @@ import {
   ConsulterAchèvementAchevéReadModel,
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
-} from './consulter/consulterAchèvement.query';
+} from './consulter/consulterAchèvement.query.js';
 import {
   ListerProjetAvecAchevementATransmettreQuery,
   ListerProjetAvecAchevementATransmettreReadModel,
-} from './lister/listerProjetAvecAchevementATransmettre.query';
-import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
-import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
-import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase';
+} from './lister/listerProjetAvecAchevementATransmettre.query.js';
+import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
+import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
 
 // UseCases
 export type AchèvementUseCase =
@@ -17,7 +17,7 @@ export type AchèvementUseCase =
   | ModifierAttestationConformitéUseCase
   | TransmettreDateAchèvementUseCase;
 
-export {
+export type {
   TransmettreAttestationConformitéUseCase,
   ModifierAttestationConformitéUseCase,
   TransmettreDateAchèvementUseCase,
@@ -38,12 +38,12 @@ export type {
 };
 
 // Entity
-export { AchèvementEntity } from './achèvement.entity';
+export type { AchèvementEntity } from './achèvement.entity.js';
 
 // ValueTypes
-export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';
-export * as TypeTâchePlanifiéeAchèvement from './typeTâchePlanifiéeAchèvement.valueType';
-export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType';
+export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType.js';
+export * as TypeTâchePlanifiéeAchèvement from './typeTâchePlanifiéeAchèvement.valueType.js';
+export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType.js';
 
 // Event
-export * from './achèvement.event';
+export type * from './achèvement.event.js';

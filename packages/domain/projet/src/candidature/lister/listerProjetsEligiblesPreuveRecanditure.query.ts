@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
 export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;

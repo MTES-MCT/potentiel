@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../document-projet';
-import { TypeDocumentActionnaire } from '..';
-import { IdentifiantProjet } from '../../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../document-projet/index.js';
+import { TypeDocumentActionnaire } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
 
-import { ModifierActionnaireCommand } from './modifierActionnaire.command';
+import { ModifierActionnaireCommand } from './modifierActionnaire.command.js';
 
 export type ModifierActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.ModifierActionnaire',

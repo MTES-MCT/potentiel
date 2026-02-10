@@ -4,9 +4,9 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { CandidatureEntity, Localité } from '../../candidature';
-import { ÉliminéEntity } from '../éliminé.entity';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { CandidatureEntity, Localité } from '../../candidature/index.js';
+import { ÉliminéEntity } from '../éliminé.entity.js';
 
 type ÉliminéListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

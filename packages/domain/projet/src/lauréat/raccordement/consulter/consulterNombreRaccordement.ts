@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Count, Where } from '@potentiel-domain/entity';
 
-import { RaccordementEntity } from '../raccordement.entity';
+import { RaccordementEntity } from '../raccordement.entity.js';
 export type ConsulterNombreDeRaccordementReadModel = {
   nombreRaccordements: number;
 };

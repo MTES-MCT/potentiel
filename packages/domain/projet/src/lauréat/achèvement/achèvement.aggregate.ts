@@ -4,25 +4,25 @@ import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
-import { DocumentProjet } from '../../document-projet';
-import { ProjetAbandonnéError } from '../abandon/abandon.error';
-import { Lauréat } from '../..';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
+import { DocumentProjet } from '../../document-projet/index.js';
+import { ProjetAbandonnéError } from '../abandon/abandon.error.js';
+import { Lauréat } from '../../index.js';
 
 import {
   DateAchèvementPrévisionnel,
   TypeTâchePlanifiéeAchèvement,
   TypeDocumentAttestationConformité,
-} from '.';
+} from './index.js';
 
-import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option';
-import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
-import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
-import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
-import { AchèvementEvent } from './achèvement.event';
-import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
-import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option';
+import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option.js';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
+import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option.js';
+import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event.js';
+import { AchèvementEvent } from './achèvement.event.js';
+import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
+import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AttestationDeConformitéNonModifiéeError,
@@ -31,9 +31,9 @@ import {
   DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
   ProjetDéjàAchevéError,
-} from './achèvement.error';
-import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option';
-import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event';
+} from './achèvement.error.js';
+import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option.js';
+import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,

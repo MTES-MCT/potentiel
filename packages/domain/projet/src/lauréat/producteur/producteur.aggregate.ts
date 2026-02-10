@@ -3,20 +3,20 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { GarantiesFinancières } from '..';
-import { DocumentProjet } from '../..';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { GarantiesFinancières } from '../index.js';
+import { DocumentProjet } from '../../index.js';
 
-import { TypeDocumentProducteur } from '.';
+import { TypeDocumentProducteur } from './index.js';
 
-import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
-import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
-import { ProducteurEvent } from './producteur.event';
-import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
-import { ModifierOptions } from './modifier/modifierProducteur.option';
-import { ImporterOptions } from './importer/importerProducteur.option';
-import { ProducteurImportéEvent } from './importer/importerProducteur.event';
-import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error';
+import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
+import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
+import { ProducteurEvent } from './producteur.event.js';
+import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
+import { ModifierOptions } from './modifier/modifierProducteur.option.js';
+import { ImporterOptions } from './importer/importerProducteur.option.js';
+import { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
+import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error.js';
 
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,

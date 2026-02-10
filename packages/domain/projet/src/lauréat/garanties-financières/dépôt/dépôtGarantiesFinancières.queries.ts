@@ -1,20 +1,23 @@
 import {
   ConsulterDépôtGarantiesFinancièresQuery,
   ConsulterDépôtGarantiesFinancièresReadModel,
-} from './consulter/consulterDépôtGarantiesFinancières.query';
+} from './consulter/consulterDépôtGarantiesFinancières.query.js';
 import {
   ListerDépôtsGarantiesFinancièresQuery,
   ListerDépôtsGarantiesFinancièresReadModel,
-} from './lister/listerDépôtGarantiesFinancières.query';
+} from './lister/listerDépôtGarantiesFinancières.query.js';
 
 export type DépôtGarantiesFinancièresQuery =
   | ConsulterDépôtGarantiesFinancièresQuery
   | ListerDépôtsGarantiesFinancièresQuery;
 
-export { ConsulterDépôtGarantiesFinancièresQuery, ListerDépôtsGarantiesFinancièresQuery };
+export type { ConsulterDépôtGarantiesFinancièresQuery, ListerDépôtsGarantiesFinancièresQuery };
 
 export type DépôtGarantiesFinancièresReadModel =
   | ConsulterDépôtGarantiesFinancièresReadModel
   | ListerDépôtsGarantiesFinancièresReadModel;
 
-export { ConsulterDépôtGarantiesFinancièresReadModel, ListerDépôtsGarantiesFinancièresReadModel };
+export type {
+  ConsulterDépôtGarantiesFinancièresReadModel,
+  ListerDépôtsGarantiesFinancièresReadModel,
+};

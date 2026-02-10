@@ -4,25 +4,25 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-import { FournisseurImportéEvent } from '../lauréat/fournisseur';
-import { Puissance } from '../lauréat';
-import { GarantiesFinancières } from '../lauréat/garanties-financières';
+import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import { FournisseurImportéEvent } from '../lauréat/fournisseur/index.js';
+import { Puissance } from '../lauréat/index.js';
+import { GarantiesFinancières } from '../lauréat/garanties-financières/index.js';
 import {
   GarantiesFinancièresRequisesPourAppelOffreError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
-} from '../lauréat/garanties-financières/garantiesFinancières.error';
+} from '../lauréat/garanties-financières/garantiesFinancières.error.js';
 
-import { Dépôt, Instruction } from '.';
+import { Dépôt, Instruction } from './index.js';
 
-import { CandidatureEvent } from './candidature.event';
+import { CandidatureEvent } from './candidature.event.js';
 import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
-} from './importer/candidatureImportée.event';
-import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
-import * as TypeTechnologie from './typeTechnologie.valueType';
+} from './importer/candidatureImportée.event.js';
+import { ImporterCandidatureOptions } from './importer/importerCandidature.options.js';
+import * as TypeTechnologie from './typeTechnologie.valueType.js';
 import {
   AttestationNonGénéréeError,
   AutorisationDUrbanismeRequiseError,
@@ -49,20 +49,20 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
-} from './candidature.error';
-import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
+} from './candidature.error.js';
+import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
 import {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
-} from './corriger/candidatureCorrigée.event';
-import { NotifierOptions } from './notifier/notifierCandidature.options';
+} from './corriger/candidatureCorrigée.event.js';
+import { NotifierOptions } from './notifier/notifierCandidature.options.js';
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,
-} from './notifier/candidatureNotifiée.event';
-import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event';
-import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options';
+} from './notifier/candidatureNotifiée.event.js';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
+import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options.js';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 

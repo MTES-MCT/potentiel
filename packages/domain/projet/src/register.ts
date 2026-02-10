@@ -3,25 +3,25 @@ import {
   AccèsQueryDependencies,
   registerAccèsQueries,
   registerAccèsUseCases,
-} from './accès/accès.register';
+} from './accès/accès.register.js';
 import {
   CandiatureCommandDependencies,
   CandidatureQueryDependencies,
   registerCandidatureQueries,
   registerCandidaturesUseCases,
-} from './candidature';
+} from './candidature/index.js';
 import {
   LauréatCommandDependencies,
   LauréatQueryDependencies,
   registerLauréatQueries,
   registerLauréatUseCases,
-} from './lauréat/lauréat.register';
+} from './lauréat/lauréat.register.js';
 import {
   EliminéCommandDependencies,
   EliminéQueryDependencies,
   registerEliminéQueries,
   registerEliminéUseCases,
-} from './éliminé/éliminé.register';
+} from './éliminé/éliminé.register.js';
 
 export type ProjetQueryDependencies = EliminéQueryDependencies &
   CandidatureQueryDependencies &

@@ -2,34 +2,34 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
 
-import { InstructionChangementActionnaire, StatutChangementActionnaire } from '.';
+import { InstructionChangementActionnaire, StatutChangementActionnaire } from './index.js';
 
-import { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event';
+import { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event.js';
 import {
   ActionnaireDéjàTransmisError,
   DemandeChangementActionnaireImpossibleError,
   ChangementActionnaireInexistanteErreur,
   DemandeDeChangementEnCoursError,
   InstructionObligatoireError,
-} from './errors';
-import { ActionnaireEvent } from './actionnaire.event';
-import { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event';
-import { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.event';
-import { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementActionnaire.event';
-import { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.event';
-import { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.event';
-import { ActionnaireImportéEvent } from './importer/importerActionnaire.event';
-import { ImporterOptions } from './importer/importerActionnaire.options';
-import { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.event';
-import { ModifierOptions } from './modifier/modifierActionnaire.options';
-import { DemanderChangementOptions } from './changement/demander/demanderChangementActionnaire.options';
-import { AccorderChangementOptions } from './changement/accorder/accorderChangementActionnaire.options';
-import { RejeterChangementOptions } from './changement/rejeter/rejeterChangementActionnaire.options';
-import { AnnulerChangementOptions } from './changement/annuler/annulerChangementActionnaire.options';
-import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementActionnaire.options';
-import { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options';
+} from './errors.js';
+import { ActionnaireEvent } from './actionnaire.event.js';
+import { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event.js';
+import { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.event.js';
+import { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementActionnaire.event.js';
+import { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.event.js';
+import { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.event.js';
+import { ActionnaireImportéEvent } from './importer/importerActionnaire.event.js';
+import { ImporterOptions } from './importer/importerActionnaire.options.js';
+import { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.event.js';
+import { ModifierOptions } from './modifier/modifierActionnaire.options.js';
+import { DemanderChangementOptions } from './changement/demander/demanderChangementActionnaire.options.js';
+import { AccorderChangementOptions } from './changement/accorder/accorderChangementActionnaire.options.js';
+import { RejeterChangementOptions } from './changement/rejeter/rejeterChangementActionnaire.options.js';
+import { AnnulerChangementOptions } from './changement/annuler/annulerChangementActionnaire.options.js';
+import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementActionnaire.options.js';
+import { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options.js';
 
 export class ActionnaireAggregate extends AbstractAggregate<
   ActionnaireEvent,

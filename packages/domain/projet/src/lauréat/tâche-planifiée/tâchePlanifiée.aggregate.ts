@@ -3,16 +3,16 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
-import * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
-import { AjouterOptions } from './ajouter/ajouterTâchePlanifiée.option';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
-import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
-import { TâcheAnnuléeError, TâcheDéjàExécutéeError } from './tâchePlanifiée.error';
-import { ExécuterOptions } from './exécuter/exécuterTâchePlanifiée.options';
+import * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType.js';
+import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
+import { AjouterOptions } from './ajouter/ajouterTâchePlanifiée.option.js';
+import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
+import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
+import { TâchePlanifiéeEvent } from './tâchePlanifiée.event.js';
+import { TâcheAnnuléeError, TâcheDéjàExécutéeError } from './tâchePlanifiée.error.js';
+import { ExécuterOptions } from './exécuter/exécuterTâchePlanifiée.options.js';
 
 export class TâchePlanifiéeAggregate extends AbstractAggregate<
   TâchePlanifiéeEvent,

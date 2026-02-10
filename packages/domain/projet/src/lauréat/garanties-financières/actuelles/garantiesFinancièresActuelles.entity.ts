@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { StatutGarantiesFinancières } from '..';
+import { StatutGarantiesFinancières } from '../index.js';
 
 export type GarantiesFinancièresDétails = {
   statut: StatutGarantiesFinancières.RawType;

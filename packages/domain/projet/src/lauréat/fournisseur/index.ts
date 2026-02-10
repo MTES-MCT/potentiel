@@ -1,22 +1,22 @@
 import {
   ConsulterFournisseurQuery,
   ConsulterFournisseurReadModel,
-} from './consulter/consulterFournisseur.query';
-import { ModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase';
+} from './consulter/consulterFournisseur.query.js';
+import { ModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase.js';
 import {
   ConsulterChangementFournisseurQuery,
   ConsulterChangementFournisseurReadModel,
-} from './changement/consulter/consulterChangementFournisseur.query';
+} from './changement/consulter/consulterChangementFournisseur.query.js';
 import {
   ListerChangementFournisseurQuery,
   ListerChangementFournisseurReadModel,
-} from './changement/lister/listerChangementFournisseur.query';
+} from './changement/lister/listerChangementFournisseur.query.js';
 import {
   ListerHistoriqueFournisseurProjetQuery,
   ListerHistoriqueFournisseurProjetReadModel,
   HistoriqueFournisseurProjetListItemReadModel,
-} from './listerHistorique/listerHistoriqueFournisseurProjet.query';
-import { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase';
+} from './listerHistorique/listerHistoriqueFournisseurProjet.query.js';
+import { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
 
 // Query
 export type FournisseurQuery =
@@ -32,7 +32,7 @@ export type {
 };
 
 // ReadModel
-export {
+export type {
   ConsulterFournisseurReadModel,
   ListerChangementFournisseurReadModel,
   ConsulterChangementFournisseurReadModel,
@@ -42,24 +42,24 @@ export {
 
 // UseCases
 export type FournisseurUseCase = ModifierÉvaluationCarboneUseCase | MettreÀJourFournisseurUseCase;
-export { ModifierÉvaluationCarboneUseCase, MettreÀJourFournisseurUseCase };
+export type { ModifierÉvaluationCarboneUseCase, MettreÀJourFournisseurUseCase };
 
 // Event
-export { FournisseurEvent } from './fournisseur.event';
-export { FournisseurImportéEvent } from './importer/importerFournisseur.event';
-export { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
-export { ChangementFournisseurEnregistréEvent } from './changement/miseAJour/enregistrerChangement.event';
-export { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event';
+export type { FournisseurEvent } from './fournisseur.event.js';
+export type { FournisseurImportéEvent } from './importer/importerFournisseur.event.js';
+export type { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event.js';
+export type { ChangementFournisseurEnregistréEvent } from './changement/miseAJour/enregistrerChangement.event.js';
+export type { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event.js';
 
 // Register
-export { registerFournisseurQueries } from './fournisseur.register';
+export { registerFournisseurQueries } from './fournisseur.register.js';
 
 // ValueTypes
-export * as TypeFournisseur from './typeFournisseur.valueType';
-export * as Fournisseur from './fournisseur.valueType';
-export * as TypeDocumentFournisseur from './typeDocumentFournisseur.valueType';
-export * as NoteÉvaluationCarbone from './noteÉvaluationCarbone.valueType';
+export * as TypeFournisseur from './typeFournisseur.valueType.js';
+export * as Fournisseur from './fournisseur.valueType.js';
+export * as TypeDocumentFournisseur from './typeDocumentFournisseur.valueType.js';
+export * as NoteÉvaluationCarbone from './noteÉvaluationCarbone.valueType.js';
 
 // Entities
-export * from './fournisseur.entity';
-export * from './changement/changementFournisseur.entity';
+export type * from './fournisseur.entity.js';
+export type * from './changement/changementFournisseur.entity.js';

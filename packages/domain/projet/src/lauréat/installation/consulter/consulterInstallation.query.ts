@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../..';
-import { TypologieInstallation } from '../../../candidature';
-import { DispositifDeStockage, InstallationEntity } from '..';
+import { IdentifiantProjet } from '../../../index.js';
+import { TypologieInstallation } from '../../../candidature/index.js';
+import { DispositifDeStockage, InstallationEntity } from '../index.js';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

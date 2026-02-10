@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Dépôt, DétailCandidature, Instruction } from '..';
-import { IdentifiantProjet } from '../..';
+import { Dépôt, DétailCandidature, Instruction } from '../index.js';
+import { IdentifiantProjet } from '../../index.js';
 
-import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
+import { CorrigerCandidatureCommand } from './corrigerCandidature.command.js';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',

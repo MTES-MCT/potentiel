@@ -1,8 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { AutoritéCompétente } from '../..';
-import { IdentifiantProjet } from '../../../..';
+import { AutoritéCompétente } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
   'ChangementPuissanceDemandé-V1',

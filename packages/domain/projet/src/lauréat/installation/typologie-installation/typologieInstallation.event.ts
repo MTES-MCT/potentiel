@@ -1,6 +1,6 @@
-import { InstallationImportéeEvent } from '../importer/importerInstallation.event';
+import { InstallationImportéeEvent } from '../importer/importerInstallation.event.js';
 
-import { TypologieInstallationModifiéeEvent } from './modifier/modifierTypologieInstallation.event';
+import { TypologieInstallationModifiéeEvent } from './modifier/modifierTypologieInstallation.event.js';
 
 export type TypologieInstallationEvent =
   | InstallationImportéeEvent

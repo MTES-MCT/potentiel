@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../document-projet';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
-import { IdentifiantProjet } from '../../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../document-projet/index.js';
+import * as TypeDocumentRecours from '../typeDocumentRecours.valueType.js';
+import { IdentifiantProjet } from '../../../index.js';
 
-import { DemanderRecoursCommand } from './demanderRecours.command';
+import { DemanderRecoursCommand } from './demanderRecours.command.js';
 
 export type DemanderRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.DemanderRecours',

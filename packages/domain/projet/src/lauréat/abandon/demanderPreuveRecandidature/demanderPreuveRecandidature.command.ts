@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../index.js';
 
 export type DemanderPreuveRecandidatureAbandonCommand = Message<
   'System.Lauréat.Abandon.Command.DemanderPreuveRecandidatureAbandon',

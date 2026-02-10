@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity';
-import { GetProjetUtilisateurScope } from '../../../../../getScopeProjetUtilisateur.port';
-import { IdentifiantProjet, Lauréat } from '../../../../..';
-import { DispositifDeStockage } from '../../..';
+import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity.js';
+import { GetProjetUtilisateurScope } from '../../../../../getScopeProjetUtilisateur.port.js';
+import { IdentifiantProjet, Lauréat } from '../../../../../index.js';
+import { DispositifDeStockage } from '../../../index.js';
 
 type ChangementDispositifDeStockageItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
-import { DocumentProjet, EnregistrerDocumentSubstitutCommand } from '../../../document-projet';
-import { TypeDocumentAttestationConformité } from '..';
+import { IdentifiantProjet } from '../../../index.js';
+import {
+  DocumentProjet,
+  EnregistrerDocumentSubstitutCommand,
+} from '../../../document-projet/index.js';
+import { TypeDocumentAttestationConformité } from '../index.js';
 
-import { TransmettreDateAchèvementCommand } from './transmettreDateAchèvement.command';
+import { TransmettreDateAchèvementCommand } from './transmettreDateAchèvement.command.js';
 
 export type TransmettreDateAchèvementUseCase = Message<
   'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',

@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../..';
-import { TypeDocumentPuissance } from '..';
-import { EnregistrerDocumentProjetCommand } from '../../../document-projet';
+import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { TypeDocumentPuissance } from '../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
-import { ModifierPuissanceCommand } from './modifierPuissance.command';
+import { ModifierPuissanceCommand } from './modifierPuissance.command.js';
 
 export type ModifierPuissanceUseCase = Message<
   'Lauréat.Puissance.UseCase.ModifierPuissance',

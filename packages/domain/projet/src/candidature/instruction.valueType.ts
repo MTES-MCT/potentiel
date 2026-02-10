@@ -1,6 +1,6 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { StatutCandidature } from '.';
+import { StatutCandidature } from './index.js';
 
 export type RawType = {
   statut: StatutCandidature.RawType;

@@ -1,2 +1,2 @@
-export * from './lauréatNotifié.handler';
-export * from './tâchePlanifiéeExecutée.handler';
+export * from './lauréatNotifié.handler.js';
+export * from './tâchePlanifiéeExecutée.handler.js';

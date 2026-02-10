@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
-import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
 
 export type DemanderMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.DemanderMainlevée',

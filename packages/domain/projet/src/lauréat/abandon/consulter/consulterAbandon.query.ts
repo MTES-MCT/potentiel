@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { AbandonEntity } from '../abandon.entity';
-import { IdentifiantProjet } from '../../..';
-import { DemandeAbandonEntity, StatutAbandon } from '..';
+import { AbandonEntity } from '../abandon.entity.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { DemandeAbandonEntity, StatutAbandon } from '../index.js';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

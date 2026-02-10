@@ -1,6 +1,6 @@
-import { Candidature } from '../../../../..';
+import { Candidature } from '../../../../../index.js';
 
-import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur';
+import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur.js';
 
 const labelToTypeFournisseur: Record<string, string> = {
   'modules ou films': 'module-ou-films',

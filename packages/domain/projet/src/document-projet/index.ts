@@ -2,30 +2,30 @@ import {
   ConsulterDocumentProjetReadModel,
   ConsulterDocumentProjetQuery,
   RécupérerDocumentProjetPort,
-} from './consulter/consulterDocumentProjet.query';
+} from './consulter/consulterDocumentProjet.query.js';
 import {
   ArchiverDocumentProjetPort,
   CorrigerDocumentProjetCommand,
-} from './corriger/corrigerDocumentProjet.command';
+} from './corriger/corrigerDocumentProjet.command.js';
 import {
   DéplacerDossierProjetCommand,
   DéplacerDossierProjetPort,
-} from './déplacer/déplacerDocumentProjet.command';
+} from './déplacer/déplacerDocumentProjet.command.js';
 import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
-} from './enregistrer/enregistrerDocument.command';
+} from './enregistrer/enregistrerDocument.command.js';
 import {
   EnregistrerDocumentSubstitutCommand,
   EnregistrerDocumentSubstitutPort,
-} from './enregistrer/enregistrerDocumentSubstitut.command';
+} from './enregistrer/enregistrerDocumentSubstitut.command.js';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
-export { ConsulterDocumentProjetQuery };
+export type { ConsulterDocumentProjetQuery };
 
 // Read model
-export { ConsulterDocumentProjetReadModel };
+export type { ConsulterDocumentProjetReadModel };
 
 // Command
 export type DocumentProjetCommand =
@@ -34,7 +34,7 @@ export type DocumentProjetCommand =
   | CorrigerDocumentProjetCommand
   | EnregistrerDocumentSubstitutCommand;
 
-export {
+export type {
   EnregistrerDocumentProjetCommand,
   DéplacerDossierProjetCommand as DéplacerDocumentProjetCommand,
   CorrigerDocumentProjetCommand,
@@ -42,14 +42,14 @@ export {
 };
 
 // Register
-export * from './documentProjet.register';
+export * from './documentProjet.register.js';
 
 // ValueType
-export * as DocumentProjet from './documentProjet.valueType';
-export * as DossierProjet from './dossierProjet.valueType';
+export * as DocumentProjet from './documentProjet.valueType.js';
+export * as DossierProjet from './dossierProjet.valueType.js';
 
 // Port
-export {
+export type {
   RécupérerDocumentProjetPort,
   EnregistrerDocumentProjetPort,
   DéplacerDossierProjetPort,

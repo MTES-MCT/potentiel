@@ -1,10 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Abandon } from '../..';
-import { Lauréat } from '../../..';
+import { Abandon } from '../../index.js';
+import { Lauréat } from '../../../index.js';
 
-import { handleAbandonAccordé, handleTâchePlanifiéeReprésentantLégalExecutée } from './handlers';
+import {
+  handleAbandonAccordé,
+  handleTâchePlanifiéeReprésentantLégalExecutée,
+} from './handlers/index.js';
 export type SubscriptionEvent =
   | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
   | Abandon.AbandonAccordéEvent;

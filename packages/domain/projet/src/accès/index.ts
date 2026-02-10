@@ -1,14 +1,14 @@
-import { AutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase';
-import { ListerAccèsQuery, ListerAccèsReadModel } from './lister/listerAccès.query';
+import { AutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase.js';
+import { ListerAccèsQuery, ListerAccèsReadModel } from './lister/listerAccès.query.js';
 import {
   ListerProjetsÀRéclamerQuery,
   ListerProjetsÀRéclamerReadModel,
-} from './lister/listerProjetsÀRéclamer.query';
-import { ConsulterAccèsQuery, ConsulterAccèsReadModel } from './consulter/consulterAccès.query';
-import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
-import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
-import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query';
-import { RemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase';
+} from './lister/listerProjetsÀRéclamer.query.js';
+import { ConsulterAccèsQuery, ConsulterAccèsReadModel } from './consulter/consulterAccès.query.js';
+import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase.js';
+import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase.js';
+import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query.js';
+import { RemplacerAccèsProjetUseCase } from './remplacer/remplacerAccèsProjet.usecase.js';
 
 // UseCases
 export type AccèsUseCase =
@@ -17,7 +17,7 @@ export type AccèsUseCase =
   | RetirerAccèsProjetUseCase
   | RemplacerAccèsProjetUseCase;
 
-export {
+export type {
   AutoriserAccèsProjetUseCase,
   RéclamerAccèsProjetUseCase,
   RetirerAccèsProjetUseCase,
@@ -31,7 +31,7 @@ export type AttestationConformitéQuery =
   | ListerProjetsÀRéclamerQuery
   | ConsulterAccèsQuery;
 
-export {
+export type {
   VérifierAccèsProjetQuery,
   ListerAccèsQuery,
   ListerProjetsÀRéclamerQuery,
@@ -39,16 +39,16 @@ export {
 };
 
 // Readmodels
-export { ListerAccèsReadModel, ListerProjetsÀRéclamerReadModel, ConsulterAccèsReadModel };
+export type { ListerAccèsReadModel, ListerProjetsÀRéclamerReadModel, ConsulterAccèsReadModel };
 
 // Events
-export * from './accès.event';
-export * from './autoriser/autoriserAccèsProjet.event';
-export * from './retirer/retirerAccèsProjet.event';
-export * from './remplacer/remplacerAccèsProjet.event';
+export type * from './accès.event.js';
+export type * from './autoriser/autoriserAccèsProjet.event.js';
+export type * from './retirer/retirerAccèsProjet.event.js';
+export type * from './remplacer/remplacerAccèsProjet.event.js';
 
 // Entities
-export * from './accès.entity';
+export type * from './accès.entity.js';
 
 // Errors
-export * from './accès.error';
+export * from './accès.error.js';

@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GarantiesFinancières } from '../..';
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GarantiesFinancières } from '../../index.js';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type ModifierDépôtGarantiesFinancièresEnCoursCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',

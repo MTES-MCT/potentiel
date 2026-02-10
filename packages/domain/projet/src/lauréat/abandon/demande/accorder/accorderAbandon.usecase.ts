@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
-import { TypeDocumentAbandon } from '../..';
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { TypeDocumentAbandon } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
-import { AccorderAbandonCommand } from './accorderAbandon.command';
+import { AccorderAbandonCommand } from './accorderAbandon.command.js';
 
 export type AccorderAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.AccorderAbandon',

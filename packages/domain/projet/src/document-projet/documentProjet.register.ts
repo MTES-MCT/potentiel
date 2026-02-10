@@ -1,23 +1,23 @@
 import {
   ConsulterDocumentProjetDependencies,
   registerConsulterDocumentProjetQuery,
-} from './consulter/consulterDocumentProjet.query';
+} from './consulter/consulterDocumentProjet.query.js';
 import {
   CorrigerDocumentProjetDependencies,
   registerCorrigerDocumentProjetCommand,
-} from './corriger/corrigerDocumentProjet.command';
+} from './corriger/corrigerDocumentProjet.command.js';
 import {
   DéplacerDossierProjetDependencies,
   registerDéplacerDocumentProjetCommand,
-} from './déplacer/déplacerDocumentProjet.command';
+} from './déplacer/déplacerDocumentProjet.command.js';
 import {
   EnregistrerDocumentProjetDependencies,
   registerEnregistrerDocumentProjetCommand,
-} from './enregistrer/enregistrerDocument.command';
+} from './enregistrer/enregistrerDocument.command.js';
 import {
   EnregistrerDocumentSubstitutCommandDependencies,
   registerEnregistrerDocumentSubstitutCommand,
-} from './enregistrer/enregistrerDocumentSubstitut.command';
+} from './enregistrer/enregistrerDocumentSubstitut.command.js';
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies &

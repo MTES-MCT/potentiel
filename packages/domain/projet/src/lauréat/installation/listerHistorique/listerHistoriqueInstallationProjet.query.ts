@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { InstallationEvent } from '../installation.event';
+import { InstallationEvent } from '../installation.event.js';
 
 export type HistoriqueInstallationProjetListItemReadModel = HistoryRecord<
   'installation',

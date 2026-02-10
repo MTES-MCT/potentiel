@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
-import { RemplacerAccèsProjetCommand } from './remplacerAccèsProjet.command';
+import { RemplacerAccèsProjetCommand } from './remplacerAccèsProjet.command.js';
 
 export type RemplacerAccèsProjetUseCase = Message<
   'Projet.Accès.UseCase.RemplacerAccèsProjet',

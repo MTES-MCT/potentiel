@@ -4,11 +4,11 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
-import { AchèvementEntity } from '../../achèvement';
-import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature';
+import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
+import { AchèvementEntity } from '../../achèvement/index.js';
+import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
 
 type DossierRaccordement = {
   nomProjet: string;

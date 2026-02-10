@@ -3,12 +3,12 @@ import { mediator, MessageHandler, Message } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
+import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
-import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
+import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command.js';
 
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
   'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',

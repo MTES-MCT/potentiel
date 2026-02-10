@@ -4,7 +4,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type ModifierGestionnaireRéseauRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',

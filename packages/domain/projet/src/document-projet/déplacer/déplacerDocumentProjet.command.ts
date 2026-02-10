@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-import * as DossierProjet from '../dossierProjet.valueType';
+import * as DossierProjet from '../dossierProjet.valueType.js';
 
 export type DéplacerDossierProjetCommand = Message<
   'Document.Command.DéplacerDocumentProjet',

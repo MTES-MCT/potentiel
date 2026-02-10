@@ -1,10 +1,10 @@
 import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Fournisseur } from '../lauréat/fournisseur';
-import { GarantiesFinancières } from '../lauréat';
-import { Lauréat } from '..';
-import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation';
+import { Fournisseur } from '../lauréat/fournisseur/index.js';
+import { GarantiesFinancières } from '../lauréat/index.js';
+import { Lauréat } from '../index.js';
+import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
 
 import {
   HistoriqueAbandon,
@@ -13,7 +13,7 @@ import {
   TypeGarantiesFinancières,
   TypeTechnologie,
   TypologieInstallation,
-} from '.';
+} from './index.js';
 
 export type RawType = {
   nomProjet: string;

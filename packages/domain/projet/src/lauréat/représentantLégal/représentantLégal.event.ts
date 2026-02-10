@@ -1,9 +1,9 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
-import { TypeReprésentantLégal } from '.';
+import { TypeReprésentantLégal } from './index.js';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent

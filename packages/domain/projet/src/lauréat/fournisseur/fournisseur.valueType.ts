@@ -1,6 +1,6 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import * as TypeFournisseur from './typeFournisseur.valueType';
+import * as TypeFournisseur from './typeFournisseur.valueType.js';
 
 export type RawType = {
   typeFournisseur: TypeFournisseur.RawType;

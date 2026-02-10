@@ -1,25 +1,25 @@
-import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
-import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
+import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
+import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase.js';
 import {
   ConsulterDemandeRecoursQuery,
   ConsulterDemandeRecoursReadModel,
-} from './consulter/consulterDemandeRecours.query';
+} from './consulter/consulterDemandeRecours.query.js';
 import {
   ConsulterRecoursQuery,
   ConsulterRecoursReadModel,
-} from './consulter/consulterRecours.query';
-import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
-import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
+} from './consulter/consulterRecours.query.js';
+import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase.js';
+import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
 import {
   ListerDemandeRecoursQuery,
   ListerDemandeRecoursReadModel,
-} from './lister/listerDemandeRecours.query';
+} from './lister/listerDemandeRecours.query.js';
 import {
   ListerHistoriqueRecoursProjetQuery,
   HistoriqueRecoursProjetListItemReadModel,
   ListerHistoriqueRecoursProjetReadModel,
-} from './listerHistorique/listerHistoriqueRecoursProjet.query';
-import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
+} from './listerHistorique/listerHistoriqueRecoursProjet.query.js';
+import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase.js';
 
 // Query
 export type RecoursQuery =
@@ -28,7 +28,7 @@ export type RecoursQuery =
   | ListerDemandeRecoursQuery
   | ListerHistoriqueRecoursProjetQuery;
 
-export {
+export type {
   ConsulterDemandeRecoursQuery,
   ConsulterRecoursQuery,
   ListerDemandeRecoursQuery,
@@ -36,7 +36,7 @@ export {
 };
 
 // ReadModel
-export {
+export type {
   ConsulterDemandeRecoursReadModel,
   ConsulterRecoursReadModel,
   ListerDemandeRecoursReadModel,
@@ -52,7 +52,7 @@ export type RecoursUseCase =
   | RejeterRecoursUseCase
   | PasserEnInstructionRecoursUseCase;
 
-export {
+export type {
   AccorderRecoursUseCase,
   AnnulerRecoursUseCase,
   DemanderRecoursUseCase,
@@ -61,20 +61,20 @@ export {
 };
 
 // Event
-export { RecoursEvent } from './recours.event';
-export { RecoursAnnuléEvent } from './annuler/annulerRecours.event';
-export { RecoursRejetéEvent } from './rejeter/rejeterRecours.event';
-export { RecoursAccordéEvent } from './accorder/recoursAccordé.event';
-export { RecoursDemandéEvent } from './demander/demanderRecours.event';
-export { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event';
+export type { RecoursEvent } from './recours.event.js';
+export type { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
+export type { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
+export type { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+export type { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
+export type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
 
 // Register
-export { registerRecoursQueries, registerRecoursUseCases } from './recours.register';
+export { registerRecoursQueries, registerRecoursUseCases } from './recours.register.js';
 
 // ValueTypes
-export * as StatutRecours from './statutRecours.valueType';
-export * as TypeDocumentRecours from './typeDocumentRecours.valueType';
+export * as StatutRecours from './statutRecours.valueType.js';
+export * as TypeDocumentRecours from './typeDocumentRecours.valueType.js';
 
 // Entities
-export * from './demandeRecours.entity';
-export * from './recours.entity';
+export type * from './demandeRecours.entity.js';
+export type * from './recours.entity.js';

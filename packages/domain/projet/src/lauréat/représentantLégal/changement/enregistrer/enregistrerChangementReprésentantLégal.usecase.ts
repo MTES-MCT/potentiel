@@ -2,13 +2,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import { TypeReprésentantLégal } from '../..';
-import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
-import { IdentifiantProjet } from '../../../..';
-import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../../document-projet/index.js';
+import { TypeReprésentantLégal } from '../../index.js';
+import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 
-import { EnregistrerChangementReprésentantLégalCommand } from './enregistrerChangementReprésentantLégal.command';
+import { EnregistrerChangementReprésentantLégalCommand } from './enregistrerChangementReprésentantLégal.command.js';
 
 export type EnregistrerChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',

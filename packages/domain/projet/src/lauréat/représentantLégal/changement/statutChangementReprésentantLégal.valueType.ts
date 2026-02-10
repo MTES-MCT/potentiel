@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { DemandeChangementInexistanteError } from './changementReprésentantLégal.error';
+import { DemandeChangementInexistanteError } from './changementReprésentantLégal.error.js';
 
 export const statuts = [
   'accordé',

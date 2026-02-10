@@ -1,26 +1,26 @@
-import { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase';
+import { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase.js';
 import {
   ConsulterDélaiQuery,
   ConsulterABénéficiéDuDélaiCDC2022Port,
-} from './consulter/consulterABénéficiéDuDélaiCDC2022.query';
-import { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase';
+} from './consulter/consulterABénéficiéDuDélaiCDC2022.query.js';
+import { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase.js';
 import {
   ConsulterDemandeDélaiQuery,
   ConsulterDemandeDélaiReadModel,
-} from './demande/consulter/consulterDemandeDélai.query';
-import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase';
-import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
-import { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
+} from './demande/consulter/consulterDemandeDélai.query.js';
+import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase.js';
+import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase.js';
+import { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase.js';
 import {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,
-} from './lister/listerHistoriqueDélaiProjet.query';
-import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
+} from './lister/listerHistoriqueDélaiProjet.query.js';
+import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase.js';
 import {
   ListerDemandeDélaiQuery,
   ListerDemandeDélaiReadModel,
-} from './demande/lister/listerDemandeDélai.query';
+} from './demande/lister/listerDemandeDélai.query.js';
 
 // Query
 export type DélaiQuery =
@@ -63,25 +63,25 @@ export type {
 };
 
 // Event
-export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
-export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
-export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
-export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
-export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
-export type { DélaiAccordéEvent } from './accorder/accorderDélai.event';
-export type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event';
-export * from './délai.event';
+export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
+export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
+export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
+export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event.js';
+export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
+export type { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
+export type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
+export type * from './délai.event.js';
 
 // Register
-export * from './délai.register';
+export * from './délai.register.js';
 
 // Port
 export type { ConsulterABénéficiéDuDélaiCDC2022Port };
 
 // ValueTypes
-export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';
-export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType';
-export * as AutoritéCompétente from './autoritéCompétente.valueType';
+export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType.js';
+export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType.js';
+export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
 
 // Entities
-export * from './demande/demandeDélai.entity';
+export type * from './demande/demandeDélai.entity.js';

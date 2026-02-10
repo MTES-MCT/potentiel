@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { AchèvementEntity } from '../achèvement.entity';
-import { DateAchèvementPrévisionnel, TypeDocumentAttestationConformité } from '..';
-import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { AchèvementEntity } from '../achèvement.entity.js';
+import { DateAchèvementPrévisionnel, TypeDocumentAttestationConformité } from '../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

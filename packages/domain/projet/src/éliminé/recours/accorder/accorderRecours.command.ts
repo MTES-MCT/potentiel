@@ -5,8 +5,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 // Package
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
-import { DocumentProjet, IdentifiantProjet } from '../../..';
+import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type AccorderRecoursCommand = Message<
   'Éliminé.Recours.Command.AccorderRecours',

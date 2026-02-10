@@ -1,23 +1,23 @@
-import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
-import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event';
-import { ÉliminéEvent } from './éliminé.event';
+import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event.js';
+import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event.js';
+import { ÉliminéEvent } from './éliminé.event.js';
 import {
   ConsulterÉliminéQuery,
   ConsulterÉliminéReadModel,
-} from './consulter/consulterÉliminé.query';
-import { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query';
+} from './consulter/consulterÉliminé.query.js';
+import { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query.js';
 import {
   ListerÉliminéEnrichiQuery,
   ListerÉliminéEnrichiReadModel,
   ÉliminéEnrichiListItemReadModel,
-} from './lister/listerÉliminéEnrichi.query';
+} from './lister/listerÉliminéEnrichi.query.js';
 
 // Query
 export type ÉliminéQuery = ConsulterÉliminéQuery | ListerÉliminéQuery | ListerÉliminéEnrichiQuery;
-export { ConsulterÉliminéQuery, ListerÉliminéQuery, ListerÉliminéEnrichiQuery };
+export type { ConsulterÉliminéQuery, ListerÉliminéQuery, ListerÉliminéEnrichiQuery };
 
 // ReadModel
-export {
+export type {
   ConsulterÉliminéReadModel,
   ListerÉliminéReadModel,
   ListerÉliminéEnrichiReadModel,
@@ -27,12 +27,12 @@ export {
 // UseCases
 
 // Events
-export { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };
+export type { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };
 
 // Register
-export { registerEliminéUseCases, registerEliminéQueries } from './éliminé.register';
+export { registerEliminéUseCases, registerEliminéQueries } from './éliminé.register.js';
 
 // Entities
-export { ÉliminéEntity } from './éliminé.entity';
+export type { ÉliminéEntity } from './éliminé.entity.js';
 
-export * as Recours from './recours';
+export * as Recours from './recours/index.js';

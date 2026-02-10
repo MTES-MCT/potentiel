@@ -1,7 +1,7 @@
-import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
-import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
-import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
-import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event';
+import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
+import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event.js';
+import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
 
 export type AchèvementEvent =
   | AttestationConformitéTransmiseEvent
@@ -9,7 +9,7 @@ export type AchèvementEvent =
   | DateAchèvementPrévisionnelCalculéeEvent
   | DateAchèvementTransmiseEvent;
 
-export {
+export type {
   AttestationConformitéTransmiseEvent,
   AttestationConformitéModifiéeEvent,
   DateAchèvementPrévisionnelCalculéeEvent,

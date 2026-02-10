@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import { IdentifiantProjet } from '../../../..';
-import { TypeDocumentRéponseMainlevée } from '../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../../document-projet/index.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { TypeDocumentRéponseMainlevée } from '../../index.js';
 
-import { RejeterMainlevéeGarantiesFinancièresCommand } from './rejeterMainlevéeGarantiesFinancières.command';
+import { RejeterMainlevéeGarantiesFinancièresCommand } from './rejeterMainlevéeGarantiesFinancières.command.js';
 
 export type RejeterMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',

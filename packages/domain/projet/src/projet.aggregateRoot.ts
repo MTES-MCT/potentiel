@@ -6,9 +6,9 @@ import {
   LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
 
-import { CahierDesCharges, IdentifiantProjet } from '.';
+import { CahierDesCharges, IdentifiantProjet } from './index.js';
 
-import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
+import { ÉliminéAggregate } from './éliminé/éliminé.aggregate.js';
 import {
   AggrégatDéjàChargéError,
   AggrégatNonChargéError,
@@ -16,10 +16,10 @@ import {
   CahierDesChargesInexistantError,
   FamilleInexistanteError,
   PériodeInexistanteError,
-} from './projet.error';
-import { CandidatureAggregate } from './candidature/candidature.aggregate';
-import { LauréatAggregate } from './lauréat/lauréat.aggregate';
-import { AccèsAggregate } from './accès/accès.aggregate';
+} from './projet.error.js';
+import { CandidatureAggregate } from './candidature/candidature.aggregate.js';
+import { LauréatAggregate } from './lauréat/lauréat.aggregate.js';
+import { AccèsAggregate } from './accès/accès.aggregate.js';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregate;

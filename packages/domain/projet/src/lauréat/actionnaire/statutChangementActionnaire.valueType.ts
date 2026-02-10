@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { DemandeDeChangementEnCoursError } from './errors';
+import { DemandeDeChangementEnCoursError } from './errors.js';
 
 export const statuts = [
   'accordé',

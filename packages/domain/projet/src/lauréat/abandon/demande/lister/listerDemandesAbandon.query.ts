@@ -3,14 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../../lauréat.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { LauréatEntity } from '../../../lauréat.entity.js';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
 import {
   AutoritéCompétente,
   DemandeAbandonEntity,
   StatutAbandon,
   StatutPreuveRecandidature,
-} from '../..';
+} from '../../index.js';
 
 type DemandeAbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

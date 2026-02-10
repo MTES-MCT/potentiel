@@ -3,14 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseMainlevée,
-} from '../..';
-import { LauréatEntity } from '../../..';
+} from '../../index.js';
+import { LauréatEntity } from '../../../index.js';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

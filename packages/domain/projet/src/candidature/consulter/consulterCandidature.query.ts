@@ -5,9 +5,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { CandidatureEntity } from '../candidature.entity';
-import { DocumentProjet, IdentifiantProjet } from '../..';
-import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance } from '..';
+import { CandidatureEntity } from '../candidature.entity.js';
+import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance } from '../index.js';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

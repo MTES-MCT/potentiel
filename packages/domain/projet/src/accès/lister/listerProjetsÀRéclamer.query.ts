@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { Candidature, IdentifiantProjet } from '../..';
-import { AccèsEntity } from '../accès.entity';
+import { Candidature, IdentifiantProjet } from '../../index.js';
+import { AccèsEntity } from '../accès.entity.js';
 
 export type ProjetÀRéclamerReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

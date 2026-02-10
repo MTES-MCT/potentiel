@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { ReprésentantLégalEntity, TypeReprésentantLégal } from '..';
-import { IdentifiantProjet } from '../../..';
+import { ReprésentantLégalEntity, TypeReprésentantLégal } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,15 +1,15 @@
-import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event';
-import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event';
-import { AbandonConfirméEvent } from './demande/confirmer/confirmerAbandon.event';
+import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event.js';
+import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
+import { AbandonConfirméEvent } from './demande/confirmer/confirmerAbandon.event.js';
 import {
   AbandonDemandéEventV1,
   AbandonDemandéEvent,
-} from './demande/demander/demanderAbandon.event';
-import { ConfirmationAbandonDemandéeEvent } from './demande/demanderConfirmation/demanderConfirmation.event';
-import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event';
-import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event';
-import { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidature.event';
-import { PreuveRecandidatureTransmiseEvent } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.event';
+} from './demande/demander/demanderAbandon.event.js';
+import { ConfirmationAbandonDemandéeEvent } from './demande/demanderConfirmation/demanderConfirmation.event.js';
+import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event.js';
+import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event.js';
+import { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidature.event.js';
+import { PreuveRecandidatureTransmiseEvent } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.event.js';
 
 export type AbandonEvent =
   | AbandonDemandéEventV1
