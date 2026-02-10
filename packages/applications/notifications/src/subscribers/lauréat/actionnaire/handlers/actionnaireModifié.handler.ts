@@ -14,7 +14,7 @@ export const handleActionnaireModifié = async ({
 
   for (const recipients of [dreals, porteurs]) {
     await sendEmail({
-      key: 'actionnaire/modifier',
+      key: 'lauréat/actionnaire/modifier',
       recipients,
       values: {
         nom_projet: projet.nom,

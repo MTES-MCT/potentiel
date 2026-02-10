@@ -12,7 +12,7 @@ export const handleChangementActionnaireDemandé = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    key: 'actionnaire/demande/demander',
+    key: 'lauréat/actionnaire/demande/demander',
     recipients: dreals,
     values: {
       nom_projet: projet.nom,

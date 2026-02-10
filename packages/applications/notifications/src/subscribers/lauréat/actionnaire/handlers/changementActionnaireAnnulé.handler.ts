@@ -11,7 +11,7 @@ export const handleChangementActionnaireAnnulé = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    key: 'actionnaire/demande/annuler',
+    key: 'lauréat/actionnaire/demande/annuler',
     recipients: dreals,
     values: {
       nom_projet: projet.nom,

@@ -14,7 +14,7 @@ export const handleChangementActionnaireEnregistré = async ({
 
   for (const recipients of [dreals, porteurs]) {
     await sendEmail({
-      key: 'actionnaire/enregistrer_changement',
+      key: 'lauréat/actionnaire/enregistrer_changement',
       recipients,
       values: {
         nom_projet: projet.nom,

@@ -12,7 +12,7 @@ export const handleChangementActionnaireRejeté = async ({
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   return sendEmail({
-    key: 'actionnaire/demande/rejeter',
+    key: 'lauréat/actionnaire/demande/rejeter',
     recipients: porteurs,
     values: {
       nom_projet: projet.nom,

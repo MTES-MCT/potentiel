@@ -1,28 +1,25 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients } from '#helpers';
-
-import { producteurNotificationTemplateId } from '../constant.js';
-import { ProducteurNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementProducteurEnregistré = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: ProducteurNotificationsProps<Lauréat.Producteur.ChangementProducteurEnregistréEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload: { identifiantProjet, enregistréLe },
+}: Lauréat.Producteur.ChangementProducteurEnregistréEvent) => {
+  const projet = await getLauréat(identifiantProjet);
+
   const dreals = await listerDrealsRecipients(projet.région);
 
   await sendEmail({
-    templateId: producteurNotificationTemplateId.enregistrerChangement,
-    messageSubject: `Potentiel - Déclaration de changement de producteur pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/producteur/enregistrer_changement',
     recipients: dreals,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Producteur.changement.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
+      url: `${getBaseUrl()}${Routes.Producteur.changement.détails(projet.identifiantProjet.formatter(), enregistréLe)}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
     },
   });
 };

@@ -13,39 +13,39 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
 
     Scénario: Modifier le producteur d'un projet lauréat abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
 
     Scénario: Modifier le producteur d'un projet lauréat achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
 
     Scénario: Modifier le producteur d'un projet lauréat dont l'appel d'offres empêche un changement avant l'achèvement du projet
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
@@ -55,13 +55,13 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Producteur modifié |
+            | nom_projet | Du boulodrome de Marseille                                  |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                  |
 
     Scénario: Impossible de modifier le producteur avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
