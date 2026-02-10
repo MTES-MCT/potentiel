@@ -10,7 +10,8 @@ import { IdentifiantProjet } from '../../..';
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
-  dateDemandeEnCours?: DateTime.ValueType;
+  aUneDemandeEnCours: boolean;
+  dateDernièreDemande?: DateTime.ValueType;
 };
 
 export type ConsulterActionnaireQuery = Message<
@@ -31,7 +32,6 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 
     const actionnaire = await find<ActionnaireEntity>(
       `actionnaire|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom', 'dateDemandeEnCours'] },
     );
 
     return Option.match(actionnaire).some(mapToReadModel).none();
@@ -42,7 +42,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 export const mapToReadModel = ({
   identifiantProjet,
   actionnaire,
-  dateDemandeEnCours,
+  dernièreDemande,
 }: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
@@ -51,8 +51,7 @@ export const mapToReadModel = ({
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
-    dateDemandeEnCours: dateDemandeEnCours
-      ? DateTime.convertirEnValueType(dateDemandeEnCours)
-      : undefined,
+    aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
+    dateDernièreDemande: dernièreDemande && DateTime.convertirEnValueType(dernièreDemande.date),
   };
 };

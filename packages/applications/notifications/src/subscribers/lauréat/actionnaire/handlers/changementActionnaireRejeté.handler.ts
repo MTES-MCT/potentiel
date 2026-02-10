@@ -1,37 +1,26 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
-
-import { RegisterActionnaireNotificationDependencies } from '../actionnaire.notifications.js';
-import { actionnaireNotificationTemplateId } from '../constant.js';
-
-type changementActionnaireRejetéNotificationsProps = {
-  sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    url: string;
-  };
-};
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementActionnaireRejeté = async ({
-  sendEmail,
-  event,
-  projet,
-}: changementActionnaireRejetéNotificationsProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const { appelOffre, période } = projet.identifiantProjet;
 
-  await sendEmail({
-    templateId: actionnaireNotificationTemplateId.changement.rejeter,
-    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+
+  return sendEmail({
+    key: 'actionnaire/demande/rejeter',
     recipients: porteurs,
-    variables: {
-      type: 'rejet',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: appelOffre,
+      période,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
 };

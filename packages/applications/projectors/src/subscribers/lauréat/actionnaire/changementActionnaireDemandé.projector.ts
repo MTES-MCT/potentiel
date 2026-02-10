@@ -17,7 +17,10 @@ export const changementActionnaireDemandéProjector = async ({
   await updateOneProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
     {
-      dateDemandeEnCours: demandéLe,
+      dernièreDemande: {
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut,
+        date: demandéLe,
+      },
     },
   );
 

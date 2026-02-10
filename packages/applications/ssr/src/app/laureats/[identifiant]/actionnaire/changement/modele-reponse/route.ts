@@ -32,18 +32,14 @@ export const GET = async (
 
       const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
-      if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
-        return notFound();
-      }
-
-      if (!actionnaire.dateDemandeEnCours) {
+      if (Option.isNone(actionnaire) || !actionnaire.dateDernièreDemande) {
         return notFound();
       }
 
       const demandeDeChangement =
         await mediator.send<Lauréat.Actionnaire.ConsulterChangementActionnaireQuery>({
           type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-          data: { identifiantProjet, demandéLe: actionnaire.dateDemandeEnCours.formatter() },
+          data: { identifiantProjet, demandéLe: actionnaire.dateDernièreDemande.formatter() },
         });
 
       if (Option.isNone(demandeDeChangement)) {
