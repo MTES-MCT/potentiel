@@ -7,27 +7,51 @@ import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  `le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :`,
-  async function (this: PotentielWorld, datatable: DataTable) {
+  /(le gestionnaire de réseau|l'administrateur) transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | "l'administrateur") {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
 
-    await transmettreDateMiseEnService.call(
-      this,
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
+      });
+
+    await transmettreDateMiseEnService({
+      potentielWorld: this,
       identifiantProjet,
       référenceDossier,
-      datatable.rowsHash(),
-    );
+      dateMiseEnService,
+      rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
+    });
   },
 );
 
 Quand(
-  `le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(le gestionnaire de réseau|l'administrateur) transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'le gestionnaire de réseau' | "l'administrateur",
+    datatable: DataTable,
+  ) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
 
-    await transmettreDateMiseEnService.call(this, identifiantProjet, référenceDossier);
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
+        ...this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+          datatable.rowsHash(),
+        ),
+      });
+
+    await transmettreDateMiseEnService({
+      potentielWorld: this,
+      identifiantProjet,
+      référenceDossier,
+      dateMiseEnService,
+      rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
+    });
   },
 );
 
@@ -41,31 +65,45 @@ Quand(
   },
 );
 
-async function transmettreDateMiseEnService(
-  this: PotentielWorld,
-  identifiantProjet: IdentifiantProjet.ValueType,
-  référence: string,
-  data: Record<string, string> = {},
-) {
-  const { dateMiseEnService, référenceDossier } =
-    this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
-      identifiantProjet: identifiantProjet.formatter(),
-      référenceDossier: référence,
-      ...this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(data),
-    });
+type TransmettreDateMiseEnServiceProps = {
+  potentielWorld: PotentielWorld;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  référenceDossier: string;
+  rôle: 'admin' | 'grd';
+  dateMiseEnService: string;
+};
+
+export async function transmettreDateMiseEnService({
+  potentielWorld,
+  identifiantProjet,
+  référenceDossier,
+  dateMiseEnService,
+  rôle,
+}: TransmettreDateMiseEnServiceProps) {
+  // const { dateMiseEnService, référenceDossier } =
+  //   potentielWorld.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+  //     identifiantProjet: identifiantProjet.formatter(),
+  //     référenceDossier: référence,
+  //     ...potentielWorld.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+  //       data,
+  //     ),
+  //   });
   try {
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référenceDossier,
         dateMiseEnServiceValue: dateMiseEnService,
         transmiseLeValue: DateTime.now().formatter(),
-        transmiseParValue: this.utilisateurWorld.grdFixture.email,
+        transmiseParValue:
+          rôle === 'grd'
+            ? potentielWorld.utilisateurWorld.grdFixture.email
+            : potentielWorld.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (e) {
-    this.error = e as Error;
+    potentielWorld.error = e as Error;
   }
 }
 
