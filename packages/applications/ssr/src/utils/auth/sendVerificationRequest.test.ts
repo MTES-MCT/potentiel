@@ -10,8 +10,8 @@ import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/util
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { buildSendVerificationRequest } from './sendVerificationRequest.js';
-import { GetUtilisateurFromEmail } from './getUtilisateur.js';
+import { buildSendVerificationRequest } from './sendVerificationRequest';
+import { GetUtilisateurFromEmail } from './getUtilisateur';
 
 type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 

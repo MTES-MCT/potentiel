@@ -7,27 +7,13 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test **/*.test.ts",
-    "test:watch": "tsx --test --watch **/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-applications/notifications": "*",
-    "@potentiel-applications/routes": "*",
-    "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
-    "@potentiel-domain/statistiques-utilisation": "*",
-    "@auth/pg-adapter": "1.8.0",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/pg-helpers": "*",
-    "mediateur": "0.3.0",
-    "next-auth": "4.24.13",
-    "nodemailer": "7.0.11",
-    "pg": "8.16.3"
+    "@potentiel-libraries/monitoring": "*"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "@types/pg": "8.15.5",
-    "tsx": "4.20.4"
+    "@potentiel-config/tsconfig": "*"
   }
 }

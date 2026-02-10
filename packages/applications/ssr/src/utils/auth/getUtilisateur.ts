@@ -15,11 +15,11 @@ import {
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
-import { authOptions } from './authOptions.js';
-import { getJwks } from './openid.js';
-import { getProviderAccountUrl } from './getProviderConfiguration.js';
-import { PotentielUtilisateur } from './types.js';
+import { authOptions } from './authOptions';
+import { getJwks } from './openid';
+import { getProviderAccountUrl } from './getProviderConfiguration';
 
 export type GetUtilisateur = (
   req: IncomingMessage,
