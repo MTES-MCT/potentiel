@@ -55,12 +55,6 @@ export class ActionnaireWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     actionnaireInitial: string,
   ): Lauréat.Actionnaire.ConsulterActionnaireReadModel {
-    const aUneDemandeEnCours =
-      this.#demanderChangementActionnaireFixture.aÉtéCréé &&
-      !this.#accorderChangementActionnaireFixture.aÉtéCréé &&
-      !this.#annulerChangementActionnaireFixture.aÉtéCréé &&
-      !this.#rejeterChangementActionnaireFixture.aÉtéCréé;
-
     return {
       identifiantProjet,
       actionnaire: this.accorderChangementActionnaireFixture.aÉtéCréé
@@ -70,19 +64,14 @@ export class ActionnaireWorld {
           : this.#modifierActionnaireFixture.aÉtéCréé
             ? this.#modifierActionnaireFixture.actionnaire
             : actionnaireInitial,
-      ...(aUneDemandeEnCours
-        ? {
-            dateDernièreDemande: DateTime.convertirEnValueType(
-              this.demanderChangementActionnaireFixture.demandéLe,
-            ),
-            aUneDemandeEnCours: true,
-          }
-        : {
-            dateDernièreDemande: this.#demanderChangementActionnaireFixture.aÉtéCréé
-              ? DateTime.convertirEnValueType(this.demanderChangementActionnaireFixture.demandéLe)
-              : undefined,
-            aUneDemandeEnCours: false,
-          }),
+      aUneDemandeEnCours:
+        this.#demanderChangementActionnaireFixture.aÉtéCréé &&
+        !this.#accorderChangementActionnaireFixture.aÉtéCréé &&
+        !this.#annulerChangementActionnaireFixture.aÉtéCréé &&
+        !this.#rejeterChangementActionnaireFixture.aÉtéCréé,
+      dateDernièreDemande: this.#demanderChangementActionnaireFixture.aÉtéCréé
+        ? DateTime.convertirEnValueType(this.demanderChangementActionnaireFixture.demandéLe)
+        : undefined,
     };
   }
 
