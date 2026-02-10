@@ -6,7 +6,6 @@ import z from 'zod';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
-import { NoAuthenticatedUserError } from '@potentiel-applications/request-context';
 import { AuthenticationError } from '@potentiel-applications/bootstrap';
 
 export async function withErrorHandling<TResult>(
@@ -23,7 +22,7 @@ export async function withErrorHandling<TResult>(
       throw e;
     }
 
-    if (e instanceof NoAuthenticatedUserError || e instanceof AuthenticationError) {
+    if (e instanceof AuthenticationError) {
       return onAuthenticationError();
     }
 

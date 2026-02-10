@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { jwtVerify } from 'jose';
 import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers/index';
 
-import { getJwks } from './openid.js';
+import { getJwks } from './openid';
 
 export type ProConnectProfile = {
   email: string;

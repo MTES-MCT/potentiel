@@ -5,6 +5,7 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 import EmailProvider from 'next-auth/providers/email';
 import { mediator } from 'mediateur';
 import PostgresAdapter from '@auth/pg-adapter';
+import './types';
 
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -14,12 +15,12 @@ import { EnvoyerNotificationCommand } from '@potentiel-applications/notification
 import { SendEmailV2 } from '@potentiel-applications/notifications';
 import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
 
-import { getProviderConfiguration } from './getProviderConfiguration.js';
-import { refreshToken } from './refreshToken.js';
-import ProConnectProvider from './ProConnectProvider.js';
-import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur.js';
-import { canConnectWithProvider } from './canConnectWithProvider.js';
-import { buildSendVerificationRequest } from './sendVerificationRequest.js';
+import { getProviderConfiguration } from './getProviderConfiguration';
+import { refreshToken } from './refreshToken';
+import ProConnectProvider from './ProConnectProvider';
+import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
+import { canConnectWithProvider } from './canConnectWithProvider';
+import { buildSendVerificationRequest } from './sendVerificationRequest';
 
 const OneHourInSeconds = 60 * 60;
 const fifteenMinutesInSeconds = 15 * 60;
@@ -48,7 +49,7 @@ const getAuthProviders = () => {
 
   if (configuredProviders.includes('keycloak')) {
     providers.push(
-      KeycloakProvider.default({
+      KeycloakProvider({
         ...getProviderConfiguration('keycloak'),
         allowDangerousEmailAccountLinking: true,
       }),
@@ -66,7 +67,7 @@ const getAuthProviders = () => {
 
   if (configuredProviders.includes('email')) {
     providers.push(
-      EmailProvider.default({
+      EmailProvider({
         from: process.env.SEND_EMAILS_FROM,
         maxAge: fifteenMinutesInSeconds,
         sendVerificationRequest: buildSendVerificationRequest(sendEmail, getUtilisateurFromEmail),

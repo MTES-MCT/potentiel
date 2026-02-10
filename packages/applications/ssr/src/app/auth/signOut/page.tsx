@@ -1,12 +1,11 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 
-import { getLogoutUrl } from '@potentiel-applications/request-context';
-
 import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { SignOutRedirect } from './SignOutRedirect';
+import { getLogoutUrl } from '@/utils/auth/getLogoutUrl';
 
 export default async function SignOut() {
   return PageWithErrorHandling(async () => {

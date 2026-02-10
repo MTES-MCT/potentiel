@@ -1,4 +1,4 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 // This is the content of the cookie stored by next-auth
 export interface PotentielJWT {
@@ -9,11 +9,6 @@ export interface PotentielJWT {
   job?: string;
 }
 
-export type PotentielUtilisateur = Utilisateur.ValueType & {
-  nom?: string;
-  accountUrl?: string;
-};
-
 // This is the content of the session, as returned by getServerSession or useSession
 export interface PotentielSession {
   idToken?: string;
@@ -22,10 +17,12 @@ export interface PotentielSession {
 }
 
 declare module 'next-auth/jwt' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface JWT extends PotentielJWT {}
 }
 
 declare module 'next-auth' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   interface Session extends PotentielSession {}
 
   export interface Profile {

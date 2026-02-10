@@ -4,9 +4,8 @@ import { EnvoyerNotificationCommand } from '@potentiel-applications/notification
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 
-import { GetUtilisateurFromEmail } from './getUtilisateur.js';
-import { canConnectWithProvider } from './canConnectWithProvider.js';
-import { getBaseUrl } from './helper/getBaseUrl.js';
+import { GetUtilisateurFromEmail } from './getUtilisateur';
+import { canConnectWithProvider } from './canConnectWithProvider';
 
 type BuildSendVerificationRequest = (
   sendEmail: (options: EnvoyerNotificationCommand['data']) => Promise<void>,
@@ -48,4 +47,16 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest = (
 
     return;
   };
+};
+
+export const getBaseUrl = () => {
+  const { BASE_URL: baseUrl } = process.env;
+
+  if (!baseUrl) {
+    throw new Error(`variable d'environnement BASE_URL non trouvée`);
+  }
+  if (baseUrl.endsWith('/')) {
+    return baseUrl.slice(0, -1);
+  }
+  return baseUrl;
 };

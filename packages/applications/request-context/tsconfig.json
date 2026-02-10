@@ -6,28 +6,10 @@
   },
   "references": [
     {
-      "path": "../../domain/common"
-    },
-    {
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../domain/statistiques-utilisation"
-    },
-    {
-      "path": "../../infrastructure/email"
-    },
-    {
-      "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../libraries/pg-helpers"
-    },
-    {
-      "path": "../notifications"
-    },
-    {
-      "path": "../routes"
+      "path": "../../libraries/monitoring"
     }
   ]
 }

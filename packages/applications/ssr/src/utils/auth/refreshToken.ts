@@ -3,7 +3,7 @@ import { JWT } from 'next-auth/jwt';
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getOpenIdClient } from './openid.js';
+import { getOpenIdClient } from './openid';
 
 export async function refreshToken(token: JWT): Promise<JWT> {
   const logger = getLogger('Auth');
