@@ -39,9 +39,7 @@ SELECT proj.value->>'identifiantProjet' AS id,
   CAST(ach.value->>'réel.date' as timestamp) AS "dateAchevementReel",
   CASE
     WHEN proj.key like 'éliminé|%' THEN 'éliminé'
-    WHEN aban.key is NOT NULL THEN 'abandonné'
-    WHEN ach.value->>'estAchevé' = 'true' THEN 'achevé'
-    ELSE 'actif'
+    ELSE proj.value->>'statut'
   END AS statut,
   projets_en_service.id is not null as "enService",
   CAST(
@@ -69,11 +67,6 @@ FROM domain_views.projection proj
     'achèvement|%s',
     proj.value->>'identifiantProjet'
   )
-  LEFT JOIN domain_views.projection aban on aban.key = format(
-    'abandon|%s',
-    proj.value->>'identifiantProjet'
-  )
-  and aban.value->>'estAbandonné' = 'true'
   LEFT JOIN projets_en_service on projets_en_service.id = proj.value->>'identifiantProjet'
 WHERE proj.key LIKE 'lauréat|%'
   OR proj.key LIKE 'éliminé|%';
