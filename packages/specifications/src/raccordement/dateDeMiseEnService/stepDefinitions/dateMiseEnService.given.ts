@@ -17,7 +17,7 @@ EtantDonné(
 
     await transmettreDateMiseEnService({
       potentielWorld: this,
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       dateMiseEnService,
       référenceDossier,
       rôle: 'admin',
@@ -42,7 +42,7 @@ EtantDonné(
 
     await transmettreDateMiseEnService({
       potentielWorld: this,
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
       rôle: 'admin',

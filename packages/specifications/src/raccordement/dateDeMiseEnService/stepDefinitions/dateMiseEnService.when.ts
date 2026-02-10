@@ -19,7 +19,7 @@ Quand(
 
     await transmettreDateMiseEnService({
       potentielWorld: this,
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
       rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
@@ -47,7 +47,7 @@ Quand(
 
     await transmettreDateMiseEnService({
       potentielWorld: this,
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
       rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
@@ -67,8 +67,8 @@ Quand(
 
 type TransmettreDateMiseEnServiceProps = {
   potentielWorld: PotentielWorld;
-  identifiantProjet: IdentifiantProjet.ValueType;
-  référenceDossier: string;
+  identifiantProjet: IdentifiantProjet.RawType;
+  référenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
   rôle: 'admin' | 'grd';
   dateMiseEnService: string;
 };
@@ -80,19 +80,11 @@ export async function transmettreDateMiseEnService({
   dateMiseEnService,
   rôle,
 }: TransmettreDateMiseEnServiceProps) {
-  // const { dateMiseEnService, référenceDossier } =
-  //   potentielWorld.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
-  //     identifiantProjet: identifiantProjet.formatter(),
-  //     référenceDossier: référence,
-  //     ...potentielWorld.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
-  //       data,
-  //     ),
-  //   });
   try {
     await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
+        identifiantProjetValue: identifiantProjet,
         référenceDossierValue: référenceDossier,
         dateMiseEnServiceValue: dateMiseEnService,
         transmiseLeValue: DateTime.now().formatter(),

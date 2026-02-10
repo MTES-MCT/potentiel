@@ -9,7 +9,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | date notification | 2021-01-01 |
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    @NotImplemented
+    @select
     Plan du scénario: Transmettre une date de mise en service pour un dossier de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand <role> transmet la date de mise en service pour le dossier de raccordement du projet lauréat
