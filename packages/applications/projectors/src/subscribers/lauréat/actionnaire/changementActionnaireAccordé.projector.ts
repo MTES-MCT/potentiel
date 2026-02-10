@@ -21,7 +21,7 @@ export const changementActionnaireAccordéProjector = async ({
         nom: nouvelActionnaire,
         miseÀJourLe: accordéLe,
       },
-      aUneDemandeEnCours: false,
+      dernièreDemande: { statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut },
     },
   );
 

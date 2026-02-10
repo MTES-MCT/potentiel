@@ -38,22 +38,23 @@ export const ActionnariatSection = ({
         rôle.nom,
       );
 
-      const action = actionnaire.aUneDemandeEnCours
-        ? rôle.aLaPermission('actionnaire.consulterChangement')
-          ? {
-              url: Routes.Actionnaire.changement.détails(
-                identifiantProjet.formatter(),
-                actionnaire.dateDernièreDemande.formatter(),
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined
-        : await getAction({
-            identifiantProjet,
-            rôle,
-            domain: 'actionnaire',
-            nécessiteInstruction,
-          });
+      const action =
+        actionnaire.aUneDemandeEnCours && actionnaire.dateDernièreDemande
+          ? rôle.aLaPermission('actionnaire.consulterChangement')
+            ? {
+                url: Routes.Actionnaire.changement.détails(
+                  identifiantProjet.formatter(),
+                  actionnaire.dateDernièreDemande.formatter(),
+                ),
+                label: 'Voir la demande de modification',
+              }
+            : undefined
+          : await getAction({
+              identifiantProjet,
+              rôle,
+              domain: 'actionnaire',
+              nécessiteInstruction,
+            });
 
       return (
         <Section title={sectionTitle}>

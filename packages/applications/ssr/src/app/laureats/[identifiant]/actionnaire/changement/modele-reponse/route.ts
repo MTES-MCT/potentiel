@@ -32,7 +32,7 @@ export const GET = async (
 
       const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet.formatter());
 
-      if (Option.isNone(actionnaire) || !actionnaire.aUneDemandeEnCours) {
+      if (Option.isNone(actionnaire) || !actionnaire.dateDernièreDemande) {
         return notFound();
       }
 

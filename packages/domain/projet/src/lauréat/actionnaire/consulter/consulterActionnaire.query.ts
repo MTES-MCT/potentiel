@@ -10,16 +10,9 @@ import { IdentifiantProjet } from '../../..';
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
-} & (
-  | {
-      aUneDemandeEnCours: true;
-      dateDernièreDemande: DateTime.ValueType;
-    }
-  | {
-      aUneDemandeEnCours: false;
-      dateDernièreDemande?: DateTime.ValueType;
-    }
-);
+  aUneDemandeEnCours: boolean;
+  dateDernièreDemande?: DateTime.ValueType;
+};
 
 export type ConsulterActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ConsulterActionnaire',
@@ -49,8 +42,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 export const mapToReadModel = ({
   identifiantProjet,
   actionnaire,
-  aUneDemandeEnCours,
-  dateDernièreDemande,
+  dernièreDemande,
 }: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
@@ -59,16 +51,9 @@ export const mapToReadModel = ({
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
-    ...(aUneDemandeEnCours
-      ? {
-          aUneDemandeEnCours: true as const,
-          dateDernièreDemande: DateTime.convertirEnValueType(dateDernièreDemande),
-        }
-      : {
-          aUneDemandeEnCours: false as const,
-          dateDernièreDemande: dateDernièreDemande
-            ? DateTime.convertirEnValueType(dateDernièreDemande)
-            : undefined,
-        }),
+    aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
+    dateDernièreDemande: dernièreDemande
+      ? DateTime.convertirEnValueType(dernièreDemande.date)
+      : undefined,
   };
 };

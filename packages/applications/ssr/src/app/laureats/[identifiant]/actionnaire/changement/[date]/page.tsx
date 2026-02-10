@@ -71,6 +71,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const dateDemandeEnCoursSiDifférente =
         actionnaire.aUneDemandeEnCours &&
+        actionnaire.dateDernièreDemande &&
         !changement.demande.demandéeLe.estÉgaleÀ(actionnaire.dateDernièreDemande)
           ? actionnaire.dateDernièreDemande.formatter()
           : undefined;
