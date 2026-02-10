@@ -52,8 +52,6 @@ export const mapToReadModel = ({
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
     aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
-    dateDernièreDemande: dernièreDemande
-      ? DateTime.convertirEnValueType(dernièreDemande.date)
-      : undefined,
+    dateDernièreDemande: dernièreDemande && DateTime.convertirEnValueType(dernièreDemande.date),
   };
 };
