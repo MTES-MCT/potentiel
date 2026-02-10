@@ -11,7 +11,7 @@ export * from './csv/mapCsvToTypologieInstallation';
 export * from './dépôt.schema';
 export * from './instruction.schema';
 export * from './localité.schema';
-export * from './nestedKeysForSchema';
+export type * from './nestedKeysForSchema';
 export * from './removeEmptyValues';
 export * from './schemaBase';
 export * from './typologieInstallation.schema';

@@ -13,8 +13,9 @@ export const getOpenApiSpecs = (baseUrl: string | undefined) => {
     ],
   };
 };
-export { createPotentielApiRouter, PotentielApiRouter } from './generated/http/router.js';
-export { HttpContext, Policy } from './generated/helpers/router.js';
+export type { PotentielApiRouter } from './generated/http/router.js';
+export { createPotentielApiRouter } from './generated/http/router.js';
+export type { HttpContext, Policy } from './generated/helpers/router.js';
 export * from './generated/models/all/index.js';
 export * from './generated/models/all/potentiel-api.js';
 

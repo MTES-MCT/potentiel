@@ -30,10 +30,10 @@ export * as PériodeNotification from './subscribers/période/période.notificat
 export * as UtilisateurNotification from './subscribers/utilisateur/utilisateur.notifications.js';
 
 // Notifications
-export { EnvoyerNotificationCommand } from './envoyerNotification.command.js';
-export { TemplateDefinitions } from './templates/emails/index.js';
+export type { EnvoyerNotificationCommand } from './envoyerNotification.command.js';
+export type { TemplateDefinitions } from './templates/emails/index.js';
 export { registerNotificationsCommands } from './register.js';
 
-export { SendEmail, EmailPayload, SendEmailV2, EmailPayloadV2 } from './sendEmail.js';
-export { SendEmailPort } from './envoyerNotification.command.js';
+export type { SendEmail, EmailPayload, SendEmailV2, EmailPayloadV2 } from './sendEmail.js';
+export type { SendEmailPort } from './envoyerNotification.command.js';
 export { render } from './templates/render.js';

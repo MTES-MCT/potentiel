@@ -36,7 +36,7 @@ export type UtilisateurQuery =
   | ListerUtilisateursQuery
   | TrouverUtilisateurQuery;
 
-export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, TrouverUtilisateurQuery };
+export type { ConsulterUtilisateurQuery, ListerUtilisateursQuery, TrouverUtilisateurQuery };
 
 // UseCases
 export type UtilisateurUseCase =
@@ -46,7 +46,7 @@ export type UtilisateurUseCase =
   | RéactiverUtilisateurUseCase
   | ModifierRôleUtilisateurUseCase;
 
-export {
+export type {
   InviterUtilisateurUseCase,
   InviterPorteurUseCase,
   DésactiverUtilisateurUseCase,
@@ -55,8 +55,8 @@ export {
 };
 
 // Events
-export { UtilisateurEvent } from './utilisateur.event.js';
-export {
+export type { UtilisateurEvent } from './utilisateur.event.js';
+export type {
   PorteurInvitéEvent,
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
@@ -64,18 +64,22 @@ export {
   UtilisateurRéactivéEvent,
   RôleUtilisateurModifiéEvent,
 };
-export * from './utilisateur.event.js';
+export type * from './utilisateur.event.js';
 
 // Register
 export * from './register.js';
 
 // Port
-export { RécupérerUtilisateurPort };
+export type { RécupérerUtilisateurPort };
 
 // Entity
-export * from './utilisateur.entity.js';
+export type * from './utilisateur.entity.js';
 
 // readmodel
-export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, TrouverUtilisateurReadModel };
+export type {
+  ConsulterUtilisateurReadModel,
+  ListerUtilisateursReadModel,
+  TrouverUtilisateurReadModel,
+};
 
 export * as UtilisateurSaga from './saga/utilisateur.saga.js';

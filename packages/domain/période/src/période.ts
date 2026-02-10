@@ -29,7 +29,7 @@ export type { PériodeNotifiéeEvent };
 export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
 
 // Entity
-export * from './période.entity.js';
+export type * from './période.entity.js';
 
 // Value types
 export * as IdentifiantPériode from './identifiantPériode.valueType.js';

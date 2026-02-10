@@ -1,3 +1,3 @@
 export * as AppelOffre from './appelOffre.js';
-export * from './appelOffre.aggregate.js';
-export * from './loadAppelOffreAggregate.port.js';
+export type * from './appelOffre.aggregate.js';
+export type * from './loadAppelOffreAggregate.port.js';
