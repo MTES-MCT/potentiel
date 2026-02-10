@@ -45,7 +45,6 @@
     "@potentiel-infrastructure/filigrane-facile-client": "workspace:*",
     "@potentiel-infrastructure/geo-api-client": "workspace:*",
     "@potentiel-libraries/csv": "workspace:*",
-    "@potentiel-libraries/flat": "workspace:*",
     "@potentiel-libraries/http-client": "workspace:*",
     "@potentiel-libraries/iso8601-datetime": "workspace:*",
     "@potentiel-libraries/monads": "workspace:*",

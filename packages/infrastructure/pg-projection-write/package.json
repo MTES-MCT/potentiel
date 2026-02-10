@@ -13,7 +13,6 @@
   "dependencies": {
     "@potentiel-domain/entity": "workspace:*",
     "@potentiel-infrastructure/pg-projection-read": "workspace:*",
-    "@potentiel-libraries/flat": "workspace:*",
     "@potentiel-libraries/pg-helpers": "workspace:*",
     "@potentiel-libraries/monitoring": "workspace:*",
     "flat": "6.0.1",
