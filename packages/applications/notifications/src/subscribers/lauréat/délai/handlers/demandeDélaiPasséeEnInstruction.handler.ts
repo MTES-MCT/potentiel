@@ -14,7 +14,7 @@ export const handleDemandeDélaiPasséeEnInstruction = async ({
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'délai/passerEnInstruction',
+    key: 'délai/passer_en_instruction',
     recipients: porteurs,
     values: {
       nom_projet: projet.nom,

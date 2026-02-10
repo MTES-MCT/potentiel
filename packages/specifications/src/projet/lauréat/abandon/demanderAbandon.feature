@@ -14,13 +14,13 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Nouvelle demande d'abandon |
+            | nom_projet | Du boulodrome de Marseille                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                  |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Nouvelle demande d'abandon |
+            | nom_projet | Du boulodrome de Marseille                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                  |
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -30,11 +30,11 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Nouvelle demande d'abandon |
+            | nom_projet | Du boulodrome de Marseille                                          |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                                          |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Nouvelle demande d'abandon |
+            | nom_projet | Du boulodrome de Marseille                                          |
         Et il n'y a pas de tâche "rappel échéance achèvement à trois mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à deux mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat

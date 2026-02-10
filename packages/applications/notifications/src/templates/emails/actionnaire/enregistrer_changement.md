@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} - Changement d'actionnaire enregistré
+subject: Potentiel - {{ nom_projet }} - Déclaration de changement d'actionnaire
 ---
 
 Madame, Monsieur,

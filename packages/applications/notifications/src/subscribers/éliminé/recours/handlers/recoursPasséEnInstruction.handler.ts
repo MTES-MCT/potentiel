@@ -12,7 +12,7 @@ export const handleRecoursPasséEnInstruction = async ({
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'recours/passerEnInstruction',
+    key: 'recours/passer_en_instruction',
     recipients: porteursRecipients,
     values: {
       nom_projet: projet.nom,

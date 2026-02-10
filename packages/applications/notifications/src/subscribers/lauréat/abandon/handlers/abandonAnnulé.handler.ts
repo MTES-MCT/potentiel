@@ -11,7 +11,6 @@ import { sendEmail } from '#sendEmail';
 
 export const handleAbandonAnnulé = async ({ payload }: Lauréat.Abandon.AbandonAnnuléEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
@@ -23,8 +22,8 @@ export const handleAbandonAnnulé = async ({ payload }: Lauréat.Abandon.Abandon
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    appelOffre,
-    période,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
     url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
   };
 
