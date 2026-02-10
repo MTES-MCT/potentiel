@@ -41,7 +41,7 @@ describe('listProjection', () => {
     return executeQuery(
       `insert into domain_views.projection values ($1, $2)`,
       `${category1}|${fake.data.value}`,
-      flatten(fake),
+      flatten(fake, { safe: true }),
     );
   };
 

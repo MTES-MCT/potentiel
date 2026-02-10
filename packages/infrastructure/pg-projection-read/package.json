@@ -5,10 +5,9 @@
   "types": "dist/index.d.ts",
   "private": true,
   "type": "module",
-  "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test --test-concurrency 5",
+    "test": "tsx --test --test-concurrency 5 **/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
