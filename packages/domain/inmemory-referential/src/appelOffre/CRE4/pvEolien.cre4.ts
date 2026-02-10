@@ -92,10 +92,8 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
   unitePuissance: 'MW',
-  // on devrait avoir "multiplesTechnologies" pour cet AO
-  // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
-  // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
-  technologie: 'eolien',
+  // En théorie ce devrait être technologies multiples, mais 100% des projets de cet AO sont du PV. Les projets ne spécifiant pas la technologie, il est préférable de ne garder que PV ici pour ne pas créer d'inconsistence dans les données.
+  technologie: 'pv',
   changement: 'indisponible',
   modification: defaultModifications,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
