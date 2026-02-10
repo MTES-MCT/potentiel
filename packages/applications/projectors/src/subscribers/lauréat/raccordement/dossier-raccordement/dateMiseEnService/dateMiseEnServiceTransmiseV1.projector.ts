@@ -2,13 +2,17 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Where } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const dateMiseEnServiceTransmiseV1Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, dateMiseEnService },
   created_at,
 }: Lauréat.Raccordement.DateMiseEnServiceTransmiseV1Event & Event) => {
+  const raccordementActuel = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
+    `raccordement|${identifiantProjet}`,
+  );
+
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
@@ -19,18 +23,29 @@ export const dateMiseEnServiceTransmiseV1Projector = async ({
     },
   );
 
-  const dossiers = await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
-    'dossier-raccordement',
-    {
-      where: {
-        identifiantProjet: Where.equal(identifiantProjet),
+  if (Option.isNone(raccordementActuel)) {
+    return;
+    // TODO : gérer le cas où le raccordement n'existe pas (est-ce possible ?)
+  }
+  if (!raccordementActuel.miseEnService) {
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet}`,
+      {
+        miseEnService: {
+          date: dateMiseEnService,
+          référenceDossierRaccordement,
+        },
       },
-    },
+    );
+    return;
+  }
+
+  const dateMiseEnServiceTransmise = DateTime.convertirEnValueType(dateMiseEnService);
+  const dateMiseEnServiceActuelle = DateTime.convertirEnValueType(
+    raccordementActuel.miseEnService.date,
   );
 
-  console.log('dossiers', dossiers.items);
-
-  if (dossiers.items.length === 1) {
+  if (dateMiseEnServiceTransmise.date.getTime() > dateMiseEnServiceActuelle.date.getTime()) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       {

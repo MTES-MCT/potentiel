@@ -9,7 +9,6 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | date notification | 2021-01-01 |
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    @select
     Plan du scénario: Transmettre une date de mise en service pour un dossier de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand <role> transmet la date de mise en service pour le dossier de raccordement du projet lauréat
@@ -21,38 +20,22 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | le gestionnaire de réseau |
             | l'administrateur          |
 
-    @NotImplemented
-    Plan du scénario: Transmettre une date de mise en service pour un dossier de raccordement 2
-        Etant donné une demande complète de raccordement pour le projet lauréat avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000030 |
-        Quand <role> transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
-            | La date de mise en service | 2022-03-27 |
-        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
-        Et le raccordement du projet lauréat devrait être en service avec :
-            | La date de mise en service              | 2022-03-27         |
-            | La référence du dossier de raccordement | OUE-RP-2022-000030 |
-
-        Exemples:
-            | role                      |
-            | le gestionnaire de réseau |
-            | l'administrateur          |
-
-    @NotImplemented
-    Plan du scénario: Transmettre une date de mise en service moins tardive que celles des autres dossiers en service d'un projet lauréat
+    @select
+    Scénario: Transmettre une date de mise en service moins tardive que celles des autres dossiers en service d'un projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
-            | La date de mise en service              | 2027-01-01         |
+            | La date de mise en service              | 2025-01-01         |
         Et une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
-        Quand <role> transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
-            | La date de mise en service              | 2024-10-10         |
+        Quand l'administrateur transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
+            | La date de mise en service              | 2024-10-10         |
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
         Et le raccordement du projet lauréat devrait être en service avec :
-            | La date de mise en service              | 2027-01-01         |
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2025-01-01         |
 
     @NotImplemented
     Plan du scénario: Transmettre une date de mise en service plus tardive que celles des autres dossiers en service d'un projet lauréat

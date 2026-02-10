@@ -4,6 +4,8 @@ import { mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { sleep } from '#helpers';
+
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
@@ -44,6 +46,8 @@ Quand(
           datatable.rowsHash(),
         ),
       });
+
+    await sleep(500);
 
     await transmettreDateMiseEnService({
       potentielWorld: this,

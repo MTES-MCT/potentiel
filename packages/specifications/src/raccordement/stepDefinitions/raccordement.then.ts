@@ -1,8 +1,8 @@
-import { Then as Alors } from '@cucumber/cucumber';
+import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -17,29 +17,36 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture;
 
-    await waitForExpect(async () => {
-      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+    await vérifierMiseEnServiceDansRaccordement({
+      identifiantProjet,
+      référenceDossier:
+        Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossier),
+      dateMiseEnService: DateTime.convertirEnValueType(dateMiseEnService),
+    });
+  },
+);
 
-      assert(Option.isSome(raccordement), 'Aucun raccordement trouvé pour le projet lauréat');
+Alors(
+  `le raccordement du projet lauréat devrait être en service avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
 
-      assert(
-        raccordement.miseEnService,
-        'Aucune mise en service dans le raccordement du projet lauréat',
+    const exemple = dataTable.rowsHash();
+
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(exemple);
+
+    if (!dateMiseEnService || !référenceDossier) {
+      throw new Error(
+        `La date de mise en service et la référence du dossier de raccordement doivent être renseignées dans les exemples`,
       );
+    }
 
-      expect(
-        raccordement.miseEnService.date.estÉgaleÀ(DateTime.convertirEnValueType(dateMiseEnService)),
-      ).to.be.true;
-      expect(
-        raccordement.miseEnService.référenceDossier.estÉgaleÀ(
-          Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossier),
-        ),
-      ).to.be.true;
+    await vérifierMiseEnServiceDansRaccordement({
+      identifiantProjet,
+      référenceDossier:
+        Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossier),
+      dateMiseEnService: DateTime.convertirEnValueType(dateMiseEnService),
     });
   },
 );
@@ -63,3 +70,40 @@ Alors(
     });
   },
 );
+
+type VérifierMiseEnServiceDansRaccordementProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  référenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.ValueType;
+  dateMiseEnService: DateTime.ValueType;
+};
+
+const vérifierMiseEnServiceDansRaccordement = async ({
+  identifiantProjet,
+  référenceDossier,
+  dateMiseEnService,
+}: VérifierMiseEnServiceDansRaccordementProps) => {
+  await waitForExpect(async () => {
+    const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    assert(Option.isSome(raccordement), 'Aucun raccordement trouvé pour le projet lauréat');
+
+    assert(
+      raccordement.miseEnService,
+      'Aucune mise en service dans le raccordement du projet lauréat',
+    );
+
+    expect(
+      raccordement.miseEnService.date.formatter(),
+      'La date de mise en service ne correspond pas',
+    ).to.equal(dateMiseEnService.formatter());
+    expect(
+      raccordement.miseEnService.référenceDossier.estÉgaleÀ(référenceDossier),
+      'La référence du dossier de raccordement ne correspond pas',
+    ).to.be.true;
+  });
+};
