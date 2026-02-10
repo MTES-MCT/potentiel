@@ -1,6 +1,6 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { AucunAbandonEnCours } from './abandon.error';
+import { AucunAbandonEnCours } from './abandon.error.js';
 
 export const statuts = [
   'accordé',

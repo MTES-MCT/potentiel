@@ -4,8 +4,8 @@ import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantPériode, PériodeEntity } from '../période';
-import { Période } from '..';
+import { IdentifiantPériode, PériodeEntity } from '../période.js';
+import { Période } from '../index.js';
 
 export type ConsulterPériodeReadModel = PériodeNotifiée | PériodeNonNotifiée;
 

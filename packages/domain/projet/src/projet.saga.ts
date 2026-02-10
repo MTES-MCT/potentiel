@@ -3,10 +3,10 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Candidature, IdentifiantProjet } from '.';
+import { Candidature, IdentifiantProjet } from './index.js';
 
-import { NotifierLauréatCommand } from './lauréat/notifier/notifierLauréat.command';
-import { NotifierÉliminéCommand } from './éliminé/notifier/notifierÉliminé.command';
+import { NotifierLauréatCommand } from './lauréat/notifier/notifierLauréat.command.js';
+import { NotifierÉliminéCommand } from './éliminé/notifier/notifierÉliminé.command.js';
 
 export type SubscriptionEvent = Candidature.CandidatureNotifiéeEvent;
 

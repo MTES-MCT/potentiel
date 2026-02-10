@@ -1,4 +1,4 @@
-export * from './NotificationHandlerProps.type.js';
+export type * from './NotificationHandlerProps.type.js';
 export * from './formatDateForEmail.js';
 export * from './getAppelOffre.js';
 export * from './getBaseUrl.js';

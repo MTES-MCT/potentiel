@@ -1,31 +1,31 @@
-import { GetProjetAggregateRoot } from '../..';
+import { GetProjetAggregateRoot } from '../../index.js';
 
-import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
-import { registerAccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command';
-import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
-import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query';
-import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command';
-import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
-import { registerEnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
-import { registerEnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
+import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
+import { registerAccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command.js';
+import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
+import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query.js';
+import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command.js';
+import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase.js';
+import { registerEnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command.js';
+import { registerEnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase.js';
 import {
   ListerChangementActionnaireDependencies,
   registerListerChangementActionnaireQuery,
-} from './changement/lister/listerChangementActionnaire.query';
-import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
-import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
-import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
+} from './changement/lister/listerChangementActionnaire.query.js';
+import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command.js';
+import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase.js';
+import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command.js';
 import {
   ConsulterActionnaireDependencies,
   registerConsulterActionnaireQuery,
-} from './consulter/consulterActionnaire.query';
+} from './consulter/consulterActionnaire.query.js';
 import {
   ListerHistoriqueActionnaireProjetDependencies,
   registerListerHistoriqueActionnaireProjetQuery,
-} from './listerHistorique/listerHistoriqueActionnaireProjet.query';
-import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
-import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command';
+} from './listerHistorique/listerHistoriqueActionnaireProjet.query.js';
+import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command.js';
+import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase.js';
+import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command.js';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies &

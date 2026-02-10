@@ -1,6 +1,6 @@
-import { Entity } from './entity';
-import { NestedKeys } from './nestedKeys';
-import { WhereOptions } from './whereOptions';
+import { Entity } from './entity.js';
+import { NestedKeys } from './nestedKeys.js';
+import { WhereOptions } from './whereOptions.js';
 
 export type JoinOptionsParams<
   TEntity extends Entity,

@@ -1,5 +1,5 @@
-import { AggregateId } from './aggregateId';
-import { DomainEvent } from './domainEvent';
+import { AggregateId } from './aggregateId.js';
+import { DomainEvent } from './domainEvent.js';
 
 export type Publish = <TDomainEvent extends DomainEvent>(
   aggregateId: string,

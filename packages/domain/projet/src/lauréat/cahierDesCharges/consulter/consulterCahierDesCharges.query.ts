@@ -4,10 +4,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Find } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../lauréat.entity';
-import { CahierDesCharges, IdentifiantProjet } from '../../..';
-import { CandidatureEntity } from '../../../candidature';
-import { mapToReadModel as mapToCandidatureReadModel } from '../../../candidature/consulter/consulterCandidature.query';
+import { LauréatEntity } from '../../lauréat.entity.js';
+import { CahierDesCharges, IdentifiantProjet } from '../../../index.js';
+import { CandidatureEntity } from '../../../candidature/index.js';
+import { mapToReadModel as mapToCandidatureReadModel } from '../../../candidature/consulter/consulterCandidature.query.js';
 
 export type ConsulterCahierDesChargesReadModel = CahierDesCharges.ValueType;
 

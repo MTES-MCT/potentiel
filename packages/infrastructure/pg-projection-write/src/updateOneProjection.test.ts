@@ -2,10 +2,10 @@ import { after, afterEach, before, beforeEach, describe, test } from 'node:test'
 import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
+import { flatten } from 'flat';
 
 import { Entity } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { flatten } from '@potentiel-libraries/flat';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 import { updateOneProjection } from './updateOneProjection.js';

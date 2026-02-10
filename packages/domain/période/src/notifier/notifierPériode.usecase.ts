@@ -4,9 +4,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import * as IdentifiantPériode from '../identifiantPériode.valueType';
+import * as IdentifiantPériode from '../identifiantPériode.valueType.js';
 
-import { NotifierPériodeCommand } from './notifierPériode.command';
+import { NotifierPériodeCommand } from './notifierPériode.command.js';
 
 export type NotifierPériodeUseCase = Message<
   'Période.UseCase.NotifierPériode',

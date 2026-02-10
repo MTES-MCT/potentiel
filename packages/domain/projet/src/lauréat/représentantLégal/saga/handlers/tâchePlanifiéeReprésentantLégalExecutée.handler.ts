@@ -7,9 +7,9 @@ import { Option } from '@potentiel-libraries/monads';
 import {
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
-} from '../..';
-import { IdentifiantProjet, Lauréat } from '../../../..';
-import { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+} from '../../index.js';
+import { IdentifiantProjet, Lauréat } from '../../../../index.js';
+import { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 
 export const handleTâchePlanifiéeReprésentantLégalExecutée = async (
   event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent,

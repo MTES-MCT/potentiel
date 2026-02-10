@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { expect } from 'chai';
 
-import { fromCSV } from './fromCSV';
+import { fromCSV } from './fromCSV.js';
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -13,7 +13,7 @@ const schema = z.object({
 });
 
 const readFixture = (name: string) => {
-  const data = readFileSync(`${__dirname}/fixtures/${name}`);
+  const data = readFileSync(`${import.meta.dirname}/fixtures/${name}`);
 
   return new ReadableStream({
     start(controller) {

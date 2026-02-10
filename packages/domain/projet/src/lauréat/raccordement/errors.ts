@@ -1,7 +1,7 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
 export class DateDansLeFuturError extends InvalidOperationError {
   constructor() {

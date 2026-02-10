@@ -4,9 +4,9 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { PériodeEntity } from '../période.entity';
-import { IdentifiantPériode } from '../période';
-import { Période } from '..';
+import { PériodeEntity } from '../période.entity.js';
+import { IdentifiantPériode } from '../période.js';
+import { Période } from '../index.js';
 
 type CommonPériode = {
   identifiantPériode: IdentifiantPériode.ValueType;

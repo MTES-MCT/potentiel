@@ -4,13 +4,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { ReprésentantLégal } from '../../..';
+import { ReprésentantLégal } from '../../../index.js';
 import {
   StatutChangementReprésentantLégal,
   TypeDocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
-} from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+} from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterChangementReprésentantLégalEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

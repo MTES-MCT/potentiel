@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../index.js';
 
 export type NotifierCandidatureCommand = Message<
   'Candidature.Command.NotifierCandidature',

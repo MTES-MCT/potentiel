@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '../../../document-projet';
+import { DocumentProjet } from '../../../document-projet/index.js';
 
 export type ModifierNomProjetOptions = {
   modifiéLe: DateTime.ValueType;

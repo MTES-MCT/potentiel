@@ -1,5 +1,6 @@
+import { flatten } from 'flat';
+
 import { Entity, OrderByOptions } from '@potentiel-domain/entity';
-import { flatten } from '@potentiel-libraries/flat';
 
 /**
  * Build the ORDER SQL clause based on `orderBy` options
@@ -10,6 +11,7 @@ export const getOrderClause = <TEntity extends Entity>(
 ) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
     orderBy,
+    { safe: true },
   );
 
   return `order by ${Object.entries(flattenOrderBy)

@@ -1,8 +1,8 @@
 import winston from 'winston';
 
-import { getLevel, Level } from '../level';
+import { getLevel, Level } from '../level.js';
 
-import { consoleTransport } from './console.transport';
+import { consoleTransport } from './console.transport.js';
 
 type InitLoggerProps = {
   level?: Level;

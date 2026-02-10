@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
-import { ÉliminéEntity } from '../éliminé.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { ÉliminéEntity } from '../éliminé.entity.js';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -13,12 +13,12 @@ import {
   TypeActionnariat,
   TypologieInstallation,
   UnitéPuissance,
-} from '../../candidature';
-import { DispositifDeStockage } from '../../lauréat/installation';
+} from '../../candidature/index.js';
+import { DispositifDeStockage } from '../../lauréat/installation/index.js';
 import {
   TypeDeNatureDeLExploitation,
   NatureDeLExploitationEntity,
-} from '../../lauréat/nature-de-l-exploitation';
+} from '../../lauréat/nature-de-l-exploitation/index.js';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

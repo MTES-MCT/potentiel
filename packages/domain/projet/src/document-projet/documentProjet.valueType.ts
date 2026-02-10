@@ -5,9 +5,9 @@ import { extension } from 'mime-types';
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '..';
+import { IdentifiantProjet } from '../index.js';
 
-import { DossierProjet } from '.';
+import { DossierProjet } from './index.js';
 
 type Extension = string;
 export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}` | ``;

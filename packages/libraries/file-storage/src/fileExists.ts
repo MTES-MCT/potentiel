@@ -1,7 +1,7 @@
 import { HeadObjectCommand } from '@aws-sdk/client-s3';
 
-import { getBucketName } from './getBucketName';
-import { getClient } from './getClient';
+import { getBucketName } from './getBucketName.js';
+import { getClient } from './getClient.js';
 
 export const fileExists = async (filePath: string) => {
   try {

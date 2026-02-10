@@ -4,10 +4,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import * as StatutRecours from '../statutRecours.valueType';
-import { IdentifiantProjet } from '../../..';
-import { RecoursEntity } from '../recours.entity';
-import { DemandeRecoursEntity } from '../demandeRecours.entity';
+import * as StatutRecours from '../statutRecours.valueType.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { RecoursEntity } from '../recours.entity.js';
+import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
 
 export type ConsulterRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

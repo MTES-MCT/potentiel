@@ -1,22 +1,22 @@
 import {
   ConsulterÉliminéDependencies,
   registerConsulterÉliminéQuery,
-} from './consulter/consulterÉliminé.query';
+} from './consulter/consulterÉliminé.query.js';
 import {
   ListerÉliminéDependencies,
   registerListerÉliminéQuery,
-} from './lister/listerÉliminé.query';
+} from './lister/listerÉliminé.query.js';
 import {
   ListerÉliminéEnrichiDependencies,
   registerListerÉliminéEnrichiQuery,
-} from './lister/listerÉliminéEnrichi.query';
-import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command';
+} from './lister/listerÉliminéEnrichi.query.js';
+import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command.js';
 import {
   RecoursCommandDependencies,
   RecoursQueryDependencies,
   registerRecoursQueries,
   registerRecoursUseCases,
-} from './recours/recours.register';
+} from './recours/recours.register.js';
 
 export type EliminéQueryDependencies = ConsulterÉliminéDependencies &
   ListerÉliminéDependencies &

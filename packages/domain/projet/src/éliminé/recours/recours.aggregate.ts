@@ -3,25 +3,25 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
 
-import { ÉliminéAggregate } from '../éliminé.aggregate';
-import { GarantiesFinancières } from '../../lauréat';
+import { ÉliminéAggregate } from '../éliminé.aggregate.js';
+import { GarantiesFinancières } from '../../lauréat/index.js';
 
-import { RecoursEvent } from './recours.event';
-import { AccorderOptions } from './accorder/recoursAccordé.options';
-import * as StatutRecours from './statutRecours.valueType';
-import { RecoursAccordéEvent } from './accorder/recoursAccordé.event';
-import { AnnulerOptions } from './annuler/annulerRecours.options';
-import { RecoursAnnuléEvent } from './annuler/annulerRecours.event';
-import { DemanderOptions } from './demander/demanderRecours.options';
-import { RecoursDemandéEvent } from './demander/demanderRecours.event';
-import { RejeterOptions } from './rejeter/rejeterRecours.options';
-import { RecoursRejetéEvent } from './rejeter/rejeterRecours.event';
-import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options';
-import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event';
+import { RecoursEvent } from './recours.event.js';
+import { AccorderOptions } from './accorder/recoursAccordé.options.js';
+import * as StatutRecours from './statutRecours.valueType.js';
+import { RecoursAccordéEvent } from './accorder/recoursAccordé.event.js';
+import { AnnulerOptions } from './annuler/annulerRecours.options.js';
+import { RecoursAnnuléEvent } from './annuler/annulerRecours.event.js';
+import { DemanderOptions } from './demander/demanderRecours.options.js';
+import { RecoursDemandéEvent } from './demander/demanderRecours.event.js';
+import { RejeterOptions } from './rejeter/rejeterRecours.options.js';
+import { RecoursRejetéEvent } from './rejeter/rejeterRecours.event.js';
+import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options.js';
+import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
 import {
   AucunRecoursEnCours,
   RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
-} from './recours.error';
+} from './recours.error.js';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
   statut = StatutRecours.inconnu;

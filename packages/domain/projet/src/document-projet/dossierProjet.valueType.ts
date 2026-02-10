@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '..';
+import { IdentifiantProjet } from '../index.js';
 
 type TypeDocument = string;
 export type RawType = `${IdentifiantProjet.RawType}/${TypeDocument}`;

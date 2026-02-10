@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet } from '../../..';
+import { IdentifiantProjet } from '../../../index.js';
 
-import { ChoisirCahierDesChargesCommand } from './choisirCahierDesCharges.command';
+import { ChoisirCahierDesChargesCommand } from './choisirCahierDesCharges.command.js';
 
 export type ChoisirCahierDesChargesUseCase = Message<
   'Lauréat.UseCase.ChoisirCahierDesCharges',

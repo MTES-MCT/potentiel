@@ -3,7 +3,7 @@ import {
   GestionnaireRéseauQueryDependencies,
   registerGestionnaireRéseauQueries,
   registerGestionnaireRéseauUseCases,
-} from './gestionnaire/gestionnaireRéseau.register';
+} from './gestionnaire/gestionnaireRéseau.register.js';
 
 export type RéseauQueryDependencies = GestionnaireRéseauQueryDependencies;
 export type RéseauCommandDependencies = GestionnaireRéseauCommandDependencies;

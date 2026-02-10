@@ -7,13 +7,13 @@ import { Find } from '@potentiel-domain/entity';
 import {
   GarantiesFinancièresDétails,
   GarantiesFinancièresEntity,
-} from '../garantiesFinancièresActuelles.entity';
+} from '../garantiesFinancièresActuelles.entity.js';
 import {
   GarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
-} from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+} from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

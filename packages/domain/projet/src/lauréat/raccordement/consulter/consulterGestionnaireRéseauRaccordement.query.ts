@@ -6,8 +6,8 @@ import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { RaccordementEntity } from '../raccordement.entity';
-import { IdentifiantProjet } from '../../..';
+import { RaccordementEntity } from '../raccordement.entity.js';
+import { IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../../..';
+import { IdentifiantProjet } from '../../../../../index.js';
 
 export type ChangementInstallateurEnregistréEvent = DomainEvent<
   'ChangementInstallateurEnregistré-V1',

@@ -1,11 +1,11 @@
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
 
 import {
   ConsulterTypologieInstallationDependencies,
   registerConsulterTypologieInstallationQuery,
-} from './consulter/consulterTypologieInstallation.query';
-import { registerModifierTypologieInstallationCommand } from './modifier/modifierTypologieInstallation.command';
-import { registerModifierTypologieInstallationUseCase } from './modifier/modifierTypologieInstallation.usecase';
+} from './consulter/consulterTypologieInstallation.query.js';
+import { registerModifierTypologieInstallationCommand } from './modifier/modifierTypologieInstallation.command.js';
+import { registerModifierTypologieInstallationUseCase } from './modifier/modifierTypologieInstallation.usecase.js';
 
 export type TypologieInstallationQueryDependencies = ConsulterTypologieInstallationDependencies;
 

@@ -5,11 +5,11 @@ import { redirect } from 'next/navigation';
 import { isRedirectError } from 'next/dist/client/components/redirect';
 // eslint-disable-next-line no-restricted-imports
 import { isNotFoundError } from 'next/dist/client/components/not-found';
+import { unflatten } from 'flat';
 
 import { DomainError } from '@potentiel-domain/core';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '@/app/_helpers';
 

@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 
-import { VolumeRéservé } from '..';
+import { VolumeRéservé } from '../index.js';
 
 export type RawType = number;
 

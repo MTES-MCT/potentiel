@@ -3,30 +3,34 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { Lauréat } from '../..';
-import { DemandeCorrigéeSansModificationError } from '../lauréat.error';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { Lauréat } from '../../index.js';
+import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
 
-import { AutoritéCompétente, DemandeDélaiPasséeEnInstructionEvent, StatutDemandeDélai } from '.';
+import {
+  AutoritéCompétente,
+  DemandeDélaiPasséeEnInstructionEvent,
+  StatutDemandeDélai,
+} from './index.js';
 
-import { DélaiEvent } from './délai.event';
-import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
-import { DemanderDélaiOptions } from './demande/demander/demanderDélai.options';
-import { DélaiAccordéEvent } from './accorder/accorderDélai.event';
-import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options';
+import { DélaiEvent } from './délai.event.js';
+import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event.js';
+import { DemanderDélaiOptions } from './demande/demander/demanderDélai.options.js';
+import { DélaiAccordéEvent } from './accorder/accorderDélai.event.js';
+import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options.js';
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
-} from './demande/demandeDélai.error';
-import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
-import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
-import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
-import { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option';
-import { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options';
-import { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options';
-import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
-import { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options';
-import { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event';
+} from './demande/demandeDélai.error.js';
+import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event.js';
+import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options.js';
+import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event.js';
+import { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option.js';
+import { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options.js';
+import { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options.js';
+import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event.js';
+import { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options.js';
+import { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event.js';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {

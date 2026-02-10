@@ -3,9 +3,9 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../../..';
-import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event';
-import { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command';
+import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../../../index.js';
+import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
+import { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
 
 type HandlerLauréatNotifiéProps = {
   event: LauréatNotifiéEvent;

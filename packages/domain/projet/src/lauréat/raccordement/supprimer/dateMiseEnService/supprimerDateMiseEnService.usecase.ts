@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { IdentifiantProjet } from '../../../..';
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { SupprimerDateMiseEnServiceCommand } from './supprimerDateMiseEnService.command';
+import { SupprimerDateMiseEnServiceCommand } from './supprimerDateMiseEnService.command.js';
 
 export type SupprimerDateMiseEnServiceUseCase = Message<
   'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',

@@ -4,14 +4,14 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event';
-import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
-import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
-import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
-import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options';
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
-import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
+import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event.js';
+import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
+import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event.js';
+import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error.js';
+import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options.js';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event.js';
+import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options.js';
+import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error.js';
 
 export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,

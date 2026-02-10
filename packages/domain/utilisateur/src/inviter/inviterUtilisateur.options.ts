@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Utilisateur } from '..';
+import { Utilisateur } from '../index.js';
 
 export type InviterOptions = {
   utilisateur: Utilisateur.ValueType;

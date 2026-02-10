@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../..';
-import { TypeDocumentInstallateur } from '../../..';
-import { EnregistrerDocumentProjetCommand } from '../../../../../document-projet';
+import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
+import { TypeDocumentInstallateur } from '../../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../../document-projet/index.js';
 
-import { EnregistrerChangementInstallateurCommand } from './enregistrerChangementInstallateur.command';
+import { EnregistrerChangementInstallateurCommand } from './enregistrerChangementInstallateur.command.js';
 
 export type EnregistrerChangementInstallateurUseCase = Message<
   'Lauréat.Installateur.UseCase.EnregistrerChangement',

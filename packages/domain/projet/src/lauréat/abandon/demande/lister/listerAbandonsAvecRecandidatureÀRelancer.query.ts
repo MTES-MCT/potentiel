@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../..';
-import { DemandeAbandonEntity, StatutPreuveRecandidature } from '../..';
+import { IdentifiantProjet } from '../../../../index.js';
+import { DemandeAbandonEntity, StatutPreuveRecandidature } from '../../index.js';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
   résultats: Array<{

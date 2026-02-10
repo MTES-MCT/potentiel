@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { TypeDocumentProducteur } from '../..';
-import { ChangementProducteurEntity } from '../changementProducteur.entity';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { TypeDocumentProducteur } from '../../index.js';
+import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterChangementProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypologieInstallation } from '../../../../candidature';
-import { DocumentProjet } from '../../../../document-projet';
+import { TypologieInstallation } from '../../../../candidature/index.js';
+import { DocumentProjet } from '../../../../document-projet/index.js';
 
 export type ModifierTypologieInstallationOptions = {
   identifiantUtilisateur: Email.ValueType;

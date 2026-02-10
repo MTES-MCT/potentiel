@@ -1,3 +1,3 @@
-export { Iso8601DateTime } from './Iso8601DateTime';
-export { now } from './now';
-export { regexDateISO8601 } from './regexDateISO8601';
+export type { Iso8601DateTime } from './Iso8601DateTime.js';
+export { now } from './now.js';
+export { regexDateISO8601 } from './regexDateISO8601.js';

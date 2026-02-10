@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type PasserEnInstructionDemandeDélaiCommand = Message<
   'Lauréat.Délai.Command.PasserEnInstructionDemande',

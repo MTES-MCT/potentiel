@@ -5,13 +5,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Email } from '@potentiel-domain/common';
 
-import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity';
-import { IdentifiantProjet } from '../../..';
+import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity.js';
+import { IdentifiantProjet } from '../../../index.js';
 
 import {
   ConsulterDossierRaccordementReadModel,
   mapToReadModel as mapToDossierRaccordementReadModel,
-} from './consulterDossierRaccordement.query';
+} from './consulterDossierRaccordement.query.js';
 
 export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

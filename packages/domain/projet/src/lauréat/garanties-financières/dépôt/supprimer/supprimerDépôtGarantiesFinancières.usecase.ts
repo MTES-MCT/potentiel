@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../..';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { SupprimerDépôtGarantiesFinancièresCommand } from './supprimerDépôtGarantiesFinancières.command';
+import { SupprimerDépôtGarantiesFinancièresCommand } from './supprimerDépôtGarantiesFinancières.command.js';
 
 export type SupprimerDépôtGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',

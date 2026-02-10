@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet } from '../../..';
+import { IdentifiantProjet } from '../../../index.js';
 
 export type ChoisirCahierDesChargesOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

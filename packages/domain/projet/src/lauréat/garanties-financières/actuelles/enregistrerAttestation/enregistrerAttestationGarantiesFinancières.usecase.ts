@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import { TypeDocumentGarantiesFinancières } from '../..';
-import { IdentifiantProjet } from '../../../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../../document-projet/index.js';
+import { TypeDocumentGarantiesFinancières } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command';
+import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command.js';
 
 export type EnregistrerAttestationGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',

@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, StatutAbandon } from '..';
+import { AutoritéCompétente, StatutAbandon } from '../index.js';
 
 export type DemandeAbandonEntity = Entity<
   'demande-abandon',

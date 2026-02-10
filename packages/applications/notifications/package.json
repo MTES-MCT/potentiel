@@ -16,14 +16,15 @@
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/common": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monitoring": "*",
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/common": "*",
+    "flat": "6.0.1",
     "handlebars": "4.7.8",
     "mediateur": "0.3.0"
   },

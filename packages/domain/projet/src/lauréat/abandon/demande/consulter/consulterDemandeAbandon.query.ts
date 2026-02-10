@@ -10,8 +10,8 @@ import {
   StatutAbandon,
   StatutPreuveRecandidature,
   TypeDocumentAbandon,
-} from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+} from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterDemandeAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

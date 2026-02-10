@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
+import { IdentifiantProjet } from '../../../index.js';
 
-import { ModifierÉvaluationCarboneCommand } from './modifierÉvaluationCarbone.command';
+import { ModifierÉvaluationCarboneCommand } from './modifierÉvaluationCarbone.command.js';
 
 export type ModifierÉvaluationCarboneUseCase = Message<
   'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',

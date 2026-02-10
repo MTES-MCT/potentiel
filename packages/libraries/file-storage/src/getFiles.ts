@@ -1,7 +1,7 @@
 import { ListObjectsCommand } from '@aws-sdk/client-s3';
 
-import { getBucketName } from './getBucketName';
-import { getClient } from './getClient';
+import { getBucketName } from './getBucketName.js';
+import { getClient } from './getClient.js';
 
 export const getFiles = async (pattern: string): Promise<string[]> => {
   const files = await getClient().send(

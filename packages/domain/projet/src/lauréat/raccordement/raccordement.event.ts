@@ -2,9 +2,9 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
-import { RéférenceDossierRaccordement } from '.';
+import { RéférenceDossierRaccordement } from './index.js';
 
 //#region Raccordement projet
 export type RaccordementSuppriméEvent = DomainEvent<

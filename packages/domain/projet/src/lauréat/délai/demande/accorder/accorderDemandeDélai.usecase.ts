@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { TypeDocumentDemandeDélai } from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
-import { EnregistrerDocumentProjetCommand } from '../../../../document-projet';
+import { TypeDocumentDemandeDélai } from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
-import { AccorderDemandeDélaiCommand } from './accorderDemandeDélai.command';
+import { AccorderDemandeDélaiCommand } from './accorderDemandeDélai.command.js';
 
 export type AccorderDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.AccorderDemandeDélai',

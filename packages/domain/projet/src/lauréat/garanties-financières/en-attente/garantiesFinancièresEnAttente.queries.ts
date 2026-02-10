@@ -1,20 +1,23 @@
 import {
   ConsulterGarantiesFinancièresEnAttenteQuery,
   ConsulterGarantiesFinancièresEnAttenteReadModel,
-} from './consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+} from './consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query.js';
 import {
   ListerGarantiesFinancièresEnAttenteQuery,
   ListerGarantiesFinancièresEnAttenteReadModel,
   GarantiesFinancièresEnAttenteListItemReadModel,
-} from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+} from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query.js';
 
 export type GarantiesFinancièresEnAttenteQuery =
   | ConsulterGarantiesFinancièresEnAttenteQuery
   | ListerGarantiesFinancièresEnAttenteQuery;
 
-export { ConsulterGarantiesFinancièresEnAttenteQuery, ListerGarantiesFinancièresEnAttenteQuery };
+export type {
+  ConsulterGarantiesFinancièresEnAttenteQuery,
+  ListerGarantiesFinancièresEnAttenteQuery,
+};
 
-export {
+export type {
   ConsulterGarantiesFinancièresEnAttenteReadModel,
   ListerGarantiesFinancièresEnAttenteReadModel,
   GarantiesFinancièresEnAttenteListItemReadModel,

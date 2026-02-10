@@ -3,9 +3,9 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import * as IdentifiantPériode from './identifiantPériode.valueType';
-import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
-import { NotifierPériodeOptions } from './notifier/notifierPériode.options';
+import * as IdentifiantPériode from './identifiantPériode.valueType.js';
+import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event.js';
+import { NotifierPériodeOptions } from './notifier/notifierPériode.options.js';
 
 export type PériodeEvent = PériodeNotifiéeEvent;
 

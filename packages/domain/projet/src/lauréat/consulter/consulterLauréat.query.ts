@@ -5,11 +5,16 @@ import { Find, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, DocumentProjet, IdentifiantProjet } from '../..';
-import { StatutLauréat } from '..';
-import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
-import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
+import { LauréatEntity } from '../lauréat.entity.js';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { StatutLauréat } from '../index.js';
+import {
+  CandidatureEntity,
+  Localité,
+  TypeTechnologie,
+  UnitéPuissance,
+} from '../../candidature/index.js';
+import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

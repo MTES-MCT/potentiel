@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { Région, Zone } from '.';
+import { Région, Zone } from './index.js';
 
 type Common = {
   identifiantUtilisateur: Email.RawType;

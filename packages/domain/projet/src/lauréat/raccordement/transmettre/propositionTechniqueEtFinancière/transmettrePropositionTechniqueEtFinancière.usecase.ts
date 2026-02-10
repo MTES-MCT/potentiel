@@ -2,12 +2,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
-import { IdentifiantProjet } from '../../../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../../document-projet/index.js';
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
+import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière.command';
+import { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière.command.js';
 
 export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
   'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',

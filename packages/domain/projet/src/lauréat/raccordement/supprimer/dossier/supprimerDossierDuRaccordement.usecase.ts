@@ -3,10 +3,10 @@ import { mediator, MessageHandler, Message } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { IdentifiantProjet } from '../../../..';
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command';
+import { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command.js';
 
 export type SupprimerDossierDuRaccordementUseCase = Message<
   'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',

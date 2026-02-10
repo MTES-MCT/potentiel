@@ -3,16 +3,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../../../..';
+import { IdentifiantProjet } from '../../../../../index.js';
 import {
   ConsulterGarantiesFinancièresReadModel,
   MotifArchivageGarantiesFinancières,
-} from '../../..';
+} from '../../../index.js';
 import {
   ArchiveGarantiesFinancières,
   ArchivesGarantiesFinancièresEntity,
-} from '../archivesGarantiesFinancières.entity';
-import { mapToReadModel as mapToConsulterReadModel } from '../../consulter/consulterGarantiesFinancières.query';
+} from '../archivesGarantiesFinancières.entity.js';
+import { mapToReadModel as mapToConsulterReadModel } from '../../consulter/consulterGarantiesFinancières.query.js';
 
 export type ArchiveGarantiesFinancièresListItemReadModel =
   ConsulterGarantiesFinancièresReadModel & {

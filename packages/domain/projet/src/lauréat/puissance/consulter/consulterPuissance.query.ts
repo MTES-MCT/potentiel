@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { PuissanceEntity } from '..';
-import { IdentifiantProjet } from '../../..';
-import { CandidatureEntity, UnitéPuissance } from '../../../candidature';
+import { PuissanceEntity } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { CandidatureEntity, UnitéPuissance } from '../../../candidature/index.js';
 
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

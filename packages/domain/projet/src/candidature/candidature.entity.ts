@@ -3,9 +3,9 @@ import { PlainType } from '@potentiel-domain/core';
 import { Entity } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet, Lauréat } from '..';
-import { Fournisseur } from '../lauréat/fournisseur';
-import { DispositifDeStockage } from '../lauréat/installation';
+import { IdentifiantProjet, Lauréat } from '../index.js';
+import { Fournisseur } from '../lauréat/fournisseur/index.js';
+import { DispositifDeStockage } from '../lauréat/installation/index.js';
 
 import {
   HistoriqueAbandon,
@@ -16,7 +16,7 @@ import {
   TypeTechnologie,
   TypologieInstallation,
   UnitéPuissance,
-} from '.';
+} from './index.js';
 
 type CandidatureNonNotifiée = {
   estNotifiée: false;

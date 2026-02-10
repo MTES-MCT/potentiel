@@ -1,6 +1,6 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { Candidature } from '../..';
+import { Candidature } from '../../index.js';
 
 export type ValueType = ReadonlyValueType<{
   typeActionnariat: Candidature.TypeActionnariat.ValueType | undefined;

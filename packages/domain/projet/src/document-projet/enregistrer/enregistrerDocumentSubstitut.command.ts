@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet } from '../..';
+import { DocumentProjet } from '../../index.js';
 
 export type EnregistrerDocumentSubstitutCommand = Message<
   'Document.Command.EnregistrerDocumentSubstitut',

@@ -1,8 +1,8 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
-import { MotifDemandeMainlevéeGarantiesFinancières } from '..';
+import { IdentifiantProjet } from '../../../index.js';
+import { MotifDemandeMainlevéeGarantiesFinancières } from '../index.js';
 
 export type MainlevéeGarantiesFinancièresEvent =
   | DemandeMainlevéeGarantiesFinancièresAccordéeEvent

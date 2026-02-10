@@ -1,10 +1,10 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../..';
-import { TypologieInstallation } from '../../candidature';
+import { IdentifiantProjet } from '../../index.js';
+import { TypologieInstallation } from '../../candidature/index.js';
 
-import { DispositifDeStockage } from '.';
+import { DispositifDeStockage } from './index.js';
 
 export type InstallationEntity = Entity<
   'installation',

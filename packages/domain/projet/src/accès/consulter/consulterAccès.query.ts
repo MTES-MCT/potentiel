@@ -4,8 +4,8 @@ import { Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet } from '../..';
-import { AccèsEntity } from '../accès.entity';
+import { IdentifiantProjet } from '../../index.js';
+import { AccèsEntity } from '../accès.entity.js';
 
 export type ConsulterAccèsReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

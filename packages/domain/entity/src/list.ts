@@ -1,9 +1,9 @@
-import { Entity } from './entity';
-import { Joined, JoinOptionsParams } from './joinOptions';
-import { OrderByOptions } from './orderByOptions';
-import { RangeOptions } from './rangeOptions';
-import { SelectOptions } from './selectOptions';
-import { WhereOptions } from './whereOptions';
+import { Entity } from './entity.js';
+import { Joined, JoinOptionsParams } from './joinOptions.js';
+import { OrderByOptions } from './orderByOptions.js';
+import { RangeOptions } from './rangeOptions.js';
+import { SelectOptions } from './selectOptions.js';
+import { WhereOptions } from './whereOptions.js';
 
 export type ListOptions<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;

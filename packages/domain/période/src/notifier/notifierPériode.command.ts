@@ -7,8 +7,8 @@ import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as IdentifiantPériode from '../identifiantPériode.valueType';
-import { PériodeAggregate } from '../période.aggregate';
+import * as IdentifiantPériode from '../identifiantPériode.valueType.js';
+import { PériodeAggregate } from '../période.aggregate.js';
 
 export type NotifierPériodeCommand = Message<
   'Période.Command.NotifierPériode',

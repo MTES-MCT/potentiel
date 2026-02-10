@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
+import { UtilisateurAggregate } from '../utilisateur.aggregate.js';
 
 export type DésactiverUtilisateurCommand = Message<
   'Utilisateur.Command.DésactiverUtilisateur',

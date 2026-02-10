@@ -2,11 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '../../../../document-projet';
-import { TypeDocumentPuissance } from '../..';
-import { IdentifiantProjet } from '../../../..';
+import {
+  DocumentProjet,
+  EnregistrerDocumentProjetCommand,
+} from '../../../../document-projet/index.js';
+import { TypeDocumentPuissance } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { AccorderChangementPuissanceCommand } from './accorderChangementPuissance.command';
+import { AccorderChangementPuissanceCommand } from './accorderChangementPuissance.command.js';
 
 export type AccorderChangementPuissanceUseCase = Message<
   'Lauréat.Puissance.UseCase.AccorderDemandeChangement',

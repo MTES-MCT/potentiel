@@ -3,20 +3,20 @@ import {
   registerGarantiesFinancièresActuellesQueries,
   GarantiesFinancièresActuellesQueryDependencies,
   registerGarantiesFinancièresActuellesUseCases,
-} from './actuelles/garantiesFinancièresActuelles.register';
+} from './actuelles/garantiesFinancièresActuelles.register.js';
 import {
   DépôtGarantiesFinancièresQueryDependencies,
   DépôtGarantiesFinancièresUseCasesDependencies,
   registerDépôtGarantiesFinancièresQueries,
   registerDépôtGarantiesFinancièresUseCases,
-} from './dépôt/dépôtGarantiesFinancières.register';
-import { registerGarantiesFinancièresEnAttenteQueries } from './en-attente/garantiesFinancièresEnAttente.register';
+} from './dépôt/dépôtGarantiesFinancières.register.js';
+import { registerGarantiesFinancièresEnAttenteQueries } from './en-attente/garantiesFinancièresEnAttente.register.js';
 import {
   MainlevéeGarantiesFinancièresQueryDependencies,
   MainlevéeGarantiesFinancièresUseCasesDependencies,
   registerMainlevéeGarantiesFinancièresQueries,
   registerMainlevéeGarantiesFinancièresUseCases,
-} from './mainlevée/mainlevéeGarantiesFinancières.register';
+} from './mainlevée/mainlevéeGarantiesFinancières.register.js';
 
 export type GarantiesFinancièresQueryDependencies = GarantiesFinancièresActuellesQueryDependencies &
   DépôtGarantiesFinancièresQueryDependencies &

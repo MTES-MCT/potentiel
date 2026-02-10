@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../..';
+import { IdentifiantProjet } from '../../../index.js';
 
 /**
  * Représente la transmission de l'attestation de conformité par le Porteur, dans le cas où cette attestation a déjà été transmise au co-contractant

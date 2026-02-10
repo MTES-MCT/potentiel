@@ -2,9 +2,9 @@ import test from 'node:test';
 
 import { expect } from 'chai';
 
-import { Candidature } from '../../../../..';
+import { Candidature } from '../../../../../index.js';
 
-import { mapDétailToDétailFournisseur } from './mapDétailToDétailFournisseur';
+import { mapDétailToDétailFournisseur } from './mapDétailToDétailFournisseur.js';
 
 test('mapDétailToDétailFournisseur - Mélange de fournisseur avec des données complètes  ', () => {
   const détail = {

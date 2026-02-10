@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, Where } from '@potentiel-domain/entity';
 
-import { AppelOffreEntity } from '../appelOffre.entity';
+import { AppelOffreEntity } from '../appelOffre.entity.js';
 
 export type AppelOffreListItemReadModel = AppelOffreEntity;
 

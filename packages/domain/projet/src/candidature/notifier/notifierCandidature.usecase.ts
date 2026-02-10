@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../index.js';
 
-import { NotifierCandidatureCommand } from './notifierCandidature.command';
+import { NotifierCandidatureCommand } from './notifierCandidature.command.js';
 
 export type NotifierCandidatureUseCase = Message<
   'Candidature.UseCase.NotifierCandidature',

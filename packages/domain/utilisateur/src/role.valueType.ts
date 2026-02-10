@@ -1,6 +1,6 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error';
+import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error.js';
 
 export const roles = [
   'admin',

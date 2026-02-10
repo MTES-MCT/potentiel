@@ -5,16 +5,15 @@
   "types": "dist/index.d.ts",
   "private": true,
   "type": "module",
-  "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test --test-concurrency 5",
+    "test": "tsx --test --test-concurrency 5 **/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@potentiel-domain/entity": "*",
-    "@potentiel-libraries/flat": "*",
     "@potentiel-libraries/pg-helpers": "*",
+    "flat": "6.0.1",
     "pg-format": "1.0.4"
   },
   "devDependencies": {

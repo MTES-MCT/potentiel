@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
-import { Fournisseur } from '../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { Fournisseur } from '../../index.js';
 
 export type ModifierFournisseurOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

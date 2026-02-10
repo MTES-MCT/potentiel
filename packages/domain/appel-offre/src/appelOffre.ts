@@ -1,12 +1,12 @@
 import type {
   ConsulterAppelOffreQuery,
   ConsulterAppelOffreReadModel,
-} from './consulter/consulterAppelOffre.query';
+} from './consulter/consulterAppelOffre.query.js';
 import type {
   ListerAppelOffreQuery,
   ListerAppelOffreReadModel,
-} from './lister/listerAppelOffre.query';
-import * as RéférenceCahierDesCharges from './référenceCahierDesCharges.valueType';
+} from './lister/listerAppelOffre.query.js';
+import * as RéférenceCahierDesCharges from './référenceCahierDesCharges.valueType.js';
 
 // Query
 export type AppelOffreQuery = ListerAppelOffreQuery & ConsulterAppelOffreQuery;
@@ -16,10 +16,10 @@ export type { ListerAppelOffreQuery, ConsulterAppelOffreQuery };
 export type { ListerAppelOffreReadModel, ConsulterAppelOffreReadModel };
 
 // Register
-export * from './register';
+export * from './register.js';
 
 // Entity
-export * from './appelOffre.entity';
+export * from './appelOffre.entity.js';
 
 // ValueType
 export { RéférenceCahierDesCharges };

@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-import { IdentifiantProjet } from '../../../..';
+import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { RejeterChangementReprésentantLégalCommand } from './rejeterChangementReprésentantLégal.command';
+import { RejeterChangementReprésentantLégalCommand } from './rejeterChangementReprésentantLégal.command.js';
 
 export type RejeterChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',

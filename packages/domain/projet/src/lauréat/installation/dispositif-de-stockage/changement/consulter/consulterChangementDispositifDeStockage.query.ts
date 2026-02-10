@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../..';
-import { DispositifDeStockage, TypeDocumentDispositifDeStockage } from '../../..';
-import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity';
+import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
+import { DispositifDeStockage, TypeDocumentDispositifDeStockage } from '../../../index.js';
+import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity.js';
 
 export type ConsulterChangementDispositifDeStockageReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -33,9 +33,6 @@
       "path": "../../infrastructure/pg-projection-write"
     },
     {
-      "path": "../../libraries/flat"
-    },
-    {
       "path": "../../libraries/monads"
     },
     {

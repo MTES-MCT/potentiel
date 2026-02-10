@@ -1,6 +1,6 @@
-import { none } from './none';
-import { Option } from './option';
-import { isSome } from './some';
+import { none } from './none.js';
+import { Option } from './option.js';
+import { isSome } from './some.js';
 
 type OnNone<TReturn> = () => TReturn;
 type OnSome<TType, TReturn> = (value: TType) => TReturn;

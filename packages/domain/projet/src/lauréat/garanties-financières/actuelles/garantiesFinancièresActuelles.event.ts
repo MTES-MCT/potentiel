@@ -1,8 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { MotifDemandeGarantiesFinancières } from '..';
-import { Candidature, IdentifiantProjet } from '../../..';
+import { MotifDemandeGarantiesFinancières } from '../index.js';
+import { Candidature, IdentifiantProjet } from '../../../index.js';
 
 export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
   'GarantiesFinancièresEnregistrées-V1',

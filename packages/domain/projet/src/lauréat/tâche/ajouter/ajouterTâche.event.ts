@@ -1,8 +1,8 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
-import { TypeTâche } from '..';
+import { IdentifiantProjet } from '../../../index.js';
+import { TypeTâche } from '../index.js';
 
 export type TâcheAjoutéeEvent = DomainEvent<
   'TâcheAjoutée-V1',

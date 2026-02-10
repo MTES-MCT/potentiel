@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { defaultModifications } from '../../constants';
+import { defaultModifications } from '../../constants.js';
 
 const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   nomProjet: {},

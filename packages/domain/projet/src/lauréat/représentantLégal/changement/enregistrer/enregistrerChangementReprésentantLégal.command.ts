@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '../..';
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { TypeReprésentantLégal } from '../../index.js';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type EnregistrerChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.EnregistrerChangementReprésentantLégal',

@@ -1,4 +1,4 @@
-import { Option } from './option';
+import { Option } from './option.js';
 // Initiallement none était un Symbol, cependant le symbol ne pas être unique côté client et server dans un contexte SSR,
 // car l'hydratation côté Front nécessite la sérialization de la variable. Le symbol est donc différent côté client et server.
 // Cela pose probléme pour le control flow une fois les données récupérées dans une page. Donc le type valeur de none a été

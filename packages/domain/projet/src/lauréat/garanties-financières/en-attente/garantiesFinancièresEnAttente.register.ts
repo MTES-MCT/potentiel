@@ -1,11 +1,11 @@
 import {
   ConsulterGarantiesFinancièresEnAttenteDependencies,
   registerConsulterGarantiesFinancièresEnAttenteQuery,
-} from './consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
+} from './consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query.js';
 import {
   ListerGarantiesFinancièresEnAttenteDependencies,
   registerListerGarantiesFinancièresEnAttenteQuery,
-} from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+} from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query.js';
 
 export type GarantiesFinancièresEnAttenteQueryDependencies =
   ConsulterGarantiesFinancièresEnAttenteDependencies &

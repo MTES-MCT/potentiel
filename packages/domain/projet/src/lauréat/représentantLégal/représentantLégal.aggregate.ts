@@ -3,18 +3,18 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../..';
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
-import { DemandeCorrigéeSansModificationError } from '../lauréat.error';
+import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
+import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
 
 import {
   TypeDocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
   TypeTâchePlanifiéeChangementReprésentantLégal,
-} from '.';
+} from './index.js';
 
-import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
+import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
 import type {
   ReprésentantLégalImportéEvent,
   ReprésentantLégalModifiéEvent,
@@ -25,27 +25,27 @@ import type {
   ChangementReprésentantLégalAnnuléEvent,
   ChangementReprésentantLégalSuppriméEvent,
   ChangementReprésentantLégalEnregistréEvent,
-} from './représentantLégal.event';
-import type { ImporterOptions } from './importer/importerReprésentantLégal.options';
-import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options';
-import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options';
-import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options';
-import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options';
-import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options';
-import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options';
-import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options';
+} from './représentantLégal.event.js';
+import type { ImporterOptions } from './importer/importerReprésentantLégal.options.js';
+import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options.js';
+import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options.js';
+import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options.js';
+import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options.js';
+import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options.js';
+import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options.js';
+import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options.js';
 import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
   ReprésentantLégalTypeInconnuError,
-} from './représentantLégal.errors';
+} from './représentantLégal.errors.js';
 import {
   ChangementDéjàAccordéError,
   ChangementDéjàRejetéError,
   DemandeChangementInexistanteError,
-} from './changement/changementReprésentantLégal.error';
-import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options';
+} from './changement/changementReprésentantLégal.error.js';
+import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options.js';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent

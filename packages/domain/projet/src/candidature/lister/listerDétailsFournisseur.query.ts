@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
-import { CandidatureEntity } from '../candidature.entity';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '..';
-import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur';
+import { CandidatureEntity } from '../candidature.entity.js';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
+import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur.js';
 
 export type DétailFournisseur = {
   typeFournisseur: string;

@@ -1,7 +1,7 @@
 import { Upload } from '@aws-sdk/lib-storage';
 
-import { getBucketName } from './getBucketName';
-import { getClient } from './getClient';
+import { getBucketName } from './getBucketName.js';
+import { getClient } from './getClient.js';
 
 /**
  *

@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { IdentifiantProjet } from '../../../..';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { PasserEnInstructionDemandeDélaiCommand } from './passerEnInstructionDemandeDélai.command';
+import { PasserEnInstructionDemandeDélaiCommand } from './passerEnInstructionDemandeDélai.command.js';
 
 export type PasserEnInstructionDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.PasserEnInstructionDemande',

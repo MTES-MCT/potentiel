@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { Lauréat } from '../..';
+import { Lauréat } from '../../index.js';
 
 export type HistoriqueLauréatListItemReadModel = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 

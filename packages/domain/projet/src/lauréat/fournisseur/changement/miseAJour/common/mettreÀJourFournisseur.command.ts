@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../..';
-import { Fournisseur } from '../../..';
-import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.error';
-import { ModifierFournisseurOptions } from '../modifierFournisseur.option';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../../index.js';
+import { Fournisseur } from '../../../index.js';
+import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.error.js';
+import { ModifierFournisseurOptions } from '../modifierFournisseur.option.js';
 
 export type MettreÀJourFournisseurCommand = Message<
   'Lauréat.Fournisseur.Command.MettreÀJour',

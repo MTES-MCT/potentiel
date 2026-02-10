@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, DateTime } from '@potentiel-domain/common';
 
-import { RéactiverUtilisateurCommand } from './réactiverUtilisateur.command';
+import { RéactiverUtilisateurCommand } from './réactiverUtilisateur.command.js';
 
 export type RéactiverUtilisateurUseCase = Message<
   'Utilisateur.UseCase.RéactiverUtilisateur',

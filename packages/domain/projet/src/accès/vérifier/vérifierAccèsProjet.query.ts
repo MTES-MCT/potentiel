@@ -7,11 +7,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { Role, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 
-import { LauréatEntity } from '../../lauréat';
-import { CandidatureEntity } from '../../candidature';
-import { RaccordementEntity } from '../../lauréat/raccordement';
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port';
-import { IdentifiantProjet } from '../..';
+import { LauréatEntity } from '../../lauréat/index.js';
+import { CandidatureEntity } from '../../candidature/index.js';
+import { RaccordementEntity } from '../../lauréat/raccordement/index.js';
+import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port.js';
+import { IdentifiantProjet } from '../../index.js';
 
 export type VérifierAccèsProjetQuery = Message<
   'System.Projet.Accès.Query.VérifierAccèsProjet',

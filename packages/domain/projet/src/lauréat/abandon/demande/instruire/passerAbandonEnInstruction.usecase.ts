@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { IdentifiantProjet } from '../../../..';
+import { IdentifiantProjet } from '../../../../index.js';
 
-import { PasserAbandonEnInstructionCommand } from './passerAbandonEnInstruction.command';
+import { PasserAbandonEnInstructionCommand } from './passerAbandonEnInstruction.command.js';
 
 export type PasserEnInstructionAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',

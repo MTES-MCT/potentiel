@@ -3,12 +3,12 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
+import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 
-import { AccèsEvent } from './accès.event';
-import { AccèsProjetAutoriséEvent } from './autoriser/autoriserAccèsProjet.event';
-import { AutoriserAccèsProjetOptions } from './autoriser/autoriserAccèsProjet.options';
-import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.event';
+import { AccèsEvent } from './accès.event.js';
+import { AccèsProjetAutoriséEvent } from './autoriser/autoriserAccèsProjet.event.js';
+import { AutoriserAccèsProjetOptions } from './autoriser/autoriserAccèsProjet.options.js';
+import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.event.js';
 import {
   ProjetNonNotiféError,
   EmailNonCorrespondantError,
@@ -17,11 +17,11 @@ import {
   UtilisateurAPasAccèsAuProjetError,
   AccèsProjetDéjàAutoriséError,
   ProjetNonRéclamableError,
-} from './accès.error';
-import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
-import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
-import { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options';
-import { AccèsProjetRemplacéEvent } from './remplacer/remplacerAccèsProjet.event';
+} from './accès.error.js';
+import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options.js';
+import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options.js';
+import { RemplacerAccèsProjetOptions } from './remplacer/remplacerAccèsProjet.options.js';
+import { AccèsProjetRemplacéEvent } from './remplacer/remplacerAccèsProjet.event.js';
 
 export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', ProjetAggregateRoot> {
   get projet() {

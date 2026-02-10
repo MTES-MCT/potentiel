@@ -1,6 +1,6 @@
 import { Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '.';
+import { IdentifiantProjet } from './index.js';
 
 type AllScope = {
   type: 'all';

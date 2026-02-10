@@ -4,19 +4,19 @@ import { AbstractAggregate, AggregateType, mapToPlainObject } from '@potentiel-d
 import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-import { Candidature } from '..';
+import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import { Candidature } from '../index.js';
 
-import { StatutLauréat } from '.';
+import { StatutLauréat } from './index.js';
 
-import { LauréatEvent } from './lauréat.event';
+import { LauréatEvent } from './lauréat.event.js';
 import {
   LauréatNotifiéEvent,
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
-} from './notifier/lauréatNotifié.event';
-import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event';
-import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option';
+} from './notifier/lauréatNotifié.event.js';
+import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
+import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option.js';
 import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -29,30 +29,30 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
   StatutLauréatNonModifiéError,
-} from './lauréat.error';
-import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option';
-import { AbandonAggregate } from './abandon/abandon.aggregate';
-import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
-import { ProducteurAggregate } from './producteur/producteur.aggregate';
-import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate';
-import { PuissanceAggregate } from './puissance/puissance.aggregate';
-import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
-import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
-import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
-import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
-import { DélaiAggregate } from './délai/délai.aggregate';
-import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
-import { TâcheAggregate } from './tâche/tâche.aggregate';
-import { NotifierOptions } from './notifier/notifierLauréat.option';
-import { InstallationAggregate } from './installation/installation.aggregate';
-import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
-import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event';
-import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option';
-import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options';
-import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event';
-import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option';
-import { StatutLauréatModifiéEvent } from './statut/statutModifié.event';
+} from './lauréat.error.js';
+import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
+import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
+import { AbandonAggregate } from './abandon/abandon.aggregate.js';
+import { AchèvementAggregate } from './achèvement/achèvement.aggregate.js';
+import { ProducteurAggregate } from './producteur/producteur.aggregate.js';
+import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate.js';
+import { PuissanceAggregate } from './puissance/puissance.aggregate.js';
+import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate.js';
+import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate.js';
+import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate.js';
+import { RaccordementAggregate } from './raccordement/raccordement.aggregate.js';
+import { DélaiAggregate } from './délai/délai.aggregate.js';
+import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate.js';
+import { TâcheAggregate } from './tâche/tâche.aggregate.js';
+import { NotifierOptions } from './notifier/notifierLauréat.option.js';
+import { InstallationAggregate } from './installation/installation.aggregate.js';
+import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
+import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event.js';
+import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option.js';
+import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
+import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
+import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,

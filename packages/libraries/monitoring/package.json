@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "tsx --test ./**/*.test.ts",

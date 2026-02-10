@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { Candidature, IdentifiantProjet } from '../../..';
+import { Candidature, IdentifiantProjet } from '../../../index.js';
 
 /**
  * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursValidéEvent à la place.

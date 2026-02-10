@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { StatutAbandon } from '.';
+import { StatutAbandon } from './index.js';
 
 export type AbandonEntity = Entity<
   'abandon',

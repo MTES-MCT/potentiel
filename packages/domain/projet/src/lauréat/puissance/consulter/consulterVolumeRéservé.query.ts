@@ -4,8 +4,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature } from '../../..';
-import { VolumeRéservé } from '..';
+import { Candidature } from '../../../index.js';
+import { VolumeRéservé } from '../index.js';
 
 export type ConsulterVolumeRéservéReadModel = VolumeRéservé.ValueType;
 

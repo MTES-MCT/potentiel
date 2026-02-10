@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Puissance.Command.DemanderChangement',

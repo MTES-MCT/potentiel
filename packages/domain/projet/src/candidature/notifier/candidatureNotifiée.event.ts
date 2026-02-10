@@ -2,8 +2,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../..';
-import { StatutCandidature } from '..';
+import { IdentifiantProjet } from '../../index.js';
+import { StatutCandidature } from '../index.js';
 
 /**
  * @deprecated Utilisez CandidatureNotifiéeEvent à la place.

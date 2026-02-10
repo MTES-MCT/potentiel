@@ -1,7 +1,7 @@
-import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase';
-import { SoumettreDépôtGarantiesFinancièresUseCase } from './soumettre/soumettreDépôtGarantiesFinancières.usecase';
-import { SupprimerDépôtGarantiesFinancièresUseCase } from './supprimer/supprimerDépôtGarantiesFinancières.usecase';
-import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
+import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase.js';
+import { SoumettreDépôtGarantiesFinancièresUseCase } from './soumettre/soumettreDépôtGarantiesFinancières.usecase.js';
+import { SupprimerDépôtGarantiesFinancièresUseCase } from './supprimer/supprimerDépôtGarantiesFinancières.usecase.js';
+import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase.js';
 
 // UseCases
 export type DépôtGarantiesFinancièresUseCases =
@@ -10,7 +10,7 @@ export type DépôtGarantiesFinancièresUseCases =
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | SupprimerDépôtGarantiesFinancièresUseCase;
 
-export {
+export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,

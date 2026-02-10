@@ -5,4 +5,4 @@ export * from './getLauréat';
 export * from './getRaccordement';
 export * from './getRecours';
 export * from './peutEffectuerUnChangement';
-export * from './types';
+export type * from './types';

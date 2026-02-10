@@ -8,8 +8,8 @@ import {
   ChangementActionnaireEntity,
   StatutChangementActionnaire,
   TypeDocumentActionnaire,
-} from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+} from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

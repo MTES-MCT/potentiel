@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type SupprimerRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.SupprimerRaccordement',

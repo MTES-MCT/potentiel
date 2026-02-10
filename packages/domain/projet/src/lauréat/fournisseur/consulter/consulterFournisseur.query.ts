@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Fournisseur, FournisseurEntity } from '..';
-import { IdentifiantProjet } from '../../..';
-import { CandidatureEntity } from '../../../candidature';
+import { Fournisseur, FournisseurEntity } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { CandidatureEntity } from '../../../candidature/index.js';
 
 export type ConsulterFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 
-import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command';
+import { AjouterGestionnaireRéseauCommand } from './ajouterGestionnaireRéseau.command.js';
 
 export type AjouterGestionnaireRéseauUseCase = Message<
   'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',

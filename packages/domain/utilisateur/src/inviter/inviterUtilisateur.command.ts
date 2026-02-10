@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { Utilisateur } from '..';
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
+import { Utilisateur } from '../index.js';
+import { UtilisateurAggregate } from '../utilisateur.aggregate.js';
 
 export type InviterUtilisateurCommand = Message<
   'Utilisateur.Command.InviterUtilisateur',

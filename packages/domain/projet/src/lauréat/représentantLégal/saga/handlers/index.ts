@@ -1,2 +1,2 @@
-export * from './abandonAccordé.handler';
-export * from './tâchePlanifiéeReprésentantLégalExecutée.handler';
+export * from './abandonAccordé.handler.js';
+export * from './tâchePlanifiéeReprésentantLégalExecutée.handler.js';

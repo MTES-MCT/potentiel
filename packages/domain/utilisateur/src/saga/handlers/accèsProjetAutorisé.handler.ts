@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { CréerPorteurCommand } from '../../créer/créerPorteur.command';
+import { CréerPorteurCommand } from '../../créer/créerPorteur.command.js';
 
 /**
  * @deprecated Copie de Accès.AccèsProjetAutoriséEvent pour éviter une dépendence cyclique.

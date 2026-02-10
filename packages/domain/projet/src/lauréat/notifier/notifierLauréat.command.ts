@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-import { IdentifiantProjet } from '../..';
+import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
+import { IdentifiantProjet } from '../../index.js';
 
 export type NotifierLauréatCommand = Message<
   'Lauréat.Command.NotifierLauréat',

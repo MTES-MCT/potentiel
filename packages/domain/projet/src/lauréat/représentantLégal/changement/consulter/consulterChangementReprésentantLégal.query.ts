@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { ReprésentantLégal } from '../../..';
-import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { ReprésentantLégal } from '../../../index.js';
+import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
 export type ConsulterChangementReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

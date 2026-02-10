@@ -1,24 +1,24 @@
 import {
   ListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesReadModel,
-} from './lister/listerTâchesPlanifiées.query';
-import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
-import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
-import { AnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase';
+} from './lister/listerTâchesPlanifiées.query.js';
+import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase.js';
+import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event.js';
+import { TâchePlanifiéeEvent } from './tâchePlanifiée.event.js';
+import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event.js';
+import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event.js';
+import { AnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase.js';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
-export { ListerTâchesPlanifiéesQuery };
+export type { ListerTâchesPlanifiéesQuery };
 
 // ReadModel
-export { ListerTâchesPlanifiéesReadModel };
+export type { ListerTâchesPlanifiéesReadModel };
 // UseCases
-export { ExécuterTâchePlanifiéeUseCase, AnnulerTâchePlanifiéeUseCase };
+export type { ExécuterTâchePlanifiéeUseCase, AnnulerTâchePlanifiéeUseCase };
 // Event
-export {
+export type {
   TâchePlanifiéeEvent,
   TâchePlanifiéeAjoutéeEvent,
   TâchePlanifiéeAnnuléeEvent,
@@ -26,10 +26,10 @@ export {
 };
 
 // Register
-export * from './register';
+export * from './register.js';
 
 // ValueTypes
-export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
+export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType.js';
 
 // Entities
-export * from './tâchePlanifiée.entity';
+export type * from './tâchePlanifiée.entity.js';

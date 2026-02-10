@@ -4,8 +4,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
-import { UtilisateurEntity } from '../utilisateur.entity';
-import { Utilisateur } from '..';
+import { UtilisateurEntity } from '../utilisateur.entity.js';
+import { Utilisateur } from '../index.js';
 
 export type TrouverUtilisateurReadModel = Utilisateur.ValueType & {
   désactivé?: true;

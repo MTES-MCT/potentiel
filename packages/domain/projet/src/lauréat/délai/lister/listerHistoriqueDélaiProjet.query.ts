@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { DélaiEvent } from '../délai.event';
+import { DélaiEvent } from '../délai.event.js';
 
 export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', DélaiEvent>;
 

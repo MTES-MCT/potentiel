@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
-import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity.js';
 
 export type ConsulterDépôtGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

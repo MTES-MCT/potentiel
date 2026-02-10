@@ -4,10 +4,10 @@ import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/e
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity';
-import { LauréatEntity, Puissance, StatutLauréat } from '../..';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { Localité, UnitéPuissance } from '../../../candidature';
+import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity.js';
+import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { Localité, UnitéPuissance } from '../../../candidature/index.js';
 
 type DossierRaccordementManquant = {
   nomProjet: string;

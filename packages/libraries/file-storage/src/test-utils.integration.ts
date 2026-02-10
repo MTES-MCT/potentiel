@@ -6,7 +6,7 @@ import {
   ListObjectsCommand,
 } from '@aws-sdk/client-s3';
 
-import { getClient } from './getClient';
+import { getClient } from './getClient.js';
 
 const isBucketExists = async (bucketName: string) => {
   try {

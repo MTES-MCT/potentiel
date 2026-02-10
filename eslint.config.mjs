@@ -55,6 +55,7 @@ export default eslintTs.config(
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/consistent-type-exports': 'error',
       'object-shorthand': 'error',
     },
   },

@@ -1,5 +1,6 @@
 import format from 'pg-format';
 import { match } from 'ts-pattern';
+import { flatten } from 'flat';
 
 import {
   Entity,
@@ -9,7 +10,6 @@ import {
   WhereOperator,
   WhereOptions,
 } from '@potentiel-domain/entity';
-import { flatten } from '@potentiel-libraries/flat';
 
 type Condition = { name: string; value?: unknown; operator: WhereOperator };
 
@@ -50,7 +50,7 @@ const buildWhereClause = (
   projection: string,
   startIndex = 0,
 ): WhereClausesAndValues => {
-  const rawWhere = flatten<typeof where, Record<string, unknown>>(where);
+  const rawWhere = flatten<typeof where, Record<string, unknown>>(where, { safe: true });
   const conditions = mapToConditions(rawWhere);
   const [sqlClause] = conditions.reduce(
     ([prevSql, prevIndex], { operator, name }) => {

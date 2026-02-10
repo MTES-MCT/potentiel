@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../..';
-import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
+import { IdentifiantProjet } from '../../../../index.js';
+import { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
 
-import { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command';
+import { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command.js';
 
 export type DemanderMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',

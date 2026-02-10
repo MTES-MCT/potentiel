@@ -1,8 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../..';
-import { Fournisseur } from '..';
+import { IdentifiantProjet } from '../../../index.js';
+import { Fournisseur } from '../index.js';
 
 export type FournisseurImportéEvent = DomainEvent<
   'FournisseurImporté-V1',

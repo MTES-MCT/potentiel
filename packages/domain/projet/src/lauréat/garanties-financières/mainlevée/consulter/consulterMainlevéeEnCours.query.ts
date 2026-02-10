@@ -4,14 +4,14 @@ import { Where, List, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../..';
+import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseMainlevée,
-} from '../..';
-import { LauréatEntity } from '../../..';
+} from '../../index.js';
+import { LauréatEntity } from '../../../index.js';
 
 export type ConsulterMainlevéeEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

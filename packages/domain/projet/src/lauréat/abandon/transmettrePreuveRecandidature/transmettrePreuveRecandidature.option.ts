@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { ProjetAggregateRoot } from '../../..';
+import { ProjetAggregateRoot } from '../../../index.js';
 
 export type TransmettrePreuveRecandidatureOptions = {
   preuveRecandidature: ProjetAggregateRoot;

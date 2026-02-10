@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { StatutRecours } from '..';
-import { DemandeRecoursEntity } from '../demandeRecours.entity';
-import { Candidature, IdentifiantProjet } from '../../..';
-import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port';
+import { StatutRecours } from '../index.js';
+import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
+import { Candidature, IdentifiantProjet } from '../../../index.js';
+import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port.js';
 
 type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

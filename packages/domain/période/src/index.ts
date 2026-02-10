@@ -1,1 +1,1 @@
-export * as Période from './période';
+export * as Période from './période.js';

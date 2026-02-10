@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
-import { Lauréat, RécupererGRDParVillePort } from '../../..';
+import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event.js';
+import { Lauréat, RécupererGRDParVillePort } from '../../../index.js';
 
-import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers';
+import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers/index.js';
 
 export type SubscriptionEvent =
   | LauréatNotifiéEvent

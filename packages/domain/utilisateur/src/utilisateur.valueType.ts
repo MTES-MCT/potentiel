@@ -3,16 +3,16 @@ import { match } from 'ts-pattern';
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
 
-import { Région, Zone } from '.';
+import { Région, Zone } from './index.js';
 
-import * as Role from './role.valueType';
+import * as Role from './role.valueType.js';
 import {
   FonctionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
   NomCompletManquantError,
   RégionManquanteError,
   ZoneManquanteError,
-} from './utilisateur.error';
+} from './utilisateur.error.js';
 
 type CommonValueType = {
   identifiantUtilisateur: Email.ValueType;

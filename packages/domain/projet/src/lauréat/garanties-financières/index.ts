@@ -1,42 +1,42 @@
 // Use Cases
-export * from './dépôt/dépôtGarantiesFinancières.usecases';
-export * from './actuelles/garantiesFinancièresActuelles.usecases';
-export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
+export type * from './dépôt/dépôtGarantiesFinancières.usecases.js';
+export type * from './actuelles/garantiesFinancièresActuelles.usecases.js';
+export type * from './mainlevée/mainlevéeGarantiesFinancières.usecases.js';
 
 // Queries
-export * from './dépôt/dépôtGarantiesFinancières.queries';
-export * from './actuelles/garantiesFinancièresActuelles.queries';
-export * from './mainlevée/mainlevéeGarantiesFinancières.queries';
-export * from './en-attente/garantiesFinancièresEnAttente.queries';
+export type * from './dépôt/dépôtGarantiesFinancières.queries.js';
+export type * from './actuelles/garantiesFinancièresActuelles.queries.js';
+export type * from './mainlevée/mainlevéeGarantiesFinancières.queries.js';
+export type * from './en-attente/garantiesFinancièresEnAttente.queries.js';
 
 // Entities
-export * from './dépôt/dépôtGarantiesFinancières.entity';
-export * from './actuelles/garantiesFinancièresActuelles.entity';
-export * from './actuelles/archives/archivesGarantiesFinancières.entity';
-export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
-export * from './en-attente/garantiesFinancièresEnAttente.entity';
+export type * from './dépôt/dépôtGarantiesFinancières.entity.js';
+export type * from './actuelles/garantiesFinancièresActuelles.entity.js';
+export type * from './actuelles/archives/archivesGarantiesFinancières.entity.js';
+export type * from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
+export type * from './en-attente/garantiesFinancièresEnAttente.entity.js';
 
 // Events
-export * from './garantiesFinancières.event';
+export type * from './garantiesFinancières.event.js';
 
 // Value types
-export * as GarantiesFinancières from './garantiesFinancières.valueType';
-export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
-export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
-export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
-export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType';
+export * as GarantiesFinancières from './garantiesFinancières.valueType.js';
+export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType.js';
+export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType.js';
+export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType.js';
+export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType.js';
 
-export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
-export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
-export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
+export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType.js';
+export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType.js';
+export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType.js';
 
-export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType';
+export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType.js';
 
 // Saga
-export * as GarantiesFinancièresSaga from './saga/garantiesFinancières.saga';
+export * as GarantiesFinancièresSaga from './saga/garantiesFinancières.saga.js';
 
 // Helpers
-export * from './_helpers/appelOffreSoumisAuxGarantiesFinancières';
+export * from './_helpers/appelOffreSoumisAuxGarantiesFinancières.js';
 
 // Ports
-export * from './port';
+export type * from './port/index.js';
