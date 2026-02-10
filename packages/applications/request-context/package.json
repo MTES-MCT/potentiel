@@ -18,7 +18,6 @@
     "@potentiel-domain/common": "workspace:*",
     "@potentiel-domain/utilisateur": "workspace:*",
     "@potentiel-domain/statistiques-utilisation": "workspace:*",
-    "@potentiel-libraries/auth-pg-adapter": "workspace:*",
     "@potentiel-libraries/monads": "workspace:*",
     "@potentiel-libraries/monitoring": "workspace:*",
     "@potentiel-libraries/pg-helpers": "workspace:*",
