@@ -30,8 +30,5 @@ export const findProjection = async <TEntity extends Entity, TJoin extends Entit
   if (result.length !== 1) {
     return Option.none;
   }
-
-  console.log(result[0], mapResult(result[0]));
-
   return mapResult(result[0]);
 };

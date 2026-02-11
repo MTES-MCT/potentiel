@@ -21,8 +21,6 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
     `raccordement|${identifiantProjet}`,
   );
 
-  console.log('RACCORDEMENT ACTUEL', raccordementActuel);
-
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {

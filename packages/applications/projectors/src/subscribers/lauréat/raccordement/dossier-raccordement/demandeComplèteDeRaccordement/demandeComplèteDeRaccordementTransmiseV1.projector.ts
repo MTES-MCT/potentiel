@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { updateOneProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
@@ -25,10 +25,9 @@ export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
     },
   );
 
-  await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
+  await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
     `raccordement|${identifiantProjet}`,
     {
-      identifiantProjet,
       identifiantGestionnaireRéseau,
     },
   );
