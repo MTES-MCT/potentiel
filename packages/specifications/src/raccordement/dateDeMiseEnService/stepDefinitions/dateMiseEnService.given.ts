@@ -20,7 +20,7 @@ EtantDonné(
       identifiantProjet: identifiantProjet.formatter(),
       dateMiseEnService,
       référenceDossier,
-      rôle: 'admin',
+      transmiseParValue: this.utilisateurWorld.adminFixture.email,
     });
   },
 );
@@ -45,7 +45,7 @@ EtantDonné(
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      rôle: 'admin',
+      transmiseParValue: this.utilisateurWorld.adminFixture.email,
     });
   },
 );

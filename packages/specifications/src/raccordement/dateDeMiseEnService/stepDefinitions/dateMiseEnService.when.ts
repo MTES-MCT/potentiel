@@ -24,7 +24,10 @@ Quand(
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
+      transmiseParValue:
+        rôle === 'le gestionnaire de réseau'
+          ? this.utilisateurWorld.grdFixture.email
+          : this.utilisateurWorld.adminFixture.email,
     });
   },
 );
@@ -54,18 +57,49 @@ Quand(
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      rôle: rôle === 'le gestionnaire de réseau' ? 'grd' : 'admin',
+      transmiseParValue:
+        rôle === 'le gestionnaire de réseau'
+          ? this.utilisateurWorld.grdFixture.email
+          : this.utilisateurWorld.adminFixture.email,
     });
   },
 );
 
 Quand(
-  `le gestionnaire de réseau supprime la mise en service du dossier de raccordement`,
+  /l'administrateur supprime la mise en service du dossier de raccordement$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
-    await supprimerDateMiseEnService.call(this, identifiantProjet, référenceDossier);
+    await supprimerDateMiseEnService({
+      potentielWorld: this,
+      identifiantProjet,
+      référence: référenceDossier,
+    });
+  },
+);
+
+Quand(
+  /l'administrateur supprime la mise en service du dossier de raccordement avec :$/,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+        datatable.rowsHash(),
+      );
+
+    if (!référenceDossier) {
+      throw new Error(
+        `"La référence du dossier de raccordement" est requis dans le tableau d'exemple pour supprimer la mise en service`,
+      );
+    }
+
+    await supprimerDateMiseEnService({
+      potentielWorld: this,
+      identifiantProjet,
+      référence: référenceDossier,
+    });
   },
 );
 
@@ -73,7 +107,7 @@ type TransmettreDateMiseEnServiceProps = {
   potentielWorld: PotentielWorld;
   identifiantProjet: IdentifiantProjet.RawType;
   référenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
-  rôle: 'admin' | 'grd';
+  transmiseParValue: string;
   dateMiseEnService: string;
 };
 
@@ -82,7 +116,7 @@ export async function transmettreDateMiseEnService({
   identifiantProjet,
   référenceDossier,
   dateMiseEnService,
-  rôle,
+  transmiseParValue,
 }: TransmettreDateMiseEnServiceProps) {
   try {
     await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
@@ -92,10 +126,7 @@ export async function transmettreDateMiseEnService({
         référenceDossierValue: référenceDossier,
         dateMiseEnServiceValue: dateMiseEnService,
         transmiseLeValue: DateTime.now().formatter(),
-        transmiseParValue:
-          rôle === 'grd'
-            ? potentielWorld.utilisateurWorld.grdFixture.email
-            : potentielWorld.utilisateurWorld.adminFixture.email,
+        transmiseParValue,
       },
     });
   } catch (e) {
@@ -103,11 +134,17 @@ export async function transmettreDateMiseEnService({
   }
 }
 
-async function supprimerDateMiseEnService(
-  this: PotentielWorld,
-  identifiantProjet: IdentifiantProjet.ValueType,
-  référence: string,
-) {
+type SupprimerDateMiseEnServiceProps = {
+  potentielWorld: PotentielWorld;
+  identifiantProjet: IdentifiantProjet.ValueType;
+  référence: string;
+};
+
+async function supprimerDateMiseEnService({
+  potentielWorld,
+  identifiantProjet,
+  référence,
+}: SupprimerDateMiseEnServiceProps) {
   try {
     await mediator.send<Lauréat.Raccordement.SupprimerDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
@@ -115,10 +152,10 @@ async function supprimerDateMiseEnService(
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référence,
         suppriméeLeValue: DateTime.now().formatter(),
-        suppriméeParValue: this.utilisateurWorld.grdFixture.email,
+        suppriméeParValue: potentielWorld.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (e) {
-    this.error = e as Error;
+    potentielWorld.error = e as Error;
   }
 }

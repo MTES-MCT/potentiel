@@ -63,10 +63,43 @@ Alors(
 );
 
 Alors(
-  `la mise en service du dossier de raccordement devrait être supprimée`,
+  /la mise en service du dossier de raccordement devrait être supprimée$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
+    await waitForExpect(async () => {
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            référenceDossierRaccordementValue: référenceDossier,
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      assert(Option.isSome(dossierRaccordement));
+
+      expect(dossierRaccordement.miseEnService).to.be.undefined;
+    });
+  },
+);
+
+Alors(
+  /la mise en service du dossier de raccordement devrait être supprimée avec :$/,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+        datatable.rowsHash(),
+      );
+
+    if (!référenceDossier) {
+      throw new Error(
+        `La table d'exemple doit contenir le champ "La référence du dossier de raccordement"`,
+      );
+    }
+
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({

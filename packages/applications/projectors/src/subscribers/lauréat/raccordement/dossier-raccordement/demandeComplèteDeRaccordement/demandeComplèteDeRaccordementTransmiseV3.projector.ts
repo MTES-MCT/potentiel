@@ -1,5 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { updateOneProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
