@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 
+import { conditionalRequiredError } from '../candidature/schemaBase';
+
 import {
   booleanSchema,
   numberSchema,
@@ -101,6 +103,29 @@ export const dispositifDeStockageSchema = z
     capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
+  .superRefine((data, ctx) => {
+    if (data.installationAvecDispositifDeStockage) {
+      if (data.capacitéDuDispositifDeStockageEnKWh == null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.invalid_type,
+          expected: 'string' as const,
+          received: undefined,
+          path: ['capacitéDuDispositifDeStockageEnKWh'],
+          message: `"capacitéDuDispositifDeStockageEnKWh" est requis lorsque "installationAvecDispositifDeStockage" est vrai`,
+        });
+      }
+
+      if (data.puissanceDuDispositifDeStockageEnKW == null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.invalid_type,
+          expected: 'string' as const,
+          received: undefined,
+          path: ['puissanceDuDispositifDeStockageEnKW'],
+          message: `"puissanceDuDispositifDeStockageEnKW" est requis lorsque "installationAvecDispositifDeStockage" est vrai`,
+        });
+      }
+    }
+  })
   .optional();
 
 export const natureDeLExploitationOptionalSchema = z
@@ -109,5 +134,24 @@ export const natureDeLExploitationOptionalSchema = z
       Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
     ),
     tauxPrévisionnelACI: optionalPercentageSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (
+      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType(
+        data.typeNatureDeLExploitation,
+      ).estÉgaleÀ(
+        Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnSurplus,
+      )
+    ) {
+      if (!data.tauxPrévisionnelACI) {
+        ctx.addIssue(
+          conditionalRequiredError(
+            'tauxPrévisionnelACI',
+            'typeNatureDeLExploitation',
+            'vente-avec-injection-du-surplus',
+          ),
+        );
+      }
+    }
   })
   .optional();
