@@ -38,10 +38,12 @@ export class RaccordementWorld {
     const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : undefined;
+
     const identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         this.identifiantGestionnaireRéseau,
       );
+
     const dossier = {
       identifiantProjet,
       identifiantGestionnaireRéseau,
@@ -70,6 +72,15 @@ export class RaccordementWorld {
           ? {
               raisonSociale: gestionnaireRéseau.raisonSociale,
               contactEmail: gestionnaireRéseau.contactEmail,
+            }
+          : undefined,
+        miseEnService: this.transmettreDateMiseEnServiceFixture.aÉtéCréé
+          ? {
+              date: this.transmettreDateMiseEnServiceFixture.mapToExpected()?.dateMiseEnService,
+              référenceDossier:
+                Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                  nouvelleRéférenceDossier ?? this.référenceDossier,
+                ),
             }
           : undefined,
       },

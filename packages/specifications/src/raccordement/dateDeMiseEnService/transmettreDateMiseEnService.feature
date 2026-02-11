@@ -20,7 +20,6 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | le gestionnaire de réseau |
             | l'administrateur          |
 
-    @select
     Scénario: Transmettre une date de mise en service moins tardive que celles des autres dossiers en service d'un projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
@@ -37,8 +36,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2025-01-01         |
 
-    @NotImplemented
-    Plan du scénario: Transmettre une date de mise en service plus tardive que celles des autres dossiers en service d'un projet lauréat
+    Scénario: Transmettre une date de mise en service plus tardive que celles des autres dossiers en service d'un projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
@@ -46,7 +44,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | La date de mise en service              | 2022-03-27         |
         Et une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-00034 |
-        Quand <role> transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand l'administrateur transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service              | 2024-10-10        |
             | La référence du dossier de raccordement | OUE-RP-2022-00034 |
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
