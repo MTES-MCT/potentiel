@@ -22,6 +22,8 @@ type DocumentsSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
+export const exportType = 'Export des données du projet';
+
 const sectionTitle = 'Documents';
 export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =>
   SectionWithErrorHandling(
@@ -43,7 +45,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
 
       // EXPORT
       documents.push({
-        type: 'Export des données du projet',
+        type: exportType,
         date: DateTime.now().formatter(),
         format: 'csv',
         url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
@@ -142,9 +144,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           <Notice
             title="À propos"
             description={
-              <span>
-                Retrouvez dans cette section les documents essentiels de la vie de votre projet
-              </span>
+              <span>Retrouvez dans cette section les documents essentiels de la vie du projet</span>
             }
             severity="info"
           />
