@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -23,10 +25,8 @@ export const dateMiseEnServiceTransmiseV1Projector = async ({
     },
   );
 
-  if (Option.isNone(raccordementActuel)) {
-    return;
-    // TODO : gérer le cas où le raccordement n'existe pas (est-ce possible ?)
-  }
+  assert(Option.isSome(raccordementActuel));
+
   if (!raccordementActuel.miseEnService) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
