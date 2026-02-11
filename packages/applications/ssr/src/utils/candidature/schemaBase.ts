@@ -59,14 +59,19 @@ export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>
 ) =>
   z
     .string()
-    .toLowerCase()
     .optional()
-    .pipe(
-      z
-        .union([enumSchema, z.literal(''), z.literal('n/a')])
-        .transform((v) => (v === '' || v === 'n/a' ? undefined : v))
-        .optional(),
-    );
+    .transform((v) => v?.toLowerCase())
+    .refine(
+      (v) =>
+        v === undefined ||
+        v === '' ||
+        v === 'n/a' ||
+        enumSchema.options.includes(v as TEnumSchema[keyof TEnumSchema]),
+      `Option invalide : une valeur parmi ${enumSchema.options
+        .map((o) => `"${o}"`)
+        .join('|')} attendue`,
+    )
+    .transform((v) => (v === '' || v === 'n/a' ? undefined : v));
 
 export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,

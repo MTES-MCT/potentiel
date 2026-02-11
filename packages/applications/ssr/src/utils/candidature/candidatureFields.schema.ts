@@ -103,29 +103,16 @@ export const dispositifDeStockageSchema = z
     capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
-  .superRefine((data, ctx) => {
-    if (data.installationAvecDispositifDeStockage) {
-      if (data.capacitéDuDispositifDeStockageEnKWh == null) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_type,
-          expected: 'string' as const,
-          received: undefined,
-          path: ['capacitéDuDispositifDeStockageEnKWh'],
-          message: `"capacitéDuDispositifDeStockageEnKWh" est requis lorsque "installationAvecDispositifDeStockage" est vrai`,
-        });
-      }
-
-      if (data.puissanceDuDispositifDeStockageEnKW == null) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.invalid_type,
-          expected: 'string' as const,
-          received: undefined,
-          path: ['puissanceDuDispositifDeStockageEnKW'],
-          message: `"puissanceDuDispositifDeStockageEnKW" est requis lorsque "installationAvecDispositifDeStockage" est vrai`,
-        });
-      }
-    }
-  })
+  .refine(
+    (data) =>
+      !data.installationAvecDispositifDeStockage ||
+      (data.capacitéDuDispositifDeStockageEnKWh !== undefined &&
+        data.puissanceDuDispositifDeStockageEnKW !== undefined),
+    {
+      message: `"capacitéDuDispositifDeStockageEnKWh" et "puissanceDuDispositifDeStockageEnKW" sont requis lorsque l'installation est avec dispositif de stockage`,
+      path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+    },
+  )
   .optional();
 
 export const natureDeLExploitationOptionalSchema = z

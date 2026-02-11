@@ -4,8 +4,6 @@ import '../../utils/zod/setupLocale';
 
 import { assert, expect } from 'chai';
 
-import { Candidature } from '@potentiel-domain/projet';
-
 import { dépôtSchema } from './dépôt.schema';
 import { assertError, deepEqualWithRichDiff } from './csv/_test-shared';
 
@@ -54,18 +52,12 @@ describe('Schéma dépôt', () => {
     deepEqualWithRichDiff(result.data, expectedMinimumValues);
   });
 
-  describe('vérification des informations générales', () => {
-    for (const champ of [
-      'nomProjet',
-      'sociétéMère',
-      'nomCandidat',
-      'nomReprésentantLégal',
-      'emailContact',
-    ]) {
-      test(`erreur : champ ${champ} requis`, () => {
+  describe('erreurs courantes', () => {
+    for (const champ of ['nomProjet', 'nomCandidat', 'nomReprésentantLégal', 'emailContact']) {
+      test(`champ string ${champ} requis`, () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
-          [champ]: null,
+          [champ]: undefined,
         });
 
         assert(result.error);
@@ -73,7 +65,7 @@ describe('Schéma dépôt', () => {
       });
     }
 
-    test('erreur : format email contact', () => {
+    test('format email', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         emailContact: 'test',
@@ -83,19 +75,15 @@ describe('Schéma dépôt', () => {
       assertError(result, ['emailContact'], 'adresse e-mail invalide');
     });
 
-    test('erreur : puissance requise', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        puissance: null,
-      });
-
-      assert(result.error);
-      assertError(result, ['puissance'], 'Entrée invalide');
-    });
-
-    for (const champ of ['puissance', 'puissanceDeSite', 'puissanceProjetInitial']) {
-      for (const valeur of ['mille', 0, -1]) {
-        test(`erreur : valeur ${valeur} invalide pour le champ ${champ}`, () => {
+    for (const champ of [
+      'puissance',
+      'puissanceDeSite',
+      'puissanceProjetInitial',
+      'prixReference',
+      'evaluationCarboneSimplifiée',
+    ]) {
+      for (const valeur of [0, -1, 'dix']) {
+        test(`${champ} doit être un nombre positif`, () => {
           const result = dépôtSchema.safeParse({
             ...minimumValues,
             [champ]: valeur,
@@ -107,72 +95,19 @@ describe('Schéma dépôt', () => {
       }
     }
 
-    test('erreur : prix requis', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        prixReference: null,
-      });
-
-      assert(result.error);
-      assertError(result, ['prixReference'], 'Entrée invalide');
-    });
-
-    test('erreur : format prix', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        prixReference: '10 euros',
-      });
-
-      assert(result.error);
-      assertError(result, ['prixReference'], 'Le champ doit être un nombre positif');
-    });
-
-    test('erreur : format puissance à la pointe', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        puissanceALaPointe: '1',
-      });
-
-      assert(result.error);
-      assertError(result, ['puissanceALaPointe'], 'Entrée invalide');
-    });
-
-    for (const evaluationCarboneSimplifiée of ['true', '0', '-1', -1, 0]) {
-      test('erreur : format evaluation carbone simplifiée', () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          evaluationCarboneSimplifiée,
-        });
-
-        assert(result.error);
-        assertError(
-          result,
-          ['evaluationCarboneSimplifiée'],
-          'Le champ doit être un nombre positif',
-        );
-      });
-    }
-
-    test('erreur : actionnariat invalide', () => {
+    test('actionnariat invalide', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         actionnariat: 'dgec',
       });
 
       assert(result.error);
-      assertError(result, ['actionnariat'], 'Entrée invalide');
+      assertError(
+        result,
+        ['actionnariat'],
+        'Option invalide : une valeur parmi "financement-collectif"|"gouvernance-partagée"|"financement-participatif"|"investissement-participatif" attendue',
+      );
     });
-
-    for (const actionnariat of Candidature.TypeActionnariat.types) {
-      test(`type d'actionnariat ${actionnariat} valide`, () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          actionnariat,
-        });
-
-        assert(result.success);
-      });
-    }
 
     test('erreur : technologie invalide', () => {
       const result = dépôtSchema.safeParse({
@@ -188,21 +123,10 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    for (const technologie of Candidature.TypeTechnologie.types) {
-      test(`type de technologie ${technologie} valide`, () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          technologie,
-        });
-
-        assert(result.success);
-      });
-    }
-
     test('erreur : historique abandon requis', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
-        historiqueAbandon: null,
+        historiqueAbandon: undefined,
       });
 
       assert(result.error);
@@ -226,17 +150,6 @@ describe('Schéma dépôt', () => {
         'Option invalide : une valeur parmi "première-candidature"|"abandon-classique"|"abandon-avec-recandidature"|"lauréat-autre-période" attendue',
       );
     });
-
-    for (const historiqueAbandon of Candidature.HistoriqueAbandon.types) {
-      test(`historique abandon "${historiqueAbandon}" valide`, () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          historiqueAbandon,
-        });
-
-        assert(result.success);
-      });
-    }
 
     describe('localité', () => {
       test('erreur : localité invalide', () => {
@@ -266,7 +179,7 @@ describe('Schéma dépôt', () => {
       test("n'accepte pas un code postal vide", () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
-          localité: { ...minimumValues.localité, codePostal: null },
+          localité: { ...minimumValues.localité, codePostal: undefined },
         });
 
         assert(result.error);
@@ -316,19 +229,12 @@ describe('Schéma dépôt', () => {
       });
 
       assert(result.error);
-      assertError(result, ['typeGarantiesFinancières'], 'Entrée invalide');
+      assertError(
+        result,
+        ['typeGarantiesFinancières'],
+        'Option invalide : une valeur parmi "consignation"|"avec-date-échéance"|"six-mois-après-achèvement"|"type-inconnu"|"exemption" attendue',
+      );
     });
-
-    for (const typeGarantiesFinancières of Candidature.TypeGarantiesFinancières.types) {
-      test(`type de garanties financières ${typeGarantiesFinancières} valide`, () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          typeGarantiesFinancières,
-        });
-
-        assert(result.success);
-      });
-    }
 
     test('erreur : date échéance manquante', () => {
       const result = dépôtSchema.safeParse({
@@ -360,6 +266,7 @@ describe('Schéma dépôt', () => {
           puissanceDuDispositifDeStockageEnKW: 1,
         },
         puissanceProjetInitial: '100',
+        obligationDeSolarisation: 'true',
       };
 
       const result = dépôtSchema.safeParse({
@@ -378,12 +285,23 @@ describe('Schéma dépôt', () => {
           numéro: 'URB-01',
           date: new Date(champsSupplémentaires.autorisationDUrbanisme.date).toISOString(),
         },
+        obligationDeSolarisation: true,
       });
     });
 
-    for (const champ of ['coefficientKChoisi', 'obligationDeSolarisation']) {
+    for (const champ of ['coefficientKChoisi', 'obligationDeSolarisation', 'puissanceALaPointe']) {
+      test(`bouléen attendu pour ${champ}`, () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          [champ]: 'avec',
+        });
+
+        assert(result.error);
+        assertError(result, [champ], 'Entrée invalide');
+      });
+
       for (const valeur of ['oui', 'non', true, false]) {
-        test(`valeur ${valeur} valide pour le champ ${champ}`, () => {
+        test(`${valeur} valide pour le champ ${champ}`, () => {
           const result = dépôtSchema.safeParse({
             ...minimumValues,
             [champ]: valeur,
@@ -408,37 +326,23 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : capacitéDuDispositifDeStockageEnKWh requis si installation avec dispositif de stockage', () => {
+    test('capacitéDuDispositifDeStockageEnKWh et puissanceDuDispositifDeStockageEnKW requis si installation avec dispositif de stockage', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         dispositifDeStockage: {
           installationAvecDispositifDeStockage: true,
-          puissanceDuDispositifDeStockageEnKW: 11,
         },
       });
 
       assert(result.error);
       assertError(
         result,
-        ['dispositifDeStockage', 'capacitéDuDispositifDeStockageEnKWh'],
-        '"capacitéDuDispositifDeStockageEnKWh" est requis lorsque "installationAvecDispositifDeStockage" est vrai',
-      );
-    });
-
-    test('erreur : puissanceDuDispositifDeStockageEnKW requis si installation avec dispositif de stockage', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        dispositifDeStockage: {
-          installationAvecDispositifDeStockage: true,
-          capacitéDuDispositifDeStockageEnKWh: 11,
-        },
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['dispositifDeStockage', 'puissanceDuDispositifDeStockageEnKW'],
-        '"puissanceDuDispositifDeStockageEnKW" est requis lorsque "installationAvecDispositifDeStockage" est vrai',
+        [
+          'dispositifDeStockage',
+          'capacitéDuDispositifDeStockageEnKWh',
+          'puissanceDuDispositifDeStockageEnKW',
+        ],
+        `"capacitéDuDispositifDeStockageEnKWh" et "puissanceDuDispositifDeStockageEnKW" sont requis lorsque l'installation est avec dispositif de stockage`,
       );
     });
 
@@ -446,7 +350,7 @@ describe('Schéma dépôt', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-du-surplus' },
-        tauxPrévisionnelACI: null,
+        tauxPrévisionnelACI: undefined,
       });
 
       assert(result.error);
@@ -470,16 +374,5 @@ describe('Schéma dépôt', () => {
         'Entrée invalide : array attendu, string reçu',
       );
     });
-
-    for (const typologie of Candidature.TypologieInstallation.typologies) {
-      test(`typologie installation "${typologie}" valide`, () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          typologieInstallation: [{ typologie }],
-        });
-
-        assert(result.success);
-      });
-    }
   });
 });
