@@ -18,7 +18,8 @@ export const instructionSchema = z
       ctx.addIssue({
         code: 'custom',
         path: ['motifÉlimination'],
-        message: "Un motif d'élimination ne devrait pas être renseigné pour un candidat classé",
+        message:
+          '"motifÉlimination" ne devrait pas être renseigné lorsque "statut" a la valeur "classé"',
       });
     }
   });

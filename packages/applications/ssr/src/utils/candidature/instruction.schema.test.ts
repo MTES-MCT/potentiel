@@ -2,7 +2,7 @@ import { test, describe } from 'node:test';
 
 import '../zod/setupLocale';
 
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 
 import { instructionSchema, InstructionSchemaShape } from '.';
 
@@ -72,12 +72,11 @@ describe('Schema instruction', () => {
         motifÉlimination: undefined,
       });
       assert(!result.success, 'should be error');
-      console.log(result.error.issues);
-      expect(result.error.issues[0]).to.deep.eq({
-        code: 'custom',
-        path: ['motifÉlimination'],
-        message: 'motifÉlimination est requis lorsque le statut a la valeur "éliminé"',
-      });
+      assertError(
+        result,
+        ['motifÉlimination'],
+        '"motifÉlimination" est requis lorsque "statut" a la valeur "éliminé"',
+      );
     });
     test("Classé avec motif d'élimination", () => {
       const result = instructionSchema.safeParse({
@@ -85,11 +84,11 @@ describe('Schema instruction', () => {
         motifÉlimination: "un motif d'élimination",
       });
       assert(!result.success, 'should be error');
-      expect(result.error.issues[0]).to.deep.eq({
-        code: 'custom',
-        path: ['motifÉlimination'],
-        message: "Un motif d'élimination ne devrait pas être renseigné pour un candidat classé",
-      });
+      assertError(
+        result,
+        ['motifÉlimination'],
+        '"motifÉlimination" ne devrait pas être renseigné lorsque "statut" a la valeur "classé"',
+      );
     });
   });
 });
