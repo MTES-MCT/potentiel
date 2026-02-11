@@ -86,6 +86,7 @@ export const registerListerDétailsFournisseurQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         actionnariat: typeActionnariat?.length ? Where.matchAny(typeActionnariat) : undefined,
+        estNotifiée: Where.equal(true),
       },
       orderBy: {
         appelOffre: 'ascending',
