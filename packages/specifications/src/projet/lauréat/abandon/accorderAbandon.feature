@@ -14,18 +14,18 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être accordée
         Et le statut du projet lauréat devrait être "abandonné"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
-            | nom_projet | L'hélice qui tourne                                                       |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon                        |
+            | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
+            | nom_projet | L'hélice qui tourne                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/abandon           |
         Et un email a été envoyé à la cre avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
-            | nom_projet | L'hélice qui tourne                                                       |
+            | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
+            | nom_projet | L'hélice qui tourne                                          |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
-            | nom_projet | L'hélice qui tourne                                                       |
+            | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
+            | nom_projet | L'hélice qui tourne                                          |
         Et un email a été envoyé au cocontractant avec :
-            | sujet      | Potentiel - Demande d'abandon accordée pour le projet L'hélice qui tourne |
-            | nom_projet | L'hélice qui tourne                                                       |
+            | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
+            | nom_projet | L'hélice qui tourne                                          |
 
     Scénario: Une dreal peut accorder une demande d'abandon si elle en a l'autorité
         Etant donné le projet lauréat "L'hélice qui tourne" avec :

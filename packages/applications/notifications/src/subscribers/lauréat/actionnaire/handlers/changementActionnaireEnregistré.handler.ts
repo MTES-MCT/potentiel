@@ -8,20 +8,19 @@ export const handleChangementActionnaireEnregistré = async ({
   payload,
 }: Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
 
   const dreals = await listerDrealsRecipients(projet.région);
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   for (const recipients of [dreals, porteurs]) {
     await sendEmail({
-      key: 'actionnaire/enregistrer_changement',
+      key: 'lauréat/actionnaire/enregistrer_changement',
       recipients,
       values: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        appel_offre: appelOffre,
-        période,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
         url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())}`,
       },
     });

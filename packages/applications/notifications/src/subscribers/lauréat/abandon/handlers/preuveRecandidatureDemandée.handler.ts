@@ -8,16 +8,16 @@ export const handlePreuveRecandidatureDemandée = async ({
   payload,
 }: Lauréat.Abandon.PreuveRecandidatureDemandéeEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'abandon/demanderPreuveRecandidature',
+    key: 'abandon/demander_preuve_recandidature',
     recipients: porteurs,
     values: {
       nom_projet: projet.nom,
-      appelOffre,
-      période,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      departement_projet: projet.département,
       url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(projet.identifiantProjet.formatter())}/`,
     },
   });

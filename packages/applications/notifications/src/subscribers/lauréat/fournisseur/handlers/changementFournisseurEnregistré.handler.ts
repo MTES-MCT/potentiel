@@ -7,26 +7,27 @@ export const handleChangementFournisseurEnregistré = async ({
   payload: { identifiantProjet },
 }: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent) => {
   const projet = await getLauréat(identifiantProjet);
+
   const dreals = await listerDrealsRecipients(projet.région);
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    url: projet.url,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+  };
+
   await sendEmail({
-    key: 'lauréat/fournisseur/changement_enregistrer',
+    key: 'lauréat/fournisseur/enregistrer_changement',
     recipients: dreals,
-    values: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
+    values,
   });
 
   await sendEmail({
-    key: 'lauréat/fournisseur/changement_enregistrer',
+    key: 'lauréat/fournisseur/enregistrer_changement',
     recipients: porteurs,
-    values: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
+    values,
   });
 };

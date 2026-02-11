@@ -1,10 +1,10 @@
 ---
-subject: Potentiel - Nouvelle demande d'abandon pour le projet {{nom_projet}} ({{appelOffre}} période {{période}})
+subject: Potentiel - {{nom_projet}} - Nouvelle demande d'abandon
 ---
 
 Madame, Monsieur,
 
-Un abandon a été **demandé** pour le projet **{{ nom_projet }}** situé dans le département **{{ departement_projet }}**. 
+Un abandon a été **demandé** pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**. 
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 

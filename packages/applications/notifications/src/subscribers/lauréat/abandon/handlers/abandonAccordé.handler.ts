@@ -13,7 +13,7 @@ import { sendEmail } from '#sendEmail';
 
 export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.AbandonAccordéEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
+
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
@@ -23,8 +23,8 @@ export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.Abando
     nom_projet: projet.nom,
     departement_projet: projet.département,
     url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
-    appelOffre,
-    période,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
   };
 
   await sendEmail({

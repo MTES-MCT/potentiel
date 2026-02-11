@@ -4,7 +4,7 @@ import { ProducteurNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupProducteur: SetupProjet = async ({ sendEmail }) => {
+export const setupProducteur: SetupProjet = async () => {
   const producteur = createSubscriptionSetup('producteur');
 
   ProducteurProjector.register();
@@ -22,7 +22,7 @@ export const setupProducteur: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Producteur',
   });
 
-  ProducteurNotification.register({ sendEmail });
+  ProducteurNotification.register();
   await producteur.setupSubscription<
     ProducteurNotification.SubscriptionEvent,
     ProducteurNotification.Execute

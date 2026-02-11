@@ -1,38 +1,35 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
-import { producteurNotificationTemplateId } from '../constant.js';
-import { ProducteurNotificationsProps } from '../type.js';
+import { sendEmail } from '../../../../sendEmail.js';
 
 export const handleProducteurModifié = async ({
-  sendEmail,
-  event,
-  projet,
-}: ProducteurNotificationsProps<Lauréat.Producteur.ProducteurModifiéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload: { identifiantProjet },
+}: Lauréat.Producteur.ProducteurModifiéEvent) => {
+  const projet = await getLauréat(identifiantProjet);
+
   const dreals = await listerDrealsRecipients(projet.région);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+    url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())}`,
+  };
 
   await sendEmail({
-    templateId: producteurNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification du producteur pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
+    key: 'lauréat/producteur/modifier',
+    recipients: porteurs,
+    values,
   });
 
   await sendEmail({
-    templateId: producteurNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification du producteur pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
+    key: 'lauréat/producteur/modifier',
+    recipients: dreals,
+    values,
   });
 };

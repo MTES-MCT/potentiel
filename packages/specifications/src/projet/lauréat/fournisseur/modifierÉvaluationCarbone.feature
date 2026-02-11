@@ -11,13 +11,13 @@ Fonctionnalité: Modifier l'évaluation carbone du projet
         Quand un administrateur modifie l'évaluation carbone du projet
         Alors le fournisseur devrait être mis à jour
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de l'évaluation carbone simplifiée pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                     |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'évaluation carbone simplifiée |
+            | nom_projet | Du boulodrome de Marseille                                                               |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'évaluation carbone simplifiée pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                     |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'évaluation carbone simplifiée |
+            | nom_projet | Du boulodrome de Marseille                                                               |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                |
 
     Scénario: Impossible de modifier l'évaluation carbone avec une valeur identique
         Quand un administrateur modifie l'évaluation carbone du projet avec la même valeur

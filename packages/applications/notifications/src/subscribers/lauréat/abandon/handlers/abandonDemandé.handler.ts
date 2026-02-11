@@ -13,7 +13,6 @@ export const handleAbandonDemandé = async ({
   payload,
 }: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   const adminRecipients = await listerRecipientsAutoritéInstructrice({
@@ -25,8 +24,8 @@ export const handleAbandonDemandé = async ({
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    appelOffre,
-    période,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
     url: `${getBaseUrl()}${Routes.Abandon.détail(payload.identifiantProjet, payload.demandéLe)}`,
   };
 

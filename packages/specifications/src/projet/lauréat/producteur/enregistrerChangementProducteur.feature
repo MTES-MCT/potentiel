@@ -24,9 +24,9 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                    |
             | cause      | Cela fait suite à un changement de producteur déclaré sur Potentiel.          |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de producteur |
+            | nom_projet | Du boulodrome de Marseille                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*              |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Enregistrer un changement de producteur d'un projet lauréat pour un projet avec GF avec date d'échéance

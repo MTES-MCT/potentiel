@@ -8,17 +8,16 @@ export const handleChangementActionnaireAnnulé = async ({
   payload,
 }: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-  const { appelOffre, période } = projet.identifiantProjet;
   const dreals = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    key: 'actionnaire/demande/annuler',
+    key: 'lauréat/actionnaire/demande/annuler',
     recipients: dreals,
     values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      appel_offre: appelOffre,
-      période,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
       url: `${getBaseUrl()}${Routes.Actionnaire.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
