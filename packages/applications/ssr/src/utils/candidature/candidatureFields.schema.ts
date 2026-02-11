@@ -39,10 +39,10 @@ export const adresse2Schema = optionalStringSchema;
 
 // On accepte de multiples code postaux séparés par /
 export const codePostalSchema = requiredStringSchema
-  .transform((val) => stringToArray(val, '/'))
+  .transform((val) => stringToArray(val, '/').map((val) => val.padStart(5, '0')))
   .refine((val) => val.length > 0, 'Le code postal est requis')
   .refine(
-    (val) => val.every(récupérerDépartementRégionParCodePostal),
+    (val) => !val || val.every(récupérerDépartementRégionParCodePostal),
     'Le code postal ne correspond à aucune région / département',
   )
   .transform((val) => val.join(' / '));

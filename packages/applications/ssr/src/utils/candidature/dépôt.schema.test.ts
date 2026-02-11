@@ -2,7 +2,7 @@ import { describe, test } from 'node:test';
 
 import '../../utils/zod/setupLocale';
 
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Candidature } from '@potentiel-domain/projet';
 
@@ -238,14 +238,73 @@ describe('Schéma dépôt', () => {
       });
     }
 
-    test('erreur : localité invalide', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        localité: 'boulodrome de Marseille',
+    describe('localité', () => {
+      test('erreur : localité invalide', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: 'boulodrome de Marseille',
+        });
+
+        assert(result.error);
+        assertError(result, ['localité'], 'Entrée invalide : object attendu, string reçu');
       });
 
-      assert(result.error);
-      assertError(result, ['localité'], 'Entrée invalide : object attendu, string reçu');
+      test("n'accepte pas un code postal invalide", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: { ...minimumValues.localité, codePostal: 'invalide' },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['localité', 'codePostal'],
+          'Le code postal ne correspond à aucune région / département',
+        );
+      });
+
+      test("n'accepte pas un code postal vide", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: { ...minimumValues.localité, codePostal: null },
+        });
+
+        assert(result.error);
+        assertError(result, ['localité', 'codePostal'], 'Le champ est requis');
+      });
+
+      test("n'accepte pas un code postal inexistant", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: { ...minimumValues.localité, codePostal: '99999999' },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['localité', 'codePostal'],
+          'Le code postal ne correspond à aucune région / département',
+        );
+      });
+
+      test("plusieurs codes postaux séparés par des '/' sont acceptés", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: { ...minimumValues.localité, codePostal: '33100 / 75001 / 13001' },
+        });
+
+        assert(result.success);
+        expect(result.data.localité.codePostal).to.deep.equal('33100 / 75001 / 13001');
+      });
+
+      test('si le CP fait moins de 5 caractères, il est complété par des 0 à gauche (transformation MS Excel)', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          localité: { ...minimumValues.localité, codePostal: '3340' },
+        });
+        assert(result.success);
+        expect(result.data.localité.codePostal).to.deep.equal('03340');
+      });
     });
   });
 
