@@ -4,7 +4,6 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
@@ -21,8 +20,6 @@ import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 type DocumentsSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
-
-export const exportType = 'Export des données du projet';
 
 const sectionTitle = 'Documents';
 export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =>
@@ -45,8 +42,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
 
       // EXPORT
       documents.push({
-        type: exportType,
-        date: DateTime.now().formatter(),
+        type: 'Export des données du projet',
         format: 'csv',
         url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
           ? Routes.Lauréat.exporter({ identifiantProjet })
@@ -148,7 +144,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             }
             severity="info"
           />
-          <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
+          <DocumentsList
+            documents={documents.toSorted((a, b) => (b.date || '').localeCompare(a.date || ''))}
+          />
         </>
       );
     }),

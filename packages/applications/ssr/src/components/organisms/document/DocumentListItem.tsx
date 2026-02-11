@@ -8,12 +8,10 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { Heading3 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { exportType } from '../../../app/laureats/[identifiant]/(détails)/documents/(sections)/Documents.section';
-
 export type DocumentItem = {
   type: string;
   format: string;
-  date: string;
+  date?: string;
   url?: string;
   demande?: { url: string };
 };
@@ -35,7 +33,7 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
     >
       <div className="flex flex-row gap-2">
         {/* on affiche pas la date pour l'export projet */}
-        {type !== exportType && (
+        {date && (
           <Tag
             iconId="ri-calendar-2-fill"
             className="bg-dsfr-background-alt-greenTilleulVerveine-default"
