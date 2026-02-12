@@ -94,13 +94,7 @@ const mapToÉtapesData = ({
     });
   }
 
-  const dateMiseEnService =
-    raccordement && raccordement.dossiers.length
-      ? raccordement.dossiers
-          .map((dossier) => dossier.miseEnService?.dateMiseEnService?.formatter())
-          .filter(Boolean)
-          .sort()[0]
-      : undefined;
+  const dateMiseEnService = raccordement?.miseEnService?.date.formatter() ?? undefined;
 
   if (dateMiseEnService) {
     étapes.push({
