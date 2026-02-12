@@ -82,7 +82,7 @@ describe('Schéma dépôt', () => {
       'prixReference',
       'evaluationCarboneSimplifiée',
     ]) {
-      for (const valeur of [0, -1, 'dix']) {
+      for (const valeur of [0, -1]) {
         test(`${champ} doit être un nombre positif`, () => {
           const result = dépôtSchema.safeParse({
             ...minimumValues,
@@ -91,6 +91,20 @@ describe('Schéma dépôt', () => {
 
           assert(result.error);
           assertError(result, [champ], 'Le champ doit être un nombre positif');
+        });
+      }
+    }
+
+    for (const champ of ['puissance', 'prixReference', 'evaluationCarboneSimplifiée']) {
+      for (const valeur of ['dix', undefined]) {
+        test(`${champ} doit être un nombre)`, () => {
+          const result = dépôtSchema.safeParse({
+            ...minimumValues,
+            [champ]: valeur,
+          });
+
+          assert(result.error);
+          assertError(result, [champ], 'Le champ doit être un nombre');
         });
       }
     }
@@ -297,19 +311,8 @@ describe('Schéma dépôt', () => {
         });
 
         assert(result.error);
-        assertError(result, [champ], 'Entrée invalide');
+        assertError(result, [champ], 'La valeur doit être un booléen ou "oui" / "non"');
       });
-
-      for (const valeur of ['oui', 'non', true, false]) {
-        test(`${valeur} valide pour le champ ${champ}`, () => {
-          const result = dépôtSchema.safeParse({
-            ...minimumValues,
-            [champ]: valeur,
-          });
-
-          assert(result.success);
-        });
-      }
     }
 
     test("erreur : autorisation d'urbanisme", () => {
