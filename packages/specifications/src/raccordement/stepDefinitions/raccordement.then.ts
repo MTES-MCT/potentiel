@@ -101,6 +101,7 @@ const vérifierMiseEnServiceDansRaccordement = async ({
       raccordement.miseEnService.date.formatter(),
       'La date de mise en service ne correspond pas',
     ).to.equal(dateMiseEnService.formatter());
+
     expect(
       raccordement.miseEnService.référenceDossier.estÉgaleÀ(référenceDossier),
       'La référence du dossier de raccordement ne correspond pas',

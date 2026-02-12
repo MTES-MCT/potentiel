@@ -15,6 +15,12 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement },
   created_at,
 }: Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent & Event) => {
+  const raccordement = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
+    `raccordement|${identifiantProjet}`,
+  );
+
+  assert(Option.isSome(raccordement));
+
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
@@ -25,12 +31,6 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
     },
   );
 
-  const raccordement = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
-    `raccordement|${identifiantProjet}`,
-  );
-
-  assert(Option.isSome(raccordement));
-
   await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
     `raccordement|${identifiantProjet}`,
     {
@@ -39,10 +39,11 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
     },
   );
 
-  const dossiersEnServiceRestant =
+  const autresDossiersEnService =
     await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>('dossier-raccordement', {
       where: {
         identifiantProjet: Where.equal(identifiantProjet),
+        référence: Where.notEqual(référenceDossierRaccordement),
         miseEnService: {
           dateMiseEnService: Where.notEqualNull(),
         },
@@ -54,13 +55,13 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
       },
     });
 
-  if (dossiersEnServiceRestant.items.length > 0) {
+  if (autresDossiersEnService.items.length > 0) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       {
         miseEnService: {
-          date: dossiersEnServiceRestant.items[0].miseEnService?.dateMiseEnService,
-          référenceDossierRaccordement: dossiersEnServiceRestant.items[0].référence,
+          date: autresDossiersEnService.items[0].miseEnService?.dateMiseEnService,
+          référenceDossierRaccordement: autresDossiersEnService.items[0].référence,
         },
       },
     );

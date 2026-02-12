@@ -3,9 +3,10 @@ import assert from 'assert';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
+import { Where } from '@potentiel-domain/entity';
 
 export const dateMiseEnServiceTransmiseV2Projector = async ({
   payload: {
@@ -21,6 +22,8 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
     `raccordement|${identifiantProjet}`,
   );
 
+  assert(Option.isSome(raccordementActuel));
+
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
@@ -32,8 +35,6 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   );
-
-  assert(Option.isSome(raccordementActuel));
 
   if (!raccordementActuel.miseEnService) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
@@ -48,12 +49,23 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
     return;
   }
 
-  const dateMiseEnServiceTransmise = DateTime.convertirEnValueType(dateMiseEnService);
-  const dateMiseEnServiceActuelle = DateTime.convertirEnValueType(
-    raccordementActuel.miseEnService.date,
-  );
+  const autresDossiersEnService =
+    await listProjection<Lauréat.Raccordement.DossierRaccordementEntity>(`dossier-raccordement`, {
+      where: {
+        identifiantProjet: Where.equal(identifiantProjet),
+        référence: Where.notEqual(référenceDossierRaccordement),
+        miseEnService: {
+          dateMiseEnService: Where.notEqualNull(),
+        },
+      },
+      orderBy: {
+        miseEnService: {
+          dateMiseEnService: 'descending',
+        },
+      },
+    });
 
-  if (dateMiseEnServiceActuelle.estAntérieurÀ(dateMiseEnServiceTransmise)) {
+  if (autresDossiersEnService.items.length === 0) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       {
@@ -62,6 +74,29 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
           référenceDossierRaccordement,
         },
       },
+    );
+    return;
+  }
+
+  const dateMiseEnServiceTransmise = DateTime.convertirEnValueType(dateMiseEnService);
+  const dateMiseEnServicePlusTardiveDesAutresDossiers = DateTime.convertirEnValueType(
+    autresDossiersEnService.items[0].miseEnService!.dateMiseEnService,
+  );
+
+  if (dateMiseEnServiceTransmise.estAntérieurÀ(dateMiseEnServicePlusTardiveDesAutresDossiers)) {
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet}`,
+      {
+        miseEnService: {
+          date: dateMiseEnServicePlusTardiveDesAutresDossiers.formatter(),
+          référenceDossierRaccordement: autresDossiersEnService.items[0].référence,
+        },
+      },
+    );
+  } else {
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet}`,
+      { miseEnService: { date: dateMiseEnService, référenceDossierRaccordement } },
     );
   }
 };
