@@ -2,12 +2,13 @@ DROP VIEW IF EXISTS domain_views.stats_projets;
 CREATE VIEW domain_views.stats_projets AS --
 -- Liste des projets en service
 WITH projets_en_service as (
-  select p.value->>'identifiantProjet' as id,
-    max(value->>'miseEnService.dateMiseEnService') as date_mise_en_service
-  from domain_views.projection p
-  where p.key like 'dossier-raccordement|%'
-    and p.value->>'miseEnService.dateMiseEnService' is not null
-  GROUP BY 1
+  SELECT 
+    p.value->>'identifiantProjet' as id,
+    p.value->>'miseEnService.date' as date_mise_en_service
+  FROM domain_views.projection p
+  WHERE p.key like 'raccordement|%'
+  AND p.value->>'miseEnService.date' is not null
+  GROUP BY id, date_mise_en_service
 )
 SELECT proj.value->>'identifiantProjet' AS id,
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
