@@ -993,6 +993,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     suppriméePar,
   }: SupprimerDateMiseEnServiceOptions) {
     const { miseEnService } = this.récupérerDossier(référenceDossier.formatter());
+
     if (Option.isNone(miseEnService.dateMiseEnService)) {
       throw new DossierRaccordementPasEnServiceError();
     }

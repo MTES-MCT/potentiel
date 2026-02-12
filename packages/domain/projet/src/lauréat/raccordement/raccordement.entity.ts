@@ -1,37 +1,16 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-type DossierRaccordement = {
-  identifiantGestionnaireRéseau: string;
-  identifiantProjet: string;
-
-  référence: string;
-  demandeComplèteRaccordement?: {
-    dateQualification?: DateTime.RawType;
-    accuséRéception?: { format: string };
-    transmiseLe?: DateTime.RawType;
-    transmisePar?: Email.RawType;
-  };
-  propositionTechniqueEtFinancière?: {
-    dateSignature: string;
-    propositionTechniqueEtFinancièreSignée?: {
-      format: string;
-    };
-  };
-  miseEnService?: {
-    dateMiseEnService: DateTime.RawType;
-    transmiseLe: DateTime.RawType;
-    transmisePar?: Email.RawType;
-  };
-  miseÀJourLe: DateTime.RawType;
-};
+import { DossierRaccordement } from './dossierRaccordement.entity.js';
 
 export type RaccordementEntity = Entity<
   'raccordement',
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
+    miseEnService?: {
+      date: DateTime.RawType;
+      référenceDossierRaccordement: DossierRaccordement['référence'];
+    };
   }
 >;
-
-export type DossierRaccordementEntity = Entity<'dossier-raccordement', DossierRaccordement>;

@@ -43,6 +43,30 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" est consultable dans la liste des tâches du porteur pour le projet
 
+    Scénario: Supprimer le dossier (avec la date de mise en service la plus tardive) doit recalculer la mise en service du raccordement avec d'autres dossiers en service
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | date notification | 2022-01-01 |
+        Et une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-01-01         |
+        Et une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000032 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000032 |
+            | La date de mise en service              | 2025-01-01         |
+        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000032 |
+        Alors le raccordement du projet lauréat devrait être en service avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-01-01         |
+
+    Scénario: Supprimer le dossier (avec la date de mise en service la plus tardive) doit supprimer la mise en service du raccordement si pas d'autres dossiers
+        Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
+        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Alors il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
+
     Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
         Quand le porteur supprime un dossier de raccordement non référencé pour le projet lauréat
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"

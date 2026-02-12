@@ -1,5 +1,11 @@
+import assert from 'assert';
+
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  removeProjection,
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -32,4 +38,22 @@ export const référenceDossierRacordementModifiéeV1Projector = async ({
   await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordementActuelle}`,
   );
+
+  const raccordement = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
+    `raccordement|${identifiantProjet}`,
+  );
+
+  assert(Option.isSome(raccordement));
+
+  if (
+    raccordement.miseEnService?.référenceDossierRaccordement ===
+    référenceDossierRaccordementActuelle
+  ) {
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet}`,
+      {
+        miseEnService: { référenceDossierRaccordement: nouvelleRéférenceDossierRaccordement },
+      },
+    );
+  }
 };

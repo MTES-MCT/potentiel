@@ -241,7 +241,7 @@ async function modifierRéférenceDossierRaccordement(
     });
 
   try {
-    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,

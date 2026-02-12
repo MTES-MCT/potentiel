@@ -119,6 +119,7 @@ export type * from './raccordement.event.js';
 
 // Entities
 export type * from './raccordement.entity.js';
+export type * from './dossierRaccordement.entity.js';
 
 // Value types
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';

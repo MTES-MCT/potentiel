@@ -5,9 +5,9 @@ import {
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 
-export const gestionnaireRéseauAttribuéV1Projector = async ({
-  payload: { identifiantProjet, identifiantGestionnaireRéseau },
-}: Lauréat.Raccordement.GestionnaireRéseauAttribuéEvent) => {
+export const gestionnaireRéseauRaccordementModifiéV1Projector = async ({
+  payload: { identifiantGestionnaireRéseau, identifiantProjet },
+}: Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEventV1) => {
   await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
     `raccordement|${identifiantProjet}`,
     {

@@ -1,62 +1,51 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-
-import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
 
+import { transmettreDateMiseEnService } from './dateMiseEnService.when.js';
+
 EtantDonné(
-  'une date de mise en service pour le dossier de raccordement du projet lauréat',
+  /une date de mise en service pour le dossier de raccordement du projet lauréat$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
-    const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
-      identifiantProjet: identifiantProjet.formatter(),
-      référenceDossier,
-    });
 
-    try {
-      await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
-        type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierValue: référenceDossier,
-          dateMiseEnServiceValue: dateMiseEnService,
-          transmiseLeValue: DateTime.now().formatter(),
-          transmiseParValue: this.utilisateurWorld.adminFixture.email,
-        },
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
       });
-    } catch (e) {
-      this.error = e as Error;
-    }
+
+    await transmettreDateMiseEnService({
+      potentielWorld: this,
+      identifiantProjet: identifiantProjet.formatter(),
+      dateMiseEnService,
+      référenceDossier,
+      transmiseParValue: this.utilisateurWorld.adminFixture.email,
+    });
   },
 );
 
 EtantDonné(
-  'une date de mise en service au {string} pour le dossier de raccordement du projet lauréat',
-  async function (this: PotentielWorld, exempleDateMiseEnService: string) {
+  /une date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
-    const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+
+    const { dateMiseEnService } =
+      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+        datatable.rowsHash(),
+      );
+
+    if (!dateMiseEnService) {
+      throw new Error(`La table d'exemple doit contenir le champ "La date de mise en service"`);
+    }
+
+    await transmettreDateMiseEnService({
+      potentielWorld: this,
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
-      dateMiseEnService: new Date(exempleDateMiseEnService).toISOString(),
+      dateMiseEnService,
+      transmiseParValue: this.utilisateurWorld.adminFixture.email,
     });
-
-    try {
-      await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
-        type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierValue: référenceDossier,
-          dateMiseEnServiceValue: dateMiseEnService,
-          transmiseLeValue: DateTime.now().formatter(),
-          transmiseParValue: this.utilisateurWorld.adminFixture.email,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
   },
 );

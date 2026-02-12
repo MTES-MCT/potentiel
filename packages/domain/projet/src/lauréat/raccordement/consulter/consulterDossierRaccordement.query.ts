@@ -7,7 +7,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType.js';
-import { DossierRaccordementEntity } from '../raccordement.entity.js';
+import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterDossierRaccordementReadModel = {

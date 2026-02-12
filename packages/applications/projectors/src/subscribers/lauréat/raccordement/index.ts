@@ -5,12 +5,17 @@ import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector.js';
-import { gestionnaireRéseauRaccordementModifiéV1Projector } from './gestionnaireRéseauRaccordementModifiéV1.projector.js';
-import { gestionnaireRéseauInconnuAttribuéV1Projector } from './gestionnaireRéseauInconnuAttribuéV1.projector.js';
-import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector.js';
 import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector.js';
-import { référenceDossierRacordementModifiéeV1Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV1.projector.js';
-import { référenceDossierRacordementModifiéeV2Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV2.projector.js';
+import {
+  gestionnaireRéseauAttribuéV1Projector,
+  gestionnaireRéseauInconnuAttribuéV1Projector,
+  gestionnaireRéseauRaccordementModifiéV1Projector,
+  gestionnaireRéseauRaccordementModifiéV2Projector,
+} from './gestionnaire-réseau/index.js';
+import {
+  référenceDossierRacordementModifiéeV1Projector,
+  référenceDossierRacordementModifiéeV2Projector,
+} from './dossier-raccordement/référence/index.js';
 import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector.js';
 import {
   accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector,
@@ -34,7 +39,6 @@ import {
   dateMiseEnServiceTransmiseV1Projector,
   dateMiseEnServiceTransmiseV2Projector,
 } from './dossier-raccordement/dateMiseEnService/index.js';
-import { gestionnaireRéseauRaccordementModifiéV2Projector } from './gestionnaireRéseauRaccordementModifiéV2.projector.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
 

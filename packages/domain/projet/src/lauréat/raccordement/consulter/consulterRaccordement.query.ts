@@ -3,10 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Find, Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DossierRaccordementEntity, RaccordementEntity } from '../raccordement.entity.js';
+import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
+import { RaccordementEntity } from '../raccordement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { RéférenceDossierRaccordement } from '../index.js';
 
 import {
   ConsulterDossierRaccordementReadModel,
@@ -21,6 +23,10 @@ export type ConsulterRaccordementReadModel = {
     contactEmail?: Email.ValueType;
   }>;
   dossiers: Array<ConsulterDossierRaccordementReadModel>;
+  miseEnService?: {
+    date: DateTime.ValueType;
+    référenceDossier: RéférenceDossierRaccordement.ValueType;
+  };
 };
 
 export type ConsulterRaccordementQuery = Message<
@@ -75,6 +81,7 @@ const mapToReadModel = (
     identifiantProjet,
     identifiantGestionnaireRéseau,
     'gestionnaire-réseau': grd,
+    miseEnService,
   }: RaccordementEntity & Joined<LeftJoin<GestionnaireRéseau.GestionnaireRéseauEntity>>,
   dossiers: ReadonlyArray<DossierRaccordementEntity>,
 ): ConsulterRaccordementReadModel => {
@@ -91,5 +98,13 @@ const mapToReadModel = (
         }
       : Option.none,
     dossiers: dossiers.map(mapToDossierRaccordementReadModel),
+    miseEnService: miseEnService
+      ? {
+          date: DateTime.convertirEnValueType(miseEnService.date),
+          référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(
+            miseEnService.référenceDossierRaccordement,
+          ),
+        }
+      : undefined,
   };
 };

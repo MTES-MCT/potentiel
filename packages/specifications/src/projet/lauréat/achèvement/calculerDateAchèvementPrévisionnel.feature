@@ -54,7 +54,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service au "<Date de mise en service>" pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | <Date de mise en service> |
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-07-01"
 
@@ -71,7 +72,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service au "2025-06-10" pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | 2025-06-10 |
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"
 
@@ -82,7 +84,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service au "2023-06-10" pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | 2023-06-10 |
         Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
         Quand le porteur choisit le cahier des charges "initial"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"
