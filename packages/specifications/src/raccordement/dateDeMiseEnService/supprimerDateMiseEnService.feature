@@ -27,13 +27,15 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
             | La date de mise en service              | 2024-10-10         |
+        Et une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-33 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
+            | La date de mise en service              | 2023-11-08         |
         Quand l'administrateur supprime la mise en service du dossier de raccordement avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
         Alors la mise en service du dossier de raccordement devrait être supprimée avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
-        Et le raccordement du projet lauréat devrait être en service avec :
-            | La référence du dossier de raccordement | OUE-RP-2022-000032 |
-            | La date de mise en service              | 2024-10-10         |
         Et le raccordement du projet lauréat devrait être en service avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
             | La date de mise en service              | 2024-10-10         |
