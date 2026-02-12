@@ -30,9 +30,13 @@ export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
   );
 
   /**
-   * Contexte : ici on doit vérifier la version de l'évènement.
-   *  - Si le stream a comme premier évènement l'ajout d'une demande complète de raccordement, alors on doit initialiser la projection raccordement
-   *  - Si non, alors on doit juste mettre à jour la projection raccordement
+   *
+   * Contexte :
+   * - Avant c'était la création de la demande complète de raccordement qui initialisait la projection raccordement.
+   * - Aujourd'hui c'est l'attribution du GRD qui est systématiquement le premier évènement qui initialise le stream.
+   *
+   * On vérifie le numéro de version pour ne pas risquer d'écraser la donnée optionnelle dans le cas où ce n'est pas le premier évenement du stream
+   *
    */
   if (version === 1) {
     await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
