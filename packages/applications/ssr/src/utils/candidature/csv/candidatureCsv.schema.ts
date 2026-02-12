@@ -115,6 +115,11 @@ export const candidatureCsvHeadersMapping = {
   puissanceDeSite: 'Puissance de site',
 } as const;
 
+export type CsvHeaders = ReadonlyArray<
+  (typeof candidatureCsvHeadersMapping)[keyof typeof candidatureCsvHeadersMapping]
+>;
+export type CandidatureHeaders = ReadonlyArray<keyof typeof candidatureCsvHeadersMapping>;
+
 const candidatureCsvRowSchema = z
   .object({
     notifiedOn: notifiedOnCsvSchema,
