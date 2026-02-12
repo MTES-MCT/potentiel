@@ -357,7 +357,7 @@ describe('Schéma dépôt', () => {
       assertError(
         result,
         ['natureDeLExploitation', 'tauxPrévisionnelACI'],
-        '"tauxPrévisionnelACI" est requis lorsque "typeNatureDeLExploitation" a la valeur "vente-avec-injection-du-surplus"',
+        `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
       );
     });
 

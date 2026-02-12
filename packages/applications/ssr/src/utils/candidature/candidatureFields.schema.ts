@@ -3,8 +3,6 @@ import { z } from 'zod';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 
-import { conditionalRequiredError } from '../candidature/schemaBase';
-
 import {
   booleanSchema,
   numberSchema,
@@ -122,23 +120,14 @@ export const natureDeLExploitationOptionalSchema = z
     ),
     tauxPrévisionnelACI: optionalPercentageSchema,
   })
-  .superRefine((data, ctx) => {
-    if (
-      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType(
-        data.typeNatureDeLExploitation,
-      ).estÉgaleÀ(
-        Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnSurplus,
-      )
-    ) {
-      if (!data.tauxPrévisionnelACI) {
-        ctx.addIssue(
-          conditionalRequiredError(
-            'tauxPrévisionnelACI',
-            'typeNatureDeLExploitation',
-            'vente-avec-injection-du-surplus',
-          ),
-        );
-      }
-    }
-  })
+  .refine(
+    (data) =>
+      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' ||
+      (data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
+        data.tauxPrévisionnelACI !== undefined),
+    {
+      message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+      path: ['tauxPrévisionnelACI'],
+    },
+  )
   .optional();
