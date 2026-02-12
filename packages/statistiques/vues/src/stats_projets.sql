@@ -1,14 +1,5 @@
 DROP VIEW IF EXISTS domain_views.stats_projets;
-CREATE VIEW domain_views.stats_projets AS --
--- Liste des projets en service
-WITH projets_en_service as (
-  select p.value->>'identifiantProjet' as id,
-    max(value->>'miseEnService.dateMiseEnService') as date_mise_en_service
-  from domain_views.projection p
-  where p.key like 'dossier-raccordement|%'
-    and p.value->>'miseEnService.dateMiseEnService' is not null
-  GROUP BY 1
-)
+CREATE VIEW domain_views.stats_projets AS 
 SELECT proj.value->>'identifiantProjet' AS id,
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 2)::float as "periode",
@@ -41,10 +32,8 @@ SELECT proj.value->>'identifiantProjet' AS id,
     WHEN proj.key like 'éliminé|%' THEN 'éliminé'
     ELSE proj.value->>'statut'
   END AS statut,
-  projets_en_service.id is not null as "enService",
-  CAST(
-    projets_en_service.date_mise_en_service AS timestamp
-  ) as "dateMiseEnService",
+  rac.value->>'miseEnService.date' is not null as "enService",
+  rac.value->>'miseEnService.date' as "dateMiseEnService",
   cand.value->>'actionnariat' as "typeActionnariat",
   COALESCE(
     four.value->'évaluationCarboneSimplifiée',
@@ -67,6 +56,9 @@ FROM domain_views.projection proj
     'achèvement|%s',
     proj.value->>'identifiantProjet'
   )
-  LEFT JOIN projets_en_service on projets_en_service.id = proj.value->>'identifiantProjet'
+  LEFT JOIN domain_views.projection rac on rac.key = format(
+    'raccordement|%s', 
+    proj.value->>'identifiantProjet'
+  )
 WHERE proj.key LIKE 'lauréat|%'
   OR proj.key LIKE 'éliminé|%';
