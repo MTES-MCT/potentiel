@@ -10,8 +10,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type DocumentItem = {
   type: string;
-  date: string;
   format: string;
+  date?: string;
   url?: string;
   demande?: { url: string };
 };
@@ -32,12 +32,15 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
       }
     >
       <div className="flex flex-row gap-2">
-        <Tag
-          iconId="ri-calendar-2-fill"
-          className="bg-dsfr-background-alt-greenTilleulVerveine-default"
-        >
-          <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
-        </Tag>
+        {/* on affiche pas la date pour l'export projet */}
+        {date && (
+          <Tag
+            iconId="ri-calendar-2-fill"
+            className="bg-dsfr-background-alt-greenTilleulVerveine-default"
+          >
+            <FormattedDate date={DateTime.convertirEnValueType(date).formatter()} />
+          </Tag>
+        )}
         {demande && (
           <Tag
             iconId="ri-external-link-line"

@@ -4,7 +4,6 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
@@ -44,7 +43,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       // EXPORT
       documents.push({
         type: 'Export des données du projet',
-        date: DateTime.now().formatter(),
         format: 'csv',
         url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
           ? Routes.Lauréat.exporter({ identifiantProjet })
@@ -142,13 +140,13 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           <Notice
             title="À propos"
             description={
-              <span>
-                Retrouvez dans cette section les documents essentiels de la vie de votre projet
-              </span>
+              <span>Retrouvez dans cette section les documents essentiels de la vie du projet</span>
             }
             severity="info"
           />
-          <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
+          <DocumentsList
+            documents={documents.toSorted((a, b) => (b.date || '').localeCompare(a.date || ''))}
+          />
         </>
       );
     }),
