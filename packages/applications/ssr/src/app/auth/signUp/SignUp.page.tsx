@@ -1,11 +1,10 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-import { signIn, useSession } from 'next-auth/react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 import Tile from '@codegouvfr/react-dsfr/Tile';
+import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -13,6 +12,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
+import { authClient } from '@/auth/client';
 
 type SignUpPageProps = {
   providers: Array<string>;
@@ -21,13 +21,12 @@ type SignUpPageProps = {
 };
 
 export default function SignUpPage({ providers, callbackUrl, error }: SignUpPageProps) {
-  const { status, data } = useSession();
-
   // This checks that the session is up to date with the necessary requirements
   // it's useful when changing what's inside the cookie for instance
-  if (status === 'authenticated' && !data.utilisateur) {
-    redirect(Routes.Auth.signOut());
-  }
+  // if (status === 'authenticated' && !data.utilisateur) {
+  //   redirect(Routes.Auth.signOut());
+  // }
+  const router = useRouter();
 
   return (
     <PageTemplate>
@@ -68,7 +67,16 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
                   Inscrivez-vous facilement à l'aide de votre adresse professionnelle
                 </div>
               }
-              detail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+              detail={
+                <ProConnectButton
+                  onClick={() =>
+                    authClient.signIn.oauth2({
+                      providerId: 'proconnect',
+                      callbackURL: callbackUrl,
+                    })
+                  }
+                />
+              }
               className="flex-1"
             />
           )}
@@ -91,7 +99,14 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
                   envoyé sur votre adresse de courriel
                 </div>
               }
-              detail={<MagicLinkForm callbackUrl={callbackUrl} />}
+              detail={
+                <MagicLinkForm
+                  onSubmit={async (email) => {
+                    await authClient.signIn.magicLink({ callbackURL: callbackUrl, email });
+                    router.push(Routes.Auth.verifyRequest());
+                  }}
+                />
+              }
               className="flex-1"
             />
           )}

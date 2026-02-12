@@ -9,9 +9,8 @@ export const canConnectWithProvider = (provider: string, role: Role.RawType) => 
     .otherwise(({ provider }) => {
       const providersParDéfautAgents = ['proconnect'];
       const providers =
-        process.env.NEXTAUTH_PROVIDERS_DREAL_DGEC?.split(',').map((str) =>
-          str.trim().toLowerCase(),
-        ) ?? providersParDéfautAgents;
+        process.env.AUTH_PROVIDERS_DREAL_DGEC?.split(',').map((str) => str.trim().toLowerCase()) ??
+        providersParDéfautAgents;
       return providers.includes(provider);
     });
 };

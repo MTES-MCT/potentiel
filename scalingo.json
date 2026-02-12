@@ -27,7 +27,7 @@
       "description": "BASE_URL",
       "generator": "url"
     },
-    "NEXTAUTH_PROVIDERS": {
+    "AUTH_PROVIDERS": {
       "value": "email",
       "description": "seule la connexion par lien magique est disponible par défaut dans une review app. Pour keycloak une configuration est nécessaire"
     }

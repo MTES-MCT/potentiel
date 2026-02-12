@@ -1,5 +1,6 @@
 import z from 'zod';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
@@ -23,8 +24,8 @@ export default function SignIn({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), forceProConnect } =
       searchParamsSchema.parse(searchParams);
-    const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
-    const providersKO = process.env.NEXTAUTH_PROVIDERS_KO?.split(',') ?? [];
+    const providers = process.env.AUTH_PROVIDERS?.split(',') ?? [];
+    const providersKO = process.env.AUTH_PROVIDERS_KO?.split(',') ?? [];
 
     const context = getContext();
 
@@ -35,6 +36,7 @@ export default function SignIn({ searchParams }: PageProps) {
     return (
       <SignInPage
         providers={providers}
+        lastUsedLoginMethod={cookies().get('better-auth.last_used_login_method')?.value}
         callbackUrl={callbackUrl}
         forceProConnect={forceProConnect}
         providersKO={providersKO}

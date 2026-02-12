@@ -1,10 +1,10 @@
 'use client';
 
-import { redirect } from 'next/navigation';
-import { signIn, useSession } from 'next-auth/react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Tile from '@codegouvfr/react-dsfr/Tile';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useRouter } from 'next/navigation';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -12,12 +12,14 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
+import { authClient } from '@/auth/client';
 
 type SignInPageProps = {
   providers: Array<string>;
   providersKO: Array<string>;
   callbackUrl: string;
   forceProConnect?: boolean;
+  lastUsedLoginMethod?: string;
 };
 
 export default function SignInPage({
@@ -25,18 +27,20 @@ export default function SignInPage({
   providersKO,
   callbackUrl,
   forceProConnect,
+  lastUsedLoginMethod,
 }: SignInPageProps) {
-  const { status, data } = useSession();
-
-  // This checks that the session is up to date with the necessary requirements
-  // it's useful when changing what's inside the cookie for instance
-  if (status === 'authenticated' && !data?.utilisateur) {
-    redirect(Routes.Auth.signOut());
-  }
+  const { isPending, data } = authClient.useSession();
+  const router = useRouter();
+  // // This checks that the session is up to date with the necessary requirements
+  // // it's useful when changing what's inside the cookie for instance
+  // if (!!data && !data?.user) {
+  //   redirect(Routes.Auth.signOut());
+  // }
   // The user tried to authenticate with a provider other than proconnect, but is not allowed to do so.
-  if (status === 'unauthenticated' && forceProConnect) {
-    signIn('proconnect', { callbackUrl });
+  if (!isPending && !data?.user && forceProConnect) {
+    authClient.signIn.oauth2({ providerId: 'proconnect', callbackURL: callbackUrl });
   }
+
   return (
     <PageTemplate>
       <Heading1>Identifiez-vous</Heading1>
@@ -44,7 +48,23 @@ export default function SignInPage({
         <div className="flex flex-wrap gap-5 justify-center">
           {providers.includes('proconnect') && (
             <Tile
-              title="ProConnect"
+              classes={{
+                title: 'w-full',
+              }}
+              title={
+                <>
+                  {lastUsedLoginMethod === 'proconnect' && (
+                    <div className="absolute right-4 top-4">
+                      <Badge small severity="success">
+                        Utilisé récemment
+                      </Badge>
+                    </div>
+                  )}
+                  <div>
+                    <span>ProConnect</span>
+                  </div>
+                </>
+              }
               disabled={providersKO.includes('proconnect')}
               desc={
                 <div className="flex flex-col">
@@ -72,7 +92,14 @@ export default function SignInPage({
               }
               detail={
                 !providersKO.includes('proconnect') && (
-                  <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                  <ProConnectButton
+                    onClick={() =>
+                      authClient.signIn.oauth2({
+                        providerId: 'proconnect',
+                        callbackURL: callbackUrl,
+                      })
+                    }
+                  />
                 )
               }
               className="flex-1"
@@ -110,7 +137,16 @@ export default function SignInPage({
                   )}
                 </div>
               }
-              detail={!providersKO.includes('email') && <MagicLinkForm callbackUrl={callbackUrl} />}
+              detail={
+                !providersKO.includes('email') && (
+                  <MagicLinkForm
+                    onSubmit={async (email) => {
+                      await authClient.signIn.magicLink({ callbackURL: callbackUrl, email });
+                      router.push(Routes.Auth.verifyRequest());
+                    }}
+                  />
+                )
+              }
               className="flex-1"
             />
           )}
@@ -133,7 +169,12 @@ export default function SignInPage({
                 </div>
               }
               detail={
-                <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                <Button
+                  className="mx-auto"
+                  onClick={() =>
+                    authClient.signIn.oauth2({ providerId: 'keycloak', callbackURL: callbackUrl })
+                  }
+                >
                   Connexion avec mot de passe
                 </Button>
               }

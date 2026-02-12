@@ -1,8 +1,6 @@
 import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
 
-import { SendVerificationRequestParams } from 'next-auth/providers/index';
-
 import { SendEmailV2 } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
@@ -10,8 +8,8 @@ import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/util
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { buildSendVerificationRequest } from './sendVerificationRequest';
-import { GetUtilisateurFromEmail } from './getUtilisateur';
+import { buildSendMagicLink } from './buildSendMagicLink';
+import { GetUtilisateurFromEmail } from './getUtilisateurFromEmail';
 
 type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 
@@ -64,29 +62,6 @@ const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
   return { ...Utilisateur.bind(utilisateur), désactivé: utilisateur.désactivé };
 };
 
-const buildSendVerificationRequestParams = (
-  identifier: string,
-  url: string,
-): SendVerificationRequestParams => {
-  return {
-    identifier,
-    url,
-    expires: new Date(),
-    provider: {
-      id: 'email',
-      name: 'Email',
-      type: 'email',
-      server: '',
-      from: '',
-      maxAge: 1,
-      sendVerificationRequest: () => Promise.resolve(),
-      options: {},
-    },
-    token: '',
-    theme: {},
-  };
-};
-
 before(() => {
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
 });
@@ -94,16 +69,16 @@ before(() => {
 describe(`Envoyer un email avec un lien de connexion`, () => {
   const utilisateursPouvantSeConnecterParEmail = [
     {
-      identifier: porteurDeProjet.identifiantUtilisateur.email,
+      email: porteurDeProjet.identifiantUtilisateur.email,
       typeUtilisateur: 'un porteur de projet',
     },
     {
-      identifier: 'porteur-de-projet-indexistant@test.test',
+      email: 'porteur-de-projet-indexistant@test.test',
       typeUtilisateur: 'un porteur sans compte',
     },
   ];
 
-  utilisateursPouvantSeConnecterParEmail.map(({ identifier, typeUtilisateur }) => {
+  utilisateursPouvantSeConnecterParEmail.map(({ email, typeUtilisateur }) => {
     test(`
         Étant donné ${typeUtilisateur}
         Lorsque le système envoie un email de vérification
@@ -116,7 +91,7 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
       const fakeSendEmail: SendEmailV2 = async (actual) => {
         const expected = {
           key: 'auth/lien-magique',
-          recipients: [identifier],
+          recipients: [email],
           values: {
             url,
           },
@@ -131,11 +106,11 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
       };
 
       // When
-      const sendVerificationRequest = buildSendVerificationRequest(
+      const sendVerificationRequest = buildSendMagicLink(
         fakeSendEmail,
         fakeGetUtilisateurFromEmail,
       );
-      await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
+      await sendVerificationRequest({ email, url });
 
       // Then
       assert.strictEqual(emailWasSent, true);
@@ -146,17 +121,17 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
 describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs qui doivent se connecter seulement avec ProConnect`, () => {
   const utilisateursNePouvantPasSeConnecterParEmail = [
     {
-      identifier: adminDGEC.identifiantUtilisateur.email,
+      email: adminDGEC.identifiantUtilisateur.email,
       typeUtilisateur: 'un administrateur DGEC',
     },
     {
-      identifier: dgecValidateur.identifiantUtilisateur.email,
+      email: dgecValidateur.identifiantUtilisateur.email,
       typeUtilisateur: 'un validateur DGEC',
     },
-    { identifier: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
+    { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
   ];
 
-  utilisateursNePouvantPasSeConnecterParEmail.map(({ identifier, typeUtilisateur }) => {
+  utilisateursNePouvantPasSeConnecterParEmail.map(({ email, typeUtilisateur }) => {
     test(`
             Étant donné ${typeUtilisateur}
             Lorsque le système envoie un email de vérification
@@ -170,7 +145,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       const fakeSendEmail: SendEmailV2 = async (actual) => {
         const envoiEmailAvecLienDeConnexion = {
           key: 'auth/lien-magique',
-          recipients: [identifier],
+          recipients: [email],
           values: {
             url,
           },
@@ -184,7 +159,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
 
         const expected = {
           key: 'auth/proconnect-obligatoire',
-          recipients: [identifier],
+          recipients: [email],
           values: {
             url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
           },
@@ -195,11 +170,11 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       };
 
       // When
-      const sendVerificationRequest = buildSendVerificationRequest(
+      const sendVerificationRequest = buildSendMagicLink(
         fakeSendEmail,
         fakeGetUtilisateurFromEmail,
       );
-      await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
+      await sendVerificationRequest({ email, url });
 
       // Then
       assert.strictEqual(emailWasSent, true);
@@ -215,7 +190,7 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
         `, async () => {
     // Given
     let emailWasSent = false;
-    const identifier = porteurDeProjetDésactivé.identifiantUtilisateur.email;
+    const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
     const url = 'verification-request-url';
 
     const fakeSendEmail: SendEmailV2 = async () => {
@@ -223,11 +198,8 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
     };
 
     // When
-    const sendVerificationRequest = buildSendVerificationRequest(
-      fakeSendEmail,
-      fakeGetUtilisateurFromEmail,
-    );
-    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
+    const sendVerificationRequest = buildSendMagicLink(fakeSendEmail, fakeGetUtilisateurFromEmail);
+    await sendVerificationRequest({ email, url });
 
     // Then
     assert.strictEqual(emailWasSent, false, 'Aucun email ne devrait être envoyé');

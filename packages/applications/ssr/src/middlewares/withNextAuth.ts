@@ -1,14 +1,17 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
-import NextAuthMiddleware, { NextRequestWithAuth } from 'next-auth/middleware';
+import { redirect } from 'next/navigation';
+
+import { auth } from '@/auth';
 
 import { CustomMiddleware } from './middleware';
 
 export function withNextAuth(nextMiddleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    const result = await NextAuthMiddleware(request as NextRequestWithAuth, event);
-    // redirect if not authenticated
-    if (result) {
-      return result;
+    const session = await auth.api.getSession({
+      headers: request.headers,
+    });
+    if (!session) {
+      redirect('/auth/signIn');
     }
 
     return nextMiddleware(request, event, NextResponse.next());
