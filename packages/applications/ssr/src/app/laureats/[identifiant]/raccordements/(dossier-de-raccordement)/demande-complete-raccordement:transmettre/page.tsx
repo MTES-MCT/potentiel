@@ -11,6 +11,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getPériodeAppelOffres, récupérerLauréatSansAbandon } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { TransmettreDemandeComplèteRaccordementPage } from './TransmettreDemandeComplèteRaccordement.page';
 
@@ -21,50 +22,55 @@ export const metadata: Metadata = {
 
 type PageProps = IdentifiantParameter;
 
-/***
- * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
- * on peut faire appel à plusieurs usecase
- *
- * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
- */
 export default async function Page({ params: { identifiant } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>(
+        'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+      );
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>(
+        'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      );
 
-    await récupérerLauréatSansAbandon(identifiantProjet.formatter());
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
+      await récupérerLauréatSansAbandon(identifiantProjet.formatter());
 
-    const gestionnairesRéseau =
-      await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-        type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-        data: {},
-      });
+      const { période } = await getPériodeAppelOffres(identifiantProjet.formatter());
 
-    const gestionnaireRéseauActuel =
-      await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+      const gestionnairesRéseau =
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+          data: {},
+        });
+
+      const gestionnaireRéseauActuel =
+        await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
+        });
+
+      const raccordements = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const raccordements = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
+      const aDéjàTransmisUneDemandeComplèteDeRaccordement =
+        Option.isSome(raccordements) && raccordements.dossiers.length > 0;
 
-    const aDéjàTransmisUneDemandeComplèteDeRaccordement =
-      Option.isSome(raccordements) && raccordements.dossiers.length > 0;
-
-    return (
-      <TransmettreDemandeComplèteRaccordementPage
-        aDéjàTransmisUneDemandeComplèteDeRaccordement={
-          aDéjàTransmisUneDemandeComplèteDeRaccordement
-        }
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
-        gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
-        delaiDemandeDeRaccordementEnMois={période.delaiDcrEnMois}
-      />
-    );
-  });
+      return (
+        <TransmettreDemandeComplèteRaccordementPage
+          aDéjàTransmisUneDemandeComplèteDeRaccordement={
+            aDéjàTransmisUneDemandeComplèteDeRaccordement
+          }
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
+          gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
+          delaiDemandeDeRaccordementEnMois={période.delaiDcrEnMois}
+        />
+      );
+    }),
+  );
 }
