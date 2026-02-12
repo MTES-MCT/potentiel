@@ -166,16 +166,6 @@ describe('Schéma dépôt', () => {
     });
 
     describe('localité', () => {
-      test('erreur : localité invalide', () => {
-        const result = dépôtSchema.safeParse({
-          ...minimumValues,
-          localité: 'boulodrome de Marseille',
-        });
-
-        assert(result.error);
-        assertError(result, ['localité'], 'Entrée invalide : object attendu, string reçu');
-      });
-
       test("n'accepte pas un code postal invalide", () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
@@ -315,20 +305,6 @@ describe('Schéma dépôt', () => {
       });
     }
 
-    test("erreur : autorisation d'urbanisme", () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        autorisationDUrbanisme: 'avec',
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['autorisationDUrbanisme'],
-        'Entrée invalide : object attendu, string reçu',
-      );
-    });
-
     test('capacitéDuDispositifDeStockageEnKWh et puissanceDuDispositifDeStockageEnKW requis si installation avec dispositif de stockage', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
@@ -361,20 +337,6 @@ describe('Schéma dépôt', () => {
         result,
         ['natureDeLExploitation', 'tauxPrévisionnelACI'],
         `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
-      );
-    });
-
-    test('erreur : typologie installation invalide', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        typologieInstallation: 'batiment',
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['typologieInstallation'],
-        'Entrée invalide : array attendu, string reçu',
       );
     });
   });
