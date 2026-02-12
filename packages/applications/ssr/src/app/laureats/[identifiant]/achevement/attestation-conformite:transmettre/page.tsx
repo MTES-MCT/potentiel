@@ -8,6 +8,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { récuperérerGarantiesFinancièresActuelles } from '../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
 
@@ -21,36 +22,39 @@ export const metadata: Metadata = {
   description: `Formulaire de transmission de l'attestation de conformité du projet et de la preuve de sa transmission au co-contractant`,
 };
 
-/***
- * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
- * on va appeler plusieurs usecases
- *
- * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
- */
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>(
+        'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+      );
+      utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
+        'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
+      );
 
-    const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+      const identifiantProjet = decodeParameter(identifiant);
 
-    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
-      projet.identifiantProjet.formatter(),
-    );
+      const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
-    const props = mapToProps({
-      identifiantProjet: projet.identifiantProjet,
-      garantiesFinancières,
-      notifiéLe: projet.notifiéLe,
-    });
+      const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(
+        projet.identifiantProjet.formatter(),
+      );
 
-    return (
-      <TransmettreAttestationConformitéPage
-        identifiantProjet={props.identifiantProjet}
-        demanderMainlevée={props.demanderMainlevée}
-        lauréatNotifiéLe={props.lauréatNotifiéLe}
-      />
-    );
-  });
+      const props = mapToProps({
+        identifiantProjet: projet.identifiantProjet,
+        garantiesFinancières,
+        notifiéLe: projet.notifiéLe,
+      });
+
+      return (
+        <TransmettreAttestationConformitéPage
+          identifiantProjet={props.identifiantProjet}
+          demanderMainlevée={props.demanderMainlevée}
+          lauréatNotifiéLe={props.lauréatNotifiéLe}
+        />
+      );
+    }),
+  );
 }
 
 type MapToProps = (params: {

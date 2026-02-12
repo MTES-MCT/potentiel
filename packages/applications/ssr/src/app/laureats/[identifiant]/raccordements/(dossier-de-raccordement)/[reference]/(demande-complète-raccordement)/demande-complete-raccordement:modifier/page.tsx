@@ -31,15 +31,16 @@ type PageProps = {
   };
 };
 
-/***
- * Ici on peut pas faire de vérification de permission car en fonction des données renseignées
- * on peut faire appel à plusieurs usecase
- *
- * TODO : utilisateur.rôle.peutExécuterPlusieursMessages()
- */
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>(
+        'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+      );
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>(
+        'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+      );
+
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
