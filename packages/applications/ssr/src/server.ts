@@ -10,7 +10,8 @@ import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
 import { setCspHeader } from './utils/csp';
-import { getApiUser, getSessionUser } from './utils/auth/getUtilisateur';
+import { getSessionUser } from './auth/getSessionUser';
+import { getApiUser } from './auth/getApiUser';
 
 async function main() {
   setupLogger();
@@ -24,7 +25,7 @@ async function main() {
   await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
 
   // remove bootstrap messages from sentry's breadcrumbs
-  Sentry.getCurrentScope().clearBreadcrumbs();
+  // Sentry.getCurrentScope().clearBreadcrumbs();
 
   const apiHandler = createApiServer('/api/v1');
   const server = createServer(async (req, res) => {

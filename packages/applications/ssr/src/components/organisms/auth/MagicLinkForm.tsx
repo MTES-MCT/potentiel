@@ -1,17 +1,13 @@
-'use client';
-
 import { FC, useState } from 'react';
-import { signIn } from 'next-auth/react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 
 type MagicLinkFormProps = {
-  callbackUrl: string;
+  onSubmit: (email: string) => void;
 };
 
-export const MagicLinkForm: FC<MagicLinkFormProps> = ({ callbackUrl }) => {
+export const MagicLinkForm: FC<MagicLinkFormProps> = ({ onSubmit }) => {
   const modal = createModal({
     id: `form-modal-email-not-available`,
     isOpenedByDefault: false,
@@ -27,7 +23,6 @@ export const MagicLinkForm: FC<MagicLinkFormProps> = ({ callbackUrl }) => {
             En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien magique.
             Veuillez-vous connecter avec ProConnect.
           </p>
-          <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
         </div>
       </modal.Component>
       <form
@@ -36,7 +31,7 @@ export const MagicLinkForm: FC<MagicLinkFormProps> = ({ callbackUrl }) => {
           if (email.endsWith('@developpement-durable.gouv.fr')) {
             modal.open();
           } else {
-            signIn('email', { callbackUrl, email });
+            onSubmit(email);
           }
         }}
       >

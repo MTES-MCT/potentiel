@@ -143,7 +143,7 @@ Il est possible de crée un environnement temporaire pour une Pull Request, grâ
 
 > Par défaut, seule l'authentification par lien magique est disponible.
 >
-> Pour activer Keycloak, modifier NEXTAUTH_PROVIDERS et ajouter l'URL de la review app aux URLs autorisées dans Keycloak.
+> Pour activer Keycloak, modifier AUTH_PROVIDERS et ajouter l'URL de la review app aux URLs autorisées dans Keycloak.
 
 ### Manuellement
 

@@ -23,7 +23,7 @@ export default function SignUp({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), error } =
       searchParamsSchema.parse(searchParams);
-    const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
+    const providers = process.env.AUTH_PROVIDERS?.split(',') ?? [];
 
     const context = getContext();
 

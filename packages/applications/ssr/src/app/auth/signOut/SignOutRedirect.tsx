@@ -1,23 +1,25 @@
 'use client';
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+
+import { authClient } from '@/auth/client';
 
 type SignOutRedirectProps = {
   callbackUrl: string | undefined;
 };
 export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
-  const router = useRouter();
-  const { status } = useSession();
+  const { isPending, data } = authClient.useSession();
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      return router.push('/');
+    if (isPending) {
+      return;
     }
-    if (status === 'authenticated') {
-      setTimeout(() => signOut().then(() => router.push(callbackUrl ?? '/')), 1000);
+    if (data?.user) {
+      authClient.signOut().then(() => {
+        window.location.href = callbackUrl || '/';
+      });
+    } else {
+      window.location.href = callbackUrl || '/';
     }
-  }, [status]);
-
+  }, [isPending, data]);
   return null;
 };
