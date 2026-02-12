@@ -13,7 +13,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: 'pnpm'
+      - uses: pnpm/action-setup@v4
+        with:
+          cache: true
       - id: cache-key
         run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache node modules
