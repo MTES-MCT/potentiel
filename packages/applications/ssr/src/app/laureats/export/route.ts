@@ -65,6 +65,8 @@ export const GET = async (request: Request) =>
           { value: 'raisonSocialeGestionnaireRéseau', label: 'Gestionnaire réseau' },
           { value: 'dateAchèvementPrévisionnelle', label: "Date d'achèvement prévisionnelle" },
           { value: 'dateAchèvementRéelle', label: "Date d'achèvement réelle" },
+          { value: 'dateMiseEnService', label: 'Date de mise en service' },
+          { value: 'référenceDossierRaccordement', label: 'Référence dossier de raccordement' },
           { value: 'prixReference', label: 'Prix de référence' },
           { value: 'puissance', label: 'Puissance installée' },
           { value: 'puissanceDeSite', label: 'Puissance de site' },
@@ -128,6 +130,12 @@ export const GET = async (request: Request) =>
           ),
           dateAchèvementRéelle: item.dateAchèvementRéelle
             ? formatDateForDocument(item.dateAchèvementRéelle.date)
+            : '',
+          dateMiseEnService: item.dateMiseEnService
+            ? formatDateForDocument(item.dateMiseEnService.date)
+            : '',
+          référenceDossierRaccordement: item.référenceDossierRaccordement
+            ? item.référenceDossierRaccordement.formatter()
             : '',
           coefficientKChoisi:
             item.coefficientKChoisi === undefined
