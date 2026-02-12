@@ -63,22 +63,22 @@ export const booleanSchema = z.union([z.boolean(), ouiNonSchema], {
 
 export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,
-) =>
-  z
+) => {
+  type EnumValue = TEnumSchema[keyof TEnumSchema];
+
+  return z
     .string()
     .optional()
     .transform((v) => v?.toLowerCase())
     .refine(
       (v) =>
-        v === undefined ||
-        v === '' ||
-        v === 'n/a' ||
-        enumSchema.options.includes(v as TEnumSchema[keyof TEnumSchema]),
+        v === undefined || v === '' || v === 'n/a' || enumSchema.options.includes(v as EnumValue),
       `Option invalide : une valeur parmi ${enumSchema.options
         .map((o) => `"${o}"`)
         .join('|')} attendue`,
     )
-    .transform((v) => (v === '' || v === 'n/a' ? undefined : v));
+    .transform((v) => (v === '' || v === 'n/a' ? undefined : (v as EnumValue)));
+};
 
 export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,
