@@ -45,7 +45,7 @@ export const dateMiseEnServiceTransmiseV1Projector = async ({
     raccordementActuel.miseEnService.date,
   );
 
-  if (dateMiseEnServiceTransmise.date.getTime() > dateMiseEnServiceActuelle.date.getTime()) {
+  if (dateMiseEnServiceActuelle.estAntérieurÀ(dateMiseEnServiceTransmise)) {
     await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       {
