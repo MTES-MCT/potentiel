@@ -24,8 +24,8 @@ import { récupérerColonnesRequisesPourLAOImporté } from './récupérerColonne
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
-  appelOffre: zod.string(),
-  periode: zod.string(),
+  appelOffre: zod.string().optional(),
+  periode: zod.string().optional(),
   modeMultiple: zod.stringbool().optional(),
 });
 

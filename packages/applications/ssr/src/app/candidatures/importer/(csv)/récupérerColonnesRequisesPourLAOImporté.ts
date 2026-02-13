@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import { mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -9,33 +11,33 @@ type RécupérerColonnesRequisesPourLAOImporté = ({
   appelOffres,
   periode,
 }: {
-  appelOffres: string;
-  periode: string;
+  appelOffres: string | undefined;
+  periode: string | undefined;
 }) => Promise<CsvHeaders>;
 
 export const récupérerColonnesRequisesPourLAOImporté: RécupérerColonnesRequisesPourLAOImporté =
   async ({ appelOffres, periode }) => {
-    const détailAppelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: appelOffres },
-    });
+    let champsSupplémentaires: AppelOffre.ChampCandidature[] = [];
+    if (appelOffres && periode) {
+      const détailAppelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: { identifiantAppelOffre: appelOffres },
+      });
+      assert(Option.isSome(détailAppelOffres));
 
-    if (Option.isNone(détailAppelOffres)) {
-      return [];
+      const champsSupplémentairesAO = détailAppelOffres.champsSupplémentaires ?? {};
+      const champsSupplémentairesPeriode =
+        détailAppelOffres.periodes.find((p) => p.id === periode)?.champsSupplémentaires ?? {};
+
+      champsSupplémentaires = [
+        ...new Set([
+          ...(Object.keys(champsSupplémentairesAO) as (keyof typeof champsSupplémentairesAO)[]),
+          ...(Object.keys(
+            champsSupplémentairesPeriode,
+          ) as (keyof typeof champsSupplémentairesPeriode)[]),
+        ]),
+      ] as AppelOffre.ChampCandidature[];
     }
-
-    const champsSupplémentairesAO = détailAppelOffres.champsSupplémentaires ?? {};
-    const champsSupplémentairesPeriode =
-      détailAppelOffres.periodes.find((p) => p.id === periode)?.champsSupplémentaires ?? {};
-
-    const champsSupplémentaires = [
-      ...new Set([
-        ...(Object.keys(champsSupplémentairesAO) as (keyof typeof champsSupplémentairesAO)[]),
-        ...(Object.keys(
-          champsSupplémentairesPeriode,
-        ) as (keyof typeof champsSupplémentairesPeriode)[]),
-      ]),
-    ];
 
     const mappingChampSupplémentairesColonnes = {
       autorisationDUrbanisme: ['dateDAutorisationDUrbanisme', 'numéroDAutorisationDUrbanisme'],
@@ -60,20 +62,19 @@ export const récupérerColonnesRequisesPourLAOImporté: RécupérerColonnesRequ
       [K in AppelOffre.ChampCandidature]: CandidatureHeaders;
     };
 
-    const colonnesChampsSupplémentaires: CandidatureHeaders = champsSupplémentaires.flatMap(
-      (champ) => mappingChampSupplémentairesColonnes[champ],
-    );
+    const colonnesChampsSupplémentaires: CandidatureHeaders = champsSupplémentaires.length
+      ? champsSupplémentaires.flatMap((champ) => mappingChampSupplémentairesColonnes[champ])
+      : [];
 
-    const toutesColonnesCorrespondantÀDesChampsSupplémentaires: CandidatureHeaders = Object.values(
+    const toutesColonnesCorrespondantÀUnChampSupplémentaire: CandidatureHeaders = Object.values(
       mappingChampSupplémentairesColonnes,
-    ).flat();
+    ).flat(); // permet de déduire cles colonnes communes à tous les AOs
 
-    const colonnesÀTousLesAOs = (
+    const colonnesCommunesÀTousLesAOs = (
       Object.keys(candidatureCsvHeadersMapping) as CandidatureHeaders
-    ).filter((key) => !toutesColonnesCorrespondantÀDesChampsSupplémentaires.includes(key));
+    ).filter((key) => !toutesColonnesCorrespondantÀUnChampSupplémentaire.includes(key));
 
-    // colonnes de l'AO
-    return [...colonnesChampsSupplémentaires, ...colonnesÀTousLesAOs].map(
+    return [...colonnesChampsSupplémentaires, ...colonnesCommunesÀTousLesAOs].map(
       (key) => candidatureCsvHeadersMapping[key],
     );
   };
