@@ -16,11 +16,10 @@ export const checkRequiredColumns = (
     return;
   }
 
-  const missingColumns = requiredColumns.filter((col) => !Object.keys(rawData[0]).includes(col));
-  if (missingColumns.length > 0) {
-    const errors: CsvMissingColumnError[] = missingColumns.map((column) => ({
-      column,
-    }));
+  const missingColumns = new Set(requiredColumns).difference(new Set(Object.keys(rawData[0])));
+
+  if (missingColumns.size > 0) {
+    const errors: CsvMissingColumnError[] = [...missingColumns].map((column) => ({ column }));
     throw new MissingRequiredColumnError(errors);
   }
 };

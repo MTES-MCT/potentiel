@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { expect } from 'chai';
 
 import { fromCSV } from './fromCSV.js';
+import { MissingRequiredColumnError } from './checkRequiredColumns.js';
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -123,5 +124,27 @@ test(`Étant donné un fichier séparé par des points-virgules
   } catch (e) {
     expect(e).to.be.instanceOf(Error);
     expect((e as Error).message).to.match(/Erreur lors de la validation du fichier CSV/);
+  }
+});
+
+test(`Étant donné un fichier avec une colonne manquante
+  Quand on parse le fichier en spécifiant les colonnes requises
+  Alors le fichier ne peut pas être parsé
+  Et le nom de la colonne manquante est retourné`, async () => {
+  const readableStream = readFixture('windows1252.csv');
+  const requiredColumns: ReadonlyArray<string> = [
+    'identifiantProjet',
+    'referenceDossier',
+    'nomProjet',
+  ];
+  try {
+    await fromCSV(readableStream, schema, { delimiter: ';' }, requiredColumns);
+    expect.fail('did not throw');
+  } catch (e) {
+    expect(e).to.be.instanceOf(MissingRequiredColumnError);
+    expect((e as MissingRequiredColumnError).message).to.match(
+      /Des colonnes sont manquantes dans le fichier CSV/,
+    );
+    expect((e as MissingRequiredColumnError).errors[0].column).to.equal('nomProjet');
   }
 });
