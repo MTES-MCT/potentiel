@@ -12,6 +12,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
+    "@auth/pg-adapter": "1.11.1",
     "@potentiel-applications/notifications": "workspace:*",
     "@potentiel-applications/routes": "workspace:*",
     "@potentiel-domain/core": "workspace:*",
