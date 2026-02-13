@@ -131,7 +131,7 @@ test(`Étant donné un fichier séparé par des points-virgules
 test(`Étant donné un fichier avec une colonne manquante
   Quand on parse le fichier en spécifiant les colonnes requises
   Alors le fichier ne peut pas être parsé
-  Et le nom de la colonne manquante est retourné`, async () => {
+  Et le label de la colonne manquante est retourné`, async () => {
   const readableStream = readFixture('windows1252.csv');
   const requiredColumns: ReadonlyArray<string> = [
     'identifiantProjet',

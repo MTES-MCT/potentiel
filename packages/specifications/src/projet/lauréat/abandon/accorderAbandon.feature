@@ -60,6 +60,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
     #     Quand le DGEC validateur accorde la demande d'abandon pour le projet lauréat
     #     Alors la preuve de recandidature a été demandée au porteur du projet lauréat
     #     Et une tâche indiquant de "transmettre la preuve de recandidature" est consultable dans la liste des tâches du porteur pour le projet
+    @select
     Scénario: Impossible d'accorder l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné une demande d'abandon accordée pour le projet lauréat
         Quand l'administrateur accorde la demande d'abandon pour le projet lauréat
