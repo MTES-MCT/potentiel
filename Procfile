@@ -1,2 +1,2 @@
-web: npm run start:web
-worker: npm run start:subscribers
+web: pnpm run start:web
+worker: pnpm run start:subscribers
