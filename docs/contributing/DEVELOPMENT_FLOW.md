@@ -4,16 +4,19 @@
 
 - [Flow de développement](#flow-de-développement)
   - [Table des matières](#table-des-matières)
-  - [Approche/Méthode](#approche-methode)
-  - [Organisation du code source](#organisation-du-code-source)
-  - [Scripts NPM](#scripts-npm)
-  - [Environnements](#environnements)
-    - [Remise à zéro d'un environnement de test](#raz-environnement)
-  - [Déploiement](#deploiement)
-  - [Review app](#review-app)
-  - [Apporter des changements](#apporter-des-changements)
-  - [Faire un hotfix](#faire-un-hotfix)
-  - [Récupérer les modifications d'une branche release vers main](#-récupérer-les-modifications-dune-branche-release-vers-main)
+  - [ Approche/Méthode](#-approcheméthode)
+  - [ Organisation du code source](#-organisation-du-code-source)
+  - [ Scripts NPM](#-scripts-npm)
+  - [ Environnements](#-environnements)
+    - [ Remise à zéro d'un environnement de test](#-remise-à-zéro-dun-environnement-de-test)
+  - [ Déploiement](#-déploiement)
+  - [ Review App](#-review-app)
+    - [Manuellement](#manuellement)
+    - [Via script](#via-script)
+  - [ Apporter des changements](#-apporter-des-changements)
+  - [ Faire un hotfix](#-faire-un-hotfix)
+  - [ Récupérer les modifications d'une branche release vers main](#-récupérer-les-modifications-dune-branche-release-vers-main)
+  - [ Mettre l'application en mode maintenance](#-mettre-lapplication-en-mode-maintenance)
 
 ## <a id="approche-methode"></a> Approche/Méthode
 
@@ -187,3 +190,13 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
    3. Gérer les conflits et nommer le message du commit comme ceci : `🔀 Resolve merge conflicts after merge`
    4. Ouvrir la PR en mettant comme titre de la PR : `🔀 Intégration des modifications de la release x.x`
    5. Merger la PR en sélectionnant le mode **merge commit**
+
+## <a id="mettre-app-en-mode-maintenance"></a> Mettre l'application en mode maintenance
+
+On a parfois besoin de passer l'app en mode maitenance quand on doit pas exemple faire des modifications sur l'event store ou encore regéner les subscribers.
+
+Actuellement le site est hébergé sur Scalingo, nous utilisons donc le [mécanisme de variables d'environnement](https://doc.scalingo.com/platform/app/custom-error-page) pour définir les pages à afficher en fonction des contextes.
+
+Pour mettre l'application en maintenance, il faut éteindre l'application `web` en passant la quantity à `0` dans l'onglet [resources](https://dashboard.scalingo.com/apps/osc-secnum-fr1/potentiel-production/resources)
+
+Une fois la maintenance effectuée, on peut repasser la valeur à `1` et bien penser à redémarrer l'application
