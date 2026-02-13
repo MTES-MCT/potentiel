@@ -110,7 +110,7 @@ jobs:
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
-          pnpm run specs -- --tags "$TAGS_FILTER"
+          pnpm run specs --tags "$TAGS_FILTER"
 
   # Final job to wait for all spec tests to complete, so that we can make it required
   test_specs:
