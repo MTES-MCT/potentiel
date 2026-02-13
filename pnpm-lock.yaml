@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    cockatiel:
+      specifier: 3.2.1
+      version: 3.2.1
+    flat:
+      specifier: 6.0.1
+      version: 6.0.1
     mediateur:
       specifier: 0.3.0
       version: 0.3.0
@@ -296,7 +302,7 @@ importers:
         specifier: workspace:*
         version: link:../../statistiques/statistiques-publiques
       cockatiel:
-        specifier: 3.2.1
+        specifier: 'catalog:'
         version: 3.2.1
       dotenv:
         specifier: 16.5.0
@@ -433,7 +439,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/monitoring
       flat:
-        specifier: 6.0.1
+        specifier: 'catalog:'
         version: 6.0.1
       handlebars:
         specifier: 4.7.8
@@ -713,7 +719,7 @@ importers:
         specifier: 16.5.0
         version: 16.5.0
       flat:
-        specifier: 6.0.1
+        specifier: 'catalog:'
         version: 6.0.1
       jose:
         specifier: 6.1.3
@@ -837,7 +843,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/pg-helpers
       cockatiel:
-        specifier: 3.2.1
+        specifier: 'catalog:'
         version: 3.2.1
       dotenv:
         specifier: 16.5.0
@@ -1180,7 +1186,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/monitoring
       cockatiel:
-        specifier: 3.2.1
+        specifier: 'catalog:'
         version: 3.2.1
       node-mailjet:
         specifier: 6.0.8
@@ -1262,7 +1268,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/pg-helpers
       cockatiel:
-        specifier: 3.2.1
+        specifier: 'catalog:'
         version: 3.2.1
       pg:
         specifier: 8.16.3
@@ -1293,7 +1299,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/pg-helpers
       flat:
-        specifier: 6.0.1
+        specifier: 'catalog:'
         version: 6.0.1
       pg-format:
         specifier: 1.0.4
@@ -1321,7 +1327,7 @@ importers:
         specifier: workspace:*
         version: link:../../libraries/pg-helpers
       flat:
-        specifier: 6.0.1
+        specifier: 'catalog:'
         version: 6.0.1
       pg-format:
         specifier: 1.0.4
@@ -1378,7 +1384,7 @@ importers:
   packages/libraries/http-client:
     dependencies:
       cockatiel:
-        specifier: 3.2.1
+        specifier: 'catalog:'
         version: 3.2.1
     devDependencies:
       '@potentiel-config/tsconfig':
@@ -3695,6 +3701,7 @@ packages:
       }
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-arm@1.0.5':
     resolution:
@@ -3703,6 +3710,7 @@ packages:
       }
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-s390x@1.0.4':
     resolution:
@@ -3711,6 +3719,7 @@ packages:
       }
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linux-x64@1.0.4':
     resolution:
@@ -3719,6 +3728,7 @@ packages:
       }
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-libvips-linuxmusl-arm64@1.0.4':
     resolution:
@@ -3727,6 +3737,7 @@ packages:
       }
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-libvips-linuxmusl-x64@1.0.4':
     resolution:
@@ -3735,6 +3746,7 @@ packages:
       }
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-linux-arm64@0.33.5':
     resolution:
@@ -3744,6 +3756,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-arm@0.33.5':
     resolution:
@@ -3753,6 +3766,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-s390x@0.33.5':
     resolution:
@@ -3762,6 +3776,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linux-x64@0.33.5':
     resolution:
@@ -3771,6 +3786,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@img/sharp-linuxmusl-arm64@0.33.5':
     resolution:
@@ -3780,6 +3796,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-linuxmusl-x64@0.33.5':
     resolution:
@@ -3789,6 +3806,7 @@ packages:
     engines: { node: ^18.17.0 || ^20.3.0 || >=21.0.0 }
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@img/sharp-wasm32@0.33.5':
     resolution:
@@ -4477,6 +4495,7 @@ packages:
     engines: { node: '>= 10' }
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@next/swc-linux-arm64-musl@14.2.33':
     resolution:
@@ -4486,6 +4505,7 @@ packages:
     engines: { node: '>= 10' }
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@next/swc-linux-x64-gnu@14.2.33':
     resolution:
@@ -4495,6 +4515,7 @@ packages:
     engines: { node: '>= 10' }
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@next/swc-linux-x64-musl@14.2.33':
     resolution:
@@ -4504,6 +4525,7 @@ packages:
     engines: { node: '>= 10' }
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@next/swc-win32-arm64-msvc@14.2.33':
     resolution:
@@ -5000,6 +5022,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.6':
     resolution:
@@ -5009,6 +5032,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.6':
     resolution:
@@ -5018,6 +5042,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.6':
     resolution:
@@ -5027,6 +5052,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.6':
     resolution:
@@ -5036,6 +5062,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.6':
     resolution:
@@ -5045,6 +5072,7 @@ packages:
     engines: { node: '>= 10.0.0' }
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.6':
     resolution:
@@ -6426,6 +6454,7 @@ packages:
     engines: { node: '>=10' }
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-arm64-musl@1.15.11':
     resolution:
@@ -6435,6 +6464,7 @@ packages:
     engines: { node: '>=10' }
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-linux-x64-gnu@1.15.11':
     resolution:
@@ -6444,6 +6474,7 @@ packages:
     engines: { node: '>=10' }
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@swc/core-linux-x64-musl@1.15.11':
     resolution:
@@ -6453,6 +6484,7 @@ packages:
     engines: { node: '>=10' }
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@swc/core-win32-arm64-msvc@1.15.11':
     resolution:
