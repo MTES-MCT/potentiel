@@ -14,7 +14,7 @@
     "build": "turbo run build",
     "build:dev": "turbo run build --filter=@potentiel-applications/subscribers",
     "build:cli": "turbo run build --filter=@potentiel/cli...",
-    "build:test": "turbo run build --filter=@potentiel/specifications",
+    "build:test": "turbo run build --filter=!@potentiel-applications/ssr",
     "clean": "turbo run clean && rm -rf .turbo",
     "predev": "pnpm run up && pnpm run build:dev",
     "dev": "nf start --procfile Procfile.dev --port 3000",
