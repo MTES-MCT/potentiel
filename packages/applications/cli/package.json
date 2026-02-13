@@ -48,7 +48,7 @@
     "@potentiel-infrastructure/email": "workspace:*",
     "@potentiel-statistiques/statistiques-publiques": "workspace:*",
     "@oclif/core": "4.5.0",
-    "cockatiel": "3.2.1",
+    "cockatiel": "catalog:",
     "dotenv": "16.5.0",
     "mediateur": "catalog:",
     "winston": "3.17.0",

@@ -54,7 +54,7 @@
     "clsx": "2.1.1",
     "crisp-sdk-web": "1.0.25",
     "dotenv": "16.5.0",
-    "flat": "6.0.1",
+    "flat": "catalog:",
     "jose": "6.1.3",
     "mediateur": "catalog:",
     "mime-types": "3.0.2",

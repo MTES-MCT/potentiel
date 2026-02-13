@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "workspace:*",
-    "cockatiel": "3.2.1",
+    "cockatiel": "catalog:",
     "node-mailjet": "6.0.8",
     "nodemailer": "7.0.12"
   },

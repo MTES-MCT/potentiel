@@ -15,7 +15,7 @@
     "@potentiel-infrastructure/pg-projection-read": "workspace:*",
     "@potentiel-libraries/pg-helpers": "workspace:*",
     "@potentiel-libraries/monitoring": "workspace:*",
-    "flat": "6.0.1",
+    "flat": "catalog:",
     "pg-format": "1.0.4"
   },
   "devDependencies": {

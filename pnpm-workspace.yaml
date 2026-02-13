@@ -16,9 +16,11 @@ packages:
   - ./packages/specifications
 
 catalog:
+  cockatiel: 3.2.1
+  flat: 6.0.1
   mediateur: 0.3.0
-  zod: 4.1.9
   tsx: 4.20.4
+  zod: 4.1.9
 
 hoistPattern:
   - '!graphql'
