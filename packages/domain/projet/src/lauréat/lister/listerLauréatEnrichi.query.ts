@@ -19,7 +19,7 @@ import { PuissanceEntity } from '../puissance/index.js';
 import { Actionnaire, StatutLauréat } from '../index.js';
 import { AchèvementEntity } from '../achèvement/index.js';
 import { ActionnaireEntity } from '../actionnaire/index.js';
-import { RaccordementEntity } from '../raccordement/index.js';
+import { RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
 import { DispositifDeStockage, InstallationEntity } from '../installation/index.js';
 import {
   NatureDeLExploitationEntity,
@@ -52,6 +52,9 @@ export type LauréatEnrichiListItemReadModel = {
 
   dateAchèvementPrévisionnelle: DateTime.ValueType | undefined;
   dateAchèvementRéelle: DateTime.ValueType | undefined;
+
+  dateMiseEnService: DateTime.ValueType | undefined;
+  référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
   numéroAutorisationDUrbanisme: string | undefined;
@@ -242,6 +245,7 @@ const mapToReadModel: MapToReadModelProps = ({
     'détail-candidature': détailCandidature,
     installation,
     'nature-de-l-exploitation': natureDeLExploitation,
+    raccordement,
   },
   gestionnaireRéseau,
 }) => {
@@ -273,6 +277,15 @@ const mapToReadModel: MapToReadModelProps = ({
     dateAchèvementPrévisionnelle:
       achèvement && DateTime.convertirEnValueType(achèvement.prévisionnel.date),
     dateAchèvementRéelle: achèvement?.réel && DateTime.convertirEnValueType(achèvement.réel.date),
+
+    dateMiseEnService: raccordement?.miseEnService?.date
+      ? DateTime.convertirEnValueType(raccordement.miseEnService.date)
+      : undefined,
+    référenceDossierRaccordement: raccordement?.miseEnService?.référenceDossierRaccordement
+      ? RéférenceDossierRaccordement.convertirEnValueType(
+          raccordement.miseEnService.référenceDossierRaccordement,
+        )
+      : undefined,
 
     prixReference,
     coefficientKChoisi,
