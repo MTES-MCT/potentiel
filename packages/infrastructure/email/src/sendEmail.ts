@@ -43,12 +43,7 @@ const globalCircuitBreaker = circuitBreaker(handleAll, {
 });
 
 export const sendEmail: SendEmail = async (sendEmailArgs) => {
-  const {
-    SEND_EMAILS_FROM,
-    SEND_EMAILS_FROM_NAME,
-    SEND_EMAIL_MODE = 'logging-only',
-    MAINTENANCE_MODE,
-  } = process.env;
+  const { SEND_EMAILS_FROM, SEND_EMAILS_FROM_NAME, SEND_EMAIL_MODE = 'logging-only' } = process.env;
 
   if (!SEND_EMAILS_FROM) {
     throw new Error('SEND_EMAILS_FROM must be set to send emails');
@@ -83,7 +78,7 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
   const emailPolicy = wrap(retryPolicy, globalCircuitBreaker);
 
   await emailPolicy.execute(async () => {
-    if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
+    if (mode !== 'logging-only') {
       await getMailjetClient()
         .post('send', { version: 'v3.1' })
         .request({
