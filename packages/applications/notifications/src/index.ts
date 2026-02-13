@@ -17,7 +17,7 @@ export * as ProducteurNotification from './subscribers/lauréat/producteur/produ
 export * as FournisseurNotification from './subscribers/lauréat/fournisseur/founisseur.notifications.js';
 export * as DélaiNotification from './subscribers/lauréat/délai/délai.notifications.js';
 export * as InstallationNotification from './subscribers/lauréat/installation/installation.notifications.js';
-export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation/index.js';
+export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation/nature-de-l-exploitation.notifications.js';
 
 // Éliminé
 export * as ÉliminéNotification from './subscribers/éliminé/éliminé/éliminé.notifications.js';
