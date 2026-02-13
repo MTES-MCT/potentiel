@@ -83,9 +83,7 @@
   },
   "packageManager": "pnpm@10.28.0",
   "engines": {
-    "node": "^24.10.0",
-    "npm": "please-use-pnpm",
-    "yarn": "please-use-pnpm"
+    "node": "^24.10.0"
   },
   "gitmoji": {
     "autoAdd": false,
