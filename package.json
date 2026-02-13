@@ -30,7 +30,7 @@
     "pretest:apps": "pnpm run pretest",
     "test:apps": "turbo run test --filter=@potentiel-applications/*",
     "prespecs": "pnpm run pretest",
-    "specs": "pnpm run --filter=@potentiel/specifications test -- ",
+    "specs": "pnpm run --filter=@potentiel/specifications test ",
     "prespecs:select": "pnpm run pretest",
     "specs:select": "pnpm run --filter@potentiel/specifications test:select",
     "update:dump": "./.database/scripts/update-potentiel-dump.sh",
