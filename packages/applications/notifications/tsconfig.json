@@ -13,6 +13,9 @@
       "path": "../../domain/common"
     },
     {
+      "path": "../../domain/core"
+    },
+    {
       "path": "../../domain/projet"
     },
     {
@@ -26,6 +29,9 @@
     },
     {
       "path": "../../infrastructure/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/monads"
     },
     {
       "path": "../../libraries/monitoring"

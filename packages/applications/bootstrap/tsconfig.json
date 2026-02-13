@@ -21,6 +21,9 @@
       "path": "../../domain/réseau"
     },
     {
+      "path": "../../domain/statistiques-utilisation"
+    },
+    {
       "path": "../../domain/utilisateur"
     },
     {

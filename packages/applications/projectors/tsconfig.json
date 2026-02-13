@@ -6,6 +6,12 @@
   },
   "references": [
     {
+      "path": "../../domain/appel-offre"
+    },
+    {
+      "path": "../../domain/common"
+    },
+    {
       "path": "../../domain/entity"
     },
     {
@@ -19,6 +25,9 @@
     },
     {
       "path": "../../domain/réseau"
+    },
+    {
+      "path": "../../domain/utilisateur"
     },
     {
       "path": "../../infrastructure/domain-adapters"

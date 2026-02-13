@@ -9,7 +9,13 @@
       "path": "../../domain/common"
     },
     {
+      "path": "../../domain/inmemory-referential"
+    },
+    {
       "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/période"
     },
     {
       "path": "../../domain/réseau"
@@ -42,6 +48,9 @@
       "path": "../../libraries/file-storage"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/monitoring"
     },
     {
@@ -55,6 +64,9 @@
     },
     {
       "path": "../document-builder"
+    },
+    {
+      "path": "../routes"
     }
   ]
 }
