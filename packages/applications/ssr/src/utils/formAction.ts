@@ -68,9 +68,14 @@ export type FormStateCsvLineError = {
   errors: Array<ImportCSV.CsvLineError>;
 };
 
-export type FormStateCsvColumnError = {
-  status: 'csv-column-error';
+export type FormStateCsvMissingColumnError = {
+  status: 'csv-missing-column-error';
   errors: Array<ImportCSV.CsvMissingColumnError>;
+};
+
+export type FormStateCsvDuplicateColumnError = {
+  status: 'csv-duplicate-header-error';
+  errors: Array<ImportCSV.CsvDuplicateHeaderError>;
 };
 
 type FormStateUnknownError = {
@@ -83,8 +88,9 @@ export type FormState =
   | FormStateRateLimitError
   | FormStateDomainError
   | FormStateCsvLineError
-  | FormStateCsvColumnError
-  | FormStateUnknownError;
+  | FormStateCsvMissingColumnError
+  | FormStateUnknownError
+  | FormStateCsvDuplicateColumnError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -162,7 +168,13 @@ export const formAction =
       }
       if (e instanceof ImportCSV.MissingRequiredColumnError) {
         return {
-          status: 'csv-column-error' as const,
+          status: 'csv-missing-column-error' as const,
+          errors: e.errors,
+        };
+      }
+      if (e instanceof ImportCSV.DuplicateHeaderError) {
+        return {
+          status: 'csv-duplicate-header-error' as const,
           errors: e.errors,
         };
       }

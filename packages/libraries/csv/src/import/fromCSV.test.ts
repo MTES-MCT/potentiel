@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { expect } from 'chai';
 
 import { fromCSV } from './fromCSV.js';
+import { DuplicateHeaderError } from './checkDuplicateHeaders.js';
 import { MissingRequiredColumnError } from './checkRequiredColumns.js';
 
 const schema = z.object({
@@ -146,5 +147,23 @@ test(`Étant donné un fichier avec une colonne manquante
       /Des colonnes sont manquantes dans le fichier CSV/,
     );
     expect((e as MissingRequiredColumnError).errors[0].column).to.equal('nomProjet');
+  }
+});
+
+test(`Étant donné un fichier avec deux colonnes identiques
+  Quand on parse le fichier
+  Alors le fichier ne peut pas être parsé
+  Et une erreur est retournée avec le label de colonne en doublon`, async () => {
+  const readableStream = readFixture('col-doublon.csv');
+
+  try {
+    await fromCSV(readableStream, schema, { delimiter: ';' });
+    expect.fail('did not throw');
+  } catch (e) {
+    expect(e).to.be.instanceOf(DuplicateHeaderError);
+    expect((e as DuplicateHeaderError).message).to.match(
+      /Des colonnes sont en doublon dans le fichier CSV/,
+    );
+    expect((e as DuplicateHeaderError).errors[0].column).to.equal('identifiantProjet');
   }
 });

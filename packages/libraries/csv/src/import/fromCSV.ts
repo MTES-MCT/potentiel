@@ -5,6 +5,7 @@ import * as zod from 'zod';
 import { streamToArrayBuffer } from './streamToArrayBuffer.js';
 import { getEncoding } from './getEncoding.js';
 import { checkRequiredColumns } from './checkRequiredColumns.js';
+import { checkDuplicateHeaders } from './checkDuplicateHeaders.js';
 
 export type CsvLineError = {
   line: string;
@@ -75,6 +76,15 @@ const loadCSV = async (fileStream: ReadableStream, parseOptions: Partial<ParseOp
   const arrayBuffer = await streamToArrayBuffer(fileStream);
   const encoding = getEncoding(arrayBuffer, encodingOption);
   const decoded = iconv.decode(Buffer.from(arrayBuffer), encoding);
+  const [headerRow] = await new Promise<string[][]>((resolve, reject) => {
+    parse(decoded, { ...options, columns: false }, (err, records) => {
+      if (err) reject(err);
+      else resolve(records.slice(0, 1));
+    });
+  });
+
+  checkDuplicateHeaders(headerRow);
+
   const rows = await new Promise<Record<string, string>[]>((resolve, reject) =>
     parse(decoded, options, (err, records) => {
       if (err) reject(err);

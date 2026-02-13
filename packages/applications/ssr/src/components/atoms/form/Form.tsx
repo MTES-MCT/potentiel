@@ -101,7 +101,10 @@ export const Form: FC<FormProps> = ({
         )}
       </div>
       {state.status === 'csv-line-error' && <FormFeedbackCsvLineErrors formState={state} />}
-      {state.status === 'csv-column-error' && <FormFeedbackCsvColumnErrors formState={state} />}
+      {(state.status === 'csv-missing-column-error' ||
+        state.status === 'csv-duplicate-header-error') && (
+        <FormFeedbackCsvColumnErrors formState={state} />
+      )}
     </form>
   );
 };
