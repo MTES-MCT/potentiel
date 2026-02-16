@@ -28,10 +28,6 @@ export const auth = betterAuth({
       config: [
         keycloak(getKeycloakConfiguration()),
         proconnect(getProconnectConfiguration()),
-        {
-          providerId: 'azure-ad',
-          clientId: '',
-        },
       ].filter(({ providerId }) => process.env.AUTH_PROVIDERS?.split(',').includes(providerId)),
     }),
     magicLink({

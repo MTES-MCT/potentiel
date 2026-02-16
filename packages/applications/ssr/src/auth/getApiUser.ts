@@ -15,8 +15,6 @@ export const getApiUser: GetUtilisateur = async (req) => {
     headers: new Headers(req.headers as Record<string, string>),
   });
 
-  console.log(session);
-
   const email = session?.user?.email;
   if (email) {
     const utilisateur = await getUtilisateurFromEmail(email);
