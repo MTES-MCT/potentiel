@@ -107,7 +107,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
-      autoritéCompétente: 'dgec',
+      autoritéCompétente: 'dreal',
     },
     installateur: {},
     dispositifDeStockage: {},
@@ -186,6 +186,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -223,6 +227,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -255,6 +263,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -278,6 +290,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
+        },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
         },
       },
       typeImport: 'csv',
@@ -303,6 +319,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -326,6 +346,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
+        },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
         },
       },
       typeImport: 'csv',
@@ -351,6 +375,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -375,6 +403,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
       typeImport: 'csv',
     },
@@ -395,6 +427,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '10',
@@ -416,6 +454,15 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
+    /** à partir de la P11 l'autorité compétente pour les abandons est la dreal,
+     *  plus besoin de redéfinir cete règle au niveau de la période
+     */
   ],
 };

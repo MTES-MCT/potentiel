@@ -51,7 +51,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
-      autoritéCompétente: 'dgec',
+      autoritéCompétente: 'dreal',
     },
     installateur: {},
     dispositifDeStockage: {},
@@ -147,6 +147,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
     },
     {
@@ -178,6 +182,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
+        },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
         },
       },
     },
@@ -211,6 +219,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           instructionAutomatique: 'rejet',
         },
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
       },
     },
     {
@@ -237,6 +249,15 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
+    /** à partir de la P5 l'autorité compétente pour les abandons est la dreal,
+     *  plus besoin de redéfinir cete règle au niveau de la période
+     */
   ],
 };

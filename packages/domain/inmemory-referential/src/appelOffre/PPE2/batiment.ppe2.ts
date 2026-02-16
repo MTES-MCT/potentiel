@@ -107,7 +107,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
-      autoritéCompétente: 'dgec',
+      autoritéCompétente: 'dreal',
     },
     installateur: {},
     dispositifDeStockage: {},
@@ -196,6 +196,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '2',
@@ -221,6 +227,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '3',
@@ -252,6 +264,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '4',
@@ -277,6 +295,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '5',
@@ -313,6 +337,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '6',
@@ -349,6 +379,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '7',
@@ -385,6 +421,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '8',
@@ -424,6 +466,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '9',
@@ -462,6 +510,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '10',
@@ -503,6 +557,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '11',
@@ -542,6 +602,15 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
+    /** à partir de la P12 l'autorité compétente pour les abandons est la dreal,
+     *  plus besoin de redéfinir cete règle au niveau de la période
+     */
   ],
 };
