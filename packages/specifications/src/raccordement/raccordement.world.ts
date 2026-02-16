@@ -3,10 +3,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
 
-import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture.js';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
 import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
+import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.world.js';
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =
@@ -14,10 +14,10 @@ export class RaccordementWorld {
 
   readonly demandeComplèteDeRaccordement = new DemandeComplèteRaccordementWorld();
   readonly propositionTechniqueEtFinancière = new PropositionTechniqueEtFinancièreWorld();
-  readonly transmettreDateMiseEnServiceFixture: TransmettreDateMiseEnServiceFixture;
+  readonly dateMiseEnService: DateMiseEnServiceWorld;
 
   constructor(public lauréatWorld: LauréatWorld) {
-    this.transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture(this);
+    this.dateMiseEnService = new DateMiseEnServiceWorld(this);
   }
 
   get référenceDossier() {
@@ -52,7 +52,9 @@ export class RaccordementWorld {
       référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
-      miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),
+      miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
+        ? this.dateMiseEnService.modifierFixture.mapToExpected()
+        : this.dateMiseEnService.transmettreFixture.mapToExpected(),
       propositionTechniqueEtFinancière:
         this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
     };
@@ -74,15 +76,23 @@ export class RaccordementWorld {
               contactEmail: gestionnaireRéseau.contactEmail,
             }
           : undefined,
-        miseEnService: this.transmettreDateMiseEnServiceFixture.aÉtéCréé
+        miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
           ? {
-              date: this.transmettreDateMiseEnServiceFixture.mapToExpected()?.dateMiseEnService,
+              date: this.dateMiseEnService.modifierFixture.mapToExpected()?.dateMiseEnService,
               référenceDossier:
                 Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
                   nouvelleRéférenceDossier ?? this.référenceDossier,
                 ),
             }
-          : undefined,
+          : this.dateMiseEnService.transmettreFixture.aÉtéCréé
+            ? {
+                date: this.dateMiseEnService.transmettreFixture.mapToExpected()?.dateMiseEnService,
+                référenceDossier:
+                  Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+                    nouvelleRéférenceDossier ?? this.référenceDossier,
+                  ),
+              }
+            : undefined,
       },
       dossier,
     };

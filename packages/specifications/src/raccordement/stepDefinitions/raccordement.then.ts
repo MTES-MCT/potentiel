@@ -15,7 +15,7 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
-    const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture;
+    const { dateMiseEnService } = this.raccordementWorld.dateMiseEnService.transmettreFixture;
 
     await vérifierMiseEnServiceDansRaccordement({
       identifiantProjet,
@@ -31,10 +31,10 @@ Alors(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const exemple = dataTable.rowsHash();
-
     const { dateMiseEnService, référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(exemple);
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
+        dataTable.rowsHash(),
+      );
 
     if (!dateMiseEnService || !référenceDossier) {
       throw new Error(

@@ -10,7 +10,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.créer({
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossier: this.raccordementWorld.référenceDossier,
       });
@@ -32,7 +32,7 @@ EtantDonné(
     const { référenceDossier } = this.raccordementWorld;
 
     const { dateMiseEnService } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
         datatable.rowsHash(),
       );
 
