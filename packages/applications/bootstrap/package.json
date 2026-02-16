@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@potentiel-applications/request-context": "workspace:*",
+    "@potentiel-applications/notifications": "workspace:*",
     "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
     "@potentiel-domain/periode": "workspace:*",
     "@potentiel-domain/projet": "workspace:*",
     "@potentiel-domain/utilisateur": "workspace:*",

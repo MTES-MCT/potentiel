@@ -180,6 +180,9 @@ importers:
 
   packages/applications/bootstrap:
     dependencies:
+      '@potentiel-applications/notifications':
+        specifier: workspace:*
+        version: link:../notifications
       '@potentiel-applications/request-context':
         specifier: workspace:*
         version: link:../request-context
@@ -189,6 +192,9 @@ importers:
       '@potentiel-domain/core':
         specifier: workspace:*
         version: link:../../domain/core
+      '@potentiel-domain/entity':
+        specifier: workspace:*
+        version: link:../../domain/entity
       '@potentiel-domain/periode':
         specifier: workspace:*
         version: link:../../domain/période
