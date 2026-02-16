@@ -6,11 +6,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { ModifierActionnairePage } from './ModifierActionnaire.page';
 
@@ -30,21 +32,33 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      const actionnaireActuel = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
-      if (Option.isNone(actionnaireActuel)) {
+      if (Option.isNone(actionnaire)) {
         return notFound();
+      }
+
+      if (actionnaire.aUneDemandeEnCours && actionnaire.dateDernièreDemande) {
+        return (
+          <DemandeEnCoursPage
+            title="Demande de changement d'actionnaire"
+            href={Routes.Actionnaire.changement.détails(
+              identifiantProjet.formatter(),
+              actionnaire.dateDernièreDemande.formatter(),
+            )}
+          />
+        );
       }
 
       return (
         <ModifierActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          actionnaire={actionnaireActuel.actionnaire}
+          actionnaire={actionnaire.actionnaire}
         />
       );
     }),

@@ -2,11 +2,13 @@ import { Metadata } from 'next';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import {
   getCahierDesChargesPuissanceDeSiteInfos,
@@ -35,6 +37,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos(
         identifiantProjet.formatter(),
       );
+
+      if (puissance.dateDemandeEnCours) {
+        return (
+          <DemandeEnCoursPage
+            title="Demande de changement de puissance"
+            href={Routes.Puissance.changement.détails(
+              identifiantProjet.formatter(),
+              puissance.dateDemandeEnCours.formatter(),
+            )}
+          />
+        );
+      }
 
       return (
         <ModifierPuissancePage
