@@ -2,31 +2,32 @@
 
 import { FC, useState } from 'react';
 
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors } from '@/utils/formAction';
+import { ValidationErrors, formAction } from '@/utils/formAction';
 
-import {
-  transmettreDateMiseEnServiceAction,
-  TransmettreDateMiseEnServiceStateFormKeys,
-} from './transmettreDateMiseEnService.action';
+import { TransmettreDateMiseEnServiceStateFormKeys } from './transmettre/transmettreDateMiseEnService.action';
 
-export type TransmettreDateMiseEnServiceFormProps = {
+export type DateMiseEnServiceFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  dateDésignation: Iso8601DateTime;
+  dateDésignation: DateTime.RawType;
   dossierRaccordement: {
-    référence: string;
-    miseEnService?: Iso8601DateTime;
+    référence: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
+    dateMiseEnService?: DateTime.RawType;
   };
+  action: ReturnType<typeof formAction>;
+  submitLabel: string;
 };
 
-export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFormProps> = ({
+export const DateMiseEnServiceForm: FC<DateMiseEnServiceFormProps> = ({
   identifiantProjet,
   dateDésignation,
-  dossierRaccordement: { référence, miseEnService },
+  dossierRaccordement: { référence, dateMiseEnService },
+  action,
+  submitLabel,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDateMiseEnServiceStateFormKeys>
@@ -34,10 +35,10 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
 
   return (
     <Form
-      action={transmettreDateMiseEnServiceAction}
+      action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitLabel: 'Transmettre',
+        submitLabel,
         secondaryAction: {
           type: 'back',
         },
@@ -49,9 +50,9 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
       <InputDate
         label="Date de mise en service"
         name="dateMiseEnService"
-        defaultValue={miseEnService}
+        defaultValue={dateMiseEnService}
         min={dateDésignation}
-        max={now()}
+        max={DateTime.now().formatter()}
         required
         state={validationErrors['dateMiseEnService'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateMiseEnService']}

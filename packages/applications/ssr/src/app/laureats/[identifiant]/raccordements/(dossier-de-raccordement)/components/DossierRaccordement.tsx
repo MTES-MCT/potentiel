@@ -12,7 +12,7 @@ import {
 import {
   ÉtapeDateMiseEnService,
   ÉtapeMiseEnServiceProps,
-} from '../[reference]/(date-mise-en-service)/ÉtapeDateMiseEnService';
+} from '../[reference]/date-mise-en-service/ÉtapeDateMiseEnService';
 import {
   ÉtapePropositionTechniqueEtFinancière,
   ÉtapePropositionTechniqueEtFinancièreProps,

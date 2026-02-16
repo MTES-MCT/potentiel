@@ -127,7 +127,6 @@ const mapToDossierActions: MapToDossierActions = ({ rôle, dossiers, statutLaur�
             statutLauréat,
           }),
         },
-
         miseEnService: {
           transmettre: rôle.aLaPermission('raccordement.date-mise-en-service.transmettre'),
           modifier: rôle.aLaPermission('raccordement.date-mise-en-service.modifier'),
