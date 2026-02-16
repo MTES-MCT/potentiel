@@ -9,6 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { DocumentItem } from '@/components/organisms/document/DocumentListItem';
+import { DocumentsList } from '@/components/organisms/document/DocumentsList';
 
 import { getRecours, getÉliminé } from '../../../../../_helpers';
 
@@ -21,7 +22,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
   SectionWithErrorHandling(
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
-
       const éliminé = await getÉliminé(identifiantProjet);
 
       if (!éliminé) {
@@ -90,7 +90,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             }
             severity="info"
           />
-          documents={documents.toSorted((a, b) => (b.date || '').localeCompare(a.date || ''))}
+          <DocumentsList
+            documents={documents.toSorted((a, b) => (b.date || '').localeCompare(a.date || ''))}
+          />
         </>
       );
     }),
