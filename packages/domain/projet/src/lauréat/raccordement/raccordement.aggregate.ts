@@ -17,6 +17,7 @@ import { RéférenceDossierRaccordement, TypeTâchePlanifiéeRaccordement } from
 
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
+  DateMiseEnServiceModifiéeEvent,
   DateMiseEnServiceSuppriméeEvent,
   DateMiseEnServiceTransmiseEvent,
   DateMiseEnServiceTransmiseV1Event,
@@ -73,6 +74,7 @@ import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/suppr
 import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
 import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
 import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.options.js';
+import { ModifierDateMiseEnServiceOptions } from './modifier/dateMiseEnService/modifierDateMiseEnService.options.js';
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -1021,6 +1023,72 @@ export class RaccordementAggregate extends AbstractAggregate<
     dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
   }
 
+  async modifierDateMiseEnService({
+    référenceDossier,
+    dateMiseEnService,
+    dateDésignation,
+    modifiéeLe,
+    modifiéePar,
+  }: ModifierDateMiseEnServiceOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNonAbandonné();
+
+    if (dateMiseEnService.estDansLeFutur()) {
+      throw new DateDansLeFuturError();
+    }
+
+    if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
+      throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
+    }
+
+    if (!this.contientLeDossier(référenceDossier)) {
+      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
+    }
+
+    if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
+      throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
+    }
+
+    const event: DateMiseEnServiceModifiéeEvent = {
+      type: 'DateMiseEnServiceModifiée-V1',
+      payload: {
+        dateMiseEnService: dateMiseEnService.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        référenceDossierRaccordement: référenceDossier.formatter(),
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+
+    const délaiApplicable =
+      this.lauréat.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable;
+
+    if (délaiApplicable) {
+      const { intervaleDateMiseEnService, délaiEnMois } = délaiApplicable;
+
+      if (
+        dateMiseEnService.estDansIntervalle({
+          min: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.min)),
+          max: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.max)),
+        })
+      ) {
+        return this.lauréat.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'ajout-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
+    }
+  }
+
+  private applyDateMiseEnServiceModifiéeEventV1({
+    payload: { dateMiseEnService, référenceDossierRaccordement },
+  }: DateMiseEnServiceModifiéeEvent) {
+    const dossier = this.récupérerDossier(référenceDossierRaccordement);
+    dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
+  }
+
   async supprimerDateMiseEnService({
     référenceDossier,
     suppriméeLe,
@@ -1137,6 +1205,10 @@ export class RaccordementAggregate extends AbstractAggregate<
       .with(
         { type: 'DateMiseEnServiceTransmise-V2' },
         this.applyDateMiseEnServiceTransmiseEventV2.bind(this),
+      )
+      .with(
+        { type: 'DateMiseEnServiceModifiée-V1' },
+        this.applyDateMiseEnServiceModifiéeEventV1.bind(this),
       )
       .with(
         {

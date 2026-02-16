@@ -35,6 +35,7 @@ import {
   ListerHistoriqueRaccordementProjetQuery,
   ListerHistoriqueRaccordementProjetReadModel,
 } from './listerHistorique/listerHistoriqueRaccordementProjet.query.js';
+import { ModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
 import { ModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
@@ -96,6 +97,7 @@ export type RaccordementUseCase =
   | ModifierGestionnaireRéseauRaccordementUseCase
   | ModifierPropositionTechniqueEtFinancièreUseCase
   | ModifierRéférenceDossierRaccordementUseCase
+  | ModifierDateMiseEnServiceUseCase
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
@@ -107,6 +109,7 @@ export type {
   ModifierGestionnaireRéseauRaccordementUseCase,
   ModifierPropositionTechniqueEtFinancièreUseCase,
   ModifierRéférenceDossierRaccordementUseCase,
+  ModifierDateMiseEnServiceUseCase,
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
