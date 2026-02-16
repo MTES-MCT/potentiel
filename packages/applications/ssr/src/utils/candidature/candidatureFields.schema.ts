@@ -120,14 +120,27 @@ export const natureDeLExploitationOptionalSchema = z
     ),
     tauxPrévisionnelACI: optionalPercentageSchema,
   })
-  .refine(
-    (data) =>
-      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' ||
-      (data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
-        data.tauxPrévisionnelACI !== undefined),
-    {
-      message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
-      path: ['tauxPrévisionnelACI'],
-    },
-  )
+  .superRefine((data, ctx) => {
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
+      data.tauxPrévisionnelACI === undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' &&
+      data.tauxPrévisionnelACI !== undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
+  })
   .optional();

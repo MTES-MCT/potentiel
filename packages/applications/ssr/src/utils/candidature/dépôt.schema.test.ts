@@ -123,7 +123,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : technologie invalide', () => {
+    test('technologie invalide', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         technologie: 'photovoltaïque',
@@ -137,7 +137,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : historique abandon requis', () => {
+    test('historique abandon requis', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         historiqueAbandon: undefined,
@@ -151,7 +151,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : historique abandon invalide', () => {
+    test('historique abandon invalide', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         historiqueAbandon: 'nouvelle candidature',
@@ -226,7 +226,7 @@ describe('Schéma dépôt', () => {
   });
 
   describe('garanties financières', () => {
-    test('erreur : type invalide', () => {
+    test('type GF invalide', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         typeGarantiesFinancières: 'avec date de fin',
@@ -240,7 +240,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : date échéance manquante', () => {
+    test('date échéance GF manquante', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         typeGarantiesFinancières: 'avec-date-échéance',
@@ -263,7 +263,10 @@ describe('Schéma dépôt', () => {
         coefficientKChoisi: 'true',
         autorisationDUrbanisme: { numéro: 'URB-01', date: '12/12/2022' },
         puissanceDeSite: '200',
-        natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-en-totalité' },
+        natureDeLExploitation: {
+          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          tauxPrévisionnelACI: '10',
+        },
         dispositifDeStockage: {
           installationAvecDispositifDeStockage: true,
           capacitéDuDispositifDeStockageEnKWh: 1,
@@ -290,6 +293,10 @@ describe('Schéma dépôt', () => {
           date: new Date(champsSupplémentaires.autorisationDUrbanisme.date).toISOString(),
         },
         obligationDeSolarisation: true,
+        natureDeLExploitation: {
+          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          tauxPrévisionnelACI: 10,
+        },
       });
     });
 
@@ -325,7 +332,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('erreur : taux ACI requis', () => {
+    test('taux prévisionnel ACI requis', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-du-surplus' },
@@ -337,6 +344,23 @@ describe('Schéma dépôt', () => {
         result,
         ['natureDeLExploitation', 'tauxPrévisionnelACI'],
         `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+      );
+    });
+
+    test('taux prévisionnel ACI non attendu', () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        natureDeLExploitation: {
+          typeNatureDeLExploitation: 'vente-avec-injection-en-totalité',
+          tauxPrévisionnelACI: '10',
+        },
+      });
+
+      assert(result.error);
+      assertError(
+        result,
+        ['natureDeLExploitation', 'tauxPrévisionnelACI'],
+        `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
       );
     });
   });
