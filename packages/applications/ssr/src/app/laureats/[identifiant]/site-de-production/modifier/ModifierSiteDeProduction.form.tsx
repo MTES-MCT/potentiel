@@ -36,14 +36,14 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
   const [commune, setCommune] = useState({
     commune: localité.commune,
     codePostal: localité.codePostal,
-    departement: localité.département,
-    region: localité.région,
+    département: localité.département,
+    région: localité.région,
   });
   const [changementRégionConfirmé, setChangementRégionConfirmé] = useState(false);
   const originalRegion = localité.région;
 
   const nécessiteLaConfirmationPourChangementDeRégion =
-    Role.bind(rôle).estDreal() && originalRegion != commune.region;
+    Role.bind(rôle).estDreal() && originalRegion != commune.région;
 
   return (
     <Form
@@ -113,10 +113,10 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         </div>
         <input type="hidden" value={commune.commune} name="commune" />
         {validationErrors['commune']}
-        <input type="hidden" value={commune.departement} name="departement" />
-        {validationErrors['departement']}
-        <input type="hidden" value={commune.region} name="region" />
-        {validationErrors['region']}
+        <input type="hidden" value={commune.département} name="département" />
+        {validationErrors['département']}
+        <input type="hidden" value={commune.région} name="région" />
+        {validationErrors['région']}
       </div>
       <div>
         <Input
@@ -151,7 +151,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
             description={
               <p>
                 La gestion de ce projet sera transférée à la région{' '}
-                <span className="font-semilbold">{commune.region}</span>
+                <span className="font-semilbold">{commune.région}</span>
               </p>
             }
           />

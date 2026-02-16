@@ -32,7 +32,6 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
       }
     >
       <div className="flex flex-row gap-2">
-        {/* on affiche pas la date pour l'export projet */}
         {date && (
           <Tag
             iconId="ri-calendar-2-fill"

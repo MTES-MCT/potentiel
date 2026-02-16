@@ -105,8 +105,8 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     adresse2: candidature.dépôt.localité.adresse2,
     codePostal: candidature.dépôt.localité.codePostal,
     commune: candidature.dépôt.localité.commune,
-    departement: candidature.dépôt.localité.département,
-    region: candidature.dépôt.localité.région,
+    département: candidature.dépôt.localité.département,
+    région: candidature.dépôt.localité.région,
     technologie: candidature.dépôt.technologie.formatter(),
     typeGarantiesFinancieres: candidature.dépôt.garantiesFinancières?.type.type,
     dateEcheanceGf: candidature.dépôt.garantiesFinancières?.estAvecDateÉchéance()

@@ -52,8 +52,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   const [commune, setCommune] = useState({
     commune: candidature.commune,
     codePostal: candidature.codePostal,
-    departement: candidature.departement,
-    region: candidature.region,
+    département: candidature.département,
+    région: candidature.région,
   });
 
   return (
@@ -214,10 +214,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
         <input type="hidden" value={commune.commune} name="commune" />
         {validationErrors['commune']}
-        <input type="hidden" value={commune.departement} name="departement" />
-        {validationErrors['departement']}
-        <input type="hidden" value={commune.region} name="region" />
-        {validationErrors['region']}
+        <input type="hidden" value={commune.département} name="département" />
+        {validationErrors['département']}
+        <input type="hidden" value={commune.région} name="région" />
+        {validationErrors['région']}
         <Input
           state={validationErrors['codePostal'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['codePostal']}
