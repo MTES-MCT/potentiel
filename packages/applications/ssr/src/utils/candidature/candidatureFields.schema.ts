@@ -37,10 +37,10 @@ export const adresse2Schema = optionalStringSchema;
 
 // On accepte de multiples code postaux séparés par /
 export const codePostalSchema = requiredStringSchema
-  .transform((val) => stringToArray(val, '/'))
+  .transform((val) => stringToArray(val, '/').map((val) => val.padStart(5, '0')))
   .refine((val) => val.length > 0, 'Le code postal est requis')
   .refine(
-    (val) => val.every(récupérerDépartementRégionParCodePostal),
+    (val) => !val || val.every(récupérerDépartementRégionParCodePostal),
     'Le code postal ne correspond à aucune région / département',
   )
   .transform((val) => val.join(' / '));
@@ -101,6 +101,28 @@ export const dispositifDeStockageSchema = z
     capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
+  .superRefine((data, ctx) => {
+    if (
+      data.installationAvecDispositifDeStockage &&
+      (!data.installationAvecDispositifDeStockage || !data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage sont requis lorsque l'installation est avec dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+    if (
+      !data.installationAvecDispositifDeStockage &&
+      (data.installationAvecDispositifDeStockage || data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage doivent rester vides lorsque l'installation est sans dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+  })
   .optional();
 
 export const natureDeLExploitationOptionalSchema = z
@@ -109,5 +131,28 @@ export const natureDeLExploitationOptionalSchema = z
       Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
     ),
     tauxPrévisionnelACI: optionalPercentageSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
+      data.tauxPrévisionnelACI === undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' &&
+      data.tauxPrévisionnelACI !== undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
   })
   .optional();

@@ -11,13 +11,18 @@ export const optionalStringWithDefaultValueSchema = z
   .optional()
   .transform((v) => v ?? '');
 
-export const _numberSchemaBase = z.union([
-  z
-    .string()
-    // replace french commas to "."
-    .transform((str) => (str ? Number(str.replace(/,/g, '.')) : undefined)),
-  z.number(),
-]);
+export const _numberSchemaBase = z.preprocess((val) => {
+  if (val === '' || val === null || val === undefined) {
+    return undefined;
+  }
+
+  if (typeof val === 'string') {
+    const parsed = Number(val.replace(/,/g, '.'));
+    return Number.isNaN(parsed) ? val : parsed;
+  }
+
+  return val;
+}, z.number());
 
 export const numberSchema = _numberSchemaBase
   // transform to number
@@ -52,21 +57,28 @@ export const ouiNonSchema = z.stringbool({
   falsy: ['false', 'non'],
 });
 
-export const booleanSchema = z.union([z.boolean(), ouiNonSchema]);
+export const booleanSchema = z.union([z.boolean(), ouiNonSchema], {
+  message: 'La valeur doit être un booléen ou "oui" / "non"',
+});
 
 export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,
-) =>
-  z
+) => {
+  type EnumValue = TEnumSchema[keyof TEnumSchema];
+
+  return z
     .string()
-    .toLowerCase()
     .optional()
-    .pipe(
-      z
-        .union([enumSchema, z.literal(''), z.literal('n/a')])
-        .transform((v) => (v === '' || v === 'n/a' ? undefined : v))
-        .optional(),
-    );
+    .transform((v) => v?.toLowerCase())
+    .refine(
+      (v) =>
+        v === undefined || v === '' || v === 'n/a' || enumSchema.options.includes(v as EnumValue),
+      `Option invalide : une valeur parmi ${enumSchema.options
+        .map((o) => `"${o}"`)
+        .join('|')} attendue`,
+    )
+    .transform((v) => (v === '' || v === 'n/a' ? undefined : (v as EnumValue)));
+};
 
 export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,
