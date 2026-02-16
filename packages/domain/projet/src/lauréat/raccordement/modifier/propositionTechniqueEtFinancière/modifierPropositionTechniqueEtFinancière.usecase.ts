@@ -11,9 +11,9 @@ import {
 } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
-import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière.command.js';
+import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositionTechniqueEtFinancière.command.js';
 
-export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
+export type ModifierPropositionTechniqueEtFinancièreUseCase = Message<
   'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
   {
     dateSignatureValue: string;
@@ -29,8 +29,8 @@ export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
   }
 >;
 
-export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
-  const runner: MessageHandler<ModifierPropositiontechniqueEtFinancièreUseCase> = async ({
+export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
+  const runner: MessageHandler<ModifierPropositionTechniqueEtFinancièreUseCase> = async ({
     dateSignatureValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
