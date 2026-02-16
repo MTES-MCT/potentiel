@@ -33,9 +33,9 @@ const candidatureNotifiéeSchema = z
     installateur: dépôtSchema.shape.installateur,
     dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
     natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
-    // différence avec dépôt schéma
-    noteTotale: instructionSchema.shape.noteTotale,
+    // différence avec dépôtSchema
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
+    noteTotale: instructionSchema.shape.noteTotale,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
