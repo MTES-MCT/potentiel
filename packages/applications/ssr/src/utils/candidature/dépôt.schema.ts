@@ -98,6 +98,21 @@ const natureDeLExploitationOptionalSchema = z
   })
   .optional();
 
+const autorisationDUrbanismeSchema = z
+  .object({
+    date: dateDAutorisationDUrbanismeSchema,
+    numéro: numéroDAutorisationDUrbanismeSchema,
+  })
+  .optional()
+  .transform((val) =>
+    val?.date && val?.numéro
+      ? {
+          date: val.date,
+          numéro: val.numéro,
+        }
+      : undefined,
+  );
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -118,20 +133,7 @@ export const dépôtSchema = z
     historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
     obligationDeSolarisation: booleanSchema.optional(),
     puissanceDeSite: optionalStrictlyPositiveNumberSchema,
-    autorisationDUrbanisme: z
-      .object({
-        date: dateDAutorisationDUrbanismeSchema,
-        numéro: numéroDAutorisationDUrbanismeSchema,
-      })
-      .optional()
-      .transform((val) =>
-        val?.date && val?.numéro
-          ? {
-              date: val.date,
-              numéro: val.numéro,
-            }
-          : undefined,
-      ),
+    autorisationDUrbanisme: autorisationDUrbanismeSchema,
     installateur: optionalStringSchema,
     localité: localitéSchema,
     typologieInstallation: z.array(
@@ -144,8 +146,8 @@ export const dépôtSchema = z
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
   })
+  // Garanties financières et date d'échéance
   .superRefine((data, ctx) => {
-    // Garanties financières et date d'échéance
     const typeGF = data.typeGarantiesFinancières;
     if (typeGF === 'avec-date-échéance' && !data.dateÉchéanceGf) {
       ctx.addIssue({

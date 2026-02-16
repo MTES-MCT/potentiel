@@ -419,12 +419,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       {champsSupplémentaires.autorisationDUrbanisme && (
         <>
           <Input
-            state={validationErrors['numeroDAutorisationDUrbanisme'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['numeroDAutorisationDUrbanisme']}
+            state={validationErrors['numéroDAutorisationDUrbanisme'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['numéroDAutorisationDUrbanisme']}
             label="Numéro d'autorisation d'urbanisme"
             nativeInputProps={{
-              name: 'numeroDAutorisationDUrbanisme',
-              defaultValue: candidature.numeroDAutorisationDUrbanisme,
+              name: 'numéroDAutorisationDUrbanisme',
+              defaultValue: candidature.numéroDAutorisationDUrbanisme,
               required: true,
               'aria-required': true,
             }}

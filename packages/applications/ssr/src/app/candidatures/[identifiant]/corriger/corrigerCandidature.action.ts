@@ -50,7 +50,7 @@ const schema = zod.object({
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
   dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-  numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   installateur: dépôtSchema.shape.installateur,
   natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
   puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
@@ -127,9 +127,9 @@ const mapBodyToUseCaseData = (
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
       autorisationDUrbanisme:
-        data.numeroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+        data.numéroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
           ? {
-              numéro: data.numeroDAutorisationDUrbanisme,
+              numéro: data.numéroDAutorisationDUrbanisme,
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
             }
           : undefined,

@@ -228,7 +228,7 @@ const mapBodyToCandidatureUsecaseData = (
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
       autorisationDUrbanisme: previous.autorisationDUrbanisme
         ? {
-            numéro: data.numeroDAutorisationDUrbanisme ?? previous.autorisationDUrbanisme.numéro,
+            numéro: data.numéroDAutorisationDUrbanisme ?? previous.autorisationDUrbanisme.numéro,
             date:
               data.dateDAutorisationDUrbanisme ??
               DateTime.convertirEnValueType(previous.autorisationDUrbanisme.date.date).formatter(),
