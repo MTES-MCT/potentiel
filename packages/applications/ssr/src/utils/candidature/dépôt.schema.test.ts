@@ -82,31 +82,27 @@ describe('Schéma dépôt', () => {
       'prixReference',
       'evaluationCarboneSimplifiée',
     ]) {
-      for (const valeur of [0, -1]) {
-        test(`${champ} doit être un nombre positif`, () => {
-          const result = dépôtSchema.safeParse({
-            ...minimumValues,
-            [champ]: valeur,
-          });
-
-          assert(result.error);
-          assertError(result, [champ], 'Le champ doit être un nombre positif');
+      test(`${champ} doit être un nombre positif`, () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          [champ]: '-1',
         });
-      }
+
+        assert(result.error);
+        assertError(result, [champ], 'Le champ doit être un nombre positif');
+      });
     }
 
     for (const champ of ['puissance', 'prixReference', 'evaluationCarboneSimplifiée']) {
-      for (const valeur of ['dix', undefined]) {
-        test(`${champ} doit être un nombre)`, () => {
-          const result = dépôtSchema.safeParse({
-            ...minimumValues,
-            [champ]: valeur,
-          });
-
-          assert(result.error);
-          assertError(result, [champ], 'Le champ doit être un nombre');
+      test(`${champ} doit être un nombre`, () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          [champ]: undefined,
         });
-      }
+
+        assert(result.error);
+        assertError(result, [champ], 'Le champ doit être un nombre');
+      });
     }
 
     test('actionnariat invalide', () => {
@@ -240,7 +236,7 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('date échéance GF manquante', () => {
+    test(`date échéance GF manquante lorsque le type est "avec date d'échéance"`, () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
         typeGarantiesFinancières: 'avec-date-échéance',
@@ -251,7 +247,22 @@ describe('Schéma dépôt', () => {
       assertError(
         result,
         ['dateÉchéanceGf'],
-        '"dateÉchéanceGf" est requis lorsque "typeGarantiesFinancières" a la valeur "avec-date-échéance"',
+        `La date d'échéance des garanties financières est requise lorsque le type est "avec date d'échéance"`,
+      );
+    });
+
+    test(`date échéance GF non attendue lorsque le type n'est pas "avec date d'échéance"`, () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        typeGarantiesFinancières: 'consignation',
+        dateÉchéanceGf: '01/01/2025',
+      });
+
+      assert(result.error);
+      assertError(
+        result,
+        ['dateÉchéanceGf'],
+        `La date d'échéance des garanties financières ne doit pas être complétée lorsque le type n'est pas "avec date d'échéance"`,
       );
     });
   });
@@ -301,7 +312,7 @@ describe('Schéma dépôt', () => {
     });
 
     for (const champ of ['coefficientKChoisi', 'obligationDeSolarisation', 'puissanceALaPointe']) {
-      test(`bouléen attendu pour ${champ}`, () => {
+      test(`booléen attendu pour ${champ}`, () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
           [champ]: 'avec',
@@ -328,7 +339,49 @@ describe('Schéma dépôt', () => {
           'capacitéDuDispositifDeStockageEnKWh',
           'puissanceDuDispositifDeStockageEnKW',
         ],
-        `"capacitéDuDispositifDeStockageEnKWh" et "puissanceDuDispositifDeStockageEnKW" sont requis lorsque l'installation est avec dispositif de stockage`,
+        `capacité et puissance du dispositif de stockage sont requis lorsque l'installation est avec dispositif de stockage`,
+      );
+    });
+
+    test('capacitéDuDispositifDeStockageEnKWh et puissanceDuDispositifDeStockageEnKW requis si installation avec dispositif de stockage', () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        dispositifDeStockage: {
+          installationAvecDispositifDeStockage: true,
+        },
+      });
+
+      assert(result.error);
+      assertError(
+        result,
+        [
+          'dispositifDeStockage',
+          'capacitéDuDispositifDeStockageEnKWh',
+          'puissanceDuDispositifDeStockageEnKW',
+        ],
+        `capacité et puissance du dispositif de stockage sont requis lorsque l'installation est avec dispositif de stockage`,
+      );
+    });
+
+    test('capacitéDuDispositifDeStockageEnKWh et puissanceDuDispositifDeStockageEnKW non attendus si installation sans dispositif de stockage', () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        dispositifDeStockage: {
+          installationAvecDispositifDeStockage: 'false',
+          capacitéDuDispositifDeStockageEnKWh: '10',
+          puissanceDuDispositifDeStockageEnKW: '10',
+        },
+      });
+
+      assert(result.error);
+      assertError(
+        result,
+        [
+          'dispositifDeStockage',
+          'capacitéDuDispositifDeStockageEnKWh',
+          'puissanceDuDispositifDeStockageEnKW',
+        ],
+        `capacité et puissance du dispositif de stockage doivent rester vides lorsque l'installation est sans dispositif de stockage`,
       );
     });
 

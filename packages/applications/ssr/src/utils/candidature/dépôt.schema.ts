@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import { conditionalRequiredError } from '../candidature';
-
 import {
   actionnariatSchema,
   dateEchéanceOuConstitutionGfSchema,
@@ -56,15 +54,21 @@ export const dépôtSchema = z
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalPuissanceOuPuissanceDeSiteSchema,
   })
-  .superRefine((obj, ctx) => {
-    const typeGF = obj.typeGarantiesFinancières;
-    if (typeGF === 'avec-date-échéance' && !obj.dateÉchéanceGf) {
-      ctx.addIssue(
-        conditionalRequiredError(
-          'dateÉchéanceGf',
-          'typeGarantiesFinancières',
-          'avec-date-échéance',
-        ),
-      );
+  .superRefine((data, ctx) => {
+    const typeGF = data.typeGarantiesFinancières;
+    if (typeGF === 'avec-date-échéance' && !data.dateÉchéanceGf) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `La date d'échéance des garanties financières est requise lorsque le type est "avec date d'échéance"`,
+        path: ['dateÉchéanceGf'],
+      });
+    }
+
+    if (typeGF !== 'avec-date-échéance' && data.dateÉchéanceGf) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `La date d'échéance des garanties financières ne doit pas être complétée lorsque le type n'est pas "avec date d'échéance"`,
+        path: ['dateÉchéanceGf'],
+      });
     }
   });

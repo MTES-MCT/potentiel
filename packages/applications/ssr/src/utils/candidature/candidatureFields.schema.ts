@@ -101,16 +101,28 @@ export const dispositifDeStockageSchema = z
     capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
-  .refine(
-    (data) =>
-      !data.installationAvecDispositifDeStockage ||
-      (data.capacitéDuDispositifDeStockageEnKWh !== undefined &&
-        data.puissanceDuDispositifDeStockageEnKW !== undefined),
-    {
-      message: `"capacitéDuDispositifDeStockageEnKWh" et "puissanceDuDispositifDeStockageEnKW" sont requis lorsque l'installation est avec dispositif de stockage`,
-      path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
-    },
-  )
+  .superRefine((data, ctx) => {
+    if (
+      data.installationAvecDispositifDeStockage &&
+      (!data.installationAvecDispositifDeStockage || !data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage sont requis lorsque l'installation est avec dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+    if (
+      !data.installationAvecDispositifDeStockage &&
+      (data.installationAvecDispositifDeStockage || data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage doivent rester vides lorsque l'installation est sans dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+  })
   .optional();
 
 export const natureDeLExploitationOptionalSchema = z
