@@ -15,14 +15,14 @@ Fonctionnalité: Enregistrer un changement d'installateur d'un projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et le changement d'installateur devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Déclaration de changement d'installateur pour le projet Du boulodrome de la Villette dans le département(.*) |
-            | nom_projet | Du boulodrome de la Villette                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/installateur/changement/.*                                       |
+            | sujet      | Potentiel - Du boulodrome de la Villette - Déclaration de changement d'installateur |
+            | nom_projet | Du boulodrome de la Villette                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/installateur/changement/.*  |
 
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Déclaration de changement d'installateur pour le projet Du boulodrome de la Villette dans le département(.*) |
-            | nom_projet | Du boulodrome de la Villette                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/installateur/changement/.*                                       |
+            | sujet      | Potentiel - Du boulodrome de la Villette - Déclaration de changement d'installateur |
+            | nom_projet | Du boulodrome de la Villette                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/installateur/changement/.*  |
 
     Scénario: Impossible d'enregistrer un changement d'installateur pour un projet lauréat abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat

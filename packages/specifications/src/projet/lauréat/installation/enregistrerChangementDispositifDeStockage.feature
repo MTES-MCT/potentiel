@@ -19,13 +19,13 @@ Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet
         Et l'installation du projet lauréat devrait être mise à jour
         Et le changement de dispositif de stockage devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Déclaration de changement de dispositif de stockage pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                                      |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Déclaration de changement de dispositif de stockage pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                                      |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                  |
 
     Scénario: Impossible d'enregistrer un changement de dispositif de stockage d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat

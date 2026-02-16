@@ -18,13 +18,13 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
         Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
 
     Scénario: Modifier le dispositif de stockage d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat
@@ -35,13 +35,13 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
         Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
 
     Scénario: Modifier le dispositif de stockage d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -50,13 +50,13 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
         Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                              |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
+            | nom_projet | Du boulodrome de Marseille                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
 
     Scénario: Impossible de modifier le dispositif de stockage avec une valeur identique à l'actuelle
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
