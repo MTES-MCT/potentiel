@@ -10,10 +10,10 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/projet": "*"
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

@@ -10,11 +10,11 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-libraries/http-client": "*",
-    "@potentiel-libraries/monads": "*",
-    "zod": "4.1.9"
+    "@potentiel-libraries/http-client": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

@@ -6,6 +6,15 @@
   },
   "references": [
     {
+      "path": "../../domain/core"
+    },
+    {
+      "path": "../../domain/projet"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
       "path": "../../infrastructure/domain-adapters"
     },
     {
@@ -18,7 +27,13 @@
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../libraries/pg-helpers"
     },
     {
       "path": "../bootstrap"
@@ -31,6 +46,9 @@
     },
     {
       "path": "../projectors"
+    },
+    {
+      "path": "../request-context"
     }
   ]
 }

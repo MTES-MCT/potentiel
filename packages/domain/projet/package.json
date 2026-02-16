@@ -11,18 +11,18 @@
     "test": "tsx --test **/*.test.ts"
   },
   "dependencies": {
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*",
-    "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-libraries/monads": "*",
-    "mediateur": "0.3.0",
-    "mime-types": "3.0.2"
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
+    "@potentiel-domain/reseau": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "mediateur": "catalog:",
+    "mime-types": "3.0.2"  
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "workspace:*",
     "@types/mime-types": "3.0.1"
   }
 }

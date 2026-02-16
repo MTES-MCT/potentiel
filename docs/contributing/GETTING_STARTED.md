@@ -38,26 +38,32 @@ Pour installer et lancer le projet vous aurez besoin de :
    cd potentiel
    ```
 
-2. Installer Node.js via la commande **nvm** à la racine du projet (**nvm** utilisera la configuration contenue dans le fichier **[.nvmrc](/.nvmrc)**) :
+2. (optionnel) Installer Node.js via la commande **nvm** à la racine du projet (**nvm** utilisera la configuration contenue dans le fichier **[.nvmrc](/.nvmrc)**) :
 
    ```bash
    nvm install
    ```
 
-3. Installer les dépendances :
+3. (optionnel) Configurer PNPM
 
    ```bash
-   npm install
+   corepack enable
    ```
 
-4. Configurer les variables d'environnement à la base des applications :
+4. Installer les dépendances :
+
+   ```bash
+   pnpm install
+   ```
+
+5. Configurer les variables d'environnement à la base des applications :
 
    ```bash
    cp packages/applications/ssr/.env.template packages/applications/ssr/.env
    cp packages/applications/subscribers/.env.template packages/applications/subscribers/.env
    ```
 
-5. Synchroniser les submodules
+6. Synchroniser les submodules
 
    Il faut retourner à la racine du repo et exécuter :
 
@@ -72,7 +78,7 @@ Nous utilisons le service de Keycloak seulement en local.
 
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
 
-En local, lorsque la commande `npm run up` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak).
+En local, lorsque la commande `pnpm run up` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak).
 
 > ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes:
 >
@@ -97,8 +103,8 @@ Ces composants peuvent être lancés individuellement ou de manière simultanée
 1. Lancer l'application via le script npm :
 
 ```bash
-npm run build
-npm run start
+pnpm run build
+pnpm run start
 ```
 
 2. Se rendre sur [localhost:3000](http://localhost:3000)
@@ -127,9 +133,9 @@ Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer le
 
 > ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.
 >
-> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée, via la commande `npm update:dump`.
+> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée, via la commande `pnpm update:dump`.
 >
-> Attention ! Pensez à ne garder que les modifications pertinentes. Vous pouvez remettre la base de donnée à son état d'origine avec `npm run down && npm run up`.
+> Attention ! Pensez à ne garder que les modifications pertinentes. Vous pouvez remettre la base de donnée à son état d'origine avec `pnpm run down && pnpm run up`.
 
 ### <a id="ajouter-a-la-main-projets-dans-potentiel">Ajouter "à la main des projets dans Potentiel"</a>
 
@@ -161,13 +167,13 @@ Il existe plusieurs type de test dans le projet :
 
 1. Pour lancer touts les tests, vous pouvez utiliser le script npm `specs` :
    ```shell
-   npm run specs
+   pnpm run specs
    ```
 2. Il est possible de cibler des tests par domaine / fonctionnalité en rajoutant dans les fichiers `*.feature` des alias en haut de fichier (par exemple `@demander-délai`)
 
 ```bash
-npm run specs -- -t @délai
-npm run specs -- -t @demander-délai
+pnpm run specs -t @délai
+pnpm run specs -t @demander-délai
 ```
 
 1. Il est possible de cibler des tests spécifique grâce au tag `@select`. Exemple :
@@ -177,10 +183,10 @@ npm run specs -- -t @demander-délai
 Scénario: Ajouter un gestionnaire de réseau
 ```
 
-Utilisez ensuite le script `npm run specs:select`
+Utilisez ensuite le script :
 
 ```shell
-npm run specs:select
+pnpm run specs:select
 ```
 
 ### <a id="unit">Les tests unitaires</a>
@@ -188,8 +194,8 @@ npm run specs:select
 1. Lancer tout les tests unitaires des packages librairies et applications
 
 ```bash
-npm run test:apps
-npm run test:libraries
+pnpm run test:apps
+pnpm run test:libraries
 
 ```
 
@@ -198,7 +204,7 @@ npm run test:libraries
 Se rendre dans le répertoire où le test cible se situe et exécuter :
 
 ```bash
-npx tsx --test path/to/file.test.ts
+pnpx tsx --test path/to/file.test.ts
 
 ```
 
@@ -213,7 +219,7 @@ Un container docker local est disponible pour vérifier et générer des dashboa
 1. Générer les statistiques publiques
 
 - définir la variable `export DATABASE_CONNECTION_STRING=` (cf [.env.template](../../packages/applications/ssr/.env.template))
-- Lancer la commande depuis la racine du repo `npm exec potentiel-cli stats extraire`
+- Lancer la commande depuis la racine du repo `pnpm exec potentiel-cli stats extraire`
 
 2. Consulter les statistiques publiques
 

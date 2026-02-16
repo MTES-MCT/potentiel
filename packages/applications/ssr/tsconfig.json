@@ -29,19 +29,34 @@
       "path": "../../domain/appel-offre"
     },
     {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/core"
+    },
+    {
       "path": "../../domain/entity"
+    },
+    {
+      "path": "../../domain/inmemory-referential"
     },
     {
       "path": "../../domain/projet"
     },
     {
+      "path": "../../domain/période"
+    },
+    {
       "path": "../../domain/réseau"
+    },
+    {
+      "path": "../../domain/statistiques-utilisation"
     },
     {
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../domain/statistiques-utilisation"
+      "path": "../../infrastructure/domain-adapters"
     },
     {
       "path": "../../infrastructure/ds-api-client"
@@ -54,6 +69,9 @@
     },
     {
       "path": "../../libraries/csv"
+    },
+    {
+      "path": "../../libraries/http-client"
     },
     {
       "path": "../../libraries/iso8601-datetime"

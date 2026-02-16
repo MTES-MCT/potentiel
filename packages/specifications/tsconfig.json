@@ -12,13 +12,31 @@
       "path": "../applications/notifications"
     },
     {
+      "path": "../applications/routes"
+    },
+    {
       "path": "../applications/subscribers"
+    },
+    {
+      "path": "../domain/appel-offre"
+    },
+    {
+      "path": "../domain/common"
     },
     {
       "path": "../domain/core"
     },
     {
+      "path": "../domain/inmemory-referential"
+    },
+    {
+      "path": "../domain/projet"
+    },
+    {
       "path": "../domain/période"
+    },
+    {
+      "path": "../domain/réseau"
     },
     {
       "path": "../domain/utilisateur"
@@ -33,7 +51,13 @@
       "path": "../libraries/file-storage"
     },
     {
+      "path": "../libraries/iso8601-datetime"
+    },
+    {
       "path": "../libraries/monads"
+    },
+    {
+      "path": "../libraries/monitoring"
     },
     {
       "path": "../libraries/pg-helpers"

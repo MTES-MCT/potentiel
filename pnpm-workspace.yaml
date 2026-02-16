@@ -1,0 +1,26 @@
+# Prevent build scripts (postinstall) from dependencies
+strictDepBuilds: true
+
+# Protections against supply chain attacks (https://pnpm.io/fr/supply-chain-security)
+# minimumReleaseAge: 10080
+# blockExoticSubdeps: true
+# trustPolicy: no-downgrade
+
+packages:
+  - ./packages/config/*
+  - ./packages/libraries/*
+  - ./packages/domain/*
+  - ./packages/infrastructure/*
+  - ./packages/statistiques/*
+  - ./packages/applications/*
+  - ./packages/specifications
+
+catalog:
+  cockatiel: 3.2.1
+  flat: 6.0.1
+  mediateur: 0.3.0
+  tsx: 4.20.4
+  zod: 4.1.9
+
+hoistPattern:
+  - '!graphql'

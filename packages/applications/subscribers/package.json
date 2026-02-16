@@ -12,18 +12,27 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-applications/bootstrap": "*",
-    "@potentiel-applications/document-builder": "*",
-    "@potentiel-applications/projectors": "*",
-    "@potentiel-applications/notifications": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/email": "*",
-    "@potentiel-infrastructure/ore-client": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "mediateur": "0.3.0"
+    "@potentiel-applications/bootstrap": "workspace:*",
+    "@potentiel-applications/document-builder": "workspace:*",
+    "@potentiel-applications/notifications": "workspace:*",
+    "@potentiel-applications/projectors": "workspace:*",
+    "@potentiel-applications/request-context": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-infrastructure/domain-adapters": "workspace:*",
+    "@potentiel-infrastructure/email": "workspace:*",
+    "@potentiel-infrastructure/ore-client": "workspace:*",
+    "@potentiel-infrastructure/pg-event-sourcing": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "@potentiel-libraries/pg-helpers": "workspace:*",
+    "cockatiel": "catalog:",
+    "dotenv": "16.5.0",
+    "mediateur": "catalog:",
+    "winston-elasticsearch": "0.19.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

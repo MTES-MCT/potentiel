@@ -9,16 +9,19 @@
       "path": "../../domain/common"
     },
     {
-      "path": "../../domain/utilisateur"
+      "path": "../../domain/core"
     },
     {
       "path": "../../domain/statistiques-utilisation"
     },
     {
-      "path": "../../infrastructure/email"
+      "path": "../../domain/utilisateur"
     },
     {
       "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
     },
     {
       "path": "../../libraries/pg-helpers"

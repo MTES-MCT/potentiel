@@ -9,6 +9,9 @@
       "path": "../../domain/entity"
     },
     {
+      "path": "../../libraries/monitoring"
+    },
+    {
       "path": "../../libraries/pg-helpers"
     },
     {

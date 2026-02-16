@@ -16,7 +16,9 @@
     "winston": "3.17.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*",
+    "logform": "^2.7.0",
+    "winston-transport": "^4.9.0"
   },
   "exports": {
     ".": {

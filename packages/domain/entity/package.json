@@ -10,10 +10,10 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-domain/core": "workspace:*"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

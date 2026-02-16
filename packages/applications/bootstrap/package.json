@@ -10,22 +10,24 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-applications/request-context": "*",
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/periode": "*",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/statistiques-utilisation": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/email": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-infrastructure/pg-projection-read": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "mediateur": "0.3.0"
+    "@potentiel-applications/request-context": "workspace:*",
+    "@potentiel-applications/notifications": "workspace:*",
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/entity": "workspace:*",
+    "@potentiel-domain/periode": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-domain/reseau": "workspace:*",
+    "@potentiel-domain/statistiques-utilisation": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-infrastructure/domain-adapters": "workspace:*",
+    "@potentiel-infrastructure/email": "workspace:*",
+    "@potentiel-infrastructure/pg-event-sourcing": "workspace:*",
+    "@potentiel-infrastructure/pg-projection-read": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "mediateur": "catalog:"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

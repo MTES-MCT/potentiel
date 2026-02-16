@@ -7,22 +7,27 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prebuild": "npm run codegen",
-    "build": "npm run prebuild && tsc",
+    "prebuild": "pnpm run codegen",
+    "build": "tsc",
     "codegen": "graphql-codegen-esm --config codegen.ts",
     "test": "tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@potentiel-domain/projet": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "graphql-request": "7.2.0"
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/inmemory-referential": "workspace:*",
+    "@potentiel-libraries/iso8601-datetime": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "graphql": "16.12.0",
+    "graphql-request": "7.2.0",
+    "graphql-tag": "2.12.6"
   },
   "devDependencies": {
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript-graphql-request": "6.3.0",
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*"
   }
 }

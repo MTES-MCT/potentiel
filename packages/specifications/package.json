@@ -11,30 +11,39 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint ./src --ext .ts",
-    "format": "prettier './src/**/*.{ts,feature}' --write",
     "test": "cucumber-js --tags \"not @NotImplemented\"",
     "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\"",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.842.0",
-    "@potentiel-applications/bootstrap": "*",
-    "@potentiel-applications/notifications": "*",
-    "@potentiel-applications/subscribers": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/periode": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-libraries/file-storage": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/pg-helpers": "*",
-    "mediateur": "0.3.0",
+    "@potentiel-applications/bootstrap": "workspace:*",
+    "@potentiel-applications/notifications": "workspace:*",
+    "@potentiel-applications/routes": "workspace:*",
+    "@potentiel-applications/subscribers": "workspace:*",
+    "@potentiel-domain/appel-offre": "workspace:*",
+    "@potentiel-domain/common": "workspace:*",
+    "@potentiel-domain/core": "workspace:*",
+    "@potentiel-domain/inmemory-referential": "workspace:*",
+    "@potentiel-domain/periode": "workspace:*",
+    "@potentiel-domain/projet": "workspace:*",
+    "@potentiel-domain/reseau": "workspace:*",
+    "@potentiel-domain/utilisateur": "workspace:*",
+    "@potentiel-infrastructure/domain-adapters": "workspace:*",
+    "@potentiel-infrastructure/pg-event-sourcing": "workspace:*",
+    "@potentiel-libraries/iso8601-datetime": "workspace:*",
+    "@potentiel-libraries/file-storage": "workspace:*",
+    "@potentiel-libraries/monads": "workspace:*",
+    "@potentiel-libraries/monitoring": "workspace:*",
+    "@potentiel-libraries/pg-helpers": "workspace:*",
+    "mediateur": "catalog:",
     "mime-types": "3.0.2"
   },
   "devDependencies": {
     "@cucumber/cucumber": "11.3.0",
     "@cucumber/pretty-formatter": "1.0.1",
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "workspace:*",
+    "@types/mime-types": "3.0.1",
+    "@smithy/types": "4.12.0"
   }
 }

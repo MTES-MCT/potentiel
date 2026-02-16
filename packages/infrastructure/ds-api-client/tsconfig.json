@@ -13,7 +13,16 @@
   "include": ["./src"],
   "references": [
     {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/inmemory-referential"
+    },
+    {
       "path": "../../domain/projet"
+    },
+    {
+      "path": "../../libraries/iso8601-datetime"
     },
     {
       "path": "../../libraries/monads"
