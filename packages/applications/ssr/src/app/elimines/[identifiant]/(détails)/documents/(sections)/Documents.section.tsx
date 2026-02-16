@@ -4,7 +4,6 @@ import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -23,7 +22,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
   SectionWithErrorHandling(
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
-
       const éliminé = await getÉliminé(identifiantProjet);
 
       if (!éliminé) {
@@ -43,7 +41,6 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       // EXPORT
       documents.push({
         type: 'Export des données du projet',
-        date: DateTime.now().formatter(),
         format: 'csv',
         url: rôle.aLaPermission('éliminé.listerÉliminéEnrichi')
           ? Routes.Éliminé.exporter({ identifiantProjet })
@@ -93,7 +90,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             }
             severity="info"
           />
-          <DocumentsList documents={documents.toSorted((a, b) => b.date.localeCompare(a.date))} />
+          <DocumentsList
+            documents={documents.toSorted((a, b) => (b.date || '').localeCompare(a.date || ''))}
+          />
         </>
       );
     }),
