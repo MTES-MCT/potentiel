@@ -20,11 +20,11 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
 
     Scénario: Modifier le dispositif de stockage d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat
@@ -37,11 +37,11 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
 
     Scénario: Modifier le dispositif de stockage d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -52,11 +52,11 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                       |
 
     Scénario: Impossible de modifier le dispositif de stockage avec une valeur identique à l'actuelle
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :

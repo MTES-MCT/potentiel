@@ -19,11 +19,11 @@ Fonctionnalité: Enregistrer un changement de dispositif de stockage d'un projet
         Et l'installation du projet lauréat devrait être mise à jour
         Et le changement de dispositif de stockage devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de couplage avec un dispositif de stockage |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                                    |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de couplage avec un dispositif de stockage |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement du couplage avec un dispositif de stockage |
             | nom_projet | Du boulodrome de Marseille                                                                                    |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/installation/dispositif-de-stockage/changement/.*                  |
 
