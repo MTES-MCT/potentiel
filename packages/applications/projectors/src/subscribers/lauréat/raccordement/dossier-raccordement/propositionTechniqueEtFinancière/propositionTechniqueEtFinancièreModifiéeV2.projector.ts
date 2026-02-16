@@ -11,7 +11,7 @@ export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
     propositionTechniqueEtFinancièreSignée: { format },
   },
   created_at,
-}: Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent & Event) => {
+}: Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV2 & Event) => {
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {

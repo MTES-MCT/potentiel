@@ -1,27 +1,26 @@
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const demandeComplèteRaccordementModifiéeV3Projector = async ({
+export const propositionTechniqueEtFinancièreModifiéeV3Projector = async ({
   payload: {
     identifiantProjet,
     référenceDossierRaccordement,
-    dateQualification,
-    accuséRéception: { format },
+    dateSignature,
+    propositionTechniqueEtFinancièreSignée: { format },
+    modifiéeLe,
   },
-  created_at,
-}: Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV3 & Event) => {
+}: Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent) => {
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     {
-      demandeComplèteRaccordement: {
-        dateQualification,
-        accuséRéception: {
+      propositionTechniqueEtFinancière: {
+        dateSignature,
+        propositionTechniqueEtFinancièreSignée: {
           format,
         },
       },
-      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(modifiéeLe).formatter(),
     },
   );
 };

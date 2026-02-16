@@ -12,14 +12,23 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
     createdAt: string;
   },
 ): TimelineItemProps => {
-  const { référenceDossierRaccordement, dateQualification } = event.payload;
+  const { référenceDossierRaccordement } = event.payload;
+
+  const transmiseLe: DateTime.RawType =
+    'transmiseLe' in event.payload
+      ? event.payload.transmiseLe
+      : DateTime.convertirEnValueType(event.createdAt).formatter();
+
+  const transmisePar: string | undefined =
+    'transmisePar' in event.payload ? event.payload.transmisePar : undefined;
 
   return {
-    date: dateQualification ?? (event.createdAt as DateTime.RawType),
+    date: transmiseLe,
+    actor: transmisePar,
     title: (
       <>
-        Un nouveau dossier de raccordement a été créé avec comme référence{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>
+        Un nouveau dossier de raccordement{' '}
+        <span className="font-semibold">{référenceDossierRaccordement}</span> a été créé
       </>
     ),
   };

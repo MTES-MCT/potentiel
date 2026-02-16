@@ -5,7 +5,7 @@ import { Candidature, IdentifiantProjet } from '../../../index.js';
 
 /**
  * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursValidéEvent à la place.
- * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
  */
 export type DépôtGarantiesFinancièresEnCoursValidéEventV1 = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursValidé-V1',

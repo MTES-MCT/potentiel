@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
@@ -39,6 +40,8 @@ const action: FormAction<FormState, typeof schema> = async (
         dateSignatureValue: new Date(dateSignature).toISOString(),
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
         rôleValue: utilisateur.rôle.nom,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 

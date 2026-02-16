@@ -17,9 +17,9 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
       : (event.createdAt as DateTime.RawType),
   title: (
     <div>
-      La référence pour le dossier de raccordement{' '}
+      La référence du dossier de raccordement{' '}
       <span className="font-semibold">{event.payload.référenceDossierRaccordementActuelle}</span> a
-      été changée
+      été modifiée
     </div>
   ),
   actor:

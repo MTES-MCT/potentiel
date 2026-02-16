@@ -25,10 +25,12 @@ import {
   demandeComplèteRaccordementModifiéeV1Projector,
   demandeComplèteRaccordementModifiéeV2Projector,
   demandeComplèteRaccordementModifiéeV3Projector,
+  demandeComplèteRaccordementModifiéeV4Projector,
 } from './dossier-raccordement/demandeComplèteDeRaccordement/index.js';
 import {
   propositionTechniqueEtFinancièreModifiéeV1Projector,
   propositionTechniqueEtFinancièreModifiéeV2Projector,
+  propositionTechniqueEtFinancièreModifiéeV3Projector,
   propositionTechniqueEtFinancièreSignéeTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV1Projector,
   propositionTechniqueEtFinancièreTransmiseV2Projector,
@@ -109,6 +111,10 @@ export const register = () => {
             demandeComplèteRaccordementModifiéeV3Projector,
           )
           .with(
+            { type: 'DemandeComplèteRaccordementModifiée-V4' },
+            demandeComplèteRaccordementModifiéeV4Projector,
+          )
+          .with(
             { type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' },
             accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector,
           )
@@ -137,6 +143,10 @@ export const register = () => {
           .with(
             { type: 'PropositionTechniqueEtFinancièreModifiée-V2' },
             propositionTechniqueEtFinancièreModifiéeV2Projector,
+          )
+          .with(
+            { type: 'PropositionTechniqueEtFinancièreModifiée-V3' },
+            propositionTechniqueEtFinancièreModifiéeV3Projector,
           )
 
           // Date de mise en service

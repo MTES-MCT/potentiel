@@ -217,6 +217,8 @@ async function modifierDemandeComplèteRaccordement(
         dateQualificationValue: dateQualification,
         accuséRéceptionValue: accuséRéception,
         rôleValue: role,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
       },
     });
   } catch (e) {

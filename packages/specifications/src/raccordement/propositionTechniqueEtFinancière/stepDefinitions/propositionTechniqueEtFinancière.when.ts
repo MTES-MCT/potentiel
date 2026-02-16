@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
 import { getRôle, RôleUtilisateur } from '../../../helpers/index.js';
@@ -125,6 +126,8 @@ async function modifierPropositionTechniqueEtFinancière(
         identifiantProjetValue: identifiantProjet.formatter(),
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
         rôleValue: role,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
       },
     });
   } catch (e) {
