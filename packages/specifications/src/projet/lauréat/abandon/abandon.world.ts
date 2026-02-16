@@ -103,6 +103,10 @@ export class AbandonWord {
 
     const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
 
+    const règlesChangementDeLAO =
+      ao?.periodes.find((période) => période.id === identifiantProjet.période)?.changement ??
+      ao?.changement;
+
     const expected: Lauréat.Abandon.ConsulterDemandeAbandonReadModel = {
       statut,
       identifiantProjet,
@@ -117,9 +121,9 @@ export class AbandonWord {
             }
           : undefined,
         autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.convertirEnValueType(
-          ao!.changement === 'indisponible' || !ao?.changement.abandon.demande
+          règlesChangementDeLAO === 'indisponible' || !règlesChangementDeLAO?.abandon?.demande
             ? Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON
-            : ao.changement.abandon.autoritéCompétente,
+            : règlesChangementDeLAO.abandon.autoritéCompétente,
         ),
       },
     };

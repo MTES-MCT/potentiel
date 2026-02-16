@@ -100,7 +100,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
-      autoritéCompétente: 'dgec',
+      autoritéCompétente: 'dreal',
     },
     installateur: {},
     dispositifDeStockage: {},
@@ -189,6 +189,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '2',
@@ -219,6 +225,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '3',
@@ -244,6 +256,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '4',
@@ -280,6 +298,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '5',
@@ -316,6 +340,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '6',
@@ -352,6 +382,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '7',
@@ -388,6 +424,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
     {
       id: '8',
@@ -425,6 +467,15 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
+      changement: {
+        abandon: {
+          demande: true,
+          autoritéCompétente: 'dgec',
+        },
+      },
     },
+    /** à partir de la P9 l'autorité compétente pour les abandons est la dreal,
+     *  plus besoin de redéfinir cete règle au niveau de la période
+     */
   ],
 };
