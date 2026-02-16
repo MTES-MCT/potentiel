@@ -3,7 +3,7 @@ import { Middleware } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 import { getContext } from '@potentiel-applications/request-context';
-import { Entity, ListResult } from '@potentiel-domain/entity';
+import type { Entity, ListResult } from '@potentiel-domain/entity';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();
