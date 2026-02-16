@@ -36,6 +36,68 @@ const localitéSchema = z.object({
   région: requiredStringSchema,
 });
 
+const dispositifDeStockageSchema = z
+  .object({
+    installationAvecDispositifDeStockage: booleanSchema,
+    capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
+    puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.installationAvecDispositifDeStockage &&
+      (!data.installationAvecDispositifDeStockage || !data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage sont requis lorsque l'installation est avec dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+    if (
+      !data.installationAvecDispositifDeStockage &&
+      (data.installationAvecDispositifDeStockage || data.puissanceDuDispositifDeStockageEnKW)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `capacité et puissance du dispositif de stockage doivent rester vides lorsque l'installation est sans dispositif de stockage`,
+        path: ['capacitéDuDispositifDeStockageEnKWh', 'puissanceDuDispositifDeStockageEnKW'],
+      });
+    }
+  })
+  .optional();
+
+const natureDeLExploitationOptionalSchema = z
+  .object({
+    typeNatureDeLExploitation: z.enum(
+      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+    ),
+    tauxPrévisionnelACI: optionalPercentageSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
+      data.tauxPrévisionnelACI === undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' &&
+      data.tauxPrévisionnelACI !== undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
+        path: ['tauxPrévisionnelACI'],
+      });
+    }
+  })
+  .optional();
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -78,24 +140,12 @@ export const dépôtSchema = z
         détails: z.string().optional(),
       }),
     ),
-    dispositifDeStockage: z
-      .object({
-        installationAvecDispositifDeStockage: booleanSchema,
-        capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
-        puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
-      })
-      .optional(),
-    natureDeLExploitation: z
-      .object({
-        typeNatureDeLExploitation: z.enum(
-          Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
-        ),
-        tauxPrévisionnelACI: optionalPercentageSchema,
-      })
-      .optional(),
+    dispositifDeStockage: dispositifDeStockageSchema,
+    natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
   })
   .superRefine((data, ctx) => {
+    // Garanties financières et date d'échéance
     const typeGF = data.typeGarantiesFinancières;
     if (typeGF === 'avec-date-échéance' && !data.dateÉchéanceGf) {
       ctx.addIssue({
