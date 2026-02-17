@@ -1,10 +1,8 @@
 'use client';
 
-import { FC, useState, useTransition } from 'react';
+import { FC, useState } from 'react';
 import { Card } from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { fr } from '@codegouvfr/react-dsfr';
-import clsx from 'clsx';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -29,16 +27,48 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
-  const [isPending, startTransition] = useTransition();
-
   const [error, setError] = useState<string | undefined>(undefined);
-
   const [modal] = useState(
     createModal({
       id: `action-modal-export-page`,
       isOpenedByDefault: false,
     }),
   );
+
+  /**
+   *
+   * @param event L'évènement de clic sur le lien d'exportation. Il est utilisé pour empêcher le comportement par défaut du lien et pour déclencher la génération du fichier CSV.
+   * @param url L'URL de la route à appeler pour générer le fichier CSV.
+   */
+  const getCsvFile = async (event: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    event.preventDefault();
+
+    setError(undefined);
+
+    modal.open();
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      setError('Erreur lors de la génération du fichier');
+      modal.close();
+      return;
+    }
+
+    const blob = await response.blob();
+    const urlObject = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = urlObject;
+    a.download = getFileName(response.headers.get('content-disposition'));
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(urlObject);
+
+    modal.close();
+
+    return false;
+  };
 
   return (
     <PageTemplate banner={<Heading1>Exporter des données</Heading1>}>
@@ -59,44 +89,10 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   endDetail={
                     <span className="block w-full text-right">Format du fichier : csv</span>
                   }
-                  linkProps={
-                    !isPending
-                      ? {
-                          href: '#',
-                          onClick: (e) => {
-                            e.preventDefault();
-
-                            startTransition(async () => {
-                              setError(undefined);
-
-                              modal.open();
-
-                              const response = await fetch(url);
-
-                              if (!response.ok) {
-                                setError('Erreur lors de la génération du fichier');
-                                modal.close();
-                                return;
-                              }
-
-                              const blob = await response.blob();
-                              const urlObject = window.URL.createObjectURL(blob);
-                              const a = document.createElement('a');
-                              a.href = urlObject;
-                              a.download = getFileName(response.headers.get('content-disposition'));
-                              document.body.appendChild(a);
-                              a.click();
-                              a.remove();
-                              window.URL.revokeObjectURL(urlObject);
-
-                              modal.close();
-                            });
-
-                            return false;
-                          },
-                        }
-                      : undefined
-                  }
+                  linkProps={{
+                    href: '#',
+                    onClick: (e) => getCsvFile(e, url),
+                  }}
                   end={
                     <FiltersTagList
                       filters={filters.filter((filter) =>
@@ -104,10 +100,6 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                       )}
                     />
                   }
-                  nativeDivProps={{
-                    className: clsx(isPending && fr.cx('fr-label--disabled')),
-                    'aria-disabled': isPending,
-                  }}
                   title={label}
                   desc={description}
                 />
