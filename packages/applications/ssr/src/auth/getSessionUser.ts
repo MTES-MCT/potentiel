@@ -23,7 +23,7 @@ export const getSessionUser: GetUtilisateur = async (req) => {
     return undefined;
   }
 
-  const { email, name: nom } = session.user;
+  const { email, name: nom, accountUrl } = session.user;
   const utilisateur = await getUtilisateurFromEmail(email);
   if (Option.isSome(utilisateur)) {
     if (utilisateur.désactivé) {
@@ -32,11 +32,13 @@ export const getSessionUser: GetUtilisateur = async (req) => {
     return {
       ...utilisateur,
       nom,
+      accountUrl,
     };
   }
 
   return {
     ...Utilisateur.convertirEnValueType({ rôle: Role.visiteur.nom, identifiantUtilisateur: email }),
     nom,
+    accountUrl,
   };
 };

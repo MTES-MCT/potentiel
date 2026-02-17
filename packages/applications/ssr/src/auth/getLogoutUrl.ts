@@ -1,30 +1,15 @@
-import { LastLoginMethodOptions } from 'better-auth/plugins';
-import { cookies, headers } from 'next/headers';
+import { headers } from 'next/headers';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { auth } from '.';
 
-import { getProviderConfiguration } from './getProviderConfiguration';
-import { getOpenIdConfiguration } from './discovery';
+import { getProviderConfiguration } from './providers/getProviderConfiguration';
+import { getOpenIdConfiguration } from './providers/discovery';
+import { getLastUsedProvider } from './getCurrentProvider';
+import { AuthProvider } from './providers/authProvider';
 
-// TODO fix for magic link
-// retrieve current provider, using last-login-method plugin.
-const getCurrentProvider = () => {
-  const lastLoginMethodPlugin = auth.options.plugins.find((x) => x.id === 'last-login-method');
-  if (!lastLoginMethodPlugin) {
-    return;
-  }
-
-  const options = lastLoginMethodPlugin.options as LastLoginMethodOptions;
-  const lastUsedProvider = cookies().get(
-    options?.cookieName ?? 'better-auth.last_used_login_method',
-  )?.value;
-
-  return lastUsedProvider;
-};
-
-const getIdToken = async (providerId: string) => {
+const getIdToken = async (providerId: AuthProvider) => {
   try {
     const tokens = await auth.api.getAccessToken({
       body: { providerId },
@@ -38,7 +23,7 @@ const getIdToken = async (providerId: string) => {
 };
 
 export const getLogoutUrl = async () => {
-  const currentProvider = getCurrentProvider();
+  const currentProvider = getLastUsedProvider();
   if (!currentProvider) {
     return;
   }
