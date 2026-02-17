@@ -11,18 +11,18 @@ export const optionalStringWithDefaultValueSchema = z
   .optional()
   .transform((v) => v ?? '');
 
-export const _numberSchemaBase = z.preprocess((val) => {
-  if (val === '' || val === null || val === undefined) {
-    return undefined;
-  }
-
-  if (typeof val === 'string') {
-    const parsed = Number(val.replace(/,/g, '.'));
-    return Number.isNaN(parsed) ? val : parsed;
-  }
-
-  return val;
-}, z.number());
+export const _numberSchemaBase = z.union(
+  [
+    z
+      .string()
+      // replace french commas to "."
+      .transform((str) => (str ? Number(str.replace(/,/g, '.')) : undefined)),
+    z.number(),
+  ],
+  {
+    message: 'Le champ doit être un nombre',
+  },
+);
 
 export const numberSchema = _numberSchemaBase
   // transform to number

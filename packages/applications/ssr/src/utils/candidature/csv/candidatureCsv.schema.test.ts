@@ -250,7 +250,7 @@ describe('Schema candidature CSV', () => {
         puissance: 'abcd',
         'Note totale': 'abcd',
       });
-      assertError(result, ['puissance'], 'Le champ doit être un nombre', 0);
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif', 0);
       assertError(result, ['Note totale'], 'Le champ doit être un nombre', 1);
     });
 
@@ -268,7 +268,7 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         puissance: '',
       });
-      assertError(result, ['puissance'], 'Le champ doit être un nombre');
+      assertError(result, ['puissance'], 'Le champ doit être un nombre positif');
     });
 
     test('nombre strictement positif vaut 0', () => {
