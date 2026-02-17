@@ -93,3 +93,5 @@ export const natureDeLExploitationCsvSchema = z
   ])
   .optional()
   .transform((val) => val || undefined);
+
+export const territoireProjetSchema = optionalStringWithDefaultValueSchema;

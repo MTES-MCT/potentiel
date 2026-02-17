@@ -1,84 +1,59 @@
 import { z } from 'zod';
 
-import {
-  adresse1Schema,
-  adresse2Schema,
-  codePostalSchema,
-  communeSchema,
-  doitRegenererAttestationSchema,
-  départementSchema,
-  emailContactSchema,
-  nomCandidatSchema,
-  nomProjetSchema,
-  nomReprésentantLégalSchema,
-  noteTotaleSchema,
-  prixRéférenceSchema,
-  puissanceALaPointeSchema,
-  puissanceOuPuissanceDeSiteSchema,
-  régionSchema,
-  sociétéMèreSchema,
-  technologieSchema,
-  évaluationCarboneSimplifiéeSchema,
-  choixCoefficientKSchema,
-  optionalPuissanceOuPuissanceDeSiteSchema,
-  dateDAutorisationDUrbanismeSchema,
-  numéroDAutorisationDUrbanismeSchema,
-  installateurSchema,
-  dispositifDeStockageSchema,
-  natureDeLExploitationOptionalSchema,
-  actionnariatCorrigerCandidatureSchema,
-} from './candidatureFields.schema';
-import { NestedKeysForSchema } from './nestedKeysForSchema';
+import { Candidature } from '@potentiel-domain/projet';
 
-const localitéSchema = z.object({
-  adresse1: adresse1Schema,
-  adresse2: adresse2Schema,
-  codePostal: codePostalSchema,
-  commune: communeSchema,
-  departement: départementSchema,
-  region: régionSchema,
-});
+import { identifiantProjetSchema } from './identifiantProjet.schema';
+import { NestedKeysForSchema } from './nestedKeysForSchema';
+import {
+  dateDAutorisationDUrbanismeSchema,
+  dépôtSchema,
+  numéroDAutorisationDUrbanismeSchema,
+} from './dépôt.schema';
+import { instructionSchema } from './instruction.schema';
+import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
+
+export const doitRegenererAttestationSchema = booleanSchema.optional();
 
 const candidatureNotifiéeSchema = z
   .object({
-    actionnaire: sociétéMèreSchema,
-    nomRepresentantLegal: nomReprésentantLégalSchema,
-    technologie: technologieSchema,
-    nomCandidat: nomCandidatSchema,
-    prixReference: prixRéférenceSchema,
-    noteTotale: noteTotaleSchema,
-    evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
-    emailContact: emailContactSchema,
-    actionnariat: actionnariatCorrigerCandidatureSchema,
-    nomProjet: nomProjetSchema,
-    puissanceALaPointe: puissanceALaPointeSchema,
-    puissance: puissanceOuPuissanceDeSiteSchema,
-    coefficientKChoisi: choixCoefficientKSchema,
-    puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
+    actionnaire: dépôtSchema.shape.sociétéMère,
+    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
+    technologie: dépôtSchema.shape.technologie,
+    nomCandidat: dépôtSchema.shape.nomCandidat,
+    prixReference: dépôtSchema.shape.prixReference,
+    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
+    emailContact: dépôtSchema.shape.emailContact,
+    nomProjet: dépôtSchema.shape.nomProjet,
+    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
+    puissance: dépôtSchema.shape.puissance,
+    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
+    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
-    installateur: installateurSchema,
-    dispositifDeStockage: dispositifDeStockageSchema,
-    natureDeLExploitation: natureDeLExploitationOptionalSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    installateur: dépôtSchema.shape.installateur,
+    dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
+    natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
+    // différence avec dépôtSchema
+    actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
+    noteTotale: instructionSchema.shape.noteTotale,
   })
-  .merge(localitéSchema);
+  .extend(dépôtSchema.shape.localité.shape);
 
 const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
+
 const lauréatSchema = z
   .object({
-    actionnaire: sociétéMèreSchema,
-    nomRepresentantLegal: nomReprésentantLégalSchema,
-    nomProjet: nomProjetSchema,
-    puissance: puissanceOuPuissanceDeSiteSchema,
-    puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
-    nomCandidat: nomCandidatSchema,
-    evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
+    actionnaire: dépôtSchema.shape.sociétéMère,
+    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
+    nomProjet: dépôtSchema.shape.nomProjet,
+    puissance: dépôtSchema.shape.puissance,
+    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
+    nomCandidat: dépôtSchema.shape.nomCandidat,
+    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
   })
-  .merge(localitéSchema);
+  .extend(dépôtSchema.shape.localité.shape);
 
 const partialLauréatSchema = lauréatSchema.partial();
-
-const identifiantProjetSchema = z.string().min(1);
 
 export const modifierLauréatEtCandidatureSchéma = z
   .object({

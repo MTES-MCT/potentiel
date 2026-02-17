@@ -16,6 +16,8 @@ import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getType
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
+import { instructionSchema } from '../../../utils/candidature';
+
 import { CandidatureListPage } from './CandidatureList.page';
 
 type PageProps = {
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  statut: z.enum(Candidature.StatutCandidature.statuts).optional(),
+  statut: instructionSchema.shape.statut.optional(),
   appelOffre: optionalStringArray,
   periode: z.string().optional(),
   famille: z.string().optional(),

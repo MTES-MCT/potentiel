@@ -65,14 +65,14 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
     adresse2: candidature.dépôt.localité.adresse2,
     codePostal: candidature.dépôt.localité.codePostal,
     commune: candidature.dépôt.localité.commune,
-    departement: candidature.dépôt.localité.département,
-    region: candidature.dépôt.localité.région,
+    département: candidature.dépôt.localité.département,
+    région: candidature.dépôt.localité.région,
     actionnariat: candidature.dépôt.actionnariat?.type,
     puissanceALaPointe: candidature.dépôt.puissanceALaPointe,
     puissance: candidature.dépôt.puissance,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
     puissanceDeSite: candidature.dépôt.puissanceDeSite,
-    numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
+    numéroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date.formatter(),
     installateur: candidature.dépôt.installateur,
   },
@@ -106,11 +106,11 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
       currentValue: lauréat.lauréat.localité.commune,
       estEnCoursDeModification: false,
     },
-    departement: {
+    département: {
       currentValue: lauréat.lauréat.localité.département,
       estEnCoursDeModification: false,
     },
-    region: {
+    région: {
       currentValue: lauréat.lauréat.localité.région,
       estEnCoursDeModification: false,
     },

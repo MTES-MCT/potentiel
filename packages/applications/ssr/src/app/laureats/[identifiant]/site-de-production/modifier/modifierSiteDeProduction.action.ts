@@ -9,19 +9,19 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { localitéSchema } from '@/utils/candidature/localité.schema';
 import { manyDocuments } from '@/utils/zod/document/manyDocuments';
+import { dépôtSchema } from '@/utils/candidature';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   raison: zod.string().min(1),
   piecesJustificatives: manyDocuments({ optional: true, acceptedFileTypes: ['application/pdf'] }),
-  adresse1: localitéSchema.shape.adresse1,
-  adresse2: localitéSchema.shape.adresse2,
-  codePostal: localitéSchema.shape.codePostal,
-  commune: localitéSchema.shape.commune,
-  departement: localitéSchema.shape.département,
-  region: localitéSchema.shape.région,
+  adresse1: dépôtSchema.shape.localité.shape.adresse1,
+  adresse2: dépôtSchema.shape.localité.shape.adresse2,
+  codePostal: dépôtSchema.shape.localité.shape.codePostal,
+  commune: dépôtSchema.shape.localité.shape.commune,
+  département: dépôtSchema.shape.localité.shape.département,
+  région: dépôtSchema.shape.localité.shape.région,
   accesAuProjetPerdu: zod.stringbool().optional(),
 });
 export type ModifierSiteDeProductionFormKeys = keyof zod.infer<typeof schema>;
@@ -35,8 +35,8 @@ const action: FormAction<FormState, typeof schema> = async (
     adresse2,
     codePostal,
     commune,
-    departement,
-    region,
+    département,
+    région,
     accesAuProjetPerdu,
     piecesJustificatives,
   },
@@ -51,8 +51,8 @@ const action: FormAction<FormState, typeof schema> = async (
           adresse2: adresse2 ?? '',
           codePostal,
           commune,
-          département: departement,
-          région: region,
+          département,
+          région,
         },
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
         modifiéLeValue: DateTime.now().formatter(),

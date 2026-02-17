@@ -11,8 +11,8 @@ import { GeoApiClient } from '@potentiel-infrastructure/geo-api-client';
 type Commune = {
   commune: string;
   codePostal: string;
-  departement: string;
-  region: string;
+  département: string;
+  région: string;
 };
 
 export type CommunePickerProps = {
@@ -44,8 +44,8 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
       setCommunes(
         data.map(({ nom, region, departement, codesPostaux }) => ({
           commune: nom,
-          region: region.nom,
-          departement: departement.nom,
+          région: region.nom,
+          département: departement.nom,
           codePostal: codesPostaux[0],
         })),
       );
@@ -65,7 +65,7 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
       loadingText="Chargement..."
       noOptionsText="Aucun résultat"
       className={className}
-      getOptionLabel={({ commune, departement, region }) => `${commune}, ${departement}, ${region}`}
+      getOptionLabel={({ commune, département, région }) => `${commune}, ${département}, ${région}`}
       getOptionKey={({ commune, codePostal }) => commune + codePostal}
       isOptionEqualToValue={(commune, value) =>
         commune.commune === value.commune && commune.codePostal === value.codePostal

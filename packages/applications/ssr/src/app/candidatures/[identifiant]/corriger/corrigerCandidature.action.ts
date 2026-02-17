@@ -15,47 +15,45 @@ import {
   dépôtSchema,
   instructionSchema,
   doitRegenererAttestationSchema,
+} from '@/utils/candidature';
+import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
-} from '@/utils/candidature';
+} from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
 
 // sans les accents, et avec les champs spécifiques à la correction
-const schema = zod.object({
-  identifiantProjet: identifiantProjetSchema,
-  doitRegenererAttestation: doitRegenererAttestationSchema,
-  nomProjet: dépôtSchema.shape.nomProjet,
-  societeMere: dépôtSchema.shape.sociétéMère,
-  nomCandidat: dépôtSchema.shape.nomCandidat,
-  puissance: dépôtSchema.shape.puissance,
-  prixReference: dépôtSchema.shape.prixReference,
-  nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
-  emailContact: dépôtSchema.shape.emailContact,
-  adresse1: dépôtSchema.shape.localité.shape.adresse1,
-  adresse2: dépôtSchema.shape.localité.shape.adresse2,
-  codePostal: dépôtSchema.shape.localité.shape.codePostal,
-  commune: dépôtSchema.shape.localité.shape.commune,
-  departement: dépôtSchema.shape.localité.shape.département,
-  region: dépôtSchema.shape.localité.shape.région,
-  puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
-  evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
-  actionnariat: dépôtSchema.shape.actionnariat,
-  technologie: dépôtSchema.shape.technologie,
-  typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
-  dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
-  dateConstitutionGf: dépôtSchema.shape.dateConstitutionGf,
-  coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
-  puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-  dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-  numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
-  installateur: dépôtSchema.shape.installateur,
-  natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
-  statut: instructionSchema.shape.statut.optional(),
-  motifElimination: instructionSchema.shape.motifÉlimination,
-  noteTotale: instructionSchema.shape.noteTotale,
-  puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
-});
+const schema = zod
+  .object({
+    identifiantProjet: identifiantProjetSchema,
+    doitRegenererAttestation: doitRegenererAttestationSchema,
+    nomProjet: dépôtSchema.shape.nomProjet,
+    societeMere: dépôtSchema.shape.sociétéMère,
+    nomCandidat: dépôtSchema.shape.nomCandidat,
+    puissance: dépôtSchema.shape.puissance,
+    prixReference: dépôtSchema.shape.prixReference,
+    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
+    emailContact: dépôtSchema.shape.emailContact,
+    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
+    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
+    actionnariat: dépôtSchema.shape.actionnariat,
+    technologie: dépôtSchema.shape.technologie,
+    typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
+    dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
+    dateConstitutionGf: dépôtSchema.shape.dateConstitutionGf,
+    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
+    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    installateur: dépôtSchema.shape.installateur,
+    natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
+    puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
+    statut: instructionSchema.shape.statut.optional(),
+    motifElimination: instructionSchema.shape.motifÉlimination,
+    noteTotale: instructionSchema.shape.noteTotale,
+  })
+  .extend(dépôtSchema.shape.localité.shape);
 
 export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 
@@ -107,8 +105,8 @@ const mapBodyToUseCaseData = (
         adresse1: data.adresse1,
         adresse2: data.adresse2 ?? '',
         commune: data.commune,
-        département: data.departement,
-        région: data.region,
+        département: data.département,
+        région: data.région,
       },
       puissanceALaPointe: data.puissanceALaPointe,
       evaluationCarboneSimplifiée: data.evaluationCarboneSimplifiee,
@@ -125,9 +123,9 @@ const mapBodyToUseCaseData = (
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
       autorisationDUrbanisme:
-        data.numeroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+        data.numéroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
           ? {
-              numéro: data.numeroDAutorisationDUrbanisme,
+              numéro: data.numéroDAutorisationDUrbanisme,
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
             }
           : undefined,

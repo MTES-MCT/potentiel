@@ -4,26 +4,13 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { conditionalRequiredError, optionalPercentageSchema } from '../schemaBase';
 import {
-  adresse2Schema,
   appelOffreSchema,
-  communeSchema,
-  emailContactSchema,
   familleSchema,
-  nomCandidatSchema,
-  nomProjetSchema,
-  nomReprésentantLégalSchema,
-  noteTotaleSchema,
   numéroCRESchema,
-  prixRéférenceSchema,
-  puissanceOuPuissanceDeSiteSchema,
   périodeSchema,
-  sociétéMèreSchema,
-  motifEliminationSchema,
-  territoireProjetSchema,
-  optionalPuissanceOuPuissanceDeSiteSchema,
-  numéroDAutorisationDUrbanismeSchema,
-  installateurSchema,
-} from '../candidatureFields.schema';
+} from '../identifiantProjet.schema';
+import { dépôtSchema, numéroDAutorisationDUrbanismeSchema } from '../dépôt.schema';
+import { instructionSchema } from '../instruction.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
 import {
@@ -49,6 +36,7 @@ import {
   élémentsSousOmbrièreCsvSchema,
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
+  territoireProjetSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -134,18 +122,18 @@ const candidatureCsvRowSchema = z
     [colonnes.période]: périodeSchema,
     [colonnes.famille]: familleSchema,
     [colonnes.numéroCRE]: numéroCRESchema,
-    [colonnes.nomProjet]: nomProjetSchema,
-    [colonnes.sociétéMère]: sociétéMèreSchema,
-    [colonnes.nomCandidat]: nomCandidatSchema,
-    [colonnes.puissance]: puissanceOuPuissanceDeSiteSchema,
-    [colonnes.prixReference]: prixRéférenceSchema,
-    [colonnes.noteTotale]: noteTotaleSchema,
-    [colonnes.nomReprésentantLégal]: nomReprésentantLégalSchema,
-    [colonnes.emailContact]: emailContactSchema,
+    [colonnes.nomProjet]: dépôtSchema.shape.nomProjet,
+    [colonnes.sociétéMère]: dépôtSchema.shape.sociétéMère,
+    [colonnes.nomCandidat]: dépôtSchema.shape.nomCandidat,
+    [colonnes.puissance]: dépôtSchema.shape.puissance,
+    [colonnes.prixReference]: dépôtSchema.shape.prixReference,
+    [colonnes.noteTotale]: instructionSchema.shape.noteTotale,
+    [colonnes.nomReprésentantLégal]: dépôtSchema.shape.nomReprésentantLégal,
+    [colonnes.emailContact]: dépôtSchema.shape.emailContact,
     [colonnes.adresse1]: adresse1CsvSchema,
-    [colonnes.adresse2]: adresse2Schema, // see refine below
+    [colonnes.adresse2]: dépôtSchema.shape.localité.shape.adresse2, // see refine below
     [colonnes.codePostal]: codePostalCsvSchema,
-    [colonnes.commune]: communeSchema,
+    [colonnes.commune]: dépôtSchema.shape.localité.shape.commune,
     [colonnes.statut]: statutCsvSchema,
     [colonnes.puissanceALaPointe]: puissanceALaPointeCsvSchema,
     [colonnes.evaluationCarboneSimplifiée]: évaluationCarboneSimplifiéeCsvSchema,
@@ -154,22 +142,21 @@ const candidatureCsvRowSchema = z
     [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
     [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
-    [colonnes.puissanceDeSite]: optionalPuissanceOuPuissanceDeSiteSchema,
+    [colonnes.puissanceDeSite]: dépôtSchema.shape.puissanceDeSite,
     [colonnes.typeInstallationsAgrivoltaïques]: installationsAgrivoltaïquesCsvSchema,
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
-    [colonnes.installateur]: installateurSchema,
+    [colonnes.installateur]: dépôtSchema.shape.installateur,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
     [colonnes.puissanceDuDispositifDeStockageEnKW]: puissanceDuDispositifDeStockageSchema,
-    [colonnes.puissanceProjetInitial]: optionalPuissanceOuPuissanceDeSiteSchema,
+    [colonnes.puissanceProjetInitial]: dépôtSchema.shape.puissanceProjetInitial,
     [colonnes.capacitéDuDispositifDeStockageEnKWh]: capacitéDuDispositifDeStockageSchema,
     [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
     [colonnes.tauxPrévisionnelACI]: optionalPercentageSchema,
-    // columns with refines, see refines below
-    [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
+    [colonnes.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below

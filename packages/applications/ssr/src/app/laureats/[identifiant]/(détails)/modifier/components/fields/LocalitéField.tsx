@@ -56,14 +56,14 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
   const [candidatureCommune, setCandidatureCommune] = useState({
     commune: candidature.commune,
     codePostal: candidature.codePostal,
-    departement: candidature.departement,
-    region: candidature.region,
+    département: candidature.département,
+    région: candidature.région,
   });
   const [lauréatCommune, setLauréatCommune] = useState({
     commune: lauréat.commune.currentValue,
     codePostal: lauréat.codePostal.currentValue,
-    departement: lauréat.departement.currentValue,
-    region: lauréat.region.currentValue,
+    département: lauréat.département.currentValue,
+    région: lauréat.région.currentValue,
   });
   const [linked, setLinked] = useState(
     candidatureCommune.commune === lauréatCommune.commune &&
@@ -132,15 +132,15 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
         />
         <input
           type="hidden"
-          value={candidatureCommune.departement}
-          name="candidature.departement"
-          disabled={candidatureCommune.region === candidature.region}
+          value={candidatureCommune.département}
+          name="candidature.département"
+          disabled={candidatureCommune.région === candidature.région}
         />
         <input
           type="hidden"
-          value={candidatureCommune.region}
-          name="candidature.region"
-          disabled={candidatureCommune.departement === candidature.departement}
+          value={candidatureCommune.région}
+          name="candidature.région"
+          disabled={candidatureCommune.département === candidature.département}
         />
       </div>
       <div className="flex-[2] flex flex-row gap-2 px-2">
@@ -153,8 +153,8 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               nativeInputProps={{
                 value: [
                   lauréatCommune.commune,
-                  lauréatCommune.departement,
-                  lauréatCommune.region,
+                  lauréatCommune.département,
+                  lauréatCommune.région,
                 ].join(', '),
               }}
               addon={<div />}
@@ -225,15 +225,15 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
         />
         <input
           type="hidden"
-          value={lauréatCommune.departement}
-          name="laureat.departement"
-          disabled={lauréatCommune.region === lauréat.region.currentValue}
+          value={lauréatCommune.département}
+          name="laureat.département"
+          disabled={lauréatCommune.département === lauréat.département.currentValue}
         />
         <input
           type="hidden"
-          value={lauréatCommune.region}
-          name="laureat.region"
-          disabled={lauréatCommune.departement === lauréat.departement.currentValue}
+          value={lauréatCommune.région}
+          name="laureat.région"
+          disabled={lauréatCommune.région === lauréat.région.currentValue}
         />
       </div>
     </div>

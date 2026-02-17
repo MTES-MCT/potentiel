@@ -261,9 +261,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <>
             <FormRow>
               <CandidatureField
-                candidature={candidature.numeroDAutorisationDUrbanisme ?? ''}
+                candidature={candidature.numéroDAutorisationDUrbanisme ?? ''}
                 label="Numéro d'autorisation d'urbanisme"
-                name="numeroDAutorisationDUrbanisme"
+                name="numéroDAutorisationDUrbanisme"
                 validationErrors={validationErrors}
                 required={champsSupplémentaires.autorisationDUrbanisme === 'requis'}
               />

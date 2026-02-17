@@ -68,8 +68,8 @@ export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>
 
   return z
     .string()
+    .toLowerCase()
     .optional()
-    .transform((v) => v?.toLowerCase())
     .refine(
       (v) =>
         v === undefined || v === '' || v === 'n/a' || enumSchema.options.includes(v as EnumValue),
@@ -77,7 +77,7 @@ export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>
         .map((o) => `"${o}"`)
         .join('|')} attendue`,
     )
-    .transform((v) => (v === '' || v === 'n/a' ? undefined : (v as EnumValue)));
+    .transform((v) => (v === '' || v === 'n/a' || !v ? undefined : (v as EnumValue)));
 };
 
 export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<string, string>>>(
