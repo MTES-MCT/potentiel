@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -18,7 +17,7 @@ import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getType
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
-import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
+import { ÉliminéListPage } from './ÉliminéList.page';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -122,52 +121,9 @@ export default async function Page({ searchParams }: PageProps) {
           legend={{
             symbols: projectListLegendSymbols,
           }}
-          actions={mapToActions({
-            rôle: utilisateur.rôle,
-            searchParams: {
-              appelOffre,
-              periode,
-              famille,
-              typeActionnariat,
-            },
-          })}
+          actions={[]}
         />
       );
     }),
   );
 }
-
-type MapToActionsProps = {
-  rôle: Role.ValueType;
-  searchParams: {
-    appelOffre?: Array<string>;
-    periode?: string;
-    famille?: string;
-    typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
-  };
-};
-
-const mapToActions = ({
-  rôle,
-  searchParams: { appelOffre, periode, famille, typeActionnariat },
-}: MapToActionsProps) => {
-  const actions: ÉliminéListPageProps['actions'] = [];
-
-  if (rôle.estGrd()) {
-    return actions;
-  }
-
-  if (rôle.aLaPermission('éliminé.listerÉliminéEnrichi')) {
-    actions.push({
-      label: 'Télécharger un export (format CSV)',
-      href: Routes.Éliminé.exporter({
-        appelOffre,
-        periode,
-        famille,
-        typeActionnariat,
-      }),
-    });
-  }
-
-  return actions;
-};

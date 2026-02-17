@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -19,7 +18,7 @@ import { projectListLegendSymbols } from '@/components/molecules/projet/liste/Pr
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
-import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
+import { LauréatListPage } from './LauréatList.page';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -134,54 +133,9 @@ export default async function Page({ searchParams }: PageProps) {
           legend={{
             symbols: projectListLegendSymbols,
           }}
-          actions={mapToActions({
-            rôle: utilisateur.rôle,
-            searchParams: {
-              appelOffre,
-              periode,
-              famille,
-              statut,
-              typeActionnariat,
-            },
-          })}
+          actions={[]}
         />
       );
     }),
   );
 }
-
-type MapToActionsProps = {
-  rôle: Role.ValueType;
-  searchParams: {
-    appelOffre?: string[];
-    periode?: string;
-    famille?: string;
-    statut?: Lauréat.StatutLauréat.RawType[];
-    typeActionnariat?: Candidature.TypeActionnariat.RawType[];
-  };
-};
-const mapToActions = ({
-  rôle: rôleUtilisateur,
-  searchParams: { appelOffre, periode, famille, statut, typeActionnariat },
-}: MapToActionsProps) => {
-  const actions: LauréatListPageProps['actions'] = [];
-
-  if (rôleUtilisateur.estGrd()) {
-    return actions;
-  }
-
-  if (rôleUtilisateur.aLaPermission('lauréat.listerLauréatEnrichi')) {
-    actions.push({
-      label: 'Télécharger un export (format CSV)',
-      href: Routes.Lauréat.exporter({
-        appelOffre,
-        periode,
-        famille,
-        statut,
-        typeActionnariat,
-      }),
-    });
-  }
-
-  return actions;
-};
