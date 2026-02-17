@@ -5,9 +5,9 @@ import { Candidature } from '@potentiel-domain/projet';
 import { identifiantProjetSchema } from './identifiantProjet.schema';
 import { NestedKeysForSchema } from './nestedKeysForSchema';
 import {
-  dateDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
   dépôtSchema,
-  numéroDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
 } from './dépôt.schema';
 import { instructionSchema } from './instruction.schema';
 import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
@@ -33,8 +33,8 @@ const candidatureNotifiéeSchema = dépôtSchema
     natureDeLExploitation: true,
   })
   .extend({
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
   })

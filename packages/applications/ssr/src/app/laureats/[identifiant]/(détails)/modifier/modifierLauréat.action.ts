@@ -259,6 +259,12 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       puissanceProjetInitial: previous.puissanceProjetInitial,
+      autorisationEnvironnementale: previous.autorisationEnvironnementale
+        ? {
+            date: previous.autorisationEnvironnementale.date.formatter(),
+            numéro: previous.autorisationEnvironnementale.numéro,
+          }
+        : undefined, // TODO: à ajouter dans le formulaire de correction
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

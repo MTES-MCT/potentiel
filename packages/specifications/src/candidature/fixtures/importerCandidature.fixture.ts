@@ -200,6 +200,9 @@ const créerDépôt = (
     autorisationDUrbanisme: dépôt.autorisationDUrbanisme
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
+    autorisationEnvironnementale: dépôt.autorisationEnvironnementale
+      ? { date: DateTime.now().formatter(), numéro: '13', ...dépôt.autorisationEnvironnementale }
+      : undefined,
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }

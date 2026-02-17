@@ -9,7 +9,10 @@ import {
   numéroCRESchema,
   périodeSchema,
 } from '../identifiantProjet.schema';
-import { dépôtSchema, numéroDAutorisationDUrbanismeSchema } from '../dépôt.schema';
+import {
+  dépôtSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+} from '../dépôt.schema';
 import { instructionSchema } from '../instruction.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -18,7 +21,6 @@ import {
   capacitéDuDispositifDeStockageSchema,
   choixCoefficientKCsvSchema,
   codePostalCsvSchema,
-  dateDAutorisationDUrbanismeCsvSchema,
   dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
@@ -37,6 +39,7 @@ import {
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   territoireProjetSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -113,6 +116,8 @@ export const candidatureCsvHeadersMapping = {
   dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   puissanceDeSite: 'Puissance de site',
+  dateDAutorisationEnvironnementale: "Date d'obtention de l'autorisation environnementale",
+  numéroDAutorisationEnvironnementale: "Numéro de l'autorisation environnementale",
 } as const;
 
 export type CsvHeaders = ReadonlyArray<
@@ -155,9 +160,13 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [candidatureCsvHeadersMapping.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     [candidatureCsvHeadersMapping.dateDAutorisationDUrbanisme]:
-      dateDAutorisationDUrbanismeCsvSchema,
+      dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
     [candidatureCsvHeadersMapping.numéroDAutorisationDUrbanisme]:
-      numéroDAutorisationDUrbanismeSchema,
+      numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    [candidatureCsvHeadersMapping.dateDAutorisationEnvironnementale]:
+      dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
+    [candidatureCsvHeadersMapping.numéroDAutorisationEnvironnementale]:
+      numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     [candidatureCsvHeadersMapping.installateur]: dépôtSchema.shape.installateur,
     [candidatureCsvHeadersMapping.installationAvecDispositifDeStockage]:
       installationAvecDispositifDeStockageCsvSchema,
@@ -313,6 +322,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       puissanceDuDispositifDeStockageEnKW,
       tauxPrévisionnelACI,
       natureDeLExploitation,
+      dateDAutorisationEnvironnementale,
+      numéroDAutorisationEnvironnementale,
       ...val
     }) => {
       return {
@@ -339,6 +350,13 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
             ? {
                 date: dateDAutorisationDUrbanisme,
                 numéro: numéroDAutorisationDUrbanisme,
+              }
+            : undefined,
+        autorisationEnvironnementale:
+          dateDAutorisationEnvironnementale && numéroDAutorisationEnvironnementale
+            ? {
+                date: dateDAutorisationEnvironnementale,
+                numéro: numéroDAutorisationEnvironnementale,
               }
             : undefined,
         natureDeLExploitation:

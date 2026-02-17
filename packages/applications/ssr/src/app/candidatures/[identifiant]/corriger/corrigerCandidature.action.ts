@@ -17,8 +17,8 @@ import {
   doitRegenererAttestationSchema,
 } from '@/utils/candidature';
 import {
-  dateDAutorisationDUrbanismeSchema,
-  numéroDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
 } from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
@@ -36,8 +36,8 @@ const schema = dépôtSchema
     statut: instructionSchema.shape.statut.optional(),
     motifElimination: instructionSchema.shape.motifÉlimination,
     noteTotale: instructionSchema.shape.noteTotale,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -135,6 +135,12 @@ const mapBodyToUseCaseData = (
             tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
           }
         : undefined,
+      autorisationEnvironnementale: previous.dépôt.autorisationEnvironnementale
+        ? {
+            date: previous.dépôt.autorisationEnvironnementale.date.formatter(),
+            numéro: previous.dépôt.autorisationEnvironnementale.numéro,
+          }
+        : undefined, // TODO : à ajouter au formulaire de correction
     },
 
     détailsValue: undefined,
