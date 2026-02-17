@@ -152,7 +152,7 @@ const candidatureCsvRowSchema = z
     [colonnes.installateur]: dépôtSchema.shape.installateur,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
     [colonnes.puissanceDuDispositifDeStockageEnKW]: puissanceDuDispositifDeStockageSchema,
-    [colonnes.puissanceProjetInitial]: dépôtSchema.shape.puissanceDeSite,
+    [colonnes.puissanceProjetInitial]: dépôtSchema.shape.puissanceProjetInitial,
     [colonnes.capacitéDuDispositifDeStockageEnKWh]: capacitéDuDispositifDeStockageSchema,
     [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
     [colonnes.tauxPrévisionnelACI]: optionalPercentageSchema,
