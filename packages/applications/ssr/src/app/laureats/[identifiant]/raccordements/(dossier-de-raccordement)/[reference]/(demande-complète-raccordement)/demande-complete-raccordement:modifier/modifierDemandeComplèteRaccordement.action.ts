@@ -17,6 +17,7 @@ const schema = zod.object({
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  accuseReceptionDocumentSelection: zod.enum(['keep_existing_document', 'edit_document']),
 });
 
 export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
@@ -26,6 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (
   {
     identifiantProjet,
     accuseReception,
+    accuseReceptionDocumentSelection,
     dateQualification,
     referenceDossierRaccordement,
     referenceDossierRaccordementActuelle,
@@ -50,7 +52,8 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
-        accuséRéceptionValue: accuseReception,
+        accuséRéceptionValue:
+          accuseReceptionDocumentSelection === 'edit_document' ? accuseReception : undefined,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         rôleValue: utilisateur.rôle.nom,

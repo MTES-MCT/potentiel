@@ -12,7 +12,7 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dateQualification: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
-    formatAccuséRéception: string;
+    formatAccuséRéception?: string;
     rôle: Role.ValueType;
     modifiéeLe: DateTime.ValueType;
     modifiéePar: Email.ValueType;

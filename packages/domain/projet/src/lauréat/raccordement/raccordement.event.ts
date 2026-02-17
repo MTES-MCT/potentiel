@@ -155,7 +155,7 @@ export type DemandeComplèteRaccordementModifiéeEventV3 = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     dateQualification: DateTime.RawType;
-    accuséRéception: {
+    accuséRéception?: {
       format: string;
     };
   }
@@ -167,7 +167,7 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     dateQualification: DateTime.RawType;
-    accuséRéception: {
+    accuséRéception?: {
       format: string;
     };
     modifiéeLe: DateTime.RawType;

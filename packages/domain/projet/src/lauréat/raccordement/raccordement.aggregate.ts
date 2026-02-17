@@ -23,7 +23,6 @@ import {
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
-  DemandeComplèteRaccordementModifiéeEventV3,
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
@@ -877,11 +876,13 @@ export class RaccordementAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         dateQualification: dateQualification.formatter(),
-        accuséRéception: {
-          format: formatAccuséRéception,
-        },
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
+        accuséRéception: formatAccuséRéception
+          ? {
+              format: formatAccuséRéception,
+            }
+          : undefined,
       },
     };
 
@@ -910,17 +911,16 @@ export class RaccordementAggregate extends AbstractAggregate<
       DateTime.convertirEnValueType(dateQualification);
   }
   private applyDemandeComplèteRaccordementModifiéeEvent({
-    payload: {
-      accuséRéception: { format },
-      dateQualification,
-      référenceDossierRaccordement,
-    },
-  }: DemandeComplèteRaccordementModifiéeEventV3) {
+    payload: { accuséRéception, dateQualification, référenceDossierRaccordement },
+  }: DemandeComplèteRaccordementModifiéeEvent) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
     dossier.demandeComplèteRaccordement.dateQualification =
       DateTime.convertirEnValueType(dateQualification);
-    dossier.demandeComplèteRaccordement.format = format;
+
+    if (accuséRéception) {
+      dossier.demandeComplèteRaccordement.format = accuséRéception.format;
+    }
   }
 
   //#endregion DCR
