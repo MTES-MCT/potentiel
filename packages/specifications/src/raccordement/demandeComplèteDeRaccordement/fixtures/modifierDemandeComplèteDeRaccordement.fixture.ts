@@ -29,13 +29,15 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #format!: string;
-  #content!: string;
-  get accuséRéception(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  #format!: string | undefined;
+  #content!: string | undefined;
+  get accuséRéception(): ModifierDemandeComplèteRaccordement['accuséRéception'] {
+    return this.#format && this.#content
+      ? {
+          format: this.#format,
+          content: convertStringToReadableStream(this.#content),
+        }
+      : undefined;
   }
 
   #identifiantProjet!: string;
@@ -61,8 +63,8 @@ export class ModifierDemandeComplèteRaccordementFixture
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.accuséRéception.format;
-    this.#content = content;
+    this.#format = fixture.accuséRéception?.format;
+    this.#content = partialFixture.accuséRéception ? content : undefined;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
@@ -70,15 +72,18 @@ export class ModifierDemandeComplèteRaccordementFixture
 
   mapToExpected(référenceDossier?: string) {
     if (!this.aÉtéCréé) return;
+
     return {
-      accuséRéception: DocumentProjet.convertirEnValueType(
-        this.identifiantProjet,
-        Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-          référenceDossier ?? this.référenceDossier,
-        ).formatter(),
-        this.#dateQualification,
-        this.accuséRéception.format,
-      ),
+      accuséRéception: this.accuséRéception
+        ? DocumentProjet.convertirEnValueType(
+            this.identifiantProjet,
+            Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+              référenceDossier ?? this.référenceDossier,
+            ).formatter(),
+            this.#dateQualification,
+            this.accuséRéception.format,
+          )
+        : undefined,
       dateQualification: DateTime.convertirEnValueType(this.dateQualification),
     };
   }

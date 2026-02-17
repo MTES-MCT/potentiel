@@ -46,10 +46,10 @@ Alors(
       );
       const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
 
-      const { accuséRéception: expectedAccuséRéception } = this.raccordementWorld
-        .demandeComplèteDeRaccordement.modifierFixture.aÉtéCréé
-        ? this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture
-        : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
+      const expectedAccuséRéception = this.raccordementWorld.demandeComplèteDeRaccordement
+        .modifierFixture.accuséRéception
+        ? this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.accuséRéception
+        : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.accuséRéception;
 
       if (actualAccuséRéception) {
         assert(actualAccuséRéception, 'actualAccuséRéception is not defined');

@@ -88,18 +88,19 @@ Quand(
   'le porteur modifie la demande complète de raccordement avec les mêmes valeurs',
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
-
-    const { accuséRéception, dateQualification, référenceDossier } =
-      this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
-        identifiantProjet: identifiantProjet.formatter(),
-        référenceDossier:
-          this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
-        dateQualification:
-          this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
-        accuséRéception: undefined,
-      });
-
     try {
+      const { accuséRéception, dateQualification, référenceDossier } =
+        this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
+          identifiantProjet: identifiantProjet.formatter(),
+          référenceDossier:
+            this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture
+              .référenceDossier,
+          dateQualification:
+            this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture
+              .dateQualification,
+          accuséRéception: undefined,
+        });
+
       await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
         data: {

@@ -48,10 +48,13 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       : undefined;
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
+
     const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       référenceDossierRaccordementValue,
     );
+
     const rôle = Role.convertirEnValueType(rôleValue);
     const modifiéeLe: DateTime.ValueType = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
@@ -70,7 +73,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       type: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
-        formatAccuséRéception: accuséRéceptionValue?.format,
+        formatAccuséRéception: accuséRéception ? accuséRéceptionValue!.format : undefined,
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,
