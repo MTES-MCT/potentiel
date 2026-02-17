@@ -6,11 +6,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 
 import { ModifierReprésentantLégalPage } from './ModifierReprésentantLégal.page';
 
@@ -30,7 +32,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      const représentantLégalActuel =
+      const représentantLégal =
         await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
           data: {
@@ -38,15 +40,27 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      if (Option.isNone(représentantLégalActuel)) {
+      if (Option.isNone(représentantLégal)) {
         return notFound();
+      }
+
+      if (représentantLégal.demandeEnCours) {
+        return (
+          <DemandeEnCoursPage
+            title="Demande de changement de représentant légal"
+            href={Routes.ReprésentantLégal.changement.détails(
+              identifiantProjet.formatter(),
+              représentantLégal.demandeEnCours.demandéLe,
+            )}
+          />
+        );
       }
 
       return (
         <ModifierReprésentantLégalPage
-          identifiantProjet={mapToPlainObject(représentantLégalActuel.identifiantProjet)}
-          nomReprésentantLégal={représentantLégalActuel.nomReprésentantLégal}
-          typeReprésentantLégal={mapToPlainObject(représentantLégalActuel.typeReprésentantLégal)}
+          identifiantProjet={mapToPlainObject(représentantLégal.identifiantProjet)}
+          nomReprésentantLégal={représentantLégal.nomReprésentantLégal}
+          typeReprésentantLégal={mapToPlainObject(représentantLégal.typeReprésentantLégal)}
         />
       );
     }),
