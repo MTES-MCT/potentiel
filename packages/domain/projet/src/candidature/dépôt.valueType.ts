@@ -41,6 +41,7 @@ export type RawType = {
   typologieInstallation: Array<TypologieInstallation.RawType>;
   obligationDeSolarisation: boolean | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
+  autorisationEnvironnementale: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType | undefined;
   natureDeLExploitation:
@@ -74,6 +75,7 @@ export type ValueType = ReadonlyValueType<{
   typologieInstallation: Array<TypologieInstallation.ValueType>;
   obligationDeSolarisation: boolean | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
+  autorisationEnvironnementale: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
@@ -115,6 +117,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     ? {
         date: DateTime.bind(plain.autorisationDUrbanisme.date),
         numéro: plain.autorisationDUrbanisme.numéro,
+      }
+    : undefined,
+  autorisationEnvironnementale: plain.autorisationEnvironnementale
+    ? {
+        date: DateTime.bind(plain.autorisationEnvironnementale.date),
+        numéro: plain.autorisationEnvironnementale.numéro,
       }
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
@@ -164,6 +172,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
+      ) &&
+      valueType.autorisationEnvironnementale?.numéro ===
+        this.autorisationEnvironnementale?.numéro &&
+      areEqual(
+        valueType.autorisationEnvironnementale?.date,
+        this.autorisationEnvironnementale?.date,
       )
     );
   },
@@ -203,6 +217,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         ? {
             date: this.autorisationDUrbanisme.date.formatter(),
             numéro: this.autorisationDUrbanisme.numéro,
+          }
+        : undefined,
+      autorisationEnvironnementale: this.autorisationEnvironnementale
+        ? {
+            date: this.autorisationEnvironnementale.date.formatter(),
+            numéro: this.autorisationEnvironnementale.numéro,
           }
         : undefined,
       installateur: this.installateur,
@@ -263,6 +283,13 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         ? mapToPlainObject({
             date: DateTime.convertirEnValueType(raw.autorisationDUrbanisme.date),
             numéro: raw.autorisationDUrbanisme.numéro,
+          })
+        : undefined,
+    autorisationEnvironnementale:
+      raw.autorisationEnvironnementale?.date && raw.autorisationEnvironnementale.numéro
+        ? mapToPlainObject({
+            date: DateTime.convertirEnValueType(raw.autorisationEnvironnementale.date),
+            numéro: raw.autorisationEnvironnementale.numéro,
           })
         : undefined,
     installateur: raw.installateur,
