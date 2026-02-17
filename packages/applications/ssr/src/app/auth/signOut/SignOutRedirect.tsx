@@ -15,10 +15,10 @@ export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
     }
     if (data?.user) {
       authClient.signOut().then(() => {
-        window.location.href = callbackUrl || '/';
+        window.location.href = callbackUrl ?? '/';
       });
     } else {
-      window.location.href = callbackUrl || '/';
+      window.location.href = callbackUrl ?? '/';
     }
   }, [isPending, data]);
   return null;

@@ -1,5 +1,5 @@
 import { betterAuth } from 'better-auth';
-import { genericOAuth, keycloak, lastLoginMethod, magicLink } from 'better-auth/plugins';
+import { genericOAuth, lastLoginMethod, magicLink } from 'better-auth/plugins';
 import { mediator } from 'mediateur';
 
 import { EnvoyerNotificationCommand, SendEmailV2 } from '@potentiel-applications/notifications';
@@ -14,19 +14,10 @@ const sendEmail: SendEmailV2 = async (data) => {
 };
 
 export const auth = betterAuth({
-  hooks: {
-    // after: createAuthMiddleware(async (ctx) => {
-    //   // TODO log auth events
-    //   console.log('AFTER', ctx.method, ctx.context);
-    //   return {
-    //     context: ctx,
-    //   };
-    // }),
-  },
   plugins: [
     genericOAuth({
       config: [
-        keycloak(getKeycloakConfiguration()),
+        proconnect(getKeycloakConfiguration()),
         proconnect(getProconnectConfiguration()),
       ].filter(({ providerId }) => process.env.AUTH_PROVIDERS?.split(',').includes(providerId)),
     }),
@@ -34,5 +25,9 @@ export const auth = betterAuth({
       sendMagicLink: buildSendMagicLink(sendEmail, getUtilisateurFromEmail),
     }),
     lastLoginMethod(),
+    // customSession(async (session, ctx) => {
+    //   console.log(ctx.body);
+    //   return session;
+    // }),
   ],
 });
