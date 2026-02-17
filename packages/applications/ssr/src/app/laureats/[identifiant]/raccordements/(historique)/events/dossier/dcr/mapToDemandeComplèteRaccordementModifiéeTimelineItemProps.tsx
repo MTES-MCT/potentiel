@@ -2,6 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
   event: (
@@ -11,6 +12,7 @@ export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
     | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent
   ) & { createdAt: string },
 ): TimelineItemProps => {
+  const { dateQualification } = event.payload;
   const transmiseLe: DateTime.RawType =
     'modifiéeLe' in event.payload
       ? event.payload.modifiéeLe
@@ -31,6 +33,12 @@ export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
       <>
         Le dossier <span className="font-semibold">{référenceDossier}</span> a été modifié
       </>
+    ),
+    details: (
+      <span>
+        Date de l'accusé de réception :{' '}
+        <FormattedDate className="font-semibold" date={dateQualification} />
+      </span>
     ),
   };
 };

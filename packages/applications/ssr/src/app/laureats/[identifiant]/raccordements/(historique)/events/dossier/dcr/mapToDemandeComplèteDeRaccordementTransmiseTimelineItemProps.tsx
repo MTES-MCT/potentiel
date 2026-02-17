@@ -2,6 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
   event: (
@@ -12,7 +13,7 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
     createdAt: string;
   },
 ): TimelineItemProps => {
-  const { référenceDossierRaccordement } = event.payload;
+  const { référenceDossierRaccordement, dateQualification } = event.payload;
 
   const transmiseLe: DateTime.RawType =
     'transmiseLe' in event.payload
@@ -30,6 +31,12 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
         Un nouveau dossier de raccordement{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span> a été créé
       </>
+    ),
+    details: dateQualification && (
+      <span>
+        Date de l'accusé de réception :{' '}
+        <FormattedDate className="font-semibold" date={dateQualification} />
+      </span>
     ),
   };
 };
