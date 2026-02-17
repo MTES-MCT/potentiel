@@ -68,7 +68,8 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
 export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvSchema>;
 
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
-export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
+export const dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema =
+  optionalCsvDateSchema.optional();
 export const installationAvecDispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
 export const puissanceDuDispositifDeStockageSchema = optionalStrictlyPositiveNumberSchema;
 export const capacitéDuDispositifDeStockageSchema = optionalStrictlyPositiveNumberSchema;

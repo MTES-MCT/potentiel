@@ -273,6 +273,7 @@ describe('Schéma dépôt', () => {
         installateur: 'Installateur.Inc',
         coefficientKChoisi: 'true',
         autorisationDUrbanisme: { numéro: 'URB-01', date: '12/12/2022' },
+        autorisationEnvironnementale: { numéro: 'ENV-01', date: '12/11/2022' },
         puissanceDeSite: '200',
         natureDeLExploitation: {
           typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
@@ -302,6 +303,10 @@ describe('Schéma dépôt', () => {
         autorisationDUrbanisme: {
           numéro: 'URB-01',
           date: new Date(champsSupplémentaires.autorisationDUrbanisme.date).toISOString(),
+        },
+        autorisationEnvironnementale: {
+          numéro: 'ENV-01',
+          date: new Date(champsSupplémentaires.autorisationEnvironnementale.date).toISOString(),
         },
         obligationDeSolarisation: true,
         natureDeLExploitation: {
@@ -414,6 +419,27 @@ describe('Schéma dépôt', () => {
         result,
         ['natureDeLExploitation', 'tauxPrévisionnelACI'],
         `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
+      );
+    });
+
+    test(`Date et numéro d'autorisation attendus ensemble`, () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        autorisationEnvironnementale: {
+          numéro: 'NUM1',
+          date: undefined,
+        },
+        autorisationDUrbanisme: {
+          numéro: undefined,
+          date: '10/10/2024',
+        },
+      });
+      assert(result.error);
+      expect(result.error.issues[0].message).to.equal(
+        "La date et le numéro de l'autorisation d'urbanisme doivent être renseignés ensemble.",
+      );
+      expect(result.error.issues[1].message).to.equal(
+        "La date et le numéro de l'autorisation environnementale doivent être renseignés ensemble.",
       );
     });
   });

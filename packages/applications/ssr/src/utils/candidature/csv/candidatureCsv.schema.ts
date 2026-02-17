@@ -9,7 +9,10 @@ import {
   numéroCRESchema,
   périodeSchema,
 } from '../identifiantProjet.schema';
-import { dépôtSchema, numéroDAutorisationDUrbanismeSchema } from '../dépôt.schema';
+import {
+  dépôtSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+} from '../dépôt.schema';
 import { instructionSchema } from '../instruction.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -18,7 +21,6 @@ import {
   capacitéDuDispositifDeStockageSchema,
   choixCoefficientKCsvSchema,
   codePostalCsvSchema,
-  dateDAutorisationDUrbanismeCsvSchema,
   dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
@@ -37,6 +39,7 @@ import {
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   territoireProjetSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -113,6 +116,8 @@ const colonnes = {
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+  dateDAutorisationEnvironnementale: "Date d'obtention de l'autorisation environnementale",
+  numéroDAutorisationEnvironnementale: "Numéro de l'autorisation environnementale",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -147,8 +152,12 @@ const candidatureCsvRowSchema = z
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
-    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
-    [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
+    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
+    [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    [colonnes.dateDAutorisationEnvironnementale]:
+      dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
+    [colonnes.numéroDAutorisationEnvironnementale]:
+      numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     [colonnes.installateur]: dépôtSchema.shape.installateur,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
     [colonnes.puissanceDuDispositifDeStockageEnKW]: puissanceDuDispositifDeStockageSchema,
@@ -261,6 +270,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       puissanceDuDispositifDeStockageEnKW,
       tauxPrévisionnelACI,
       natureDeLExploitation,
+      dateDAutorisationEnvironnementale,
+      numéroDAutorisationEnvironnementale,
       ...val
     }) => {
       return {
@@ -287,6 +298,13 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
             ? {
                 date: dateDAutorisationDUrbanisme,
                 numéro: numéroDAutorisationDUrbanisme,
+              }
+            : undefined,
+        autorisationEnvironnementale:
+          dateDAutorisationEnvironnementale && numéroDAutorisationEnvironnementale
+            ? {
+                date: dateDAutorisationEnvironnementale,
+                numéro: numéroDAutorisationEnvironnementale,
               }
             : undefined,
         natureDeLExploitation:

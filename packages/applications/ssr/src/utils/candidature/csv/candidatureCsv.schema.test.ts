@@ -77,6 +77,7 @@ describe('Schema candidature CSV', () => {
       puissanceDeSite: undefined,
       installateur: undefined,
       natureDeLExploitation: undefined,
+      autorisationEnvironnementale: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
       typologieInstallation: [],
@@ -135,6 +136,7 @@ describe('Schema candidature CSV', () => {
       installateur: undefined,
       typologieInstallation: [],
       autorisationDUrbanisme: undefined,
+      autorisationEnvironnementale: undefined,
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
       puissanceProjetInitial: 1,
@@ -197,6 +199,7 @@ describe('Schema candidature CSV', () => {
       typeGarantiesFinancières: 'avec-date-échéance',
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
+      autorisationEnvironnementale: undefined,
       natureDeLExploitation: {
         typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
         tauxPrévisionnelACI: 32,

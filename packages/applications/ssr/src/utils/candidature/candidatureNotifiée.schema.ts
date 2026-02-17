@@ -5,9 +5,9 @@ import { Candidature } from '@potentiel-domain/projet';
 import { identifiantProjetSchema } from './identifiantProjet.schema';
 import { NestedKeysForSchema } from './nestedKeysForSchema';
 import {
-  dateDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
   dépôtSchema,
-  numéroDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
 } from './dépôt.schema';
 import { instructionSchema } from './instruction.schema';
 import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
@@ -28,8 +28,8 @@ const candidatureNotifiéeSchema = z
     puissance: dépôtSchema.shape.puissance,
     coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
     puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     installateur: dépôtSchema.shape.installateur,
     dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
     natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
