@@ -66,6 +66,12 @@ Fonctionnalité: Modifier une DCR
             | le porteur |
             | la dreal   |
 
+    @select
+    Scénario: Impossible de modifier une DCR sans apporter de modification
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Quand le porteur modifie la demande complète de raccordement avec les mêmes valeurs
+        Alors le porteur devrait être informé que "La demande complète de raccordement n'a pas été modifiée"
+
     Scénario: Impossible de modifier une DCR pour un projet sans dossier de raccordement
         Quand le porteur modifie la demande complète de raccordement avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |

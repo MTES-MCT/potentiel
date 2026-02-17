@@ -85,6 +85,38 @@ Quand(
 );
 
 Quand(
+  'le porteur modifie la demande complète de raccordement avec les mêmes valeurs',
+  async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { accuséRéception, dateQualification, référenceDossier } =
+      this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier:
+          this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+        dateQualification:
+          this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
+        accuséRéception: undefined,
+      });
+
+    try {
+      await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+        type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierRaccordementValue: référenceDossier,
+          dateQualificationValue: dateQualification,
+          accuséRéceptionValue: accuséRéception,
+          rôleValue: rôleUtilisateur,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   /(le porteur|la dreal|l'administrateur) modifie la référence de la demande complète de raccordement pour le projet lauréat$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;

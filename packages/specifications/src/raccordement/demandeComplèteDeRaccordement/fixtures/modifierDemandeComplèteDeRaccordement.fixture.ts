@@ -9,10 +9,10 @@ import { convertStringToReadableStream } from '../../../helpers/convertStringToR
 
 type PièceJustificative = { format: string; content: ReadableStream };
 
-interface ModifierDemandeComplèteRaccordement {
+export interface ModifierDemandeComplèteRaccordement {
   dateQualification: string;
   référenceDossier: string;
-  accuséRéception: PièceJustificative;
+  accuséRéception?: PièceJustificative;
 }
 
 export class ModifierDemandeComplèteRaccordementFixture
