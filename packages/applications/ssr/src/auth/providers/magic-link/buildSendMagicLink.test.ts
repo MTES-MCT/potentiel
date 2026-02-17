@@ -8,8 +8,9 @@ import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/util
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
+import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
+
 import { buildSendMagicLink } from './buildSendMagicLink';
-import { GetUtilisateurFromEmail } from './getUtilisateurFromEmail';
 
 type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
 

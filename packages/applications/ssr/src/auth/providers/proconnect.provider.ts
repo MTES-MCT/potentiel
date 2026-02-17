@@ -1,4 +1,4 @@
-import { OAuth2Tokens } from 'better-auth';
+import { OAuth2Tokens, User } from 'better-auth';
 import { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
 import { jwtVerify } from 'jose';
 
@@ -10,7 +10,6 @@ export interface ProconnectOptions extends BaseOAuthProviderOptions {
    * This will be used to construct the discovery URL.
    */
   issuer: string;
-  providerId: string;
 }
 
 interface ProconnectProfile {
@@ -62,7 +61,7 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
   };
 
   return {
-    providerId: options.providerId,
+    providerId: 'proconnect',
     discoveryUrl,
     clientId: options.clientId,
     clientSecret: options.clientSecret,
@@ -73,18 +72,28 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     disableSignUp: options.disableSignUp,
     overrideUserInfo: options.overrideUserInfo,
     getUserInfo,
+    mapProfileToUser,
   };
 }
+
+const mapProfileToUser = (
+  profile: Record<string, string>,
+): Partial<User> & { accountUrl: string } => ({
+  ...profile,
+  accountUrl: process.env.PROCONNECT_ACCOUNT!,
+});
 
 const mapUserInfoToProfile = ({
   sub: id,
   email,
   email_verified,
+  name,
   given_name,
   usual_name,
 }: ProconnectProfile) => ({
   id,
   email,
   emailVerified: email_verified ?? false,
-  name: given_name && usual_name ? `${given_name} ${usual_name}` : (usual_name ?? given_name),
+  name:
+    given_name && usual_name ? `${given_name} ${usual_name}` : (name ?? usual_name ?? given_name),
 });

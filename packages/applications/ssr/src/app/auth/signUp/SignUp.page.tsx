@@ -3,7 +3,6 @@
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
-import Tile from '@codegouvfr/react-dsfr/Tile';
 import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -11,21 +10,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
-import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
 import { authClient } from '@/auth/client';
+import { AuthTile, ProviderProps } from '@/components/organisms/auth/AuthTile';
+import { AuthProvider } from '@/auth/providers/authProvider';
 
 type SignUpPageProps = {
-  providers: Array<string>;
+  providers: Partial<Record<AuthProvider, ProviderProps>>;
   callbackUrl: string;
   error?: string;
 };
 
 export default function SignUpPage({ providers, callbackUrl, error }: SignUpPageProps) {
-  // This checks that the session is up to date with the necessary requirements
-  // it's useful when changing what's inside the cookie for instance
-  // if (status === 'authenticated' && !data.utilisateur) {
-  //   redirect(Routes.Auth.signOut());
-  // }
   const router = useRouter();
 
   return (
@@ -50,24 +45,13 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
           />
         )}
         <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
-          {providers.includes('proconnect') && (
-            <Tile
+          {providers.proconnect && (
+            <AuthTile
               title="ProConnect"
-              desc={
-                <div className="flex flex-col flex-wrap">
-                  <ProfilesBadge
-                    profiles={{
-                      'Porteurs de Projet': true,
-                      DREAL: false,
-                      DGEC: false,
-                      'Autres Partenaires*': false,
-                    }}
-                    title="Profils pouvant s'inscrire avec ProConnect, la solution d'identité de l'État pour les professionnels"
-                  />
-                  Inscrivez-vous facilement à l'aide de votre adresse professionnelle
-                </div>
-              }
-              detail={
+              provider={providers.proconnect}
+              profiles={{ porteurs: true, dreal: false, dgec: false, autres: false }}
+              description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
+              action={
                 <ProConnectButton
                   onClick={() =>
                     authClient.signIn.oauth2({
@@ -81,25 +65,13 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
             />
           )}
 
-          {providers.includes('email') && (
-            <Tile
+          {providers['magic-link'] && (
+            <AuthTile
               title="Lien magique"
-              desc={
-                <div className="flex flex-col ">
-                  <ProfilesBadge
-                    profiles={{
-                      'Porteurs de Projet': true,
-                      DREAL: false,
-                      DGEC: false,
-                      'Autres Partenaires*': false,
-                    }}
-                    title="Profils pouvant s'inscrire avec un lien de connexion envoyé par email"
-                  />
-                  Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera
-                  envoyé sur votre adresse de courriel
-                </div>
-              }
-              detail={
+              provider={providers['magic-link']}
+              profiles={{ porteurs: true, dreal: false, dgec: false, autres: false }}
+              description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+              action={
                 <MagicLinkForm
                   onSubmit={async (email) => {
                     await authClient.signIn.magicLink({ callbackURL: callbackUrl, email });

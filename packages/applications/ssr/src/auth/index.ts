@@ -1,33 +1,34 @@
 import { betterAuth } from 'better-auth';
-import { genericOAuth, lastLoginMethod, magicLink } from 'better-auth/plugins';
-import { mediator } from 'mediateur';
+import { genericOAuth, lastLoginMethod } from 'better-auth/plugins';
 
-import { EnvoyerNotificationCommand, SendEmailV2 } from '@potentiel-applications/notifications';
+import {
+  getKeycloakConfiguration,
+  getProconnectConfiguration,
+} from './providers/getProviderConfiguration';
+import { proconnect } from './providers/proconnect.provider';
+import { customKeycloak } from './providers/keycloak.provider';
+import { customMagicLink } from './providers/magicLink.provider';
+import { getProviders } from './providers/authProvider';
 
-import { getKeycloakConfiguration, getProconnectConfiguration } from './getProviderConfiguration';
-import { proconnect } from './proconnect.provider';
-import { buildSendMagicLink } from './buildSendMagicLink';
-import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
+const isDefined = <T extends object>(val: T | boolean | undefined): val is T => !!val;
 
-const sendEmail: SendEmailV2 = async (data) => {
-  await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
-};
+const providers = getProviders();
+const oauthProviders = [
+  providers.keycloak && customKeycloak(getKeycloakConfiguration()),
+  providers.proconnect && proconnect(getProconnectConfiguration()),
+].filter(isDefined);
 
 export const auth = betterAuth({
+  user: {
+    additionalFields: {
+      accountUrl: { type: 'string' },
+    },
+  },
   plugins: [
-    genericOAuth({
-      config: [
-        proconnect(getKeycloakConfiguration()),
-        proconnect(getProconnectConfiguration()),
-      ].filter(({ providerId }) => process.env.AUTH_PROVIDERS?.split(',').includes(providerId)),
+    oauthProviders.length > 0 && genericOAuth({ config: oauthProviders }),
+    providers['magic-link'] && customMagicLink(),
+    lastLoginMethod({
+      customResolveMethod: (ctx) => (ctx.path === '/magic-link/verify' ? 'magic-link' : null),
     }),
-    magicLink({
-      sendMagicLink: buildSendMagicLink(sendEmail, getUtilisateurFromEmail),
-    }),
-    lastLoginMethod(),
-    // customSession(async (session, ctx) => {
-    //   console.log(ctx.body);
-    //   return session;
-    // }),
-  ],
+  ].filter(isDefined),
 });
