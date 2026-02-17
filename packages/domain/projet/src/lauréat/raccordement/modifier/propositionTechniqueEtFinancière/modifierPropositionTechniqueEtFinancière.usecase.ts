@@ -19,7 +19,7 @@ export type ModifierPropositionTechniqueEtFinancièreUseCase = Message<
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
     identifiantProjetValue: string;
-    propositionTechniqueEtFinancièreSignéeValue: {
+    propositionTechniqueEtFinancièreSignéeValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -34,19 +34,21 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
     dateSignatureValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
-    propositionTechniqueEtFinancièreSignéeValue: { format, content },
+    propositionTechniqueEtFinancièreSignéeValue,
     rôleValue,
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
-    const propositionTechniqueEtFinancièreSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-        référenceDossierRaccordementValue,
-      ).formatter(),
-      dateSignatureValue,
-      format,
-    );
+    const propositionTechniqueEtFinancièreSignée = propositionTechniqueEtFinancièreSignéeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+            référenceDossierRaccordementValue,
+          ).formatter(),
+          dateSignatureValue,
+          propositionTechniqueEtFinancièreSignéeValue.format,
+        )
+      : undefined;
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateSignature = DateTime.convertirEnValueType(dateSignatureValue);
@@ -57,13 +59,15 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: propositionTechniqueEtFinancièreSignée,
-      },
-    });
+    if (propositionTechniqueEtFinancièreSignée) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: propositionTechniqueEtFinancièreSignéeValue!.content,
+          documentProjet: propositionTechniqueEtFinancièreSignée,
+        },
+      });
+    }
 
     await mediator.send<ModifierPropositionTechniqueEtFinancièreCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
@@ -71,7 +75,8 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
         dateSignature,
         identifiantProjet,
         référenceDossierRaccordement,
-        formatPropositionTechniqueEtFinancièreSignée: format,
+        formatPropositionTechniqueEtFinancièreSignée:
+          propositionTechniqueEtFinancièreSignée?.format,
         rôle: Role.convertirEnValueType(rôleValue),
         modifiéeLe,
         modifiéePar,

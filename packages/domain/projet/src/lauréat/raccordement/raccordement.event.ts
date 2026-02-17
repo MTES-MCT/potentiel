@@ -255,7 +255,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateSignature: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
+    propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
   }
@@ -267,7 +267,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateSignature: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
+    propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
     modifiéeLe: DateTime.RawType;

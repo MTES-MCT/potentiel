@@ -648,9 +648,11 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: {
-          format: formatPropositionTechniqueEtFinancièreSignée,
-        },
+        propositionTechniqueEtFinancièreSignée: formatPropositionTechniqueEtFinancièreSignée
+          ? {
+              format: formatPropositionTechniqueEtFinancièreSignée,
+            }
+          : undefined,
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },
@@ -669,7 +671,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyPropositionTechniqueEtFinancièreModifiéeEventV2({
     payload: {
       dateSignature,
-      propositionTechniqueEtFinancièreSignée: { format },
+      propositionTechniqueEtFinancièreSignée,
       référenceDossierRaccordement,
     },
   }: PropositionTechniqueEtFinancièreModifiéeEventV2) {
@@ -677,7 +679,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     dossier.propositionTechniqueEtFinancière.dateSignature =
       DateTime.convertirEnValueType(dateSignature);
-    dossier.propositionTechniqueEtFinancière.format = format;
+    if (propositionTechniqueEtFinancièreSignée) {
+      dossier.propositionTechniqueEtFinancière.format =
+        propositionTechniqueEtFinancièreSignée.format;
+    }
   }
 
   //#endregion PTF

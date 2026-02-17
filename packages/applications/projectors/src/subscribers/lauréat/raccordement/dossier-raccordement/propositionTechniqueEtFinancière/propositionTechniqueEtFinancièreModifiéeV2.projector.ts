@@ -8,7 +8,7 @@ export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
     identifiantProjet,
     référenceDossierRaccordement,
     dateSignature,
-    propositionTechniqueEtFinancièreSignée: { format },
+    propositionTechniqueEtFinancièreSignée,
   },
   created_at,
 }: Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV2 & Event) => {
@@ -17,9 +17,9 @@ export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
     {
       propositionTechniqueEtFinancière: {
         dateSignature,
-        propositionTechniqueEtFinancièreSignée: {
-          format,
-        },
+        ...(propositionTechniqueEtFinancièreSignée && {
+          propositionTechniqueEtFinancièreSignée,
+        }),
       },
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
