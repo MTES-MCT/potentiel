@@ -3,7 +3,6 @@ import { Middleware } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 import { getContext } from '@potentiel-applications/request-context';
-import { Entity, ListResult } from '@potentiel-domain/entity';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();
@@ -40,9 +39,7 @@ export const logMiddleware: Middleware = async (message, next) => {
 };
 
 const messagesToTruncate = [
-  'AppelOffre.Query.ListerAppelOffre',
   'AppelOffre.Query.ConsulterAppelOffre',
-  'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
   'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
 ];
 // This is to avoid extremely long results from ConsulterAppelOffre, which makes the logs unreadable.
@@ -51,19 +48,12 @@ const getResultJsonBody = (messageType: string, result: unknown) => {
   if (isListResult(result)) {
     return {
       subtotal: result.items.length,
-      total: result.total,
+      total: result.total ?? result.items.length,
     };
   }
   return result;
 };
 
-const isListResult = (result: unknown): result is ListResult<Entity> => {
-  return (
-    typeof result === 'object' &&
-    !!result &&
-    'total' in result &&
-    typeof result.total === 'number' &&
-    'items' in result &&
-    Array.isArray(result.items)
-  );
+const isListResult = (result: unknown): result is { total?: unknown; items: unknown[] } => {
+  return !!result && typeof result === 'object' && 'items' in result && Array.isArray(result.items);
 };
