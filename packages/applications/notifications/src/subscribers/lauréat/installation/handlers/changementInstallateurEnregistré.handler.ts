@@ -1,40 +1,34 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { InstallationNotificationsProps } from '../type.js';
-import { installationNotificationTemplateId } from '../constant.js';
+export const handleChangementInstallateurEnregistré = async ({
+  payload: { identifiantProjet, enregistréLe },
+}: Lauréat.Installation.ChangementInstallateurEnregistréEvent) => {
+  const projet = await getLauréat(identifiantProjet);
 
-export const handleChangementInstallateurEnregistréNotification = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: InstallationNotificationsProps<Lauréat.Installation.ChangementInstallateurEnregistréEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    url: `${getBaseUrl()}${Routes.Installation.changement.installateur.détails(projet.identifiantProjet.formatter(), enregistréLe)}`,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+  };
+
   await sendEmail({
-    templateId: installationNotificationTemplateId.enregistrerChangementInstallateur,
-    messageSubject: `Potentiel - Déclaration de changement d'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Installation.changement.installateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
-    },
+    key: 'lauréat/installation/installateur/enregistrer_changement',
+    recipients: porteurs,
+    values,
   });
 
   await sendEmail({
-    templateId: installationNotificationTemplateId.enregistrerChangementInstallateur,
-    messageSubject: `Potentiel - Déclaration de changement d'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Installation.changement.installateur.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
-    },
+    key: 'lauréat/installation/installateur/enregistrer_changement',
+    recipients: dreals,
+    values,
   });
 };

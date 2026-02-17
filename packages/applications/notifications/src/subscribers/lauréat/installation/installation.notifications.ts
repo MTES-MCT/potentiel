@@ -1,74 +1,30 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-
-import { getBaseUrl, getLauréat } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleDispositifDeStockageModifié,
   handleInstallateurModifié,
   handleTypologieInstallationModifiée,
-  handleChangementInstallateurEnregistréNotification,
-  handleChangementDispositifDeStockageEnregistréNotification,
+  handleChangementInstallateurEnregistré,
+  handleChangementDispositifDeStockageEnregistré,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Installation', SubscriptionEvent>;
 
-export type RegisterInstallationNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterInstallationNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-
-    const baseUrl = getBaseUrl();
-
-    const projet = await getLauréat(identifiantProjet.formatter());
-
     return match(event)
-      .with({ type: 'InstallateurModifié-V1' }, async (event) =>
-        handleInstallateurModifié({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'TypologieInstallationModifiée-V1' }, async (event) =>
-        handleTypologieInstallationModifiée({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'DispositifDeStockageModifié-V1' }, async (event) =>
-        handleDispositifDeStockageModifié({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementInstallateurEnregistré-V1' }, async (event) =>
-        handleChangementInstallateurEnregistréNotification({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with({ type: 'ChangementDispositifDeStockageEnregistré-V1' }, async (event) =>
-        handleChangementDispositifDeStockageEnregistréNotification({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
+      .with({ type: 'InstallateurModifié-V1' }, handleInstallateurModifié)
+      .with({ type: 'TypologieInstallationModifiée-V1' }, handleTypologieInstallationModifiée)
+      .with({ type: 'DispositifDeStockageModifié-V1' }, handleDispositifDeStockageModifié)
+      .with({ type: 'ChangementInstallateurEnregistré-V1' }, handleChangementInstallateurEnregistré)
+      .with(
+        { type: 'ChangementDispositifDeStockageEnregistré-V1' },
+        handleChangementDispositifDeStockageEnregistré,
       )
       .with(
         {

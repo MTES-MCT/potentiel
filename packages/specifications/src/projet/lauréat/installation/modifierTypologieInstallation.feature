@@ -15,13 +15,13 @@ Fonctionnalité: Modifier la typologie d'un projet
         Et la typologie du projet lauréat devrait être mise à jour
 
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de la typologie du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                             |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification de la typologie du projet |
+            | nom_projet | Du boulodrome de Marseille                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                      |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de la typologie du projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                    |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                     |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification de la typologie du projet |
+            | nom_projet | Du boulodrome de Marseille                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                      |
 
     Scénario: Impossible de modifier la typologie d'un projet sans modification
         Quand le DGEC validateur modifie la typologie avec une valeur identique pour le projet lauréat

@@ -4,7 +4,7 @@ import { InstallationNotification } from '@potentiel-applications/notifications'
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
+export const setupInstallation: SetupProjet = async () => {
   const installation = createSubscriptionSetup('installation');
 
   InstallationProjector.register();
@@ -18,7 +18,7 @@ export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Installation',
   });
 
-  InstallationNotification.register({ sendEmail });
+  InstallationNotification.register();
   await installation.setupSubscription<
     InstallationNotification.SubscriptionEvent,
     InstallationNotification.Execute
