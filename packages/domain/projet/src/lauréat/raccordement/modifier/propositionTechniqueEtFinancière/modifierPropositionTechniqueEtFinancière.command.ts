@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
@@ -14,6 +14,8 @@ export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     formatPropositionTechniqueEtFinancièreSignée: string;
     rôle: Role.ValueType;
+    modifiéeLe: DateTime.ValueType;
+    modifiéePar: Email.ValueType;
   }
 >;
 
@@ -26,6 +28,8 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = (
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
     rôle,
+    modifiéeLe,
+    modifiéePar,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -34,6 +38,8 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = (
       référenceDossierRaccordement,
       formatPropositionTechniqueEtFinancièreSignée,
       rôle,
+      modifiéeLe,
+      modifiéePar,
     });
   };
 

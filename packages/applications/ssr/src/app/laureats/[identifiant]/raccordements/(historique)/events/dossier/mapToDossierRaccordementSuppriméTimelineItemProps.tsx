@@ -23,8 +23,8 @@ export const mapToDossierRaccordementSuppriméTimelineItemProps = (
     actor,
     title: (
       <>
-        Le dossier de raccordement ayant comme référence{' '}
-        <span className="font-semibold">{référenceDossier}</span> a été supprimé
+        Le dossier de raccordement <span className="font-semibold">{référenceDossier}</span> a été
+        supprimé
       </>
     ),
   };

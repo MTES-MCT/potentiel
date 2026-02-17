@@ -8,12 +8,12 @@ export const mapToDossierRacordementSuppriméTimelineItemProps = (
 
   return {
     date: suppriméeLe,
+    actor: suppriméePar,
     title: (
       <>
-        La date de mise en service du dossier de raccordement ayant comme référence
-        <span className="font-semibold">{référenceDossierRaccordement}</span>a été supprimée
+        La date de mise en service du dossier de raccordement{' '}
+        <span className="font-semibold">{référenceDossierRaccordement}</span> a été supprimée
       </>
     ),
-    actor: suppriméePar,
   };
 };

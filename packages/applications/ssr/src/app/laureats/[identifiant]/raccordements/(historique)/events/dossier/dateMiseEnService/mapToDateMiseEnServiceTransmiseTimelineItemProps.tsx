@@ -14,12 +14,21 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
 ): TimelineItemProps => {
   const { référenceDossierRaccordement, dateMiseEnService } = event.payload;
 
+  const transmiseLe: DateTime.RawType =
+    'transmiseLe' in event.payload
+      ? event.payload.transmiseLe
+      : DateTime.convertirEnValueType(event.createdAt).formatter();
+
+  const transmisePar: string | undefined =
+    'transmisePar' in event.payload ? event.payload.transmisePar : undefined;
+
   return {
-    date: event.createdAt as DateTime.RawType,
+    date: transmiseLe,
+    actor: transmisePar,
     title: (
       <div>
-        La date de mise en service a été transmise pour le dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>
+        La date de mise en service du dossier de raccordement{' '}
+        <span className="font-semibold">{référenceDossierRaccordement}</span> a été transmise
       </div>
     ),
     details: (

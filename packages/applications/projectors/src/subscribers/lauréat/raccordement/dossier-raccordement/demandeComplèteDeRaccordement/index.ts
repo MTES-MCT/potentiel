@@ -8,3 +8,4 @@ export { demandeComplèteDeRaccordementTransmiseV3Projector } from './demandeCom
 export { demandeComplèteRaccordementModifiéeV1Projector } from './demandeComplèteRaccordementModifiéeV1.projector.js';
 export { demandeComplèteRaccordementModifiéeV2Projector } from './demandeComplèteRaccordementModifiéeV2.projector.js';
 export { demandeComplèteRaccordementModifiéeV3Projector } from './demandeComplèteRaccordementModifiéeV3.projector.js';
+export { demandeComplèteRaccordementModifiéeV4Projector } from './demandeComplèteRaccordementModifiéeV4.projector.js';

@@ -53,6 +53,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
           'DemandeComplèteRaccordementModifiée-V1',
           'DemandeComplèteRaccordementModifiée-V2',
           'DemandeComplèteRaccordementModifiée-V3',
+          'DemandeComplèteRaccordementModifiée-V4',
         ),
       },
       dossierRaccordement.DCR.mapToDemandeComplèteRaccordementModifiéeTimelineItemProps,
@@ -79,6 +80,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
         type: P.union(
           'PropositionTechniqueEtFinancièreModifiée-V1',
           'PropositionTechniqueEtFinancièreModifiée-V2',
+          'PropositionTechniqueEtFinancièreModifiée-V3',
         ),
       },
       dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps,

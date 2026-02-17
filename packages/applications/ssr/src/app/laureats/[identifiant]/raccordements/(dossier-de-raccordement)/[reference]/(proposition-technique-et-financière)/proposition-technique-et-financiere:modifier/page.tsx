@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierPropositiontechniqueEtFinancièreUseCase>(
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierPropositionTechniqueEtFinancièreUseCase>(
         'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
       );
 

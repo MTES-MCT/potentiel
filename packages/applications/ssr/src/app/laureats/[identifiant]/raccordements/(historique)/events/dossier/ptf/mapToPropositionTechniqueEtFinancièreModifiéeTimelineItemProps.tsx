@@ -6,16 +6,28 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps = (
   event: (
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV1
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV2
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent
   ) & {
     createdAt: string;
   },
-): TimelineItemProps => ({
-  date: event.createdAt as DateTime.RawType,
-  title: (
-    <>
-      La proposition technique et financière a été modifiée pour le dossier de raccordement
-      <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span>
-    </>
-  ),
-});
+): TimelineItemProps => {
+  const modifiéeLe: DateTime.RawType =
+    'modifiéeLe' in event.payload
+      ? event.payload.modifiéeLe
+      : DateTime.convertirEnValueType(event.createdAt).formatter();
+
+  const modifiéePar: string | undefined =
+    'modifiéePar' in event.payload ? event.payload.modifiéePar : undefined;
+  return {
+    date: modifiéeLe,
+    actor: modifiéePar,
+    title: (
+      <>
+        La proposition technique et financière du dossier de raccordement{' '}
+        <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span> a été
+        modifiée
+      </>
+    ),
+  };
+};

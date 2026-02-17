@@ -37,7 +37,7 @@ import {
 } from './listerHistorique/listerHistoriqueRaccordementProjet.query.js';
 import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
-import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.usecase.js';
+import { ModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import { ModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
 import {
   RechercherDossierRaccordementQuery,
@@ -94,7 +94,7 @@ export type {
 export type RaccordementUseCase =
   | ModifierDemandeComplèteRaccordementUseCase
   | ModifierGestionnaireRéseauRaccordementUseCase
-  | ModifierPropositiontechniqueEtFinancièreUseCase
+  | ModifierPropositionTechniqueEtFinancièreUseCase
   | ModifierRéférenceDossierRaccordementUseCase
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
@@ -105,7 +105,7 @@ export type RaccordementUseCase =
 export type {
   ModifierDemandeComplèteRaccordementUseCase,
   ModifierGestionnaireRéseauRaccordementUseCase,
-  ModifierPropositiontechniqueEtFinancièreUseCase,
+  ModifierPropositionTechniqueEtFinancièreUseCase,
   ModifierRéférenceDossierRaccordementUseCase,
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,

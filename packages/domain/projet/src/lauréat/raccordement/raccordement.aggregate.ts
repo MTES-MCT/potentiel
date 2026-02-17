@@ -23,6 +23,7 @@ import {
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
+  DemandeComplèteRaccordementModifiéeEventV3,
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
@@ -34,6 +35,7 @@ import {
   GestionnaireRéseauRaccordementModifiéEventV1,
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreModifiéeEventV1,
+  PropositionTechniqueEtFinancièreModifiéeEventV2,
   PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
@@ -69,7 +71,7 @@ import { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRése
 import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options.js';
 import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options.js';
 import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options.js';
-import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.options.js';
+import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.options.js';
 
 type DossierRaccordement = {
   référence: RéférenceDossierRaccordement.ValueType;
@@ -600,6 +602,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
     rôle,
+    modifiéeLe,
+    modifiéePar,
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
     this.lauréat.vérifierPasEnCoursAbandon();
 
@@ -640,7 +644,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
-      type: 'PropositionTechniqueEtFinancièreModifiée-V2',
+      type: 'PropositionTechniqueEtFinancièreModifiée-V3',
       payload: {
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
@@ -648,6 +652,8 @@ export class RaccordementAggregate extends AbstractAggregate<
         propositionTechniqueEtFinancièreSignée: {
           format: formatPropositionTechniqueEtFinancièreSignée,
         },
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
       },
     };
 
@@ -667,7 +673,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       propositionTechniqueEtFinancièreSignée: { format },
       référenceDossierRaccordement,
     },
-  }: PropositionTechniqueEtFinancièreModifiéeEvent) {
+  }: PropositionTechniqueEtFinancièreModifiéeEventV2) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
     dossier.propositionTechniqueEtFinancière.dateSignature =
@@ -826,6 +832,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     formatAccuséRéception,
     référenceDossierRaccordement,
     rôle,
+    modifiéeLe,
+    modifiéePar,
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
@@ -864,7 +872,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {
-      type: 'DemandeComplèteRaccordementModifiée-V3',
+      type: 'DemandeComplèteRaccordementModifiée-V4',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
@@ -872,6 +880,8 @@ export class RaccordementAggregate extends AbstractAggregate<
         accuséRéception: {
           format: formatAccuséRéception,
         },
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
       },
     };
 
@@ -899,13 +909,13 @@ export class RaccordementAggregate extends AbstractAggregate<
     dossier.demandeComplèteRaccordement.dateQualification =
       DateTime.convertirEnValueType(dateQualification);
   }
-  private applyDemandeComplèteRaccordementModifiéeEventV3({
+  private applyDemandeComplèteRaccordementModifiéeEvent({
     payload: {
       accuséRéception: { format },
       dateQualification,
       référenceDossierRaccordement,
     },
-  }: DemandeComplèteRaccordementModifiéeEvent) {
+  }: DemandeComplèteRaccordementModifiéeEventV3) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
     dossier.demandeComplèteRaccordement.dateQualification =
@@ -1049,8 +1059,13 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.applyDemandeComplèteRaccordementModifiéeEventV2.bind(this),
       )
       .with(
-        { type: 'DemandeComplèteRaccordementModifiée-V3' },
-        this.applyDemandeComplèteRaccordementModifiéeEventV3.bind(this),
+        {
+          type: P.union(
+            'DemandeComplèteRaccordementModifiée-V3',
+            'DemandeComplèteRaccordementModifiée-V4',
+          ),
+        },
+        this.applyDemandeComplèteRaccordementModifiéeEvent.bind(this),
       )
       .with(
         {
@@ -1082,9 +1097,15 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this),
       )
       .with(
-        { type: 'PropositionTechniqueEtFinancièreModifiée-V2' },
+        {
+          type: P.union(
+            'PropositionTechniqueEtFinancièreModifiée-V2',
+            'PropositionTechniqueEtFinancièreModifiée-V3',
+          ),
+        },
         this.applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this),
       )
+
       .with(
         { type: 'DateMiseEnServiceTransmise-V1' },
         this.applyDateMiseEnServiceTransmiseEventV1.bind(this),

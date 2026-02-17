@@ -1,6 +1,6 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
@@ -21,6 +21,8 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    modifiéeLeValue: string;
+    modifiéeParValue: string;
   }
 >;
 
@@ -31,6 +33,8 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     rôleValue,
+    modifiéeLeValue,
+    modifiéeParValue,
   }) => {
     const accuséRéception = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -47,6 +51,8 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       référenceDossierRaccordementValue,
     );
     const rôle = Role.convertirEnValueType(rôleValue);
+    const modifiéeLe: DateTime.ValueType = DateTime.convertirEnValueType(modifiéeLeValue);
+    const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -64,6 +70,8 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,
+        modifiéeLe,
+        modifiéePar,
       },
     });
   };

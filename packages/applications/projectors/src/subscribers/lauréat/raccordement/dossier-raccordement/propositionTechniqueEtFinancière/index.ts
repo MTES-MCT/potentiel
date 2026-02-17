@@ -6,3 +6,4 @@ export { propositionTechniqueEtFinancièreTransmiseV3Projector } from './proposi
 // Modifier PTF
 export { propositionTechniqueEtFinancièreModifiéeV1Projector } from './propositionTechniqueEtFinancièreModifiéeV1.projector.js';
 export { propositionTechniqueEtFinancièreModifiéeV2Projector } from './propositionTechniqueEtFinancièreModifiéeV2.projector.js';
+export { propositionTechniqueEtFinancièreModifiéeV3Projector } from './propositionTechniqueEtFinancièreModifiéeV3.projector.js';

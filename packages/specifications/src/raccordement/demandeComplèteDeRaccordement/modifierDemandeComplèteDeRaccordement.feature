@@ -7,6 +7,7 @@ Fonctionnalité: Modifier une DCR
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Plan du Scénario: Modifier une DCR
         Etant donné une demande complète de raccordement pour le projet lauréat

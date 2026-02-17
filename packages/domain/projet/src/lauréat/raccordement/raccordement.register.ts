@@ -39,8 +39,8 @@ import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase.js';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command.js';
 import { registerModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase.js';
-import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.command.js';
-import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.usecase.js';
+import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.command.js';
+import { registerModifierPropositionTechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositionTechniqueEtFinancière.usecase.js';
 import { registerModifierRéférenceDossierRaccordementCommand } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.command.js';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase.js';
 import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.command.js';
@@ -98,7 +98,7 @@ export const registerRaccordementUseCases = ({
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
-  registerModifierPropositiontechniqueEtFinancièreUseCase();
+  registerModifierPropositionTechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
   registerTransmettreDateMiseEnServiceUseCase();
   registerSupprimerDateMiseEnServiceUseCase();
