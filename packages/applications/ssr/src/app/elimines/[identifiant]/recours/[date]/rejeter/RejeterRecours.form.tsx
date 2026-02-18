@@ -4,6 +4,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -14,9 +16,10 @@ import { rejeterRecoursAction, RejeterRecoursFormKeys } from './rejeterRecours.a
 
 type RejeterRecoursFormProps = {
   identifiantProjet: string;
+  date: PlainType<DateTime.ValueType>;
 };
 
-export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) => {
+export const RejeterRecours = ({ identifiantProjet, date }: RejeterRecoursFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterRecoursFormKeys>
   >({});
@@ -57,7 +60,7 @@ export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) =
 
               <DownloadDocument
                 className="mt-4"
-                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet)}
+                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet, date.date)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
