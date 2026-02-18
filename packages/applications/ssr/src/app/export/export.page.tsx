@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { Card } from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
@@ -28,6 +28,7 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [modal] = useState(
     createModal({
@@ -35,17 +36,18 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
       isOpenedByDefault: false,
     }),
   );
-  const isOpen = useIsModalOpen(modal);
 
   const downloadFile = async (fileUrl: string) => {
     setError(undefined);
 
+    setIsLoading(true);
     modal.open();
 
     const response = await fetch(fileUrl);
 
     if (!response.ok) {
       setError('Erreur lors de la génération du fichier');
+      setIsLoading(false);
       modal.close();
       return;
     }
@@ -60,6 +62,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
     a.remove();
     window.URL.revokeObjectURL(urlObject);
 
+    setIsLoading(false);
     modal.close();
   };
 
@@ -71,7 +74,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
         </div>
 
         <div>
-          {error && <Notice iconDisplayed severity="alert" title={error} />}
+          {error && <Notice className="md:w-3/4" iconDisplayed severity="alert" title={error} />}
 
           <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
             {actions.map(({ type, label, url, description, availableFilters }) => (
@@ -82,18 +85,6 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   endDetail={
                     <span className="block w-full text-right">Format du fichier : csv</span>
                   }
-                  linkProps={
-                    isOpen
-                      ? undefined
-                      : {
-                          href: '#',
-                          onClick: async (e) => {
-                            e.preventDefault();
-                            await downloadFile(url);
-                            return false;
-                          },
-                        }
-                  }
                   end={
                     <FiltersTagList
                       filters={filters.filter((filter) =>
@@ -103,6 +94,20 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   }
                   title={label}
                   desc={description}
+                  start={
+                    !isLoading && (
+                      <Button
+                        iconId="ri-file-download-line"
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          await downloadFile(url);
+                          return false;
+                        }}
+                        priority="tertiary no outline"
+                        title=""
+                      />
+                    )
+                  }
                 />
               </li>
             ))}
