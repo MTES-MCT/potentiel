@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import { Card } from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
+import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
@@ -27,7 +28,6 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [modal] = useState(
     createModal({
@@ -35,10 +35,10 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
       isOpenedByDefault: false,
     }),
   );
+  const isOpen = useIsModalOpen(modal);
 
   const downloadFile = async (fileUrl: string) => {
     setError(undefined);
-    setIsLoading(true);
 
     modal.open();
 
@@ -60,7 +60,6 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
     a.remove();
     window.URL.revokeObjectURL(urlObject);
 
-    setIsLoading(false);
     modal.close();
   };
 
@@ -84,7 +83,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                     <span className="block w-full text-right">Format du fichier : csv</span>
                   }
                   linkProps={
-                    isLoading
+                    isOpen
                       ? undefined
                       : {
                           href: '#',
