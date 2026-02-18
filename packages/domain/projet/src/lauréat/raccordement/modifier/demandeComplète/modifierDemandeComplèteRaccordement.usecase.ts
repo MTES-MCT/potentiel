@@ -56,7 +56,9 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     );
 
     const rôle = Role.convertirEnValueType(rôleValue);
+
     const modifiéeLe: DateTime.ValueType = DateTime.convertirEnValueType(modifiéeLeValue);
+
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
     if (accuséRéception) {

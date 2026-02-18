@@ -834,11 +834,11 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   async modifierDemandeComplèteRaccordement({
     dateQualification,
-    formatAccuséRéception,
     référenceDossierRaccordement,
     rôle,
     modifiéeLe,
     modifiéePar,
+    formatAccuséRéception,
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 

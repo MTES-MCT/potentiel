@@ -63,9 +63,7 @@ Alors(
         assert(Option.isSome(result), `Accusé de réception non trouvé !`);
 
         const actualContent = await convertReadableStreamToString(result.content);
-        const expectedContent = await convertReadableStreamToString(
-          expectedAccuséRéception.content,
-        );
+        const expectedContent = expectedAccuséRéception.content;
         actualContent.should.be.equal(expectedContent);
       }
     });

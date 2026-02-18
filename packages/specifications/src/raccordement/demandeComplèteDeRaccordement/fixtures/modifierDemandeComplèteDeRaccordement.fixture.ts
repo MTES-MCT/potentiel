@@ -5,9 +5,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+type PièceJustificative = { format: string; content: string };
 
 export interface ModifierDemandeComplèteRaccordement {
   dateQualification: string;
@@ -29,13 +28,14 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #format!: string | undefined;
-  #content!: string | undefined;
+  #format: string | undefined;
+  #content: string | undefined;
+
   get accuséRéception(): ModifierDemandeComplèteRaccordement['accuséRéception'] {
     return this.#format && this.#content
       ? {
           format: this.#format,
-          content: convertStringToReadableStream(this.#content),
+          content: this.#content,
         }
       : undefined;
   }
@@ -51,12 +51,14 @@ export class ModifierDemandeComplèteRaccordementFixture
     },
   ): Readonly<ModifierDemandeComplèteRaccordement> {
     const content = faker.word.words();
+    const format = 'text/plain';
+
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
       accuséRéception: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        format,
+        content,
       },
       ...partialFixture,
     };
@@ -64,7 +66,7 @@ export class ModifierDemandeComplèteRaccordementFixture
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
     this.#format = fixture.accuséRéception?.format;
-    this.#content = partialFixture.accuséRéception ? content : undefined;
+    this.#content = fixture.accuséRéception?.content;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;

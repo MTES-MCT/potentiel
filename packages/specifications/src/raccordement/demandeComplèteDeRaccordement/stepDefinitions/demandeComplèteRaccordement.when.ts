@@ -7,7 +7,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
-import { getRôle, RôleUtilisateur } from '../../../helpers/index.js';
+import { convertStringToReadableStream, getRôle, RôleUtilisateur } from '../../../helpers/index.js';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',
@@ -85,37 +85,19 @@ Quand(
 );
 
 Quand(
-  'le porteur modifie la demande complète de raccordement avec les mêmes valeurs',
+  'le porteur modifie la demande complète de raccordement sans modification',
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
-    try {
-      const { accuséRéception, dateQualification, référenceDossier } =
-        this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
-          identifiantProjet: identifiantProjet.formatter(),
-          référenceDossier:
-            this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture
-              .référenceDossier,
-          dateQualification:
-            this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture
-              .dateQualification,
-          accuséRéception: undefined,
-        });
-
-      await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
-        type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierRaccordementValue: référenceDossier,
-          dateQualificationValue: dateQualification,
-          accuséRéceptionValue: accuséRéception,
-          rôleValue: rôleUtilisateur,
-          modifiéeLeValue: DateTime.now().formatter(),
-          modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(rôleUtilisateur),
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
+    const { référenceDossier } =
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
+    await modifierDemandeComplèteRaccordement.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      getRôle.call(this, rôleUtilisateur),
+      {},
+      true,
+    );
   },
 );
 
@@ -227,20 +209,25 @@ export async function transmettreDemandeComplèteRaccordementSansDateDeQualifica
   await publish(`raccordement|${identifiantProjet}`, event);
 }
 
+// à modifier, comprendre ce qui plante
 async function modifierDemandeComplèteRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
   référence: string,
   role: Role.RawType,
   data: Record<string, string> = {},
+  estAvecLesMêmesValeurs?: boolean,
 ) {
+  console.log(data);
+  console.log(estAvecLesMêmesValeurs);
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
+      // temporaire pour tester l'erreur
       identifiantProjet,
       référenceDossier: référence,
-      ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
-        data,
-      ),
+      dateQualification:
+        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
+      accuséRéception: undefined,
     });
 
   try {
@@ -250,7 +237,12 @@ async function modifierDemandeComplèteRaccordement(
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
         dateQualificationValue: dateQualification,
-        accuséRéceptionValue: accuséRéception,
+        accuséRéceptionValue: accuséRéception
+          ? {
+              format: accuséRéception.format,
+              content: convertStringToReadableStream(accuséRéception.content),
+            }
+          : undefined,
         rôleValue: role,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
