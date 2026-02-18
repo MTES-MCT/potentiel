@@ -4,6 +4,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -14,9 +16,10 @@ import { accorderRecoursAction, AccorderRecoursFormKeys } from './accorderRecour
 
 type AccorderRecoursFormProps = {
   identifiantProjet: string;
+  date: PlainType<DateTime.ValueType>;
 };
 
-export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps) => {
+export const AccorderRecours = ({ identifiantProjet, date }: AccorderRecoursFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderRecoursFormKeys>
   >({});
@@ -57,7 +60,7 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet)}
+                url={Routes.Recours.téléchargerModèleRéponse(identifiantProjet, date.date)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />

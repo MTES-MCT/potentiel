@@ -74,6 +74,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet,
+            date: recours.demande.demandéLe,
           })}
         </>
       ),
@@ -84,9 +85,14 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableRecoursAction>;
   identifiantProjet: string;
+  date: PlainType<DateTime.ValueType>;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  date,
+}: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
       <PasserRecoursEnInstruction
@@ -94,8 +100,12 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
         estUneReprise={actions.includes('reprendre-instruction')}
       />
     )}
-    {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
-    {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
+    {actions.includes('accorder') && (
+      <AccorderRecours identifiantProjet={identifiantProjet} date={date} />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterRecours identifiantProjet={identifiantProjet} date={date} />
+    )}
     {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
   </ActionsList>
 );
