@@ -121,9 +121,7 @@ export const registerListerÉliminéEnrichiQuery = ({
           identifiantProjet: 'ascending',
         },
         where: {
-          identifiantProjet: identifiantProjets?.length
-            ? Where.matchAny(identifiantProjets)
-            : undefined,
+          identifiantProjet: Where.matchAny(identifiantProjets),
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
