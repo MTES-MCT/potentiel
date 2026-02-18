@@ -16,7 +16,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@auth/pg-adapter": "1.11.1",
     "@codegouvfr/react-dsfr": "1.29.0",
     "@edge-csrf/nextjs": "2.5.3-cloudflare-rc1",
     "@emotion/react": "11.14.0",
