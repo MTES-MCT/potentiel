@@ -114,8 +114,6 @@ export const registerListerÉliminéEnrichiQuery = ({
           ? [identifiantProjet]
           : undefined;
 
-    console.log({ identifiantProjets }, scope, utilisateur);
-
     const éliminés = await list<CandidatureEntity, [ÉliminéEntity, DétailCandidatureEntity]>(
       'candidature',
       {
