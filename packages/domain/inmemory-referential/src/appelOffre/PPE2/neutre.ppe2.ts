@@ -2,6 +2,11 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
+const champsSupplémentairesAPartirDeP4 = {
+  coefficientKChoisi: 'requis' as const,
+  typologieInstallation: 'optionnel' as const,
+};
+
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
@@ -114,7 +119,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
-  champsSupplémentaires: { typologieInstallation: 'optionnel' },
+  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
   periodes: [
     {
       id: '1',
@@ -152,6 +157,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '2',
@@ -188,6 +195,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '3',
@@ -224,6 +233,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '4',
@@ -234,7 +245,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         référence: '2025/S 125-430892',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
-      champsSupplémentaires: { coefficientKChoisi: 'requis' },
       familles: [],
       donnéesCourriersRéponse: {
         texteEngagementRéalisationEtModalitésAbandon: {
