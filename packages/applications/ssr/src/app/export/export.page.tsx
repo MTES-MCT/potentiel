@@ -27,6 +27,7 @@ export type ExportPageProps = {
 };
 
 export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [modal] = useState(
     createModal({
@@ -35,19 +36,13 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
     }),
   );
 
-  /**
-   *
-   * @param event L'évènement de clic sur le lien d'exportation. Il est utilisé pour empêcher le comportement par défaut du lien et pour déclencher la génération du fichier CSV.
-   * @param url L'URL de la route à appeler pour générer le fichier CSV.
-   */
-  const getCsvFile = async (event: React.MouseEvent<HTMLAnchorElement>, url: string) => {
-    event.preventDefault();
-
+  const downloadFile = async (fileUrl: string) => {
     setError(undefined);
+    setIsLoading(true);
 
     modal.open();
 
-    const response = await fetch(url);
+    const response = await fetch(fileUrl);
 
     if (!response.ok) {
       setError('Erreur lors de la génération du fichier');
@@ -65,9 +60,8 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
     a.remove();
     window.URL.revokeObjectURL(urlObject);
 
+    setIsLoading(false);
     modal.close();
-
-    return false;
   };
 
   return (
@@ -89,10 +83,18 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   endDetail={
                     <span className="block w-full text-right">Format du fichier : csv</span>
                   }
-                  linkProps={{
-                    href: '#',
-                    onClick: (e) => getCsvFile(e, url),
-                  }}
+                  linkProps={
+                    isLoading
+                      ? undefined
+                      : {
+                          href: '#',
+                          onClick: async (e) => {
+                            e.preventDefault();
+                            await downloadFile(url);
+                            return false;
+                          },
+                        }
+                  }
                   end={
                     <FiltersTagList
                       filters={filters.filter((filter) =>
@@ -107,7 +109,7 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
             ))}
           </ul>
         </div>
-        <modal.Component title={'Génération du fichier en cours'} concealingBackdrop={false}>
+        <modal.Component title="Génération du fichier en cours" concealingBackdrop={false}>
           <div className="flex flex-col items-center mt-5 gap-5">
             <Spinner size="large" />
             <div>Cette action peut prendre quelques instants...</div>
