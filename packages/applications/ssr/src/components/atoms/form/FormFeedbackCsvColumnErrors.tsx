@@ -13,7 +13,7 @@ type FormFeedbackCsvColumnErrorsProps = {
 };
 
 export const FormFeedbackCsvColumnErrors: FC<FormFeedbackCsvColumnErrorsProps> = ({
-  formState: { errors, status },
+  formState: { columns, status },
 }) => {
   const { pending } = useFormStatus();
 
@@ -33,8 +33,8 @@ export const FormFeedbackCsvColumnErrors: FC<FormFeedbackCsvColumnErrorsProps> =
       className="mt-6"
       description={
         <ul className={`list-disc pl-3 my-6 ${fr.cx('fr-accordions-group')}`}>
-          {errors.map((error) => (
-            <li key={`column-error-${error.column}`}>{error.column}</li>
+          {columns.map((column) => (
+            <li key={`column-error-${column}`}>{column}</li>
           ))}
         </ul>
       }

@@ -70,12 +70,12 @@ export type FormStateCsvLineError = {
 
 export type FormStateCsvMissingColumnError = {
   status: 'csv-missing-column-error';
-  errors: Array<ImportCSV.CsvMissingColumnError>;
+  columns: Array<ImportCSV.CsvMissingColumnError>;
 };
 
 export type FormStateCsvDuplicateColumnError = {
   status: 'csv-duplicate-header-error';
-  errors: Array<ImportCSV.CsvDuplicateHeaderError>;
+  columns: Array<ImportCSV.CsvDuplicateHeaderError>;
 };
 
 type FormStateUnknownError = {
@@ -169,13 +169,13 @@ export const formAction =
       if (e instanceof ImportCSV.MissingRequiredColumnError) {
         return {
           status: 'csv-missing-column-error' as const,
-          errors: e.errors,
+          columns: e.missingColumns,
         };
       }
       if (e instanceof ImportCSV.DuplicateHeaderError) {
         return {
           status: 'csv-duplicate-header-error' as const,
-          errors: e.errors,
+          columns: e.duplicateHeaders,
         };
       }
 

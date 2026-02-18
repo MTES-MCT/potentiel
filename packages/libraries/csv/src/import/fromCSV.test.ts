@@ -4,9 +4,9 @@ import { readFileSync } from 'node:fs';
 import { z } from 'zod';
 import { expect } from 'chai';
 
+import { MissingRequiredColumnError } from './checkRequiredColumns.js';
 import { fromCSV } from './fromCSV.js';
 import { DuplicateHeaderError } from './checkDuplicateHeaders.js';
-import { MissingRequiredColumnError } from './checkRequiredColumns.js';
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -146,7 +146,7 @@ test(`Étant donné un fichier avec une colonne manquante
     expect((e as MissingRequiredColumnError).message).to.match(
       /Des colonnes sont manquantes dans le fichier CSV/,
     );
-    expect((e as MissingRequiredColumnError).errors[0].column).to.equal('nomProjet');
+    expect((e as MissingRequiredColumnError).missingColumns[0]).to.equal('nomProjet');
   }
 });
 
@@ -164,6 +164,6 @@ test(`Étant donné un fichier avec deux colonnes identiques
     expect((e as DuplicateHeaderError).message).to.match(
       /Des colonnes sont en doublon dans le fichier CSV/,
     );
-    expect((e as DuplicateHeaderError).errors[0].column).to.equal('identifiantProjet');
+    expect((e as DuplicateHeaderError).duplicateHeaders[0]).to.equal('identifiantProjet');
   }
 });

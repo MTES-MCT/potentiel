@@ -1,9 +1,7 @@
-export type CsvMissingColumnError = {
-  column: string;
-};
+export type CsvMissingColumnError = string;
 
 export class MissingRequiredColumnError extends Error {
-  constructor(public errors: Array<CsvMissingColumnError>) {
+  constructor(public missingColumns: Array<CsvMissingColumnError>) {
     super('Des colonnes sont manquantes dans le fichier CSV');
   }
 }
@@ -16,10 +14,9 @@ export const checkRequiredColumns = (
     return;
   }
 
-  const missingColumns = new Set(requiredColumns).difference(new Set(Object.keys(rawData[0])));
+  const missingColumns = [...new Set(requiredColumns).difference(new Set(Object.keys(rawData[0])))];
 
-  if (missingColumns.size > 0) {
-    const errors: CsvMissingColumnError[] = [...missingColumns].map((column) => ({ column }));
-    throw new MissingRequiredColumnError(errors);
+  if (missingColumns.length) {
+    throw new MissingRequiredColumnError(missingColumns);
   }
 };
