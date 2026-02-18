@@ -14,9 +14,7 @@ export const auditLogs = () => {
     hooks: {
       after: [
         {
-          matcher: (context) => {
-            return !!context.context.newSession;
-          },
+          matcher: (context) => !!context.context.newSession,
           handler: createAuthMiddleware(async (ctx) => {
             try {
               // Get user from session (for existing session) or newSession (for new logins)

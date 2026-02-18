@@ -26,6 +26,21 @@ export const auth = betterAuth({
       provider: { type: 'string' },
     },
   },
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 24 * 60 * 60,
+      strategy: 'jwe',
+      refreshCache: true,
+    },
+  },
+  account: {
+    storeStateStrategy: 'cookie',
+    storeAccountCookie: true,
+  },
+  advanced: {
+    useSecureCookies: true,
+  },
   plugins: [
     oauthProviders.length > 0 && genericOAuth({ config: oauthProviders }),
     providers['magic-link'] && customMagicLink(),

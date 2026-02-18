@@ -6,10 +6,8 @@ import { auth } from '.';
 
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
 import { getOpenIdConfiguration } from './providers/discovery';
-import { getLastUsedProvider } from './providers/getLastUsedProvider';
-import { AuthProvider } from './providers/authProvider';
 
-const getIdToken = async (providerId: AuthProvider) => {
+const getIdToken = async (providerId: string) => {
   try {
     const tokens = await auth.api.getAccessToken({
       body: { providerId },
@@ -22,12 +20,8 @@ const getIdToken = async (providerId: AuthProvider) => {
   }
 };
 
-export const getLogoutUrl = async () => {
-  const currentProvider = getLastUsedProvider();
-  if (!currentProvider) {
-    return;
-  }
-  const providerConfig = getProviderConfiguration(currentProvider);
+export const getLogoutUrl = async (provider: string) => {
+  const providerConfig = getProviderConfiguration(provider);
   if (!providerConfig) {
     return;
   }
@@ -40,7 +34,7 @@ export const getLogoutUrl = async () => {
     return;
   }
 
-  const idToken = await getIdToken(currentProvider);
+  const idToken = await getIdToken(provider);
   if (!idToken) {
     return;
   }

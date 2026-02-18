@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -9,7 +10,11 @@ import { SignOutRedirect } from './SignOutRedirect';
 
 export default async function SignOut() {
   return PageWithErrorHandling(async () => {
-    const callbackUrl = await getLogoutUrl();
+    const session = await auth.api.getSession({ headers: headers() });
+    if (!session) {
+      redirect('/');
+    }
+    const callbackUrl = await getLogoutUrl(session.user.provider);
     await auth.api.signOut({ headers: headers() });
 
     return (
