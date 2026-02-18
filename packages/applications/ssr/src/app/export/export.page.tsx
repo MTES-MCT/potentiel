@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import { Card } from '@codegouvfr/react-dsfr/Card';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
@@ -85,6 +84,10 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   endDetail={
                     <span className="block w-full text-right">Format du fichier : csv</span>
                   }
+                  classes={{
+                    detail: 'ri-time-line',
+                  }}
+                  detail="Le téléchargement du fichier peut prendre quelques secondes"
                   end={
                     <FiltersTagList
                       filters={filters.filter((filter) =>
@@ -94,19 +97,17 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
                   }
                   title={label}
                   desc={description}
-                  start={
-                    !isLoading && (
-                      <Button
-                        iconId="ri-file-download-line"
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          await downloadFile(url);
-                          return false;
-                        }}
-                        priority="tertiary no outline"
-                        title=""
-                      />
-                    )
+                  linkProps={
+                    isLoading
+                      ? undefined
+                      : {
+                          href: '#',
+                          onClick: async (e) => {
+                            e.preventDefault();
+                            await downloadFile(url);
+                            return false;
+                          },
+                        }
                   }
                 />
               </li>
