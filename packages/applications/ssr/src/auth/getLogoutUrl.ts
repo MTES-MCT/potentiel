@@ -6,7 +6,7 @@ import { auth } from '.';
 
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
 import { getOpenIdConfiguration } from './providers/discovery';
-import { getLastUsedProvider } from './getCurrentProvider';
+import { getLastUsedProvider } from './providers/getLastUsedProvider';
 import { AuthProvider } from './providers/authProvider';
 
 const getIdToken = async (providerId: AuthProvider) => {

@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { LastLoginMethodOptions } from 'better-auth/plugins';
 
-import { auth } from '.';
+import { auth } from '..';
 
-import { AuthProvider } from './providers/authProvider';
+import { AuthProvider } from './authProvider';
 
 export const getLastUsedProvider = () => {
   const lastLoginMethodPlugin = auth.options.plugins.find((x) => x.id === 'last-login-method');

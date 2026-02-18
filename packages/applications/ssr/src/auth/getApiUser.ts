@@ -9,7 +9,6 @@ import { GetUtilisateur } from './getSessionUser';
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
 
 // API clients are authenticated by Authorization header
-
 export const getApiUser: GetUtilisateur = async (req) => {
   const session = await auth.api.getSession({
     headers: new Headers(req.headers as Record<string, string>),

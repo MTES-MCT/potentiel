@@ -4,8 +4,8 @@ import { redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
 
+import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getLastUsedProvider } from '@/auth/getCurrentProvider';
 import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
 import { ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { callbackURLSchema } from '@/utils/zod/auth';
