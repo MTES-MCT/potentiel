@@ -9,6 +9,7 @@ import { proconnect } from './providers/proconnect.provider';
 import { customKeycloak } from './providers/keycloak.provider';
 import { customMagicLink } from './providers/magicLink.provider';
 import { getProviders } from './providers/authProvider';
+import { auditLogs } from './plugins/audit-log.plugin';
 
 const isDefined = <T extends object>(val: T | boolean | undefined): val is T => !!val;
 
@@ -22,6 +23,7 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       accountUrl: { type: 'string' },
+      provider: { type: 'string' },
     },
   },
   plugins: [
@@ -30,5 +32,6 @@ export const auth = betterAuth({
     lastLoginMethod({
       customResolveMethod: (ctx) => (ctx.path === '/magic-link/verify' ? 'magic-link' : null),
     }),
+    auditLogs(),
   ].filter(isDefined),
 });

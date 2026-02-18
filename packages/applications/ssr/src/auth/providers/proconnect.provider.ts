@@ -1,4 +1,4 @@
-import { OAuth2Tokens, User } from 'better-auth';
+import { OAuth2Tokens } from 'better-auth';
 import { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
 import { jwtVerify } from 'jose';
 
@@ -76,11 +76,10 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
   };
 }
 
-const mapProfileToUser = (
-  profile: Record<string, string>,
-): Partial<User> & { accountUrl: string } => ({
+const mapProfileToUser = (profile: Record<string, string>): Record<string, string> => ({
   ...profile,
   accountUrl: process.env.PROCONNECT_ACCOUNT!,
+  provider: 'proconnect',
 });
 
 const mapUserInfoToProfile = ({

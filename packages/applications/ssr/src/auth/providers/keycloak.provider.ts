@@ -1,16 +1,15 @@
-import { User } from 'better-auth';
 import { keycloak, KeycloakOptions } from 'better-auth/plugins';
 
 export const customKeycloak = (options: KeycloakOptions) => {
-  const mapProfileToUser = (
-    profile: Record<string, string>,
-  ): Partial<User> & { accountUrl: string } => ({
+  const keycloakOptions = keycloak(options);
+  const mapProfileToUser = (profile: Record<string, string>): Record<string, string> => ({
     ...profile,
-    accountUrl: process.env.PROCONNECT_ACCOUNT!,
+    accountUrl: process.env.KEYCLOAK_ACCOUNT?.replace('{{issuer}}', options.issuer) ?? '',
+    provider: keycloakOptions.providerId,
   });
 
   return {
-    ...keycloak(options),
+    ...keycloakOptions,
     mapProfileToUser,
   };
 };

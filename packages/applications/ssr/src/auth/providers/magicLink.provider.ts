@@ -12,7 +12,17 @@ export const customMagicLink = () => {
     await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
   };
 
-  return magicLink({
+  const options = magicLink({
     sendMagicLink: buildSendMagicLink(sendEmail, getUtilisateurFromEmail),
   });
+
+  const mapProfileToUser = (profile: Record<string, string>): Record<string, string> => ({
+    ...profile,
+    provider: options.id,
+  });
+
+  return {
+    ...options,
+    mapProfileToUser,
+  };
 };
