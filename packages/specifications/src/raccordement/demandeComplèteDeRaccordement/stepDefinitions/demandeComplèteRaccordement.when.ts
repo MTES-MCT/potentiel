@@ -109,6 +109,8 @@ Quand(
           dateQualificationValue: dateQualification,
           accuséRéceptionValue: accuséRéception,
           rôleValue: rôleUtilisateur,
+          modifiéeLeValue: DateTime.now().formatter(),
+          modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(rôleUtilisateur),
         },
       });
     } catch (e) {
