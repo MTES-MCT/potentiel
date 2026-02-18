@@ -202,6 +202,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '2',
@@ -233,6 +235,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '3',
@@ -270,6 +274,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '4',
@@ -301,6 +307,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '5',
@@ -343,6 +351,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '6',
@@ -385,6 +395,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '7',
@@ -427,6 +439,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '8',
@@ -472,6 +486,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '9',
@@ -507,7 +523,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
       changement: {
@@ -516,6 +531,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           autoritéCompétente: 'dgec',
         },
       },
+      champsSupplémentaires: {},
+      modification: defaultModifications,
     },
     {
       id: '10',
