@@ -86,7 +86,7 @@ Quand(
 
 Quand(
   'le porteur modifie la demande complète de raccordement sans modification',
-  async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
@@ -94,7 +94,7 @@ Quand(
       this,
       identifiantProjet.formatter(),
       référenceDossier,
-      getRôle.call(this, rôleUtilisateur),
+      this.utilisateurWorld.porteurFixture.role,
       {},
       true,
     );
@@ -148,7 +148,10 @@ export async function transmettreDemandeComplèteRaccordement(
     await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
-        accuséRéceptionValue: accuséRéception,
+        accuséRéceptionValue: {
+          format: accuséRéception.format,
+          content: convertStringToReadableStream(accuséRéception.content),
+        },
         dateQualificationValue: dateQualification,
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référenceDossier,
@@ -178,7 +181,10 @@ export async function transmettreDemandeComplèteRaccordementSansAccuséRécepti
       identifiantProjetValue: identifiantProjet.formatter(),
       référenceDossierValue: référenceDossier,
       transmiseParValue: transmisePar.formatter(),
-      accuséRéceptionValue: accuséRéception,
+      accuséRéceptionValue: accuséRéception && {
+        format: accuséRéception.format,
+        content: convertStringToReadableStream(accuséRéception.content),
+      },
     },
   });
 }
@@ -216,19 +222,27 @@ async function modifierDemandeComplèteRaccordement(
   référence: string,
   role: Role.RawType,
   data: Record<string, string> = {},
-  estAvecLesMêmesValeurs?: boolean,
+  avecLesMêmesValeurs?: boolean,
 ) {
-  console.log(data);
-  console.log(estAvecLesMêmesValeurs);
   const { accuséRéception, dateQualification, référenceDossier } =
-    this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
-      // temporaire pour tester l'erreur
-      identifiantProjet,
-      référenceDossier: référence,
-      dateQualification:
-        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
-      accuséRéception: undefined,
-    });
+    this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer(
+      avecLesMêmesValeurs
+        ? {
+            identifiantProjet,
+            référenceDossier: référence,
+            dateQualification:
+              this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture
+                .dateQualification,
+            accuséRéception: undefined,
+          }
+        : {
+            identifiantProjet,
+            référenceDossier: référence,
+            ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
+              data,
+            ),
+          },
+    );
 
   try {
     await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({

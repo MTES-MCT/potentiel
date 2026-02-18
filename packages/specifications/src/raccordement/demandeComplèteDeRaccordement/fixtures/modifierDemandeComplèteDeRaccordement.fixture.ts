@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
 
-type PièceJustificative = { format: string; content: string };
+import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
 
 export interface ModifierDemandeComplèteRaccordement {
   dateQualification: string;
@@ -28,16 +28,14 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #format: string | undefined;
-  #content: string | undefined;
+  #format!: string;
+  #content!: string;
 
   get accuséRéception(): ModifierDemandeComplèteRaccordement['accuséRéception'] {
-    return this.#format && this.#content
-      ? {
-          format: this.#format,
-          content: this.#content,
-        }
-      : undefined;
+    return {
+      format: this.#format,
+      content: this.#content,
+    };
   }
 
   #identifiantProjet!: string;
@@ -50,23 +48,24 @@ export class ModifierDemandeComplèteRaccordementFixture
       identifiantProjet: string;
     },
   ): Readonly<ModifierDemandeComplèteRaccordement> {
-    const content = faker.word.words();
-    const format = 'text/plain';
-
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
       accuséRéception: {
-        format,
-        content,
+        format: faker.potentiel.fileFormat(),
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.accuséRéception?.format;
-    this.#content = fixture.accuséRéception?.content;
+
+    if (fixture.accuséRéception) {
+      this.#format = fixture.accuséRéception.format;
+      this.#content = fixture.accuséRéception.content;
+    }
+
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;

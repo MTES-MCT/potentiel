@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @demande-complète-raccordement
+@select
 Fonctionnalité: Modifier une DCR
 
     Contexte:
@@ -66,7 +67,6 @@ Fonctionnalité: Modifier une DCR
             | le porteur |
             | la dreal   |
 
-    @select
     Scénario: Impossible de modifier une DCR sans apporter de modification
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le porteur modifie la demande complète de raccordement sans modification
