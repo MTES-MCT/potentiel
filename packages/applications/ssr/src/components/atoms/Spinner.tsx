@@ -16,7 +16,7 @@ export const Spinner: FC<SpinnerProps> = ({ className, size }) => {
   return (
     <div
       className={clsx(
-        `inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite text-theme-blueFrance`,
+        `inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] text-theme-blueFrance border-b-[transparent]`,
         sizeClasses[size],
         className,
       )}
