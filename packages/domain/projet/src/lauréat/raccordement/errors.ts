@@ -21,7 +21,7 @@ export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOp
   }
 }
 
-export class DemandeComplètementRaccordementNonModifiéeError extends InvalidOperationError {
+export class DemandeComplèteDeRaccordementNonModifiéeError extends InvalidOperationError {
   constructor() {
     super("Aucune modification n'a été apportée à la demande complète de raccordement");
   }

@@ -17,6 +17,7 @@ import {
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
+  dateQualificationActuelle: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
@@ -32,6 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
     accuseReception,
     accuseReceptionDocumentSelection,
     dateQualification,
+    dateQualificationActuelle,
     referenceDossierRaccordement,
     referenceDossierRaccordementActuelle,
   },
@@ -49,6 +51,19 @@ const action: FormAction<FormState, typeof schema> = async (
           modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
+
+      // early return si aucune autre modification n'est apportée, pour éviter un cas d'erreur dans le usecase modifierDemandeComplèteRaccordement
+      if (
+        accuseReceptionDocumentSelection === 'keep_existing_document' &&
+        DateTime.convertirEnValueType(new Date(dateQualification)).estÉgaleÀ(
+          DateTime.convertirEnValueType(dateQualificationActuelle),
+        )
+      ) {
+        return {
+          status: 'success',
+          redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+        };
+      }
     }
 
     await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({

@@ -60,7 +60,7 @@ import {
   RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
   PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
-  DemandeComplètementRaccordementNonModifiéeError,
+  DemandeComplèteDeRaccordementNonModifiéeError,
   PropositionTechniqueEtFinancièreNonModifiéeError,
 } from './errors.js';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
@@ -867,12 +867,11 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
       !formatAccuséRéception &&
       Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
       dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
     ) {
-      throw new DemandeComplètementRaccordementNonModifiéeError();
+      throw new DemandeComplèteDeRaccordementNonModifiéeError();
     }
 
     if (
