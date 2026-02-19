@@ -6,6 +6,7 @@ import { RéférenceDossierRaccordement } from '../../index.js';
 export type ModifierDemandeComplèteOptions = {
   dateQualification: DateTime.ValueType;
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
+  référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.ValueType;
   rôle: Role.ValueType;
   modifiéeLe: DateTime.ValueType;
   modifiéePar: Email.ValueType;

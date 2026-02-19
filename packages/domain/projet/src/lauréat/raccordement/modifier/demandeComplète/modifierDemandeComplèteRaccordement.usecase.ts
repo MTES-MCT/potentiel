@@ -16,6 +16,7 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
     identifiantProjetValue: string;
     dateQualificationValue: string;
     référenceDossierRaccordementValue: string;
+    référenceDossierRaccordementActuelleValue: string;
     rôleValue: string;
     accuséRéceptionValue?: {
       content: ReadableStream;
@@ -32,6 +33,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     dateQualificationValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
+    référenceDossierRaccordementActuelleValue,
     rôleValue,
     modifiéeLeValue,
     modifiéeParValue,
@@ -50,10 +52,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
-
-    const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
-      référenceDossierRaccordementValue,
-    );
 
     const rôle = Role.convertirEnValueType(rôleValue);
 
@@ -77,7 +75,12 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         dateQualification,
         formatAccuséRéception: accuséRéception ? accuséRéceptionValue!.format : undefined,
         identifiantProjet,
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordementValue,
+        ),
+        référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordementActuelleValue,
+        ),
         rôle,
         modifiéeLe,
         modifiéePar,

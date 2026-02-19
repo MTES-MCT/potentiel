@@ -69,7 +69,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence.value} />
-      <input name="dateQualificationActuelle" type="hidden" value={dateQualification} />
 
       <div>
         Gestionnaire réseau :{' '}

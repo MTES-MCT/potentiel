@@ -12,6 +12,7 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dateQualification: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
+    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.ValueType;
     rôle: Role.ValueType;
     modifiéeLe: DateTime.ValueType;
     modifiéePar: Email.ValueType;
@@ -25,6 +26,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     dateQualification,
     référenceDossierRaccordement,
+    référenceDossierRaccordementActuelle,
     formatAccuséRéception,
     identifiantProjet,
     rôle,
@@ -36,6 +38,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
     await projet.lauréat.raccordement.modifierDemandeComplèteRaccordement({
       dateQualification,
       référenceDossierRaccordement,
+      référenceDossierRaccordementActuelle,
       formatAccuséRéception,
       rôle,
       modifiéeLe,
