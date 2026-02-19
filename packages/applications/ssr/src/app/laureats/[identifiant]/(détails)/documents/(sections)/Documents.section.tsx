@@ -27,111 +27,123 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
 
-      const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
-      const abandon = await getAbandonInfos(identifiantProjet);
+      // ATTESTATION LAURÉAT
+      if (rôle.aLaPermission('lauréat.consulter')) {
+        const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
 
-      // ATTESTATION
-      if (attestationDésignation) {
+        if (attestationDésignation) {
+          documents.push({
+            type: 'Attestation de désignation',
+            date: attestationDésignation.dateCréation,
+            format: attestationDésignation.format,
+            url: Routes.Document.télécharger(attestationDésignation.formatter()),
+          });
+        }
+      }
+
+      // EXPORT LAURÉAT
+      if (rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
         documents.push({
-          type: 'Attestation de désignation',
-          date: attestationDésignation.dateCréation,
-          format: attestationDésignation.format,
-          url: Routes.Document.télécharger(attestationDésignation.formatter()),
+          type: 'Export des données du projet',
+          format: 'csv',
+          url: Routes.Lauréat.exporter({ identifiantProjet }),
         });
       }
 
-      // EXPORT
-      documents.push({
-        type: 'Export des données du projet',
-        format: 'csv',
-        url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
-          ? Routes.Lauréat.exporter({ identifiantProjet })
-          : undefined,
-      });
-
       // ABANDON
-      if (abandon) {
-        const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
-          type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            demandéLeValue: abandon.demandéLe.formatter(),
-          },
-        });
+      if (rôle.aLaPermission('abandon.consulter.demande')) {
+        const abandon = await getAbandonInfos(identifiantProjet);
 
-        if (Option.isNone(demandeAbandon)) {
-          return notFound();
-        }
-
-        if (demandeAbandon.demande.accord) {
-          documents.push({
-            type: "Réponse signée de l'accord de la demande d'abandon",
-            date: demandeAbandon.demande.accord.réponseSignée.dateCréation,
-            format: demandeAbandon.demande.accord.réponseSignée.format,
-            url: Routes.Document.télécharger(
-              demandeAbandon.demande.accord.réponseSignée.formatter(),
-            ),
-            demande: {
-              url: Routes.Abandon.détail(
-                identifiantProjet,
-                demandeAbandon.demande.demandéLe.formatter(),
-              ),
+        if (abandon) {
+          const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+            type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              demandéLeValue: abandon.demandéLe.formatter(),
             },
           });
-        }
 
-        if (demandeAbandon.demande.rejet) {
-          documents.push({
-            type: "Réponse signée du rejet de la demande d'abandon",
-            date: demandeAbandon.demande.rejet.réponseSignée.dateCréation,
-            format: demandeAbandon.demande.rejet.réponseSignée.format,
-            url: Routes.Document.télécharger(
-              demandeAbandon.demande.rejet.réponseSignée.formatter(),
-            ),
-            demande: {
-              url: Routes.Abandon.détail(
-                identifiantProjet,
-                demandeAbandon.demande.demandéLe.formatter(),
+          if (Option.isNone(demandeAbandon)) {
+            return notFound();
+          }
+
+          if (demandeAbandon.demande.accord) {
+            documents.push({
+              type: "Réponse signée de l'accord de la demande d'abandon",
+              date: demandeAbandon.demande.accord.réponseSignée.dateCréation,
+              format: demandeAbandon.demande.accord.réponseSignée.format,
+              url: Routes.Document.télécharger(
+                demandeAbandon.demande.accord.réponseSignée.formatter(),
               ),
-            },
-          });
+              demande: {
+                url: Routes.Abandon.détail(
+                  identifiantProjet,
+                  demandeAbandon.demande.demandéLe.formatter(),
+                ),
+              },
+            });
+          }
+
+          if (demandeAbandon.demande.rejet) {
+            documents.push({
+              type: "Réponse signée du rejet de la demande d'abandon",
+              date: demandeAbandon.demande.rejet.réponseSignée.dateCréation,
+              format: demandeAbandon.demande.rejet.réponseSignée.format,
+              url: Routes.Document.télécharger(
+                demandeAbandon.demande.rejet.réponseSignée.formatter(),
+              ),
+              demande: {
+                url: Routes.Abandon.détail(
+                  identifiantProjet,
+                  demandeAbandon.demande.demandéLe.formatter(),
+                ),
+              },
+            });
+          }
         }
       }
 
       // GARANTIES FINANCIERES
-      const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
+      if (
+        rôle.aLaPermission('garantiesFinancières.actuelles.consulter') &&
+        rôle.aLaPermission('garantiesFinancières.dépôt.consulter')
+      ) {
+        const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
 
-      if (garantiesFinancièresActuelles.actuelles?.document) {
-        documents.push({
-          type: 'Attestation de constitution des garanties financières',
-          date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
-          format: garantiesFinancièresActuelles.actuelles?.document.format,
-          url: Routes.Document.télécharger(
-            garantiesFinancièresActuelles.actuelles?.document.formatter(),
-          ),
-        });
+        if (garantiesFinancièresActuelles.actuelles?.document) {
+          documents.push({
+            type: 'Attestation de constitution des garanties financières',
+            date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
+            format: garantiesFinancièresActuelles.actuelles?.document.format,
+            url: Routes.Document.télécharger(
+              garantiesFinancièresActuelles.actuelles?.document.formatter(),
+            ),
+          });
+        }
       }
 
       // ACHEVEMENT
-      const achèvement = await getAchèvement(identifiantProjet);
+      if (rôle.aLaPermission('achèvement.consulter')) {
+        const achèvement = await getAchèvement(identifiantProjet);
 
-      if (achèvement.estAchevé) {
-        documents.push({
-          type: 'Attestation de conformité',
-          date: achèvement.attestation.dateCréation,
-          format: achèvement.attestation.format,
-          url: Routes.Document.télécharger(achèvement.attestation.formatter()),
-        });
-
-        if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
+        if (achèvement.estAchevé) {
           documents.push({
-            type: 'Preuve de transmission au co-contractant',
-            date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
-            format: achèvement.preuveTransmissionAuCocontractant.format,
-            url: Routes.Document.télécharger(
-              achèvement.preuveTransmissionAuCocontractant.formatter(),
-            ),
+            type: 'Attestation de conformité',
+            date: achèvement.attestation.dateCréation,
+            format: achèvement.attestation.format,
+            url: Routes.Document.télécharger(achèvement.attestation.formatter()),
           });
+
+          if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
+            documents.push({
+              type: 'Preuve de transmission au co-contractant',
+              date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
+              format: achèvement.preuveTransmissionAuCocontractant.format,
+              url: Routes.Document.télécharger(
+                achèvement.preuveTransmissionAuCocontractant.formatter(),
+              ),
+            });
+          }
         }
       }
 
