@@ -9,6 +9,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
+    @select
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat

@@ -47,7 +47,7 @@ Alors(
       const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
 
       const expectedAccuséRéception = this.raccordementWorld.demandeComplèteDeRaccordement
-        .modifierFixture.accuséRéception
+        .modifierFixture.aÉtéCréé
         ? this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.accuséRéception
         : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.accuséRéception;
 
@@ -63,7 +63,7 @@ Alors(
         assert(Option.isSome(result), `Accusé de réception non trouvé !`);
 
         const actualContent = await convertReadableStreamToString(result.content);
-        const expectedContent = expectedAccuséRéception.content;
+        const expectedContent = expectedAccuséRéception?.content;
         actualContent.should.be.equal(expectedContent);
       }
     });
