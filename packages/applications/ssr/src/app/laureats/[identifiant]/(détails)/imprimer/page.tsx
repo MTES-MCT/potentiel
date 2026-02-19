@@ -19,7 +19,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       champsSupplémentaires.dispositifDeStockage ||
       champsSupplémentaires.natureDeLExploitation ||
       champsSupplémentaires.typologieInstallation ||
-      champsSupplémentaires.autorisationDUrbanisme
+      champsSupplémentaires.autorisationDUrbanisme ||
+      champsSupplémentaires.autorisationEnvironnementale
     );
 
     return (
