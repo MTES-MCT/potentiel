@@ -16,11 +16,11 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                           |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                           |
 
     Scénario: Enregistrer un changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour un projet dont l'AO requiert la puissance de site
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -35,11 +35,11 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
             | nom_projet | Du bouchon lyonnais                                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                     |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                    |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Déclaration de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
             | nom_projet | Du bouchon lyonnais                                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                     |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                    |
 
         Exemples:
             | Ratio |

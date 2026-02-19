@@ -17,7 +17,7 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                          |
             | type       | accord                                                                                                                             |
 
     Scénario: la DREAL associée au projet accorde une demande de changement de puissance à la hausse d'un projet lauréat
@@ -29,7 +29,7 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
             | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                          |
             | type       | accord                                                                                                                             |
 
     Scénario: la DREAL associée accorde un changement de puissance à la baisse pour décision de l'État

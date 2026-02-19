@@ -16,7 +16,7 @@ Fonctionnalité: Annuler la demande de changement de puissance d'un projet laur�
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                        |
 
     Scénario: Annuler la demande de changement de puissance à la hause d'un projet lauréat
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
@@ -26,7 +26,7 @@ Fonctionnalité: Annuler la demande de changement de puissance d'un projet laur�
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                        |
 
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est inexistante
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat

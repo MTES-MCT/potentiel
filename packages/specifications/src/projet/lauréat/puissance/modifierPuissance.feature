@@ -13,7 +13,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                            |
 
     Scénario: Modifier la puissance et la puissance de site d'un projet lauréat par un admin
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -26,7 +26,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification de la puissance du projet Du bouchon lyonnais dans le département(.*) |
             | nom_projet | Du bouchon lyonnais                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                     |
 
     Scénario: Modifier uniquement la puissance de site d'un projet lauréat par un admin
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -39,7 +39,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification de la puissance du projet Du bouchon lyonnais dans le département(.*) |
             | nom_projet | Du bouchon lyonnais                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                     |
 
     Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
         Etant donné une demande d'abandon accordée pour le projet lauréat
@@ -48,7 +48,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                            |
 
     Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -57,7 +57,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                            |
 
     Scénario: Impossible de modifier la puissance si la nouvelle valeur est nulle ou négative
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
