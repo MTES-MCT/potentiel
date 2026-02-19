@@ -61,7 +61,7 @@ Quand(
       .exhaustive();
 
     const { référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
         datatable.rowsHash(),
       );
 

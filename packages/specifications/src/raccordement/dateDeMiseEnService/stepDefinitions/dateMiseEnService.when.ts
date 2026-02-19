@@ -14,21 +14,22 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.créer({
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossier: this.raccordementWorld.référenceDossier,
       });
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
-      référenceDossier,
-      dateMiseEnService,
-      transmiseParValue:
-        rôle === 'le gestionnaire de réseau'
-          ? this.utilisateurWorld.grdFixture.email
-          : this.utilisateurWorld.adminFixture.email,
-    });
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
+      Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+        référenceDossier,
+      ).formatter(),
+      DateTime.convertirEnValueType(dateMiseEnService).formatter(),
+      rôle === 'le gestionnaire de réseau'
+        ? this.utilisateurWorld.grdFixture.email
+        : this.utilisateurWorld.adminFixture.email,
+    );
   },
 );
 
@@ -42,26 +43,68 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.créer({
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossier: this.raccordementWorld.référenceDossier,
-        ...this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+        ...this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
           datatable.rowsHash(),
         ),
       });
 
     await sleep(500);
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      transmiseParValue:
-        rôle === 'le gestionnaire de réseau'
-          ? this.utilisateurWorld.grdFixture.email
-          : this.utilisateurWorld.adminFixture.email,
-    });
+      rôle === 'le gestionnaire de réseau'
+        ? this.utilisateurWorld.grdFixture.email
+        : this.utilisateurWorld.adminFixture.email,
+    );
+  },
+);
+
+Quand(
+  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.dateMiseEnService.modifierFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
+      });
+
+    await modifierDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      dateMiseEnService,
+    );
+  },
+);
+
+Quand(
+  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.dateMiseEnService.modifierFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
+        ...this.raccordementWorld.dateMiseEnService.modifierFixture.mapExempleToFixtureValues(
+          datatable.rowsHash(),
+        ),
+      });
+
+    await modifierDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      dateMiseEnService,
+    );
   },
 );
 
@@ -71,11 +114,7 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
-    await supprimerDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet,
-      référence: référenceDossier,
-    });
+    await supprimerDateMiseEnService.call(this, identifiantProjet.formatter(), référenceDossier);
   },
 );
 
@@ -85,7 +124,7 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
         datatable.rowsHash(),
       );
 
@@ -95,67 +134,80 @@ Quand(
       );
     }
 
-    await supprimerDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet,
-      référence: référenceDossier,
-    });
+    await supprimerDateMiseEnService.call(this, identifiantProjet.formatter(), référenceDossier);
   },
 );
 
-type TransmettreDateMiseEnServiceProps = {
-  potentielWorld: PotentielWorld;
-  identifiantProjet: IdentifiantProjet.RawType;
-  référenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
-  transmiseParValue: string;
-  dateMiseEnService: string;
-};
-
-export async function transmettreDateMiseEnService({
-  potentielWorld,
-  identifiantProjet,
-  référenceDossier,
-  dateMiseEnService,
-  transmiseParValue,
-}: TransmettreDateMiseEnServiceProps) {
+export async function transmettreDateMiseEnService(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.RawType,
+  référenceDossier: string,
+  dateMiseEnService: string,
+  transmiseParValue: string,
+) {
   try {
     await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet,
-        référenceDossierValue: référenceDossier,
-        dateMiseEnServiceValue: dateMiseEnService,
+        référenceDossierValue:
+          Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+            référenceDossier,
+          ).formatter(),
+        dateMiseEnServiceValue: DateTime.convertirEnValueType(dateMiseEnService).formatter(),
         transmiseLeValue: DateTime.now().formatter(),
         transmiseParValue,
       },
     });
   } catch (e) {
-    potentielWorld.error = e as Error;
+    this.error = e as Error;
   }
 }
 
-type SupprimerDateMiseEnServiceProps = {
-  potentielWorld: PotentielWorld;
-  identifiantProjet: IdentifiantProjet.ValueType;
-  référence: string;
-};
+export async function modifierDateMiseEnService(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.RawType,
+  référenceDossier: string,
+  dateMiseEnService: string,
+) {
+  try {
+    await mediator.send<Lauréat.Raccordement.ModifierDateMiseEnServiceUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierValue:
+          Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+            référenceDossier,
+          ).formatter(),
+        dateMiseEnServiceValue: DateTime.convertirEnValueType(dateMiseEnService).formatter(),
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: this.utilisateurWorld.adminFixture.email,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
 
-async function supprimerDateMiseEnService({
-  potentielWorld,
-  identifiantProjet,
-  référence,
-}: SupprimerDateMiseEnServiceProps) {
+async function supprimerDateMiseEnService(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.RawType,
+  référenceDossier: string,
+) {
   try {
     await mediator.send<Lauréat.Raccordement.SupprimerDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
       data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        référenceDossierValue: référence,
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierValue:
+          Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+            référenceDossier,
+          ).formatter(),
         suppriméeLeValue: DateTime.now().formatter(),
-        suppriméeParValue: potentielWorld.utilisateurWorld.adminFixture.email,
+        suppriméeParValue: this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (e) {
-    potentielWorld.error = e as Error;
+    this.error = e as Error;
   }
 }

@@ -54,6 +54,8 @@ import { registerTransmettreDemandeComplèteRaccordementCommand } from './transm
 import { registerTransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreCommand } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command.js';
 import { registerTransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase.js';
+import { registerModifierDateMiseEnServiceCommand } from './modifier/dateMiseEnService/modifierDateMiseEnService.command.js';
+import { registerModifierDateMiseEnServiceUseCase } from './modifier/dateMiseEnService/modifierDateMiseEnService.usecase.js';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -88,6 +90,8 @@ export const registerRaccordementUseCases = ({
   registerModifierGestionnaireRéseauProjetCommand(getProjetAggregateRoot);
   registerModifierPropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerModifierRéférenceDossierRaccordementCommand(getProjetAggregateRoot);
+  registerModifierDateMiseEnServiceCommand(getProjetAggregateRoot);
+  registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettreDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerSupprimerDateMiseEnServiceCommand(getProjetAggregateRoot);
@@ -100,7 +104,7 @@ export const registerRaccordementUseCases = ({
   registerModifierGestionnaireRéseauRaccordementUseCase();
   registerModifierPropositionTechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
-  registerTransmettreDateMiseEnServiceUseCase();
+  registerModifierDateMiseEnServiceUseCase();
   registerSupprimerDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();

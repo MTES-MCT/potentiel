@@ -10,18 +10,18 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.créer({
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossier: this.raccordementWorld.référenceDossier,
       });
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
-      dateMiseEnService,
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
       référenceDossier,
-      transmiseParValue: this.utilisateurWorld.adminFixture.email,
-    });
+      dateMiseEnService,
+      this.utilisateurWorld.adminFixture.email,
+    );
   },
 );
 
@@ -32,7 +32,7 @@ EtantDonné(
     const { référenceDossier } = this.raccordementWorld;
 
     const { dateMiseEnService } =
-      this.raccordementWorld.transmettreDateMiseEnServiceFixture.mapExempleToFixtureValues(
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.mapExempleToFixtureValues(
         datatable.rowsHash(),
       );
 
@@ -40,12 +40,12 @@ EtantDonné(
       throw new Error(`La table d'exemple doit contenir le champ "La date de mise en service"`);
     }
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      transmiseParValue: this.utilisateurWorld.adminFixture.email,
-    });
+      this.utilisateurWorld.adminFixture.email,
+    );
   },
 );
