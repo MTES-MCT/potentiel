@@ -42,12 +42,10 @@ Quand(
   /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
 
     await modifierPropositionTechniqueEtFinancière.call(
       this,
       identifiantProjet,
-      référenceDossier,
       getRôle.call(this, rôleUtilisateur),
     );
   },
@@ -57,12 +55,10 @@ Quand(
   /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière avec :$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
 
     await modifierPropositionTechniqueEtFinancière.call(
       this,
       identifiantProjet,
-      référenceDossier,
       getRôle.call(this, rôleUtilisateur),
       datatable.rowsHash(),
     );
@@ -115,14 +111,13 @@ async function transmettrePropositionTechniqueEtFinancière(
 async function modifierPropositionTechniqueEtFinancière(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  référence: string,
   role: Role.RawType,
   data: Record<string, string> = {},
 ) {
   const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
     this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
-      référenceDossier: référence,
+      référenceDossier: this.raccordementWorld.référenceDossier,
       ...this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.mapExempleToFixtureValues(
         data,
       ),
