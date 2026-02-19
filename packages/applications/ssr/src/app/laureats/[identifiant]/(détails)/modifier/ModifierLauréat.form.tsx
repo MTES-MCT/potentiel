@@ -27,8 +27,8 @@ import { ProjectField } from './components/fields/generic/ProjectField';
 import { LocalitéField } from './components/fields/LocalitéField';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
-import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
+import { CandidatureDateField } from './components/fields/generic/CandidatureDateField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -269,9 +269,34 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               />
             </FormRow>
             <FormRow>
-              <DateDAutorisationDUrbanismeField
-                value={candidature.dateDAutorisationDUrbanisme ?? ''}
+              <CandidatureDateField
+                candidature={candidature.dateDAutorisationDUrbanisme ?? ''}
+                label="Date d'obtention de l'autorisation d'urbanisme"
+                name="dateDAutorisationDUrbanisme"
                 validationErrors={validationErrors}
+                required={champsSupplémentaires.autorisationDUrbanisme === 'requis'}
+              />
+            </FormRow>
+          </>
+        )}
+        {champsSupplémentaires.autorisationEnvironnementale && (
+          <>
+            <FormRow>
+              <CandidatureField
+                candidature={candidature.numéroDAutorisationEnvironnementale ?? ''}
+                label="Numéro d'autorisation environnementale"
+                name="numéroDAutorisationEnvironnementale"
+                validationErrors={validationErrors}
+                required={champsSupplémentaires.autorisationEnvironnementale === 'requis'}
+              />
+            </FormRow>
+            <FormRow>
+              <CandidatureDateField
+                candidature={candidature.dateDAutorisationEnvironnementale ?? ''}
+                label="Date d'obtention de l'autorisation environnementale"
+                name="dateDAutorisationEnvironnementale"
+                validationErrors={validationErrors}
+                required={champsSupplémentaires.autorisationEnvironnementale === 'requis'}
               />
             </FormRow>
           </>

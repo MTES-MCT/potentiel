@@ -35,6 +35,8 @@ const candidatureNotifiéeSchema = dépôtSchema
   .extend({
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
     numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
   })
