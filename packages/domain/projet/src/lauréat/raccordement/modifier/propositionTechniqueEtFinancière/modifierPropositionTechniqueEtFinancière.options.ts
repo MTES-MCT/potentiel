@@ -6,7 +6,7 @@ import { RéférenceDossierRaccordement } from '../../index.js';
 export type ModifierPropositionTechniqueEtFinancièreOptions = {
   dateSignature: DateTime.ValueType;
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
-  formatPropositionTechniqueEtFinancièreSignée: string;
+  formatPropositionTechniqueEtFinancièreSignée?: string;
   rôle: Role.ValueType;
   modifiéeLe: DateTime.ValueType;
   modifiéePar: Email.ValueType;

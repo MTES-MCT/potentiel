@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
+import { convertStringToReadableStream } from '../../../helpers/index.js';
 
 EtantDonné(
   'une proposition technique et financière pour le projet lauréat',
@@ -23,7 +24,10 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
         dateSignatureValue: dateSignature,
-        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+        propositionTechniqueEtFinancièreSignéeValue: {
+          format: propositionTechniqueEtFinancièreSignée.format,
+          content: convertStringToReadableStream(propositionTechniqueEtFinancièreSignée.content),
+        },
         transmiseLeValue: new Date().toISOString(),
         transmiseParValue: this.utilisateurWorld.porteurFixture.email,
       },

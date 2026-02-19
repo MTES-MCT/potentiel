@@ -12,7 +12,7 @@ export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
-    formatPropositionTechniqueEtFinancièreSignée: string;
+    formatPropositionTechniqueEtFinancièreSignée?: string;
     rôle: Role.ValueType;
     modifiéeLe: DateTime.ValueType;
     modifiéePar: Email.ValueType;

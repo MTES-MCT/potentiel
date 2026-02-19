@@ -5,9 +5,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+export type PièceJustificative = { format: string; content: string };
 
 interface TransmettreDemandeComplèteRaccordement {
   dateQualification: string;
@@ -34,7 +33,7 @@ export class TransmettreDemandeComplèteRaccordementFixture
   get accuséRéception(): PièceJustificative {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -54,7 +53,7 @@ export class TransmettreDemandeComplèteRaccordementFixture
       référenceDossier: faker.commerce.isbn(),
       accuséRéception: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialFixture,
     };

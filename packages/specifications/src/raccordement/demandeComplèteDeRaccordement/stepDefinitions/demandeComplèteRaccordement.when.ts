@@ -7,7 +7,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
-import { getRôle, RôleUtilisateur } from '../../../helpers/index.js';
+import { convertStringToReadableStream, getRôle, RôleUtilisateur } from '../../../helpers/index.js';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',
@@ -85,6 +85,17 @@ Quand(
 );
 
 Quand(
+  'le porteur modifie la demande complète de raccordement sans apporter de modification',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    await modifierDemandeComplèteRaccordementAvecLesMêmesValeurs.call(
+      this,
+      identifiantProjet.formatter(),
+    );
+  },
+);
+
+Quand(
   /(le porteur|la dreal|l'administrateur) modifie la référence de la demande complète de raccordement pour le projet lauréat$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
@@ -131,7 +142,10 @@ export async function transmettreDemandeComplèteRaccordement(
     await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
-        accuséRéceptionValue: accuséRéception,
+        accuséRéceptionValue: {
+          format: accuséRéception.format,
+          content: convertStringToReadableStream(accuséRéception.content),
+        },
         dateQualificationValue: dateQualification,
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référenceDossier,
@@ -161,7 +175,10 @@ export async function transmettreDemandeComplèteRaccordementSansAccuséRécepti
       identifiantProjetValue: identifiantProjet.formatter(),
       référenceDossierValue: référenceDossier,
       transmiseParValue: transmisePar.formatter(),
-      accuséRéceptionValue: accuséRéception,
+      accuséRéceptionValue: accuséRéception && {
+        format: accuséRéception.format,
+        content: convertStringToReadableStream(accuséRéception.content),
+      },
     },
   });
 }
@@ -215,10 +232,52 @@ async function modifierDemandeComplèteRaccordement(
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
         dateQualificationValue: dateQualification,
-        accuséRéceptionValue: accuséRéception,
+        accuséRéceptionValue: accuséRéception
+          ? {
+              format: accuséRéception.format,
+              content: convertStringToReadableStream(accuséRéception.content),
+            }
+          : undefined,
         rôleValue: role,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
+
+async function modifierDemandeComplèteRaccordementAvecLesMêmesValeurs(
+  this: PotentielWorld,
+  identifiantProjet: string,
+) {
+  const { accuséRéception, dateQualification, référenceDossier } =
+    this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
+      identifiantProjet,
+      référenceDossier:
+        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+      dateQualification:
+        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
+      accuséRéception: undefined,
+    });
+
+  try {
+    await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierRaccordementValue: référenceDossier,
+        dateQualificationValue: dateQualification,
+        accuséRéceptionValue: accuséRéception
+          ? {
+              format: accuséRéception.format,
+              content: convertStringToReadableStream(accuséRéception.content),
+            }
+          : undefined,
+        rôleValue: this.utilisateurWorld.porteurFixture.role,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: this.utilisateurWorld.porteurFixture.email,
       },
     });
   } catch (e) {

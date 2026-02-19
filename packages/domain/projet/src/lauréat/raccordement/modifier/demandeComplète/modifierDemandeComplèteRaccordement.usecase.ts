@@ -17,7 +17,7 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
     dateQualificationValue: string;
     référenceDossierRaccordementValue: string;
     rôleValue: string;
-    accuséRéceptionValue: {
+    accuséRéceptionValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -28,7 +28,7 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
 
 export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
-    accuséRéceptionValue: { content, format },
+    accuséRéceptionValue,
     dateQualificationValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
@@ -36,37 +36,46 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
-    const accuséRéception = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-        référenceDossierRaccordementValue,
-      ).formatter(),
-      dateQualificationValue,
-      format,
-    );
+    const accuséRéception = accuséRéceptionValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+            référenceDossierRaccordementValue,
+          ).formatter(),
+          dateQualificationValue,
+          accuséRéceptionValue.format,
+        )
+      : undefined;
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
+
     const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       référenceDossierRaccordementValue,
     );
+
     const rôle = Role.convertirEnValueType(rôleValue);
+
     const modifiéeLe: DateTime.ValueType = DateTime.convertirEnValueType(modifiéeLeValue);
+
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: accuséRéception,
-      },
-    });
+    if (accuséRéception) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: accuséRéceptionValue!.content,
+          documentProjet: accuséRéception,
+        },
+      });
+    }
 
     await mediator.send<ModifierDemandeComplèteRaccordementCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
-        formatAccuséRéception: format,
+        formatAccuséRéception: accuséRéception ? accuséRéceptionValue!.format : undefined,
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,

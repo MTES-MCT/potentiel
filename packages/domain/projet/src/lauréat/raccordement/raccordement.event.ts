@@ -155,7 +155,7 @@ export type DemandeComplèteRaccordementModifiéeEventV3 = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     dateQualification: DateTime.RawType;
-    accuséRéception: {
+    accuséRéception?: {
       format: string;
     };
   }
@@ -167,7 +167,7 @@ export type DemandeComplèteRaccordementModifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     dateQualification: DateTime.RawType;
-    accuséRéception: {
+    accuséRéception?: {
       format: string;
     };
     modifiéeLe: DateTime.RawType;
@@ -255,7 +255,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEventV2 = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateSignature: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
+    propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
   }
@@ -267,7 +267,7 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     dateSignature: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
+    propositionTechniqueEtFinancièreSignée?: {
       format: string;
     };
     modifiéeLe: DateTime.RawType;

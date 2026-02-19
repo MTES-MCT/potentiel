@@ -7,7 +7,7 @@ export const demandeComplèteRaccordementModifiéeV4Projector = async ({
     identifiantProjet,
     référenceDossierRaccordement,
     dateQualification,
-    accuséRéception: { format },
+    accuséRéception,
     modifiéeLe,
   },
 }: Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent) => {
@@ -16,9 +16,9 @@ export const demandeComplèteRaccordementModifiéeV4Projector = async ({
     {
       demandeComplèteRaccordement: {
         dateQualification,
-        accuséRéception: {
-          format,
-        },
+        ...(accuséRéception && {
+          accuséRéception,
+        }),
       },
       miseÀJourLe: DateTime.convertirEnValueType(modifiéeLe).formatter(),
     },

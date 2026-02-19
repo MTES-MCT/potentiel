@@ -21,6 +21,18 @@ export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOp
   }
 }
 
+export class DemandeComplèteDeRaccordementNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super("Aucune modification n'a été apportée à la demande complète de raccordement");
+  }
+}
+
+export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super("Aucune modification n'a été apportée à la proposition technique et financière");
+  }
+}
+
 export class GestionnaireRéseauDéjàExistantError extends InvalidOperationError {
   constructor(identifiantProjet: IdentifiantProjet.RawType) {
     super(`Un gestionnaire réseau existe déjà pour ce projet`, {

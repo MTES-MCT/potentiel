@@ -23,7 +23,6 @@ import {
   DemandeComplèteRaccordementModifiéeEvent,
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
-  DemandeComplèteRaccordementModifiéeEventV3,
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
   DemandeComplèteRaccordementTransmiseEventV2,
@@ -61,6 +60,8 @@ import {
   RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
   PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
+  DemandeComplèteDeRaccordementNonModifiéeError,
+  PropositionTechniqueEtFinancièreNonModifiéeError,
 } from './errors.js';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
 import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
@@ -624,6 +625,15 @@ export class RaccordementAggregate extends AbstractAggregate<
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
 
     if (
+      dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
+      !formatPropositionTechniqueEtFinancièreSignée &&
+      Option.isSome(dossier.propositionTechniqueEtFinancière.dateSignature) &&
+      dateSignature.estÉgaleÀ(dossier.propositionTechniqueEtFinancière.dateSignature)
+    ) {
+      throw new PropositionTechniqueEtFinancièreNonModifiéeError();
+    }
+
+    if (
       dossierEnService &&
       !rôle.aLaPermission(
         'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
@@ -649,9 +659,11 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: {
-          format: formatPropositionTechniqueEtFinancièreSignée,
-        },
+        propositionTechniqueEtFinancièreSignée: formatPropositionTechniqueEtFinancièreSignée
+          ? {
+              format: formatPropositionTechniqueEtFinancièreSignée,
+            }
+          : undefined,
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },
@@ -670,7 +682,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyPropositionTechniqueEtFinancièreModifiéeEventV2({
     payload: {
       dateSignature,
-      propositionTechniqueEtFinancièreSignée: { format },
+      propositionTechniqueEtFinancièreSignée,
       référenceDossierRaccordement,
     },
   }: PropositionTechniqueEtFinancièreModifiéeEventV2) {
@@ -678,7 +690,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     dossier.propositionTechniqueEtFinancière.dateSignature =
       DateTime.convertirEnValueType(dateSignature);
-    dossier.propositionTechniqueEtFinancière.format = format;
+    if (propositionTechniqueEtFinancièreSignée) {
+      dossier.propositionTechniqueEtFinancière.format =
+        propositionTechniqueEtFinancièreSignée.format;
+    }
   }
 
   //#endregion PTF
@@ -829,11 +844,11 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   async modifierDemandeComplèteRaccordement({
     dateQualification,
-    formatAccuséRéception,
     référenceDossierRaccordement,
     rôle,
     modifiéeLe,
     modifiéePar,
+    formatAccuséRéception,
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
@@ -849,6 +864,14 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (!this.référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
+    }
+
+    if (
+      !formatAccuséRéception &&
+      Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
+      dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
+    ) {
+      throw new DemandeComplèteDeRaccordementNonModifiéeError();
     }
 
     if (
@@ -877,11 +900,13 @@ export class RaccordementAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         dateQualification: dateQualification.formatter(),
-        accuséRéception: {
-          format: formatAccuséRéception,
-        },
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
+        accuséRéception: formatAccuséRéception
+          ? {
+              format: formatAccuséRéception,
+            }
+          : undefined,
       },
     };
 
@@ -910,17 +935,16 @@ export class RaccordementAggregate extends AbstractAggregate<
       DateTime.convertirEnValueType(dateQualification);
   }
   private applyDemandeComplèteRaccordementModifiéeEvent({
-    payload: {
-      accuséRéception: { format },
-      dateQualification,
-      référenceDossierRaccordement,
-    },
-  }: DemandeComplèteRaccordementModifiéeEventV3) {
+    payload: { accuséRéception, dateQualification, référenceDossierRaccordement },
+  }: DemandeComplèteRaccordementModifiéeEvent) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
     dossier.demandeComplèteRaccordement.dateQualification =
       DateTime.convertirEnValueType(dateQualification);
-    dossier.demandeComplèteRaccordement.format = format;
+
+    if (accuséRéception) {
+      dossier.demandeComplèteRaccordement.format = accuséRéception.format;
+    }
   }
 
   //#endregion DCR

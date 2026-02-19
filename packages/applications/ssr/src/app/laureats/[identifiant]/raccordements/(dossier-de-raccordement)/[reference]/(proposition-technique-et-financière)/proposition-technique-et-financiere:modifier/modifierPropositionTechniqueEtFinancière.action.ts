@@ -8,7 +8,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
+import {
+  documentSelectionSchema,
+  keepOrUpdateSingleDocument,
+} from '@/utils/zod/document/keepOrUpdateDocument';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
@@ -18,6 +21,7 @@ const schema = zod.object({
   propositionTechniqueEtFinanciereSignee: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
+  propositionTechniqueEtFinanciereSigneeDocumentSelection: documentSelectionSchema,
 });
 
 export type ModifierPropositionTechniqueEtFinancièreFormKeys = keyof zod.infer<typeof schema>;
@@ -28,6 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
     identifiantProjet,
     referenceDossierRaccordement,
     propositionTechniqueEtFinanciereSignee,
+    propositionTechniqueEtFinanciereSigneeDocumentSelection,
     dateSignature,
   },
 ) =>
@@ -38,7 +43,10 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         dateSignatureValue: new Date(dateSignature).toISOString(),
-        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
+        propositionTechniqueEtFinancièreSignéeValue:
+          propositionTechniqueEtFinanciereSigneeDocumentSelection === 'edit_document'
+            ? propositionTechniqueEtFinanciereSignee
+            : undefined,
         rôleValue: utilisateur.rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),

@@ -4,10 +4,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 import { AbstractFixture } from '../../../fixture.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+export type PièceJustificative = { format: string; content: string };
 
 interface TransmettrePropositionTechniqueEtFinancière {
   dateSignature: string;
@@ -30,7 +29,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
   get propositionTechniqueEtFinancièreSignée(): PièceJustificative {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -49,12 +48,11 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
       identifiantProjet: string;
     },
   ): Readonly<TransmettrePropositionTechniqueEtFinancière> {
-    const content = faker.word.words();
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       propositionTechniqueEtFinancièreSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
@@ -62,7 +60,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
     this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
-    this.#content = content;
+    this.#content = fixture.propositionTechniqueEtFinancièreSignée.content;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;

@@ -5,14 +5,13 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
 
-interface ModifierDemandeComplèteRaccordement {
+export interface ModifierDemandeComplèteRaccordement {
   dateQualification: string;
   référenceDossier: string;
-  accuséRéception: PièceJustificative;
+  accuséRéception?: PièceJustificative;
 }
 
 export class ModifierDemandeComplèteRaccordementFixture
@@ -31,10 +30,11 @@ export class ModifierDemandeComplèteRaccordementFixture
 
   #format!: string;
   #content!: string;
-  get accuséRéception(): PièceJustificative {
+
+  get accuséRéception(): ModifierDemandeComplèteRaccordement['accuséRéception'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -48,21 +48,24 @@ export class ModifierDemandeComplèteRaccordementFixture
       identifiantProjet: string;
     },
   ): Readonly<ModifierDemandeComplèteRaccordement> {
-    const content = faker.word.words();
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
       accuséRéception: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.accuséRéception.format;
-    this.#content = content;
+
+    if (fixture.accuséRéception) {
+      this.#format = fixture.accuséRéception.format;
+      this.#content = fixture.accuséRéception.content;
+    }
+
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
@@ -70,15 +73,18 @@ export class ModifierDemandeComplèteRaccordementFixture
 
   mapToExpected(référenceDossier?: string) {
     if (!this.aÉtéCréé) return;
+
     return {
-      accuséRéception: DocumentProjet.convertirEnValueType(
-        this.identifiantProjet,
-        Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-          référenceDossier ?? this.référenceDossier,
-        ).formatter(),
-        this.#dateQualification,
-        this.accuséRéception.format,
-      ),
+      accuséRéception: this.accuséRéception
+        ? DocumentProjet.convertirEnValueType(
+            this.identifiantProjet,
+            Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+              référenceDossier ?? this.référenceDossier,
+            ).formatter(),
+            this.#dateQualification,
+            this.accuséRéception.format,
+          )
+        : undefined,
       dateQualification: DateTime.convertirEnValueType(this.dateQualification),
     };
   }

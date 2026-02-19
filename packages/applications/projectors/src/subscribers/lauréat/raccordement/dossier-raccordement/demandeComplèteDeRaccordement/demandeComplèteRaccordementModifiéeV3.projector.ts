@@ -4,12 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const demandeComplèteRaccordementModifiéeV3Projector = async ({
-  payload: {
-    identifiantProjet,
-    référenceDossierRaccordement,
-    dateQualification,
-    accuséRéception: { format },
-  },
+  payload: { identifiantProjet, référenceDossierRaccordement, dateQualification, accuséRéception },
   created_at,
 }: Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV3 & Event) => {
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
@@ -17,9 +12,9 @@ export const demandeComplèteRaccordementModifiéeV3Projector = async ({
     {
       demandeComplèteRaccordement: {
         dateQualification,
-        accuséRéception: {
-          format,
-        },
+        ...(accuséRéception && {
+          accuséRéception,
+        }),
       },
       miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
