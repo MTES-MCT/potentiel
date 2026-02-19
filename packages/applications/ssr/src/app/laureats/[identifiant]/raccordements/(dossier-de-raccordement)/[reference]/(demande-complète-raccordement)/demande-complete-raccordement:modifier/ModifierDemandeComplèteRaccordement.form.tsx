@@ -10,8 +10,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { ValidationErrors } from '@/utils/formAction';
-
-import { Icon } from '../../../../../../../../components/atoms/Icon';
+import { Icon } from '@/components/atoms/Icon';
 
 import {
   modifierDemandeComplèteRaccordementAction,
