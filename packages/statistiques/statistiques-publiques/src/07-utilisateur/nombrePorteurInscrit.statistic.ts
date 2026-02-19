@@ -17,7 +17,7 @@ export const computeNombrePorteurInscrit = async () => {
           domain_views.projection
         WHERE
           KEY LIKE 'utilisateur|%'
-          AND VALUE ->> 'rôle' = 'porteur-projet
+          AND VALUE ->> 'rôle' = 'porteur-projet'
           AND VALUE ->> 'désactivé' IS NULL
       )
     )
