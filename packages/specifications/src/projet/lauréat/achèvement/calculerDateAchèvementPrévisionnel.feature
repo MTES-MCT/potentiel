@@ -130,8 +130,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
         Alors un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Projet Du boulodrome de Marseille arrivant à échéance |
             | nom_projet | Du boulodrome de Marseille                                        |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                        |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Projet Du boulodrome de Marseille arrivant à échéance dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                 |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                |

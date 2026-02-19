@@ -15,11 +15,11 @@ Fonctionnalité: Transmettre la date d'achèvement
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Transmission de la date d'achèvement du projet Du boulodrome de Marseille dans le département (.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                     |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Transmission de la date d'achèvement du projet Du boulodrome de Marseille dans le département (.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                     |
 
     Scénario: les tâches planifiées de rappel d'échéance du projet sont annulées quand la date d'achèvement est transmise pour un projet de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Rennes" avec :

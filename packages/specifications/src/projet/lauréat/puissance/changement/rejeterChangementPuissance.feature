@@ -17,7 +17,7 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                        |
             | type       | rejet                                                                                                                             |
 
     Scénario: la DREAL associée au projet rejette le changement de puissance d'un projet lauréat
@@ -29,7 +29,7 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                        |
             | type       | rejet                                                                                                                             |
 
     Scénario: la DREAL associée rejette un changement de puissance à la baisse pour décision de l'État
