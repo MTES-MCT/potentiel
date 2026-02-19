@@ -72,10 +72,10 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
           <ListFilters filters={filters} />
         </div>
 
-        <div>
+        <div className="md:w-3/4">
           {error && <Notice className="md:w-3/4" iconDisplayed severity="alert" title={error} />}
 
-          <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
+          <ul className={'flex flex-col gap-3 flex-grow mt-8'}>
             {actions.map(({ type, label, url, description, availableFilters }) => (
               <li key={type}>
                 <Card
