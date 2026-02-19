@@ -15,13 +15,13 @@ EtantDonné(
         référenceDossier: this.raccordementWorld.référenceDossier,
       });
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
-      dateMiseEnService,
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
       référenceDossier,
-      transmiseParValue: this.utilisateurWorld.adminFixture.email,
-    });
+      dateMiseEnService,
+      this.utilisateurWorld.adminFixture.email,
+    );
   },
 );
 
@@ -40,12 +40,12 @@ EtantDonné(
       throw new Error(`La table d'exemple doit contenir le champ "La date de mise en service"`);
     }
 
-    await transmettreDateMiseEnService({
-      potentielWorld: this,
-      identifiantProjet: identifiantProjet.formatter(),
+    await transmettreDateMiseEnService.call(
+      this,
+      identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      transmiseParValue: this.utilisateurWorld.adminFixture.email,
-    });
+      this.utilisateurWorld.adminFixture.email,
+    );
   },
 );

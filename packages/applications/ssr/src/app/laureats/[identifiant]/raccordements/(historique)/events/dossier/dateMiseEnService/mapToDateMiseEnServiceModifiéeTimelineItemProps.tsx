@@ -4,9 +4,7 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToDateMiseEnServiceModifiéeTimelineItemProps = (
-  event: Lauréat.Raccordement.DateMiseEnServiceModifiéeEvent & {
-    createdAt: string;
-  },
+  event: Lauréat.Raccordement.DateMiseEnServiceModifiéeEvent,
 ): TimelineItemProps => {
   const { référenceDossierRaccordement, dateMiseEnService } = event.payload;
 

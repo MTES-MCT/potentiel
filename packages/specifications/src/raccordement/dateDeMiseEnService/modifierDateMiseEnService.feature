@@ -81,6 +81,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
 
     Scénario: Impossible de modifier une date de mise en service dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2999-03-27 |
         Alors l'administrateur devrait être informé que "La date ne peut pas être une date future"
@@ -89,6 +90,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Etant donné le projet lauréat "Du boulodrome de Lille" avec :
             | date notification | 2022-10-26 |
         Et une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors l'administrateur devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"
