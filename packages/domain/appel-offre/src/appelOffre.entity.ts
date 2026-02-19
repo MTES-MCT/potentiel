@@ -274,8 +274,8 @@ const champsCandidature = [
   'dispositifDeStockage',
   'natureDeLExploitation',
   'typologieInstallation',
-  // CRE4 ZNI
   'territoireProjet',
+  'autorisationEnvironnementale',
 ] as const;
 export type ChampCandidature = (typeof champsCandidature)[number];
 

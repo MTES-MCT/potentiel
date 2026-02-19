@@ -461,8 +461,27 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
-    /** à partir de la P11 l'autorité compétente pour les abandons est la dreal,
-     *  plus besoin de redéfinir cete règle au niveau de la période
-     */
+    {
+      id: '11',
+      title: 'onzième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: 'XXX', //@TODO : REF À COMPLÉTER
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      champsSupplémentaires: {
+        coefficientKChoisi: 'requis',
+        autorisationEnvironnementale: 'requis',
+      },
+      typeImport: 'csv',
+    },
   ],
 };
