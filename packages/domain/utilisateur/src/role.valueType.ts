@@ -171,6 +171,7 @@ const référencielPermissions = {
           'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
           'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+        modifierDateMiseEnService: 'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
         transmettreDateMiseEnService: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
           'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
@@ -188,6 +189,7 @@ const référencielPermissions = {
           'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
         modifierRéférenceDossier:
           'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+        modifierDateMiseEnService: 'Lauréat.Raccordement.Command.ModifierDateMiseEnService',
         transmettreDateMiseEnService: 'Lauréat.Raccordement.Command.TransmettreDateMiseEnService',
         transmettreDemandeComplète:
           'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
@@ -1243,9 +1245,8 @@ const policies = {
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
-        // TODO ca devrait être modifierDateMiseEnService, mais pour le moment, la modification se fait va le même usecase
-        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
-        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.usecase.modifierDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.command.modifierDateMiseEnService,
       ],
       supprimer: [
         référencielPermissions.lauréat.raccordement.usecase.supprimerDateMiseEnService,
