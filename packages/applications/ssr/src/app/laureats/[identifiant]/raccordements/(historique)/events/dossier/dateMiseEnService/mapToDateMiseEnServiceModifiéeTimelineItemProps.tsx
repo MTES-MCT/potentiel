@@ -1,5 +1,4 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -12,11 +11,11 @@ export const mapToDateMiseEnServiceModifiéeTimelineItemProps = (
   const { référenceDossierRaccordement, dateMiseEnService } = event.payload;
 
   return {
-    date: event.createdAt as DateTime.RawType,
+    date: event.payload.modifiéeLe,
     actor: event.payload.modifiéePar,
     title: (
       <div>
-        La date de mise en service pour le dossier de raccordement{' '}
+        La date de mise en service du dossier de raccordement{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span> a été modifiée
       </div>
     ),
