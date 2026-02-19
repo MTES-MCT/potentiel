@@ -66,17 +66,38 @@ Quand(
 );
 
 Quand(
-  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
-  async function (this: PotentielWorld, datatable: DataTable) {
+  /l'administrateur transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | "l'administrateur") {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { dateMiseEnService, référenceDossier } =
+      this.raccordementWorld.dateMiseEnService.transmettreFixture.créer({
+        identifiantProjet: identifiantProjet.formatter(),
+        référenceDossier: this.raccordementWorld.référenceDossier,
+      });
+
+    await transmettreDateMiseEnService({
+      potentielWorld: this,
+      identifiantProjet: identifiantProjet.formatter(),
+      référenceDossier,
+      dateMiseEnService,
+      transmiseParValue:
+        rôle === 'le gestionnaire de réseau'
+          ? this.utilisateurWorld.grdFixture.email
+          : this.utilisateurWorld.adminFixture.email,
+    });
+  },
+);
+
+Quand(
+  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
       this.raccordementWorld.dateMiseEnService.modifierFixture.créer({
         identifiantProjet: identifiantProjet.formatter(),
         référenceDossier: this.raccordementWorld.référenceDossier,
-        ...this.raccordementWorld.dateMiseEnService.modifierFixture.mapExempleToFixtureValues(
-          datatable.rowsHash(),
-        ),
       });
 
     await modifierDateMiseEnService({

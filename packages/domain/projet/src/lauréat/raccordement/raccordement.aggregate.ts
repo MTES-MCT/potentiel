@@ -1033,6 +1033,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAbandonné();
 
+    const dossier = this.récupérerDossier(référenceDossier.formatter());
+
+    if (Option.isNone(dossier.miseEnService.dateMiseEnService)) {
+      throw new DossierRaccordementPasEnServiceError();
+    }
+
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }

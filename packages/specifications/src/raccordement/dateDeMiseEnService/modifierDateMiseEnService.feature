@@ -66,6 +66,11 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
             | La référence du dossier de raccordement | OUE-RP-2022-000040 |
         Alors l'administrateur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
+    Scénario: Impossible de modifier une date de mise en service pour un projet sans date de mise en service
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Quand l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors l'administrateur devrait être informé que "Le dossier de raccordement n'est pas en service"
+
     Scénario: Impossible de modifier une date de mise en service pour un dossier n'étant pas référencé dans le raccordement du projet
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000056 |
