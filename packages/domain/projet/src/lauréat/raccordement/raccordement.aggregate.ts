@@ -61,6 +61,7 @@ import {
   RéférencesDossierRaccordementIdentiquesError,
   PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   DemandeComplètementRaccordementNonModifiéeError,
+  PropositionTechniqueEtFinancièreNonModifiéeError,
 } from './errors.js';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
 import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
@@ -622,6 +623,15 @@ export class RaccordementAggregate extends AbstractAggregate<
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
+
+    if (
+      dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
+      !formatPropositionTechniqueEtFinancièreSignée &&
+      Option.isSome(dossier.propositionTechniqueEtFinancière.dateSignature) &&
+      dateSignature.estÉgaleÀ(dossier.propositionTechniqueEtFinancière.dateSignature)
+    ) {
+      throw new PropositionTechniqueEtFinancièreNonModifiéeError();
+    }
 
     if (
       dossierEnService &&

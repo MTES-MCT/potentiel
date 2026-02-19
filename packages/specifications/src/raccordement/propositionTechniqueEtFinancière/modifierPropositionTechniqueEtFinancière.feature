@@ -56,6 +56,11 @@ Fonctionnalité: Modifier une proposition technique et financière
             | La date de signature | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
+    Scénario: Impossible de modifier une proposition technique et financière sans modification
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Quand le porteur modifie la proposition technique et financière avec les mêmes valeurs
+        Alors le porteur devrait être informé que "Aucune modification n'a été apportée à la proposition technique et financière"
+
     Scénario: Impossible de modifier une proposition technique et financière d'un projet en cours d'abandon
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat

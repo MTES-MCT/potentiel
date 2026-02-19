@@ -23,7 +23,13 @@ export class FormatRéférenceDossierRaccordementInvalideError extends InvalidOp
 
 export class DemandeComplètementRaccordementNonModifiéeError extends InvalidOperationError {
   constructor() {
-    super("La demande complète de raccordement n'a pas été modifiée");
+    super("Aucune modification n'a été apportée à la demande complète de raccordement");
+  }
+}
+
+export class PropositionTechniqueEtFinancièreNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super("Aucune modification n'a été apportée à la proposition technique et financière");
   }
 }
 

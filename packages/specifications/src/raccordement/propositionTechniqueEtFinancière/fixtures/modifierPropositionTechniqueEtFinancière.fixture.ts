@@ -5,14 +5,13 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { PièceJustificative } from './transmettrePropositionTechniqueEtFinancière.fixture.js';
 
 interface ModifierPropositionTechniqueEtFinancière {
   dateSignature: string;
   référenceDossier: string;
-  propositionTechniqueEtFinancièreSignée: PièceJustificative;
+  propositionTechniqueEtFinancièreSignée?: PièceJustificative;
 }
 
 export class ModifierPropositionTechniqueEtFinancièreFixture
@@ -30,7 +29,7 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
   get propositionTechniqueEtFinancièreSignée(): PièceJustificative {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -49,20 +48,21 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
       identifiantProjet: string;
     },
   ): Readonly<ModifierPropositionTechniqueEtFinancière> {
-    const content = faker.word.words();
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       propositionTechniqueEtFinancièreSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
 
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
-    this.#content = content;
+    if (fixture.propositionTechniqueEtFinancièreSignée) {
+      this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
+      this.#content = fixture.propositionTechniqueEtFinancièreSignée.content;
+    }
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
