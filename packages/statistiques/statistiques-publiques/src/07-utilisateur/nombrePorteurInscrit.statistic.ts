@@ -11,12 +11,14 @@ export const computeNombrePorteurInscrit = async () => {
     values(
       $1, 
       (
-        select
-          count(*)
-        from
-          "public"."users"
-        where
-          "public"."users"."role" = 'porteur-projet'
+        SELECT
+        count(*) nb
+        FROM
+          domain_views.projection
+        WHERE
+          KEY LIKE 'utilisateur|%'
+          AND VALUE ->> 'rôle' = 'porteur-projet'
+          AND VALUE ->> 'désactivé' IS NULL
       )
     )
     `,

@@ -1,4 +1,5 @@
 import type { Éliminé } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { encodeParameter } from '../encodeParameter.js';
 import { withFilters } from '../_helpers/withFilters.js';
@@ -18,5 +19,5 @@ export const détailPourRedirection = (identifiantProjet: string) =>
 export const demander = (identifiantProjet: string) =>
   `/elimines/${encodeParameter(identifiantProjet)}/recours/demander`;
 
-export const téléchargerModèleRéponse = (identifiantProjet: string) =>
-  `/elimines/${encodeParameter(identifiantProjet)}/recours/modele-reponse`;
+export const téléchargerModèleRéponse = (identifiantProjet: string, date: DateTime.RawType) =>
+  `/elimines/${encodeParameter(identifiantProjet)}/recours/${date}/modele-reponse`;

@@ -7,24 +7,15 @@ export const computeUtilisateurCréation = async () => {
     into 
       domain_public_statistic.utilisateur_creation_statistic
     SELECT
-      "source"."createdAt",
-      COUNT(*),
-      SUM(COUNT(*)) OVER (
-        ORDER BY "source"."createdAt" ASC ROWS UNBOUNDED PRECEDING
-      ) AS "count_2"
+      DATE_TRUNC('month', ("value"->>'invitéLe')::timestamp) AS "createdAt",
+      COUNT(*) AS "count",
+      SUM(COUNT(*)) OVER (ORDER BY 1 ASC ROWS UNBOUNDED PRECEDING) AS "count_2"
     FROM
-      (
-        SELECT
-          DATE_TRUNC('month', "public"."users"."createdAt") AS "createdAt"
-        FROM
-          "public"."users"
-      ) AS "source"
-    WHERE
-      "source"."createdAt" IS NOT NULL
-    GROUP BY
-      "source"."createdAt"
-    ORDER BY
-      "source"."createdAt" ASC
+      "domain_views"."projection"
+    WHERE key LIKE 'utilisateur|%'
+      AND VALUE ->> 'désactivé' IS NULL
+    GROUP BY 1
+    ORDER BY 1 ASC;
     `,
   );
 };
