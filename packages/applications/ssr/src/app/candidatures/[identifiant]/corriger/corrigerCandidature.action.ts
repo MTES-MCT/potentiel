@@ -38,6 +38,8 @@ const schema = dépôtSchema
     noteTotale: instructionSchema.shape.noteTotale,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
     numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -115,6 +117,15 @@ const mapBodyToUseCaseData = (
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
             }
           : undefined,
+      autorisationEnvironnementale:
+        data.numéroDAutorisationEnvironnementale && data.dateDAutorisationEnvironnementale
+          ? {
+              numéro: data.numéroDAutorisationEnvironnementale,
+              date: DateTime.convertirEnValueType(
+                data.dateDAutorisationEnvironnementale,
+              ).formatter(),
+            }
+          : undefined,
       installateur: data.installateur,
       puissanceProjetInitial: data.puissanceProjetInitial,
 
@@ -135,12 +146,6 @@ const mapBodyToUseCaseData = (
             tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
           }
         : undefined,
-      autorisationEnvironnementale: previous.dépôt.autorisationEnvironnementale
-        ? {
-            date: previous.dépôt.autorisationEnvironnementale.date.formatter(),
-            numéro: previous.dépôt.autorisationEnvironnementale.numéro,
-          }
-        : undefined, // TODO : à ajouter au formulaire de correction
     },
 
     détailsValue: undefined,

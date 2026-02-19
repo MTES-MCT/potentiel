@@ -442,6 +442,34 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
         </>
       )}
+      {champsSupplémentaires.autorisationEnvironnementale && (
+        <>
+          <Input
+            state={validationErrors['numéroDAutorisationEnvironnementale'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['numéroDAutorisationEnvironnementale']}
+            label="Numéro d'autorisation environnementale"
+            nativeInputProps={{
+              name: 'numéroDAutorisationEnvironnementale',
+              defaultValue: candidature.numéroDAutorisationEnvironnementale,
+              required: true,
+              'aria-required': true,
+            }}
+          />
+          <InputDate
+            name="dateDAutorisationEnvironnementale"
+            label="Date d'obtention de l'autorisation environnementale"
+            required
+            defaultValue={
+              candidature.dateDAutorisationEnvironnementale &&
+              DateTime.convertirEnValueType(
+                candidature.dateDAutorisationEnvironnementale,
+              ).formatter()
+            }
+            state={validationErrors['dateDAutorisationEnvironnementale'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['dateDAutorisationEnvironnementale']}
+          />
+        </>
+      )}
       {champsSupplémentaires.installateur && (
         <Input
           state={validationErrors['installateur'] ? 'error' : 'default'}
