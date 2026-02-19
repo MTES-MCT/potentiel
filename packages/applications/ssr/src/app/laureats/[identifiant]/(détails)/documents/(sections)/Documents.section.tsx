@@ -28,17 +28,15 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       const documents: Array<DocumentItem> = [];
 
       // ATTESTATION LAURÉAT
-      if (rôle.aLaPermission('lauréat.consulter')) {
-        const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
+      const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
 
-        if (attestationDésignation) {
-          documents.push({
-            type: 'Attestation de désignation',
-            date: attestationDésignation.dateCréation,
-            format: attestationDésignation.format,
-            url: Routes.Document.télécharger(attestationDésignation.formatter()),
-          });
-        }
+      if (attestationDésignation) {
+        documents.push({
+          type: 'Attestation de désignation',
+          date: attestationDésignation.dateCréation,
+          format: attestationDésignation.format,
+          url: Routes.Document.télécharger(attestationDésignation.formatter()),
+        });
       }
 
       // EXPORT LAURÉAT
@@ -51,55 +49,53 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // ABANDON
-      if (rôle.aLaPermission('abandon.consulter.demande')) {
-        const abandon = await getAbandonInfos(identifiantProjet);
+      const abandon = await getAbandonInfos(identifiantProjet);
 
-        if (abandon) {
-          const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
-            type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-              demandéLeValue: abandon.demandéLe.formatter(),
+      if (abandon) {
+        const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
+          type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            demandéLeValue: abandon.demandéLe.formatter(),
+          },
+        });
+
+        if (Option.isNone(demandeAbandon)) {
+          return notFound();
+        }
+
+        if (demandeAbandon.demande.accord) {
+          documents.push({
+            type: "Réponse signée de l'accord de la demande d'abandon",
+            date: demandeAbandon.demande.accord.réponseSignée.dateCréation,
+            format: demandeAbandon.demande.accord.réponseSignée.format,
+            url: Routes.Document.télécharger(
+              demandeAbandon.demande.accord.réponseSignée.formatter(),
+            ),
+            demande: {
+              url: Routes.Abandon.détail(
+                identifiantProjet,
+                demandeAbandon.demande.demandéLe.formatter(),
+              ),
             },
           });
+        }
 
-          if (Option.isNone(demandeAbandon)) {
-            return notFound();
-          }
-
-          if (demandeAbandon.demande.accord) {
-            documents.push({
-              type: "Réponse signée de l'accord de la demande d'abandon",
-              date: demandeAbandon.demande.accord.réponseSignée.dateCréation,
-              format: demandeAbandon.demande.accord.réponseSignée.format,
-              url: Routes.Document.télécharger(
-                demandeAbandon.demande.accord.réponseSignée.formatter(),
+        if (demandeAbandon.demande.rejet) {
+          documents.push({
+            type: "Réponse signée du rejet de la demande d'abandon",
+            date: demandeAbandon.demande.rejet.réponseSignée.dateCréation,
+            format: demandeAbandon.demande.rejet.réponseSignée.format,
+            url: Routes.Document.télécharger(
+              demandeAbandon.demande.rejet.réponseSignée.formatter(),
+            ),
+            demande: {
+              url: Routes.Abandon.détail(
+                identifiantProjet,
+                demandeAbandon.demande.demandéLe.formatter(),
               ),
-              demande: {
-                url: Routes.Abandon.détail(
-                  identifiantProjet,
-                  demandeAbandon.demande.demandéLe.formatter(),
-                ),
-              },
-            });
-          }
-
-          if (demandeAbandon.demande.rejet) {
-            documents.push({
-              type: "Réponse signée du rejet de la demande d'abandon",
-              date: demandeAbandon.demande.rejet.réponseSignée.dateCréation,
-              format: demandeAbandon.demande.rejet.réponseSignée.format,
-              url: Routes.Document.télécharger(
-                demandeAbandon.demande.rejet.réponseSignée.formatter(),
-              ),
-              demande: {
-                url: Routes.Abandon.détail(
-                  identifiantProjet,
-                  demandeAbandon.demande.demandéLe.formatter(),
-                ),
-              },
-            });
-          }
+            },
+          });
         }
       }
 
@@ -123,27 +119,25 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // ACHEVEMENT
-      if (rôle.aLaPermission('achèvement.consulter')) {
-        const achèvement = await getAchèvement(identifiantProjet);
+      const achèvement = await getAchèvement(identifiantProjet);
 
-        if (achèvement.estAchevé) {
+      if (achèvement.estAchevé) {
+        documents.push({
+          type: 'Attestation de conformité',
+          date: achèvement.attestation.dateCréation,
+          format: achèvement.attestation.format,
+          url: Routes.Document.télécharger(achèvement.attestation.formatter()),
+        });
+
+        if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
           documents.push({
-            type: 'Attestation de conformité',
-            date: achèvement.attestation.dateCréation,
-            format: achèvement.attestation.format,
-            url: Routes.Document.télécharger(achèvement.attestation.formatter()),
+            type: 'Preuve de transmission au co-contractant',
+            date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
+            format: achèvement.preuveTransmissionAuCocontractant.format,
+            url: Routes.Document.télécharger(
+              achèvement.preuveTransmissionAuCocontractant.formatter(),
+            ),
           });
-
-          if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
-            documents.push({
-              type: 'Preuve de transmission au co-contractant',
-              date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
-              format: achèvement.preuveTransmissionAuCocontractant.format,
-              url: Routes.Document.télécharger(
-                achèvement.preuveTransmissionAuCocontractant.formatter(),
-              ),
-            });
-          }
         }
       }
 
