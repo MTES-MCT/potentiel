@@ -7,6 +7,7 @@ import { NatureDeLExploitationSection } from './(sections)/NatureDeLExploitation
 import { TypologieInstallationSection } from './(sections)/TypologieInstallation.section';
 import { InstallateurSection } from './(sections)/Installateur.section';
 import { DispositifDeStockageSection } from './(sections)/DispositifDeStockage.section';
+import { AutorisationEnvironnementaleSection } from './(sections)/AutorisationEnvironnementale.section';
 
 type Props = { identifiantProjet: IdentifiantProjet.RawType };
 
@@ -17,6 +18,7 @@ export const InstallationPage = ({ identifiantProjet }: Props) => (
         <TypologieInstallationSection identifiantProjet={identifiantProjet} />
         <InstallateurSection identifiantProjet={identifiantProjet} />
         <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
+        <AutorisationEnvironnementaleSection identifiantProjet={identifiantProjet} />
       </div>
       <div className="flex flex-1 flex-col gap-4">
         <DispositifDeStockageSection identifiantProjet={identifiantProjet} />
