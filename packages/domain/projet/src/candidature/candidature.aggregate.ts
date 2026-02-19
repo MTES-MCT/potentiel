@@ -49,6 +49,8 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
+  AutorisationEnvironnementaleRequiseError,
+  DateAutorisationEnvironnementaleError,
 } from './candidature.error.js';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
 import {
@@ -380,6 +382,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       installateur,
       dispositifDeStockage,
       natureDeLExploitation,
+      autorisationEnvironnementale,
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
@@ -423,6 +426,17 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (dépôt.autorisationDUrbanisme?.date.estDansLeFutur()) {
       throw new DateAutorisationDUrbanismeError();
+    }
+
+    if (
+      autorisationEnvironnementale === 'requis' &&
+      (!dépôt.autorisationEnvironnementale?.date || !dépôt.autorisationEnvironnementale?.numéro)
+    ) {
+      throw new AutorisationEnvironnementaleRequiseError();
+    }
+
+    if (dépôt.autorisationEnvironnementale?.date.estDansLeFutur()) {
+      throw new DateAutorisationEnvironnementaleError();
     }
 
     if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
