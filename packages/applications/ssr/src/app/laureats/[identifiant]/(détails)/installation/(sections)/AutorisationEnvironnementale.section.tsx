@@ -22,7 +22,7 @@ export const AutorisationEnvironnementaleSection = ({
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    if (!cahierDesCharges.getChampsSupplémentaires().autorisationDUrbanisme) {
+    if (!cahierDesCharges.getChampsSupplémentaires().autorisationEnvironnementale) {
       return null;
     }
 
