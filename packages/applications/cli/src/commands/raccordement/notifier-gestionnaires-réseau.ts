@@ -37,9 +37,6 @@ export class NotifierGestionnaireRéseau extends Command {
       récupérerProjetsEligiblesPreuveRecanditure: () => {
         throw new Error('not implemented');
       },
-      consulterABénéficiéDuDélaiCDC2022: () => {
-        throw new Error('not implemented');
-      },
       getScopeProjetUtilisateur: () => {
         throw new Error('not implemented');
       },

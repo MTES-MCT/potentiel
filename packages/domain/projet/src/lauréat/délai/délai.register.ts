@@ -2,10 +2,6 @@ import { GetProjetAggregateRoot } from '../../index.js';
 
 import { registerAccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase.js';
 import { registerAccorderDemandeDélaiCommand } from './demande/accorder/accorderDemandeDélai.command.js';
-import {
-  ConsulterDélaiDependencies,
-  registerConsulterDélai,
-} from './consulter/consulterABénéficiéDuDélaiCDC2022.query.js';
 import { registerAnnulerDemandeDélaiCommand } from './demande/annuler/annulerDemandeDélai.command.js';
 import { registerAnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase.js';
 import {
@@ -47,13 +43,11 @@ export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommand
   registerCorrigerDemandeDélaiCommand(getProjetAggregateRoot);
 };
 
-export type DélaiQueryDependencies = ConsulterDélaiDependencies &
-  ConsulterDemandeDélaiDependencies &
+export type DélaiQueryDependencies = ConsulterDemandeDélaiDependencies &
   ListerDemandeDélaiDependencies &
   ListerHistoriqueDélaiProjetDependencies;
 
 export const registerDélaiQueries = (dependencies: DélaiQueryDependencies) => {
-  registerConsulterDélai(dependencies);
   registerConsulterDemandeDélaiQuery(dependencies);
   registerListerDemandeDélaiQuery(dependencies);
   registerListerHistoriqueDélaiProjetQuery(dependencies);

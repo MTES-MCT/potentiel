@@ -26,6 +26,11 @@ export const dateAchèvementPrévisionnelCalculéeProjector = async ({
     {
       prévisionnel: {
         date: payload.date,
+        ...(payload.raison === 'ajout-délai-cdc-30_08_2022'
+          ? { aBénéficiéDuDélaiCDC2022: true }
+          : payload.raison === 'retrait-délai-cdc-30_08_2022'
+            ? { aBénéficiéDuDélaiCDC2022: false }
+            : {}),
       },
     },
   );

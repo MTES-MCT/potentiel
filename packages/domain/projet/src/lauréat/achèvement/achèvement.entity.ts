@@ -12,6 +12,7 @@ export type AchèvementEntity = Entity<
 
     prévisionnel: {
       date: DateTime.RawType;
+      aBénéficiéDuDélaiCDC2022?: boolean;
     };
     réel?: {
       date: DateTime.RawType;

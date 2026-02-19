@@ -11,6 +11,7 @@ import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 export type ConsulterAchèvementAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
+  aBénéficiéDuDélaiCDC2022: boolean;
 
   estAchevé: true;
   attestation: DocumentProjet.ValueType;
@@ -23,6 +24,8 @@ export type ConsulterAchèvementAchevéReadModel = {
 export type ConsulterAchèvementNonAchevéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
+  aBénéficiéDuDélaiCDC2022: boolean;
+
   estAchevé: false;
 };
 
@@ -62,7 +65,7 @@ export const registerConsulterAchèvementQuery = ({ find }: ConsulterAchèvement
 
 const mapToReadModel = ({
   identifiantProjet,
-  prévisionnel: { date: dateAchèvementPrévisionnel },
+  prévisionnel: { date: dateAchèvementPrévisionnel, aBénéficiéDuDélaiCDC2022 },
   réel,
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
   const common = {
@@ -70,6 +73,7 @@ const mapToReadModel = ({
     dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(
       dateAchèvementPrévisionnel,
     ),
+    aBénéficiéDuDélaiCDC2022: aBénéficiéDuDélaiCDC2022 ?? false,
   };
   if (!réel) {
     return {

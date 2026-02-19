@@ -62,6 +62,7 @@ export class AchèvementWorld {
         Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
           this.dateAchèvementPrévisionnelCalculée,
         ),
+      aBénéficiéDuDélaiCDC2022: false,
     };
 
     if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {

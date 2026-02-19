@@ -35,9 +35,6 @@ export class Executer extends Command {
       find: findProjection,
       count: countProjection,
       listHistory: listHistoryProjection,
-      consulterABénéficiéDuDélaiCDC2022: () => {
-        throw new Error('notImplemented');
-      },
       getScopeProjetUtilisateur: () => {
         throw new Error('notImplemented');
       },
