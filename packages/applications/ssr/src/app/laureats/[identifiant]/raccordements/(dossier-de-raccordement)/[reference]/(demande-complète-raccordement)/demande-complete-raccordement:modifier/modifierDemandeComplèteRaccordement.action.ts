@@ -18,7 +18,6 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
-  referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   accuseReceptionDocumentSelection: documentSelectionSchema,
 });
@@ -33,7 +32,6 @@ const action: FormAction<FormState, typeof schema> = async (
     accuseReceptionDocumentSelection,
     dateQualification,
     referenceDossierRaccordement,
-    referenceDossierRaccordementActuelle,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -45,7 +43,6 @@ const action: FormAction<FormState, typeof schema> = async (
           accuseReceptionDocumentSelection === 'edit_document' ? accuseReception : undefined,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
-        référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
         rôleValue: utilisateur.rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),

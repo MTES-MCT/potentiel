@@ -845,13 +845,12 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierDemandeComplèteRaccordement({
     dateQualification,
     référenceDossierRaccordement,
-    référenceDossierRaccordementActuelle,
     rôle,
     modifiéeLe,
     modifiéePar,
     formatAccuséRéception,
   }: ModifierDemandeComplèteOptions) {
-    const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());
+    const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
 
@@ -868,7 +867,6 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
       !formatAccuséRéception &&
       Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
       dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
@@ -894,16 +892,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       !rôle.aLaPermission('raccordement.demande-complète-raccordement.modifier-après-achèvement')
     ) {
       throw new ChangementImpossibleCarProjetAchevéError();
-    }
-
-    if (!dossier.référence.estÉgaleÀ(référenceDossierRaccordement)) {
-      await this.modifierRéférenceDossierRacordement({
-        nouvelleRéférenceDossierRaccordement: référenceDossierRaccordement,
-        référenceDossierRaccordementActuelle: dossier.référence,
-        modifiéeLe,
-        modifiéePar,
-        rôle,
-      });
     }
 
     const demandeComplèteRaccordementModifiée: DemandeComplèteRaccordementModifiéeEvent = {

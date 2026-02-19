@@ -214,8 +214,7 @@ async function modifierDemandeComplèteRaccordement(
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
-      référenceDossier:
-        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+      référenceDossier: this.raccordementWorld.référenceDossier,
       ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
         data,
       ),
@@ -227,7 +226,6 @@ async function modifierDemandeComplèteRaccordement(
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
-        référenceDossierRaccordementActuelleValue: référenceDossier,
         dateQualificationValue: dateQualification,
         accuséRéceptionValue: accuséRéception
           ? {
@@ -252,8 +250,7 @@ async function modifierDemandeComplèteRaccordementAvecLesMêmesValeurs(
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
-      référenceDossier:
-        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+      référenceDossier: this.raccordementWorld.référenceDossier,
       dateQualification:
         this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
       accuséRéception: undefined,
@@ -265,7 +262,6 @@ async function modifierDemandeComplèteRaccordementAvecLesMêmesValeurs(
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
-        référenceDossierRaccordementActuelleValue: référenceDossier,
         dateQualificationValue: dateQualification,
         accuséRéceptionValue: accuséRéception
           ? {
