@@ -82,6 +82,14 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     changedValues.dépôt.autorisationDUrbanisme.numéro ??
     this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.numéro;
 
+  const dateDAutorisationEnvironnementale =
+    changedValues.dépôt.autorisationEnvironnementale.date ??
+    this.candidatureWorld.importerCandidature.dépôtValue.autorisationEnvironnementale?.date;
+
+  const numéroDAutorisationEnvironnementale =
+    changedValues.dépôt.autorisationEnvironnementale.numéro ??
+    this.candidatureWorld.importerCandidature.dépôtValue.autorisationEnvironnementale?.numéro;
+
   const attestationConstitutionGf = {
     ...this.candidatureWorld.importerCandidature.dépôtValue.attestationConstitutionGf,
     ...changedValues.dépôt.attestationConstitutionGf,
@@ -128,6 +136,13 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
             ? {
                 date: dateDAutorisationDUrbanisme,
                 numéro: numéroDAutorisationDUrbanisme,
+              }
+            : undefined,
+        autorisationEnvironnementale:
+          dateDAutorisationEnvironnementale && numéroDAutorisationEnvironnementale
+            ? {
+                date: dateDAutorisationEnvironnementale,
+                numéro: numéroDAutorisationEnvironnementale,
               }
             : undefined,
         fournisseurs: this.candidatureWorld.importerCandidature.dépôtValue.fournisseurs,

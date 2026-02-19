@@ -191,6 +191,7 @@ export class LauréatWorld {
         prixReference,
         coefficientKChoisi,
         autorisationDUrbanisme,
+        autorisationEnvironnementale,
         actionnariat,
       },
       technologie,
@@ -216,6 +217,7 @@ export class LauréatWorld {
           ? Lauréat.StatutLauréat.achevé
           : Lauréat.StatutLauréat.actif,
       autorisationDUrbanisme,
+      autorisationEnvironnementale,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
         ? undefined

@@ -48,6 +48,17 @@ Fonctionnalité: Corriger une candidature
         Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
+    Scénario: Corriger l'autorisation environnementale d'une candidature pour un appel d'offres qui a ce champ
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres                                      | PPE2 - Eolien |
+            | période                                             | 11            |
+            | numéro de l'autorisation environnementale           | ancien numéro |
+            | date d'obtention de l'autorisation environnementale | 01/01/2025    |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation environnementale           | nouveau numéro |
+            | date d'obtention de l'autorisation environnementale | 01/07/2025     |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
@@ -137,6 +148,26 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi | oui |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
+
+    Scénario: Impossible de corriger une candidature sans autorisation environnementale si l'appel d'offres a ces champs requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres                                      | PPE2 - Eolien         |
+            | période                                             | 11                    |
+            | numéro de l'autorisation environnementale           | numéro d'autorisation |
+            | date d'obtention de l'autorisation environnementale | 10/08/2024            |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation environnementale           |  |
+            | date d'obtention de l'autorisation environnementale |  |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation environnementale sont requis pour cet appel d'offres"
+
+    Scénario: Impossible de corriger une candidature avec une date d'obtention de l'autorisation environnementale dans le futur
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres                                      | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation environnementale           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation environnementale | 10/08/2024               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | date d'obtention de l'autorisation environnementale | 10/08/2070 |
+        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation environnementale doit être antérieure à la date du jour"
 
     # champs spécifiques à l'appel d'offres simplifié - début
     Scénario: Corriger la puissance de site d'une candidature pour un appel d'offres qui a ce champ
