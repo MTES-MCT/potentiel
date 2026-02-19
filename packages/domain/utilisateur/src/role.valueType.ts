@@ -1235,12 +1235,7 @@ const policies = {
         référencielPermissions.lauréat.raccordement.query.consulterDossier,
         référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
         référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
-      ],
-      importer: [
         référencielPermissions.lauréat.raccordement.query.rechercher,
-        référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
-        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
       ],
       modifier: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -1680,7 +1675,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
-  'raccordement.date-mise-en-service.importer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
