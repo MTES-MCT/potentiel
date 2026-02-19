@@ -78,38 +78,50 @@ export const ExportPage: FC<ExportPageProps> = ({ actions, filters }) => {
           <ul className={'md:w-3/4 flex flex-col gap-3 flex-grow mt-8'}>
             {actions.map(({ type, label, url, description, availableFilters }) => (
               <li key={type}>
-                <Card
-                  border
-                  size="small"
-                  endDetail={
-                    <span className="block w-full text-right">Format du fichier : csv</span>
-                  }
-                  classes={{
-                    detail: 'ri-time-line',
-                  }}
-                  detail="Le téléchargement du fichier peut prendre quelques secondes"
-                  end={
-                    <FiltersTagList
-                      filters={filters.filter((filter) =>
-                        availableFilters.includes(filter.searchParamKey),
-                      )}
-                    />
-                  }
-                  title={label}
-                  desc={description}
-                  linkProps={
-                    isLoading
-                      ? undefined
-                      : {
-                          href: '#',
-                          onClick: async (e) => {
-                            e.preventDefault();
-                            await downloadFile(url);
-                            return false;
-                          },
-                        }
-                  }
-                />
+                {isLoading ? (
+                  <Card
+                    border
+                    size="small"
+                    endDetail={
+                      <span className="block w-full text-right">Format du fichier : csv</span>
+                    }
+                    end={
+                      <FiltersTagList
+                        filters={filters.filter((filter) =>
+                          availableFilters.includes(filter.searchParamKey),
+                        )}
+                      />
+                    }
+                    title={label}
+                    desc={description}
+                  />
+                ) : (
+                  <Card
+                    border
+                    size="small"
+                    endDetail={
+                      <span className="block w-full text-right">Format du fichier : csv</span>
+                    }
+                    end={
+                      <FiltersTagList
+                        filters={filters.filter((filter) =>
+                          availableFilters.includes(filter.searchParamKey),
+                        )}
+                      />
+                    }
+                    title={label}
+                    desc={description}
+                    linkProps={{
+                      href: '#',
+                      onClick: async (e) => {
+                        e.preventDefault();
+                        await downloadFile(url);
+                        return false;
+                      },
+                    }}
+                    enlargeLink
+                  />
+                )}
               </li>
             ))}
           </ul>
