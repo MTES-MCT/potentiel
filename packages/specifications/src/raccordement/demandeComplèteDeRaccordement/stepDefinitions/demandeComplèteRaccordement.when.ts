@@ -227,8 +227,7 @@ async function modifierDemandeComplèteRaccordement(
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
-        référenceDossierRaccordementActuelleValue:
-          this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+        référenceDossierRaccordementActuelleValue: référenceDossier,
         dateQualificationValue: dateQualification,
         accuséRéceptionValue: accuséRéception
           ? {
