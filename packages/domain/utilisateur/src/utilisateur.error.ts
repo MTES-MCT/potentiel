@@ -41,6 +41,12 @@ export class PorteurInvitéSansProjetError extends InvalidOperationError {
   }
 }
 
+export class InvitationVisiteurImpossibleError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible d'inviter un visiteur`);
+  }
+}
+
 export class FonctionManquanteError extends InvalidOperationError {
   constructor() {
     super('La fonction est obligatoire pour un utilisateur dgec-validateur');

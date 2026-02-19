@@ -41,14 +41,15 @@ type AutresRolesValueType = CommonValueType & {
     | typeof Role.admin
     | typeof Role.caisseDesDépôts
     | typeof Role.cre
-    | typeof Role.porteur;
+    | typeof Role.porteur
+    | typeof Role.visiteur;
 };
 
 export type RolePorteurPayload = {
   rôle: 'porteur-projet';
 };
 export type RôleGlobalPayload = {
-  rôle: 'admin' | 'ademe' | 'caisse-des-dépôts' | 'cre';
+  rôle: 'admin' | 'ademe' | 'caisse-des-dépôts' | 'cre' | 'visiteur';
 };
 
 export type RôleDgecValidateurPayload = {
@@ -158,6 +159,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       { rôle: { nom: 'porteur-projet' } },
       (): ValueType<'porteur-projet'> => common(Role.porteur),
     )
+    .with({ rôle: { nom: 'visiteur' } }, (): ValueType<'visiteur'> => common(Role.visiteur))
     .with(
       { rôle: { nom: 'grd' } },
       ({ identifiantGestionnaireRéseau }): ValueType<'grd'> => ({
@@ -304,5 +306,6 @@ export const convertirEnValueType = ({
       }
       return bind({ identifiantUtilisateur, rôle, zone: Zone.convertirEnValueType(zone) });
     })
+    .with({ nom: 'visiteur' }, (rôle) => bind({ identifiantUtilisateur, rôle }))
     .exhaustive();
 };

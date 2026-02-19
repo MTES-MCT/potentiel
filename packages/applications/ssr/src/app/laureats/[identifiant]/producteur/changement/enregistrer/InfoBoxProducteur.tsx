@@ -18,7 +18,7 @@ export const InfoBoxRévocationDesDroits: FC = () => (
           <br />
           Tous les accès utilisateurs actuels seront retirés. <br /> Le nouveau producteur pourra
           retrouver le projet dans la liste{' '}
-          <Link href={Routes.Utilisateur.réclamerProjet} target="blank">
+          <Link href={Routes.Accès.réclamerProjet} target="blank">
             "Projets à réclamer"
           </Link>
           .

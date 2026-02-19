@@ -83,6 +83,10 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un utilisateur avec le rôle "porteur-projet"
         Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un porteur sans projet"
 
+    Scénario: Impossible d'inviter un visiteur
+        Quand un administrateur invite un utilisateur avec le rôle "visiteur"
+        Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un visiteur"
+
     Scénario: Impossible d'inviter une dreal sans région
         Quand un administrateur invite un utilisateur avec :
             | rôle   | dreal |

@@ -10,11 +10,17 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {
   const { identifiantUtilisateur, invitéLe, invitéPar } = payload;
 
+  const utilisateur = mapToUtilisateurPayload(payload);
+
+  if (utilisateur.rôle === 'visiteur') {
+    throw new Error("Le rôle 'visiteur' ne peut pas être invité");
+  }
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    ...mapToUtilisateurPayload(payload),
+    ...utilisateur,
     identifiantUtilisateur,
     invitéLe,
     invitéPar,
+    rôle: utilisateur.rôle,
   });
 };
 

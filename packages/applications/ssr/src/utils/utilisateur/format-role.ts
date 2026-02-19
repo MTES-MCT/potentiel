@@ -10,10 +10,12 @@ export const roleToLabel: Record<Role.RawType, string> = {
   'caisse-des-dépôts': 'Caisse des dépôts',
   cre: 'CRE',
   grd: 'Gestionnaire de Réseau',
+  visiteur: 'Visiteur',
 };
 
 export const listeDesRoles = Role.roles
   .map((role) => ({ value: role, label: roleToLabel[role] }))
+  .filter(({ value }) => value !== 'visiteur')
   .sort((a, b) => a.label.localeCompare(b.label));
 
 export const listeDesRolesSaufPorteur = [

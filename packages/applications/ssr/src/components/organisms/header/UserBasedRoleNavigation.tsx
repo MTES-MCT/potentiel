@@ -249,7 +249,7 @@ const getNavigationItemsBasedOnRole = ({ rôle }: Utilisateur.ValueType) => {
       [
         {
           label: 'Projets à réclamer',
-          url: Routes.Utilisateur.réclamerProjet,
+          url: Routes.Accès.réclamerProjet,
           permission: 'accès.réclamerProjet',
         },
         {

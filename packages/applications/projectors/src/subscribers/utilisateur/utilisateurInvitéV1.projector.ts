@@ -16,10 +16,15 @@ export const utilisateurInvitéV1Projector = async ({ payload }: UtilisateurInvi
     )
     .otherwise(mapToUtilisateurPayload);
 
+  if (utilisateurToUpsert.rôle === 'visiteur') {
+    throw new Error("Le rôle 'visiteur' ne peut pas être invité");
+  }
+
   await upsertProjection<UtilisateurEntity>(`utilisateur|${payload.identifiantUtilisateur}`, {
     ...utilisateurToUpsert,
     identifiantUtilisateur: payload.identifiantUtilisateur,
     invitéLe: payload.invitéLe,
     invitéPar: payload.invitéPar,
+    rôle: utilisateurToUpsert.rôle,
   });
 };
