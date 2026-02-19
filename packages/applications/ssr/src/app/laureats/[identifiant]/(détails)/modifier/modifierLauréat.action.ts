@@ -234,6 +234,18 @@ const mapBodyToCandidatureUsecaseData = (
               DateTime.convertirEnValueType(previous.autorisationDUrbanisme.date.date).formatter(),
           }
         : undefined,
+      autorisationEnvironnementale: previous.autorisationEnvironnementale
+        ? {
+            numéro:
+              data.numéroDAutorisationEnvironnementale ??
+              previous.autorisationEnvironnementale.numéro,
+            date:
+              data.dateDAutorisationEnvironnementale ??
+              DateTime.convertirEnValueType(
+                previous.autorisationEnvironnementale.date.date,
+              ).formatter(),
+          }
+        : undefined,
       installateur: data.installateur ?? previous.installateur,
 
       // champs non éditables
@@ -259,12 +271,6 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       puissanceProjetInitial: previous.puissanceProjetInitial,
-      autorisationEnvironnementale: previous.autorisationEnvironnementale
-        ? {
-            date: previous.autorisationEnvironnementale.date.formatter(),
-            numéro: previous.autorisationEnvironnementale.numéro,
-          }
-        : undefined, // TODO: à ajouter dans le formulaire de correction
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

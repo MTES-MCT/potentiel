@@ -30,6 +30,8 @@ const candidatureNotifiéeSchema = z
     puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
     numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     installateur: dépôtSchema.shape.installateur,
     dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
     natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
