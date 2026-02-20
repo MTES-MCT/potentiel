@@ -948,7 +948,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       dossier.demandeComplèteRaccordement.format = accuséRéception.format;
     }
   }
-
   //#endregion DCR
 
   //#region date de mise en service
@@ -1056,7 +1055,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     const event: DateMiseEnServiceModifiéeEvent = {
-      type: 'DateMiseEnServiceModifiée-V1',
+      type: 'DateMiseEnServiceModifiée-V2',
       payload: {
         dateMiseEnService: dateMiseEnService.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
@@ -1087,8 +1086,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       }
     }
   }
-
-  private applyDateMiseEnServiceModifiéeEventV1({
+  private applyDateMiseEnServiceModifiéeEvent({
     payload: { dateMiseEnService, référenceDossierRaccordement },
   }: DateMiseEnServiceModifiéeEvent) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement);
@@ -1213,8 +1211,8 @@ export class RaccordementAggregate extends AbstractAggregate<
         this.applyDateMiseEnServiceTransmiseEventV2.bind(this),
       )
       .with(
-        { type: 'DateMiseEnServiceModifiée-V1' },
-        this.applyDateMiseEnServiceModifiéeEventV1.bind(this),
+        { type: P.union('DateMiseEnServiceModifiée-V1', 'DateMiseEnServiceModifiée-V2') },
+        this.applyDateMiseEnServiceModifiéeEvent.bind(this),
       )
       .with(
         {

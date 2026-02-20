@@ -37,10 +37,10 @@ import {
   propositionTechniqueEtFinancièreTransmiseV3Projector,
 } from './dossier-raccordement/propositionTechniqueEtFinancière/index.js';
 import {
+  dateMiseEnServiceModifiéeProjector,
   dateMiseEnServiceSuppriméeV1Projector,
   dateMiseEnServiceTransmiseV1Projector,
   dateMiseEnServiceTransmiseV2Projector,
-  dateMiseEnServiceModifiéeV1Projector,
 } from './dossier-raccordement/dateMiseEnService/index.js';
 
 export type SubscriptionEvent = Lauréat.Raccordement.RaccordementEvent | RebuildTriggered;
@@ -154,7 +154,10 @@ export const register = () => {
 
           .with({ type: 'DateMiseEnServiceTransmise-V1' }, dateMiseEnServiceTransmiseV1Projector)
           .with({ type: 'DateMiseEnServiceTransmise-V2' }, dateMiseEnServiceTransmiseV2Projector)
-          .with({ type: 'DateMiseEnServiceModifiée-V1' }, dateMiseEnServiceModifiéeV1Projector)
+          .with(
+            { type: P.union('DateMiseEnServiceModifiée-V1', 'DateMiseEnServiceModifiée-V2') },
+            dateMiseEnServiceModifiéeProjector,
+          )
           .with({ type: 'DateMiseEnServiceSupprimée-V1' }, dateMiseEnServiceSuppriméeV1Projector)
 
           // Suppression du dossier
