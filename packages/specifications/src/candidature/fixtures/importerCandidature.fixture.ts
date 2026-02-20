@@ -149,6 +149,11 @@ const créerDépôt = (
 
   const aoData = appelsOffreData.find((x) => x.id === appelOffre);
 
+  const champsSupplémentaires = {
+    ...aoData?.champsSupplémentaires,
+    ...aoData?.periodes.find((periode) => periode.id === période)?.champsSupplémentaires,
+  };
+
   const localité: Candidature.Localité.RawType = {
     adresse1: faker.location.streetAddress(),
     adresse2: faker.location.secondaryAddress(),
@@ -179,12 +184,10 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
     coefficientKChoisi:
-      aoData?.champsSupplémentaires?.coefficientKChoisi === 'requis'
-        ? faker.datatype.boolean()
-        : undefined,
+      champsSupplémentaires?.coefficientKChoisi === 'requis' ? faker.datatype.boolean() : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
-      aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+      champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
@@ -200,20 +203,21 @@ const créerDépôt = (
     autorisationDUrbanisme: dépôt.autorisationDUrbanisme
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
-    autorisationEnvironnementale: dépôt.autorisationEnvironnementale
-      ? { date: DateTime.now().formatter(), numéro: '13', ...dépôt.autorisationEnvironnementale }
-      : undefined,
+    autorisationEnvironnementale: getAutorisationEnvironnementale(
+      dépôt.autorisationEnvironnementale,
+      champsSupplémentaires.autorisationEnvironnementale === 'requis',
+    ),
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
-      aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis',
+      champsSupplémentaires?.dispositifDeStockage === 'requis',
     ),
     natureDeLExploitation: getNatureDeLExploitationFixture(
       dépôt.natureDeLExploitation,
-      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis',
+      champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
   };
 
@@ -287,4 +291,19 @@ const getNatureDeLExploitationFixture = (
             : undefined,
         ...dépôtValue,
       };
+};
+
+const getAutorisationEnvironnementale = (
+  dépôtValue: Partial<ImporterCandidature['dépôtValue']['autorisationEnvironnementale']>,
+  champsRequis: boolean,
+): ImporterCandidature['dépôtValue']['autorisationEnvironnementale'] => {
+  if (!dépôtValue && !champsRequis) return undefined;
+
+  const numéro = faker.number.int({ min: 1, max: 100 }).toString();
+
+  return {
+    date: DateTime.now().formatter(),
+    numéro,
+    ...dépôtValue,
+  };
 };
