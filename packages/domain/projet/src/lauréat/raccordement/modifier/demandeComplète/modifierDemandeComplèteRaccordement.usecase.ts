@@ -51,10 +51,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
 
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
 
-    const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
-      référenceDossierRaccordementValue,
-    );
-
     const rôle = Role.convertirEnValueType(rôleValue);
 
     const modifiéeLe: DateTime.ValueType = DateTime.convertirEnValueType(modifiéeLeValue);
@@ -77,7 +73,9 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
         dateQualification,
         formatAccuséRéception: accuséRéception ? accuséRéceptionValue!.format : undefined,
         identifiantProjet,
-        référenceDossierRaccordement,
+        référenceDossierRaccordement: RéférenceDossierRaccordement.convertirEnValueType(
+          référenceDossierRaccordementValue,
+        ),
         rôle,
         modifiéeLe,
         modifiéePar,

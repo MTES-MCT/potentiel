@@ -58,11 +58,9 @@ Quand(
   /(le porteur|la dreal|l'administrateur) modifie la demande complète de raccordement$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
     await modifierDemandeComplèteRaccordement.call(
       this,
       identifiantProjet.formatter(),
-      référenceDossier,
       getRôle.call(this, rôleUtilisateur),
     );
   },
@@ -72,12 +70,10 @@ Quand(
   /(le porteur|la dreal|l'administrateur) modifie la demande complète de raccordement avec :/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } =
-      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
+
     await modifierDemandeComplèteRaccordement.call(
       this,
       identifiantProjet.formatter(),
-      référenceDossier,
       getRôle.call(this, rôleUtilisateur),
       datatable.rowsHash(),
     );
@@ -212,14 +208,13 @@ export async function transmettreDemandeComplèteRaccordementSansDateDeQualifica
 async function modifierDemandeComplèteRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
-  référence: string,
   role: Role.RawType,
   data: Record<string, string> = {},
 ) {
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
-      référenceDossier: référence,
+      référenceDossier: this.raccordementWorld.référenceDossier,
       ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
         data,
       ),
@@ -255,8 +250,7 @@ async function modifierDemandeComplèteRaccordementAvecLesMêmesValeurs(
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
-      référenceDossier:
-        this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier,
+      référenceDossier: this.raccordementWorld.référenceDossier,
       dateQualification:
         this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.dateQualification,
       accuséRéception: undefined,
