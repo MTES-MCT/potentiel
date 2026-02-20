@@ -8,7 +8,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 import { Option } from '@potentiel-libraries/monads';
 import { Where } from '@potentiel-domain/entity';
 
-export const dateMiseEnServiceModifiéeV1Projector = async ({
+export const dateMiseEnServiceModifiéeProjector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, dateMiseEnService, modifiéeLe },
 }: Lauréat.Raccordement.DateMiseEnServiceModifiéeEvent & Event) => {
   const raccordementActuel = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
