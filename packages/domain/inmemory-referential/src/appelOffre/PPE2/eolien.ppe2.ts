@@ -481,7 +481,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         coefficientKChoisi: 'requis',
         autorisationEnvironnementale: 'requis',
       },
-      typeImport: 'csv',
+      typeImport: 'démarche-simplifiée',
     },
   ],
 };
