@@ -1,20 +1,16 @@
 import Button from '@codegouvfr/react-dsfr/Button';
-import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+
+import { getDashboardRoute } from '@/utils/getDashboardRoute';
 
 type BienvenueProps = {
   utilisateur: PotentielUtilisateur;
 };
 export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
-  const { lien, texte } = match(utilisateur.rôle.nom)
-    .with('porteur-projet', () => ({
-      texte: 'Voir mes projets lauréats',
-      lien: Routes.Lauréat.lister(),
-    }))
-    .with('grd', () => ({ texte: 'Voir les raccordements', lien: Routes.Raccordement.lister }))
-    .otherwise(() => ({ texte: 'Voir les projets lauréats', lien: Routes.Lauréat.lister() }));
+  const { lien, texte } = getDashboardRoute(utilisateur.rôle);
+
   return (
     <section className="bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">
       <h2 className="sr-only">Accéder à Potentiel</h2>

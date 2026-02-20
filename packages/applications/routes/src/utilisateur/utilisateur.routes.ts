@@ -9,7 +9,6 @@ export const lister = ({ actif }: { actif?: boolean } = {}) => {
   return searchParams.size > 0 ? `${url}?${searchParams.toString()}` : url;
 };
 export const inviter = `/utilisateurs/inviter`;
-export const réclamerProjet = `/reclamer`;
 
 export const modifierRôle = (identifiantUtilisateur: string) =>
   `/utilisateurs/${encodeParameter(identifiantUtilisateur)}/role:modifier`;

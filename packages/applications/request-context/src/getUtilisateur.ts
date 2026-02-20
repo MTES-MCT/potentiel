@@ -116,7 +116,7 @@ export const getSessionUtilisateurFromEmail = async (
   }
 
   return {
-    ...Utilisateur.convertirEnValueType({ rôle: Role.porteur.nom, identifiantUtilisateur: email }),
+    ...Utilisateur.convertirEnValueType({ rôle: Role.visiteur.nom, identifiantUtilisateur: email }),
     nom,
   };
 };

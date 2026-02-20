@@ -21,6 +21,7 @@ import { RôleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtil
 import { UtilisateurEvent } from './utilisateur.event.js';
 import {
   DésactivationPropreCompteError,
+  InvitationVisiteurImpossibleError,
   ModificationMêmesValeursError,
   ModificationPropreRoleRefuséeError,
   ModificationRolePorteurRefuséeError,
@@ -54,6 +55,9 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     const payload = utilisateur.formatter();
     if (payload.rôle === 'porteur-projet') {
       throw new PorteurInvitéSansProjetError();
+    }
+    if (payload.rôle === 'visiteur') {
+      throw new InvitationVisiteurImpossibleError();
     }
     const event: UtilisateurInvitéEvent = {
       type: 'UtilisateurInvité-V2',

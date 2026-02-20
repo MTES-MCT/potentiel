@@ -21,6 +21,11 @@ export async function handleUtilisateurInvité({
     );
     return;
   }
+
+  if (rôle === 'visiteur') {
+    throw new Error("Le rôle 'visiteur' ne peut pas être invité");
+  }
+
   const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   const { templateId, invitation_link } = match(rôle)

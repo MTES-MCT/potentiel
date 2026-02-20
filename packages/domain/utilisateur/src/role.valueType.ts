@@ -12,6 +12,8 @@ export const roles = [
   'caisse-des-dépôts',
   'cre',
   'grd',
+  // Rôle désignant un utilisateur non enregistré sur la plateforme
+  'visiteur',
 ] as const;
 export type RawType = (typeof roles)[number];
 
@@ -101,6 +103,7 @@ export const cre = convertirEnValueType<'cre'>('cre');
 export const cocontractant = convertirEnValueType<'cocontractant'>('cocontractant');
 export const caisseDesDépôts = convertirEnValueType<'caisse-des-dépôts'>('caisse-des-dépôts');
 export const grd = convertirEnValueType<'grd'>('grd');
+export const visiteur = convertirEnValueType<'visiteur'>('visiteur');
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 /**
@@ -1388,7 +1391,10 @@ const policies = {
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
     lister: [référencielPermissions.accès.query.lister],
-    listerProjetsÀRéclamer: [référencielPermissions.accès.query.listerProjetsÀRéclamer],
+    listerProjetsÀRéclamer: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.accès.query.listerProjetsÀRéclamer,
+    ],
     autoriserAccèsProjet: [
       référencielPermissions.accès.command.autoriserAccèsProjet,
       référencielPermissions.accès.usecase.autoriserAccèsProjet,
@@ -2228,6 +2234,7 @@ const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
   'dgec-validateur': dgecValidateurPolicies,
   'porteur-projet': porteurProjetPolicies,
   grd: grdPolicies,
+  visiteur: ['accès.réclamerProjet', 'accès.listerProjetsÀRéclamer'],
 };
 
 /** La liste par projet des permissions techniques (message Mediator) */

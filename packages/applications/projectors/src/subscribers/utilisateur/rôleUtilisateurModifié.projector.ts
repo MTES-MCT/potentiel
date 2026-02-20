@@ -18,11 +18,16 @@ export const rôleUtilisateurModifiéProjector = async ({ payload }: RôleUtilis
     throw new Error('Utilisateur non trouvé');
   }
 
+  if (utilisateurToUpsert.rôle === 'visiteur') {
+    throw new Error("Le rôle 'visiteur' ne peut pas être invité");
+  }
+
   // on n'utilise pas updateOneProjection car on veut remplacer tous les champs non liés au rôle de l'utilisateur
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
     identifiantUtilisateur: existingUtilisateur.identifiantUtilisateur,
     invitéLe: existingUtilisateur.invitéLe,
     invitéPar: existingUtilisateur.invitéPar,
     ...utilisateurToUpsert,
+    rôle: utilisateurToUpsert.rôle,
   });
 };
