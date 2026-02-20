@@ -1627,6 +1627,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
+  'raccordement.date-mise-en-service.supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',

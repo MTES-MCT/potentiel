@@ -8,16 +8,14 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
+import { DateMiseEnServiceForm, DateMiseEnServiceFormProps } from '../DateMiseEnService.form';
 
-import {
-  TransmettreDateMiseEnServiceForm,
-  TransmettreDateMiseEnServiceFormProps,
-} from './TransmettreDateMiseEnService.form';
+import { transmettreDateMiseEnServiceAction } from './transmettreDateMiseEnService.action';
 
 export type TransmettreDateMiseEnServicePageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
   dateDésignation: DateTime.RawType;
-  dossierRaccordement: TransmettreDateMiseEnServiceFormProps['dossierRaccordement'];
+  dossierRaccordement: DateMiseEnServiceFormProps['dossierRaccordement'];
   intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
 };
 
@@ -31,10 +29,12 @@ export const TransmettreDateMiseEnServicePage = ({
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
-        <TransmettreDateMiseEnServiceForm
+        <DateMiseEnServiceForm
           identifiantProjet={identifiantProjet}
           dateDésignation={dateDésignation}
           dossierRaccordement={dossierRaccordement}
+          action={transmettreDateMiseEnServiceAction}
+          submitLabel="Transmettre"
         />
       ),
     }}

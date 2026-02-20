@@ -53,7 +53,7 @@ export const transmettreDateMiseEnService = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/date-mise-en-service:transmettre`;
+  )}/date-mise-en-service/transmettre`;
 
 export const modifierDateMiseEnService = (
   identifiantProjet: string,
@@ -61,7 +61,7 @@ export const modifierDateMiseEnService = (
 ) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
     référenceDossierRaccordement,
-  )}/date-mise-en-service:modifier`;
+  )}/date-mise-en-service/modifier`;
 
 export const exporter = (filters: {
   appelOffre?: string[];
