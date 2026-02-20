@@ -234,6 +234,18 @@ const mapBodyToCandidatureUsecaseData = (
               DateTime.convertirEnValueType(previous.autorisationDUrbanisme.date.date).formatter(),
           }
         : undefined,
+      autorisationEnvironnementale: previous.autorisationEnvironnementale
+        ? {
+            numéro:
+              data.numéroDAutorisationEnvironnementale ??
+              previous.autorisationEnvironnementale.numéro,
+            date:
+              data.dateDAutorisationEnvironnementale ??
+              DateTime.convertirEnValueType(
+                previous.autorisationEnvironnementale.date.date,
+              ).formatter(),
+          }
+        : undefined,
       installateur: data.installateur ?? previous.installateur,
 
       // champs non éditables

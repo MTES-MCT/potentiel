@@ -17,8 +17,8 @@ import {
   doitRegenererAttestationSchema,
 } from '@/utils/candidature';
 import {
-  dateDAutorisationDUrbanismeSchema,
-  numéroDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
 } from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
@@ -44,8 +44,10 @@ const schema = zod
     dateConstitutionGf: dépôtSchema.shape.dateConstitutionGf,
     coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
     puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
     installateur: dépôtSchema.shape.installateur,
     natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
     puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
@@ -127,6 +129,15 @@ const mapBodyToUseCaseData = (
           ? {
               numéro: data.numéroDAutorisationDUrbanisme,
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
+            }
+          : undefined,
+      autorisationEnvironnementale:
+        data.numéroDAutorisationEnvironnementale && data.dateDAutorisationEnvironnementale
+          ? {
+              numéro: data.numéroDAutorisationEnvironnementale,
+              date: DateTime.convertirEnValueType(
+                data.dateDAutorisationEnvironnementale,
+              ).formatter(),
             }
           : undefined,
       installateur: data.installateur,

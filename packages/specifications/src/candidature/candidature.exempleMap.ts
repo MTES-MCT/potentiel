@@ -22,6 +22,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'dispositifDeStockage'
     | 'natureDeLExploitation'
     | 'puissanceProjetInitial'
+    | 'autorisationEnvironnementale'
   >
 > = {
   typeGarantiesFinancières: [
@@ -82,6 +83,14 @@ export const autorisationDUrbanismeExempleMap: FieldToExempleMapper<{
 }> = {
   date: [`date d'obtention de l'autorisation d'urbanisme`, mapDateTime],
   numéro: [`numéro de l'autorisation d'urbanisme`],
+};
+
+export const autorisationEnvironnementaleExempleMap: FieldToExempleMapper<{
+  numéro: string;
+  date: DateTime.RawType;
+}> = {
+  date: [`date d'obtention de l'autorisation environnementale`, mapDateTime],
+  numéro: [`numéro de l'autorisation environnementale`],
 };
 
 export const formatAttestationGFExempleMap: FieldToExempleMapper<{

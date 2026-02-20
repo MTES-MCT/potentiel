@@ -155,6 +155,22 @@ export class DateAutorisationDUrbanismeError extends InvalidOperationError {
   }
 }
 
+export class AutorisationEnvironnementaleRequiseError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Le numéro et la date d'obtention de l'autorisation environnementale sont requis pour cet appel d'offres",
+    );
+  }
+}
+
+export class DateAutorisationEnvironnementaleError extends InvalidOperationError {
+  constructor() {
+    super(
+      "La date d'obtention de l'autorisation environnementale doit être antérieure à la date du jour",
+    );
+  }
+}
+
 export class DispositifDeStockageRequisError extends InvalidOperationError {
   constructor() {
     super("Le dispositif de stockage est requis pour cet appel d'offres");

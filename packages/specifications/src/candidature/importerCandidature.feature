@@ -203,3 +203,19 @@ Fonctionnalité: Importer une candidature
             | appel d'offres                           | PPE2 - Bâtiment |
             | installation avec dispositif de stockage | non             |
         Alors l'administrateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
+
+    Scénario: Impossible d'importer une candidature sans autorisation environnementale pour un appel d'offres qui a ces champs requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres                                      | PPE2 - Eolien |
+            | période                                             | 11            |
+            | numéro de l'autorisation environnementale           |               |
+            | date d'obtention de l'autorisation environnementale |               |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation environnementale sont requis pour cet appel d'offres"
+
+    Scénario: Impossible d'importer une candidature avec une date d'obtention de l'autorisation environnementale dans le futur
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offres                                      | PPE2 - Eolien         |
+            | période                                             | 11                    |
+            | numéro de l'autorisation environnementale           | numéro d'autorisation |
+            | date d'obtention de l'autorisation environnementale | 01/02/2060            |
+        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation environnementale doit être antérieure à la date du jour"
