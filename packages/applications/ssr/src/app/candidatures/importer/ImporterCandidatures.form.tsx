@@ -149,8 +149,8 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
             {match(typeImport)
               .with('csv', () => (
                 <ImporterCandidaturesParCSVForm
-                  appelOffre={période?.appelOffre}
-                  période={période?.période}
+                  appelOffre={période.appelOffre}
+                  période={période.période}
                 />
               ))
               .with('démarche-simplifiée', () => (

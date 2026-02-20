@@ -193,6 +193,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
   },
   champsSupplémentaires: {
     puissanceALaPointe: 'optionnel',
+    territoireProjet: 'requis',
   },
   periodes: [
     {

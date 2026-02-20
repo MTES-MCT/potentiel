@@ -160,6 +160,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
 `,
     },
   },
+  champsSupplémentaires: {
+    territoireProjet: 'requis',
+  },
   periodes: [
     {
       id: '1',

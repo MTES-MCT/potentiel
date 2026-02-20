@@ -67,7 +67,7 @@ const technologie = {
 } satisfies Record<string, Candidature.TypeTechnologie.RawType>;
 
 // Les colonnes du fichier Csv
-const colonnes = {
+export const candidatureCsvHeadersMapping = {
   appelOffre: `Appel d'offres`,
   période: 'Période',
   famille: 'Famille',
@@ -97,135 +97,185 @@ const colonnes = {
   dateÉchéanceGf: "Date d'échéance au format JJ/MM/AAAA",
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
-  territoireProjet: 'Territoire\n(AO ZNI)',
   coefficientKChoisi: 'indexation_k',
+  territoireProjet: 'Territoire\n(AO ZNI)',
+  puissanceProjetInitial: 'puissance_projet_initial',
   typeInstallationsAgrivoltaïques: 'Installations agrivoltaïques',
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
-  puissanceDeSite: 'Puissance de site',
-  puissanceProjetInitial: 'puissance_projet_initial',
-  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
-  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   installateur: "Identité de l'installateur",
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
+  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
+  puissanceDeSite: 'Puissance de site',
 } as const;
+
+export type CsvHeaders = ReadonlyArray<
+  (typeof candidatureCsvHeadersMapping)[keyof typeof candidatureCsvHeadersMapping]
+>;
+export type CandidatureHeaders = ReadonlyArray<keyof typeof candidatureCsvHeadersMapping>;
 
 const candidatureCsvRowSchema = z
   .object({
     notifiedOn: notifiedOnCsvSchema,
-    [colonnes.appelOffre]: appelOffreSchema,
-    [colonnes.période]: périodeSchema,
-    [colonnes.famille]: familleSchema,
-    [colonnes.numéroCRE]: numéroCRESchema,
-    [colonnes.nomProjet]: dépôtSchema.shape.nomProjet,
-    [colonnes.sociétéMère]: dépôtSchema.shape.sociétéMère,
-    [colonnes.nomCandidat]: dépôtSchema.shape.nomCandidat,
-    [colonnes.puissance]: dépôtSchema.shape.puissance,
-    [colonnes.prixReference]: dépôtSchema.shape.prixReference,
-    [colonnes.noteTotale]: instructionSchema.shape.noteTotale,
-    [colonnes.nomReprésentantLégal]: dépôtSchema.shape.nomReprésentantLégal,
-    [colonnes.emailContact]: dépôtSchema.shape.emailContact,
-    [colonnes.adresse1]: adresse1CsvSchema,
-    [colonnes.adresse2]: dépôtSchema.shape.localité.shape.adresse2, // see refine below
-    [colonnes.codePostal]: codePostalCsvSchema,
-    [colonnes.commune]: dépôtSchema.shape.localité.shape.commune,
-    [colonnes.statut]: statutCsvSchema,
-    [colonnes.puissanceALaPointe]: puissanceALaPointeCsvSchema,
-    [colonnes.evaluationCarboneSimplifiée]: évaluationCarboneSimplifiéeCsvSchema,
-    [colonnes.technologie]: technologieCsvSchema,
-    [colonnes.financementCollectif]: financementCollectifCsvSchema,
-    [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
-    [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
-    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
-    [colonnes.puissanceDeSite]: dépôtSchema.shape.puissanceDeSite,
-    [colonnes.typeInstallationsAgrivoltaïques]: installationsAgrivoltaïquesCsvSchema,
-    [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
-    [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
-    [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
-    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
-    [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
-    [colonnes.installateur]: dépôtSchema.shape.installateur,
-    [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
-    [colonnes.puissanceDuDispositifDeStockageEnKW]: puissanceDuDispositifDeStockageSchema,
-    [colonnes.puissanceProjetInitial]: dépôtSchema.shape.puissanceProjetInitial,
-    [colonnes.capacitéDuDispositifDeStockageEnKWh]: capacitéDuDispositifDeStockageSchema,
-    [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
-    [colonnes.tauxPrévisionnelACI]: optionalPercentageSchema,
-    [colonnes.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
-    [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
-    [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
-    [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
+    [candidatureCsvHeadersMapping.appelOffre]: appelOffreSchema,
+    [candidatureCsvHeadersMapping.période]: périodeSchema,
+    [candidatureCsvHeadersMapping.famille]: familleSchema,
+    [candidatureCsvHeadersMapping.numéroCRE]: numéroCRESchema,
+    [candidatureCsvHeadersMapping.nomProjet]: dépôtSchema.shape.nomProjet,
+    [candidatureCsvHeadersMapping.sociétéMère]: dépôtSchema.shape.sociétéMère,
+    [candidatureCsvHeadersMapping.nomCandidat]: dépôtSchema.shape.nomCandidat,
+    [candidatureCsvHeadersMapping.puissance]: dépôtSchema.shape.puissance,
+    [candidatureCsvHeadersMapping.prixReference]: dépôtSchema.shape.prixReference,
+    [candidatureCsvHeadersMapping.noteTotale]: instructionSchema.shape.noteTotale,
+    [candidatureCsvHeadersMapping.nomReprésentantLégal]: dépôtSchema.shape.nomReprésentantLégal,
+    [candidatureCsvHeadersMapping.emailContact]: dépôtSchema.shape.emailContact,
+    [candidatureCsvHeadersMapping.adresse1]: adresse1CsvSchema,
+    [candidatureCsvHeadersMapping.adresse2]: dépôtSchema.shape.localité.shape.adresse2, // see refine below
+    [candidatureCsvHeadersMapping.codePostal]: codePostalCsvSchema,
+    [candidatureCsvHeadersMapping.commune]: dépôtSchema.shape.localité.shape.commune,
+    [candidatureCsvHeadersMapping.statut]: statutCsvSchema,
+    [candidatureCsvHeadersMapping.puissanceALaPointe]: puissanceALaPointeCsvSchema,
+    [candidatureCsvHeadersMapping.evaluationCarboneSimplifiée]:
+      évaluationCarboneSimplifiéeCsvSchema,
+    [candidatureCsvHeadersMapping.technologie]: technologieCsvSchema,
+    [candidatureCsvHeadersMapping.financementCollectif]: financementCollectifCsvSchema,
+    [candidatureCsvHeadersMapping.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
+    [candidatureCsvHeadersMapping.historiqueAbandon]: historiqueAbandonCsvSchema,
+    [candidatureCsvHeadersMapping.coefficientKChoisi]: choixCoefficientKCsvSchema,
+    [candidatureCsvHeadersMapping.puissanceDeSite]: dépôtSchema.shape.puissanceDeSite,
+    [candidatureCsvHeadersMapping.typeInstallationsAgrivoltaïques]:
+      installationsAgrivoltaïquesCsvSchema,
+    [candidatureCsvHeadersMapping.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
+    [candidatureCsvHeadersMapping.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
+    [candidatureCsvHeadersMapping.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
+    [candidatureCsvHeadersMapping.dateDAutorisationDUrbanisme]:
+      dateDAutorisationDUrbanismeCsvSchema,
+    [candidatureCsvHeadersMapping.numéroDAutorisationDUrbanisme]:
+      numéroDAutorisationDUrbanismeSchema,
+    [candidatureCsvHeadersMapping.installateur]: dépôtSchema.shape.installateur,
+    [candidatureCsvHeadersMapping.installationAvecDispositifDeStockage]:
+      installationAvecDispositifDeStockageCsvSchema,
+    [candidatureCsvHeadersMapping.puissanceDuDispositifDeStockageEnKW]:
+      puissanceDuDispositifDeStockageSchema,
+    [candidatureCsvHeadersMapping.puissanceProjetInitial]: dépôtSchema.shape.puissanceProjetInitial,
+    [candidatureCsvHeadersMapping.capacitéDuDispositifDeStockageEnKWh]:
+      capacitéDuDispositifDeStockageSchema,
+    [candidatureCsvHeadersMapping.natureDeLExploitation]: natureDeLExploitationCsvSchema,
+    [candidatureCsvHeadersMapping.tauxPrévisionnelACI]: optionalPercentageSchema,
+    [candidatureCsvHeadersMapping.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
+    [candidatureCsvHeadersMapping.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
+    [candidatureCsvHeadersMapping.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
+    [candidatureCsvHeadersMapping.territoireProjet]: territoireProjetSchema, // see refines below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
-    const actualStatut = obj[colonnes.statut];
-    if (actualStatut === 'éliminé' && !obj[colonnes.motifÉlimination]) {
+    const actualStatut = obj[candidatureCsvHeadersMapping.statut];
+    if (actualStatut === 'éliminé' && !obj[candidatureCsvHeadersMapping.motifÉlimination]) {
       ctx.addIssue(
-        conditionalRequiredError(colonnes.motifÉlimination, colonnes.statut, actualStatut),
+        conditionalRequiredError(
+          candidatureCsvHeadersMapping.motifÉlimination,
+          candidatureCsvHeadersMapping.statut,
+          actualStatut,
+        ),
       );
     }
   })
   // le type de GF est obligatoire si la candidature est classée
   .superRefine((obj, ctx) => {
-    const actualStatut = obj[colonnes.statut];
-    const ao = obj[colonnes.appelOffre];
+    const actualStatut = obj[candidatureCsvHeadersMapping.statut];
+    const ao = obj[candidatureCsvHeadersMapping.appelOffre];
     const isPPE2 = ao.startsWith('PPE2');
-    if (isPPE2 && actualStatut === 'classé' && !obj[colonnes.typeGarantiesFinancières]) {
+    if (
+      isPPE2 &&
+      actualStatut === 'classé' &&
+      !obj[candidatureCsvHeadersMapping.typeGarantiesFinancières]
+    ) {
       ctx.addIssue(
-        conditionalRequiredError(colonnes.typeGarantiesFinancières, colonnes.statut, actualStatut),
+        conditionalRequiredError(
+          candidatureCsvHeadersMapping.typeGarantiesFinancières,
+          candidatureCsvHeadersMapping.statut,
+          actualStatut,
+        ),
       );
     }
   })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
   .superRefine((obj, ctx) => {
-    const actualStatut = obj[colonnes.statut];
+    const actualStatut = obj[candidatureCsvHeadersMapping.statut];
     if (actualStatut === 'éliminé') return;
-    const actualTypeGf = obj[colonnes.typeGarantiesFinancières]
-      ? typeGf[Number(obj[colonnes.typeGarantiesFinancières]) - 1]
+    const actualTypeGf = obj[candidatureCsvHeadersMapping.typeGarantiesFinancières]
+      ? typeGf[Number(obj[candidatureCsvHeadersMapping.typeGarantiesFinancières]) - 1]
       : undefined;
-    if (actualTypeGf === 'avec-date-échéance' && !obj[colonnes.dateÉchéanceGf]) {
+    if (
+      actualTypeGf === 'avec-date-échéance' &&
+      !obj[candidatureCsvHeadersMapping.dateÉchéanceGf]
+    ) {
       ctx.addIssue(
-        conditionalRequiredError(colonnes.dateÉchéanceGf, colonnes.typeGarantiesFinancières, '2'),
+        conditionalRequiredError(
+          candidatureCsvHeadersMapping.dateÉchéanceGf,
+          candidatureCsvHeadersMapping.typeGarantiesFinancières,
+          '2',
+        ),
       );
     }
   })
   // les CRE4 - ZNI nécessitent un territoire projet
   .superRefine((obj, ctx) => {
     const isZNI =
-      obj[colonnes.appelOffre] === 'CRE4 - ZNI' || obj[colonnes.appelOffre] === 'CRE4 - ZNI 2017';
-    if (isZNI && !obj[colonnes.territoireProjet]) {
+      obj[candidatureCsvHeadersMapping.appelOffre] === 'CRE4 - ZNI' ||
+      obj[candidatureCsvHeadersMapping.appelOffre] === 'CRE4 - ZNI 2017';
+    if (isZNI && !obj[candidatureCsvHeadersMapping.territoireProjet]) {
       ctx.addIssue(
-        conditionalRequiredError(colonnes.territoireProjet, colonnes.appelOffre, 'CRE4 - ZNI'),
+        conditionalRequiredError(
+          candidatureCsvHeadersMapping.territoireProjet,
+          candidatureCsvHeadersMapping.appelOffre,
+          'CRE4 - ZNI',
+        ),
       );
     }
   })
   // on ne peut pas avoir financement collectif et gouvernance partagée
-  .refine((val) => !(val[colonnes.financementCollectif] && val[colonnes.gouvernancePartagée]), {
-    message: `Seule l'une des deux colonnes "${colonnes.financementCollectif}" et "${colonnes.gouvernancePartagée}" peut avoir la valeur "Oui"`,
-    path: [colonnes.financementCollectif, colonnes.gouvernancePartagée],
-  })
+  .refine(
+    (val) =>
+      !(
+        val[candidatureCsvHeadersMapping.financementCollectif] &&
+        val[candidatureCsvHeadersMapping.gouvernancePartagée]
+      ),
+    {
+      message: `Seule l'une des deux colonnes "${candidatureCsvHeadersMapping.financementCollectif}" et "${candidatureCsvHeadersMapping.gouvernancePartagée}" peut avoir la valeur "Oui"`,
+      path: [
+        candidatureCsvHeadersMapping.financementCollectif,
+        candidatureCsvHeadersMapping.gouvernancePartagée,
+      ],
+    },
+  )
   // on doit avoir au minimum adresse1 ou adresse2
-  .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
-    message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
-    path: [colonnes.adresse1, colonnes.adresse2],
-  })
+  .refine(
+    (val) =>
+      !!val[candidatureCsvHeadersMapping.adresse1] || !!val[candidatureCsvHeadersMapping.adresse2],
+    {
+      message: `L'une des deux colonnes "${candidatureCsvHeadersMapping.adresse1}" et "${candidatureCsvHeadersMapping.adresse2}" doit être renseignée`,
+      path: [candidatureCsvHeadersMapping.adresse1, candidatureCsvHeadersMapping.adresse2],
+    },
+  )
   // si l'installation est couplée à un dispositif de stockage, on doit en avoir la capacité et la puissance
   .refine(
     (val) =>
-      (val[colonnes.installationAvecDispositifDeStockage] &&
-        val[colonnes.capacitéDuDispositifDeStockageEnKWh] !== undefined &&
-        val[colonnes.puissanceDuDispositifDeStockageEnKW] !== undefined) ||
-      !val[colonnes.installationAvecDispositifDeStockage],
+      (val[candidatureCsvHeadersMapping.installationAvecDispositifDeStockage] &&
+        val[candidatureCsvHeadersMapping.capacitéDuDispositifDeStockageEnKWh] !== undefined &&
+        val[candidatureCsvHeadersMapping.puissanceDuDispositifDeStockageEnKW] !== undefined) ||
+      !val[candidatureCsvHeadersMapping.installationAvecDispositifDeStockage],
     {
       message: 'La capacité et la puissance du dispositif de stockage sont requises',
       path: [
-        colonnes.capacitéDuDispositifDeStockageEnKWh,
-        colonnes.puissanceDuDispositifDeStockageEnKW,
+        candidatureCsvHeadersMapping.capacitéDuDispositifDeStockageEnKWh,
+        candidatureCsvHeadersMapping.puissanceDuDispositifDeStockageEnKW,
       ],
     },
   );
@@ -234,10 +284,12 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
   // Transforme les noms des clés de la ligne en valeurs plus simples à manipuler
   .transform((val) => {
     type CandidatureShape = {
-      [P in keyof typeof colonnes]: (typeof val)[(typeof colonnes)[P]];
+      [P in keyof typeof candidatureCsvHeadersMapping]: (typeof val)[(typeof candidatureCsvHeadersMapping)[P]];
     };
-    return (Object.keys(colonnes) as (keyof typeof colonnes)[]).reduce(
-      (prev, curr) => ({ ...prev, [curr]: val[colonnes[curr]] }),
+    return (
+      Object.keys(candidatureCsvHeadersMapping) as (keyof typeof candidatureCsvHeadersMapping)[]
+    ).reduce(
+      (prev, curr) => ({ ...prev, [curr]: val[candidatureCsvHeadersMapping[curr]] }),
       {} as unknown as CandidatureShape,
     );
   })

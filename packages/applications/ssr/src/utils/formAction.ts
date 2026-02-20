@@ -38,35 +38,59 @@ export type ActionResult = {
 
 export type ValidationErrors<TKeys extends string = string> = Partial<Record<TKeys, string>>;
 
+type FormStateSuccess = {
+  status: 'success' | undefined;
+  result?: ActionResult;
+  redirection?: {
+    url: string;
+    message?: string;
+    linkUrl?: { url: string; label: string };
+  };
+};
+
+type FormStateValidationError = {
+  status: 'validation-error';
+  errors: ValidationErrors;
+};
+
+type FormStateRateLimitError = {
+  status: 'rate-limit-error';
+  message: string;
+};
+
+type FormStateDomainError = {
+  status: 'domain-error';
+  message: string;
+};
+
+export type FormStateCsvLineError = {
+  status: 'csv-line-error';
+  errors: Array<ImportCSV.CsvLineError>;
+};
+
+export type FormStateCsvMissingColumnError = {
+  status: 'csv-missing-column-error';
+  columns: Array<ImportCSV.CsvMissingColumnError>;
+};
+
+export type FormStateCsvDuplicateColumnError = {
+  status: 'csv-duplicate-header-error';
+  columns: Array<ImportCSV.CsvDuplicateHeaderError>;
+};
+
+type FormStateUnknownError = {
+  status: 'unknown-error';
+};
+
 export type FormState =
-  | {
-      status: 'success' | undefined;
-      result?: ActionResult;
-      redirection?: {
-        url: string;
-        message?: string;
-        linkUrl?: { url: string; label: string };
-      };
-    }
-  | {
-      status: 'validation-error';
-      errors: ValidationErrors;
-    }
-  | {
-      status: 'rate-limit-error';
-      message: string;
-    }
-  | {
-      status: 'domain-error';
-      message: string;
-    }
-  | {
-      status: 'csv-error';
-      errors: Array<ImportCSV.CSVError>;
-    }
-  | {
-      status: 'unknown-error';
-    };
+  | FormStateSuccess
+  | FormStateValidationError
+  | FormStateRateLimitError
+  | FormStateDomainError
+  | FormStateCsvLineError
+  | FormStateCsvMissingColumnError
+  | FormStateUnknownError
+  | FormStateCsvDuplicateColumnError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -136,10 +160,22 @@ export const formAction =
       if (isRedirectError(e) || isNotFoundError(e)) {
         throw e;
       }
-      if (e instanceof ImportCSV.CsvValidationError) {
+      if (e instanceof ImportCSV.CsvLineValidationError) {
         return {
-          status: 'csv-error' as const,
+          status: 'csv-line-error' as const,
           errors: e.errors,
+        };
+      }
+      if (e instanceof ImportCSV.MissingRequiredColumnError) {
+        return {
+          status: 'csv-missing-column-error' as const,
+          columns: e.missingColumns,
+        };
+      }
+      if (e instanceof ImportCSV.DuplicateHeaderError) {
+        return {
+          status: 'csv-duplicate-header-error' as const,
+          columns: e.duplicateHeaders,
         };
       }
 

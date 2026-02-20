@@ -8,13 +8,18 @@ import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
 
-import { CorrigerCandidaturesParLotForm } from './CorrigerCandidaturesParLot.form';
+import {
+  CorrigerCandidaturesParLotForm,
+  CorrigerCandidaturesParLotFormProps,
+} from './CorrigerCandidaturesParLot.form';
 
-export const CorrigerCandidaturesParLotPage: FC = () => (
+export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormProps> = ({
+  périodes,
+}) => (
   <PageTemplate banner={<Heading1>Corriger des candidats par lot</Heading1>}>
     <ColumnPageTemplate
       leftColumn={{
-        children: <CorrigerCandidaturesParLotForm />,
+        children: <CorrigerCandidaturesParLotForm périodes={périodes} />,
       }}
       rightColumn={{
         children: (
