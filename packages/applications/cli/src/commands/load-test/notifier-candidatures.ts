@@ -49,7 +49,6 @@ export class NotifierCandidatures extends Command {
       list: listProjection,
       listHistory: listHistoryProjection,
 
-      consulterABénéficiéDuDélaiCDC2022: async () => false,
       getScopeProjetUtilisateur: async () => ({ type: 'all' as const }),
       récupérerProjetsEligiblesPreuveRecanditure: async () => [],
     });

@@ -1,8 +1,4 @@
 import { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase.js';
-import {
-  ConsulterDélaiQuery,
-  ConsulterABénéficiéDuDélaiCDC2022Port,
-} from './consulter/consulterABénéficiéDuDélaiCDC2022.query.js';
 import { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase.js';
 import {
   ConsulterDemandeDélaiQuery,
@@ -24,13 +20,11 @@ import {
 
 // Query
 export type DélaiQuery =
-  | ConsulterDélaiQuery
   | ListerHistoriqueDélaiProjetQuery
   | ConsulterDemandeDélaiQuery
   | ListerDemandeDélaiQuery;
 
 export type {
-  ConsulterDélaiQuery,
   ListerHistoriqueDélaiProjetQuery,
   ConsulterDemandeDélaiQuery,
   ListerDemandeDélaiQuery,
@@ -74,9 +68,6 @@ export type * from './délai.event.js';
 
 // Register
 export * from './délai.register.js';
-
-// Port
-export type { ConsulterABénéficiéDuDélaiCDC2022Port };
 
 // ValueTypes
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType.js';

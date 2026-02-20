@@ -1,16 +1,16 @@
 import { Metadata } from 'next';
-import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { getAchèvement } from '../_helpers';
 
 import { ChoisirCahierDesChargesPage } from './ChoisirCahierDesCharges.page';
 
@@ -31,12 +31,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       );
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-      const délai = await mediator.send<Lauréat.Délai.ConsulterDélaiQuery>({
-        type: 'Lauréat.Délai.Query.ConsulterDélai',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const achèvement = await getAchèvement(identifiantProjet.formatter());
 
       return (
         <ChoisirCahierDesChargesPage
@@ -69,7 +64,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
               ),
             })),
           ]}
-          aBénéficiéDuDélaiCDC2022={Option.isSome(délai) && délai.aBénéficiéDuDélaiCDC2022}
+          aBénéficiéDuDélaiCDC2022={achèvement.aBénéficiéDuDélaiCDC2022}
         />
       );
     }),
