@@ -13,9 +13,8 @@ export const mapToDateMiseEnServiceModifiéeTimelineItemProps = (
     actor: event.payload.modifiéePar,
     title: (
       <div>
-        La date de mise en service a été <span className="font-semibold">modifiée</span> pour le
-        dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>
+        La date de mise en service du dossier de raccordement{' '}
+        <span className="font-semibold">{référenceDossierRaccordement}</span> a été modifiée
       </div>
     ),
     details: (
