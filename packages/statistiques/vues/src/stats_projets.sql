@@ -33,7 +33,7 @@ SELECT proj.value->>'identifiantProjet' AS id,
     ELSE proj.value->>'statut'
   END AS statut,
   rac.value->>'miseEnService.date' is not null as "enService",
-  rac.value->>'miseEnService.date' as "dateMiseEnService",
+  CAST(rac.value->>'miseEnService.date' as timestamp) as "dateMiseEnService",
   cand.value->>'actionnariat' as "typeActionnariat",
   COALESCE(
     four.value->'évaluationCarboneSimplifiée',
