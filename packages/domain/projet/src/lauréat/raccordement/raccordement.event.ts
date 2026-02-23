@@ -285,9 +285,9 @@ export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
 export type DateMiseEnServiceTransmiseV1Event = DomainEvent<
   'DateMiseEnServiceTransmise-V1',
   {
-    dateMiseEnService: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    dateMiseEnService: DateTime.RawType;
   }
 >;
 
@@ -302,12 +302,25 @@ export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   }
 >;
 
-export type DateMiseEnServiceModifiéeEvent = DomainEvent<
+/**
+ * @deprecated Utilisez DateMiseEnServiceModifiéeEvent à la place
+ *
+ */
+export type DateMiseEnServiceModifiéeEventV1 = DomainEvent<
   'DateMiseEnServiceModifiée-V1',
   {
+    identifiantProjet: IdentifiantProjet.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    dateMiseEnService: DateTime.RawType;
+  }
+>;
+
+export type DateMiseEnServiceModifiéeEvent = DomainEvent<
+  'DateMiseEnServiceModifiée-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
     dateMiseEnService: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;
   }
@@ -386,6 +399,7 @@ export type RaccordementEvent =
   | PropositionTechniqueEtFinancièreModifiéeEventV1
   | PropositionTechniqueEtFinancièreModifiéeEventV2
   | DateMiseEnServiceTransmiseV1Event
+  | DateMiseEnServiceModifiéeEventV1
   | RéférenceDossierRacordementModifiéeEventV1
   | GestionnaireRéseauRaccordementModifiéEventV1
   | DossierDuRaccordementSuppriméEventV1

@@ -93,7 +93,7 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
       dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceTransmiseTimelineItemProps,
     )
     .with(
-      { type: 'DateMiseEnServiceModifiée-V1' },
+      { type: P.union('DateMiseEnServiceModifiée-V1', 'DateMiseEnServiceModifiée-V2') },
       dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceModifiéeTimelineItemProps,
     )
     .with(

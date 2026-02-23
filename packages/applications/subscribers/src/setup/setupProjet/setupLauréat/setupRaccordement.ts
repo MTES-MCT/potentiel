@@ -23,6 +23,7 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
       'DateMiseEnServiceTransmise-V1',
       'DateMiseEnServiceTransmise-V2',
       'DateMiseEnServiceModifiée-V1',
+      'DateMiseEnServiceModifiée-V2',
       'DemandeComplèteDeRaccordementTransmise-V1',
       'DemandeComplèteDeRaccordementTransmise-V2',
       'DemandeComplèteDeRaccordementTransmise-V3',
