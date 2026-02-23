@@ -275,7 +275,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           type: 'number',
           inputMode: 'decimal',
           pattern: '[0-9]+([.][0-9]+)?',
-          step: 0.1,
+          step: 'any',
         }}
       />
       {champsSupplémentaires.puissanceALaPointe && (
@@ -309,7 +309,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             type: 'number',
             inputMode: 'decimal',
             pattern: '[0-9]+([.][0-9]+)?',
-            step: 0.1,
+            step: 'any',
           }}
         />
       )}
