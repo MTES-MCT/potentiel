@@ -4,8 +4,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
-import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementProducteurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,7 +35,7 @@ export type ListerChangementProducteurQuery = Message<
 
 export type ListerChangementProducteurDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementProducteurQuery = ({
@@ -68,8 +69,7 @@ export const registerListerChangementProducteurQuery = ({
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         },
       },
     );

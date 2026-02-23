@@ -4,7 +4,7 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
 import { ÉliminéEntity } from '../éliminé.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -19,6 +19,7 @@ import {
   TypeDeNatureDeLExploitation,
   NatureDeLExploitationEntity,
 } from '../../lauréat/nature-de-l-exploitation/index.js';
+import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -88,7 +89,7 @@ export type ListerÉliminéEnrichiQuery = Message<
 
 export type ListerÉliminéEnrichiDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerÉliminéEnrichiQuery = ({
@@ -105,15 +106,6 @@ export const registerListerÉliminéEnrichiQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const identifiantProjets =
-      scope.type === 'projet'
-        ? identifiantProjet
-          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-          : scope.identifiantProjets
-        : identifiantProjet
-          ? [identifiantProjet]
-          : undefined;
-
     const éliminés = await list<CandidatureEntity, [ÉliminéEntity, DétailCandidatureEntity]>(
       'candidature',
       {
@@ -121,7 +113,10 @@ export const registerListerÉliminéEnrichiQuery = ({
           identifiantProjet: 'ascending',
         },
         where: {
-          identifiantProjet: Where.matchAny(identifiantProjets),
+          identifiantProjet: getIdentifiantProjetWhereConditions(
+            scope,
+            identifiantProjet && [identifiantProjet],
+          ),
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),

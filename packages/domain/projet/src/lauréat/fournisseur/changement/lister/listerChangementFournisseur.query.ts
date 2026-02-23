@@ -5,8 +5,9 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementFournisseurEntity } from '../changementFournisseur.entity.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
-import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { Fournisseur } from '../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementFournisseurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -35,7 +36,7 @@ export type ListerChangementFournisseurQuery = Message<
 
 export type ListerChangementFournisseurDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementFournisseurQuery = ({
@@ -69,8 +70,7 @@ export const registerListerChangementFournisseurQuery = ({
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         },
       },
     );

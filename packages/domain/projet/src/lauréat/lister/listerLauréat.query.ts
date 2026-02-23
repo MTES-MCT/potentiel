@@ -4,12 +4,13 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity.js';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
 import { PuissanceEntity } from '../puissance/index.js';
 import { ProducteurEntity } from '../producteur/index.js';
 import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -51,7 +52,7 @@ export type ListerLauréatQuery = Message<
 
 export type ListerLauréatDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerLauréatQuery = ({
@@ -79,8 +80,7 @@ export const registerListerLauréatQuery = ({
         nomProjet: 'ascending',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         nomProjet: Where.like(nomProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),

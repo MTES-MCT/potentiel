@@ -3,9 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
 import { ChangementNomProjetEntity } from '../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementNomProjetItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -32,7 +33,7 @@ export type ListerChangementNomProjetQuery = Message<
 
 export type ListerChangementNomProjetDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementNomProjetQuery = ({
@@ -66,8 +67,7 @@ export const registerListerChangementNomProjetQuery = ({
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         },
       },
     );

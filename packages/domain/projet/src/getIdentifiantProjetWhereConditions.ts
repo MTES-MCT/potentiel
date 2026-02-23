@@ -1,18 +1,20 @@
-// passer le scope
-// passer les identifiants
+import { Where } from '@potentiel-domain/entity';
 
-import { Where, WhereCondition } from '@potentiel-domain/entity';
+import { IdentifiantProjet } from './index.js';
 
-const test = (scope: ProjetUtilisateurScope, identifiantProjets?: Array<I): WhereCondition => {
+import { ProjetUtilisateurScope } from './getScopeProjetUtilisateur.port.js';
 
-      // const identifiantProjets =
-      // scope.type === 'projet'
-      //   ? identifiantProjet
-      //     ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-      //     : scope.identifiantProjets
-      //   : identifiantProjet
-      //     ? [identifiantProjet]
-      //     : undefined;
+export const getIdentifiantProjetWhereConditions = (
+  scope: ProjetUtilisateurScope,
+  identifiantProjets?: Array<IdentifiantProjet.RawType>,
+) => {
+  if (scope.type === 'projet' && identifiantProjets?.length) {
+    return Where.matchAny(identifiantProjets.filter((id) => scope.identifiantProjets.includes(id)));
+  }
 
-  return scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined;
+  if (scope.type === 'projet') {
+    return Where.matchAny(scope.identifiantProjets);
+  }
+
+  return identifiantProjets?.length ? Where.matchAny(identifiantProjets) : undefined;
 };

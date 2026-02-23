@@ -8,10 +8,11 @@ import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinanciè
 import {
   Candidature,
   DocumentProjet,
-  GetProjetUtilisateurScope,
+  GetScopeProjetUtilisateur,
   IdentifiantProjet,
 } from '../../../../index.js';
 import { TypeDocumentGarantiesFinancières } from '../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -48,7 +49,7 @@ export type ListerDépôtsGarantiesFinancièresQuery = Message<
 
 export type ListerDépôtsGarantiesFinancièresDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDépôtsGarantiesFinancièresQuery = ({
@@ -74,8 +75,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
         orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         },
         join: {
           entity: 'lauréat',

@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { DocumentProjet, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
@@ -11,6 +11,7 @@ import {
   TypeDocumentRéponseMainlevée,
 } from '../../index.js';
 import { LauréatEntity } from '../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -60,7 +61,7 @@ export type ListerMainlevéesQuery = Message<
 
 export type ListerMainlevéesQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerMainlevéesQuery = ({
@@ -87,8 +88,7 @@ export const registerListerMainlevéesQuery = ({
       {
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
           motif: Where.equal(motif),
           statut: Where.matchAny(statut),
         },

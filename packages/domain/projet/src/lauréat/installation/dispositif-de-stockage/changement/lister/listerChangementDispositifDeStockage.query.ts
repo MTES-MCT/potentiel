@@ -4,9 +4,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity.js';
-import { GetProjetUtilisateurScope } from '../../../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../../index.js';
 import { DispositifDeStockage } from '../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementDispositifDeStockageItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,7 +35,7 @@ export type ListerChangementDispositifDeStockageQuery = Message<
 
 export type ListerChangementDispositifDeStockageDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementDispositifDeStockageQuery = ({
@@ -68,8 +69,7 @@ export const registerListerChangementDispositifDeStockageQuery = ({
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         },
       },
     );

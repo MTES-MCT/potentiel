@@ -4,9 +4,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
 import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type DemandeDélaiItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -39,7 +40,7 @@ export type ListerDemandeDélaiQuery = Message<
 
 export type ListerDemandeDélaiDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDemandeDélaiQuery = ({
@@ -56,15 +57,6 @@ export const registerListerDemandeDélaiQuery = ({
     autoritéCompétente,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-
-    const identifiantProjets =
-      scope.type === 'projet'
-        ? identifiantProjet
-          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-          : scope.identifiantProjets
-        : identifiantProjet
-          ? [identifiantProjet]
-          : undefined;
 
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
@@ -83,7 +75,10 @@ export const registerListerDemandeDélaiQuery = ({
         },
       },
       where: {
-        identifiantProjet: Where.matchAny(identifiantProjets),
+        identifiantProjet: getIdentifiantProjetWhereConditions(
+          scope,
+          identifiantProjet && [identifiantProjet],
+        ),
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

@@ -6,7 +6,8 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { StatutRecours } from '../index.js';
 import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
 import { Candidature, IdentifiantProjet } from '../../../index.js';
-import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port.js';
+import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -39,7 +40,7 @@ export type ListerDemandeRecoursQuery = Message<
 
 export type ListerDemandeRecoursDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDemandeRecoursQuery = ({
@@ -61,8 +62,7 @@ export const registerListerDemandeRecoursQuery = ({
         orderBy: { miseÀJourLe: 'descending' },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
           statut: Where.matchAny(statut),
         },
         join: {

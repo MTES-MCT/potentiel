@@ -4,7 +4,7 @@ import { Count, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { TâcheEntity } from '../tâche.entity.js';
-import { GetProjetUtilisateurScope } from '../../../index.js';
+import { GetScopeProjetUtilisateur } from '../../../index.js';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;
@@ -19,7 +19,7 @@ export type ConsulterNombreTâchesQuery = Message<
 >;
 
 export type ConsulterNombreTâchesQueryDependencies = {
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
   count: Count;
 };
 
@@ -30,6 +30,7 @@ export const registerConsulterNombreTâchesQuery = ({
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
+    // viovio à vérifier
     if (scope.type === 'projet') {
       const nombreTâches = await count<TâcheEntity>('tâche', {
         where: {

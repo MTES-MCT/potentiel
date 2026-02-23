@@ -4,9 +4,10 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { CandidatureEntity } from '../candidature.entity.js';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
 import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur.js';
+import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 export type DétailFournisseur = {
   typeFournisseur: string;
@@ -51,7 +52,7 @@ export type ListerDétailsFournisseurQuery = Message<
 
 export type ListerDétailsFournisseurQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDétailsFournisseurQuery = ({
@@ -77,8 +78,7 @@ export const registerListerDétailsFournisseurQuery = ({
         on: 'identifiantProjet',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         localité: {
           région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
         },

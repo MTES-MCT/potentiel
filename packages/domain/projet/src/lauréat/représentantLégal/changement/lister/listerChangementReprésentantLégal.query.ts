@@ -8,7 +8,8 @@ import {
   StatutChangementReprésentantLégal,
 } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,7 +39,7 @@ export type ListerChangementReprésentantLégalQuery = Message<
 
 export type ListerChangementReprésentantLégalDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementReprésentantLégalQuery = ({
@@ -62,8 +63,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         demande: {
           statut: Where.matchAny(statut),
         },

@@ -8,8 +8,9 @@ import {
   MotifDemandeGarantiesFinancières,
 } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { StatutLauréat } from '../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,7 +44,7 @@ export type ListerGarantiesFinancièresEnAttenteQuery = Message<
 
 export type ListerGarantiesFinancièresEnAttenteDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerGarantiesFinancièresEnAttenteQuery = ({
@@ -72,8 +73,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
           motif: Where.equal(motif),
         },
         join: [

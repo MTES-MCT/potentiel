@@ -6,9 +6,10 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementEntity } from '../raccordement.entity.js';
 import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { Localité, UnitéPuissance } from '../../../candidature/index.js';
 import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
+import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 type DossierRaccordementManquant = {
   nomProjet: string;
@@ -45,7 +46,7 @@ export type ListerDossierRaccordementManquantsQuery = Message<
 
 export type ConsulterDossierRaccordementDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 type ListerDossierRaccordementManquantJoins = [
@@ -73,8 +74,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       total,
     } = await list<RaccordementEntity, ListerDossierRaccordementManquantJoins>('raccordement', {
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
         identifiantGestionnaireRéseau: Where.equal(
           scope.type === 'gestionnaire-réseau'
             ? scope.identifiantGestionnaireRéseau

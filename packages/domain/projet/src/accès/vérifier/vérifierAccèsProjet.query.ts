@@ -10,7 +10,7 @@ import { Email } from '@potentiel-domain/common';
 import { LauréatEntity } from '../../lauréat/index.js';
 import { CandidatureEntity } from '../../candidature/index.js';
 import { RaccordementEntity } from '../../lauréat/raccordement/index.js';
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet } from '../../index.js';
 
 export type VérifierAccèsProjetQuery = Message<
@@ -24,7 +24,7 @@ export type VérifierAccèsProjetQuery = Message<
 
 export type VérifierAccèsProjetDependencies = {
   find: Find;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 class ProjetInaccessibleError extends OperationRejectedError {

@@ -5,7 +5,7 @@ import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { LauréatEntity } from '../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -25,6 +25,7 @@ import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
+import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -106,7 +107,7 @@ export type ListerLauréatEnrichiQuery = Message<
 
 export type ListerLauréatEnrichiDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 type LauréatEnrichiJoins = [
@@ -135,21 +136,15 @@ export const registerListerLauréatEnrichiQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const identifiantProjets =
-      scope.type === 'projet'
-        ? identifiantProjet
-          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-          : scope.identifiantProjets
-        : identifiantProjet
-          ? [identifiantProjet]
-          : undefined;
-
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet: Where.matchAny(identifiantProjets),
+        identifiantProjet: getIdentifiantProjetWhereConditions(
+          scope,
+          identifiantProjet && [identifiantProjet],
+        ),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),

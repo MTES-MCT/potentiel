@@ -5,7 +5,7 @@ import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity.js';
 import * as TypeTâche from '../typeTâche.valueType.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity } from '../../index.js';
 
 type TâcheListItem = {
@@ -37,7 +37,7 @@ export type ListerTâchesQuery = Message<
 
 export type ListerTâchesQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerTâchesQuery = ({

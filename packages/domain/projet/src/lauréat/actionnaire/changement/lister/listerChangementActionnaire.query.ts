@@ -5,7 +5,8 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -36,7 +37,7 @@ export type ListerChangementActionnaireQuery = Message<
 
 export type ListerChangementActionnaireDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementActionnaireQuery = ({
@@ -73,8 +74,7 @@ export const registerListerChangementActionnaireQuery = ({
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
           demande: {
             statut: Where.matchAny(statut),
           },
