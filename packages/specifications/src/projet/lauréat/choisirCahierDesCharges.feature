@@ -11,7 +11,7 @@ Fonctionnalité: Choisir un cahier des charges
         Et un email a été envoyé au porteur avec :
             | sujet          | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
             | nom_projet     | Du boulodrome de Marseille                                                                                      |
-            | projet_url     | https://potentiel.beta.gouv.fr/projets/.*                                                                       |
+            | projet_url     | https://potentiel.beta.gouv.fr/laureats/.*                                                                      |
             | cdc_date       | 30/08/2022                                                                                                      |
             | cdc_alternatif |                                                                                                                 |
 
@@ -25,7 +25,7 @@ Fonctionnalité: Choisir un cahier des charges
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                                                      |
-            | projet_url | https://potentiel.beta.gouv.fr/projets/.*                                                                       |
+            | projet_url | https://potentiel.beta.gouv.fr/laureats/.*                                                                      |
 
     Scénario: Impossible de choisir un cahier des charges identique au cahier des charges actuel
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

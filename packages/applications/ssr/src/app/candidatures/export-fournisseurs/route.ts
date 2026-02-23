@@ -97,7 +97,11 @@ export const GET = async (request: Request) =>
           type: 'exportCsv',
           données: {
             typeExport: 'détailsFournisseur',
-            utilisateur: { role: utilisateur.rôle.nom },
+            utilisateur: {
+              role: utilisateur.rôle.nom,
+              email: utilisateur.identifiantUtilisateur.email,
+            },
+            nombreLignes: fournisseursÀLaCandidature.items.length,
             filtres: getFiltresActifs({
               appelOffre,
               periode,

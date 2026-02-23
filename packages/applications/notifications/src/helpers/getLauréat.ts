@@ -19,14 +19,16 @@ export const getLauréat = async (identifiantProjet: string) => {
       identifiantProjet,
     },
   });
+
   if (Option.isNone(lauréat)) {
     throw new ProjetNonTrouvéError();
   }
+
   return {
     identifiantProjet: lauréat.identifiantProjet,
     nom: lauréat.nomProjet,
     région: lauréat.localité.région,
     département: lauréat.localité.département,
-    url: getBaseUrl() + Routes.Projet.details(identifiantProjet),
+    url: getBaseUrl() + Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
   };
 };

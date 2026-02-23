@@ -128,7 +128,11 @@ export const GET = async (request: Request) =>
           type: 'exportCsv',
           données: {
             typeExport: 'dossierRaccordement',
-            utilisateur: { role: utilisateur.rôle.nom },
+            utilisateur: {
+              role: utilisateur.rôle.nom,
+              email: utilisateur.identifiantUtilisateur.email,
+            },
+            nombreLignes: data.length,
             filtres: getFiltresActifs({
               appelOffre,
               periode,
