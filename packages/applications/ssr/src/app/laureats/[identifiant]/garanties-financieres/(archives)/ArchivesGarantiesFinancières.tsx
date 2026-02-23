@@ -13,7 +13,7 @@ import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinan
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 
 type ArchivesGarantiesFinancièresProps = {
-  archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
+  archives: PlainType<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 };
 
 export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFinancièresProps) => {

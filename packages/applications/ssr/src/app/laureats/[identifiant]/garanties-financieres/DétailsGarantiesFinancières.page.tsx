@@ -48,7 +48,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   dépôtEnCours: Option.Type<
     PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>
   >;
-  archivesGarantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
+  archivesGarantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<
     PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>
   >;

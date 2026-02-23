@@ -149,7 +149,6 @@ const référencielPermissions = {
           'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         consulterNombre: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
         rechercher: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
-        lister: 'Lauréat.Raccordement.Query.ListerRaccordement',
         listerDossierRaccordementEnAttenteMiseEnService:
           'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
@@ -200,7 +199,7 @@ const référencielPermissions = {
         consulterGarantiesFinancièresActuelles:
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         listerArchivesGarantiesFinancières:
-          'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+          'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
         consulterDépôtGarantiesFinancières:
           'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         listerDépôts: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',

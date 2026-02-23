@@ -78,12 +78,14 @@ Alors(
 
     await waitForExpect(async () => {
       const archives =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       expect(archives).to.have.length(1);
       const actualArchive = archives[0];

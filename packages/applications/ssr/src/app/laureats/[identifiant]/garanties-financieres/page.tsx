@@ -48,9 +48,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       // les archives ne sont visibles que pour les DREAL et DGEC
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
-        ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
+        ? await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
             {
-              type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
               data: { identifiantProjetValue: identifiantProjet.formatter() },
             },
           )
@@ -127,7 +127,7 @@ type Props = {
   dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
   mainlevéesRejetées: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel;
-  archivesGarantiesFinancières: Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel;
+  archivesGarantiesFinancières: Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel;
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
