@@ -8,14 +8,17 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 import { Option } from '@potentiel-libraries/monads';
 import { Where } from '@potentiel-domain/entity';
 
-export const dateMiseEnServiceModifiéeProjector = async ({
-  type,
-  payload,
-}: (
+type DateMiseEnServiceModifiéeProps = (
   | Lauréat.Raccordement.DateMiseEnServiceModifiéeEventV1
   | Lauréat.Raccordement.DateMiseEnServiceModifiéeEvent
 ) &
-  Event) => {
+  Event;
+
+export const dateMiseEnServiceModifiéeProjector = async ({
+  type,
+  payload,
+  created_at,
+}: DateMiseEnServiceModifiéeProps) => {
   const raccordementActuel = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
     `raccordement|${payload.identifiantProjet}`,
   );
@@ -23,7 +26,9 @@ export const dateMiseEnServiceModifiéeProjector = async ({
   assert(Option.isSome(raccordementActuel));
 
   const miseÀJourLe =
-    type === 'DateMiseEnServiceModifiée-V1' ? DateTime.now().formatter() : payload.modifiéeLe;
+    type === 'DateMiseEnServiceModifiée-V1'
+      ? DateTime.convertirEnValueType(created_at).formatter()
+      : payload.modifiéeLe;
 
   await updateOneProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${payload.identifiantProjet}#${payload.référenceDossierRaccordement}`,
