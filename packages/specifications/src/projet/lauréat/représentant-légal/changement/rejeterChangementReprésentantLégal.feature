@@ -15,7 +15,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                                   |
             | type       | rejet                                                                                                                                        |
         Et il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
@@ -35,13 +35,13 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Besançon dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Besançon                                                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                   |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                                  |
             | type       | rejet                                                                                                                                       |
         Et un email a été envoyé à la dreal avec :
             | type       | rejet                                                                                                                                                       |
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Besançon dans le département(.*) a été rejetée automatiquement |
             | nom_projet | Du boulodrome de Besançon                                                                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                                   |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                                                  |
 
     Scénario: Impossible de rejeter la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été rejeté
         Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat

@@ -1,10 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleChangementFournisseurEnregistré = async ({
-  payload: { identifiantProjet },
+  payload: { identifiantProjet, enregistréLe },
 }: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent) => {
   const projet = await getLauréat(identifiantProjet);
 
@@ -14,7 +15,7 @@ export const handleChangementFournisseurEnregistré = async ({
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    url: projet.url,
+    url: `${getBaseUrl()}${Routes.Fournisseur.changement.détails(projet.identifiantProjet.formatter(), enregistréLe)}`,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
   };

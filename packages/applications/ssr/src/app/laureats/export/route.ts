@@ -166,7 +166,11 @@ export const GET = async (request: Request) =>
           type: 'exportCsv',
           données: {
             typeExport: 'lauréatEnrichi',
-            utilisateur: { role: utilisateur.rôle.nom },
+            utilisateur: {
+              role: utilisateur.rôle.nom,
+              email: utilisateur.identifiantUtilisateur.email,
+            },
+            nombreLignes: lauréatEnrichiList.items.length,
             filtres: getFiltresActifs({
               appelOffre,
               periode,

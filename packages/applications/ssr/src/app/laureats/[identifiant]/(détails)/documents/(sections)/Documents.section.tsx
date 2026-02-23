@@ -27,10 +27,9 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
     withUtilisateur(async ({ rôle }) => {
       const documents: Array<DocumentItem> = [];
 
+      // ATTESTATION LAURÉAT
       const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
-      const abandon = await getAbandonInfos(identifiantProjet);
 
-      // ATTESTATION
       if (attestationDésignation) {
         documents.push({
           type: 'Attestation de désignation',
@@ -40,16 +39,18 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         });
       }
 
-      // EXPORT
-      documents.push({
-        type: 'Export des données du projet',
-        format: 'csv',
-        url: rôle.aLaPermission('lauréat.listerLauréatEnrichi')
-          ? Routes.Lauréat.exporter({ identifiantProjet })
-          : undefined,
-      });
+      // EXPORT LAURÉAT
+      if (rôle.aLaPermission('lauréat.listerLauréatEnrichi')) {
+        documents.push({
+          type: 'Export des données du projet',
+          format: 'csv',
+          url: Routes.Lauréat.exporter({ identifiantProjet }),
+        });
+      }
 
       // ABANDON
+      const abandon = await getAbandonInfos(identifiantProjet);
+
       if (abandon) {
         const demandeAbandon = await mediator.send<Lauréat.Abandon.ConsulterDemandeAbandonQuery>({
           type: 'Lauréat.Abandon.Query.ConsulterDemandeAbandon',
@@ -99,17 +100,22 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       }
 
       // GARANTIES FINANCIERES
-      const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
+      if (
+        rôle.aLaPermission('garantiesFinancières.actuelles.consulter') &&
+        rôle.aLaPermission('garantiesFinancières.dépôt.consulter')
+      ) {
+        const garantiesFinancièresActuelles = await getGarantiesFinancières(identifiantProjet);
 
-      if (garantiesFinancièresActuelles.actuelles?.document) {
-        documents.push({
-          type: 'Attestation de constitution des garanties financières',
-          date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
-          format: garantiesFinancièresActuelles.actuelles?.document.format,
-          url: Routes.Document.télécharger(
-            garantiesFinancièresActuelles.actuelles?.document.formatter(),
-          ),
-        });
+        if (garantiesFinancièresActuelles.actuelles?.document) {
+          documents.push({
+            type: 'Attestation de constitution des garanties financières',
+            date: garantiesFinancièresActuelles.actuelles?.document.dateCréation,
+            format: garantiesFinancièresActuelles.actuelles?.document.format,
+            url: Routes.Document.télécharger(
+              garantiesFinancièresActuelles.actuelles?.document.formatter(),
+            ),
+          });
+        }
       }
 
       // ACHEVEMENT

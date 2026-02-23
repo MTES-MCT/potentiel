@@ -18,7 +18,9 @@ type StatistiqueExport = {
     typeExport: 'dossierRaccordement' | 'lauréatEnrichi' | 'éliminéEnrichi' | 'détailsFournisseur';
     utilisateur: {
       role: Role.RawType;
+      email: Email.RawType;
     };
+    nombreLignes: number;
     filtres?: Record<string, string | string[]>;
   };
 };

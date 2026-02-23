@@ -8,4 +8,4 @@ Un changement de fournisseurs a été **enregistré** pour le projet **{{ nom_pr
 
 Pour consulter le projet, connectez-vous à Potentiel.
 
-{{ cta url 'Accéder au projet' }}
+{{ cta url 'Accéder au changement' }}

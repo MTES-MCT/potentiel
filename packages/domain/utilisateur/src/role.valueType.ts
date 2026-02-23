@@ -2120,6 +2120,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
+  'lauréat.listerLauréatEnrichi',
 
   // Abandon
   'abandon.lister.demandes',

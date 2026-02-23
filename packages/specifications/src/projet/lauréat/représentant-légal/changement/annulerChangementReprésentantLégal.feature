@@ -16,7 +16,7 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Annulation de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille situé dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                                         |
 
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat

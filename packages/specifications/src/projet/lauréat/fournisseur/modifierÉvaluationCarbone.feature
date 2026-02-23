@@ -13,11 +13,11 @@ Fonctionnalité: Modifier l'évaluation carbone du projet
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'évaluation carbone simplifiée |
             | nom_projet | Du boulodrome de Marseille                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                               |
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'évaluation carbone simplifiée |
             | nom_projet | Du boulodrome de Marseille                                                               |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                               |
 
     Scénario: Impossible de modifier l'évaluation carbone avec une valeur identique
         Quand un administrateur modifie l'évaluation carbone du projet avec la même valeur
