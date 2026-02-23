@@ -9,9 +9,7 @@ export const getIdentifiantProjetWhereConditions = (
   identifiantProjet?: IdentifiantProjet.RawType,
 ) => {
   if (scope.type === 'projet' && identifiantProjet) {
-    return scope.identifiantProjets.includes(identifiantProjet)
-      ? Where.equal(identifiantProjet)
-      : Where.matchAny([]);
+    return Where.matchAny(scope.identifiantProjets.filter((id) => id === identifiantProjet));
   }
 
   if (scope.type === 'projet') {
