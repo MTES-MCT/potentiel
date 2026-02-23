@@ -141,10 +141,7 @@ export const registerListerLauréatEnrichiQuery = ({
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(
-          scope,
-          identifiantProjet && [identifiantProjet],
-        ),
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),

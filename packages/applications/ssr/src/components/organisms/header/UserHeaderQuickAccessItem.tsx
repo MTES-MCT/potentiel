@@ -80,6 +80,7 @@ async function TâcheHeaderQuickAccessItem({ utilisateur }: { utilisateur: Utili
   if (!utilisateur.estPorteur()) {
     return null;
   }
+
   const { nombreTâches } = await mediator.send<Lauréat.Tâche.ConsulterNombreTâchesQuery>({
     type: 'Tâche.Query.ConsulterNombreTâches',
     data: {

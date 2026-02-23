@@ -22,66 +22,60 @@ export const getScopeProjetUtilisateur: GetScopeProjetUtilisateur = async (email
     };
   }
 
-  return (
-    match(utilisateur)
-      .returnType<Promise<ProjetUtilisateurScope>>()
-      // Pour les query avec le rôle DREAL, on filtre sur la région (propriété localité) du projet pour ne pas avoir à récupérer tous les identifiant projets
-      .with({ rôle: 'dreal' }, async (value) => ({
-        type: 'région',
-        régions: value.région ? [value.région] : [],
-      }))
-      // Pour les query avec le rôle porteur, on filtre sur l'identifiant projet
-      .with({ rôle: 'porteur-projet' }, async () => {
-        const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
-          where: {
-            utilisateursAyantAccès: Where.include(utilisateur.identifiantUtilisateur),
-          },
-        });
+  return match(utilisateur)
+    .returnType<Promise<ProjetUtilisateurScope>>()
+    .with({ rôle: 'dreal' }, async (value) => ({
+      type: 'région',
+      régions: value.région ? [value.région] : [],
+    }))
+    .with({ rôle: 'porteur-projet' }, async () => {
+      const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
+        where: {
+          utilisateursAyantAccès: Where.include(utilisateur.identifiantUtilisateur),
+        },
+      });
 
-        return {
-          type: 'projet',
-          identifiantProjets: items.map(({ identifiantProjet }) =>
-            IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          ),
-        };
-      })
-      // Pour les query avec le rôle porteur, on filtre sur l'identifiant du gestionnaire réseau du raccordement
-      .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => ({
-        type: 'gestionnaire-réseau',
-        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
-      }))
-      // Pour les query avec le rôle cocontractant, on filtre sur la région
-      .with({ rôle: 'cocontractant' }, async (value) => ({
-        type: 'région',
-        régions: Région.régions.filter((région) =>
-          Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
+      return {
+        type: 'projet',
+        identifiantProjets: items.map(({ identifiantProjet }) =>
+          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
         ),
-      }))
-      .with({ rôle: 'caisse-des-dépôts' }, async () => {
-        const projetsAvecGfConsignation =
-          await listProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
-            `garanties-financieres`,
-            {
-              where: {
-                garantiesFinancières: {
-                  type: Where.equal('consignation'),
-                },
+      };
+    })
+    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => ({
+      type: 'gestionnaire-réseau',
+      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
+    }))
+    .with({ rôle: 'cocontractant' }, async (value) => ({
+      type: 'région',
+      régions: Région.régions.filter((région) =>
+        Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
+      ),
+    }))
+    .with({ rôle: 'caisse-des-dépôts' }, async () => {
+      const projetsAvecGfConsignation =
+        await listProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+          `garanties-financieres`,
+          {
+            where: {
+              garantiesFinancières: {
+                type: Where.equal('consignation'),
               },
-              select: ['identifiantProjet'],
             },
-          );
+            select: ['identifiantProjet'],
+          },
+        );
 
-        return {
-          type: 'projet',
-          identifiantProjets: projetsAvecGfConsignation.items.map(({ identifiantProjet }) =>
-            IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          ),
-        };
-      })
-      .with({ rôle: 'admin' }, async () => ({ type: 'all' }))
-      .with({ rôle: 'dgec-validateur' }, async () => ({ type: 'all' }))
-      .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
-      .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
-      .exhaustive()
-  );
+      return {
+        type: 'projet',
+        identifiantProjets: projetsAvecGfConsignation.items.map(({ identifiantProjet }) =>
+          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+        ),
+      };
+    })
+    .with({ rôle: 'admin' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'dgec-validateur' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
+    .exhaustive();
 };

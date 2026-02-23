@@ -113,7 +113,7 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: appelOffre && appelOffre.length ? Where.matchAny(appelOffre) : undefined,
+            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },

@@ -75,10 +75,7 @@ export const registerListerDemandeDélaiQuery = ({
         },
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(
-          scope,
-          identifiantProjet && [identifiantProjet],
-        ),
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

@@ -1,10 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Count, Where } from '@potentiel-domain/entity';
+import { Count } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
 import { TâcheEntity } from '../tâche.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../index.js';
+import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;
@@ -30,20 +31,15 @@ export const registerConsulterNombreTâchesQuery = ({
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
-    // viovio à vérifier
-    if (scope.type === 'projet') {
-      const nombreTâches = await count<TâcheEntity>('tâche', {
-        where: {
-          identifiantProjet: Where.matchAny(scope.identifiantProjets),
-        },
-      });
+    const nombreTâches = await count<TâcheEntity>('tâche', {
+      where: {
+        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+      },
+    });
 
-      return {
-        nombreTâches,
-      };
-    }
-
-    return { nombreTâches: 0 };
+    return {
+      nombreTâches,
+    };
   };
   mediator.register('Tâche.Query.ConsulterNombreTâches', handler);
 };

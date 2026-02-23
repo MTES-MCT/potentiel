@@ -6,15 +6,17 @@ import { ProjetUtilisateurScope } from './getScopeProjetUtilisateur.port.js';
 
 export const getIdentifiantProjetWhereConditions = (
   scope: ProjetUtilisateurScope,
-  identifiantProjets?: Array<IdentifiantProjet.RawType>,
+  identifiantProjet?: IdentifiantProjet.RawType,
 ) => {
-  if (scope.type === 'projet' && identifiantProjets?.length) {
-    return Where.matchAny(identifiantProjets.filter((id) => scope.identifiantProjets.includes(id)));
+  if (scope.type === 'projet' && identifiantProjet) {
+    return scope.identifiantProjets.includes(identifiantProjet)
+      ? Where.equal(identifiantProjet)
+      : Where.matchAny([]);
   }
 
   if (scope.type === 'projet') {
     return Where.matchAny(scope.identifiantProjets);
   }
 
-  return identifiantProjets?.length ? Where.matchAny(identifiantProjets) : undefined;
+  return identifiantProjet ? Where.equal(identifiantProjet) : undefined;
 };

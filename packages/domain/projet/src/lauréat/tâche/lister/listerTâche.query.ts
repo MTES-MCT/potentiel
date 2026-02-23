@@ -60,6 +60,7 @@ export const registerListerTâchesQuery = ({
         }
       : await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
+    // comportement spécifique sur lister tâches, si un identifiant projet est fourni, il s'agit d'une consultation par projet (accessible à tous les rôles ayant accès aux tâches), si non, seul le porteur a accès à ses tâches (multi projet)
     if (scope.type !== 'projet') {
       return {
         items: [],
@@ -71,7 +72,6 @@ export const registerListerTâchesQuery = ({
       };
     }
 
-    // viovio
     const {
       items,
       range: { endPosition, startPosition },
