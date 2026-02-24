@@ -37,13 +37,19 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         return null;
       }
 
+      const aUnAbandon = abandon?.estAbandonné || abandon?.demandeEnCours;
+
+      const peutConsulterDétailRaccordement =
+        raccordement.dossiers.length > 0 ||
+        rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
+
       const action =
-        abandon?.estAbandonné || abandon?.demandeEnCours
-          ? undefined
-          : {
+        !aUnAbandon && peutConsulterDétailRaccordement
+          ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
-            };
+            }
+          : undefined;
 
       const alertes =
         rôle.estPorteur() && !abandon?.estAbandonné
