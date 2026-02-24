@@ -33,13 +33,13 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de puissance |
-            | nom_projet | Du boulodrome de Marseille                                                      |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*              |
+            | sujet      | Potentiel - Du bouchon lyonnais - Déclaration de changement de puissance |
+            | nom_projet | Du bouchon lyonnais                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*       |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de puissance |
-            | nom_projet | Du boulodrome de Marseille                                                      |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*              |
+            | sujet      | Potentiel - Du bouchon lyonnais - Déclaration de changement de puissance |
+            | nom_projet | Du bouchon lyonnais                                                      |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*       |
 
         Exemples:
             | Ratio |

@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} - Puissance modifiée
+subject: Potentiel - {{ nom_projet }} - Modification de la puissance
 ---
 
 Madame, Monsieur,

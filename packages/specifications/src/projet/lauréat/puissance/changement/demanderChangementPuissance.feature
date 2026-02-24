@@ -36,9 +36,9 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance   | <Ratio> |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Du boulodrome de Marseille - Changement de puissance demandé |
-            | nom_projet | Du boulodrome de Marseille                                               |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance                     |
+            | sujet      | Potentiel - Du bouchon lyonnais - Changement de puissance demandé |
+            | nom_projet | Du bouchon lyonnais                                               |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance              |
 
         Exemples:
             | Ratio |
