@@ -4,6 +4,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { LauréatEntity } from '../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -25,7 +27,6 @@ import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
-import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -141,7 +142,7 @@ export const registerListerLauréatEnrichiQuery = ({
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),

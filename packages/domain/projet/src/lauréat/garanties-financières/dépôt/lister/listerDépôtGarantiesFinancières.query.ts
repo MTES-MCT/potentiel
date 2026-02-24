@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity.js';
 import {
@@ -12,7 +14,6 @@ import {
   IdentifiantProjet,
 } from '../../../../index.js';
 import { TypeDocumentGarantiesFinancières } from '../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -75,7 +76,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
         orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
         range,
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         },
         join: {
           entity: 'lauréat',

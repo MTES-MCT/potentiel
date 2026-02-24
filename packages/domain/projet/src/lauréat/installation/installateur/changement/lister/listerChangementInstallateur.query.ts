@@ -3,10 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { ChangementInstallateurEntity } from '../changementInstallateur.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementInstallateurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -68,7 +69,7 @@ export const registerListerChangementInstallateurQuery = ({
           },
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         },
       },
     );

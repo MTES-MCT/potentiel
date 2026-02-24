@@ -3,13 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import {
   ChangementReprésentantLégalEntity,
   StatutChangementReprésentantLégal,
 } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -63,7 +64,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         demande: {
           statut: Where.matchAny(statut),
         },

@@ -3,10 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -74,7 +75,7 @@ export const registerListerChangementActionnaireQuery = ({
           },
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
           demande: {
             statut: Where.matchAny(statut),
           },

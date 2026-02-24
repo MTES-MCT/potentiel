@@ -1,10 +1,9 @@
 import { Where } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from './index.js';
+import { IdentifiantProjet } from '../index.js';
+import { ProjetUtilisateurScope } from '../getScopeProjetUtilisateur.port.js';
 
-import { ProjetUtilisateurScope } from './getScopeProjetUtilisateur.port.js';
-
-export const getIdentifiantProjetWhereConditions = (
+export const getIdentifiantProjetWhereCondition = (
   scope: ProjetUtilisateurScope,
   identifiantProjet?: IdentifiantProjet.RawType,
 ) => {

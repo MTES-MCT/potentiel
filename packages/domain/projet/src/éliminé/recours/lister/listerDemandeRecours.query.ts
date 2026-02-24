@@ -3,11 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { StatutRecours } from '../index.js';
 import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
 import { Candidature, IdentifiantProjet } from '../../../index.js';
 import { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port.js';
-import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -62,7 +63,7 @@ export const registerListerDemandeRecoursQuery = ({
         orderBy: { miseÀJourLe: 'descending' },
         range,
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
           statut: Where.matchAny(statut),
         },
         join: {

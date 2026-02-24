@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { LauréatEntity } from '../lauréat.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
@@ -10,7 +12,6 @@ import { PuissanceEntity } from '../puissance/index.js';
 import { ProducteurEntity } from '../producteur/index.js';
 import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -80,7 +81,7 @@ export const registerListerLauréatQuery = ({
         nomProjet: 'ascending',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         nomProjet: Where.like(nomProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),

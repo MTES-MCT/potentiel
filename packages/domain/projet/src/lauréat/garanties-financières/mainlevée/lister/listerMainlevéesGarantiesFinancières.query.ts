@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { DocumentProjet, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
   MainlevéeGarantiesFinancièresEntity,
@@ -11,7 +13,6 @@ import {
   TypeDocumentRéponseMainlevée,
 } from '../../index.js';
 import { LauréatEntity } from '../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -89,7 +90,7 @@ export const registerListerMainlevéesQuery = ({
       {
         range,
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
           motif: Where.equal(motif),
           statut: Where.matchAny(statut),
         },

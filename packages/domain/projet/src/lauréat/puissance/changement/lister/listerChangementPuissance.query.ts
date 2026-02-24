@@ -3,11 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { ChangementPuissanceEntity, StatutChangementPuissance } from '../../index.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { CandidatureEntity } from '../../../../candidature/index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -81,7 +82,7 @@ export const registerListerChangementPuissanceQuery = ({
           },
         ],
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
           demande: {
             statut: Where.matchAny(statut),
           },

@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { ÉliminéEntity } from '../éliminé.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -19,7 +21,6 @@ import {
   TypeDeNatureDeLExploitation,
   NatureDeLExploitationEntity,
 } from '../../lauréat/nature-de-l-exploitation/index.js';
-import { getIdentifiantProjetWhereConditions } from '../../getIdentifiantProjetWhereConditions.js';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -113,7 +114,7 @@ export const registerListerÉliminéEnrichiQuery = ({
           identifiantProjet: 'ascending',
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),

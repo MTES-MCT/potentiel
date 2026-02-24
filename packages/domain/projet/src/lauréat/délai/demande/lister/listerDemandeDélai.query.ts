@@ -3,11 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
 import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type DemandeDélaiItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -75,7 +76,7 @@ export const registerListerDemandeDélaiQuery = ({
         },
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope, identifiantProjet),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

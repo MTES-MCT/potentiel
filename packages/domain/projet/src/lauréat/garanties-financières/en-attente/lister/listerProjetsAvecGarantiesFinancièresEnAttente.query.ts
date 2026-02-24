@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import {
   GarantiesFinancièresEnAttenteEntity,
   MotifDemandeGarantiesFinancières,
@@ -10,7 +12,6 @@ import {
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { StatutLauréat } from '../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -73,7 +74,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
           motif: Where.equal(motif),
         },
         join: [

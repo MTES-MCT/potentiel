@@ -4,12 +4,13 @@ import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/e
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { RaccordementEntity } from '../raccordement.entity.js';
 import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { Localité, UnitéPuissance } from '../../../candidature/index.js';
 import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
-import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 type DossierRaccordementManquant = {
   nomProjet: string;
@@ -74,7 +75,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       total,
     } = await list<RaccordementEntity, ListerDossierRaccordementManquantJoins>('raccordement', {
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         identifiantGestionnaireRéseau: Where.equal(
           scope.type === 'gestionnaire-réseau'
             ? scope.identifiantGestionnaireRéseau

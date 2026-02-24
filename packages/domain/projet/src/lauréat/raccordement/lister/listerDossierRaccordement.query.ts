@@ -4,12 +4,13 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../getIdentifiantProjetWhereConditions.js';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -92,7 +93,7 @@ export const registerListerDossierRaccordementQuery = ({
       total,
     } = await list<DossierRaccordementEntity, DossierRaccordementJoins>('dossier-raccordement', {
       where: {
-        identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         référence: Where.like(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(
           scope.type === 'gestionnaire-réseau'

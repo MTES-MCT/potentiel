@@ -3,10 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { getIdentifiantProjetWhereCondition } from '#helpers';
+
 import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
-import { getIdentifiantProjetWhereConditions } from '../../../../getIdentifiantProjetWhereConditions.js';
 
 type ChangementProducteurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -69,7 +70,7 @@ export const registerListerChangementProducteurQuery = ({
           },
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereConditions(scope),
+          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
         },
       },
     );
