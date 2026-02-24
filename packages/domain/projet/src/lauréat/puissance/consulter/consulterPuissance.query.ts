@@ -14,7 +14,8 @@ export type ConsulterPuissanceReadModel = {
   puissanceInitiale: number;
   puissanceDeSite?: number;
   unitéPuissance: UnitéPuissance.ValueType;
-  dateDemandeEnCours?: DateTime.ValueType;
+  aUneDemandeEnCours: boolean;
+  dateDernièreDemande?: DateTime.ValueType;
 };
 
 export type ConsulterPuissanceQuery = Message<
@@ -55,15 +56,14 @@ export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   puissance,
   puissanceDeSite,
-  dateDemandeEnCours,
   candidature: { puissance: puissanceInitiale, unitéPuissance },
+  dernièreDemande,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
   puissanceInitiale,
   puissanceDeSite,
-  dateDemandeEnCours: dateDemandeEnCours
-    ? DateTime.convertirEnValueType(dateDemandeEnCours)
-    : undefined,
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+  aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
+  dateDernièreDemande: dernièreDemande && DateTime.convertirEnValueType(dernièreDemande.date),
 });
