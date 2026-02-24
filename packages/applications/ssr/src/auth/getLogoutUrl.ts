@@ -5,7 +5,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { auth } from '.';
 
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
-import { getOpenIdConfiguration } from './providers/discovery';
+import { getOpenIdConfiguration } from './providers/openid';
 
 const getIdToken = async (providerId: string) => {
   try {

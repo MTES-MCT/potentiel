@@ -2,7 +2,7 @@ import { OAuth2Tokens } from 'better-auth';
 import { BaseOAuthProviderOptions, GenericOAuthConfig } from 'better-auth/plugins';
 import { jwtVerify } from 'jose';
 
-import { getJWKS, getOpenIdConfiguration } from './discovery';
+import { getJWKS, getOpenIdConfiguration } from './openid';
 
 export interface ProconnectOptions extends BaseOAuthProviderOptions {
   /**

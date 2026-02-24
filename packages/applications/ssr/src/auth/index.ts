@@ -28,16 +28,14 @@ export const auth = betterAuth({
   },
   session: {
     cookieCache: {
-      enabled: true,
-      maxAge: 24 * 60 * 60,
       strategy: 'jwe',
-      refreshCache: true,
     },
+    expiresIn: 60 * 60 * 12, // 12 hours
   },
-  account: {
-    storeStateStrategy: 'cookie',
-    storeAccountCookie: true,
-  },
+  // account: {
+  //   storeStateStrategy: 'cookie',
+  //   storeAccountCookie: true,
+  // },
   advanced: {
     useSecureCookies: true,
   },
