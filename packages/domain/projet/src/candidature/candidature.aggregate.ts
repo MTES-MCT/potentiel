@@ -428,10 +428,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new DateAutorisationDUrbanismeError();
     }
 
-    if (
-      autorisationEnvironnementale === 'requis' &&
-      (!dépôt.autorisationEnvironnementale?.date || !dépôt.autorisationEnvironnementale?.numéro)
-    ) {
+    if (autorisationEnvironnementale === 'requis' && !dépôt.autorisationEnvironnementale) {
       throw new AutorisationEnvironnementaleRequiseError();
     }
 

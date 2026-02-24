@@ -26,6 +26,7 @@ const schema = modifierLauréatEtCandidatureSchéma;
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
+    console.log('🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺🦺CANDIDATURE', candidature);
     const rawIdentifiantProjet =
       IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
 
