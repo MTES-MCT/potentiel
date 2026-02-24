@@ -130,7 +130,13 @@ async function vérifierChangementPuissance(
     });
 
     assert(Option.isSome(puissance), 'Puissance non trouvée !');
-    expect(Option.isSome(puissance) && puissance.dateDernièreDemande).to.be.not.undefined;
+
+    if (
+      this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture
+        .aÉtéCréé
+    ) {
+      expect(Option.isSome(puissance) && puissance.dateDernièreDemande).to.be.not.undefined;
+    }
 
     if (statut.estDemandé()) {
       expect(Option.isSome(puissance) && puissance.aUneDemandeEnCours).to.be.true;
