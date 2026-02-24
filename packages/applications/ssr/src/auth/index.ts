@@ -33,7 +33,7 @@ export const auth = betterAuth({
   },
   plugins: [
     oauthProviders.length > 0 && genericOAuth({ config: oauthProviders }),
-    providers['magic-link'] && customMagicLink(),
+    providers['magic-link'] && customMagicLink(providers['magic-link']),
     lastLoginMethod({
       customResolveMethod: (ctx) => (ctx.path === '/magic-link/verify' ? 'magic-link' : null),
     }),

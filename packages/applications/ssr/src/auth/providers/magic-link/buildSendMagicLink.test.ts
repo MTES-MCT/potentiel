@@ -107,10 +107,11 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
       };
 
       // When
-      const sendVerificationRequest = buildSendMagicLink(
-        fakeSendEmail,
-        fakeGetUtilisateurFromEmail,
-      );
+      const sendVerificationRequest = buildSendMagicLink({
+        sendEmail: fakeSendEmail,
+        getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+        isActifAgentsPublics: false,
+      });
       await sendVerificationRequest({ email, url });
 
       // Then
@@ -171,10 +172,11 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       };
 
       // When
-      const sendVerificationRequest = buildSendMagicLink(
-        fakeSendEmail,
-        fakeGetUtilisateurFromEmail,
-      );
+      const sendVerificationRequest = buildSendMagicLink({
+        sendEmail: fakeSendEmail,
+        getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+        isActifAgentsPublics: false,
+      });
       await sendVerificationRequest({ email, url });
 
       // Then
@@ -199,7 +201,11 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
     };
 
     // When
-    const sendVerificationRequest = buildSendMagicLink(fakeSendEmail, fakeGetUtilisateurFromEmail);
+    const sendVerificationRequest = buildSendMagicLink({
+      sendEmail: fakeSendEmail,
+      getUtilisateurFromEmail: fakeGetUtilisateurFromEmail,
+      isActifAgentsPublics: false,
+    });
     await sendVerificationRequest({ email, url });
 
     // Then

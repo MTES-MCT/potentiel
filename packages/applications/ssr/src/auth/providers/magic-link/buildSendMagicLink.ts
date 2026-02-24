@@ -6,34 +6,32 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
 
-import { getProviders } from '../authProvider';
-
 type SendOptions = { email: string; url: string };
 
-type BuildSendVerificationRequest = (
-  sendEmail: SendEmailV2,
-  getUtilisateurFromEmail: GetUtilisateurFromEmail,
-) => (options: SendOptions, ctx?: GenericEndpointContext) => Promise<void>;
+type BuildSendVerificationRequest = (props: {
+  sendEmail: SendEmailV2;
+  getUtilisateurFromEmail: GetUtilisateurFromEmail;
+  isActifAgentsPublics: boolean;
+}) => (options: SendOptions, ctx?: GenericEndpointContext) => Promise<void>;
 
-export const buildSendMagicLink: BuildSendVerificationRequest = (
+export const buildSendMagicLink: BuildSendVerificationRequest = ({
   sendEmail,
   getUtilisateurFromEmail,
-) => {
-  return async ({ email, url }, ctx) => {
+  isActifAgentsPublics,
+}) => {
+  return async ({ email, url }) => {
+    const baseUrl = process.env.BASE_URL ?? '';
     const utilisateur = await getUtilisateurFromEmail(email);
 
     const estDésactivé = Option.isSome(utilisateur) && utilisateur.désactivé;
     if (estDésactivé) {
       return;
     }
-    const providers = getProviders();
 
     const isAgentPublic =
       Option.isSome(utilisateur) && (utilisateur.rôle.estDreal() || utilisateur.rôle.estDGEC());
-    const isActifAgentsPublics = providers['magic-link']?.isActifAgentsPublics;
 
     if (isAgentPublic && !isActifAgentsPublics) {
-      const baseUrl = ctx?.context.options.baseURL ?? '';
       await sendEmail({
         key: 'auth/proconnect-obligatoire',
         recipients: [email],

@@ -11,7 +11,7 @@
     "lint": "next lint",
     "lint:fix": "eslint . --fix",
     "prebuild": "react-dsfr update-icons --silent",
-    "test": "glob -c \"tsx --test\" \"src/**/*.test.ts\"",
+    "test": "tsx -r dotenv/config --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo .next",
     "typecheck": "tsc --noEmit"
   },

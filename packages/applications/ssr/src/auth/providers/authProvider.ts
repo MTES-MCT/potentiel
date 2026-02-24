@@ -15,9 +15,9 @@ const authProviderEnvSchema = z
   .pipe(z.array(authProviderSchema));
 
 const envSchema = z.object({
-  AUTH_PROVIDERS: authProviderEnvSchema,
-  AUTH_PROVIDERS_KO: authProviderEnvSchema,
-  AUTH_PROVIDERS_DREAL_DGEC: authProviderEnvSchema,
+  AUTH_PROVIDERS: authProviderEnvSchema.default(['proconnect', 'magic-link']),
+  AUTH_PROVIDERS_KO: authProviderEnvSchema.default([]),
+  AUTH_PROVIDERS_DREAL_DGEC: authProviderEnvSchema.default(['proconnect']),
 });
 
 type ProviderProps = {
@@ -26,14 +26,16 @@ type ProviderProps = {
   isActifAgentsPublics: boolean;
 };
 
-export const getProviders = (): Partial<Record<AuthProvider, ProviderProps>> => {
+export type ProviderConfigurationMap = Partial<Record<AuthProvider, ProviderProps>>;
+
+export const getProviders = (): ProviderConfigurationMap => {
   const result = envSchema.safeParse(process.env);
 
   if (result.error) {
     throw new Error(`Invalid environment variables: ${result.error.message}`);
   }
 
-  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO, AUTH_PROVIDERS_DREAL_DGEC } = result.data;
+  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO = '', AUTH_PROVIDERS_DREAL_DGEC = '' } = result.data;
 
   const koProviders = new Set(AUTH_PROVIDERS_KO);
   const enabledAgentsPublicsProviders = new Set(AUTH_PROVIDERS_DREAL_DGEC);

@@ -7,14 +7,21 @@ import { getUtilisateurFromEmail } from '../getUtilisateurFromEmail';
 
 import { buildSendMagicLink } from './magic-link/buildSendMagicLink';
 
-/** Custom Magic Link plugin to add the provider and setup dependencies */
-export const customMagicLink = () => {
+type Props = {
+  isActifAgentsPublics: boolean;
+};
+/** Custom Magic Link plugin to add the providerId and setup dependencies */
+export const customMagicLink = ({ isActifAgentsPublics }: Props) => {
   const sendEmail: SendEmailV2 = async (data) => {
     await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
   };
 
   const options = magicLink({
-    sendMagicLink: buildSendMagicLink(sendEmail, getUtilisateurFromEmail),
+    sendMagicLink: buildSendMagicLink({
+      sendEmail,
+      getUtilisateurFromEmail,
+      isActifAgentsPublics,
+    }),
   });
 
   const mapProfileToUser = (profile: Record<string, string>): Record<string, string> => ({
