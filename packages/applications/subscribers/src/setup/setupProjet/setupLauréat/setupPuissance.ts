@@ -4,7 +4,7 @@ import { PuissanceNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupPuissance: SetupProjet = async ({ sendEmail }) => {
+export const setupPuissance: SetupProjet = async () => {
   const puissance = createSubscriptionSetup('puissance');
 
   PuissanceProjector.register();
@@ -27,7 +27,7 @@ export const setupPuissance: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Puissance',
   });
 
-  PuissanceNotification.register({ sendEmail });
+  PuissanceNotification.register();
   await puissance.setupSubscription<
     PuissanceNotification.SubscriptionEvent,
     PuissanceNotification.Execute

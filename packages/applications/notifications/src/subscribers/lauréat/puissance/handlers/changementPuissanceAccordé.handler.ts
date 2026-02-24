@@ -1,27 +1,25 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
-
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementPuissanceAccordé = async ({
-  sendEmail,
-  event,
-  projet,
-}: PuissanceNotificationsProps<Lauréat.Puissance.ChangementPuissanceAccordéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  payload,
+}: Lauréat.Puissance.ChangementPuissanceAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   return sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.accorder,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+    key: 'lauréat/puissance/demande/accorder',
     recipients: porteurs,
-    variables: {
-      type: 'accord',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.Puissance.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
 };

@@ -32,12 +32,11 @@ export const ContractualisationSection = ({
 
       const value = mapToPlainObject(puissance);
 
-      const action = puissance.dateDemandeEnCours
+      const action = puissance.aUneDemandeEnCours
         ? rôle.aLaPermission('puissance.consulterChangement')
           ? {
-              url: Routes.Puissance.changement.détails(
+              url: Routes.Puissance.changement.détailsPourRedirection(
                 identifiantProjet.formatter(),
-                puissance.dateDemandeEnCours.formatter(),
               ),
               label: 'Voir la demande de modification',
             }

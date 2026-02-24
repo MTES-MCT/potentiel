@@ -1,36 +1,31 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
-import { Recipient } from '#sendEmail';
-
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerDgecRecipients, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementPuissanceAnnulé = async ({
-  sendEmail,
-  event,
-  projet,
-}: PuissanceNotificationsProps<Lauréat.Puissance.ChangementPuissanceAnnuléEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
+  payload,
+}: Lauréat.Puissance.ChangementPuissanceAnnuléEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const recipients = await listerDrealsRecipients(projet.région);
 
-  const recipients: Array<Recipient> = [...dreals];
-
-  if (event.payload.autoritéCompétente === 'dgec-admin') {
-    const dgecs = await listerDgecRecipients(identifiantProjet);
-
+  if (payload.autoritéCompétente === 'dgec-admin') {
+    const dgecs = await listerDgecRecipients(
+      IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
+    );
     recipients.push(...dgecs);
   }
 
   return sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.annuler,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
+    key: 'lauréat/puissance/demande/annuler',
     recipients,
-    variables: {
-      type: 'annulation',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.Puissance.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
 };

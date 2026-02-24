@@ -9,7 +9,7 @@ import { Heading1 } from '@/components/atoms/headings';
 import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.form';
 
 export type DemanderChangementPuissancePageProps = PlainType<
-  Lauréat.Puissance.ConsulterPuissanceReadModel & {
+  Omit<Lauréat.Puissance.ConsulterPuissanceReadModel, 'aUneDemandeEnCours'> & {
     cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
     volumeRéservé?: PlainType<Lauréat.Puissance.VolumeRéservé.ValueType>;
     infosCahierDesChargesPuissanceDeSite: AppelOffre.ChampsSupplémentairesCandidature['puissanceDeSite'];

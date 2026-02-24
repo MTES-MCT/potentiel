@@ -1,37 +1,32 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { listerDgecRecipients, listerDrealsRecipients } from '#helpers';
-import { Recipient } from '#sendEmail';
-
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerDgecRecipients, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementPuissanceDemandé = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: PuissanceNotificationsProps<Lauréat.Puissance.ChangementPuissanceDemandéEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
+  payload,
+}: Lauréat.Puissance.ChangementPuissanceDemandéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-  const recipients: Array<Recipient> = [...dreals];
+  const recipients = await listerDrealsRecipients(projet.région);
 
-  if (event.payload.autoritéCompétente === 'dgec-admin') {
-    const dgecs = await listerDgecRecipients(identifiantProjet);
-
+  if (payload.autoritéCompétente === 'dgec-admin') {
+    const dgecs = await listerDgecRecipients(
+      IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
+    );
     recipients.push(...dgecs);
   }
 
   return sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.demander,
-    messageSubject: `Potentiel - Demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/puissance/demande/demander',
     recipients,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Puissance.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.Puissance.changement.détails(projet.identifiantProjet.formatter(), payload.demandéLe)}`,
     },
   });
 };

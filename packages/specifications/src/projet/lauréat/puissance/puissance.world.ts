@@ -51,6 +51,7 @@ export class PuissanceWorld {
           : puissanceDeSiteInitiale,
       puissanceInitiale,
       unitéPuissance,
+      aUneDemandeEnCours: false,
     };
 
     if (this.#modifierPuissanceFixture.aÉtéCréé) {
@@ -58,9 +59,18 @@ export class PuissanceWorld {
     }
 
     if (this.#changementPuissanceWorld.demanderChangementPuissanceFixture.aÉtéCréé) {
-      expected.dateDemandeEnCours = DateTime.convertirEnValueType(
+      expected.dateDernièreDemande = DateTime.convertirEnValueType(
         this.#changementPuissanceWorld.demanderChangementPuissanceFixture.demandéLe,
       );
+      expected.aUneDemandeEnCours = true;
+
+      // viovio manque le cas supprimé
+      if (
+        this.#changementPuissanceWorld.annulerChangementPuissanceFixture.aÉtéCréé ||
+        this.#changementPuissanceWorld.rejeterChangementPuissanceFixture.aÉtéCréé
+      ) {
+        expected.aUneDemandeEnCours = false;
+      }
 
       if (this.#changementPuissanceWorld.accorderChangementPuissanceFixture.aÉtéCréé) {
         expected.puissance = this.#changementPuissanceWorld.mapToExpected({
@@ -68,11 +78,13 @@ export class PuissanceWorld {
           statut: Lauréat.Puissance.StatutChangementPuissance.accordé,
           puissanceActuelle: puissanceInitiale,
         }).demande.nouvellePuissance;
-        expected.dateDemandeEnCours = undefined;
-      }
-
-      if (this.#changementPuissanceWorld.rejeterChangementPuissanceFixture.aÉtéCréé) {
-        expected.dateDemandeEnCours = undefined;
+        // à voir viovio
+        expected.puissanceDeSite = this.#changementPuissanceWorld.mapToExpected({
+          identifiantProjet,
+          statut: Lauréat.Puissance.StatutChangementPuissance.accordé,
+          puissanceActuelle: puissanceInitiale,
+        }).demande.nouvellePuissanceDeSite;
+        expected.aUneDemandeEnCours = false;
       }
     }
 

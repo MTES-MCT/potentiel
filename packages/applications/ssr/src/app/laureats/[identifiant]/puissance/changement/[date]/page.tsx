@@ -73,7 +73,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           )}
           actions={mapToActions(changement.demande.statut, utilisateur.rôle)}
           dateDemandeEnCours={
-            puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
+            puissance.aUneDemandeEnCours && puissance.dateDernièreDemande
+              ? puissance.dateDernièreDemande.formatter()
+              : undefined
           }
         />
       );

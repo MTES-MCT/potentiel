@@ -38,7 +38,7 @@ Alors(
         },
       });
 
-      expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
+      expect(Option.isSome(actual) && actual.aUneDemandeEnCours).to.be.false;
     });
   },
 );
@@ -132,9 +132,11 @@ async function vérifierChangementPuissance(
     assert(Option.isSome(puissance), 'Puissance non trouvée !');
 
     if (statut.estDemandé()) {
-      expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.not.undefined;
+      expect(Option.isSome(puissance) && puissance.aUneDemandeEnCours).to.be.true;
+      expect(Option.isSome(puissance) && puissance.dateDernièreDemande).to.be.not.undefined;
     } else {
-      expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.undefined;
+      expect(Option.isSome(puissance) && puissance.aUneDemandeEnCours).to.be.false;
+      expect(Option.isSome(puissance) && puissance.dateDernièreDemande).to.be.undefined;
     }
 
     if (

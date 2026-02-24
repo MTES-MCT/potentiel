@@ -38,14 +38,18 @@ export const GET = async (
       data: { identifiantProjet },
     });
 
-    if (Option.isNone(puissance) || !puissance.dateDemandeEnCours) {
+    if (
+      Option.isNone(puissance) ||
+      !puissance.aUneDemandeEnCours ||
+      !puissance.dateDernièreDemande
+    ) {
       return notFound();
     }
 
     const demandeDeChangement =
       await mediator.send<Lauréat.Puissance.ConsulterChangementPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
-        data: { identifiantProjet, demandéLe: puissance.dateDemandeEnCours.formatter() },
+        data: { identifiantProjet, demandéLe: puissance.dateDernièreDemande.formatter() },
       });
 
     if (Option.isNone(demandeDeChangement)) {

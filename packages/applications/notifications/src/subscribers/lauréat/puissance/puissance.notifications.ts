@@ -2,20 +2,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getLauréat } from '#helpers';
-import { getBaseUrl } from '#helpers';
 import { SendEmail } from '#sendEmail';
 
-import {
-  handleChangementPuissanceAccordé,
-  handleChangementPuissanceAnnulé,
-  handleChangementPuissanceDemandé,
-  handleChangementPuissanceEnregistré,
-  handleChangementPuissanceRejeté,
-  handlePuissanceModifiée,
-} from './handlers/index.js';
+import { handleChangementPuissanceDemandé } from './handlers/changementPuissanceDemandé.handler.js';
+import { handleChangementPuissanceAnnulé } from './handlers/changementPuissanceAnnulé.handler.js';
+import { handleChangementPuissanceAccordé } from './handlers/changementPuissanceAccordé.handler.js';
+import { handleChangementPuissanceEnregistré } from './handlers/changementPuissanceEnregistré.handler.js';
+import { handleChangementPuissanceRejeté } from './handlers/changementPuissanceRejeté.handler.js';
+import { handlePuissanceModifié } from './handlers/puissanceModifiée.handler.js';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 
@@ -25,67 +20,19 @@ export type RegisterPuissanceNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencies) => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-
-    const baseUrl = getBaseUrl();
-
-    return match(event)
-      .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
-        handlePuissanceModifiée({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
-        handleChangementPuissanceEnregistré({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
-        handleChangementPuissanceDemandé({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with({ type: 'ChangementPuissanceAnnulé-V1' }, async (event) =>
-        handleChangementPuissanceAnnulé({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
-        handleChangementPuissanceAccordé({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
-        handleChangementPuissanceRejeté({
-          sendEmail,
-          event,
-          projet,
-        }),
-      )
-      .with(
-        {
-          type: P.union('ChangementPuissanceSupprimé-V1', 'PuissanceImportée-V1'),
-        },
-        () => Promise.resolve(),
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'PuissanceModifiée-V1' }, handlePuissanceModifié)
+      .with({ type: 'ChangementPuissanceDemandé-V1' }, handleChangementPuissanceDemandé)
+      .with({ type: 'ChangementPuissanceAccordé-V1' }, handleChangementPuissanceAccordé)
+      .with({ type: 'ChangementPuissanceRejeté-V1' }, handleChangementPuissanceRejeté)
+      .with({ type: 'ChangementPuissanceAnnulé-V1' }, handleChangementPuissanceAnnulé)
+      .with({ type: 'ChangementPuissanceEnregistré-V1' }, handleChangementPuissanceEnregistré)
+      .with({ type: P.union('PuissanceImportée-V1', 'ChangementPuissanceSupprimé-V1') }, () =>
+        Promise.resolve(),
       )
       .exhaustive();
-  };
 
   mediator.register('System.Notification.Lauréat.Puissance', handler);
 };
