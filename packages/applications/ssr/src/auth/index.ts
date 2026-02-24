@@ -28,16 +28,8 @@ export const auth = betterAuth({
   },
   session: {
     cookieCache: {
-      strategy: 'jwe',
+      maxAge: 60 * 60 * 12, // 12 hours
     },
-    expiresIn: 60 * 60 * 12, // 12 hours
-  },
-  // account: {
-  //   storeStateStrategy: 'cookie',
-  //   storeAccountCookie: true,
-  // },
-  advanced: {
-    useSecureCookies: true,
   },
   plugins: [
     oauthProviders.length > 0 && genericOAuth({ config: oauthProviders }),

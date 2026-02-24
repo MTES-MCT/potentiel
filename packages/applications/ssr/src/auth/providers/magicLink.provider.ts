@@ -7,6 +7,7 @@ import { getUtilisateurFromEmail } from '../getUtilisateurFromEmail';
 
 import { buildSendMagicLink } from './magic-link/buildSendMagicLink';
 
+/** Custom Magic Link plugin to add the provider and setup dependencies */
 export const customMagicLink = () => {
   const sendEmail: SendEmailV2 = async (data) => {
     await mediator.send<EnvoyerNotificationCommand>({ type: 'System.Notification.Envoyer', data });
