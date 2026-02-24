@@ -64,7 +64,6 @@ export class PuissanceWorld {
       );
       expected.aUneDemandeEnCours = true;
 
-      // viovio manque le cas supprimé
       if (
         this.#changementPuissanceWorld.annulerChangementPuissanceFixture.aÉtéCréé ||
         this.#changementPuissanceWorld.rejeterChangementPuissanceFixture.aÉtéCréé
@@ -78,7 +77,6 @@ export class PuissanceWorld {
           statut: Lauréat.Puissance.StatutChangementPuissance.accordé,
           puissanceActuelle: puissanceInitiale,
         }).demande.nouvellePuissance;
-        // à voir viovio
         expected.puissanceDeSite = this.#changementPuissanceWorld.mapToExpected({
           identifiantProjet,
           statut: Lauréat.Puissance.StatutChangementPuissance.accordé,
