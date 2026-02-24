@@ -116,7 +116,6 @@ const autorisationDUrbanismeSchema = z
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
-    // est ce qu'on pourrait l'appeler actionnaire ?
     sociétéMère: optionalStringWithDefaultValueSchema,
     nomCandidat: requiredStringSchema,
     puissance: strictlyPositiveNumberSchema,
