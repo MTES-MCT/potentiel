@@ -25,7 +25,7 @@ async function main() {
   await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
 
   // remove bootstrap messages from sentry's breadcrumbs
-  // Sentry.getCurrentScope().clearBreadcrumbs();
+  Sentry.getCurrentScope().clearBreadcrumbs();
 
   const apiHandler = createApiServer('/api/v1');
   const server = createServer(async (req, res) => {
