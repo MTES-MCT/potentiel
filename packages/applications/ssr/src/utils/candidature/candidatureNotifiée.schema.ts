@@ -16,7 +16,6 @@ export const doitRegenererAttestationSchema = booleanSchema.optional();
 
 const candidatureNotifiéeSchema = z
   .object({
-    actionnaire: dépôtSchema.shape.sociétéMère,
     nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
     technologie: dépôtSchema.shape.technologie,
     nomCandidat: dépôtSchema.shape.nomCandidat,
@@ -28,12 +27,14 @@ const candidatureNotifiéeSchema = z
     puissance: dépôtSchema.shape.puissance,
     coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
     puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: dépôtSchema.shape.installateur,
     dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
     natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
+    // beaucoup de champs pas présent dans ce sch"ma mais présent dans dépot
     // différence avec dépôtSchema
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    actionnaire: dépôtSchema.shape.sociétéMère,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
   })
