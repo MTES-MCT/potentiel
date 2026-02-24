@@ -47,7 +47,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   >({});
 
   const [estÉliminé, setEstÉliminé] = useState(candidature.statut === 'éliminé');
-  const [typeGf, setTypeGf] = useState(candidature.typeGarantiesFinancieres);
+  const [typeGf, setTypeGf] = useState(candidature.typeGarantiesFinancières);
 
   const [commune, setCommune] = useState({
     commune: candidature.commune,
@@ -146,12 +146,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['nomRepresentantLegal']}
+        state={validationErrors['nomReprésentantLégal'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['nomReprésentantLégal']}
         label="Nom complet du représentant légal"
         nativeInputProps={{
-          name: 'nomRepresentantLegal',
-          defaultValue: candidature.nomRepresentantLegal,
+          name: 'nomReprésentantLégal',
+          defaultValue: candidature.nomReprésentantLégal,
           required: true,
           'aria-required': true,
         }}
@@ -173,32 +173,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['societeMere'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['societeMere']}
+        state={validationErrors['sociétéMère'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['sociétéMère']}
         label="Société mère (optionnel)"
         nativeInputProps={{
-          name: 'societeMere',
-          defaultValue: candidature.societeMere,
-        }}
-      />
-      <Input
-        state={validationErrors['adresse1'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['adresse1']}
-        label="Adresse 1"
-        nativeInputProps={{
-          name: 'adresse1',
-          defaultValue: candidature.adresse1,
-          required: true,
-          'aria-required': true,
-        }}
-      />
-      <Input
-        state={validationErrors['adresse2'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['adresse2']}
-        label="Adresse 2 (optionnel)"
-        nativeInputProps={{
-          name: 'adresse2',
-          defaultValue: candidature.adresse2,
+          name: 'sociétéMère',
+          defaultValue: candidature.sociétéMère,
         }}
       />
       <div className="flex flex-row gap-2 justify-between">
@@ -233,6 +213,26 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           }}
         />
       </div>
+      <Input
+        state={validationErrors['adresse1'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['adresse1']}
+        label="Adresse 1"
+        nativeInputProps={{
+          name: 'adresse1',
+          defaultValue: candidature.adresse1,
+          required: true,
+          'aria-required': true,
+        }}
+      />
+      <Input
+        state={validationErrors['adresse2'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['adresse2']}
+        label="Adresse 2 (optionnel)"
+        nativeInputProps={{
+          name: 'adresse2',
+          defaultValue: candidature.adresse2,
+        }}
+      />
       <Select
         state={validationErrors['technologie'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['technologie']}
@@ -314,13 +314,13 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
       )}
       <Input
-        state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
+        state={validationErrors['evaluationCarboneSimplifiée'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['evaluationCarboneSimplifiée']}
         label="Évaluation carbone simplifiée"
         hintText="kg eq CO2/kWc"
         nativeInputProps={{
-          name: 'evaluationCarboneSimplifiee',
-          defaultValue: candidature.evaluationCarboneSimplifiee,
+          name: 'evaluationCarboneSimplifiée',
+          defaultValue: candidature.evaluationCarboneSimplifiée,
           required: true,
           'aria-required': true,
           type: 'number',
@@ -347,16 +347,16 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       {!estNotifiée && !estÉliminé ? (
         <>
           <Select
-            state={validationErrors['typeGarantiesFinancieres'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['typeGarantiesFinancieres']}
+            state={validationErrors['typeGarantiesFinancières'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['typeGarantiesFinancières']}
             label="Type de Garanties Financières"
             options={typesGarantiesFinancièresDisponibles.map((type) => ({
               value: type,
               label: getGarantiesFinancièresTypeLabel(type),
             }))}
             nativeSelectProps={{
-              name: 'typeGarantiesFinancieres',
-              defaultValue: candidature.typeGarantiesFinancieres,
+              name: 'typeGarantiesFinancières',
+              defaultValue: candidature.typeGarantiesFinancières,
               required: true,
               'aria-required': true,
               onChange: (e) => setTypeGf(e.target.value),
@@ -364,21 +364,21 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
           {typeGf === 'avec-date-échéance' && (
             <InputDate
-              name="dateEcheanceGf"
+              name="dateÉchéanceGf"
               label="Date d'échéance des Garanties Financières"
               required
               defaultValue={
-                candidature.dateEcheanceGf &&
-                DateTime.convertirEnValueType(candidature.dateEcheanceGf).formatter()
+                candidature.dateÉchéanceGf &&
+                DateTime.convertirEnValueType(candidature.dateÉchéanceGf).formatter()
               }
-              state={validationErrors['dateEcheanceGf'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['dateEcheanceGf']}
+              state={validationErrors['dateÉchéanceGf'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['dateÉchéanceGf']}
             />
           )}
-          {candidature.typeGarantiesFinancieres && candidature.dateConstitutionGf && (
+          {candidature.typeGarantiesFinancières && candidature.dateConstitutionGf && (
             <InputDate
               name="dateConstitutionGf"
-              label={getGarantiesFinancièresDateLabel(candidature.typeGarantiesFinancieres)}
+              label={getGarantiesFinancièresDateLabel(candidature.typeGarantiesFinancières)}
               required
               defaultValue={DateTime.convertirEnValueType(
                 candidature.dateConstitutionGf,
@@ -392,10 +392,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         <>
           <input
             type="hidden"
-            name="typeGarantiesFinancieres"
-            value={candidature.typeGarantiesFinancieres}
+            name="typeGarantiesFinancières"
+            value={candidature.typeGarantiesFinancières}
           />
-          <input type="hidden" name="dateEcheanceGf" value={candidature.dateEcheanceGf} />
+          <input type="hidden" name="dateÉchéanceGf" value={candidature.dateÉchéanceGf} />
         </>
       )}
       {champsSupplémentaires.coefficientKChoisi && (
