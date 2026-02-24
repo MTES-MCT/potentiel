@@ -43,12 +43,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      if (actionnaire.aUneDemandeEnCours) {
+      if (actionnaire.aUneDemandeEnCours && actionnaire.dateDernièreDemande) {
         return (
           <DemandeEnCoursPage
             title="Demande de changement d'actionnaire"
-            href={Routes.Actionnaire.changement.détailsPourRedirection(
+            href={Routes.Actionnaire.changement.détails(
               identifiantProjet.formatter(),
+              actionnaire.dateDernièreDemande.formatter(),
             )}
           />
         );

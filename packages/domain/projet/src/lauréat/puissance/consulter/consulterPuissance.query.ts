@@ -64,6 +64,6 @@ export const mapToReadModel: MapToReadModel = ({
   puissanceInitiale,
   puissanceDeSite,
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
-  aUneDemandeEnCours: !!(dernièreDemande?.statut === 'demandé'),
+  aUneDemandeEnCours: dernièreDemande?.statut === 'demandé',
   dateDernièreDemande: dernièreDemande && DateTime.convertirEnValueType(dernièreDemande.date),
 });
