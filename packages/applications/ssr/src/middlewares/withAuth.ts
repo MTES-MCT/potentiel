@@ -7,9 +7,9 @@ export function withAuth(nextMiddleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {
     const session = await getCookieCache(request, { isSecure: true, strategy: 'jwe' });
     if (!session) {
-      return NextResponse.redirect(
-        new URL('/auth/signIn?callbackUrl=' + encodeURIComponent(request.url), request.url),
-      );
+      const url = new URL('/auth/signIn', request.url);
+      url.searchParams.set('callbackUrl', request.url);
+      return NextResponse.redirect(url);
     }
 
     return nextMiddleware(request, event, NextResponse.next());
