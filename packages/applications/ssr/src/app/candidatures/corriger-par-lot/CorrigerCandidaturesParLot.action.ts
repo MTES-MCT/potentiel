@@ -16,8 +16,8 @@ import {
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
 } from '@/utils/candidature';
-
-import { récupérerColonnesRequisesPourLAOImporté } from '../importer/(csv)/récupérerColonnesRequisesPourLAOImporté';
+import { récupérerChampsSupplémentaires } from '@/utils/candidature/récupérerChampsSupplémentaires';
+import { récupérerColonnesRequises } from '@/utils/candidature/csv/récupérerColonnesRequises';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -32,9 +32,13 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierCorrectionCandidatures, appelOffre, periode },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const colonnesRequises = await récupérerColonnesRequisesPourLAOImporté({
-      appelOffres: appelOffre,
-      periode,
+    const champsSupplémentaires = await récupérerChampsSupplémentaires({
+      appelOffreId: appelOffre,
+      périodeId: periode,
+    });
+
+    const colonnesRequises = await récupérerColonnesRequises({
+      champsSupplémentaires,
     });
 
     const { parsedData, rawData } = await ImportCSV.fromCSV(
