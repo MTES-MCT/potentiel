@@ -14,27 +14,27 @@ import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
 
 export const doitRegenererAttestationSchema = booleanSchema.optional();
 
-const candidatureNotifiéeSchema = z
-  .object({
-    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
-    technologie: dépôtSchema.shape.technologie,
-    nomCandidat: dépôtSchema.shape.nomCandidat,
-    prixReference: dépôtSchema.shape.prixReference,
-    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
-    emailContact: dépôtSchema.shape.emailContact,
-    nomProjet: dépôtSchema.shape.nomProjet,
-    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
-    puissance: dépôtSchema.shape.puissance,
-    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
-    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    installateur: dépôtSchema.shape.installateur,
-    dispositifDeStockage: dépôtSchema.shape.dispositifDeStockage,
-    natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
-    // beaucoup de champs pas présent dans ce sch"ma mais présent dans dépot
-    // différence avec dépôtSchema
+const candidatureNotifiéeSchema = dépôtSchema
+  .pick({
+    sociétéMère: true,
+    nomReprésentantLégal: true,
+    technologie: true,
+    nomCandidat: true,
+    prixReference: true,
+    evaluationCarboneSimplifiée: true,
+    emailContact: true,
+    nomProjet: true,
+    puissanceALaPointe: true,
+    puissance: true,
+    coefficientKChoisi: true,
+    puissanceDeSite: true,
+    installateur: true,
+    dispositifDeStockage: true,
+    natureDeLExploitation: true,
+  })
+  .extend({
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
-    actionnaire: dépôtSchema.shape.sociétéMère,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
   })
@@ -42,15 +42,15 @@ const candidatureNotifiéeSchema = z
 
 const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
 
-const lauréatSchema = z
-  .object({
-    actionnaire: dépôtSchema.shape.sociétéMère,
-    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
-    nomProjet: dépôtSchema.shape.nomProjet,
-    puissance: dépôtSchema.shape.puissance,
-    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    nomCandidat: dépôtSchema.shape.nomCandidat,
-    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
+const lauréatSchema = dépôtSchema
+  .pick({
+    sociétéMère: true,
+    nomReprésentantLégal: true,
+    nomProjet: true,
+    puissance: true,
+    puissanceDeSite: true,
+    evaluationCarboneSimplifiée: true,
+    nomCandidat: true,
   })
   .extend(dépôtSchema.shape.localité.shape);
 

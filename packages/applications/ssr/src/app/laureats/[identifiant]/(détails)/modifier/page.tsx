@@ -52,11 +52,11 @@ type MapToProps = (args: {
 
 const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => ({
   candidature: {
-    actionnaire: candidature.dépôt.sociétéMère,
-    nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
+    sociétéMère: candidature.dépôt.sociétéMère,
+    nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
     technologie: candidature.dépôt.technologie.type,
     emailContact: candidature.dépôt.emailContact.email,
-    evaluationCarboneSimplifiee: candidature.dépôt.evaluationCarboneSimplifiée,
+    evaluationCarboneSimplifiée: candidature.dépôt.evaluationCarboneSimplifiée,
     nomCandidat: candidature.dépôt.nomCandidat,
     prixReference: candidature.dépôt.prixReference,
     noteTotale: candidature.instruction.noteTotale,
@@ -78,11 +78,11 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
   },
   lauréat: {
     statut: mapToPlainObject(lauréat.lauréat.statut),
-    actionnaire: {
+    sociétéMère: {
       currentValue: lauréat.actionnaire.actionnaire,
       estEnCoursDeModification: lauréat.actionnaire.aUneDemandeEnCours,
     },
-    nomRepresentantLegal: {
+    nomReprésentantLégal: {
       currentValue: lauréat.représentantLégal.nomReprésentantLégal,
       estEnCoursDeModification: !!lauréat.représentantLégal.demandeEnCours,
     },
@@ -126,7 +126,7 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
       currentValue: lauréat.producteur.producteur,
       estEnCoursDeModification: false,
     },
-    evaluationCarboneSimplifiee: {
+    evaluationCarboneSimplifiée: {
       currentValue: lauréat.fournisseur.évaluationCarboneSimplifiée,
       estEnCoursDeModification: false,
     },
