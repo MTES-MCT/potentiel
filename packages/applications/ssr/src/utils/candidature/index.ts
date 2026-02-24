@@ -14,3 +14,5 @@ export type * from './nestedKeysForSchema';
 export * from './removeEmptyValues';
 export * from './schemaBase';
 export * from './typologieInstallation.schema';
+export * from './récupérerChampsSupplémentaires';
+export * from './csv/récupérerColonnesRequises';

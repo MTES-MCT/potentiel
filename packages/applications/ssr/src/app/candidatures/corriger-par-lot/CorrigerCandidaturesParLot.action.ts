@@ -15,9 +15,9 @@ import {
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
+  récupérerColonnesRequises,
+  récupérerChampsSupplémentaires,
 } from '@/utils/candidature';
-import { récupérerChampsSupplémentaires } from '@/utils/candidature/récupérerChampsSupplémentaires';
-import { récupérerColonnesRequises } from '@/utils/candidature/csv/récupérerColonnesRequises';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
