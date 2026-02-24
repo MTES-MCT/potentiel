@@ -9,6 +9,8 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { auth } from '@/auth';
 
+export const dynamic = 'force-dynamic';
+
 export default function VerifyRequest() {
   return PageWithErrorHandling(async () => {
     const utilisateur = getContext()?.utilisateur;

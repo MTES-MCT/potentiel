@@ -8,6 +8,8 @@ import { getLogoutUrl } from '@/auth/getLogoutUrl';
 
 import { SignOutRedirect } from './SignOutRedirect';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SignOut() {
   return PageWithErrorHandling(async () => {
     const session = await auth.api.getSession({ headers: headers() });

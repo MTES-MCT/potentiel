@@ -21,6 +21,8 @@ const searchParamsSchema = z.object({
   forceProConnect: z.stringbool().optional(),
 });
 
+export const dynamic = 'force-dynamic';
+
 export default function SignIn({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), forceProConnect } =
