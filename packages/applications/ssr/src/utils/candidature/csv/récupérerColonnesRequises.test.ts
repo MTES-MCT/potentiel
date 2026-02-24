@@ -37,23 +37,23 @@ const colonnesCommunes = [
 
 const champsSupplémentaires: AppelOffre.ChampCandidature[] = [];
 
-test(`Récupérer les colonnes requises de candidature csv sans champs supplémentaires`, async () => {
+test(`Récupérer les colonnes requises de candidature csv sans champs supplémentaires`, () => {
   // cas : import de plusieurs périodes ; période sans champ supplémentaire
-  const actual = await récupérerColonnesRequises({
+  const actual = récupérerColonnesRequises({
     champsSupplémentaires,
   });
 
   expect(actual).to.have.members(colonnesCommunes);
 });
 
-test(`Récupérer les colonnes requises de candidature csv avec champs supplémentaires`, async () => {
+test(`Récupérer les colonnes requises de candidature csv avec champs supplémentaires`, () => {
   const colonnesChampsSupplémentaires = [
     'indexation_k',
     "Date d'obtention de l'autorisation d'urbanisme",
     "Numéro de l'autorisation d'urbanisme",
   ];
 
-  const actual = await récupérerColonnesRequises({
+  const actual = récupérerColonnesRequises({
     champsSupplémentaires: [
       ...champsSupplémentaires,
       'coefficientKChoisi',

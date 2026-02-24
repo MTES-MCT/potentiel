@@ -10,9 +10,9 @@ type RécupérerColonnesRequisesProps = ({
   champsSupplémentaires,
 }: {
   champsSupplémentaires: AppelOffre.ChampCandidature[] | undefined;
-}) => Promise<CsvHeaders>;
+}) => CsvHeaders;
 
-export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = async ({
+export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = ({
   champsSupplémentaires,
 }) => {
   const mappingChampSupplémentairesColonnes = {

@@ -41,10 +41,6 @@ const action: FormAction<FormState, typeof schema> = async (
       périodeId: periode,
     });
 
-    const colonnesRequises = await récupérerColonnesRequises({
-      champsSupplémentaires,
-    });
-
     const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierImportCandidature.content,
       candidatureCsvSchema,
@@ -52,7 +48,9 @@ const action: FormAction<FormState, typeof schema> = async (
         encoding: 'win1252',
         delimiter: ';',
       },
-      colonnesRequises,
+      récupérerColonnesRequises({
+        champsSupplémentaires,
+      }),
     );
 
     if (parsedData.length === 0) {
