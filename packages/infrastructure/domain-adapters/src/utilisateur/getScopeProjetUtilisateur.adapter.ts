@@ -12,7 +12,7 @@ import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur'
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
 
-export const getScopeProjetUtilisateur: GetScopeProjetUtilisateur = async (email) => {
+export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async (email) => {
   const utilisateur = await findProjection<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
 
   if (Option.isNone(utilisateur)) {
