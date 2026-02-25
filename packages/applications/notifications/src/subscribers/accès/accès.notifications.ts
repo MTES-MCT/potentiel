@@ -38,7 +38,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
             raison: 'réclamation',
           },
         },
-        (event) => handleAccèsProjetAutoriséSuiteÀRéclamation({ sendEmail, event, candidature }),
+        handleAccèsProjetAutoriséSuiteÀRéclamation,
       )
       .otherwise(() => Promise.resolve());
   };

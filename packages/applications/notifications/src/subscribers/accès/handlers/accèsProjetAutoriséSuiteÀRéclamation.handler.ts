@@ -1,41 +1,33 @@
-import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerDrealsRecipients } from '#helpers';
-
-import { accèsNotificationTemplateId } from '../constant.js';
-import { AccèsNotificationsProps } from '../type.js';
+import { getProjet, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
-  sendEmail,
-  event: {
-    payload: { identifiantProjet, identifiantUtilisateur },
-  },
-  candidature: { nom, région, département },
-}: AccèsNotificationsProps<Accès.AccèsProjetAutoriséEvent>) {
-  const variables = {
-    nom_projet: nom,
-    departement_projet: département,
-    projet_url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
+  payload: { identifiantProjet },
+}: Accès.AccèsProjetAutoriséEvent) {
+  const projet = await getProjet(identifiantProjet);
+
+  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
+  const drealRecipients = await listerDrealsRecipients(projet.région);
+
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    url: projet.url,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
   };
 
   await sendEmail({
-    templateId: accèsNotificationTemplateId.accèsProjetAutorisé.porteur,
-    messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
-    recipients: [
-      {
-        email: identifiantUtilisateur,
-      },
-    ],
-    variables,
+    key: 'accès/accès_projet_suite_à_réclamation_pour_porteur',
+    values,
+    recipients: porteursRecipients,
   });
 
-  const dreals = await listerDrealsRecipients(région);
-
   await sendEmail({
-    templateId: accèsNotificationTemplateId.accèsProjetAutorisé.dreal,
-    messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
-    recipients: dreals,
-    variables,
+    key: 'accès/accès_projet_suite_à_réclamation_pour_dreal',
+    values,
+    recipients: drealRecipients,
   });
 }

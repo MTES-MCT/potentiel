@@ -6,6 +6,7 @@ export * from './getCahierDesChargesLauréat.js';
 export * from './getCandidature.js';
 export * from './getLauréat.js';
 export * from './getÉliminé.js';
+export * from './getProjet.js';
 export * from './listerAdminEtValidateursRecipients.js';
 export * from './listerCocontractantRecipients.js';
 export * from './listerCreRecipients.js';
