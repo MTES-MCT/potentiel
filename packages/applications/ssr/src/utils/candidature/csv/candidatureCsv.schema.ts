@@ -9,10 +9,7 @@ import {
   numéroCRESchema,
   périodeSchema,
 } from '../identifiantProjet.schema';
-import {
-  dépôtSchema,
-  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
-} from '../dépôt.schema';
+import { dépôtSchema, numéroDAutorisationSchema } from '../dépôt.schema';
 import { instructionSchema } from '../instruction.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -39,7 +36,7 @@ import {
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   territoireProjetSchema,
-  dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
+  dateDAutorisationCsvSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -159,14 +156,10 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [candidatureCsvHeadersMapping.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [candidatureCsvHeadersMapping.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
-    [candidatureCsvHeadersMapping.dateDAutorisationDUrbanisme]:
-      dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
-    [candidatureCsvHeadersMapping.numéroDAutorisationDUrbanisme]:
-      numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    [candidatureCsvHeadersMapping.dateDAutorisationEnvironnementale]:
-      dateDAutorisationDUrbanismeOuEnvironnementaleCsvSchema,
-    [candidatureCsvHeadersMapping.numéroDAutorisationEnvironnementale]:
-      numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    [candidatureCsvHeadersMapping.dateDAutorisationDUrbanisme]: dateDAutorisationCsvSchema,
+    [candidatureCsvHeadersMapping.numéroDAutorisationDUrbanisme]: numéroDAutorisationSchema,
+    [candidatureCsvHeadersMapping.dateDAutorisationEnvironnementale]: dateDAutorisationCsvSchema,
+    [candidatureCsvHeadersMapping.numéroDAutorisationEnvironnementale]: numéroDAutorisationSchema,
     [candidatureCsvHeadersMapping.installateur]: dépôtSchema.shape.installateur,
     [candidatureCsvHeadersMapping.installationAvecDispositifDeStockage]:
       installationAvecDispositifDeStockageCsvSchema,

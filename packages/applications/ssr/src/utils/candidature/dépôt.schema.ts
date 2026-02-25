@@ -16,8 +16,8 @@ import {
   stringToArray,
 } from './schemaBase';
 
-export const dateDAutorisationDUrbanismeOuEnvironnementaleSchema = optionalDateSchema;
-export const numéroDAutorisationDUrbanismeOuEnvironnementaleSchema = optionalStringSchema;
+export const dateDAutorisationSchema = optionalDateSchema;
+export const numéroDAutorisationSchema = optionalStringSchema;
 
 const localitéSchema = z.object({
   adresse1: requiredStringSchema,
@@ -98,26 +98,23 @@ const natureDeLExploitationOptionalSchema = z
   })
   .optional();
 
-export const getAutorisationSchema = (
-  type: 'autorisationEnvironnementale' | 'autorisationDUurbanisme',
-) =>
-  z
-    .object({
-      date: dateDAutorisationDUrbanismeOuEnvironnementaleSchema.optional(),
-      numéro: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema.optional(),
-    })
-    .optional()
-    .refine((val) => !!val?.date === !!val?.numéro, {
-      message: `La date et le numéro de l'autorisation ${type === 'autorisationEnvironnementale' ? 'environnementale' : "d'urbanisme"} doivent être renseignés ensemble.`,
-    })
-    .transform((val) =>
-      val?.date && val?.numéro
-        ? {
-            date: val.date,
-            numéro: val.numéro,
-          }
-        : undefined,
-    );
+const autorisationSchema = z
+  .object({
+    date: dateDAutorisationSchema,
+    numéro: numéroDAutorisationSchema,
+  })
+  .optional()
+  .refine((val) => (val?.date && val?.numéro) || (!val?.date && !val?.numéro), {
+    message: `La date et le numéro de l'autorisation doivent être tous les deux renseignés.`,
+  })
+  .transform((val) =>
+    val?.date && val?.numéro
+      ? {
+          date: val.date,
+          numéro: val.numéro,
+        }
+      : undefined,
+  );
 
 export const dépôtSchema = z
   .object({
@@ -139,8 +136,8 @@ export const dépôtSchema = z
     historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
     obligationDeSolarisation: booleanSchema.optional(),
     puissanceDeSite: optionalStrictlyPositiveNumberSchema,
-    autorisationDUrbanisme: getAutorisationSchema('autorisationDUurbanisme'),
-    autorisationEnvironnementale: getAutorisationSchema('autorisationEnvironnementale'),
+    autorisationDUrbanisme: autorisationSchema,
+    autorisationEnvironnementale: autorisationSchema,
     installateur: optionalStringSchema,
     localité: localitéSchema,
     typologieInstallation: z.array(

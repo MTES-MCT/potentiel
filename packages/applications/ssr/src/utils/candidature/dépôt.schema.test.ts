@@ -436,10 +436,10 @@ describe('Schéma dépôt', () => {
       });
       assert(result.error);
       expect(result.error.issues[0].message).to.equal(
-        "La date et le numéro de l'autorisation d'urbanisme doivent être renseignés ensemble.",
+        "La date et le numéro de l'autorisation doivent être tous les deux renseignés.",
       );
       expect(result.error.issues[1].message).to.equal(
-        "La date et le numéro de l'autorisation environnementale doivent être renseignés ensemble.",
+        "La date et le numéro de l'autorisation doivent être tous les deux renseignés.",
       );
     });
   });

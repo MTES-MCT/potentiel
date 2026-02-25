@@ -4,11 +4,7 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { identifiantProjetSchema } from './identifiantProjet.schema';
 import { NestedKeysForSchema } from './nestedKeysForSchema';
-import {
-  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-  dépôtSchema,
-  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
-} from './dépôt.schema';
+import { dateDAutorisationSchema, dépôtSchema, numéroDAutorisationSchema } from './dépôt.schema';
 import { instructionSchema } from './instruction.schema';
 import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
 
@@ -33,10 +29,10 @@ const candidatureNotifiéeSchema = dépôtSchema
     natureDeLExploitation: true,
   })
   .extend({
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationSchema,
     actionnariat: optionalEnumForCorrection(z.enum(Candidature.TypeActionnariat.types)),
     noteTotale: instructionSchema.shape.noteTotale,
   })

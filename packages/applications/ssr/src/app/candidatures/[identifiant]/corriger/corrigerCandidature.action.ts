@@ -17,8 +17,8 @@ import {
   doitRegenererAttestationSchema,
 } from '@/utils/candidature';
 import {
-  dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-  numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+  dateDAutorisationSchema,
+  numéroDAutorisationSchema,
 } from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
@@ -26,6 +26,7 @@ export type CorrigerCandidaturesState = FormState;
 const schema = dépôtSchema
   .omit({
     autorisationDUrbanisme: true,
+    autorisationEnvironnementale: true,
     localité: true,
     typologieInstallation: true,
     historiqueAbandon: true,
@@ -36,10 +37,10 @@ const schema = dépôtSchema
     statut: instructionSchema.shape.statut.optional(),
     motifElimination: instructionSchema.shape.motifÉlimination,
     noteTotale: instructionSchema.shape.noteTotale,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    dateDAutorisationEnvironnementale: dateDAutorisationDUrbanismeOuEnvironnementaleSchema,
-    numéroDAutorisationEnvironnementale: numéroDAutorisationDUrbanismeOuEnvironnementaleSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationSchema,
+    dateDAutorisationEnvironnementale: dateDAutorisationSchema,
+    numéroDAutorisationEnvironnementale: numéroDAutorisationSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 

@@ -6,7 +6,7 @@ import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { Section } from '@/components/atoms/menu/Section';
 
-import { AutorisationEnvironnementaleDétails } from './AutorisationEnvironnementaleDetails';
+import { AutorisationEnvironnementaleDétails } from './AutorisationEnvironnementaleDétails';
 
 type AutorisationEnvironnementaleSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
