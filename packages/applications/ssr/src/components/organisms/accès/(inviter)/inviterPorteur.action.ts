@@ -107,6 +107,7 @@ const récupérerTousLesProjets = async (utilisateur: Utilisateur.ValueType) => 
       'Seuls les porteurs de projet peuvent inviter à rejoindre tous les projets',
     );
   }
+
   const accès = await mediator.send<Accès.ListerAccèsQuery>({
     type: 'Projet.Accès.Query.ListerAccès',
     data: {

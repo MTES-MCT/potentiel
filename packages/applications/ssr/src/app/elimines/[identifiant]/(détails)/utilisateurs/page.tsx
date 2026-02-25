@@ -79,7 +79,7 @@ const mapToProps: MapToProps = ({
   });
 
 const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
-  if (!utilisateur.rôle.estPorteur()) {
+  if (!utilisateur.rôle.aLaPermission('accès.li')) {
     return undefined;
   }
 

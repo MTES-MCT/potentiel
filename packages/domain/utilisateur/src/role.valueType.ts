@@ -1693,7 +1693,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'accès.retirerAccèsProjet',
   'accès.remplacerAccèsProjet',
   'accès.consulter',
-  'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
@@ -1927,7 +1926,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
   'accès.consulter',
-  'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
