@@ -18,12 +18,14 @@ import {
   candidatureCsvSchema,
   cleanDétailsKeys,
   mapCsvRowToFournisseurs,
+  récupérerColonnesRequises,
+  récupérerChampsSupplémentaires,
 } from '@/utils/candidature';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
-  appelOffre: zod.string(),
-  periode: zod.string(),
+  appelOffre: zod.string().optional(),
+  periode: zod.string().optional(),
   modeMultiple: zod.stringbool().optional(),
 });
 
@@ -34,6 +36,11 @@ const action: FormAction<FormState, typeof schema> = async (
   { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const champsSupplémentaires = await récupérerChampsSupplémentaires({
+      appelOffreId: appelOffre,
+      périodeId: periode,
+    });
+
     const { parsedData, rawData } = await ImportCSV.fromCSV(
       fichierImportCandidature.content,
       candidatureCsvSchema,
@@ -41,6 +48,9 @@ const action: FormAction<FormState, typeof schema> = async (
         encoding: 'win1252',
         delimiter: ';',
       },
+      récupérerColonnesRequises({
+        champsSupplémentaires,
+      }),
     );
 
     if (parsedData.length === 0) {
