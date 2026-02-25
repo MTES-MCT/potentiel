@@ -48,7 +48,6 @@ export class NotifierCandidatures extends Command {
       find: findProjection,
       list: listProjection,
       listHistory: listHistoryProjection,
-
       getScopeProjetUtilisateur: async () => ({ type: 'all' as const }),
       récupérerProjetsEligiblesPreuveRecanditure: async () => [],
     });

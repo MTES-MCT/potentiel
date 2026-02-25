@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
@@ -72,7 +70,8 @@ export const registerListerDemandesAbandonQuery = ({
         miseÀJourLe: 'descending',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         demande: {
           estUneRecandidature: Where.equal(recandidature),

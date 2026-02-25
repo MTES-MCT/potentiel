@@ -12,7 +12,10 @@ import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur'
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
 
-export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async (email) => {
+export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async (
+  email,
+  filterOnScope,
+) => {
   const utilisateur = await findProjection<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
 
   if (Option.isNone(utilisateur)) {
@@ -35,17 +38,28 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
         },
       });
 
+      const identifiantProjetsDuPorteur = items.map(({ identifiantProjet }) =>
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
+
+      const filteredIdentifiantProjetsDuPorteur =
+        filterOnScope?.type === 'projet'
+          ? filterOnScope.identifiantProjets.filter((id) =>
+              identifiantProjetsDuPorteur.includes(id),
+            )
+          : identifiantProjetsDuPorteur;
+
       return {
         type: 'projet',
-        identifiantProjets: items.map(({ identifiantProjet }) =>
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-        ),
+        identifiantProjets: filteredIdentifiantProjetsDuPorteur,
       };
     })
-    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => ({
-      type: 'gestionnaire-réseau',
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
-    }))
+    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => {
+      return {
+        type: 'gestionnaire-réseau',
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
+      };
+    })
     .with({ rôle: 'cocontractant' }, async (value) => ({
       type: 'région',
       régions: Région.régions.filter((région) =>
@@ -66,11 +80,21 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           },
         );
 
+      const identifiantProjetPourCaisseDesDépôts = projetsAvecGfConsignation.items.map(
+        ({ identifiantProjet }) =>
+          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+      );
+
+      const filteredIdentifiantProjets =
+        filterOnScope?.type === 'projet'
+          ? filterOnScope.identifiantProjets.filter((id) =>
+              identifiantProjetPourCaisseDesDépôts.includes(id),
+            )
+          : identifiantProjetPourCaisseDesDépôts;
+
       return {
         type: 'projet',
-        identifiantProjets: projetsAvecGfConsignation.items.map(({ identifiantProjet }) =>
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-        ),
+        identifiantProjets: filteredIdentifiantProjets,
       };
     })
     .with({ rôle: 'admin' }, async () => ({ type: 'all' }))

@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity.js';
 import {
@@ -76,7 +74,8 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
         orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
         range,
         where: {
-          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
         join: {
           entity: 'lauréat',

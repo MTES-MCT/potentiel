@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
@@ -57,7 +55,10 @@ export const registerListerDemandeDélaiQuery = ({
     identifiantProjet,
     autoritéCompétente,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(utilisateur),
+      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
+    );
 
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
@@ -76,7 +77,8 @@ export const registerListerDemandeDélaiQuery = ({
         },
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

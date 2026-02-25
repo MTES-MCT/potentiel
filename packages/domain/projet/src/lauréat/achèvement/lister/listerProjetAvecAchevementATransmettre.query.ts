@@ -4,8 +4,6 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity, Raccordement } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../../candidature/index.js';
@@ -76,7 +74,8 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       'dossier-raccordement',
       {
         where: {
-          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
         join: [
           {

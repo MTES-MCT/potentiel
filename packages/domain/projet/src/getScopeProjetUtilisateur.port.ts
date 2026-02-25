@@ -23,4 +23,7 @@ type GestionnaireRéseauScope = {
 
 export type ProjetUtilisateurScope = AllScope | RégionScope | ProjetScope | GestionnaireRéseauScope;
 
-export type GetScopeProjetUtilisateur = (email: Email.ValueType) => Promise<ProjetUtilisateurScope>;
+export type GetScopeProjetUtilisateur = (
+  email: Email.ValueType,
+  filterOnScope?: RégionScope | ProjetScope | GestionnaireRéseauScope,
+) => Promise<ProjetUtilisateurScope>;

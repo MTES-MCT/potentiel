@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { ChangementInstallateurEntity } from '../changementInstallateur.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../../index.js';
@@ -69,7 +67,8 @@ export const registerListerChangementInstallateurQuery = ({
           },
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
       },
     );

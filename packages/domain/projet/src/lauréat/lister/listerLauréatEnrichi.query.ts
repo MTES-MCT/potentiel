@@ -4,8 +4,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { LauréatEntity } from '../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -135,14 +133,18 @@ export const registerListerLauréatEnrichiQuery = ({
     statut,
     typeActionnariat,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(utilisateur),
+      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
+    );
 
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),

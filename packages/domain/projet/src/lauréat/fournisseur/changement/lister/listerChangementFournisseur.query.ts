@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { ChangementFournisseurEntity } from '../changementFournisseur.entity.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
 import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
@@ -71,7 +69,8 @@ export const registerListerChangementFournisseurQuery = ({
           },
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
       },
     );

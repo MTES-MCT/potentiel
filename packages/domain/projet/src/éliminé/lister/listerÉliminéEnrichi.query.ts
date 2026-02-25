@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { ÉliminéEntity } from '../éliminé.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -105,7 +103,10 @@ export const registerListerÉliminéEnrichiQuery = ({
     identifiantProjet,
     typeActionnariat,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(utilisateur),
+      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
+    );
 
     const éliminés = await list<CandidatureEntity, [ÉliminéEntity, DétailCandidatureEntity]>(
       'candidature',
@@ -114,7 +115,8 @@ export const registerListerÉliminéEnrichiQuery = ({
           identifiantProjet: 'ascending',
         },
         where: {
-          identifiantProjet: getIdentifiantProjetWhereCondition(scope, identifiantProjet),
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),

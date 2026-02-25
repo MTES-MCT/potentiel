@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { CandidatureEntity } from '../candidature.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
@@ -79,7 +77,8 @@ export const registerListerDétailsFournisseurQuery = ({
         on: 'identifiantProjet',
       },
       where: {
-        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         localité: {
           région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
         },

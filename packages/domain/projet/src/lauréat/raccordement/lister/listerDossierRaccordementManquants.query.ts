@@ -4,8 +4,6 @@ import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/e
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { getIdentifiantProjetWhereCondition } from '#helpers';
-
 import { RaccordementEntity } from '../raccordement.entity.js';
 import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
@@ -75,7 +73,8 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       total,
     } = await list<RaccordementEntity, ListerDossierRaccordementManquantJoins>('raccordement', {
       where: {
-        identifiantProjet: getIdentifiantProjetWhereCondition(scope),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         identifiantGestionnaireRéseau: Where.equal(
           scope.type === 'gestionnaire-réseau'
             ? scope.identifiantGestionnaireRéseau
