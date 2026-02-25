@@ -1,3 +1,5 @@
+import { parse } from 'url';
+
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { getSessionCookie } from 'better-auth/cookies';
 
@@ -10,7 +12,11 @@ export function withAuth(nextMiddleware: CustomMiddleware) {
     const session = getSessionCookie(request);
     if (!session) {
       const url = new URL('/auth/signIn', request.url);
-      url.searchParams.set('callbackUrl', request.url);
+      const { path } = parse(request.url, true);
+      if (path) {
+        const callbackUrl = new URL(path, process.env.BASE_URL);
+        url.searchParams.set('callbackUrl', callbackUrl.toString());
+      }
       return NextResponse.redirect(url);
     }
 
