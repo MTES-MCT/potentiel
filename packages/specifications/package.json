@@ -17,7 +17,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "3.842.0",
+    "@aws-sdk/client-s3": "3.997.0",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/notifications": "*",
     "@potentiel-applications/subscribers": "*",

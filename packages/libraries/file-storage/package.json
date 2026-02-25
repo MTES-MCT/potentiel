@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
-    "@aws-sdk/client-s3": "3.842.0",
-    "@aws-sdk/lib-storage": "3.787.0"
+    "@aws-sdk/client-s3": "3.997.0",
+    "@aws-sdk/lib-storage": "3.997.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
