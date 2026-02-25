@@ -23,35 +23,21 @@ import {
 
 export type CorrigerCandidaturesState = FormState;
 
-// sans les accents, et avec les champs spécifiques à la correction
-const schema = zod
-  .object({
+const schema = dépôtSchema
+  .omit({
+    autorisationDUrbanisme: true,
+    localité: true,
+    typologieInstallation: true,
+    historiqueAbandon: true,
+  })
+  .extend({
     identifiantProjet: identifiantProjetSchema,
     doitRegenererAttestation: doitRegenererAttestationSchema,
-    nomProjet: dépôtSchema.shape.nomProjet,
-    societeMere: dépôtSchema.shape.sociétéMère,
-    nomCandidat: dépôtSchema.shape.nomCandidat,
-    puissance: dépôtSchema.shape.puissance,
-    prixReference: dépôtSchema.shape.prixReference,
-    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
-    emailContact: dépôtSchema.shape.emailContact,
-    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
-    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
-    actionnariat: dépôtSchema.shape.actionnariat,
-    technologie: dépôtSchema.shape.technologie,
-    typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
-    dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
-    dateConstitutionGf: dépôtSchema.shape.dateConstitutionGf,
-    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
-    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
-    installateur: dépôtSchema.shape.installateur,
-    natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
-    puissanceProjetInitial: dépôtSchema.shape.puissanceProjetInitial,
     statut: instructionSchema.shape.statut.optional(),
     motifElimination: instructionSchema.shape.motifÉlimination,
     noteTotale: instructionSchema.shape.noteTotale,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -94,11 +80,11 @@ const mapBodyToUseCaseData = (
     },
     dépôtValue: {
       nomProjet: data.nomProjet,
-      sociétéMère: data.societeMere,
+      sociétéMère: data.sociétéMère,
       nomCandidat: data.nomCandidat,
       puissance: data.puissance,
       prixReference: data.prixReference,
-      nomReprésentantLégal: data.nomRepresentantLegal,
+      nomReprésentantLégal: data.nomReprésentantLégal,
       emailContact: data.emailContact,
       localité: {
         codePostal: data.codePostal,
@@ -109,13 +95,13 @@ const mapBodyToUseCaseData = (
         région: data.région,
       },
       puissanceALaPointe: data.puissanceALaPointe,
-      evaluationCarboneSimplifiée: data.evaluationCarboneSimplifiee,
+      evaluationCarboneSimplifiée: data.evaluationCarboneSimplifiée,
       actionnariat: data.actionnariat,
       technologie: data.technologie,
 
-      typeGarantiesFinancières: data.typeGarantiesFinancieres,
-      dateÉchéanceGf: data.dateEcheanceGf
-        ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
+      typeGarantiesFinancières: data.typeGarantiesFinancières,
+      dateÉchéanceGf: data.dateÉchéanceGf
+        ? DateTime.convertirEnValueType(data.dateÉchéanceGf).formatter()
         : undefined,
       dateConstitutionGf: data.dateConstitutionGf
         ? DateTime.convertirEnValueType(data.dateConstitutionGf).formatter()

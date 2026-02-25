@@ -61,7 +61,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     }
 
     if (laureat) {
-      if (laureat.actionnaire) {
+      if (laureat.sociétéMère) {
         await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
           type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
           data: {
@@ -69,12 +69,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
             raisonValue: '',
-            actionnaireValue: laureat.actionnaire,
+            actionnaireValue: laureat.sociétéMère,
           },
         });
       }
 
-      if (laureat.nomRepresentantLegal) {
+      if (laureat.nomReprésentantLégal) {
         const représentantLégal = await getReprésentantLégalInfos(rawIdentifiantProjet);
 
         await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
@@ -83,7 +83,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
-            nomReprésentantLégalValue: laureat.nomRepresentantLegal,
+            nomReprésentantLégalValue: laureat.nomReprésentantLégal,
             typeReprésentantLégalValue: représentantLégal.typeReprésentantLégal.formatter(),
             raisonValue: '',
           },
@@ -119,12 +119,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.evaluationCarboneSimplifiee) {
+      if (laureat.evaluationCarboneSimplifiée) {
         await mediator.send<Lauréat.Fournisseur.ModifierÉvaluationCarboneUseCase>({
           type: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
           data: {
             identifiantProjetValue: identifiantProjet,
-            évaluationCarboneSimplifiéeValue: laureat.evaluationCarboneSimplifiee,
+            évaluationCarboneSimplifiéeValue: laureat.evaluationCarboneSimplifiée,
             modifiéeLeValue: new Date().toISOString(),
             modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -209,8 +209,8 @@ const mapBodyToCandidatureUsecaseData = (
     },
     dépôtValue: {
       nomProjet: data.nomProjet ?? previous.nomProjet,
-      sociétéMère: data.actionnaire ?? previous.sociétéMère,
-      nomReprésentantLégal: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
+      sociétéMère: data.sociétéMère ?? previous.sociétéMère,
+      nomReprésentantLégal: data.nomReprésentantLégal ?? previous.nomReprésentantLégal,
       technologie: data.technologie ?? previous.technologie.formatter(),
       nomCandidat: data.nomCandidat ?? previous.nomCandidat,
       puissance: data.puissance ?? previous.puissance,
@@ -219,7 +219,7 @@ const mapBodyToCandidatureUsecaseData = (
       localité: localitéValue,
       puissanceALaPointe: data.puissanceALaPointe ?? previous.puissanceALaPointe,
       evaluationCarboneSimplifiée:
-        data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
+        data.evaluationCarboneSimplifiée ?? previous.evaluationCarboneSimplifiée,
       actionnariat:
         data.actionnariat === ''
           ? undefined

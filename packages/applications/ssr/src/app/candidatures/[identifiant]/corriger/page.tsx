@@ -93,13 +93,13 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
 
     nomProjet: candidature.dépôt.nomProjet,
     nomCandidat: candidature.dépôt.nomCandidat,
-    nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
+    nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
     emailContact: candidature.dépôt.emailContact.formatter(),
     puissance: candidature.dépôt.puissance,
     prixReference: candidature.dépôt.prixReference,
-    societeMere: candidature.dépôt.sociétéMère,
+    sociétéMère: candidature.dépôt.sociétéMère,
     puissanceALaPointe: candidature.dépôt.puissanceALaPointe,
-    evaluationCarboneSimplifiee: candidature.dépôt.evaluationCarboneSimplifiée,
+    evaluationCarboneSimplifiée: candidature.dépôt.evaluationCarboneSimplifiée,
     actionnariat: candidature.dépôt.actionnariat?.formatter(),
     adresse1: candidature.dépôt.localité.adresse1,
     adresse2: candidature.dépôt.localité.adresse2,
@@ -108,8 +108,8 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     département: candidature.dépôt.localité.département,
     région: candidature.dépôt.localité.région,
     technologie: candidature.dépôt.technologie.formatter(),
-    typeGarantiesFinancieres: candidature.dépôt.garantiesFinancières?.type.type,
-    dateEcheanceGf: candidature.dépôt.garantiesFinancières?.estAvecDateÉchéance()
+    typeGarantiesFinancières: candidature.dépôt.garantiesFinancières?.type.type,
+    dateÉchéanceGf: candidature.dépôt.garantiesFinancières?.estAvecDateÉchéance()
       ? candidature.dépôt.garantiesFinancières.dateÉchéance?.formatter()
       : undefined,
     dateConstitutionGf: candidature.dépôt.garantiesFinancières?.estConstitué()

@@ -152,11 +152,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         <FormRow>
           <ProjectField
-            candidature={candidature.nomRepresentantLegal}
-            lauréat={lauréat.nomRepresentantLegal.currentValue}
-            estEnCoursDeModification={lauréat.nomRepresentantLegal.estEnCoursDeModification}
+            candidature={candidature.nomReprésentantLégal}
+            lauréat={lauréat.nomReprésentantLégal.currentValue}
+            estEnCoursDeModification={lauréat.nomReprésentantLégal.estEnCoursDeModification}
             label="Nom du représentant légal"
-            name="nomRepresentantLegal"
+            name="nomReprésentantLégal"
             validationErrors={validationErrors}
             required
           />
@@ -179,11 +179,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         <FormRow>
           <ProjectField
-            candidature={candidature.actionnaire}
-            lauréat={lauréat.actionnaire.currentValue}
-            estEnCoursDeModification={lauréat.actionnaire.estEnCoursDeModification}
+            candidature={candidature.sociétéMère}
+            lauréat={lauréat.sociétéMère.currentValue}
+            estEnCoursDeModification={lauréat.sociétéMère.estEnCoursDeModification}
             label="Actionnaire(s)"
-            name="actionnaire"
+            name="sociétéMère"
             validationErrors={validationErrors}
             required
           />
@@ -295,12 +295,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
 
         <FormRow>
           <ProjectField
-            candidature={candidature.evaluationCarboneSimplifiee}
-            lauréat={lauréat.evaluationCarboneSimplifiee.currentValue}
+            candidature={candidature.evaluationCarboneSimplifiée}
+            lauréat={lauréat.evaluationCarboneSimplifiée.currentValue}
             label="Evaluation carbone"
-            name="evaluationCarboneSimplifiee"
+            name="evaluationCarboneSimplifiée"
             validationErrors={validationErrors}
-            estEnCoursDeModification={lauréat.evaluationCarboneSimplifiee.estEnCoursDeModification}
+            estEnCoursDeModification={lauréat.evaluationCarboneSimplifiée.estEnCoursDeModification}
             required
           />
         </FormRow>
