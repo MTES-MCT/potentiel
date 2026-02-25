@@ -21,8 +21,8 @@ Fonctionnalité: Réclamer un projet en tant que porteur
 
         Exemples:
             | Statut  | Url                                        |
-            | éliminé | https://potentiel.beta.gouv.fr/elimines/.* |
             | lauréat | https://potentiel.beta.gouv.fr/laureats/.* |
+            | éliminé | https://potentiel.beta.gouv.fr/elimines/.* |
 
     Scénario: Réclamer un projet en connaissant le prix et le numéro CRE
         Etant donné le projet lauréat "Du boulodrome de Lormont"

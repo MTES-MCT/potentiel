@@ -22,6 +22,6 @@ export const getÉliminé = async (identifiantProjet: string) => {
     nom: éliminé.nomProjet,
     région: éliminé.localité.région,
     département: éliminé.localité.département,
-    url: getBaseUrl() + Routes.Projet.details(identifiantProjet),
+    url: `${getBaseUrl()}${Routes.Éliminé.détails.tableauDeBord(identifiantProjet)}`,
   };
 };
