@@ -20,9 +20,10 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | type GF         | avec-date-échéance       |
             | date d'échéance | 2024-08-01               |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Révocation de vos accès pour le projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                    |
-            | cause      | Cela fait suite à un changement de producteur déclaré sur Potentiel.          |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Révocation de la gestion du projet |
+            | nom_projet | Du boulodrome de Marseille                                                  |
+            | cause      | Cela fait suite à un changement de producteur déclaré sur Potentiel.        |
+            | url        | https://potentiel.beta.gouv.fr/laureats                                     |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Déclaration de changement de producteur |
             | nom_projet | Du boulodrome de Marseille                                                       |
