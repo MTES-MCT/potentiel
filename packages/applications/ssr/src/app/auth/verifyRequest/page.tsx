@@ -16,7 +16,6 @@ export default function VerifyRequest() {
       redirect(Routes.Auth.redirectToDashboard());
     }
 
-    console.log(auth.options.plugins.find((x) => x.id === 'magic-link')?.options);
     const expiresInSeconds =
       auth.options.plugins.find((x) => x.id === 'magic-link')?.options.expiresIn ?? 60 * 5;
 

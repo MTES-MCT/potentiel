@@ -35,7 +35,7 @@ export const getProviders = (): ProviderConfigurationMap => {
     throw new Error(`Invalid environment variables: ${result.error.message}`);
   }
 
-  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO = '', AUTH_PROVIDERS_DREAL_DGEC = '' } = result.data;
+  const { AUTH_PROVIDERS, AUTH_PROVIDERS_KO, AUTH_PROVIDERS_DREAL_DGEC } = result.data;
 
   const koProviders = new Set(AUTH_PROVIDERS_KO);
   const enabledAgentsPublicsProviders = new Set(AUTH_PROVIDERS_DREAL_DGEC);
