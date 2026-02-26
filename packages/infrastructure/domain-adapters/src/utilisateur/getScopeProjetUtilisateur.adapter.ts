@@ -30,10 +30,16 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
 
   return match(utilisateur)
     .returnType<Promise<ProjetUtilisateurScope>>()
-    .with({ rôle: 'dreal' }, async (value) => ({
-      type: 'région',
-      régions: value.région ? [value.région] : [],
-    }))
+    .with({ rôle: 'dreal' }, async (value) => {
+      const drealRégions = value.région ? [value.région] : [];
+
+      return {
+        ...filters,
+        régions: filters?.régions
+          ? filters.régions.filter((région) => drealRégions.includes(région))
+          : drealRégions,
+      };
+    })
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
@@ -92,7 +98,7 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           : identifiantProjetPourCaisseDesDépôts,
       };
     })
-    .with({ rôle: 'admin' }, async () => filters ?? {})
+    .with({ rôle: 'admin' }, async () => filters)
     .with({ rôle: 'dgec-validateur' }, async () => filters)
     .with({ rôle: 'cre' }, async () => filters)
     .with({ rôle: 'ademe' }, async () => filters)

@@ -44,7 +44,7 @@ export const registerListerAccèsQuery = ({
     const accès = await list<AccèsEntity, CandidatureEntity>('accès', {
       range,
       where: {
-        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
       },
       join: {
         entity: 'candidature',

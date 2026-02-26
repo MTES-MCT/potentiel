@@ -32,7 +32,7 @@ export const registerConsulterNombreTâchesQuery = ({
 
     const nombreTâches = await count<TâcheEntity>('tâche', {
       where: {
-        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
       },
     });
 

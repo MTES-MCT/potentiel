@@ -1,10 +1,11 @@
 import { Email } from '@potentiel-domain/common';
+import { Région } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from './index.js';
 
 export type ProjetUtilisateurScope = {
   identifiantProjets?: Array<IdentifiantProjet.RawType>;
-  régions?: string[];
+  régions?: Région.RawType[];
   identifiantGestionnaireRéseau?: string;
 };
 

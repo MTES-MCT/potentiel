@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Role, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Role, Région, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 
 import { LauréatEntity } from '../../lauréat/index.js';
@@ -67,7 +67,9 @@ export const registerVérifierAccèsProjetQuery = ({
       )
       .with({ régions: P.not(P.nullish) }, async ({ régions }) => {
         const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-        return régions.includes(régionProjet);
+        return régionProjet
+          ? régions.includes(Région.convertirEnValueType(régionProjet).formatter())
+          : false;
       })
       .with(
         { identifiantGestionnaireRéseau: P.not(P.nullish) },
@@ -99,7 +101,7 @@ export const registerVérifierAccèsProjetQuery = ({
       return candidature.localité.région;
     }
 
-    return '__AUCUNE RÉGION__';
+    return undefined;
   };
 
   const récupérerIdentifiantGestionnaireRéseauProjet = async (identifiantProjet: string) => {
