@@ -25,7 +25,7 @@ import { ImporterCandidatureOptions } from './importer/importerCandidature.optio
 import * as TypeTechnologie from './typeTechnologie.valueType.js';
 import {
   AttestationNonGénéréeError,
-  AutorisationDUrbanismeRequiseError,
+  AutorisationRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
@@ -33,7 +33,7 @@ import {
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
-  DateAutorisationDUrbanismeError,
+  DateAutorisationError,
   FonctionManquanteError,
   InstallateurNonAttenduError,
   InstallateurRequisError,
@@ -376,7 +376,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     const {
       coefficientKChoisi,
       puissanceDeSite,
-      autorisationDUrbanisme,
+      autorisation,
       installateur,
       dispositifDeStockage,
       natureDeLExploitation,
@@ -414,15 +414,12 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new NatureDeLExploitationNonAttendueError();
     }
 
-    if (
-      autorisationDUrbanisme === 'requis' &&
-      (!dépôt.autorisationDUrbanisme?.date || !dépôt.autorisationDUrbanisme?.numéro)
-    ) {
-      throw new AutorisationDUrbanismeRequiseError();
+    if (autorisation === 'requis' && (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)) {
+      throw new AutorisationRequiseError();
     }
 
-    if (dépôt.autorisationDUrbanisme?.date.estDansLeFutur()) {
-      throw new DateAutorisationDUrbanismeError();
+    if (dépôt.autorisation?.date.estDansLeFutur()) {
+      throw new DateAutorisationError();
     }
 
     if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {

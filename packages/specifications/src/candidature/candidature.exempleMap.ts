@@ -16,7 +16,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     Candidature.Dépôt.RawType,
     | 'localité'
     | 'fournisseurs'
-    | 'autorisationDUrbanisme'
+    | 'autorisation'
     | 'typologieInstallation'
     | 'attestationConstitutionGf'
     | 'dispositifDeStockage'
@@ -76,12 +76,12 @@ export const localitéExempleMap: FieldToExempleMapper<Candidature.Localité.Raw
   département: ['département'],
 };
 
-export const autorisationDUrbanismeExempleMap: FieldToExempleMapper<{
+export const autorisationExempleMap: FieldToExempleMapper<{
   numéro: string;
   date: DateTime.RawType;
 }> = {
-  date: [`date d'obtention de l'autorisation d'urbanisme`, mapDateTime],
-  numéro: [`numéro de l'autorisation d'urbanisme`],
+  date: [`date d'obtention de l'autorisation`, mapDateTime],
+  numéro: [`numéro de l'autorisation`],
 };
 
 export const formatAttestationGFExempleMap: FieldToExempleMapper<{

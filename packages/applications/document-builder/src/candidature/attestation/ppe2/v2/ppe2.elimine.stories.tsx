@@ -52,7 +52,7 @@ const fakeProject = {
   technologie: 'pv',
   unitePuissance: 'MW',
   coefficientKChoisi: undefined,
-  autorisationDUrbanisme: undefined,
+  autorisation: undefined,
 } satisfies AttestationPPE2V2Options;
 
 export const EliminePPE2AuDessusDePcible: Story = {

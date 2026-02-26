@@ -60,15 +60,15 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               <Field name="Société mère">
                 <span>{dépôt.sociétéMère || 'Non renseignée'}</span>
               </Field>
-              {dépôt.autorisationDUrbanisme !== undefined && (
-                <Field name="Autorisation d'urbanisme">
-                  <span>Numéro : {dépôt.autorisationDUrbanisme.numéro}</span>
+              {dépôt.autorisation !== undefined && (
+                <Field name="Autorisation">
+                  <span>Numéro : {dépôt.autorisation.numéro}</span>
                   <span>
                     Date d'obtention :{' '}
                     {
                       <FormattedDate
                         date={DateTime.convertirEnValueType(
-                          dépôt.autorisationDUrbanisme.date.date,
+                          dépôt.autorisation.date.date,
                         ).formatter()}
                       />
                     }
