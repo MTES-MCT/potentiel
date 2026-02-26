@@ -7,7 +7,7 @@ import {
 } from './providers/getProviderConfiguration';
 import { proconnect } from './providers/proconnect.provider';
 import { customKeycloak } from './providers/keycloak.provider';
-import { customMagicLink } from './providers/magicLink.provider';
+import { customMagicLink } from './providers/magic-link/magicLink.provider';
 import { getProviders } from './providers/authProvider';
 import { auditLogs } from './plugins/audit-log.plugin';
 
