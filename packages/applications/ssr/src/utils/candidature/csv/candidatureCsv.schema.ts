@@ -9,7 +9,7 @@ import {
   numéroCRESchema,
   périodeSchema,
 } from '../identifiantProjet.schema';
-import { dépôtSchema, numéroDAutorisationDUrbanismeSchema } from '../dépôt.schema';
+import { dépôtSchema, numéroDAutorisationSchema } from '../dépôt.schema';
 import { instructionSchema } from '../instruction.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -18,7 +18,7 @@ import {
   capacitéDuDispositifDeStockageSchema,
   choixCoefficientKCsvSchema,
   codePostalCsvSchema,
-  dateDAutorisationDUrbanismeCsvSchema,
+  dateDAutorisationCsvSchema,
   dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
@@ -110,8 +110,8 @@ export const candidatureCsvHeadersMapping = {
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
-  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
-  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
+  dateDAutorisation: "date d'obtention de l'autorisation",
+  numéroDAutorisation: "numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
 } as const;
 
@@ -154,10 +154,8 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [candidatureCsvHeadersMapping.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [candidatureCsvHeadersMapping.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
-    [candidatureCsvHeadersMapping.dateDAutorisationDUrbanisme]:
-      dateDAutorisationDUrbanismeCsvSchema,
-    [candidatureCsvHeadersMapping.numéroDAutorisationDUrbanisme]:
-      numéroDAutorisationDUrbanismeSchema,
+    [candidatureCsvHeadersMapping.dateDAutorisation]: dateDAutorisationCsvSchema,
+    [candidatureCsvHeadersMapping.numéroDAutorisation]: numéroDAutorisationSchema,
     [candidatureCsvHeadersMapping.installateur]: dépôtSchema.shape.installateur,
     [candidatureCsvHeadersMapping.installationAvecDispositifDeStockage]:
       installationAvecDispositifDeStockageCsvSchema,
@@ -298,8 +296,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     ({
       financementCollectif,
       gouvernancePartagée,
-      numéroDAutorisationDUrbanisme,
-      dateDAutorisationDUrbanisme,
+      numéroDAutorisation,
+      dateDAutorisation,
       typologieDeBâtiment,
       typeInstallationsAgrivoltaïques,
       élémentsSousOmbrière,
@@ -334,11 +332,11 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           : gouvernancePartagée
             ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
             : undefined,
-        autorisationDUrbanisme:
-          dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+        autorisation:
+          dateDAutorisation && numéroDAutorisation
             ? {
-                date: dateDAutorisationDUrbanisme,
-                numéro: numéroDAutorisationDUrbanisme,
+                date: dateDAutorisation,
+                numéro: numéroDAutorisation,
               }
             : undefined,
         natureDeLExploitation:

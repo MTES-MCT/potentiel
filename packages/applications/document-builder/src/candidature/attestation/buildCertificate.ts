@@ -134,10 +134,10 @@ const mapToCertificateData = ({
         periodeDetails: période,
       }),
       coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
-      autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme
+      autorisation: candidature.dépôt.autorisation
         ? {
-            date: candidature.dépôt.autorisationDUrbanisme.date.date,
-            numéro: candidature.dépôt.autorisationDUrbanisme.numéro,
+            date: candidature.dépôt.autorisation.date.date,
+            numéro: candidature.dépôt.autorisation.numéro,
           }
         : undefined,
 

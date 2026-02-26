@@ -43,11 +43,11 @@ Fonctionnalité: Importer une candidature
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
 
-    Scénario: Importer une candidature avec une autorisation d'urbanisme pour un appel d'offres qui a ce champ requis
+    Scénario: Importer une candidature avec une autorisation pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres                                 | PPE2 - Petit PV Bâtiment |
-            | numéro de l'autorisation d'urbanisme           | 123                      |
-            | date d'obtention de l'autorisation d'urbanisme | 01/08/2025               |
+            | appel d'offres                     | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation           | 123                      |
+            | date d'obtention de l'autorisation | 01/08/2025               |
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
 
@@ -176,19 +176,19 @@ Fonctionnalité: Importer une candidature
             | type de nature de l'exploitation |                          |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation est requise pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offres qui a ces champs requis
+    Scénario: Impossible d'importer une candidature sans autorisation pour un appel d'offres qui a ces champs requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres                                 | PPE2 - Petit PV Bâtiment |
-            | numéro de l'autorisation d'urbanisme           |                          |
-            | date d'obtention de l'autorisation d'urbanisme |                          |
-        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offres"
+            | appel d'offres                     | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation           |                          |
+            | date d'obtention de l'autorisation |                          |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation sont requis pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature avec une date d'obtention de l'autorisation d'urbanisme dans le futur
+    Scénario: Impossible d'importer une candidature avec une date d'obtention de l'autorisation dans le futur
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres                                 | PPE2 - Petit PV Bâtiment |
-            | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
-            | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
-        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
+            | appel d'offres                     | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation | 01/02/2060               |
+        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation doit être antérieure à la date du jour"
 
     Scénario: Impossible d'importer une candidature sans dispositif de stockage pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

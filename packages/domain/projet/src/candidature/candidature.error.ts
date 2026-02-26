@@ -139,19 +139,15 @@ export class TechnologieIndisponibleError extends InvalidOperationError {
   }
 }
 
-export class AutorisationDUrbanismeRequiseError extends InvalidOperationError {
+export class AutorisationRequiseError extends InvalidOperationError {
   constructor() {
-    super(
-      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offres",
-    );
+    super("Le numéro et la date d'obtention de l'autorisation sont requis pour cet appel d'offres");
   }
 }
 
-export class DateAutorisationDUrbanismeError extends InvalidOperationError {
+export class DateAutorisationError extends InvalidOperationError {
   constructor() {
-    super(
-      "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour",
-    );
+    super("La date d'obtention de l'autorisation doit être antérieure à la date du jour");
   }
 }
 

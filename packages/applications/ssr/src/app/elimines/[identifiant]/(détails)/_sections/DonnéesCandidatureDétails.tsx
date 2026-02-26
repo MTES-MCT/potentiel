@@ -23,7 +23,7 @@ export const DonnéesCandidatureDétail: FC<DonnéesCandidatureDétailProps> = (
     emailContact,
     nomCandidat,
     nomReprésentantLégal,
-    autorisationDUrbanisme,
+    autorisation,
     actionnariat,
     puissance,
     puissanceDeSite,
@@ -52,15 +52,15 @@ export const DonnéesCandidatureDétail: FC<DonnéesCandidatureDétailProps> = (
         )}
       </ul>
     </li>
-    {autorisationDUrbanisme && (
+    {autorisation && (
       <li className="flex flex-col gap-1">
-        <span className="font-bold">Autorisation d'urbanisme :</span>
+        <span className="font-bold">Autorisation :</span>
         <ul className="list-disc list-inside">
-          <li>Numéro : {autorisationDUrbanisme.numéro}</li>
+          <li>Numéro : {autorisation.numéro}</li>
           <li>
             Date d'obtention :{' '}
             <FormattedDate
-              date={DateTime.convertirEnValueType(autorisationDUrbanisme.date.date).formatter()}
+              date={DateTime.convertirEnValueType(autorisation.date.date).formatter()}
             />
           </li>
         </ul>

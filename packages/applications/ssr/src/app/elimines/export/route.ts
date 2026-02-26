@@ -65,8 +65,8 @@ export const GET = async (request: Request) =>
             label: 'Coefficient K choisi',
           },
           {
-            value: 'numéroAutorisationDUrbanisme',
-            label: "Autorisation d'urbanisme",
+            value: 'numéroAutorisation',
+            label: 'Autorisation',
           },
           {
             value: 'installateur',

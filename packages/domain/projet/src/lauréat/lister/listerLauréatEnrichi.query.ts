@@ -57,7 +57,7 @@ export type LauréatEnrichiListItemReadModel = {
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
-  numéroAutorisationDUrbanisme: string | undefined;
+  numéroAutorisation: string | undefined;
 
   puissance: PuissanceEntity['puissance'];
   puissanceDeSite: PuissanceEntity['puissanceDeSite'];
@@ -233,13 +233,7 @@ const mapToReadModel: MapToReadModelProps = ({
     localité,
     statut,
     puissance: { puissance, puissanceDeSite },
-    candidature: {
-      prixReference,
-      unitéPuissance,
-      actionnariat,
-      coefficientKChoisi,
-      autorisationDUrbanisme,
-    },
+    candidature: { prixReference, unitéPuissance, actionnariat, coefficientKChoisi, autorisation },
     achèvement,
     actionnaire,
     'détail-candidature': détailCandidature,
@@ -289,7 +283,7 @@ const mapToReadModel: MapToReadModelProps = ({
 
     prixReference,
     coefficientKChoisi,
-    numéroAutorisationDUrbanisme: autorisationDUrbanisme?.numéro,
+    numéroAutorisation: autorisation?.numéro,
 
     puissance,
     puissanceDeSite,

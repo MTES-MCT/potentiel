@@ -27,8 +27,8 @@ import { ProjectField } from './components/fields/generic/ProjectField';
 import { LocalitéField } from './components/fields/LocalitéField';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
-import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
+import { DateDAutorisationField } from './components/fields/DateDAutorisation';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -257,20 +257,20 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {champsSupplémentaires.autorisationDUrbanisme && (
+        {champsSupplémentaires.autorisation && (
           <>
             <FormRow>
               <CandidatureField
-                candidature={candidature.numéroDAutorisationDUrbanisme ?? ''}
-                label="Numéro d'autorisation d'urbanisme"
-                name="numéroDAutorisationDUrbanisme"
+                candidature={candidature.numéroDAutorisation ?? ''}
+                label="Numéro d'autorisation"
+                name="numéroDAutorisation"
                 validationErrors={validationErrors}
-                required={champsSupplémentaires.autorisationDUrbanisme === 'requis'}
+                required={champsSupplémentaires.autorisation === 'requis'}
               />
             </FormRow>
             <FormRow>
-              <DateDAutorisationDUrbanismeField
-                value={candidature.dateDAutorisationDUrbanisme ?? ''}
+              <DateDAutorisationField
+                value={candidature.dateDAutorisation ?? ''}
                 validationErrors={validationErrors}
               />
             </FormRow>

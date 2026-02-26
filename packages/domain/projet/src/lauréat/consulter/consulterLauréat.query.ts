@@ -27,7 +27,7 @@ export type ConsulterLauréatReadModel = {
   statut: StatutLauréat.ValueType;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
-  autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
+  autorisation: Candidature.Dépôt.ValueType['autorisation'];
 } & Pick<
   Candidature.Dépôt.ValueType,
   // on ne sélectionne que des propriétés non modifiable dans la vie du projet, issues de Candidature
@@ -104,6 +104,6 @@ const mapToReadModel: MapToReadModel = (
   attestationDésignation: candidature.instruction.statut.estClassé()
     ? candidature.notification?.attestation
     : undefined,
-  autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme,
+  autorisation: candidature.dépôt.autorisation,
   actionnariat: candidature.dépôt.actionnariat,
 });

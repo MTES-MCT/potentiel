@@ -416,29 +416,29 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ]}
         />
       )}
-      {champsSupplémentaires.autorisationDUrbanisme && (
+      {champsSupplémentaires.autorisation && (
         <>
           <Input
-            state={validationErrors['numéroDAutorisationDUrbanisme'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['numéroDAutorisationDUrbanisme']}
-            label="Numéro d'autorisation d'urbanisme"
+            state={validationErrors['numéroDAutorisation'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['numéroDAutorisation']}
+            label="Numéro d'autorisation"
             nativeInputProps={{
-              name: 'numéroDAutorisationDUrbanisme',
-              defaultValue: candidature.numéroDAutorisationDUrbanisme,
+              name: 'numéroDAutorisation',
+              defaultValue: candidature.numéroDAutorisation,
               required: true,
               'aria-required': true,
             }}
           />
           <InputDate
-            name="dateDAutorisationDUrbanisme"
-            label="Date d'obtention de l'autorisation d'urbanisme"
+            name="dateDAutorisation"
+            label="Date d'obtention de l'autorisation"
             required
             defaultValue={
-              candidature.dateDAutorisationDUrbanisme &&
-              DateTime.convertirEnValueType(candidature.dateDAutorisationDUrbanisme).formatter()
+              candidature.dateDAutorisation &&
+              DateTime.convertirEnValueType(candidature.dateDAutorisation).formatter()
             }
-            state={validationErrors['dateDAutorisationDUrbanisme'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['dateDAutorisationDUrbanisme']}
+            state={validationErrors['dateDAutorisation'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['dateDAutorisation']}
           />
         </>
       )}
