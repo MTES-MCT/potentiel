@@ -4,13 +4,13 @@ import { match, P } from 'ts-pattern';
 import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Role, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Role, Région, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 
 import { LauréatEntity } from '../../lauréat/index.js';
 import { CandidatureEntity } from '../../candidature/index.js';
 import { RaccordementEntity } from '../../lauréat/raccordement/index.js';
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet } from '../../index.js';
 
 export type VérifierAccèsProjetQuery = Message<
@@ -24,7 +24,7 @@ export type VérifierAccèsProjetQuery = Message<
 
 export type VérifierAccèsProjetDependencies = {
   find: Find;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 class ProjetInaccessibleError extends OperationRejectedError {
@@ -62,19 +62,24 @@ export const registerVérifierAccèsProjetQuery = ({
     }
 
     const accèsProjet = await match(scope)
-      .with({ type: 'projet' }, ({ identifiantProjets }) =>
+      .with({ identifiantProjets: P.not(P.nullish) }, ({ identifiantProjets }) =>
         identifiantProjets.includes(identifiantProjet.formatter()),
       )
-      .with({ type: 'région' }, async ({ régions }) => {
+      .with({ régions: P.not(P.nullish) }, async ({ régions }) => {
         const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-        return régions.includes(régionProjet);
+        return régionProjet
+          ? régions.includes(Région.convertirEnValueType(régionProjet).formatter())
+          : false;
       })
-      .with({ type: 'gestionnaire-réseau' }, async ({ identifiantGestionnaireRéseau }) => {
-        const identifiantGestionnaireRéseauProjet =
-          await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-        return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
-      })
-      .with({ type: 'all' }, async () => true)
+      .with(
+        { identifiantGestionnaireRéseau: P.not(P.nullish) },
+        async ({ identifiantGestionnaireRéseau }) => {
+          const identifiantGestionnaireRéseauProjet =
+            await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
+          return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
+        },
+      )
+      .with({}, () => true)
       .exhaustive();
 
     if (!accèsProjet) {
@@ -96,7 +101,7 @@ export const registerVérifierAccèsProjetQuery = ({
       return candidature.localité.région;
     }
 
-    return '__AUCUNE RÉGION__';
+    return undefined;
   };
 
   const récupérerIdentifiantGestionnaireRéseauProjet = async (identifiantProjet: string) => {

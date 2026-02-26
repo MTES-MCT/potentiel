@@ -3,8 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port.js';
-import { IdentifiantProjet } from '../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { AccèsEntity } from '../accès.entity.js';
 import { CandidatureEntity } from '../../candidature/index.js';
 
@@ -30,7 +29,7 @@ export type ListerAccèsQuery = Message<
 
 export type ListerAccèsDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerAccèsQuery = ({
@@ -45,15 +44,14 @@ export const registerListerAccèsQuery = ({
     const accès = await list<AccèsEntity, CandidatureEntity>('accès', {
       range,
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : Where.matchAny([]),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
       },
       join: {
         entity: 'candidature',
         on: 'identifiantProjet',
         where: {
           localité: {
-            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            région: Where.matchAny(scope.régions),
           },
         },
       },

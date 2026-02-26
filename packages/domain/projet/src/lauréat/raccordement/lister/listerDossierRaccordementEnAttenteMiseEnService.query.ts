@@ -53,6 +53,7 @@ type ListerDossierRaccordementEnAttenteMiseEnServiceJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
 ];
+
 export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   list,
 }: ConsulterDossierRaccordementDependencies) => {

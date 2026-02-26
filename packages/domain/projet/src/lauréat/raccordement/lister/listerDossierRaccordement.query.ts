@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
@@ -57,7 +57,7 @@ export type ListerDossierRaccordementQuery = Message<
 
 export type ListerDossierRaccordementQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 type DossierRaccordementJoins = [
@@ -84,21 +84,18 @@ export const registerListerDossierRaccordementQuery = ({
     periode,
     famille,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantGestionnaireRéseau,
+    });
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<DossierRaccordementEntity, DossierRaccordementJoins>('dossier-raccordement', {
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         référence: Where.like(référenceDossier),
-        identifiantGestionnaireRéseau: Where.equal(
-          scope.type === 'gestionnaire-réseau'
-            ? scope.identifiantGestionnaireRéseau
-            : identifiantGestionnaireRéseau,
-        ),
+        identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
         miseEnService: {
           dateMiseEnService:
             avecDateMiseEnService === undefined
@@ -113,9 +110,9 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: appelOffre && appelOffre.length ? Where.matchAny(appelOffre) : undefined,
+            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
             statut: Where.matchAny(statutProjet),
           },

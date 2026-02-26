@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
-import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
 
 type ChangementProducteurItemReadModel = {
@@ -34,7 +34,7 @@ export type ListerChangementProducteurQuery = Message<
 
 export type ListerChangementProducteurDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementProducteurQuery = ({
@@ -63,13 +63,12 @@ export const registerListerChangementProducteurQuery = ({
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             nomProjet: Where.like(nomProjet),
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
         },
       },
     );

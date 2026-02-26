@@ -4,7 +4,7 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
 import { ÉliminéEntity } from '../éliminé.entity.js';
 
@@ -46,7 +46,7 @@ export type ListerÉliminéQuery = Message<
 
 export type ListerÉliminéDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerÉliminéQuery = ({
@@ -72,13 +72,12 @@ export const registerListerÉliminéQuery = ({
           nomProjet: 'ascending',
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
-          localité: scope.type === 'région' ? { région: Where.matchAny(scope.régions) } : undefined,
+          localité: { région: Where.matchAny(scope.régions) },
           actionnariat:
             typeActionnariat && typeActionnariat.length > 0
               ? Where.matchAny(typeActionnariat)

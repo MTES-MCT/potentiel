@@ -5,7 +5,7 @@ import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { LauréatEntity } from '../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -106,7 +106,7 @@ export type ListerLauréatEnrichiQuery = Message<
 
 export type ListerLauréatEnrichiDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 type LauréatEnrichiJoins = [
@@ -133,28 +133,21 @@ export const registerListerLauréatEnrichiQuery = ({
     statut,
     typeActionnariat,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-
-    const identifiantProjets =
-      scope.type === 'projet'
-        ? identifiantProjet
-          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-          : scope.identifiantProjets
-        : identifiantProjet
-          ? [identifiantProjet]
-          : undefined;
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantProjets: identifiantProjet && [identifiantProjet],
+    });
 
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet: Where.matchAny(identifiantProjets),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
+        localité: { région: Where.matchAny(scope.régions) },
       },
       join: [
         {

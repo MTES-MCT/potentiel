@@ -149,7 +149,6 @@ const référencielPermissions = {
           'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         consulterNombre: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
         rechercher: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
-        lister: 'Lauréat.Raccordement.Query.ListerRaccordement',
         listerDossierRaccordementEnAttenteMiseEnService:
           'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
@@ -1694,7 +1693,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'accès.retirerAccèsProjet',
   'accès.remplacerAccèsProjet',
   'accès.consulter',
-  'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
@@ -1928,7 +1926,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
   'accès.consulter',
-  'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur

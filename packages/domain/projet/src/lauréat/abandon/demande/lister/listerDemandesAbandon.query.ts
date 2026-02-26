@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
   AutoritéCompétente,
   DemandeAbandonEntity,
@@ -45,7 +45,7 @@ export type ListerDemandesAbandonQuery = Message<
 
 export type ListerDemandesAbandonDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDemandesAbandonQuery = ({
@@ -70,8 +70,7 @@ export const registerListerDemandesAbandonQuery = ({
         miseÀJourLe: 'descending',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         demande: {
           estUneRecandidature: Where.equal(recandidature),
@@ -87,7 +86,7 @@ export const registerListerDemandesAbandonQuery = ({
         where: {
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           nomProjet: Where.like(nomProjet),
-          localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
+          localité: { région: Where.matchAny(scope.régions) },
         },
       },
     };
