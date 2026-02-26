@@ -3,9 +3,6 @@ import { match } from 'ts-pattern';
 
 import { Accès } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-import { getCandidature } from '#helpers';
-
 import {
   handleAccèsProjetRetiré,
   handleAccèsProjetAutoriséSuiteÀRéclamation,
@@ -15,22 +12,10 @@ export type SubscriptionEvent = Accès.AccèsEvent;
 
 export type Execute = Message<'System.Notification.Accès', SubscriptionEvent>;
 
-export type RegisterUtilisateurNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependencies) => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const candidature = await getCandidature(event.payload.identifiantProjet);
-
-    await match(event)
-      .with({ type: 'AccèsProjetRetiré-V1' }, (event) =>
-        handleAccèsProjetRetiré({
-          sendEmail,
-          event,
-          candidature,
-        }),
-      )
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'AccèsProjetRetiré-V1' }, handleAccèsProjetRetiré)
       .with(
         {
           type: 'AccèsProjetAutorisé-V1',
@@ -38,10 +23,9 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
             raison: 'réclamation',
           },
         },
-        (event) => handleAccèsProjetAutoriséSuiteÀRéclamation({ sendEmail, event, candidature }),
+        handleAccèsProjetAutoriséSuiteÀRéclamation,
       )
       .otherwise(() => Promise.resolve());
-  };
 
   mediator.register('System.Notification.Accès', handler);
 };

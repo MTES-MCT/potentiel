@@ -1,33 +1,25 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { getBaseUrl } from '#helpers';
+import { getBaseUrl, getProjet } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { AccèsNotificationsProps } from '../type.js';
-import { accèsNotificationTemplateId } from '../constant.js';
-
-export async function handleAccèsProjetRetiré({
-  sendEmail,
-  candidature: { nom },
-  event: {
-    payload: { identifiantsUtilisateur, cause },
-  },
-}: AccèsNotificationsProps<Accès.AccèsProjetRetiréEvent>) {
-  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
+export async function handleAccèsProjetRetiré({ payload }: Accès.AccèsProjetRetiréEvent) {
+  const projet = await getProjet(payload.identifiantProjet);
 
   return sendEmail({
-    templateId: accèsNotificationTemplateId.accèsProjetRetiré,
-    messageSubject: `Potentiel - Révocation de vos accès pour le projet ${nom}`,
-    recipients: identifiantsUtilisateur.map((identifiantUtilisateur) => ({
-      email: identifiantUtilisateur,
-    })),
-    variables: {
-      nom_projet: nom,
-      mes_projets_url: urlPageProjets,
+    key: 'accès/accès_révoqué',
+    values: {
+      nom_projet: projet.nom,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      departement_projet: projet.département,
       cause:
-        cause === 'changement-producteur'
+        payload.cause === 'changement-producteur'
           ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'
           : '',
+      url: `${getBaseUrl()}${Routes.Lauréat.lister()}`,
     },
+    recipients: payload.identifiantsUtilisateur,
   });
 }

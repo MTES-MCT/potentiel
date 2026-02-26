@@ -6,7 +6,7 @@ import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
 import { SetupProjet } from './setup.js';
 
-export const setupAccès: SetupProjet = async ({ sendEmail }) => {
+export const setupAccès: SetupProjet = async () => {
   const accès = createSubscriptionSetup('accès');
 
   AccèsProjector.register();
@@ -21,7 +21,7 @@ export const setupAccès: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Accès',
   });
 
-  AccèsNotification.register({ sendEmail });
+  AccèsNotification.register();
   await accès.setupSubscription<AccèsNotification.SubscriptionEvent, AccèsNotification.Execute>({
     name: 'notifications',
     eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
