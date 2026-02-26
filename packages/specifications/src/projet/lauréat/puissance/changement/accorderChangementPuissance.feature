@@ -15,10 +15,9 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
         Alors la demande de changement de la puissance devrait être accordée
         Et la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
-            | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                         |
-            | type       | accord                                                                                                                             |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Demande de changement de puissance accordée |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance                                 |
 
     Scénario: la DREAL associée au projet accorde une demande de changement de puissance à la hausse d'un projet lauréat
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
@@ -27,10 +26,9 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
         Alors la demande de changement de la puissance devrait être accordée
         Et la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
-            | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                         |
-            | type       | accord                                                                                                                             |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Demande de changement de puissance accordée |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance                                 |
 
     Scénario: la DREAL associée accorde un changement de puissance à la baisse pour décision de l'État
         Etant donné une demande de changement de puissance pour le projet lauréat avec :

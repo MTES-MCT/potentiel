@@ -1,26 +1,27 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerPorteursRecipients } from '#helpers';
+import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+export const handlePuissanceModifié = async ({
+  payload,
+}: Lauréat.Puissance.PuissanceModifiéeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-export const handlePuissanceModifiée = async ({
-  sendEmail,
-  event,
-  projet,
-}: PuissanceNotificationsProps<Lauréat.Puissance.PuissanceModifiéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.région);
 
-  return sendEmail({
-    templateId: puissanceNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification de la puissance du projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
-  });
+  for (const recipients of [dreals, porteurs]) {
+    await sendEmail({
+      key: 'lauréat/puissance/modifier',
+      recipients,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: projet.url,
+      },
+    });
+  }
 };

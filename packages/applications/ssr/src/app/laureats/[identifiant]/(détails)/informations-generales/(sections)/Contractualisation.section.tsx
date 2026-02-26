@@ -32,21 +32,22 @@ export const ContractualisationSection = ({
 
       const value = mapToPlainObject(puissance);
 
-      const action = puissance.dateDemandeEnCours
-        ? rôle.aLaPermission('puissance.consulterChangement')
-          ? {
-              url: Routes.Puissance.changement.détails(
-                identifiantProjet.formatter(),
-                puissance.dateDemandeEnCours.formatter(),
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined
-        : await getAction({
-            identifiantProjet,
-            rôle,
-            domain: 'puissance',
-          });
+      const action =
+        puissance.aUneDemandeEnCours && puissance.dateDernièreDemande
+          ? rôle.aLaPermission('puissance.consulterChangement')
+            ? {
+                url: Routes.Puissance.changement.détails(
+                  identifiantProjet.formatter(),
+                  puissance.dateDernièreDemande.formatter(),
+                ),
+                label: 'Voir la demande de modification',
+              }
+            : undefined
+          : await getAction({
+              identifiantProjet,
+              rôle,
+              domain: 'puissance',
+            });
 
       const prixRéférence = rôle.aLaPermission('projet.accèsDonnées.prix')
         ? lauréat.prixReference

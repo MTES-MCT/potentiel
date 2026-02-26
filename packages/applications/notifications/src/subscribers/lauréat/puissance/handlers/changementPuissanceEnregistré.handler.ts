@@ -1,38 +1,28 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-
-import { puissanceNotificationTemplateId } from '../constant.js';
-import { PuissanceNotificationsProps } from '../type.js';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleChangementPuissanceEnregistré = async ({
-  sendEmail,
-  event,
-  projet,
-}: PuissanceNotificationsProps<Lauréat.Puissance.ChangementPuissanceEnregistréEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.Puissance.ChangementPuissanceEnregistréEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
   const dreals = await listerDrealsRecipients(projet.région);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-  await sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Déclaration de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
-  });
-
-  await sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Déclaration de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
-  });
+  for (const recipients of [dreals, porteurs]) {
+    await sendEmail({
+      key: 'lauréat/puissance/enregistrer_changement',
+      recipients,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: `${getBaseUrl()}${Routes.Puissance.changement.détails(projet.identifiantProjet.formatter(), payload.enregistréLe)}`,
+      },
+    });
+  }
 };

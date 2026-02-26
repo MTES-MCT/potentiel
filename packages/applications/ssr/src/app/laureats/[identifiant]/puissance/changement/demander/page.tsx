@@ -39,13 +39,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
-      if (puissance.dateDemandeEnCours) {
+      if (puissance.aUneDemandeEnCours && puissance.dateDernièreDemande) {
         return (
           <DemandeEnCoursPage
             title="Demande de changement de puissance"
             href={Routes.Puissance.changement.détails(
               identifiantProjet.formatter(),
-              puissance.dateDemandeEnCours.formatter(),
+              puissance.dateDernièreDemande.formatter(),
             )}
           />
         );

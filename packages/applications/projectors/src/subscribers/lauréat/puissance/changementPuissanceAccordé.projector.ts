@@ -1,8 +1,9 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
+import {
+  updateManyProjections,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const changementPuissanceAccordéProjector = async ({
   payload: {
@@ -14,57 +15,24 @@ export const changementPuissanceAccordéProjector = async ({
     réponseSignée,
   },
 }: Lauréat.Puissance.ChangementPuissanceAccordéEvent) => {
-  const projectionPuissance = await findProjection<Lauréat.Puissance.PuissanceEntity>(
-    `puissance|${identifiantProjet}`,
-  );
+  await updateOneProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
+    puissanceDeSite: nouvellePuissanceDeSite,
+    puissance: nouvellePuissance,
+    miseÀJourLe: accordéLe,
+    dernièreDemande: { statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut },
+  });
 
-  if (Option.isNone(projectionPuissance)) {
-    getLogger().error('Puissance non trouvée', {
-      identifiantProjet,
-      fonction: 'changementPuissanceAccordéProjector',
-    });
-    return;
-  }
-
-  if (!projectionPuissance.dateDemandeEnCours) {
-    getLogger().error('Demande de changement de puissance non trouvée', {
-      identifiantProjet,
-      fonction: 'changementPuissanceAccordéProjector',
-    });
-    return;
-  }
-
-  const projectionDemandeChangementPuissance =
-    await findProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
-      `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
-    );
-
-  if (Option.isNone(projectionDemandeChangementPuissance)) {
-    getLogger().error('Demande de changement de puissance non trouvée', {
-      identifiantProjet,
-      fonction: 'changementPuissanceAccordéProjector',
-    });
-    return;
-  }
-
-  if (projectionDemandeChangementPuissance.demande.statut === 'information-enregistrée') {
-    getLogger().error(
-      `Demande non instruite car l'information a déjà été enregistrée automatiquement`,
-      {
-        identifiantProjet,
-        fonction: 'changementPuissanceAccordéProjector',
-      },
-    );
-    return;
-  }
-
-  await upsertProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
-    `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
+  await updateManyProjections<Lauréat.Puissance.ChangementPuissanceEntity>(
+    'changement-puissance',
     {
-      identifiantProjet,
+      identifiantProjet: Where.equal(identifiantProjet),
+      demande: {
+        statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
+      },
+    },
+    {
       miseÀJourLe: accordéLe,
       demande: {
-        ...projectionDemandeChangementPuissance.demande,
         statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut,
         accord: {
           accordéeLe: accordéLe,
@@ -74,12 +42,4 @@ export const changementPuissanceAccordéProjector = async ({
       },
     },
   );
-
-  await upsertProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
-    ...projectionPuissance,
-    miseÀJourLe: accordéLe,
-    puissance: nouvellePuissance,
-    puissanceDeSite: nouvellePuissanceDeSite,
-    dateDemandeEnCours: undefined,
-  });
 };

@@ -1,6 +1,8 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
+import { StatutChangementPuissance } from './index.js';
+
 export type PuissanceEntity = Entity<
   'puissance',
   {
@@ -8,6 +10,6 @@ export type PuissanceEntity = Entity<
     puissance: number;
     puissanceDeSite?: number;
     miseÀJourLe: DateTime.RawType;
-    dateDemandeEnCours?: DateTime.RawType;
+    dernièreDemande?: { date: DateTime.RawType; statut: StatutChangementPuissance.RawType };
   }
 >;
