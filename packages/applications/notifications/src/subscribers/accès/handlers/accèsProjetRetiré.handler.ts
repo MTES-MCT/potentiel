@@ -8,7 +8,7 @@ export async function handleAccèsProjetRetiré({ payload }: Accès.AccèsProjet
   const projet = await getProjet(payload.identifiantProjet);
 
   return sendEmail({
-    key: 'accès/accès_projet_révoqué_pour_porteur',
+    key: 'accès/accès_révoqué',
     values: {
       nom_projet: projet.nom,
       appel_offre: projet.identifiantProjet.appelOffre,

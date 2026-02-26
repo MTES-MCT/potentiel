@@ -3,7 +3,7 @@ import { getÉliminé } from './getÉliminé.js';
 
 /***
  * Cette fonction permet de récupérer les informations d'un projet qu'il soit lauréat ou éliminé, en fonction de son identifiant.
- * À utiliser de préférence quand on ne connait pas le statut du projet au préalable.
+ * À utiliser uniquement quand on ne connait pas le statut du projet au préalable.
  */
 export const getProjet = async (identifiantProjet: string) => {
   try {

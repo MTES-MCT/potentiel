@@ -20,13 +20,13 @@ export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
   };
 
   await sendEmail({
-    key: 'accès/accès_projet_suite_à_réclamation_pour_porteur',
+    key: 'accès/accès_autorisé_porteur',
     values,
     recipients: porteursRecipients,
   });
 
   await sendEmail({
-    key: 'accès/accès_projet_suite_à_réclamation_pour_dreal',
+    key: 'accès/accès_autorisé_dreal',
     values,
     recipients: drealRecipients,
   });
