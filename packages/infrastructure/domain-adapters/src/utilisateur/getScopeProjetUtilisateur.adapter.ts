@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 import { Option } from '@potentiel-libraries/monads';
 import {
   GetScopeProjetUtilisateur,
-  ProjetUtilisateurScope,
   Accès,
   IdentifiantProjet,
   Lauréat,
@@ -20,17 +19,18 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
 
   if (Option.isNone(utilisateur)) {
     return {
-      type: 'projet',
+      régions: [],
+      identifiantGestionnaireRéseau: '',
       identifiantProjets: [],
     };
   }
 
-  return match(utilisateur)
-    .returnType<Promise<ProjetUtilisateurScope>>()
-    .with({ rôle: 'dreal' }, async (value) => ({
-      type: 'région',
-      régions: value.région ? [value.région] : [],
-    }))
+  const scopeValues = filterOnScope ? filterOnScope : {};
+
+  match(utilisateur)
+    .with({ rôle: 'dreal' }, (value) => {
+      scopeValues.régions = value.région ? [value.région] : [];
+    })
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
@@ -42,30 +42,19 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
         IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
       );
 
-      const filteredIdentifiantProjetsDuPorteur =
-        filterOnScope?.type === 'projet'
-          ? filterOnScope.identifiantProjets.filter((id) =>
-              identifiantProjetsDuPorteur.includes(id),
-            )
-          : identifiantProjetsDuPorteur;
-
-      return {
-        type: 'projet',
-        identifiantProjets: filteredIdentifiantProjetsDuPorteur,
-      };
+      scopeValues.identifiantProjets = filterOnScope?.identifiantProjets
+        ? filterOnScope.identifiantProjets.filter((id) => identifiantProjetsDuPorteur.includes(id))
+        : identifiantProjetsDuPorteur;
     })
-    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => {
-      return {
-        type: 'gestionnaire-réseau',
-        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
-      };
+    .with({ rôle: 'grd' }, ({ identifiantGestionnaireRéseau }) => {
+      scopeValues.identifiantGestionnaireRéseau =
+        identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__';
     })
-    .with({ rôle: 'cocontractant' }, async (value) => ({
-      type: 'région',
-      régions: Région.régions.filter((région) =>
+    .with({ rôle: 'cocontractant' }, (value) => {
+      scopeValues.régions = Région.régions.filter((région) =>
         Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
-      ),
-    }))
+      );
+    })
     .with({ rôle: 'caisse-des-dépôts' }, async () => {
       const projetsAvecGfConsignation =
         await listProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
@@ -85,21 +74,18 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
       );
 
-      const filteredIdentifiantProjets =
-        filterOnScope?.type === 'projet'
-          ? filterOnScope.identifiantProjets.filter((id) =>
-              identifiantProjetPourCaisseDesDépôts.includes(id),
-            )
-          : identifiantProjetPourCaisseDesDépôts;
-
-      return {
-        type: 'projet',
-        identifiantProjets: filteredIdentifiantProjets,
-      };
+      scopeValues.identifiantProjets = filterOnScope?.identifiantProjets
+        ? filterOnScope.identifiantProjets.filter((id) =>
+            identifiantProjetPourCaisseDesDépôts.includes(id),
+          )
+        : identifiantProjetPourCaisseDesDépôts;
     })
-    .with({ rôle: 'admin' }, async () => ({ type: 'all' }))
-    .with({ rôle: 'dgec-validateur' }, async () => ({ type: 'all' }))
-    .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
-    .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'admin' }, () => {})
+    .with({ rôle: 'dgec-validateur' }, () => {})
+    .with({ rôle: 'cre' }, () => {})
+    .with({ rôle: 'ademe' }, () => {})
     .exhaustive();
+
+  console.log('viovio', scopeValues);
+  return scopeValues;
 };

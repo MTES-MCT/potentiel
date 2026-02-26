@@ -84,21 +84,18 @@ export const registerListerDossierRaccordementQuery = ({
     periode,
     famille,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantGestionnaireRéseau,
+    });
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<DossierRaccordementEntity, DossierRaccordementJoins>('dossier-raccordement', {
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         référence: Where.like(référenceDossier),
-        identifiantGestionnaireRéseau: Where.equal(
-          scope.type === 'gestionnaire-réseau'
-            ? scope.identifiantGestionnaireRéseau
-            : identifiantGestionnaireRéseau,
-        ),
+        identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
         miseEnService: {
           dateMiseEnService:
             avecDateMiseEnService === undefined
@@ -115,7 +112,7 @@ export const registerListerDossierRaccordementQuery = ({
           where: {
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
             statut: Where.matchAny(statutProjet),
           },

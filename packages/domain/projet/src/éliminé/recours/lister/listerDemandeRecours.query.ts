@@ -61,8 +61,7 @@ export const registerListerDemandeRecoursQuery = ({
         orderBy: { miseÀJourLe: 'descending' },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           statut: Where.matchAny(statut),
         },
         join: {
@@ -72,7 +71,7 @@ export const registerListerDemandeRecoursQuery = ({
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             nomProjet: Where.like(nomProjet),
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

@@ -74,8 +74,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
         orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
         },
         join: {
           entity: 'lauréat',
@@ -89,7 +88,7 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
                   : Where.notLike('PPE2')
                 : undefined,
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

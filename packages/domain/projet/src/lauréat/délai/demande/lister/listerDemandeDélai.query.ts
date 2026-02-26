@@ -55,10 +55,9 @@ export const registerListerDemandeDélaiQuery = ({
     identifiantProjet,
     autoritéCompétente,
   }) => {
-    const scope = await getScopeProjetUtilisateur(
-      Email.convertirEnValueType(utilisateur),
-      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
-    );
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantProjets: identifiantProjet && [identifiantProjet],
+    });
 
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
@@ -72,13 +71,12 @@ export const registerListerDemandeDélaiQuery = ({
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           nomProjet: Where.like(nomProjet),
           localité: {
-            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            région: Where.matchAny(scope.régions),
           },
         },
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

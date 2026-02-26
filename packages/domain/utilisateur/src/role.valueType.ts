@@ -199,7 +199,7 @@ const référencielPermissions = {
         consulterGarantiesFinancièresActuelles:
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         listerArchivesGarantiesFinancières:
-          'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+          'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
         consulterDépôtGarantiesFinancières:
           'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         listerDépôts: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',

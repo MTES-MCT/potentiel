@@ -72,8 +72,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           motif: Where.equal(motif),
         },
         join: [
@@ -89,7 +88,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
                     : Where.notLike('PPE2')
                   : undefined,
               localité: {
-                région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+                région: Where.matchAny(scope.régions),
               },
               statut: Where.equal(statut),
             },

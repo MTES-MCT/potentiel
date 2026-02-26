@@ -55,7 +55,6 @@ export const registerListerTâchesQuery = ({
   }) => {
     const scope = identifiantProjet
       ? {
-          type: 'projet',
           identifiantProjets: [identifiantProjet],
         }
       : await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
@@ -67,8 +66,7 @@ export const registerListerTâchesQuery = ({
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
         // comportement spécifique : si un identifiant projet est fourni, il s'agit d'une consultation par projet (accessible à tous les rôles ayant accès aux tâches), si non, seul le porteur a accès à ses tâches (multi projet)
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : Where.matchAny([]),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,

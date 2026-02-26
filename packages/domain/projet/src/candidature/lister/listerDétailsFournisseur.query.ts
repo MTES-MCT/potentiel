@@ -77,10 +77,9 @@ export const registerListerDétailsFournisseurQuery = ({
         on: 'identifiantProjet',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         localité: {
-          région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+          région: Where.matchAny(scope.régions),
         },
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),

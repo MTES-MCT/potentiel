@@ -19,25 +19,25 @@ export type ArchiveGarantiesFinancièresListItemReadModel =
     motif: MotifArchivageGarantiesFinancières.ValueType;
   };
 
-export type ConsulterArchivesGarantiesFinancièresReadModel =
+export type ListerArchivesGarantiesFinancièresReadModel =
   Array<ArchiveGarantiesFinancièresListItemReadModel>;
 
-export type ConsulterArchivesGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+export type ListerArchivesGarantiesFinancièresQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
   {
     identifiantProjetValue: string;
   },
-  ConsulterArchivesGarantiesFinancièresReadModel
+  ListerArchivesGarantiesFinancièresReadModel
 >;
 
-export type ConsulterArchivesGarantiesFinancièresDependencies = {
+export type ListerArchivesGarantiesFinancièresDependencies = {
   find: Find;
 };
 
-export const registerConsulterArchivesGarantiesFinancièresQuery = ({
+export const registerListerArchivesGarantiesFinancièresQuery = ({
   find,
-}: ConsulterArchivesGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterArchivesGarantiesFinancièresQuery> = async ({
+}: ListerArchivesGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ListerArchivesGarantiesFinancièresQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -57,7 +57,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
   };
 
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+    'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
     handler,
   );
 };
@@ -70,7 +70,7 @@ type MapToReadModel = {
 const mapToReadModel = ({
   archives,
   identifiantProjet,
-}: MapToReadModel): ConsulterArchivesGarantiesFinancièresReadModel =>
+}: MapToReadModel): ListerArchivesGarantiesFinancièresReadModel =>
   archives
     .map((archiveGf) => {
       const readModel = mapToConsulterReadModel({

@@ -10,7 +10,7 @@ import { registerModifierGarantiesFinancièresCommand } from './modifier/modifie
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase.js';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command.js';
 import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query.js';
-import { registerConsulterArchivesGarantiesFinancièresQuery } from './archives/consulter/consulterArchivesGarantiesFinancières.query.js';
+import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query.js';
 import { registerImporterGarantiesFinancièresCommand } from './importer/importerGarantiesFinancières.command.js';
 
 export type GarantiesFinancièresActuellesQueryDependencies = {
@@ -42,5 +42,5 @@ export const registerGarantiesFinancièresActuellesQueries = (
   dependencies: GarantiesFinancièresActuellesQueryDependencies,
 ) => {
   registerConsulterGarantiesFinancièresQuery(dependencies);
-  registerConsulterArchivesGarantiesFinancièresQuery(dependencies);
+  registerListerArchivesGarantiesFinancièresQuery(dependencies);
 };

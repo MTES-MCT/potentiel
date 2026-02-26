@@ -79,13 +79,12 @@ export const registerListerLauréatQuery = ({
         nomProjet: 'ascending',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         nomProjet: Where.like(nomProjet),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
+        localité: { région: Where.matchAny(scope.régions) },
         statut: statut?.length ? Where.matchAny(statut) : undefined,
       },
       join: [

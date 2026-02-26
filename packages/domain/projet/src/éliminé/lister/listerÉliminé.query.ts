@@ -72,13 +72,12 @@ export const registerListerÉliminéQuery = ({
           nomProjet: 'ascending',
         },
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           période: Where.equal(periode),
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
-          localité: scope.type === 'région' ? { région: Where.matchAny(scope.régions) } : undefined,
+          localité: { région: Where.matchAny(scope.régions) },
           actionnariat:
             typeActionnariat && typeActionnariat.length > 0
               ? Where.matchAny(typeActionnariat)

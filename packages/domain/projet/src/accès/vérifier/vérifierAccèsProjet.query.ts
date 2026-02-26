@@ -62,19 +62,22 @@ export const registerVérifierAccèsProjetQuery = ({
     }
 
     const accèsProjet = await match(scope)
-      .with({ type: 'projet' }, ({ identifiantProjets }) =>
+      .with({ identifiantProjets: P.not(P.nullish) }, ({ identifiantProjets }) =>
         identifiantProjets.includes(identifiantProjet.formatter()),
       )
-      .with({ type: 'région' }, async ({ régions }) => {
+      .with({ régions: P.not(P.nullish) }, async ({ régions }) => {
         const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
         return régions.includes(régionProjet);
       })
-      .with({ type: 'gestionnaire-réseau' }, async ({ identifiantGestionnaireRéseau }) => {
-        const identifiantGestionnaireRéseauProjet =
-          await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-        return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
-      })
-      .with({ type: 'all' }, async () => true)
+      .with(
+        { identifiantGestionnaireRéseau: P.not(P.nullish) },
+        async ({ identifiantGestionnaireRéseau }) => {
+          const identifiantGestionnaireRéseauProjet =
+            await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
+          return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
+        },
+      )
+      .with({}, () => true)
       .exhaustive();
 
     if (!accèsProjet) {

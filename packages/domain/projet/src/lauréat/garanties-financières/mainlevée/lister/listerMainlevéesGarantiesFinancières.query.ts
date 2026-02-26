@@ -77,7 +77,9 @@ export const registerListerMainlevéesQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(
       Email.convertirEnValueType(identifiantUtilisateur),
-      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
+      {
+        identifiantProjets: identifiantProjet && [identifiantProjet],
+      },
     );
 
     const {
@@ -89,8 +91,7 @@ export const registerListerMainlevéesQuery = ({
       {
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           motif: Where.equal(motif),
           statut: Where.matchAny(statut),
         },
@@ -100,7 +101,7 @@ export const registerListerMainlevéesQuery = ({
           where: {
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

@@ -66,6 +66,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(
       Email.convertirEnValueType(identifiantUtilisateur),
+      { identifiantGestionnaireRéseau },
     );
     const {
       items,
@@ -73,13 +74,8 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       total,
     } = await list<RaccordementEntity, ListerDossierRaccordementManquantJoins>('raccordement', {
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        identifiantGestionnaireRéseau: Where.equal(
-          scope.type === 'gestionnaire-réseau'
-            ? scope.identifiantGestionnaireRéseau
-            : identifiantGestionnaireRéseau,
-        ),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
       },
       range,
       orderBy: {
@@ -91,7 +87,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
           on: 'identifiantProjet',
           where: {
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

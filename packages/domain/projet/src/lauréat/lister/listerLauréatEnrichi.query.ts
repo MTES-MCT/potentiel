@@ -133,23 +133,21 @@ export const registerListerLauréatEnrichiQuery = ({
     statut,
     typeActionnariat,
   }) => {
-    const scope = await getScopeProjetUtilisateur(
-      Email.convertirEnValueType(utilisateur),
-      identifiantProjet ? { type: 'projet', identifiantProjets: [identifiantProjet] } : undefined,
-    );
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantProjets: identifiantProjet && [identifiantProjet],
+    });
 
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         statut: statut?.length ? Where.matchAny(statut) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
+        localité: { région: Where.matchAny(scope.régions) },
       },
       join: [
         {
