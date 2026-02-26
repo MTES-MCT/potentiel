@@ -24,13 +24,18 @@ import { buildSendVerificationRequest } from './sendVerificationRequest.js';
 const OneHourInSeconds = 60 * 60;
 const fifteenMinutesInSeconds = 15 * 60;
 
+const connectionString = getConnectionString();
+const authPoolConnectionString = connectionString ? new URL(connectionString) : undefined;
+if (authPoolConnectionString) {
+  authPoolConnectionString?.searchParams.set('options', '-c search_path=auth');
+}
+
 const pool = new Pool({
-  connectionString: getConnectionString(),
+  connectionString: authPoolConnectionString?.toString(),
   max: Number(process.env.DATABASE_AUTH_POOL_MAX) || 5,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
   application_name: 'potentiel_auth',
-  options: '-c search_path=auth',
 });
 
 const sendEmail: SendEmailV2 = async (data) => {
