@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { Option } from '@potentiel-libraries/monads';
 import {
   GetScopeProjetUtilisateur,
+  ProjetUtilisateurScope,
   Accès,
   IdentifiantProjet,
   Lauréat,
@@ -20,17 +21,19 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
   if (Option.isNone(utilisateur)) {
     return {
       régions: [],
-      identifiantGestionnaireRéseau: '',
       identifiantProjets: [],
+      identifiantGestionnaireRéseau: '__IDENTIFIANT_MANQUANT__',
     };
   }
 
-  const scopeValues = filterOnScope ? filterOnScope : {};
+  const filters = filterOnScope ?? {};
 
-  match(utilisateur)
-    .with({ rôle: 'dreal' }, (value) => {
-      scopeValues.régions = value.région ? [value.région] : [];
-    })
+  return match(utilisateur)
+    .returnType<Promise<ProjetUtilisateurScope>>()
+    .with({ rôle: 'dreal' }, async (value) => ({
+      type: 'région',
+      régions: value.région ? [value.région] : [],
+    }))
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
@@ -42,19 +45,25 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
         IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
       );
 
-      scopeValues.identifiantProjets = filterOnScope?.identifiantProjets
-        ? filterOnScope.identifiantProjets.filter((id) => identifiantProjetsDuPorteur.includes(id))
-        : identifiantProjetsDuPorteur;
+      return {
+        ...filters,
+        identifiantProjets: filters?.identifiantProjets
+          ? filters.identifiantProjets.filter((id) => identifiantProjetsDuPorteur.includes(id))
+          : identifiantProjetsDuPorteur,
+      };
     })
-    .with({ rôle: 'grd' }, ({ identifiantGestionnaireRéseau }) => {
-      scopeValues.identifiantGestionnaireRéseau =
-        identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__';
+    .with({ rôle: 'grd' }, async ({ identifiantGestionnaireRéseau }) => {
+      return {
+        ...filters,
+        identifiantGestionnaireRéseau: identifiantGestionnaireRéseau || '__IDENTIFIANT_MANQUANT__',
+      };
     })
-    .with({ rôle: 'cocontractant' }, (value) => {
-      scopeValues.régions = Région.régions.filter((région) =>
+    .with({ rôle: 'cocontractant' }, async (value) => ({
+      ...filters,
+      régions: Région.régions.filter((région) =>
         Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
-      );
-    })
+      ),
+    }))
     .with({ rôle: 'caisse-des-dépôts' }, async () => {
       const projetsAvecGfConsignation =
         await listProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
@@ -74,18 +83,18 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
       );
 
-      scopeValues.identifiantProjets = filterOnScope?.identifiantProjets
-        ? filterOnScope.identifiantProjets.filter((id) =>
-            identifiantProjetPourCaisseDesDépôts.includes(id),
-          )
-        : identifiantProjetPourCaisseDesDépôts;
+      return {
+        ...filters,
+        identifiantProjets: filters?.identifiantProjets?.length
+          ? filters.identifiantProjets.filter((id) =>
+              identifiantProjetPourCaisseDesDépôts.includes(id),
+            )
+          : identifiantProjetPourCaisseDesDépôts,
+      };
     })
-    .with({ rôle: 'admin' }, () => {})
-    .with({ rôle: 'dgec-validateur' }, () => {})
-    .with({ rôle: 'cre' }, () => {})
-    .with({ rôle: 'ademe' }, () => {})
+    .with({ rôle: 'admin' }, async () => filters ?? {})
+    .with({ rôle: 'dgec-validateur' }, async () => filters)
+    .with({ rôle: 'cre' }, async () => filters)
+    .with({ rôle: 'ademe' }, async () => filters)
     .exhaustive();
-
-  console.log('viovio', scopeValues);
-  return scopeValues;
 };
