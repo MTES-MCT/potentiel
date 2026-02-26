@@ -39,6 +39,7 @@ Alors(
       });
 
       expect(Option.isSome(actual) && actual.aUneDemandeEnCours).to.be.false;
+      expect(Option.isSome(actual) && actual.dateDernièreDemande).to.be.undefined;
     });
   },
 );

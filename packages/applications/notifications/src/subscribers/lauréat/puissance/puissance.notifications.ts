@@ -5,12 +5,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '#sendEmail';
 
-import { handleChangementPuissanceDemandé } from './handlers/changementPuissanceDemandé.handler.js';
-import { handleChangementPuissanceAnnulé } from './handlers/changementPuissanceAnnulé.handler.js';
-import { handleChangementPuissanceAccordé } from './handlers/changementPuissanceAccordé.handler.js';
-import { handleChangementPuissanceEnregistré } from './handlers/changementPuissanceEnregistré.handler.js';
-import { handleChangementPuissanceRejeté } from './handlers/changementPuissanceRejeté.handler.js';
-import { handlePuissanceModifié } from './handlers/puissanceModifiée.handler.js';
+import {
+  handleChangementPuissanceAccordé,
+  handleChangementPuissanceDemandé,
+  handleChangementPuissanceAnnulé,
+  handleChangementPuissanceEnregistré,
+  handleChangementPuissanceRejeté,
+  handlePuissanceModifié,
+} from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 
