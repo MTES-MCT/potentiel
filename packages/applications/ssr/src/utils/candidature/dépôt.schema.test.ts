@@ -272,7 +272,7 @@ describe('Schéma dépôt', () => {
       const champsSupplémentaires = {
         installateur: 'Installateur.Inc',
         coefficientKChoisi: 'true',
-        autorisationDUrbanisme: { numéro: 'URB-01', date: '12/12/2022' },
+        autorisation: { numéro: 'URB-01', date: '12/12/2022' },
         puissanceDeSite: '200',
         natureDeLExploitation: {
           typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
@@ -299,9 +299,9 @@ describe('Schéma dépôt', () => {
         coefficientKChoisi: true,
         puissanceDeSite: 200,
         puissanceProjetInitial: 100,
-        autorisationDUrbanisme: {
+        autorisation: {
           numéro: 'URB-01',
-          date: new Date(champsSupplémentaires.autorisationDUrbanisme.date).toISOString(),
+          date: new Date(champsSupplémentaires.autorisation.date).toISOString(),
         },
         obligationDeSolarisation: true,
         natureDeLExploitation: {

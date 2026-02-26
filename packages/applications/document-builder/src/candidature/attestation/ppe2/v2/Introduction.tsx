@@ -37,9 +37,9 @@ export const Introduction = ({ project }: IntroductionProps) => {
         {project.nomProjet} », situé {project.adresseProjet} {project.codePostalProjet}{' '}
         {project.communeProjet} d’une puissance de {formatNumber(project.puissance, 1e6)}{' '}
         {project.unitePuissance}
-        {project.autorisationDUrbanisme &&
+        {project.autorisation &&
           project.appelOffre.afficherParagrapheAutorisationUrbanisme &&
-          ` disposant d’une autorisation au titre du code de l’urbanisme n° ${project.autorisationDUrbanisme.numéro} obtenue le ${formatDateForPdf(project.autorisationDUrbanisme.date)}`}
+          ` disposant d’une autorisation au titre du code de l’urbanisme n° ${project.autorisation.numéro} obtenue le ${formatDateForPdf(project.autorisation.date)}`}
         .
       </Text>
     </>

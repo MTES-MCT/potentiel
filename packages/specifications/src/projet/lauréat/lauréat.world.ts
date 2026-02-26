@@ -190,7 +190,7 @@ export class LauréatWorld {
         nomCandidat,
         prixReference,
         coefficientKChoisi,
-        autorisationDUrbanisme,
+        autorisation,
         actionnariat,
       },
       technologie,
@@ -215,7 +215,7 @@ export class LauréatWorld {
         : this.#achèvementWorld.transmettreAttestationConformitéFixture.aÉtéCréé
           ? Lauréat.StatutLauréat.achevé
           : Lauréat.StatutLauréat.actif,
-      autorisationDUrbanisme,
+      autorisation,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
         ? undefined

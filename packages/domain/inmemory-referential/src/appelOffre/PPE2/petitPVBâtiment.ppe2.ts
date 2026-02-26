@@ -133,7 +133,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
   },
   champsSupplémentaires: {
     puissanceDeSite: 'requis',
-    autorisationDUrbanisme: 'requis',
+    autorisation: 'requis',
     installateur: 'optionnel',
     dispositifDeStockage: 'requis',
     natureDeLExploitation: 'requis',

@@ -1,4 +1,4 @@
-export * from './getAutorisationDUrbanisme.js';
+export * from './getAutorisation.js';
 export * from './getDateConstitutionGarantiesFinancières.js';
 export * from './getHistoriqueAbandon.js';
 export * from './getLocalité.js';

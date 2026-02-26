@@ -16,7 +16,7 @@ export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = ({
   champsSupplémentaires,
 }) => {
   const mappingChampSupplémentairesColonnes = {
-    autorisationDUrbanisme: ['dateDAutorisationDUrbanisme', 'numéroDAutorisationDUrbanisme'],
+    autorisation: ['dateDAutorisation', 'numéroDAutorisation'],
     coefficientKChoisi: ['coefficientKChoisi'],
     dispositifDeStockage: [
       'installationAvecDispositifDeStockage',

@@ -56,7 +56,7 @@ const fakeProject = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   coefficientKChoisi: undefined,
-  autorisationDUrbanisme: undefined,
+  autorisation: undefined,
 } satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre' | 'cahierDesCharges'>;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
@@ -151,7 +151,7 @@ export const LaureatPPE2PetitPVP1: Story = {
       ...fakeProject,
       appelOffre: petitPVBâtimentPPE2,
       période: petitPVBâtimentPPE2.periodes[0],
-      autorisationDUrbanisme: { numéro: 'URB-12345', date: new Date('2024-01-01') },
+      autorisation: { numéro: 'URB-12345', date: new Date('2024-01-01') },
     },
   },
 };

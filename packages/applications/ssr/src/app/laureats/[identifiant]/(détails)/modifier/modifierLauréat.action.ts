@@ -226,12 +226,12 @@ const mapBodyToCandidatureUsecaseData = (
           : (data.actionnariat ?? previous.actionnariat?.formatter()),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
-      autorisationDUrbanisme: previous.autorisationDUrbanisme
+      autorisation: previous.autorisation
         ? {
-            numéro: data.numéroDAutorisationDUrbanisme ?? previous.autorisationDUrbanisme.numéro,
+            numéro: data.numéroDAutorisation ?? previous.autorisation.numéro,
             date:
-              data.dateDAutorisationDUrbanisme ??
-              DateTime.convertirEnValueType(previous.autorisationDUrbanisme.date.date).formatter(),
+              data.dateDAutorisation ??
+              DateTime.convertirEnValueType(previous.autorisation.date.date).formatter(),
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,

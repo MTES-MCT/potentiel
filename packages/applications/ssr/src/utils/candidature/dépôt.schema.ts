@@ -16,8 +16,8 @@ import {
   stringToArray,
 } from './schemaBase';
 
-export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
-export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
+export const dateDAutorisationSchema = optionalDateSchema;
+export const numéroDAutorisationSchema = optionalStringSchema;
 
 const localitéSchema = z.object({
   adresse1: requiredStringSchema,
@@ -98,10 +98,10 @@ const natureDeLExploitationOptionalSchema = z
   })
   .optional();
 
-const autorisationDUrbanismeSchema = z
+const autorisationSchema = z
   .object({
-    date: dateDAutorisationDUrbanismeSchema,
-    numéro: numéroDAutorisationDUrbanismeSchema,
+    date: dateDAutorisationSchema,
+    numéro: numéroDAutorisationSchema,
   })
   .optional()
   .transform((val) =>
@@ -133,7 +133,7 @@ export const dépôtSchema = z
     historiqueAbandon: z.enum(Candidature.HistoriqueAbandon.types),
     obligationDeSolarisation: booleanSchema.optional(),
     puissanceDeSite: optionalStrictlyPositiveNumberSchema,
-    autorisationDUrbanisme: autorisationDUrbanismeSchema,
+    autorisation: autorisationSchema,
     installateur: optionalStringSchema,
     localité: localitéSchema,
     typologieInstallation: z.array(

@@ -6,23 +6,23 @@ import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { Section } from '@/components/atoms/menu/Section';
 
-import { AutorisationUrbanismeDétails } from './AutorisationUrbanismeDétails';
+import { AutorisationDétails } from './AutorisationDétails';
 
-type AutorisationUrbanismeSectionProps = {
+type AutorisationSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-const sectionTitle = "Autorisation d'urbanisme";
+const sectionTitle = 'Autorisation';
 
-export const AutorisationUrbanismeSection = ({
+export const AutorisationSection = ({
   identifiantProjet: identifiantProjetValue,
-}: AutorisationUrbanismeSectionProps) =>
+}: AutorisationSectionProps) =>
   SectionWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
 
-    if (!cahierDesCharges.getChampsSupplémentaires().autorisationDUrbanisme) {
+    if (!cahierDesCharges.getChampsSupplémentaires().autorisation) {
       return null;
     }
 
@@ -30,12 +30,8 @@ export const AutorisationUrbanismeSection = ({
 
     return (
       <Section title={sectionTitle}>
-        <AutorisationUrbanismeDétails
-          value={
-            lauréat.autorisationDUrbanisme
-              ? mapToPlainObject(lauréat.autorisationDUrbanisme)
-              : undefined
-          }
+        <AutorisationDétails
+          value={lauréat.autorisation ? mapToPlainObject(lauréat.autorisation) : undefined}
         />
       </Section>
     );
