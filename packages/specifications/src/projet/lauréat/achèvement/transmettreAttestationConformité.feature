@@ -12,13 +12,13 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Transmission de l'attestation de conformité et de la preuve de transmission |
+            | nom_projet | Du boulodrome de Marseille                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                           |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Mise à jour de la date d'achèvement |
+            | nom_projet | Du boulodrome de Marseille                                                   |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                   |
 
     Scénario: le porteur transmet une attestation de conformité pour le projet lauréat de l'appel d'offres Petit PV
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -29,13 +29,13 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors une attestation de conformité devrait être consultable pour le projet lauréat
         Et le statut du projet lauréat devrait être "achevé"
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Transmission de l'attestation de conformité et de la preuve de transmission |
+            | nom_projet | Du boulodrome de Marseille                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                           |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                   |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Mise à jour de la date d'achèvement |
+            | nom_projet | Du boulodrome de Marseille                                                   |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                   |
         Et il n'y a pas de tâche "rappel échéance achèvement à trois mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à deux mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat

@@ -1,43 +1,33 @@
 import { mediator, Message, MessageHandler } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-
-import { SendEmail } from '#sendEmail';
-import { getLauréat } from '#helpers';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
-  handleAttestationConformitéTransmise,
   handleDateAchèvementTransmise,
+  handleAttestationConformitéTransmise,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent;
 
-export type Execute = Message<
-  'System.Notification.Lauréat.Achèvement.AttestationConformité',
-  SubscriptionEvent
->;
+export type Execute = Message<'System.Notification.Lauréat.Achèvement', SubscriptionEvent>;
 
-export type RegisterAttestationConformitéNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterAttestationConformitéNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-
     return match(event)
-      .with({ type: 'AttestationConformitéTransmise-V1' }, async (event) =>
-        handleAttestationConformitéTransmise({ sendEmail, event, projet }),
+      .with({ type: 'AttestationConformitéTransmise-V1' }, handleAttestationConformitéTransmise)
+      .with({ type: 'DateAchèvementTransmise-V1' }, handleDateAchèvementTransmise)
+      .with(
+        {
+          type: P.union(
+            'AttestationConformitéModifiée-V1',
+            'DateAchèvementPrévisionnelCalculée-V1',
+          ),
+        },
+        () => Promise.resolve(),
       )
-      .with({ type: 'DateAchèvementTransmise-V1' }, async (event) =>
-        handleDateAchèvementTransmise({ sendEmail, event, projet }),
-      )
-      .otherwise(() => Promise.resolve());
+      .exhaustive();
   };
 
-  mediator.register('System.Notification.Lauréat.Achèvement.AttestationConformité', handler);
+  mediator.register('System.Notification.Lauréat.Achèvement', handler);
 };

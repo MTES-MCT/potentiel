@@ -4,7 +4,7 @@ import { AchèvementNotification } from '@potentiel-applications/notifications';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupAchèvement: SetupProjet = async ({ sendEmail }) => {
+export const setupAchèvement: SetupProjet = async () => {
   const achèvement = createSubscriptionSetup('achevement');
 
   AchèvementProjector.register();
@@ -23,14 +23,14 @@ export const setupAchèvement: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.Achèvement',
   });
 
-  AchèvementNotification.register({ sendEmail });
+  AchèvementNotification.register();
   await achèvement.setupSubscription<
     AchèvementNotification.SubscriptionEvent,
     AchèvementNotification.Execute
   >({
     name: 'notifications',
     eventType: ['AttestationConformitéTransmise-V1', 'DateAchèvementTransmise-V1'],
-    messageType: 'System.Notification.Lauréat.Achèvement.AttestationConformité',
+    messageType: 'System.Notification.Lauréat.Achèvement',
   });
 
   await achèvement.setupSubscription<
