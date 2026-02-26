@@ -416,5 +416,21 @@ describe('Schéma dépôt', () => {
         `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
       );
     });
+
+    test(`Date et numéro d'autorisation attendus ensemble`, () => {
+      const result = dépôtSchema.safeParse({
+        ...minimumValues,
+        autorisation: {
+          numéro: 'NUM1',
+          date: undefined,
+        },
+      });
+      assert(result.error);
+      assertError(
+        result,
+        ['autorisation'],
+        "La date et le numéro de l'autorisation doivent être tous les deux renseignés.",
+      );
+    });
   });
 });

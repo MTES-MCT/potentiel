@@ -104,6 +104,9 @@ const autorisationSchema = z
     numéro: numéroDAutorisationSchema,
   })
   .optional()
+  .refine((val) => (val?.date && val?.numéro) || (!val?.date && !val?.numéro), {
+    message: `La date et le numéro de l'autorisation doivent être tous les deux renseignés.`,
+  })
   .transform((val) =>
     val?.date && val?.numéro
       ? {
