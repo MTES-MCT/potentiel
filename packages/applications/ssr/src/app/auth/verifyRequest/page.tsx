@@ -7,6 +7,7 @@ import { getContext } from '@potentiel-applications/request-context';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { auth } from '@/auth';
 
 export default function VerifyRequest() {
   return PageWithErrorHandling(async () => {
@@ -15,13 +16,17 @@ export default function VerifyRequest() {
       redirect(Routes.Auth.redirectToDashboard());
     }
 
+    const expiresInSeconds =
+      auth.options.plugins.find((x) => x.id === 'magic-link')?.options.expiresIn ?? 60 * 5;
+
     return (
       <PageTemplate>
         <div className="flex flex-col gap-4 md:mt-5 md:mx-auto md:max-w-lg">
           <Heading1>Vérifiez votre boîte de réception</Heading1>
           <p>
-            Nous vous avons envoyé un courriel avec un lien unique de connexion valable 15 minutes.
-            Celui-ci vous permettra d'accéder à Potentiel sans saisir de mot de passe.
+            Nous vous avons envoyé un courriel avec un lien unique de connexion valable{' '}
+            {expiresInSeconds / 60} minutes. Celui-ci vous permettra d'accéder à Potentiel sans
+            saisir de mot de passe.
           </p>
 
           <p>

@@ -4,9 +4,11 @@ import { redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
 
+import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
-import { callbackURLSchema } from '../../../utils/zod/auth';
+import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
+import { ProviderProps } from '@/components/organisms/auth/AuthTile';
+import { callbackURLSchema } from '@/utils/zod/auth';
 
 import SignInPage from './SignIn.page';
 
@@ -23,13 +25,17 @@ export default function SignIn({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), forceProConnect } =
       searchParamsSchema.parse(searchParams);
-    const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
-    const providersKO = process.env.NEXTAUTH_PROVIDERS_KO?.split(',') ?? [];
 
     const context = getContext();
-
     if (context?.utilisateur) {
       redirect(callbackUrl);
+    }
+
+    const providers: Partial<Record<AuthProvider, ProviderProps>> = getProviders();
+
+    const lastUsed = getLastUsedProvider();
+    if (lastUsed && providers[lastUsed]) {
+      providers[lastUsed].isLastUsed = true;
     }
 
     return (
@@ -37,7 +43,6 @@ export default function SignIn({ searchParams }: PageProps) {
         providers={providers}
         callbackUrl={callbackUrl}
         forceProConnect={forceProConnect}
-        providersKO={providersKO}
       />
     );
   });
