@@ -99,7 +99,11 @@ export const GET = async (request: Request) =>
           },
           {
             value: 'typologieInstallation',
-            label: 'Typologie de l’installation',
+            label: "Typologie de l'installation",
+          },
+          {
+            value: 'typeTerrainImplantation',
+            label: "Type de terrain d'implantation",
           },
           {
             value: 'typeNatureDeLExploitation',
