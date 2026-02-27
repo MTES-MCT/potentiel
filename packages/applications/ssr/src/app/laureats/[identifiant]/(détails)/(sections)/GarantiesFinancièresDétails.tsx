@@ -39,8 +39,7 @@ export const GarantiesFinancièresDétails = ({
     <>
       {!estAchevé && motifDemandeGarantiesFinancières && (
         <Notice
-          description={`Des garanties financières sont en attente pour ce projet (
-          ${motifDemandeGarantiesFinancières})`}
+          description={`Des garanties financières sont en attente pour ce projet (${motifDemandeGarantiesFinancières})`}
           title=""
           severity="info"
           className="print:hidden"
@@ -135,5 +134,5 @@ const getMotifGarantiesFinancièresEnAttente = (
       'échéance-garanties-financières-actuelles',
       () => 'garanties financières arrivant à échéance',
     )
-    .with(P.union('motif-inconnu'), () => '')
+    .with('non-déposé', () => 'garanties financières non déposées')
     .exhaustive();

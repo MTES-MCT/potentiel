@@ -12,5 +12,5 @@ export const getGarantiesFinancièresMotifLabel = (
       'échéance-garanties-financières-actuelles',
       () => 'Garanties financières arrivées à échéance',
     )
-    .with('motif-inconnu', () => 'Inconnu')
+    .with('non-déposé', () => 'Garanties financières non déposées')
     .exhaustive();
