@@ -26,6 +26,8 @@ import {
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
 
+import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
+
 export type LauréatEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: IdentifiantProjet.ValueType['appelOffre'];
@@ -64,6 +66,7 @@ export type LauréatEnrichiListItemReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
 
   coefficientKChoisi: Dépôt.ValueType['coefficientKChoisi'];
+  typeTerrainImplantation: string;
   typologieInstallation: Array<TypologieInstallation.ValueType> | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage:
@@ -305,6 +308,9 @@ const mapToReadModel: MapToReadModelProps = ({
     typologieInstallation: installation?.typologieInstallation
       ? installation.typologieInstallation.map(TypologieInstallation.convertirEnValueType)
       : undefined,
+    typeTerrainImplantation: mapDétailsToTypeTerrainImplantation(
+      détailCandidature.détail["Type de terrain d'implantation (pièce n°3)"],
+    ),
     typeNatureDeLExploitation: natureDeLExploitation
       ? TypeDeNatureDeLExploitation.convertirEnValueType(
           natureDeLExploitation.typeNatureDeLExploitation,
