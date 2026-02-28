@@ -1,38 +1,40 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
+import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, getBaseUrl } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
 
 export const handleGarantiesFinancièresRappelEnAttente = async ({
-  sendEmail,
   identifiantProjet,
-  projet: { nom, région, département },
-  baseUrl,
 }: TâchePlanifiéeGarantiesFinancièresNotificationProps) => {
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(région);
+  const lauréat = await getLauréat(identifiantProjet.formatter());
 
-  const messageSubject = `Potentiel - Garanties financières en attente pour le projet ${nom} dans le département ${département}`;
+  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
+  const drealsRecipients = await listerDrealsRecipients(lauréat.région);
+
+  const commonValues = {
+    nom_projet: lauréat.nom,
+    appel_offre: lauréat.identifiantProjet.appelOffre,
+    période: lauréat.identifiantProjet.période,
+    departement_projet: lauréat.département,
+  };
+
   await sendEmail({
-    messageSubject,
-    recipients: porteurs,
-    templateId: 7174524,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      url: `${baseUrl}${Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())}`,
+    key: 'lauréat/garanties-financières/rappel_gf_en_attente_porteur',
+    recipients: porteursRecipients,
+    values: {
+      ...commonValues,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())}`,
     },
   });
 
   await sendEmail({
-    messageSubject,
-    recipients: dreals,
-    templateId: 7174559,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    key: 'lauréat/garanties-financières/rappel_gf_en_attente_dreal',
+    recipients: drealsRecipients,
+    values: {
+      ...commonValues,
+      url: lauréat.url,
     },
   });
 };

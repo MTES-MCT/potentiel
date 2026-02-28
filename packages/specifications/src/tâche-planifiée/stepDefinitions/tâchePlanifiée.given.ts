@@ -57,28 +57,51 @@ async function annulerTâche(
 }
 
 EtantDonné(
-  /une tâche planifiée (.*)pour le projet lauréat avec :/,
-  async function (this: PotentielWorld, statutTâche: string, dataTable: DataTable) {
+  /une tâche planifiée (ajoutée|annulée|exécutée) pour le projet lauréat avec :/,
+  async function (
+    this: PotentielWorld,
+    statutTâche: 'ajoutée' | 'annulée' | 'exécutée',
+    dataTable: DataTable,
+  ) {
     const exemple = dataTable.rowsHash();
+
+    if (!exemple['type']) {
+      throw new Error(`La table d'exemple doit contenir le champ "type"`);
+    }
+
+    if (!exemple["date d'exécution"]) {
+      throw new Error(
+        `La table d'exemple doit contenir le champ "date d'exécution" au format YYYY-MM-DD`,
+      );
+    }
+
     const { identifiantProjet } = this.lauréatWorld;
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       exemple['type'] as TypeTâchePlanifiée,
     ).type;
 
-    await ajouterTâchePlanifiée(
-      identifiantProjet,
-      typeTâche,
-      new Date(exemple["date d'exécution"]),
-    );
+    await match(statutTâche)
+      .with('ajoutée', () =>
+        ajouterTâchePlanifiée(identifiantProjet, typeTâche, new Date(exemple["date d'exécution"])),
+      )
+      .with('annulée', async () => {
+        await ajouterTâchePlanifiée(
+          identifiantProjet,
+          typeTâche,
+          new Date(exemple["date d'exécution"]),
+        );
+        await annulerTâche(identifiantProjet, typeTâche);
+      })
+      .with('exécutée', async () => {
+        const executéeLe = exemple['exécutée le'] ? new Date(exemple['exécutée le']) : new Date();
 
-    const executéeLe = exemple['exécutée le'] ?? new Date();
-
-    await match(statutTâche.trim())
-      .with('', () => Promise.resolve())
-      .with('annulée', () => annulerTâche(identifiantProjet, typeTâche))
-      .with('exécutée', () => exécuterTâche(identifiantProjet, typeTâche, new Date(executéeLe)))
-      .otherwise(() => {
-        throw new Error('Statut inconnu');
-      });
+        await ajouterTâchePlanifiée(
+          identifiantProjet,
+          typeTâche,
+          new Date(exemple["date d'exécution"]),
+        );
+        await exécuterTâche(identifiantProjet, typeTâche, executéeLe);
+      })
+      .exhaustive();
   },
 );

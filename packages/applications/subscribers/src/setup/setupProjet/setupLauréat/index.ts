@@ -93,7 +93,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupRaccordement = await setupRaccordement(dependencies);
   const unsetupDélai = await setupDélai(dependencies);
   const unsetupGarantiesFinancières = await setupGarantiesFinancières(dependencies);
-  const unsetupTâchePlanifiée = await setupTâchePlanifiée(dependencies);
+  const unsetupTâchePlanifiée = await setupTâchePlanifiée();
   const unsetupTâche = await setupTâche();
   const unsetupInstallation = await setupInstallation(dependencies);
   const unsetupNatureDeLExploitation = await setupNatureDeLExploitation(dependencies);
