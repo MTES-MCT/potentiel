@@ -75,10 +75,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         },
         (payload) =>
           tâchePlanifiéeRaccordementNotifications({
-            sendEmail,
             identifiantProjet,
-            projet,
-            baseUrl,
             payload,
           }),
       )

@@ -11,13 +11,15 @@ export const handleTâchePlanifiéeExecutée = async ({
   payload: { typeTâchePlanifiée, identifiantProjet, exécutéeLe },
 }: TâchePlanifiéeExecutéeEvent) => {
   if (
-    typeTâchePlanifiée === TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type
+    typeTâchePlanifiée ===
+    TypeTâchePlanifiéeRaccordement.relanceTransmissionDeLaDemandeComplèteRaccordement.type
   ) {
     await mediator.send<AjouterTâchePlanifiéeCommand>({
       type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        typeTâchePlanifiée: TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type,
+        typeTâchePlanifiée:
+          TypeTâchePlanifiéeRaccordement.relanceTransmissionDeLaDemandeComplèteRaccordement.type,
         àExécuterLe: DateTime.convertirEnValueType(exécutéeLe).ajouterNombreDeMois(1),
       },
     });

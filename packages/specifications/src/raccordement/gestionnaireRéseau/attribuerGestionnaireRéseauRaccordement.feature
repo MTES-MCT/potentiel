@@ -34,18 +34,18 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau
         Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
-        Et une tâche "relance demande complète raccordement" est planifiée pour le projet lauréat
+        Et une tâche "relance transmission de la demande complète raccordement" est planifiée pour le projet lauréat
 
     Scénario: Relancer les porteurs pour demander l'ajout dans Potentiel de la demande complète de raccordement du projet
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat "Du boulodrome de Marmande" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Et une tâche planifiée pour le projet lauréat avec :
-            | type             | relance demande complète raccordement |
-            | date d'exécution | 2025-01-11                            |
-        Quand on exécute la tâche planifiée "relance demande complète raccordement" pour le projet lauréat à la date du "2025-11-01"
+            | type             | relance transmission de la demande complète raccordement |
+            | date d'exécution | 2025-01-11                                               |
+        Quand on exécute la tâche planifiée "relance transmission de la demande complète raccordement" pour le projet lauréat à la date du "2025-11-01"
         Alors un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Attente de transmission de la DCR pour le projet Du boulodrome de Marseille              |
-            | nom_projet | Du boulodrome de Marseille                                                                           |
+            | sujet      | Potentiel - Du boulodrome de Marmande - Transmission de la DCR en attente                            |
+            | nom_projet | Du boulodrome de Marmande                                                                            |
             | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/raccordements/demande-complete-raccordement:transmettre |
-        Et une tâche "relance demande complète raccordement" est planifiée à la date du "2025-12-01" pour le projet lauréat
+        Et une tâche "relance transmission de la demande complète raccordement" est planifiée à la date du "2025-12-01" pour le projet lauréat
