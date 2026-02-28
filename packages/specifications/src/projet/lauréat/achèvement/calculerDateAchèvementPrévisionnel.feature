@@ -123,7 +123,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et une tâche planifiée pour le projet lauréat avec :
+        Et une tâche planifiée ajoutée pour le projet lauréat avec :
             | type             | rappel échéance achèvement à un mois |
             | date d'exécution | 2025-01-11                           |
         Quand on exécute la tâche planifiée "rappel échéance achèvement à un mois" pour le projet lauréat à la date du "2025-11-01"

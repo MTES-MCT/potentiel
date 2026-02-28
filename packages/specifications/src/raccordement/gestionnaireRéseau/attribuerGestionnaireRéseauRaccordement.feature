@@ -40,7 +40,7 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Etant donné le projet lauréat "Du boulodrome de Marmande" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | période        | 1                        |
-        Et une tâche planifiée pour le projet lauréat avec :
+        Et une tâche planifiée ajoutée pour le projet lauréat avec :
             | type             | relance transmission de la demande complète raccordement |
             | date d'exécution | 2025-01-11                                               |
         Quand on exécute la tâche planifiée "relance transmission de la demande complète raccordement" pour le projet lauréat à la date du "2025-11-01"

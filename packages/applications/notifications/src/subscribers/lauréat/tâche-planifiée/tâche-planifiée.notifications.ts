@@ -5,9 +5,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat } from '#helpers';
-import { SendEmail } from '#sendEmail';
-
 import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières/tâche-planifiée.garantiesFinancières.notifications.js';
 import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal/tâche-planifiée.représentantLégal.notifications.js';
 import { tâchePlanifiéeRaccordementNotifications } from './raccordement/tâche-planifiée.raccordement.notifications.js';
@@ -24,19 +21,11 @@ export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecut
 
 export type Execute = Message<'System.Notification.TâchePlanifiée', SubscriptionEvent>;
 
-export type RegisterTâchePlanifiéeNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-
-    const baseUrl = getBaseUrl();
-
-    const projet = await getLauréat(identifiantProjet.formatter());
 
     await match(event.payload)
       .with(
@@ -47,10 +36,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         },
         (payload) =>
           tâchePlanifiéeGarantiesFinancièresNotifications({
-            baseUrl,
             identifiantProjet,
-            projet,
-            sendEmail,
             payload,
           }),
       )

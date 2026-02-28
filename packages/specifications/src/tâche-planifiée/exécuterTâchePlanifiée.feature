@@ -8,7 +8,7 @@ Fonctionnalité: Exécuter une tâche planifiée
             | date d'échéance | 2050-01-01         |
 
     Scénario: Une tâche planifiée est exécutée
-        Etant donné une tâche planifiée pour le projet lauréat avec :
+        Etant donné une tâche planifiée ajoutée pour le projet lauréat avec :
             | type             | échoir les garanties financières |
             | date d'exécution | 2050-07-02                       |
         Quand on exécute les tâches planifiées à la date du "2050-07-02"

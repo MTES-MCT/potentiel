@@ -2,8 +2,6 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-
 import {
   handleGarantiesFinancièresRappelEnAttente,
   handleGarantiesFinancièresRappelÉchéance,
@@ -14,15 +12,8 @@ type TâchePlanifiéeExecutéeGarantiesFinancièresEventPayload = {
 };
 
 export type TâchePlanifiéeGarantiesFinancièresNotificationProps = {
-  sendEmail: SendEmail;
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: TâchePlanifiéeExecutéeGarantiesFinancièresEventPayload;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
 };
 
 export const tâchePlanifiéeGarantiesFinancièresNotifications = (
