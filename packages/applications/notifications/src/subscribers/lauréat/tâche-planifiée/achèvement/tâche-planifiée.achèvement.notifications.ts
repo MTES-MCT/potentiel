@@ -2,8 +2,6 @@ import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-
 import { handleRelanceÉchéanceAchèvement } from './handlers/index.js';
 
 type TâchePlanifiéeExecutéeAchèvementEventPayload = {
@@ -11,15 +9,8 @@ type TâchePlanifiéeExecutéeAchèvementEventPayload = {
 };
 
 export type TâchePlanifiéeAchèvementNotificationProps = {
-  sendEmail: SendEmail;
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: TâchePlanifiéeExecutéeAchèvementEventPayload;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
-  };
 };
 
 export const tâchePlanifiéeAchèvementNotifications = (
