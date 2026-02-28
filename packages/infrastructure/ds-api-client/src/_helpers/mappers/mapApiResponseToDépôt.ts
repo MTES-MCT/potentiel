@@ -14,6 +14,7 @@ import {
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
+import { getDépôtFournisseurs } from '../getters/getDépôtFournisseurs.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -135,9 +136,10 @@ export const mapApiResponseToDépôt = ({
 
     typologieInstallation: getTypologieInstallation(champs),
 
+    fournisseurs: getDépôtFournisseurs(champs),
+
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
-    fournisseurs: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
