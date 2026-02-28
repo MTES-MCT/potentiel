@@ -13,11 +13,11 @@ Fonctionnalité: Demande des garanties financières
             | date d'exécution | 2024-08-17                                     |
         Quand on exécute la tâche planifiée "rappel des garanties financières à transmettre" pour le projet lauréat à la date du "2024-08-17"
         Alors un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Garanties financières en attente pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot:soumettre                             |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de transmission |
+            | nom_projet | Du boulodrome de Marseille                                                                |
+            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot:soumettre        |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Garanties financières en attente pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url        | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de transmission |
+            | nom_projet | Du boulodrome de Marseille                                                                |
+            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)                                              |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2024-09-17" pour le projet lauréat

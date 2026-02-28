@@ -53,6 +53,26 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Et il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
 
+    Scénario: Rappels pour les Dreals et porteurs sur le délai restant avant l'échéance des garanties financières du projet lauréat
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
+            | type GF         | avec-date-échéance |
+            | date d'échéance | 2024-07-17         |
+        Et une tâche planifiée ajoutée pour le projet lauréat avec :
+            | type             | rappel échéance garanties financières à trois mois |
+            | date d'exécution | 2024-04-17                                         |
+        Quand on exécute la tâche planifiée "rappel échéance garanties financières à trois mois" pour le projet lauréat
+        Alors un email a été envoyé au porteur avec :
+            | sujet       | Potentiel - Du boulodrome de Marseille - Échéance des garanties financières dans 3 mois |
+            | nom_projet  | Du boulodrome de Marseille                                                              |
+            | nombre_mois | 3                                                                                       |
+            | url         | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot:soumettre      |
+        Et un email a été envoyé à la dreal avec :
+            | sujet       | Potentiel - Du boulodrome de Marseille - Échéance des garanties financières dans 3 mois |
+            | nom_projet  | Du boulodrome de Marseille                                                              |
+            | nombre_mois | 3                                                                                       |
+            | url         | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres                      |
+        Et il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
+
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si il n'y a pas de garanties financières actuelles pour ce projet
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :

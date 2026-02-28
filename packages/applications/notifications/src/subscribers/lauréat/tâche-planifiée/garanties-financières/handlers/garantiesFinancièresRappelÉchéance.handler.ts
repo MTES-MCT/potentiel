@@ -1,48 +1,47 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, listerDrealsRecipients } from '#helpers';
+import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, getBaseUrl } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
 
-type GarantiesFinancièresRappelÉchéanceNotificationProps = Omit<
-  TâchePlanifiéeGarantiesFinancièresNotificationProps,
-  'payload'
-> & {
-  nombreDeMois: number;
-};
+type GarantiesFinancièresRappelÉchéanceNotificationProps =
+  TâchePlanifiéeGarantiesFinancièresNotificationProps & {
+    nombreDeMois: number;
+  };
 
 export const handleGarantiesFinancièresRappelÉchéance = async ({
-  sendEmail,
   identifiantProjet,
-  projet: { nom, région, département },
-  baseUrl,
   nombreDeMois,
 }: GarantiesFinancièresRappelÉchéanceNotificationProps) => {
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const lauréat = await getLauréat(identifiantProjet.formatter());
 
-  const dreals = await listerDrealsRecipients(région);
+  const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
+  const drealsRecipients = await listerDrealsRecipients(lauréat.région);
+
+  const commonValues = {
+    nom_projet: lauréat.nom,
+    appel_offre: lauréat.identifiantProjet.appelOffre,
+    période: lauréat.identifiantProjet.période,
+    departement_projet: lauréat.département,
+    nombre_mois: nombreDeMois.toString(),
+  };
 
   await sendEmail({
-    messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
-    recipients: dreals,
-    templateId: 6164034,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      nombre_mois: nombreDeMois.toString(),
-      url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+    key: 'lauréat/garanties-financières/rappel_gf_echeance_porteur',
+    recipients: porteursRecipients,
+    values: {
+      ...commonValues,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())}`,
     },
   });
 
   await sendEmail({
-    messageSubject: `Potentiel - Arrivée à échéance de vos garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
-    recipients: porteurs,
-    templateId: 6164049,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      nombre_mois: nombreDeMois.toString(),
-      url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+    key: 'lauréat/garanties-financières/rappel_gf_echeance_dreal',
+    recipients: drealsRecipients,
+    values: {
+      ...commonValues,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
 };
