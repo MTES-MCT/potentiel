@@ -5,21 +5,33 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, getCahierDesChargesLauréat } from '#helpers';
+import {
+  listerDrealsRecipients,
+  getCahierDesChargesLauréat,
+  getLauréat,
+  getBaseUrl,
+} from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';
 
 export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
-  sendEmail,
   identifiantProjet,
-  projet: { nom, région, département },
-  baseUrl,
 }: TâchePlanifiéeReprésentantLégalNotificationProps) => {
-  const dreals = await listerDrealsRecipients(région);
+  const lauréat = await getLauréat(identifiantProjet.formatter());
+
   const cahierDesCharges = await getCahierDesChargesLauréat(identifiantProjet);
 
   const règlesChangement = cahierDesCharges.getRèglesChangements('représentantLégal');
+
   if (!règlesChangement.instructionAutomatique) {
+    getLogger().error(
+      "Aucune règle d'instruction automatique pour le changement de représentant légal trouvée",
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+        application: 'notifications',
+      },
+    );
     return;
   }
 
@@ -41,17 +53,19 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const messageSubject = `Potentiel - La demande de modification du représentant légal pour le projet ${nom} dans le département ${département} nécessite votre instruction`;
+  const drealsRecipients = await listerDrealsRecipients(lauréat.région);
 
   await sendEmail({
-    messageSubject,
-    recipients: dreals,
-    templateId: 6636431,
-    variables: {
-      type: règlesChangement.instructionAutomatique,
-      nom_projet: nom,
-      departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
+    key: 'lauréat/représentant-légal/rappel_instruction_2_mois',
+    recipients: drealsRecipients,
+    values: {
+      nom_projet: lauréat.nom,
+      appel_offre: lauréat.identifiantProjet.appelOffre,
+      période: lauréat.identifiantProjet.période,
+      departement_projet: lauréat.département,
+      type_instruction_automatique:
+        règlesChangement.instructionAutomatique === 'accord' ? 'acceptation' : 'refus',
+      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
     },
   });
 };
