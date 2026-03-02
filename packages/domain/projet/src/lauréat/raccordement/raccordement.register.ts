@@ -27,10 +27,6 @@ import {
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query.js';
 import { registerListerDossierRaccordementManquantsQuery } from './lister/listerDossierRaccordementManquants.query.js';
 import {
-  ListerRaccordementQueryDependencies,
-  registerListerRaccordementQuery,
-} from './lister/listerRaccordement.query.js';
-import {
   RechercherDossierRaccordementDependencies,
   registerRechercherDossierRaccordementQuery,
 } from './rechercher/rechercherDossierRaccordement.query.js';
@@ -63,7 +59,6 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
   ConsulterNombreDeRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
   ListerDossierRaccordementQueryDependencies &
-  ListerRaccordementQueryDependencies &
   ListerHistoriqueRaccordementProjetDependencies;
 
 export type RaccordementCommandDependencies = {
@@ -76,7 +71,6 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerConsulterNombreDeRaccordementQuery(dependencies);
   registerConsulterRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
-  registerListerRaccordementQuery(dependencies);
   registerListerDossierRaccordementEnAttenteMiseEnServiceQuery(dependencies);
   registerListerDossierRaccordementQuery(dependencies);
   registerListerDossierRaccordementManquantsQuery(dependencies);

@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
 import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 
@@ -39,7 +39,7 @@ export type ListerDemandeDélaiQuery = Message<
 
 export type ListerDemandeDélaiDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDemandeDélaiQuery = ({
@@ -55,16 +55,9 @@ export const registerListerDemandeDélaiQuery = ({
     identifiantProjet,
     autoritéCompétente,
   }) => {
-    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-
-    const identifiantProjets =
-      scope.type === 'projet'
-        ? identifiantProjet
-          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
-          : scope.identifiantProjets
-        : identifiantProjet
-          ? [identifiantProjet]
-          : undefined;
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
+      identifiantProjets: identifiantProjet && [identifiantProjet],
+    });
 
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
@@ -78,12 +71,12 @@ export const registerListerDemandeDélaiQuery = ({
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           nomProjet: Where.like(nomProjet),
           localité: {
-            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            région: Where.matchAny(scope.régions),
           },
         },
       },
       where: {
-        identifiantProjet: Where.matchAny(identifiantProjets),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         statut: Where.matchAny(statuts),
         autoritéCompétente: Where.equal(autoritéCompétente),
       },

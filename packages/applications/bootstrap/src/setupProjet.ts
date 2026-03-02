@@ -7,8 +7,8 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import {
   ProjetAdapter,
-  getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
+  getScopeProjetUtilisateurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupProjet = () => {
@@ -22,7 +22,7 @@ export const setupProjet = () => {
     list: listProjection,
     count: countProjection,
     listHistory: listHistoryProjection,
-    getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
+    getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
   });

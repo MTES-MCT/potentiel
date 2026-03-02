@@ -69,6 +69,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
+
       const mainlevéesRejetées =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',

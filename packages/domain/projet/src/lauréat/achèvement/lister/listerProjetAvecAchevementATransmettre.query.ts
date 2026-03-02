@@ -4,7 +4,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity, Raccordement } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../../candidature/index.js';
 import { DossierRaccordementEntity, RaccordementEntity } from '../../raccordement/index.js';
@@ -43,7 +43,7 @@ export type ListerProjetAvecAchevementATransmettreQuery = Message<
 
 export type ListerProjetAvecAchevementATransmettreDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 type ProjetAvecAchevementATransmettreJoins = [
@@ -74,8 +74,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
       'dossier-raccordement',
       {
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
         },
         join: [
           {
@@ -85,7 +84,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
               appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
               période: Where.equal(periode),
               localité: {
-                région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+                région: Where.matchAny(scope.régions),
               },
               statut: Where.notEqual('achevé'),
             },
@@ -94,10 +93,7 @@ export const registerListerProjetAvecAchevementATransmettreQuery = ({
             entity: 'raccordement',
             on: 'identifiantProjet',
             where: {
-              identifiantGestionnaireRéseau:
-                scope.type === 'gestionnaire-réseau'
-                  ? Where.equal(scope.identifiantGestionnaireRéseau)
-                  : undefined,
+              identifiantGestionnaireRéseau: Where.equal(scope.identifiantGestionnaireRéseau),
             },
           },
           {

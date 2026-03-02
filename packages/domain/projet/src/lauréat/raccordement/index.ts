@@ -27,10 +27,6 @@ import {
   ListerDossierRaccordementManquantsReadModel,
 } from './lister/listerDossierRaccordementManquants.query.js';
 import {
-  ListerRaccordementQuery,
-  ListerRaccordementReadModel,
-} from './lister/listerRaccordement.query.js';
-import {
   HistoriqueRaccordementProjetListItemReadModel,
   ListerHistoriqueRaccordementProjetQuery,
   ListerHistoriqueRaccordementProjetReadModel,
@@ -57,7 +53,6 @@ export type RaccordementQuery =
   | ConsulterGestionnaireRéseauRaccordementQuery
   | ConsulterNombreDeRaccordementQuery
   | RechercherDossierRaccordementQuery
-  | ListerRaccordementQuery
   | ListerDossierRaccordementEnAttenteMiseEnServiceQuery
   | ListerDossierRaccordementQuery
   | ListerDossierRaccordementManquantsQuery
@@ -69,7 +64,6 @@ export type {
   RechercherDossierRaccordementQuery,
   ConsulterNombreDeRaccordementQuery,
   ConsulterRaccordementQuery,
-  ListerRaccordementQuery,
   ListerDossierRaccordementEnAttenteMiseEnServiceQuery,
   ListerDossierRaccordementQuery,
   ListerDossierRaccordementManquantsQuery,
@@ -85,7 +79,6 @@ export type {
   ConsulterGestionnaireRéseauRaccordementReadModel,
   ConsulterNombreDeRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
-  ListerRaccordementReadModel,
   ListerDossierRaccordementEnAttenteMiseEnServiceReadModel,
   ListerDossierRaccordementReadModel,
   ListerDossierRaccordementManquantsReadModel,

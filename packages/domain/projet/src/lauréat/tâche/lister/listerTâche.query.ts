@@ -5,7 +5,7 @@ import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity.js';
 import * as TypeTâche from '../typeTâche.valueType.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity } from '../../index.js';
 
 type TâcheListItem = {
@@ -37,7 +37,7 @@ export type ListerTâchesQuery = Message<
 
 export type ListerTâchesQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerTâchesQuery = ({
@@ -55,21 +55,9 @@ export const registerListerTâchesQuery = ({
   }) => {
     const scope = identifiantProjet
       ? {
-          type: 'projet',
           identifiantProjets: [identifiantProjet],
         }
       : await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
-
-    if (scope.type !== 'projet') {
-      return {
-        items: [],
-        range: {
-          startPosition: 0,
-          endPosition: 0,
-        },
-        total: 0,
-      };
-    }
 
     const {
       items,
@@ -77,7 +65,8 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        // comportement spécifique : si un identifiant projet est fourni, il s'agit d'une consultation par projet (accessible à tous les rôles ayant accès aux tâches), si non, seul le porteur a accès à ses tâches (multi projet)
+        identifiantProjet: Where.matchAny(scope.identifiantProjets ?? []),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,

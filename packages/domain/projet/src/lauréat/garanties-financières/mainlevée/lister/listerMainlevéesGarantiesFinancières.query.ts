@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { DocumentProjet, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
@@ -60,7 +60,7 @@ export type ListerMainlevéesQuery = Message<
 
 export type ListerMainlevéesQueryDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerMainlevéesQuery = ({
@@ -75,9 +75,13 @@ export const registerListerMainlevéesQuery = ({
     identifiantUtilisateur,
     identifiantProjet,
   }) => {
-    const scope = identifiantProjet
-      ? { type: 'projet' as const, identifiantProjets: [identifiantProjet] }
-      : await getScopeProjetUtilisateur(Email.convertirEnValueType(identifiantUtilisateur));
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(identifiantUtilisateur),
+      {
+        identifiantProjets: identifiantProjet && [identifiantProjet],
+      },
+    );
+
     const {
       items,
       range: { endPosition, startPosition },
@@ -87,8 +91,7 @@ export const registerListerMainlevéesQuery = ({
       {
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           motif: Where.equal(motif),
           statut: Where.matchAny(statut),
         },
@@ -98,7 +101,7 @@ export const registerListerMainlevéesQuery = ({
           where: {
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

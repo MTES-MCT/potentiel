@@ -1,26 +1,15 @@
 import { Email } from '@potentiel-domain/common';
+import { Région } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from './index.js';
 
-type AllScope = {
-  type: 'all';
+export type ProjetUtilisateurScope = {
+  identifiantProjets?: Array<IdentifiantProjet.RawType>;
+  régions?: Région.RawType[];
+  identifiantGestionnaireRéseau?: string;
 };
 
-type RégionScope = {
-  type: 'région';
-  régions: string[];
-};
-
-type ProjetScope = {
-  type: 'projet';
-  identifiantProjets: Array<IdentifiantProjet.RawType>;
-};
-
-type GestionnaireRéseauScope = {
-  type: 'gestionnaire-réseau';
-  identifiantGestionnaireRéseau: string;
-};
-
-export type ProjetUtilisateurScope = AllScope | RégionScope | ProjetScope | GestionnaireRéseauScope;
-
-export type GetProjetUtilisateurScope = (email: Email.ValueType) => Promise<ProjetUtilisateurScope>;
+export type GetScopeProjetUtilisateur = (
+  email: Email.ValueType,
+  filterOnScope?: ProjetUtilisateurScope,
+) => Promise<ProjetUtilisateurScope>;

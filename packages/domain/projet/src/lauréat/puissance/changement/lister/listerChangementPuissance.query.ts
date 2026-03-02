@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementPuissanceEntity, StatutChangementPuissance } from '../../index.js';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { CandidatureEntity } from '../../../../candidature/index.js';
 
@@ -38,7 +38,7 @@ export type ListerChangementPuissanceQuery = Message<
 
 export type ListerChangementPuissanceDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerChangementPuissanceQuery = ({
@@ -70,7 +70,7 @@ export const registerListerChangementPuissanceQuery = ({
               appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
               nomProjet: Where.like(nomProjet),
               localité: {
-                région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+                région: Where.matchAny(scope.régions),
               },
             },
           },
@@ -80,8 +80,7 @@ export const registerListerChangementPuissanceQuery = ({
           },
         ],
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           demande: {
             statut: Where.matchAny(statut),
           },

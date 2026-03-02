@@ -6,7 +6,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { StatutRecours } from '../index.js';
 import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
 import { Candidature, IdentifiantProjet } from '../../../index.js';
-import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port.js';
 
 type DemandeRecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -39,7 +39,7 @@ export type ListerDemandeRecoursQuery = Message<
 
 export type ListerDemandeRecoursDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerDemandeRecoursQuery = ({
@@ -61,8 +61,7 @@ export const registerListerDemandeRecoursQuery = ({
         orderBy: { miseÀJourLe: 'descending' },
         range,
         where: {
-          identifiantProjet:
-            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
           statut: Where.matchAny(statut),
         },
         join: {
@@ -72,7 +71,7 @@ export const registerListerDemandeRecoursQuery = ({
             appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
             nomProjet: Where.like(nomProjet),
             localité: {
-              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+              région: Where.matchAny(scope.régions),
             },
           },
         },

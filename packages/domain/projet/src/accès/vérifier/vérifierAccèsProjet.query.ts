@@ -4,13 +4,13 @@ import { match, P } from 'ts-pattern';
 import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Role, UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Role, Région, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 
 import { LauréatEntity } from '../../lauréat/index.js';
 import { CandidatureEntity } from '../../candidature/index.js';
 import { RaccordementEntity } from '../../lauréat/raccordement/index.js';
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port.js';
+import { GetScopeProjetUtilisateur } from '../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet } from '../../index.js';
 
 export type VérifierAccèsProjetQuery = Message<
@@ -24,7 +24,7 @@ export type VérifierAccèsProjetQuery = Message<
 
 export type VérifierAccèsProjetDependencies = {
   find: Find;
-  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 class ProjetInaccessibleError extends OperationRejectedError {
@@ -61,24 +61,29 @@ export const registerVérifierAccèsProjetQuery = ({
       throw new ProjetInaccessibleError();
     }
 
-    const accèsProjet = await match(scope)
-      .with({ type: 'projet' }, ({ identifiantProjets }) =>
-        identifiantProjets.includes(identifiantProjet.formatter()),
-      )
-      .with({ type: 'région' }, async ({ régions }) => {
-        const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-        return régions.includes(régionProjet);
-      })
-      .with({ type: 'gestionnaire-réseau' }, async ({ identifiantGestionnaireRéseau }) => {
-        const identifiantGestionnaireRéseauProjet =
-          await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-        return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
-      })
-      .with({ type: 'all' }, async () => true)
-      .exhaustive();
-
-    if (!accèsProjet) {
+    if (
+      scope.identifiantProjets &&
+      !scope.identifiantProjets.includes(identifiantProjet.formatter())
+    ) {
       throw new ProjetInaccessibleError();
+    }
+
+    if (scope.régions) {
+      const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
+      if (
+        !régionProjet ||
+        !scope.régions.includes(Région.convertirEnValueType(régionProjet).formatter())
+      ) {
+        throw new ProjetInaccessibleError();
+      }
+    }
+
+    if (scope.identifiantGestionnaireRéseau) {
+      const identifiantGestionnaireRéseauProjet =
+        await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
+      if (scope.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseauProjet) {
+        throw new ProjetInaccessibleError();
+      }
     }
   };
 
@@ -96,7 +101,7 @@ export const registerVérifierAccèsProjetQuery = ({
       return candidature.localité.région;
     }
 
-    return '__AUCUNE RÉGION__';
+    return undefined;
   };
 
   const récupérerIdentifiantGestionnaireRéseauProjet = async (identifiantProjet: string) => {

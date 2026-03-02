@@ -1,1 +1,1 @@
-export * from './getProjetUtilisateurScope.adapter.js';
+export * from './getScopeProjetUtilisateur.adapter.js';
