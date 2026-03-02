@@ -18,21 +18,21 @@ export const handleChangementReprésentantLégalRejeté = async ({
     url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
   };
 
-  if (payload.rejetAutomatique) {
-    const dreals = await listerDrealsRecipients(projet.région);
-
-    for (const recipients of [porteurs, dreals]) {
-      return sendEmail({
-        key: 'lauréat/représentant-légal/demande/rejeter_automatiquement',
-        recipients,
-        values,
-      });
-    }
+  if (!payload.rejetAutomatique) {
+    return sendEmail({
+      key: 'lauréat/représentant-légal/demande/rejeter',
+      recipients: porteurs,
+      values,
+    });
   }
 
-  return sendEmail({
-    key: 'lauréat/représentant-légal/demande/rejeter',
-    recipients: porteurs,
-    values,
-  });
+  const dreals = await listerDrealsRecipients(projet.région);
+
+  for (const recipients of [porteurs, dreals]) {
+    await sendEmail({
+      key: 'lauréat/représentant-légal/demande/rejeter_automatiquement',
+      recipients,
+      values,
+    });
+  }
 };

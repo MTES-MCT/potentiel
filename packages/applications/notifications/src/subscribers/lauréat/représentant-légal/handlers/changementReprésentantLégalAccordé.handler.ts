@@ -27,27 +27,27 @@ export const handleChangementReprésentantLégalAccordé = async ({
     });
   }
 
-  if (payload.accordAutomatique) {
-    const dreals = await listerDrealsRecipients(projet.région);
-
-    for (const recipients of [porteurs, dreals]) {
-      return sendEmail({
-        key: 'lauréat/représentant-légal/demande/accorder_automatiquement',
-        recipients,
-        values,
-      });
-    }
+  if (!payload.accordAutomatique) {
+    return sendEmail({
+      key: 'lauréat/représentant-légal/demande/accorder',
+      recipients: porteurs,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
+      },
+    });
   }
 
-  return sendEmail({
-    key: 'lauréat/représentant-légal/demande/accorder',
-    recipients: porteurs,
-    values: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      appel_offre: projet.identifiantProjet.appelOffre,
-      période: projet.identifiantProjet.période,
-      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
-    },
-  });
+  const dreals = await listerDrealsRecipients(projet.région);
+
+  for (const recipients of [porteurs, dreals]) {
+    return sendEmail({
+      key: 'lauréat/représentant-légal/demande/accorder_automatiquement',
+      recipients,
+      values,
+    });
+  }
 };
