@@ -44,7 +44,7 @@ export const handleChangementReprésentantLégalAccordé = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   for (const recipients of [porteurs, dreals]) {
-    return sendEmail({
+    await sendEmail({
       key: 'lauréat/représentant-légal/demande/accorder_automatiquement',
       recipients,
       values,
