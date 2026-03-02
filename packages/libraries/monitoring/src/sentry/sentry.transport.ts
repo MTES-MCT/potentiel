@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // CREDITS: largely inspired by https://github.com/aandrewww/winston-transport-sentry-node
 import TransportStream, { TransportStreamOptions } from 'winston-transport';
-import Sentry from '@sentry/nextjs';
+import * as Sentry from '@sentry/node';
 
 const LEVELS_MAP: Record<string, Sentry.SeverityLevel> = {
   silly: 'debug',
