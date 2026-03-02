@@ -61,26 +61,24 @@ export const registerVérifierAccèsProjetQuery = ({
       throw new ProjetInaccessibleError();
     }
 
-    const accèsProjet = await match(scope)
-      .with({ identifiantProjets: P.not(P.nullish) }, ({ identifiantProjets }) =>
-        identifiantProjets.includes(identifiantProjet.formatter()),
-      )
-      .with({ régions: P.not(P.nullish) }, async ({ régions }) => {
-        const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-        return régionProjet
-          ? régions.includes(Région.convertirEnValueType(régionProjet).formatter())
-          : false;
-      })
-      .with(
-        { identifiantGestionnaireRéseau: P.not(P.nullish) },
-        async ({ identifiantGestionnaireRéseau }) => {
-          const identifiantGestionnaireRéseauProjet =
-            await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-          return identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
-        },
-      )
-      .with({}, () => true)
-      .exhaustive();
+    let accèsProjet = true;
+
+    if (scope.identifiantProjets) {
+      accèsProjet = scope.identifiantProjets.includes(identifiantProjet.formatter());
+    }
+
+    if (scope.régions) {
+      const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
+      accèsProjet = régionProjet
+        ? scope.régions.includes(Région.convertirEnValueType(régionProjet).formatter())
+        : false;
+    }
+
+    if (scope.identifiantGestionnaireRéseau) {
+      const identifiantGestionnaireRéseauProjet =
+        await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
+      accèsProjet = scope.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
+    }
 
     if (!accèsProjet) {
       throw new ProjetInaccessibleError();
