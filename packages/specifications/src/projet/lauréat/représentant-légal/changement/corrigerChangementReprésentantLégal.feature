@@ -12,9 +12,9 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat
         Alors la demande corrigée de changement de représentant légal du projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Correction de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                                                                  |
+            | sujet      | Potentiel - Du boulodrome de Marseille - Demande de changement de représentant légal corrigée |
+            | nom_projet | Du boulodrome de Marseille                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                   |
 
     Scénario: Impossible de corriger une demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
         Quand le porteur corrige une demande inexistante de changement de représentant légal pour le projet lauréat

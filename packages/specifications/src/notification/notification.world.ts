@@ -11,6 +11,7 @@ export class NotificationWorld {
   })[] = [];
 
   ajouterNotification(notif: EmailPayload) {
+    console.log(notif);
     for (const recipient of [...notif.recipients, ...(notif.cc ?? []), ...(notif.bcc ?? [])]) {
       this.#notifications.push({
         ...notif,
