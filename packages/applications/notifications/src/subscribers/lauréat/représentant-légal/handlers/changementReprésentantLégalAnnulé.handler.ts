@@ -1,35 +1,24 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
-
-type ChangementReprésentantLégalAnnuléNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
-  };
-};
-
-export const changementReprésentantLégalAnnuléNotification = async ({
-  sendEmail,
-  projet,
-}: ChangementReprésentantLégalAnnuléNotificationProps) => {
-  const dreals = await listerDrealsRecipients(projet.région);
+export const handleChangementReprésentantLégalAnnulé = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const recipients = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    templateId: représentantLégalNotificationTemplateId.changement.annuler,
-    messageSubject: `Potentiel - Annulation de la demande de modification du représentant légal pour le projet ${projet.nom} situé dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
+    key: 'lauréat/représentant-légal/demande/annuler',
+    recipients,
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
 };

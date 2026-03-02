@@ -47,13 +47,13 @@ export const registerConsulterChangementReprésentantLegalEnCoursQuery = ({
     );
 
     return Option.match(représentantLégal)
-      .some(async ({ demandeEnCours }) => {
-        if (!demandeEnCours) {
+      .some(async ({ dernièreDemande }) => {
+        if (dernièreDemande?.statut !== 'demandé') {
           return Option.none;
         }
 
         const changementEnCours = await find<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-          `changement-représentant-légal|${identifiantProjetValueType.formatter()}#${demandeEnCours.demandéLe}`,
+          `changement-représentant-légal|${identifiantProjetValueType.formatter()}#${dernièreDemande.date}`,
         );
 
         return Option.match(changementEnCours)

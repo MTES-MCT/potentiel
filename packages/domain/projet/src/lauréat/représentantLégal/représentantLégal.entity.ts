@@ -3,7 +3,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
 
-import { TypeReprésentantLégal } from './index.js';
+import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from './index.js';
 
 export type ReprésentantLégalEntity = Entity<
   'représentant-légal',
@@ -11,8 +11,6 @@ export type ReprésentantLégalEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    demandeEnCours?: {
-      demandéLe: DateTime.RawType;
-    };
+    dernièreDemande?: { date: DateTime.RawType; statut: StatutChangementReprésentantLégal.RawType };
   }
 >;

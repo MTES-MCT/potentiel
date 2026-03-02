@@ -7,8 +7,13 @@ import { Heading1 } from '@/components/atoms/headings';
 
 import { ModifierReprésentantLégalForm } from './ModifierReprésentantLégal.form';
 
-export type ModifierReprésentantLégalPageProps =
-  PlainType<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+export type ModifierReprésentantLégalPageProps = PlainType<
+  Omit<
+    Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel,
+    'aUneDemandeEnCours' | 'dateDernièreDemande'
+  >
+>;
+
 export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPageProps> = ({
   identifiantProjet,
   nomReprésentantLégal,

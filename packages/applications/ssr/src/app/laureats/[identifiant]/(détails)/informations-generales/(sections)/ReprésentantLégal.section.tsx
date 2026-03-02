@@ -26,21 +26,22 @@ export const ReprésentantLégalSection = ({
 
       const value = mapToPlainObject(représentantLégal);
 
-      const action = représentantLégal.demandeEnCours
-        ? rôle.aLaPermission('représentantLégal.consulterChangement')
-          ? {
-              url: Routes.ReprésentantLégal.changement.détails(
-                identifiantProjet.formatter(),
-                représentantLégal.demandeEnCours.demandéLe,
-              ),
-              label: 'Voir la demande de modification',
-            }
-          : undefined
-        : await getAction({
-            identifiantProjet,
-            rôle,
-            domain: 'représentantLégal',
-          });
+      const action =
+        représentantLégal.dateDernièreDemande && représentantLégal.aUneDemandeEnCours
+          ? rôle.aLaPermission('représentantLégal.consulterChangement')
+            ? {
+                url: Routes.ReprésentantLégal.changement.détails(
+                  identifiantProjet.formatter(),
+                  représentantLégal.dateDernièreDemande.formatter(),
+                ),
+                label: 'Voir la demande de modification',
+              }
+            : undefined
+          : await getAction({
+              identifiantProjet,
+              rôle,
+              domain: 'représentantLégal',
+            });
 
       return (
         <Section title={sectionTitle}>

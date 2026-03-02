@@ -1,62 +1,28 @@
-import { mediator } from 'mediateur';
-
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleChangementReprésentantLégalEnregistré = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ChangementReprésentantLégalCorrigéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
-
-export const changementReprésentantLégalCorrigéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: ChangementReprésentantLégalCorrigéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-  const changementEnCours =
-    await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
-      {
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
+  for (const recipients of [dreals, porteurs]) {
+    await sendEmail({
+      key: 'lauréat/représentant-légal/enregistrer_changement',
+      recipients,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détails(projet.identifiantProjet.formatter(), payload.enregistréLe)}`,
       },
-    );
-
-  if (Option.isNone(changementEnCours)) {
-    getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'changementReprésentantLégalCorrigéNotification',
     });
-    return;
   }
-
-  return sendEmail({
-    templateId: représentantLégalNotificationTemplateId.changement.corriger,
-    messageSubject: `Potentiel - Correction de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
-    },
-  });
 };

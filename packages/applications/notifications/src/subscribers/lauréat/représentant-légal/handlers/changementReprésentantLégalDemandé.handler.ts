@@ -1,39 +1,25 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleChangementReprésentantLégalDemandé = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ChangementReprésentantLégalDemandéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
-
-export const changementReprésentantLégalDemandéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-  baseUrl,
-}: ChangementReprésentantLégalDemandéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
+  const recipients = await listerDrealsRecipients(projet.région);
 
   return sendEmail({
-    templateId: représentantLégalNotificationTemplateId.changement.demander,
-    messageSubject: `Potentiel - Demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
-    variables: {
+    key: 'lauréat/représentant-légal/demande/demander',
+    recipients,
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détails(projet.identifiantProjet.formatter(), payload.demandéLe)}`,
     },
   });
 };

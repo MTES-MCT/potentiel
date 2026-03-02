@@ -8,7 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {
+export const setupReprésentantLégal: SetupProjet = async () => {
   const représentantLégal = createSubscriptionSetup('représentant-légal');
 
   Lauréat.ReprésentantLégal.ReprésentantLégalSaga.register();
@@ -34,7 +34,7 @@ export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Lauréat.ReprésentantLégal',
   });
 
-  ReprésentantLégalNotification.register({ sendEmail });
+  ReprésentantLégalNotification.register();
   await représentantLégal.setupSubscription<
     ReprésentantLégalNotification.SubscriptionEvent,
     ReprésentantLégalNotification.Execute

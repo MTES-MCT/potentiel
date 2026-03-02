@@ -30,13 +30,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
   const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
 
-  if (représentantLégal.demandeEnCours) {
+  if (représentantLégal.dateDernièreDemande && représentantLégal.aUneDemandeEnCours) {
     return (
       <DemandeEnCoursPage
         title="Demande de changement de représentant légal"
         href={Routes.ReprésentantLégal.changement.détails(
           identifiantProjet.formatter(),
-          représentantLégal.demandeEnCours.demandéLe,
+          représentantLégal.dateDernièreDemande.formatter(),
         )}
       />
     );

@@ -1,54 +1,25 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleChangementReprésentantLégalRejeté = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ChangementReprésentantLégalRejetéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
-  };
-};
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-export const changementReprésentantLégalRejetéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-}: ChangementReprésentantLégalRejetéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  await sendEmail({
-    templateId: représentantLégalNotificationTemplateId.changement.rejeter,
-    messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
+  return sendEmail({
+    key: 'lauréat/représentant-légal/demande/rejeter',
     recipients: porteurs,
-    variables: {
-      type: 'rejet',
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
-
-  if (event.payload.rejetAutomatique) {
-    const dreals = await listerDrealsRecipients(projet.région);
-
-    await sendEmail({
-      templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,
-      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée automatiquement`,
-      recipients: dreals,
-      variables: {
-        type: 'rejet',
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url: projet.url,
-      },
-    });
-  }
 };

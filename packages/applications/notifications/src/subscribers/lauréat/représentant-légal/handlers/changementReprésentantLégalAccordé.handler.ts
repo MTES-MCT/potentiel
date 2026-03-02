@@ -1,72 +1,25 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleChangementReprésentantLégalAccordé = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ChangementReprésentantLégalAccordéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
-  };
-};
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-export const changementReprésentantLégalAccordéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-}: ChangementReprésentantLégalAccordéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  const templateIdMailPorteur = event.payload.avecCorrection
-    ? représentantLégalNotificationTemplateId.changement.accord.avecCorrection
-    : représentantLégalNotificationTemplateId.changement.accord.sansCorrection;
-  const mailSubjectMailPorteur = event.payload.avecCorrection
-    ? `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`
-    : `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`;
-  const typeEmailPorteur = event.payload.avecCorrection ? undefined : { type: 'accord' };
-
-  await sendEmail({
-    templateId: templateIdMailPorteur,
-    messageSubject: mailSubjectMailPorteur,
+  return sendEmail({
+    key: 'lauréat/représentant-légal/demande/accorder',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: projet.url,
-      ...typeEmailPorteur,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
     },
   });
-
-  if (event.payload.accordAutomatique) {
-    const dreals = await listerDrealsRecipients(projet.région);
-
-    if (dreals.length === 0) {
-      getLogger().info('Aucune dreal trouvée', {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'changementReprésentantLégalAccordéNotification',
-      });
-      return;
-    }
-
-    return sendEmail({
-      templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,
-      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée automatiquement`,
-      recipients: dreals,
-      variables: {
-        type: 'accord',
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url: projet.url,
-      },
-    });
-  }
 };
