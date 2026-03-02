@@ -67,7 +67,7 @@ export function proconnect(options: ProconnectOptions): GenericOAuthConfig {
     clientSecret: options.clientSecret,
     scopes: options.scopes ?? defaultScopes,
     redirectURI: options.redirectURI,
-    pkce: options.pkce,
+    pkce: options.pkce ?? true,
     disableImplicitSignUp: options.disableImplicitSignUp,
     disableSignUp: options.disableSignUp,
     overrideUserInfo: options.overrideUserInfo,

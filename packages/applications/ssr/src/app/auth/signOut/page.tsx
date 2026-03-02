@@ -5,6 +5,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { auth } from '@/auth';
 import { getLogoutUrl } from '@/auth/getLogoutUrl';
+import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
 
 import { SignOutRedirect } from './SignOutRedirect';
 
@@ -14,8 +15,8 @@ export default async function SignOut() {
     if (!session) {
       redirect('/');
     }
-    const callbackUrl = await getLogoutUrl(session.user.provider);
-    await auth.api.signOut({ headers: headers() });
+    const providerId = getLastUsedProvider({ headers: headers() });
+    const callbackUrl = providerId ? await getLogoutUrl(providerId) : undefined;
 
     return (
       <PageTemplate>

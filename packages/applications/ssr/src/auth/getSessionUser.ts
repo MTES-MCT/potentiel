@@ -8,6 +8,8 @@ import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { auth } from '.';
 
 import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
+import { getLastUsedProvider } from './providers/getLastUsedProvider';
+import { getProviderConfiguration } from './providers/getProviderConfiguration';
 
 export type GetUtilisateur = (
   req: IncomingMessage,
@@ -15,15 +17,18 @@ export type GetUtilisateur = (
 ) => Promise<PotentielUtilisateur | undefined>;
 
 export const getSessionUser: GetUtilisateur = async (req) => {
-  const session = await auth.api.getSession({
-    headers: new Headers(req.headers as Record<string, string>),
-  });
+  const headers = new Headers(req.headers as Record<string, string>);
+  const session = await auth.api.getSession({ headers });
 
   if (!session?.user) {
     return undefined;
   }
 
-  const { email, name: nom, accountUrl } = session.user;
+  const { email, name: nom } = session.user;
+  const providerId = getLastUsedProvider({ headers });
+
+  const accountUrl = providerId && getProviderConfiguration(providerId)?.accountUrl;
+
   const utilisateur = await getUtilisateurFromEmail(email);
   if (Option.isSome(utilisateur)) {
     if (utilisateur.désactivé) {

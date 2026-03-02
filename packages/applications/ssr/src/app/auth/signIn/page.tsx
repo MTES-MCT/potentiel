@@ -1,5 +1,6 @@
 import z from 'zod';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
@@ -33,7 +34,7 @@ export default function SignIn({ searchParams }: PageProps) {
 
     const providers: Partial<Record<AuthProvider, ProviderProps>> = getProviders();
 
-    const lastUsed = getLastUsedProvider();
+    const lastUsed = getLastUsedProvider({ headers: headers() });
     if (lastUsed && providers[lastUsed]) {
       providers[lastUsed].isLastUsed = true;
     }
