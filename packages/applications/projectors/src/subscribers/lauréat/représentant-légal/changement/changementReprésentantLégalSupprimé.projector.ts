@@ -26,12 +26,17 @@ export const changementReprésentantLégalSuppriméProjector = async (
     return;
   }
 
-  await removeProjectionWhere<Lauréat.Puissance.ChangementPuissanceEntity>(`changement-puissance`, {
-    identifiantProjet: Where.equal(identifiantProjet),
-    demande: {
-      statut: Where.equal(Lauréat.Puissance.StatutChangementPuissance.demandé.statut),
+  await removeProjectionWhere<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
+    `changement-représentant-légal`,
+    {
+      identifiantProjet: Where.equal(identifiantProjet),
+      demande: {
+        statut: Where.equal(
+          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
+        ),
+      },
     },
-  });
+  );
 
   await upsertProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,

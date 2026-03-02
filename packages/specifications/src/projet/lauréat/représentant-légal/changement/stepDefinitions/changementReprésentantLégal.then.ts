@@ -157,21 +157,21 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
           .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
       );
+
+      if (
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .accorderChangementReprésentantLégalFixture.aÉtéCréé &&
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .annulerChangementReprésentantLégalFixture.aÉtéCréé &&
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .rejeterChangementReprésentantLégalFixture.aÉtéCréé
+      ) {
+        expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be.true;
+      } else {
+        expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be
+          .false;
+      }
     }
-
-    // if (statut.estDemandé()) {
-    //   expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be.true;
-    // } else {
-    //   expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be.false;
-    // }
-
-    // viovio
-    // if (Option.isSome(changement) && changement.demande.statut.estDemandé()) {
-    //   expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.not
-    //     .undefined;
-    // } else {
-    //   expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
-    // }
   });
 }
 
