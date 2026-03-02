@@ -68,18 +68,18 @@ before(() => {
 });
 
 describe(`Envoyer un email avec un lien de connexion`, () => {
-  const utilisateursPouvantSeConnecterParEmail = [
+  const utilisateursPouvantSeConnecterParMagicLink = [
     {
       email: porteurDeProjet.identifiantUtilisateur.email,
       typeUtilisateur: 'un porteur de projet',
     },
     {
-      email: 'porteur-de-projet-indexistant@test.test',
+      email: 'porteur-de-projet-inexistant@test.test',
       typeUtilisateur: 'un porteur sans compte',
     },
   ];
 
-  utilisateursPouvantSeConnecterParEmail.map(({ email, typeUtilisateur }) => {
+  utilisateursPouvantSeConnecterParMagicLink.map(({ email, typeUtilisateur }) => {
     test(`
         Étant donné ${typeUtilisateur}
         Lorsque le système envoie un email de vérification
