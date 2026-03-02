@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{ nom_projet }} - Rappel d'instruction
+subject: Potentiel - {{ nom_projet }} - Rappel d'instruction de la demande de modification du représentant légal
 ---
 
 Madame, Monsieur,

@@ -6,7 +6,7 @@ Madame, Monsieur,
 
 L'achèvement prévisionnel pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**, est prévu dans **{{ nombre_mois }} mois**.
 
-Le projet doit être mis en demeure d'être achevé avant l'expiration de sa date d'achèvement prévisionnelle.
+Le projet doit être mis en demeure afin d'être achevé avant l'expiration de sa date d'achèvement prévisionnelle.
 
 Pour consulter le projet, connectez-vous à Potentiel.
 

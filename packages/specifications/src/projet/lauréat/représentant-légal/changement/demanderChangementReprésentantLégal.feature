@@ -65,10 +65,10 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire l'accord de la demande de changement de représentant légal pour le projet lauréat
         Alors un email a été envoyé à la dreal avec :
-            | sujet                        | Potentiel - Du boulodrome de Verdun - Rappel d'instruction                  |
-            | nom_projet                   | Du boulodrome de Verdun                                                     |
-            | type_instruction_automatique | acceptation                                                                 |
-            | url                          | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.* |
+            | sujet                        | Potentiel - Du boulodrome de Verdun - Rappel d'instruction de la demande de modification du représentant légal |
+            | nom_projet                   | Du boulodrome de Verdun                                                                                        |
+            | type_instruction_automatique | acceptation                                                                                                    |
+            | url                          | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                                    |
 
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un rejet automatique
         Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offres avec rejet automatique du changement de représentant légal
@@ -76,10 +76,10 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire le rejet de la demande de changement de représentant légal pour le projet lauréat
         Alors un email a été envoyé à la dreal avec :
-            | sujet                        | Potentiel - Du boulodrome de Besançon - Rappel d'instruction                |
-            | nom_projet                   | Du boulodrome de Besançon                                                   |
-            | type_instruction_automatique | refus                                                                       |
-            | url                          | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.* |
+            | sujet                        | Potentiel - Du boulodrome de Besançon - Rappel d'instruction de la demande de modification du représentant légal |
+            | nom_projet                   | Du boulodrome de Besançon                                                                                        |
+            | type_instruction_automatique | refus                                                                                                            |
+            | url                          | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                                      |
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec une demande de changement de représentant légal en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat

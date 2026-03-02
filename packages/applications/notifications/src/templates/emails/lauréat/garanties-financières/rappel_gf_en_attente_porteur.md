@@ -4,7 +4,7 @@ subject: Potentiel - {{ nom_projet }} - Garanties financières en attente de tra
 
 Madame, Monsieur,
 
-Les garanties financières du projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**, sont en attente.
+Les garanties financières du projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**, sont en attente de transmission.
 
 Merci de régulariser la situation dès que possible.
 

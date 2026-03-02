@@ -28,7 +28,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
   };
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/rappel_gf_echeance_porteur',
+    key: 'lauréat/garanties-financières/rappel_gf_échéance_porteur',
     recipients: porteursRecipients,
     values: {
       ...commonValues,
@@ -37,7 +37,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
   });
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/rappel_gf_echeance_dreal',
+    key: 'lauréat/garanties-financières/rappel_gf_échéance_dreal',
     recipients: drealsRecipients,
     values: {
       ...commonValues,
