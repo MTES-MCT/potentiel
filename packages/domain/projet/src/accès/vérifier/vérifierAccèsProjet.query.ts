@@ -61,27 +61,29 @@ export const registerVérifierAccèsProjetQuery = ({
       throw new ProjetInaccessibleError();
     }
 
-    let accèsProjet = true;
-
-    if (scope.identifiantProjets) {
-      accèsProjet = scope.identifiantProjets.includes(identifiantProjet.formatter());
+    if (
+      scope.identifiantProjets &&
+      !scope.identifiantProjets.includes(identifiantProjet.formatter())
+    ) {
+      throw new ProjetInaccessibleError();
     }
 
     if (scope.régions) {
       const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
-      accèsProjet = régionProjet
-        ? scope.régions.includes(Région.convertirEnValueType(régionProjet).formatter())
-        : false;
+      if (
+        !régionProjet ||
+        !scope.régions.includes(Région.convertirEnValueType(régionProjet).formatter())
+      ) {
+        throw new ProjetInaccessibleError();
+      }
     }
 
     if (scope.identifiantGestionnaireRéseau) {
       const identifiantGestionnaireRéseauProjet =
         await récupérerIdentifiantGestionnaireRéseauProjet(identifiantProjetValue);
-      accèsProjet = scope.identifiantGestionnaireRéseau === identifiantGestionnaireRéseauProjet;
-    }
-
-    if (!accèsProjet) {
-      throw new ProjetInaccessibleError();
+      if (scope.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseauProjet) {
+        throw new ProjetInaccessibleError();
+      }
     }
   };
 
