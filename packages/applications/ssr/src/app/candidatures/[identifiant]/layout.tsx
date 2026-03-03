@@ -15,13 +15,14 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type LayoutProps = {
   children: React.ReactNode;
-  params: { identifiant: string };
+  params: Promise<{ identifiant: string }>;
 };
 
 export async function generateMetadata(
-  { params }: IdentifiantParameter,
+  props: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
+  const params = await props.params;
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
     const candidature = await getCandidature(identifiantProjet);
@@ -38,10 +39,9 @@ export async function generateMetadata(
   }
 }
 
-export default async function CandidatureLayout({
-  children,
-  params: { identifiant },
-}: LayoutProps) {
+export default async function CandidatureLayout({ params, children }: LayoutProps) {
+  const { identifiant } = await params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async ({ rôle }) => {
       const identifiantProjetValue = decodeParameter(identifiant);

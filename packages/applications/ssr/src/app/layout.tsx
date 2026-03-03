@@ -20,11 +20,7 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-type RootLayoutProps = {
-  children: JSX.Element;
-};
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
   const features = getContext()?.features ?? [];

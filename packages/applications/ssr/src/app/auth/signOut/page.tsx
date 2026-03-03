@@ -11,11 +11,11 @@ import { SignOutRedirect } from './SignOutRedirect';
 
 export default async function SignOut() {
   return PageWithErrorHandling(async () => {
-    const session = await auth.api.getSession({ headers: headers() });
+    const session = await auth.api.getSession({ headers: await headers() });
     if (!session) {
       redirect('/');
     }
-    const providerId = getLastUsedProvider({ headers: headers() });
+    const providerId = getLastUsedProvider({ headers: await headers() });
     const callbackUrl = providerId ? await getLogoutUrl(providerId) : undefined;
 
     return (

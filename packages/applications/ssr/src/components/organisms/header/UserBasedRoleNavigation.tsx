@@ -1,14 +1,16 @@
 import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
+import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { getContext } from '@potentiel-applications/request-context';
+
+import { getSessionUser } from '@/auth/getSessionUser';
 
 import { NavLinks } from './NavLinks';
 
-export function UserBasedRoleNavigation() {
-  const utilisateur = getContext()?.utilisateur;
+export async function UserBasedRoleNavigation() {
+  const utilisateur = await getSessionUser({ headers: await headers() });
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 

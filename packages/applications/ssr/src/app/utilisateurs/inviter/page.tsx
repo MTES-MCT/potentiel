@@ -16,7 +16,8 @@ export const metadata: Metadata = {
   description: 'Inviter un utilisateur',
 };
 
-export default async function Page({ searchParams }: { searchParams: { role?: string } }) {
+export default async function Page(props: { searchParams: Promise<{ role?: string }> }) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<InviterUtilisateurUseCase>(

@@ -6,7 +6,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
@@ -15,10 +14,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from './TransmettrePropositionTechniqueEtFinancière.page';
 
 type PageProps = {
-  params: {
-    identifiant: IdentifiantParameter['params']['identifiant'];
+  params: Promise<{
+    identifiant: string;
     reference: string;
-  };
+  }>;
 };
 
 export const metadata: Metadata = {
@@ -26,7 +25,11 @@ export const metadata: Metadata = {
   description: 'Transmettre la proposition technique et financière',
 };
 
-export default async function Page({ params: { identifiant, reference } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, reference } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettrePropositionTechniqueEtFinancièreUseCase>(

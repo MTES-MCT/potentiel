@@ -13,13 +13,14 @@ import {
 } from './GestionnaireRéseauList.page';
 
 type PageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     raisonSociale?: string;
     page?: string;
-  };
+  }>;
 };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const searchParams = await props0.searchParams;
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
     const raisonSocialeSearch = searchParams?.raisonSociale;

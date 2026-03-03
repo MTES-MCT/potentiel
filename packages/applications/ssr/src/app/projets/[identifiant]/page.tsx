@@ -11,10 +11,12 @@ type ProjetPageProps = IdentifiantParameter & {
 };
 
 // Page de redirection vers la page lauréat ou éliminé
-export default async function ProjetPage({
-  params: { identifiant },
-  searchParams,
-}: ProjetPageProps) {
+export default async function ProjetPage(props: ProjetPageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   const identifiantProjet = decodeParameter(identifiant);
   const éliminé = await getÉliminé(identifiantProjet);
 

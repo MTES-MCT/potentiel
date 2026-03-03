@@ -26,7 +26,11 @@ export const metadata: Metadata = {
   description: `Formulaire de modification d'un dépôt de garanties financières en cours de traitement`,
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props0: IdentifiantParameter) {
+  const params = await props0.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(

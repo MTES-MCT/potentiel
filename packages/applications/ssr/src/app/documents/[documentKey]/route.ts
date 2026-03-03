@@ -8,15 +8,10 @@ import { Accès } from '@potentiel-domain/projet';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
 
-type DocumentKeyParameter = {
-  params: {
-    documentKey: string;
-  };
-};
-
-export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParameter) =>
+export const GET = async (_: Request, ctx: RouteContext<'/documents/[documentKey]'>) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { documentKey } = await ctx.params;
       const [identifiantProjet] = documentKey.split('/');
 
       await mediator.send<Accès.VérifierAccèsProjetQuery>({

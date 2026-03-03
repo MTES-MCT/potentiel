@@ -18,7 +18,11 @@ export const metadata: Metadata = {
   description: 'Formulaire de changement du dispositif de stockage du projet',
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props: IdentifiantParameter) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Installation.EnregistrerChangementDispositifDeStockageUseCase>(

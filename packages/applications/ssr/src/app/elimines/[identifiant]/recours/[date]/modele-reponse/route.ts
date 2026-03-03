@@ -19,17 +19,11 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 
 export const GET = async (
   _: Request,
-  {
-    params: { identifiant, date },
-  }: {
-    params: {
-      identifiant: string;
-      date: string;
-    };
-  },
+  ctx: RouteContext<'/elimines/[identifiant]/recours/[date]/modele-reponse'>,
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant, date } = await ctx.params;
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );

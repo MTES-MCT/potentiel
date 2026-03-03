@@ -9,7 +9,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getTâches } from './_helpers/getTâches';
 import { TâchesPage } from './Tâches.page';
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props: IdentifiantParameter) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

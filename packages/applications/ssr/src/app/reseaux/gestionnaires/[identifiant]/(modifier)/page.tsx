@@ -12,7 +12,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierGestionnaireRéseauPage } from './ModifierGestionnaireRéseau.page';
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props0: IdentifiantParameter) {
+  const params = await props0.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<GestionnaireRéseau.ModifierGestionnaireRéseauUseCase>(

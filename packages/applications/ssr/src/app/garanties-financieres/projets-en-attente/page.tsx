@@ -43,7 +43,8 @@ export const metadata: Metadata = {
   description: 'Liste des projets pour lesquels de nouvelles garanties financières sont attendues',
 };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle, motif, statut } = searchParamsSchema.parse(searchParams);

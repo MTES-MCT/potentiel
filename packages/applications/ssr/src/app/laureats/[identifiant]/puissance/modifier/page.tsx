@@ -22,7 +22,11 @@ export const metadata: Metadata = {
   description: "Formulaire de changement de puissance d'un projet",
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props: IdentifiantParameter) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Puissance.ModifierPuissanceUseCase>(

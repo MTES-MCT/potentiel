@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   description: "Formulaire de déclaration de changement de représentant légal d'un projet",
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props: IdentifiantParameter) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
   await vérifierQueLeCahierDesChargesPermetUnChangement(
