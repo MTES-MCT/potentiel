@@ -26,16 +26,12 @@ export type RegisterUtilisateurNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'PorteurInvité-V1' }, (event) => handlePorteurInvité({ event, sendEmail }))
-      .with({ type: 'UtilisateurInvité-V2' }, (event) =>
-        handleUtilisateurInvité({ event, sendEmail }),
-      )
-      .with({ type: 'RôleUtilisateurModifié-V1' }, (event) =>
-        handleRôleUtilisateurModifié({ event, sendEmail }),
-      )
+      .with({ type: 'PorteurInvité-V1' }, handlePorteurInvité)
+      .with({ type: 'UtilisateurInvité-V2' }, handleUtilisateurInvité)
+      .with({ type: 'RôleUtilisateurModifié-V1' }, handleRôleUtilisateurModifié)
       .exhaustive();
 
   mediator.register('System.Notification.Utilisateur', handler);

@@ -4,17 +4,14 @@ import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getBaseUrl, listerAdminEtValidateursRecipients, NotificationHandlerProps } from '#helpers';
+import { getBaseUrl, listerAdminEtValidateursRecipients } from '#helpers';
+import { EmailPayloadV2, sendEmail } from '#sendEmail';
 
-import { utilisateurNotificationTemplateId } from '../constant.js';
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
 
 export async function handleUtilisateurInvité({
-  event: {
-    payload: { identifiantUtilisateur, rôle },
-  },
-  sendEmail,
-}: NotificationHandlerProps<UtilisateurInvitéEvent>) {
+  payload: { identifiantUtilisateur, rôle },
+}: UtilisateurInvitéEvent) {
   if (identifiantUtilisateur.endsWith('@clients')) {
     getLogger('handleUtilisateurInvité').info(
       `L'utilisateur ${identifiantUtilisateur} est un utilisateur API, aucune notification ne sera envoyée.`,
@@ -28,48 +25,46 @@ export async function handleUtilisateurInvité({
 
   const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
-  const { templateId, invitation_link } = match(rôle)
-    .returnType<{ templateId: number; invitation_link: string }>()
+  const payload = match(rôle)
+    .returnType<EmailPayloadV2>()
     .with('dreal', () => ({
-      templateId: utilisateurNotificationTemplateId.inviter.dreal,
-      invitation_link: urlPageProjets,
+      key: 'utilisateur/inviter_dreal',
+      recipients: [{ email: identifiantUtilisateur }],
+      values: { url: urlPageProjets },
     }))
     .with(
       P.union('cocontractant', 'caisse-des-dépôts', 'ademe', 'dgec-validateur', 'cre', 'admin'),
       () => ({
-        templateId: utilisateurNotificationTemplateId.inviter.partenaire,
-        invitation_link: urlPageProjets,
+        key: 'utilisateur/inviter_partenaire',
+        recipients: [{ email: identifiantUtilisateur }],
+        values: { url: urlPageProjets },
       }),
     )
     .with('grd', () => ({
-      templateId: utilisateurNotificationTemplateId.inviter.partenaire,
-      invitation_link: `${getBaseUrl()}${Routes.Raccordement.lister}`,
+      key: 'utilisateur/inviter_partenaire',
+      recipients: [{ email: identifiantUtilisateur }],
+      values: { url: `${getBaseUrl()}${Routes.Raccordement.lister}` },
     }))
     .exhaustive();
 
-  await sendEmail({
-    templateId,
-    messageSubject: `Invitation à suivre les projets sur Potentiel`,
-    recipients: [{ email: identifiantUtilisateur }],
-    variables: {
-      invitation_link,
-    },
-  });
+  await sendEmail(payload);
 
   if (rôle === 'dgec-validateur') {
-    const templateId = utilisateurNotificationTemplateId.informer.dgecValidateurInvité;
     const recipients = await listerAdminEtValidateursRecipients();
     const teamRecipients = listerTeamRecipients();
 
-    await sendEmail({
-      templateId,
-      messageSubject: `Nouvel utilisateur DGEC Validateur sur Potentiel`,
-      recipients: teamRecipients,
-      bcc: recipients,
-      variables: {
-        url: `${getBaseUrl()}${Routes.Utilisateur.lister()}`,
-        email: identifiantUtilisateur,
-      },
-    });
+    for (const recipient of recipients.concat(teamRecipients)) {
+      if (recipient.email === identifiantUtilisateur) {
+        continue;
+      }
+      await sendEmail({
+        key: 'utilisateur/informer_dgec_validateur_invité',
+        recipients: [recipient],
+        values: {
+          url: `${getBaseUrl()}${Routes.Utilisateur.lister()}`,
+          email: identifiantUtilisateur,
+        },
+      });
+    }
   }
 }

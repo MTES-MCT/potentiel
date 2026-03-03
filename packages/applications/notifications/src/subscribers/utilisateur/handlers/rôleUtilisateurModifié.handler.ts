@@ -1,27 +1,28 @@
 import { Routes } from '@potentiel-applications/routes';
 import { RôleUtilisateurModifiéEvent } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl, listerAdminEtValidateursRecipients, NotificationHandlerProps } from '#helpers';
+import { getBaseUrl, listerAdminEtValidateursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { utilisateurNotificationTemplateId } from '../constant.js';
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
 
 export async function handleRôleUtilisateurModifié({
-  event: {
-    payload: { identifiantUtilisateur, rôle },
-  },
-  sendEmail,
-}: NotificationHandlerProps<RôleUtilisateurModifiéEvent>) {
-  if (rôle === 'dgec-validateur') {
-    const templateId = utilisateurNotificationTemplateId.informer.dgecValidateurInvité;
-    const recipients = await listerAdminEtValidateursRecipients();
-    const teamRecipients = listerTeamRecipients();
+  payload: { identifiantUtilisateur, rôle },
+}: RôleUtilisateurModifiéEvent) {
+  if (rôle !== 'dgec-validateur') {
+    return;
+  }
+  const recipients = await listerAdminEtValidateursRecipients();
+  const teamRecipients = listerTeamRecipients();
+
+  for (const recipient of recipients.concat(teamRecipients)) {
+    if (recipient.email === identifiantUtilisateur) {
+      continue;
+    }
     await sendEmail({
-      templateId,
-      messageSubject: `Nouvel utilisateur DGEC Validateur sur Potentiel`,
-      recipients: teamRecipients,
-      bcc: recipients,
-      variables: {
+      key: 'utilisateur/informer_dgec_validateur_invité',
+      recipients: [recipient],
+      values: {
         url: `${getBaseUrl()}${Routes.Utilisateur.lister()}`,
         email: identifiantUtilisateur,
       },
