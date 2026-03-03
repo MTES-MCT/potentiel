@@ -7,6 +7,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Plan du Scénario: Un admin modifie des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | <type GF>         |

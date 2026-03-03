@@ -1,4 +1,6 @@
-## subject: Potentiel - {{nom_projet}} - Attestation de constitution des garanties financières enregistrée
+---
+subject: Potentiel - {{nom_projet}} - Attestation de constitution des garanties financières enregistrée
+---
 
 Madame, Monsieur,
 

@@ -1,4 +1,6 @@
-## subject: Potentiel - {{nom_projet}} - Garanties financières mises à jour
+---
+subject: Potentiel - {{nom_projet}} - Garanties financières mises à jour
+---
 
 Madame, Monsieur,
 
