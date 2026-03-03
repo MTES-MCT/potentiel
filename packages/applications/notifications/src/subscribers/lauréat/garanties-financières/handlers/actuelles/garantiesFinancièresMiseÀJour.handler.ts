@@ -22,13 +22,13 @@ export const handleGarantiesFinancièresMiseÀJour = async ({
   };
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/mettre_à_jour',
+    key: 'lauréat/garanties-financières/actuelles/mettre_à_jour',
     recipients: dreals,
     values,
   });
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/mettre_à_jour',
+    key: 'lauréat/garanties-financières/actuelles/mettre_à_jour',
     recipients: porteurs,
     values,
   });

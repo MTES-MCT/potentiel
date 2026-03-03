@@ -27,13 +27,13 @@ export const handleGarantiesFinancièresÉchues = async ({
   };
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/échoir_dreal',
+    key: 'lauréat/garanties-financières/actuelles/échoir_dreal',
     recipients: dreals,
     values,
   });
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/échoir_porteur',
+    key: 'lauréat/garanties-financières/actuelles/échoir_porteur',
     recipients: porteurs,
     values,
   });

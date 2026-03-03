@@ -12,7 +12,7 @@ export const handleAttestationGarantiesFinancièresEnregistrée = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/enregistrer_attestation',
+    key: 'lauréat/garanties-financières/actuelles/enregistrer',
     recipients: dreals,
     values: {
       nom_projet: projet.nom,
