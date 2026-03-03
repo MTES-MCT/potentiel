@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ReprésentantLégalEntity, TypeReprésentantLégal } from '../index.js';
 import { IdentifiantProjet } from '../../../index.js';
@@ -10,9 +11,8 @@ export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  demandeEnCours?: {
-    demandéLe: string;
-  };
+  aUneDemandeEnCours: boolean;
+  dateDernièreDemande?: DateTime.ValueType;
 };
 
 export type ConsulterReprésentantLégalQuery = Message<
@@ -62,5 +62,8 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
   typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
     représentantLégal.typeReprésentantLégal,
   ),
-  demandeEnCours: représentantLégal.demandeEnCours,
+  aUneDemandeEnCours: !!(représentantLégal.dernièreDemande?.statut === 'demandé'),
+  dateDernièreDemande:
+    représentantLégal.dernièreDemande &&
+    DateTime.convertirEnValueType(représentantLégal.dernièreDemande.date),
 });

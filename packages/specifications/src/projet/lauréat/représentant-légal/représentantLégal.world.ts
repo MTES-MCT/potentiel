@@ -1,4 +1,5 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture.js';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world.js';
@@ -35,6 +36,7 @@ export class ReprésentantLégalWorld {
       identifiantProjet,
       nomReprésentantLégal,
       typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
+      aUneDemandeEnCours: false,
     };
 
     if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {
@@ -54,11 +56,11 @@ export class ReprésentantLégalWorld {
         expected.typeReprésentantLégal =
           this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal;
       } else {
-        expected.demandeEnCours = {
-          demandéLe:
-            this.#changementReprésentantLégalWorld
-              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-        };
+        expected.dateDernièreDemande = DateTime.convertirEnValueType(
+          this.#changementReprésentantLégalWorld
+            .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+        );
+        expected.aUneDemandeEnCours = true;
       }
     }
 
@@ -69,16 +71,15 @@ export class ReprésentantLégalWorld {
         this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.nomReprésentantLégal;
       expected.typeReprésentantLégal =
         this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.typeReprésentantLégal;
-
-      delete expected.demandeEnCours;
+      expected.aUneDemandeEnCours = false;
     }
 
     if (this.#changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
-      delete expected.demandeEnCours;
+      expected.aUneDemandeEnCours = false;
     }
 
     if (this.#changementReprésentantLégalWorld.annulerChangementReprésentantLégalFixture.aÉtéCréé) {
-      delete expected.demandeEnCours;
+      expected.aUneDemandeEnCours = false;
     }
 
     return expected;

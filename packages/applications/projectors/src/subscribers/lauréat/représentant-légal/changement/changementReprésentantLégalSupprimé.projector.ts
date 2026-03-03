@@ -1,7 +1,12 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-
-import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal.js';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import {
+  removeProjectionWhere,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementReprésentantLégalSuppriméProjector = async (
   event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
@@ -10,20 +15,35 @@ export const changementReprésentantLégalSuppriméProjector = async (
     payload: { identifiantProjet },
   } = event;
 
-  const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
+  const représentantLégal = await findProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+  );
 
-  if (représentantLégal) {
-    await removeProjection<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
-    );
-
-    await upsertProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
-      `représentant-légal|${identifiantProjet}`,
-      {
-        identifiantProjet,
-        nomReprésentantLégal: représentantLégal.actuel.nom,
-        typeReprésentantLégal: représentantLégal.actuel.type,
-      },
-    );
+  if (Option.isNone(représentantLégal) || représentantLégal.dernièreDemande?.statut !== 'demandé') {
+    getLogger().error(`Aucune demande en cours`, {
+      identifiantProjet,
+    });
+    return;
   }
+
+  await removeProjectionWhere<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
+    `changement-représentant-légal`,
+    {
+      identifiantProjet: Where.equal(identifiantProjet),
+      demande: {
+        statut: Where.equal(
+          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.statut,
+        ),
+      },
+    },
+  );
+
+  await upsertProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+    {
+      identifiantProjet,
+      nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
+      typeReprésentantLégal: représentantLégal.typeReprésentantLégal,
+    },
+  );
 };

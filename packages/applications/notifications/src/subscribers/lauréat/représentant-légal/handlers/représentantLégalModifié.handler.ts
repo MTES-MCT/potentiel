@@ -1,37 +1,27 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerPorteursRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleReprésentantLégalModifié = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ReprésentantLégalModifiéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
-  };
-};
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.région);
 
-export const représentantLégalModifiéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-}: ReprésentantLégalModifiéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  return sendEmail({
-    templateId: représentantLégalNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-    },
-  });
+  for (const recipients of [dreals, porteurs]) {
+    await sendEmail({
+      key: 'lauréat/représentant-légal/modifier',
+      recipients,
+      values: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: projet.url,
+      },
+    });
+  }
 };

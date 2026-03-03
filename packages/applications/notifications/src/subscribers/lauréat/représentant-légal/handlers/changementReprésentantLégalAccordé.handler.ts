@@ -1,72 +1,53 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
-import { représentantLégalNotificationTemplateId } from '../constant.js';
+export const handleChangementReprésentantLégalAccordé = async ({
+  payload,
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
 
-type ChangementReprésentantLégalAccordéNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-    url: string;
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+
+  const values = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+    url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
   };
-};
 
-export const changementReprésentantLégalAccordéNotification = async ({
-  sendEmail,
-  event,
-  projet,
-}: ChangementReprésentantLégalAccordéNotificationProps) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
-
-  const templateIdMailPorteur = event.payload.avecCorrection
-    ? représentantLégalNotificationTemplateId.changement.accord.avecCorrection
-    : représentantLégalNotificationTemplateId.changement.accord.sansCorrection;
-  const mailSubjectMailPorteur = event.payload.avecCorrection
-    ? `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`
-    : `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`;
-  const typeEmailPorteur = event.payload.avecCorrection ? undefined : { type: 'accord' };
-
-  await sendEmail({
-    templateId: templateIdMailPorteur,
-    messageSubject: mailSubjectMailPorteur,
-    recipients: porteurs,
-    variables: {
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: projet.url,
-      ...typeEmailPorteur,
-    },
-  });
-
-  if (event.payload.accordAutomatique) {
-    const dreals = await listerDrealsRecipients(projet.région);
-
-    if (dreals.length === 0) {
-      getLogger().info('Aucune dreal trouvée', {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'changementReprésentantLégalAccordéNotification',
-      });
-      return;
-    }
-
+  if (payload.avecCorrection) {
     return sendEmail({
-      templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,
-      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée automatiquement`,
-      recipients: dreals,
-      variables: {
-        type: 'accord',
+      key: 'lauréat/représentant-légal/demande/accorder_avec_correction',
+      recipients: porteurs,
+      values,
+    });
+  }
+
+  if (!payload.accordAutomatique) {
+    return sendEmail({
+      key: 'lauréat/représentant-légal/demande/accorder',
+      recipients: porteurs,
+      values: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: projet.url,
+        appel_offre: projet.identifiantProjet.appelOffre,
+        période: projet.identifiantProjet.période,
+        url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détailsPourRedirection(projet.identifiantProjet.formatter())}`,
       },
+    });
+  }
+
+  const dreals = await listerDrealsRecipients(projet.région);
+
+  for (const recipients of [porteurs, dreals]) {
+    await sendEmail({
+      key: 'lauréat/représentant-légal/demande/accorder_automatiquement',
+      recipients,
+      values,
     });
   }
 };

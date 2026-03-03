@@ -29,7 +29,9 @@ export const changementReprésentantLégalAnnuléProjector = async ({
   await updateOneProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
-      demandeEnCours: { demandéLe: undefined },
+      dernièreDemande: {
+        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.annulé.statut,
+      },
     },
   );
 };

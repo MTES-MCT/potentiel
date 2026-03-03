@@ -146,11 +146,31 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
         },
       });
 
-    if (Option.isSome(changement) && changement.demande.statut.estDemandé()) {
-      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.not
-        .undefined;
-    } else {
-      expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
+    if (
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+        .demanderOuEnregistrerChangementReprésentantLégalFixture.aÉtéCréé &&
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.statut.estDemandé()
+    ) {
+      expect(
+        Option.isSome(représentantLégal) && représentantLégal.dateDernièreDemande?.formatter(),
+      ).to.equal(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+      );
+
+      if (
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .accorderChangementReprésentantLégalFixture.aÉtéCréé &&
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .annulerChangementReprésentantLégalFixture.aÉtéCréé &&
+        !this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .rejeterChangementReprésentantLégalFixture.aÉtéCréé
+      ) {
+        expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be.true;
+      } else {
+        expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be
+          .false;
+      }
     }
   });
 }
@@ -180,7 +200,9 @@ async function vérifierSuppressionDemande(this: PotentielWorld) {
         },
       });
 
-    expect(Option.isSome(représentantLégal) && représentantLégal.demandeEnCours).to.be.undefined;
+    expect(Option.isSome(représentantLégal) && représentantLégal.dateDernièreDemande).to.be
+      .undefined;
+    expect(Option.isSome(représentantLégal) && représentantLégal.aUneDemandeEnCours).to.be.false;
   });
 }
 

@@ -44,13 +44,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      if (représentantLégal.demandeEnCours) {
+      if (représentantLégal.aUneDemandeEnCours && représentantLégal.dateDernièreDemande) {
         return (
           <DemandeEnCoursPage
             title="Demande de changement de représentant légal"
             href={Routes.ReprésentantLégal.changement.détails(
               identifiantProjet.formatter(),
-              représentantLégal.demandeEnCours.demandéLe,
+              représentantLégal.dateDernièreDemande.formatter(),
             )}
           />
         );

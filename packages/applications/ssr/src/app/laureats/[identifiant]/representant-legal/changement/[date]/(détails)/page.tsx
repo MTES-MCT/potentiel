@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -77,9 +78,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const dateDemandeEnCoursSiDifférente =
         Option.isSome(représentantLégal) &&
-        représentantLégal.demandeEnCours &&
-        représentantLégal.demandeEnCours.demandéLe !== demandéLe
-          ? représentantLégal.demandeEnCours.demandéLe
+        représentantLégal.dateDernièreDemande &&
+        représentantLégal.dateDernièreDemande.estÉgaleÀ(DateTime.convertirEnValueType(demandéLe))
+          ? représentantLégal.dateDernièreDemande
           : undefined;
 
       return (
@@ -93,7 +94,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             informationEnregistréeEstPossible,
           )}
           historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
-          dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
+          dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente?.formatter()}
         />
       );
     }),

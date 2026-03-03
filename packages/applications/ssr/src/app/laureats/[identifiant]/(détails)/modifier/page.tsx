@@ -84,7 +84,7 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
     },
     nomReprésentantLégal: {
       currentValue: lauréat.représentantLégal.nomReprésentantLégal,
-      estEnCoursDeModification: !!lauréat.représentantLégal.demandeEnCours,
+      estEnCoursDeModification: lauréat.représentantLégal.aUneDemandeEnCours,
     },
     nomProjet: {
       currentValue: lauréat.lauréat.nomProjet,
