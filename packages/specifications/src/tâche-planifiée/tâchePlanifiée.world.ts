@@ -11,7 +11,7 @@ export type TypeTâchePlanifiée =
   | 'gestion automatique de la demande de changement de représentant légal'
   | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
   | 'supprimer automatiquement le document à trois mois'
-  | 'relance demande complète raccordement'
+  | 'relance transmission de la demande complète raccordement'
   | 'rappel échéance achèvement à trois mois'
   | 'rappel échéance achèvement à deux mois'
   | 'rappel échéance achèvement à un mois';
@@ -63,9 +63,10 @@ export class TâchePlanifiéeWorld {
             .suppressionDocumentÀTroisMois,
       )
       .with(
-        'relance demande complète raccordement',
+        'relance transmission de la demande complète raccordement',
         () =>
-          Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement,
+          Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement
+            .relanceTransmissionDeLaDemandeComplèteRaccordement,
       )
       .with(
         'rappel échéance achèvement à trois mois',

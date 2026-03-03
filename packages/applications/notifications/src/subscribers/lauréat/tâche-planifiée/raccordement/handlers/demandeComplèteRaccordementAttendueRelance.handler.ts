@@ -1,25 +1,26 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications.js';
 
 export const handleDemandeComplèteRaccordementAttendueRelance = async ({
-  sendEmail,
   identifiantProjet,
-  projet: { nom, département },
-  baseUrl,
 }: TâchePlanifiéeRaccordementNotificationProps) => {
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const lauréat = await getLauréat(identifiantProjet.formatter());
+
+  const recipients = await listerPorteursRecipients(identifiantProjet);
 
   await sendEmail({
-    messageSubject: `Potentiel - Attente de transmission de la DCR pour le projet ${nom}`,
-    recipients: porteurs,
-    templateId: 7207011,
-    variables: {
-      nom_projet: nom,
-      departement_projet: département,
-      url: `${baseUrl}${Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter())}`,
+    key: 'lauréat/raccordement/rappel_tranmission_dcr',
+    recipients,
+    values: {
+      nom_projet: lauréat.nom,
+      appel_offre: lauréat.identifiantProjet.appelOffre,
+      période: lauréat.identifiantProjet.période,
+      departement_projet: lauréat.département,
+      url: `${getBaseUrl()}${Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter())}`,
     },
   });
 };

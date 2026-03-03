@@ -32,7 +32,7 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const relanceDemandeComplèteRaccordement = convertirEnValueType(
+export const relanceTransmissionDeLaDemandeComplèteRaccordement = convertirEnValueType(
   'demande-complète-raccordement.relance',
 );
 

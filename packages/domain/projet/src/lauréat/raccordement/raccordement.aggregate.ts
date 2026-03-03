@@ -128,7 +128,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     );
 
     this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement = await this.lauréat.loadTâchePlanifiée(
-      TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type,
+      TypeTâchePlanifiéeRaccordement.relanceTransmissionDeLaDemandeComplèteRaccordement.type,
     );
   }
 

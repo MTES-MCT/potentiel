@@ -1,10 +1,10 @@
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
-import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
+import { TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmail }) => {
+export const setupTâchePlanifiée = async () => {
   const tâchePlanifiée = createSubscriptionSetup('tâche-planifiée');
 
   TâchePlanifiéeProjector.register();
@@ -22,7 +22,7 @@ export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmai
     messageType: 'System.Projector.TâchePlanifiée',
   });
 
-  TâchePlanifiéeNotification.register({ sendEmail });
+  TâchePlanifiéeNotification.register();
   await tâchePlanifiée.setupSubscription<
     TâchePlanifiéeNotification.SubscriptionEvent,
     TâchePlanifiéeNotification.Execute

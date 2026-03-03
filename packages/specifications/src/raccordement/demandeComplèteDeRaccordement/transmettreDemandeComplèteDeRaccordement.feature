@@ -36,7 +36,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le projet lauréat devrait avoir 2 dossiers de raccordement
 
-    Scénario: Un porteur de projet transmet plusieurs demandes complètes de raccordement ayant la même référence
+    Scénario: Impossible de transmettre plusieurs demandes complètes de raccordement ayant la même référence
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat avec :
