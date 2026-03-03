@@ -1,10 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-
-import { getBaseUrl, getLauréat } from '#helpers';
-import { SendEmail } from '#sendEmail';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleAttestationGarantiesFinancièresEnregistrée,
@@ -23,17 +20,8 @@ export type Execute = Message<
   SubscriptionEvent
 >;
 
-export type RegisterGarantiesFinancièresNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const projet = await getLauréat(identifiantProjet.formatter());
-    const baseUrl = getBaseUrl();
     return (
       match(event)
         //#region Dépôt
@@ -41,13 +29,7 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
           {
             type: 'DépôtGarantiesFinancièresSoumis-V1',
           },
-          (event) =>
-            handleDépôtGarantiesFinancièresSoumis({
-              event,
-              sendEmail,
-              projet,
-              baseUrl,
-            }),
+          handleDépôtGarantiesFinancièresSoumis,
         )
         .with(
           {
@@ -56,17 +38,13 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
               'DépôtGarantiesFinancièresEnCoursValidé-V2',
             ),
           },
-          (event) => handleDépôtGarantiesFinancièresValidé({ event, sendEmail, projet, baseUrl }),
+          handleDépôtGarantiesFinancièresValidé,
         )
         //#endregion Dépôt
         //#region Actuelles
-        .with({ type: 'AttestationGarantiesFinancièresEnregistrée-V1' }, (event) =>
-          handleAttestationGarantiesFinancièresEnregistrée({
-            event,
-            sendEmail,
-            projet,
-            baseUrl,
-          }),
+        .with(
+          { type: 'AttestationGarantiesFinancièresEnregistrée-V1' },
+          handleAttestationGarantiesFinancièresEnregistrée,
         )
         .with(
           {
@@ -75,25 +53,12 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
               'GarantiesFinancièresModifiées-V1',
             ),
           },
-          (event) =>
-            handleGarantiesFinancièresMiseÀJour({
-              event,
-              sendEmail,
-              projet,
-              baseUrl,
-            }),
+          handleGarantiesFinancièresMiseÀJour,
         )
 
         //#endregion Actuelles
         //#region Mainlevée
-        .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, (event) =>
-          handleMainlevéeDemandée({
-            event,
-            sendEmail,
-            projet,
-            baseUrl,
-          }),
-        )
+        .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, handleMainlevéeDemandée)
         .with(
           {
             type: P.union(
@@ -102,17 +67,9 @@ export const register = ({ sendEmail }: RegisterGarantiesFinancièresNotificatio
               'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
             ),
           },
-          (event) =>
-            handleDemandeMainlevéeMiseÀJour({
-              event,
-              sendEmail,
-              projet,
-              baseUrl,
-            }),
+          handleDemandeMainlevéeMiseÀJour,
         )
-        .with({ type: 'GarantiesFinancièresÉchues-V1' }, (event) =>
-          handleGarantiesFinancièresÉchues({ event, sendEmail, projet, baseUrl }),
-        )
+        .with({ type: 'GarantiesFinancièresÉchues-V1' }, handleGarantiesFinancièresÉchues)
         //#endregion Mainlevée
         //#region Évènements ignorés
         .with(

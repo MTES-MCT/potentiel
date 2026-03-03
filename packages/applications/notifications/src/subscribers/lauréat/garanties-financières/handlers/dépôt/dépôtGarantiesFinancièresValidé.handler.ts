@@ -1,33 +1,28 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients } from '#helpers';
-
-import { GarantiesFinancièresNotificationsProps } from '../../type.js';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
+import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { getLauréat } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDépôtGarantiesFinancièresValidé = async ({
-  event,
-  sendEmail,
-  projet,
-  baseUrl,
-}: GarantiesFinancièresNotificationsProps<
+  payload,
+}:
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
-  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
->) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.dépôt.validéPourPorteur,
-    messageSubject: `Potentiel - Des garanties financières sont validées pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/garanties-financières/dépôt/valider',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      region_projet: projet.région,
-      nouveau_statut: 'validées',
-      url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
     },
   });
 };
