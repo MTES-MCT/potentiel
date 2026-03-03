@@ -5,16 +5,13 @@ import next from 'next';
 import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import {
-  getApiUser,
-  getContext,
-  getSessionUser,
-  runWebWithContext,
-} from '@potentiel-applications/request-context';
+import { getContext, runWebWithContext } from '@potentiel-applications/request-context';
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
 import { setCspHeader } from './utils/csp';
+import { getSessionUser } from './auth/getSessionUser';
+import { getApiUser } from './auth/getApiUser';
 
 async function main() {
   setupLogger();

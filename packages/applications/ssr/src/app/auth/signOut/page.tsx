@@ -1,35 +1,22 @@
-import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-
-import { getLogoutUrl } from '@potentiel-applications/request-context';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { auth } from '@/auth';
+import { getLogoutUrl } from '@/auth/getLogoutUrl';
+import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
 
 import { SignOutRedirect } from './SignOutRedirect';
 
 export default async function SignOut() {
   return PageWithErrorHandling(async () => {
-    const { BASE_URL = '' } = process.env;
-    const session = await getServerSession({
-      callbacks: {
-        session({ session, token }) {
-          session.idToken = token.idToken;
-          return session;
-        },
-      },
-    });
-
+    const session = await auth.api.getSession({ headers: headers() });
     if (!session) {
       redirect('/');
     }
-
-    const callbackUrl = session.idToken
-      ? await getLogoutUrl({
-          id_token_hint: session.idToken,
-          post_logout_redirect_uri: BASE_URL,
-        })
-      : undefined;
+    const providerId = getLastUsedProvider({ headers: headers() });
+    const callbackUrl = providerId ? await getLogoutUrl(providerId) : undefined;
 
     return (
       <PageTemplate>

@@ -21,6 +21,9 @@
       "path": "../../domain/réseau"
     },
     {
+      "path": "../../domain/statistiques-utilisation"
+    },
+    {
       "path": "../../domain/utilisateur"
     },
     {
@@ -37,6 +40,9 @@
     },
     {
       "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../notifications"
     },
     {
       "path": "../request-context"

@@ -38,10 +38,10 @@
       "path": "../../domain/réseau"
     },
     {
-      "path": "../../domain/utilisateur"
+      "path": "../../domain/statistiques-utilisation"
     },
     {
-      "path": "../../domain/statistiques-utilisation"
+      "path": "../../domain/utilisateur"
     },
     {
       "path": "../../infrastructure/ds-api-client"
@@ -75,6 +75,9 @@
     },
     {
       "path": "../document-builder"
+    },
+    {
+      "path": "../notifications"
     },
     {
       "path": "../request-context"

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@potentiel-applications/request-context": "*",
+    "@potentiel-applications/notifications": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",

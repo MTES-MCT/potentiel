@@ -23,10 +23,10 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@storybook/addon-essentials": "8.6.12",
-    "@storybook/addon-links": "8.6.12",
-    "@storybook/addon-webpack5-compiler-swc": "1.0.6",
-    "@storybook/react-webpack5": "8.6.12",
+    "@storybook/addon-essentials": "8.6.14",
+    "@storybook/addon-links": "10.2.13",
+    "@storybook/addon-webpack5-compiler-swc": "4.0.2",
+    "@storybook/react-webpack5": "10.2.13",
     "copyfiles": "2.4.1"
   }
 }
