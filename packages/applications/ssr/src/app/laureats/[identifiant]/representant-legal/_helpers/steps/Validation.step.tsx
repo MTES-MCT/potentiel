@@ -35,8 +35,8 @@ export const ValidationStep: FC<ValidationStepProps> = ({
           </div>
           {typeSociété && (
             <div className="flex gap-2">
-              <div className="font-semibold">Type :</div>
-              <blockquote>{typeSociété}</blockquote>
+              <div className="font-semibold">Type de société :</div>
+              <blockquote className="capitalize">{typeSociété}</blockquote>
             </div>
           )}
           <div className="flex gap-2">
