@@ -1,42 +1,40 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients, formatDateForEmail } from '#helpers';
-
-import { GarantiesFinancièresNotificationsProps } from '../../type.js';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
+import {
+  getLauréat,
+  getBaseUrl,
+  listerDrealsRecipients,
+  listerPorteursRecipients,
+  formatDateForEmail,
+} from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleGarantiesFinancièresÉchues = async ({
-  event,
-  sendEmail,
-  projet,
-  baseUrl,
-}: GarantiesFinancièresNotificationsProps<Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-  const messageSubject = `Potentiel - Date d'échéance dépassée pour les garanties financières du projet ${projet.nom} dans le département ${projet.département}`;
-  const variables = {
+  const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    region_projet: projet.région,
-    nouveau_statut: 'en attente de validation',
-    date_echeance: formatDateForEmail(new Date(event.payload.dateÉchéance)),
-    url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+    date_echeance: formatDateForEmail(new Date(payload.dateÉchéance)),
+    url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
   };
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.actuelles.échues.pourDreal,
-    messageSubject,
+    key: 'lauréat/garanties-financières/actuelles/échoir_dreal',
     recipients: dreals,
-    variables,
+    values,
   });
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.actuelles.échues.pourPorteur,
-    messageSubject,
+    key: 'lauréat/garanties-financières/actuelles/échoir_porteur',
     recipients: porteurs,
-    variables,
+    values,
   });
 };

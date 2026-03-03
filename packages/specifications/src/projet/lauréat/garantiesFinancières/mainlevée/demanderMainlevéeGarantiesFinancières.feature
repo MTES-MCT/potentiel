@@ -16,11 +16,8 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | date demande | 2014-05-28        |
         Alors une demande de mainlevée de garanties financières devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet              | Potentiel - Demande de mainlevée des garanties financières pour le projet Du boulodrome de Marseille dans le département .* |
-            | nom_projet         | Du boulodrome de Marseille                                                                                                  |
-            | departement_projet | .*                                                                                                                          |
-            | region_projet      | .*                                                                                                                          |
-            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                            |
+            | sujet | Potentiel - Du boulodrome de Marseille - Mainlevée des garanties financières demandée |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                      |
 
     Scénario: Un porteur demande la mainlevée des garanties financières de son projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat

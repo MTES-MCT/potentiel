@@ -16,17 +16,12 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
         Et une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
-            | sujet              | Potentiel - Garanties financières mises à jour pour le projet Du boulodrome de Marseille dans le département .* |
-            | nom_projet         | Du boulodrome de Marseille                                                                                      |
-            | departement_projet | .*                                                                                                              |
-            | region_projet      | .*                                                                                                              |
-            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                |
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
+
         Et un email a été envoyé à la dreal avec :
-            | sujet              | Potentiel - Garanties financières mises à jour pour le projet Du boulodrome de Marseille dans le département .* |
-            | nom_projet         | Du boulodrome de Marseille                                                                                      |
-            | departement_projet | .*                                                                                                              |
-            | region_projet      | .*                                                                                                              |
-            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                |
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
 
         Exemples:
             | type GF                   | date d'échéance |

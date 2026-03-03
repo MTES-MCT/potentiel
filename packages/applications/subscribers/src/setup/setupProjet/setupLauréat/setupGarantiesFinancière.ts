@@ -9,7 +9,6 @@ import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
 export const setupGarantiesFinancières: SetupProjet = async ({
-  sendEmail,
   récupererConstitutionGarantiesFinancières,
 }) => {
   const garantiesFinancières = createSubscriptionSetup('garanties-financieres');
@@ -48,7 +47,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({
     messageType: 'System.Projector.Lauréat.GarantiesFinancières',
   });
 
-  GarantiesFinancièresNotification.register({ sendEmail });
+  GarantiesFinancièresNotification.register();
   await garantiesFinancières.setupSubscription<
     GarantiesFinancièresNotification.SubscriptionEvent,
     GarantiesFinancièresNotification.Execute

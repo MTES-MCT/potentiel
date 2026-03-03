@@ -1,29 +1,26 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { listerDrealsRecipients } from '#helpers';
-
-import { GarantiesFinancièresNotificationsProps } from '../../type.js';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
+import { getBaseUrl } from '#helpers';
+import { getLauréat } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleMainlevéeDemandée = async ({
-  event,
-  sendEmail,
-  projet,
-  baseUrl,
-}: GarantiesFinancièresNotificationsProps<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent>) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  payload,
+}: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.mainlevée.demandéePourDreal,
-    messageSubject: `Potentiel - Demande de mainlevée des garanties financières pour le projet ${projet.nom} dans le département ${projet.département}`,
+    key: 'lauréat/garanties-financières/mainlevée/demander',
     recipients: dreals,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      region_projet: projet.région,
-      url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
     },
   });
 };

@@ -1,33 +1,29 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { listerPorteursRecipients } from '#helpers';
-
-import { GarantiesFinancièresNotificationsProps } from '../../type.js';
-import { garantiesFinancièresNotificationTemplateId } from '../../constant.js';
+import { getBaseUrl } from '#helpers';
+import { getLauréat } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleDemandeMainlevéeMiseÀJour = async ({
-  event,
-  sendEmail,
-  projet,
-  baseUrl,
-}: GarantiesFinancièresNotificationsProps<
-  | Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
+  payload,
+}:
   | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent
   | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent
->) => {
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  | Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent) => {
+  const projet = await getLauréat(payload.identifiantProjet);
+  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    templateId: garantiesFinancièresNotificationTemplateId.mainlevée.modifiéePourPorteur,
-    messageSubject: `Potentiel - Le statut de la demande de mainlevée des garanties financières a été modifié pour le projet ${projet.nom}`,
+    key: 'lauréat/garanties-financières/mainlevée/statut_modifié',
     recipients: porteurs,
-    variables: {
+    values: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      region_projet: projet.région,
-      url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      appel_offre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
     },
   });
 };
