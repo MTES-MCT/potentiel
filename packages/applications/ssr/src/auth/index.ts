@@ -23,6 +23,7 @@ export const auth = betterAuth({
     accountLinking: {
       trustedProviders: Object.keys(providers),
     },
+    updateAccountOnSignIn: true,
   },
   session: {
     cookieCache: {
