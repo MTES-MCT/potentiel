@@ -14,7 +14,7 @@ import { callbackURLSchema } from '@/utils/zod/auth';
 import SignInPage from './SignIn.page';
 
 type PageProps = {
-  searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 };
 
 const searchParamsSchema = z.object({
@@ -22,7 +22,8 @@ const searchParamsSchema = z.object({
   forceProConnect: z.stringbool().optional(),
 });
 
-export default function SignIn({ searchParams }: PageProps) {
+export default async function SignIn(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), forceProConnect } =
       searchParamsSchema.parse(searchParams);
@@ -34,7 +35,7 @@ export default function SignIn({ searchParams }: PageProps) {
 
     const providers: Partial<Record<AuthProvider, ProviderProps>> = getProviders();
 
-    const lastUsed = getLastUsedProvider({ headers: headers() });
+    const lastUsed = getLastUsedProvider({ headers: await headers() });
     if (lastUsed && providers[lastUsed]) {
       providers[lastUsed].isLastUsed = true;
     }

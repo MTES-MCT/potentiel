@@ -2,12 +2,9 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { type PotentielUtilisateur, requestContextStorage } from './request-context.js';
+import { getContext, type PotentielUtilisateur, requestContextStorage } from './request-context.js';
 
-type GetUtilisateur = (
-  req: IncomingMessage,
-  res: ServerResponse,
-) => Promise<PotentielUtilisateur | undefined>;
+type GetUtilisateur = (props: { headers: Headers }) => Promise<PotentielUtilisateur | undefined>;
 
 type RunWithAuthContextProps = {
   req: IncomingMessage;
@@ -17,8 +14,6 @@ type RunWithAuthContextProps = {
   getUtilisateur: GetUtilisateur;
 };
 
-const ignorePath = (path: string) => ['/_next', '/illustrations'].some((p) => path.startsWith(p));
-
 export function runWebWithContext({
   app,
   req,
@@ -26,10 +21,6 @@ export function runWebWithContext({
   callback,
   getUtilisateur,
 }: RunWithAuthContextProps) {
-  if (ignorePath(req.url ?? '')) {
-    return callback(req, res);
-  }
-
   const logger = getLogger('http');
 
   const correlationId = crypto.randomUUID();
@@ -38,7 +29,9 @@ export function runWebWithContext({
     async () => {
       const start = Date.now();
       try {
-        const utilisateur = await getUtilisateur(req, res);
+        const utilisateur = await getUtilisateur({
+          headers: new Headers(req.headers as Record<string, string>),
+        });
         const store = requestContextStorage.getStore()!;
         // we could set `utilisateur` in the `run` parameters, but we wouldn't have correlationId in the context
         store.utilisateur = utilisateur;
@@ -46,6 +39,11 @@ export function runWebWithContext({
         getLogger().warn('Auth failed', { error: e });
       }
       try {
+        console.log(
+          'pre callback',
+          req.url,
+          getContext()?.utilisateur?.identifiantUtilisateur.email,
+        );
         await callback(req, res);
       } finally {
         const duration = Date.now() - start;

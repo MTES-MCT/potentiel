@@ -12,7 +12,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
@@ -24,13 +23,17 @@ import {
 export const metadata: Metadata = { title: 'Modifier un dossier de raccordement' };
 
 type PageProps = {
-  params: {
-    identifiant: IdentifiantParameter['params']['identifiant'];
+  params: Promise<{
+    identifiant: string;
     reference: string;
-  };
+  }>;
 };
 
-export default async function Page({ params: { identifiant, reference } }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const params = await props0.params;
+
+  const { identifiant, reference } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>(

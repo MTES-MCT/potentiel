@@ -5,7 +5,7 @@ import next from 'next';
 import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import { getContext, runWebWithContext } from '@potentiel-applications/request-context';
+import { runWebWithContext } from '@potentiel-applications/request-context';
 import { createApiServer } from '@potentiel-applications/api';
 
 import { setupLogger } from './setupLogger';
@@ -28,10 +28,16 @@ async function main() {
   Sentry.getCurrentScope().clearBreadcrumbs();
 
   const apiHandler = createApiServer('/api/v1');
+  const ignorePaths = ['/_next', '/illustrations', '/api/auth'];
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
 
     setCspHeader(req, res);
+
+    if (ignorePaths.some((p) => req.url?.startsWith(p))) {
+      console.log('Ignoring path', req.url);
+      return nextHandler(req, res, parsedUrl);
+    }
 
     if (parsedUrl.pathname?.startsWith('/api/v1')) {
       return await runWebWithContext({
@@ -47,15 +53,15 @@ async function main() {
       app: 'web',
       req,
       res,
-      callback: (req, res) =>
-        Sentry.withScope((scope) => {
-          const utilisateur = getContext()?.utilisateur;
-          if (utilisateur) {
-            scope.setUser({ email: utilisateur.identifiantUtilisateur.email });
-          }
-          // Handle incoming HTTP request
-          return nextHandler(req, res, parsedUrl);
-        }),
+      callback: (req, res) => nextHandler(req, res, parsedUrl),
+      // Sentry.withScope((scope) => {
+      //   const utilisateur = getContext()?.utilisateur;
+      //   if (utilisateur) {
+      //     scope.setUser({ email: utilisateur.identifiantUtilisateur.email });
+      //   }
+      //   // Handle incoming HTTP request
+      //   return nextHandler(req, res, parsedUrl);
+      // }),
       getUtilisateur: getSessionUser,
     });
   });

@@ -18,10 +18,12 @@ import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/ma
 
 import { getLauréat } from '../../../_helpers/getLauréat';
 
-type RouteProps = { params: { identifiant: string; date: string } };
-
-export const GET = async (request: NextRequest, { params: { identifiant, date } }: RouteProps) =>
+export const GET = async (
+  _: NextRequest,
+  ctx: RouteContext<'/laureats/[identifiant]/delai/[date]/modele-reponse'>,
+) =>
   withUtilisateur(async (utilisateur) => {
+    const { identifiant, date } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
 

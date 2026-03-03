@@ -9,7 +9,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -17,13 +16,11 @@ import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.pag
 
 export const metadata: Metadata = { title: 'Corriger une référence de dossier de raccordement' };
 
-type PageProps = IdentifiantParameter & {
-  params: {
-    reference: string;
-  };
-};
+export default async function Page(
+  props: PageProps<'/laureats/[identifiant]/raccordements/[reference]/reference:corriger'>,
+) {
+  const { identifiant, reference } = await props.params;
 
-export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>(

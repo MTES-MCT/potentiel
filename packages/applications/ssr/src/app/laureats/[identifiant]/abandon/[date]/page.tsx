@@ -18,13 +18,17 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimelineItemProps';
 
-type PageProps = { params: { identifiant: string; date: string } };
+type PageProps = { params: Promise<{ identifiant: string; date: string }> };
 
 export const metadata: Metadata = {
   title: 'Abandon',
 };
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, date } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);

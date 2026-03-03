@@ -12,7 +12,6 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getPériodeAppelOffres } from '@/app/_helpers';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -22,10 +21,11 @@ import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/réc
 
 export const GET = async (
   request: NextRequest,
-  { params: { identifiant } }: IdentifiantParameter,
+  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/modele-reponse-mainlevee'>,
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await ctx.params;
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';

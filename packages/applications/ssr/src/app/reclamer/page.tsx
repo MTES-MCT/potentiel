@@ -33,7 +33,8 @@ export const metadata: Metadata = {
   title: 'Projets à réclamer',
 };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Accès.RéclamerAccèsProjetUseCase>(

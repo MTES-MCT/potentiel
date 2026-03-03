@@ -15,7 +15,8 @@ import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 
 type PageProps = IdentifiantParameter;
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(params.identifiant);

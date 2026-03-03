@@ -23,11 +23,11 @@ import { ModifierRôleUtilisateurPage } from './ModifierRôleUtilisateur.page';
 
 export const metadata: Metadata = { title: 'Modifier le rôle' };
 
-export default async function Page({
-  params: { identifiant },
-}: {
-  params: { identifiant: string };
-}) {
+export default async function Page(props: { params: Promise<{ identifiant: string }> }) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<ModifierRôleUtilisateurUseCase>(

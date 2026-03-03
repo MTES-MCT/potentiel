@@ -14,8 +14,8 @@ import { getKeycloakConfiguration } from './providers/getProviderConfiguration';
 const jwtSchema = z.object({ email: z.string() });
 
 // API clients are authenticated by Authorization header, with tokens issued by Keycloak.
-export const getApiUser: GetUtilisateur = async (req) => {
-  const authHeader = req.headers.authorization ?? '';
+export const getApiUser: GetUtilisateur = async ({ headers }) => {
+  const authHeader = headers.get('authorization') ?? '';
   if (!authHeader.toLowerCase().startsWith('bearer ')) {
     return;
   }

@@ -1,13 +1,13 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
+import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
 import { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
 export type SubmitButtonProps = {
   disabled?: boolean;
-  children: React.ReactNode;
+  children: Required<ButtonProps['children']>;
   classname?: string;
 };
 export const SubmitButton: FC<SubmitButtonProps> = ({ disabled, children, classname }) => {

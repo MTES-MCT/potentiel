@@ -15,7 +15,11 @@ import { ModifierLauréatPage, ModifierLauréatPageProps } from './ModifierLaur�
 
 export const metadata: Metadata = { title: 'Modifier le projet' };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page(props0: IdentifiantParameter) {
+  const params = await props0.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async () => {
       const identifiantProjet = decodeParameter(identifiant);

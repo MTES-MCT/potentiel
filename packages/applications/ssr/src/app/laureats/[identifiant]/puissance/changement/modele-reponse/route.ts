@@ -10,7 +10,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
@@ -21,9 +20,10 @@ import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   request: NextRequest,
-  { params: { identifiant } }: IdentifiantParameter,
+  ctx: RouteContext<'/laureats/[identifiant]/puissance/changement/modele-reponse'>,
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const { identifiant } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 

@@ -1,14 +1,16 @@
 import { mediator } from 'mediateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import Badge from '@mui/material/Badge';
+import { headers } from 'next/headers';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
-import { getContext } from '@potentiel-applications/request-context';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { getSessionUser } from '@/auth/getSessionUser';
+
 export async function UserHeaderQuickAccessItem() {
-  const utilisateur = getContext()?.utilisateur;
+  const utilisateur = await getSessionUser({ headers: await headers() });
 
   if (utilisateur) {
     return (

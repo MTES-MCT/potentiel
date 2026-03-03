@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { Ref, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { debounce } from '@mui/material/utils';
@@ -81,7 +81,7 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
       onInputChange={(_, newInputValue) => searchDelayed(newInputValue)}
       renderInput={({ inputProps, InputProps }) => {
         return (
-          <div ref={InputProps.ref}>
+          <div ref={InputProps.ref as Ref<HTMLDivElement>}>
             <Input
               id={inputProps.id}
               label={label}

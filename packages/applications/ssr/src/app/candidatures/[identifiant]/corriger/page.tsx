@@ -17,7 +17,8 @@ type PageProps = IdentifiantParameter;
 
 export const metadata: Metadata = { title: 'Corriger la candidature' };
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const params = await props0.params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(

@@ -8,7 +8,6 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -19,10 +18,11 @@ import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   request: NextRequest,
-  { params: { identifiant } }: IdentifiantParameter,
+  ctx: RouteContext<'/laureats/[identifiant]/actionnaire/changement/modele-reponse'>,
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
       const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 

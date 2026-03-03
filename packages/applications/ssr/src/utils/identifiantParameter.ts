@@ -1,1 +1,1 @@
-export type IdentifiantParameter = { params: { identifiant: string } };
+export type IdentifiantParameter = { params: Promise<{ identifiant: string }> };

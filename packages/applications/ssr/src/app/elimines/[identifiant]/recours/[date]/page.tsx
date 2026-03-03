@@ -16,11 +16,15 @@ import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimel
 
 import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
 
-type PageProps = { params: { identifiant: string; date: string } };
+type PageProps = { params: Promise<{ identifiant: string; date: string }> };
 
 export const metadata: Metadata = { title: `Détails du recours` };
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, date } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

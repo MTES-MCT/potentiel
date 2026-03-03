@@ -1,13 +1,17 @@
 import { FC, useState } from 'react';
 import Link from 'next/link';
-import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
+import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';
 
-export type KeepOrEditDocumentProps = UploadDocumentProps & { documentKeys: Array<string> };
+export type KeepOrEditDocumentProps = UploadDocumentProps & {
+  label: RadioButtonsProps['legend'];
+  stateRelatedMessage: RadioButtonsProps['stateRelatedMessage'];
+  documentKeys: Array<string>;
+};
 
 export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   className = '',

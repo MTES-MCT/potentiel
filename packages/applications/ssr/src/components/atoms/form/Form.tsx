@@ -1,8 +1,7 @@
 'use client';
 
-import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { FC, FormHTMLAttributes, ReactNode, useActionState, useEffect, useState } from 'react';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
 
@@ -59,7 +58,7 @@ export const Form: FC<FormProps> = ({
     fetchCSRFToken();
   }, []);
 
-  const [state, formAction] = useFormState(action, {
+  const [state, formAction] = useActionState(action, {
     status: undefined,
   });
 
