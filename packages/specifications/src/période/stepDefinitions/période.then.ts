@@ -123,7 +123,7 @@ Alors(
           candidat.emailContact,
           "Résultats de la .* période de l'appel d'offres .*",
           {
-            redirect_url: `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+            url: `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
           },
         );
       }
