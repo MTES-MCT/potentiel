@@ -134,7 +134,11 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
           delete validationErrors.typeRepresentantLegal;
           if (onChange) {
-            onChange({ typeReprésentantLégal, typeSociété: state.typeSociété });
+            onChange({
+              typeReprésentantLégal,
+              typeSociété:
+                typeReprésentantLégal === 'personne-morale' ? state.typeSociété : 'non renseignée',
+            });
           }
           setState((state) => ({ ...state, typeReprésentantLégal }));
         }}

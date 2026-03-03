@@ -95,7 +95,10 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             nomReprésentantLégal={state.nomReprésentantLégal}
             typeReprésentantLégal={state.typeReprésentantLégal}
             onChange={(nomReprésentantLégal) =>
-              setState((state) => ({ ...state, nomReprésentantLégal }))
+              setState((state) => ({
+                ...state,
+                nomReprésentantLégal,
+              }))
             }
             validationErrors={validationErrors}
           />
@@ -103,7 +106,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             className="mt-4"
             label="Raison"
             id="raison"
-            hintText={`Veuillez préciser les raisons de ce changement`}
+            hintText="Veuillez préciser les raisons de ce changement"
             state={validationErrors['raison'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['raison']}
             nativeInputProps={{
@@ -135,7 +138,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={[]}
           raison={state.raison}
-          message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.`}
+          message="Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct."
         />
       ),
       previousStep: { name: 'Précédent' },

@@ -33,7 +33,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
             <div className="font-semibold">Type :</div>
             <blockquote>{getTypeReprésentantLégalLabel(typeReprésentantLégal)}</blockquote>
           </div>
-          {typeSociété && (
+          {typeSociété && typeSociété !== 'non renseignée' && (
             <div className="flex gap-2">
               <div className="font-semibold">Type de société :</div>
               <blockquote className="capitalize">{typeSociété}</blockquote>
