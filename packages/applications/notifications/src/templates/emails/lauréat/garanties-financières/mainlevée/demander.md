@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - {{nom_projet}} - Mainlevée demandée
+subject: Potentiel - {{nom_projet}} - Mainlevée des garanties financières demandée
 ---
 
 Madame, Monsieur,
