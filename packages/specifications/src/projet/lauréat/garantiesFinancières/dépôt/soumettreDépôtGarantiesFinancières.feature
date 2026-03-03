@@ -15,19 +15,11 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et les garanties financières en attente du projet ne devraient plus être consultables
         Et un email a été envoyé au porteur avec :
-            | sujet              | Potentiel - Des garanties financières sont en attente de validation pour le projet Du boulodrome de Marseille dans le département .* |
-            | nom_projet         | Du boulodrome de Marseille                                                                                                           |
-            | departement_projet | .*                                                                                                                                   |
-            | region_projet      | .*                                                                                                                                   |
-            | nouveau_statut     | en attente de validation                                                                                                             |
-            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                     |
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                        |
         Et un email a été envoyé à la dreal avec :
-            | sujet              | Potentiel - Des garanties financières sont en attente de validation pour le projet Du boulodrome de Marseille dans le département .* |
-            | nom_projet         | Du boulodrome de Marseille                                                                                                           |
-            | departement_projet | .*                                                                                                                                   |
-            | region_projet      | .*                                                                                                                                   |
-            | nouveau_statut     | en attente de validation                                                                                                             |
-            | url                | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                                                     |
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                        |
 
         Exemples:
             | type GF                   | date d'échéance |
