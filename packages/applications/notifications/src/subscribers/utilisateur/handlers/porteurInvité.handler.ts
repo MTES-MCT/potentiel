@@ -3,16 +3,12 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature, NotificationHandlerProps } from '#helpers';
-
-import { utilisateurNotificationTemplateId } from '../constant.js';
+import { getBaseUrl, getCandidature } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handlePorteurInvité = async ({
-  event: {
-    payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
-  },
-  sendEmail,
-}: NotificationHandlerProps<PorteurInvitéEvent>) => {
+  payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
+}: PorteurInvitéEvent) => {
   const projets = await Promise.all(
     identifiantsProjet.map((identifiantProjet) =>
       getCandidature(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()),
@@ -29,15 +25,14 @@ export const handlePorteurInvité = async ({
   }
 
   await sendEmail({
-    templateId: utilisateurNotificationTemplateId.inviter.porteur,
-    messageSubject: `Invitation à suivre les projets sur Potentiel`,
+    key: 'utilisateur/inviter_porteur',
     recipients: [{ email: identifiantUtilisateur }],
-    variables: {
+    values: {
       nomProjet: projets
         .filter(Boolean)
         .map(({ nom }) => nom)
         .join(', '),
-      invitation_link: urlPageProjets,
+      url: urlPageProjets,
     },
   });
 };

@@ -10,8 +10,8 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+            | sujet | Invitation à suivre les projets sur Potentiel |
+            | url   | https://potentiel.beta.gouv.fr/laureats       |
 
         Exemples:
             | Rôle  |
@@ -24,8 +24,8 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+            | sujet | Invitation à suivre les projets sur Potentiel |
+            | url   | https://potentiel.beta.gouv.fr/laureats       |
         Et un email a été envoyé à l'administrateur avec :
             | sujet | Nouvel utilisateur DGEC Validateur sur Potentiel |
             | url   | https://potentiel.beta.gouv.fr/utilisateurs      |
@@ -36,8 +36,8 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+            | sujet | Invitation à suivre les projets sur Potentiel |
+            | url   | https://potentiel.beta.gouv.fr/laureats       |
 
     Scénario: Inviter un gestionnaire de réseau
         Etant donné le gestionnaire de réseau "Enedis"
@@ -45,8 +45,8 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un gestionnaire de réseau attribué au raccordement du projet lauréat
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel        |
-            | invitation_link | https://potentiel.beta.gouv.fr/reseaux/raccordements |
+            | sujet | Invitation à suivre les projets sur Potentiel        |
+            | url   | https://potentiel.beta.gouv.fr/reseaux/raccordements |
 
     Scénario: Inviter un cocontractant
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -54,8 +54,8 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un cocontractant pour la zone du projet
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+            | sujet | Invitation à suivre les projets sur Potentiel |
+            | url   | https://potentiel.beta.gouv.fr/laureats       |
 
         Exemples:
             | Région               |

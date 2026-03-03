@@ -31,7 +31,7 @@ export const setupSubscribers = async ({ dependencies }: SetupSubscribersProps) 
 
   setupHistorique();
   const unsetupProjet = await setupProjet(allDependencies);
-  const unsetupUtilisateur = await setupUtilisateur(allDependencies);
+  const unsetupUtilisateur = await setupUtilisateur();
   const unsetupPériode = await setupPériode(allDependencies);
   const unsetupRéseau = await setupRéseau();
 

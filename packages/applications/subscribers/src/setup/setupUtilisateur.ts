@@ -1,13 +1,9 @@
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
-import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
+import { UtilisateurNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
-type SetupUtilisateurDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependencies) => {
+export const setupUtilisateur = async () => {
   const utilisateur = createSubscriptionSetup('utilisateur');
 
   UtilisateurProjector.register();
@@ -28,7 +24,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     messageType: 'System.Projector.Utilisateur',
   });
 
-  UtilisateurNotification.register({ sendEmail });
+  UtilisateurNotification.register();
 
   await utilisateur.setupSubscription<
     UtilisateurNotification.SubscriptionEvent,

@@ -9,9 +9,9 @@ Fonctionnalité: Inviter un porteur sur un projet
         Et le porteur a accès au projet <Statut>
         Et la liste des porteurs du projet <Statut> est mise à jour
         Et un email a été envoyé au nouveau porteur avec :
-            | sujet           | Invitation à suivre les projets sur Potentiel |
-            | nomProjet       | Du boulodrome de Marseille                    |
-            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+            | sujet     | Invitation à suivre les projets sur Potentiel |
+            | nomProjet | Du boulodrome de Marseille                    |
+            | url       | https://potentiel.beta.gouv.fr/laureats       |
 
         Exemples:
             | Statut  |
