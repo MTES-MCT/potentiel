@@ -9,6 +9,12 @@ Fonctionnalité: Modifier le site de production d'un projet lauréat
     Scénario: Modifier le site de production d'un projet lauréat
         Quand un administrateur modifie le site de production du projet
         Alors le projet lauréat devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
 
     Scénario: Modifier le site de production d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"

@@ -13,6 +13,6 @@ La demande complète de raccordement du projet **{{ nom_projet }} ({{ appel_offr
 
 Merci de régulariser la situation dès que possible.
 
-Pour consulter le projet, connectez-vous à Potentiel.
+Pour le consulter, connectez-vous à Potentiel.
 
 {{ cta url 'Renseigner la DCR du projet' }}

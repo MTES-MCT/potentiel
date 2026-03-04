@@ -11,13 +11,11 @@ Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant q
         Quand un porteur enregistre un changement de nom du projet
         Alors le projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet             | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | ancien_nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url               | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
+            | sujet | Potentiel - Du boulodrome de Marseille - Déclaration de changement de nom du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                          |
         Et un email a été envoyé au porteur avec :
-            | sujet             | Potentiel - Déclaration de changement de nom pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | ancien_nom_projet | Du boulodrome de Marseille                                                                                     |
-            | url               | https://potentiel.beta.gouv.fr/projets/.*                                                                      |
+            | sujet | Potentiel - Du boulodrome de Marseille - Déclaration de changement de nom du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                          |
 
     Scénario: Impossible d'enregistrer un changement de nom d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"

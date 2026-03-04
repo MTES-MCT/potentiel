@@ -41,7 +41,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Lauréat',
   });
 
-  LauréatNotification.register(dependencies);
+  LauréatNotification.register();
   await lauréat.setupSubscription<
     LauréatNotification.SubscriptionEvent,
     LauréatNotification.Execute
@@ -52,6 +52,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
       'ChangementNomProjetEnregistré-V1',
       'CahierDesChargesChoisi-V1',
       'NomProjetModifié-V1',
+      'SiteDeProductionModifié-V1',
     ],
     messageType: 'System.Notification.Lauréat',
   });

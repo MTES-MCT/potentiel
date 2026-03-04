@@ -16,7 +16,7 @@ export const setupÉliminé: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Eliminé',
   });
 
-  ÉliminéNotification.register(dependencies);
+  ÉliminéNotification.register();
   await éliminé.setupSubscription<
     ÉliminéNotification.SubscriptionEvent,
     ÉliminéNotification.Execute

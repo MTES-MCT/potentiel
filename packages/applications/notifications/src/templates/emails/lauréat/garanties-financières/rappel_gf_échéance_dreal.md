@@ -6,6 +6,6 @@ Madame, Monsieur,
 
 Les garanties financières pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})**, situé dans le département **{{ departement_projet }}**, arrivent à échéance dans **{{ nombre_mois }} mois**.
 
-Pour consulter le projet, connectez-vous à Potentiel.
+Pour le consulter, connectez-vous à Potentiel.
 
 {{ cta url 'Voir les garanties financières' }}
