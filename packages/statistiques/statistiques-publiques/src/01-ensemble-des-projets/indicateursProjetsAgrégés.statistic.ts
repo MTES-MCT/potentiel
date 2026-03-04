@@ -1,7 +1,5 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'indicateursProjetsAgrégés';
-
 export const computeIndicateursProjetsAgrégés = async () => {
   await executeQuery(
     `
@@ -27,6 +25,5 @@ export const computeIndicateursProjetsAgrégés = async () => {
     order by 
       "appelOffre", "periode", "famille", "statut", "region", "departement", "dateNotification", "typeActionnariat";
     `,
-    statisticType,
   );
 };
