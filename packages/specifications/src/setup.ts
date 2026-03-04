@@ -47,7 +47,7 @@ import {
 should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
-waitForExpect.defaults.timeout = 300;
+waitForExpect.defaults.timeout = Number(process.env.WAIT_FOR_EXPECT_TIMEOUT_MS) || 300;
 
 declare module '@faker-js/faker' {
   interface Faker {
