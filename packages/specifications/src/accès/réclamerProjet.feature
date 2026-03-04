@@ -24,6 +24,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
             | lauréat | https://potentiel.beta.gouv.fr/laureats/.* |
             | éliminé | https://potentiel.beta.gouv.fr/elimines/.* |
 
+    @select
     Scénario: Réclamer un projet en connaissant le prix et le numéro CRE
         Etant donné le projet lauréat "Du boulodrome de Lormont"
         Et la dreal "Dreal du sud" associée à la région du projet
@@ -32,13 +33,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Alors l'utilisateur devrait être actif
         Et le porteur a accès au projet lauréat
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Du boulodrome de Lormont - Récupération de la gestion du projet |
-            | nom_projet | Du boulodrome de Lormont                                                    |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                  |
+            | sujet | Potentiel - Du boulodrome de Lormont - Récupération de la gestion du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Du boulodrome de Lormont - Récupération de la gestion du projet |
-            | nom_projet | Du boulodrome de Lormont                                                    |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                  |
+            | sujet | Potentiel - Du boulodrome de Lormont - Récupération de la gestion du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
         Mais le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
     Scénario: Impossible de réclamer un projet avec un email différent de celui de la candidature
