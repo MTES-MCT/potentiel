@@ -7,6 +7,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
             | appel d'offres | PPE2 - Sol |
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
