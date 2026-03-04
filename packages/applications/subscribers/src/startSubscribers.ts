@@ -6,6 +6,7 @@ import { logMiddleware } from '@potentiel-applications/bootstrap';
 import { setupSubscribers, SetupSubscribersProps } from './setup/index.js';
 
 export type StartSubscribersProps = SetupSubscribersProps;
+
 export const startSubscribers = async ({ dependencies }: StartSubscribersProps) => {
   mediator.use({ middlewares: [logMiddleware] });
 

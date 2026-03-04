@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - Résultats de la {{ période }} période de l'appel d'offres {{ appel_offre }}
+subject: Potentiel - Notification de la période {{ période }} de l'appel d'offres {{ appel_offre }}
 ---
 
 Madame, Monsieur,

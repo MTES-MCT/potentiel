@@ -13,7 +13,7 @@ export const handleDemandeComplèteRaccordementAttendueRelance = async ({
   const recipients = await listerPorteursRecipients(identifiantProjet);
 
   await sendEmail({
-    key: 'lauréat/raccordement/rappel_tranmission_dcr',
+    key: 'lauréat/raccordement/rappel_transmission_dcr',
     recipients,
     values: {
       nom_projet: lauréat.nom,

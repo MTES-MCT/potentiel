@@ -3,8 +3,6 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-
 import {
   handleChangementPuissanceAccordé,
   handleChangementPuissanceDemandé,
@@ -17,10 +15,6 @@ import {
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent;
 
 export type Execute = Message<'System.Notification.Lauréat.Puissance', SubscriptionEvent>;
-
-export type RegisterPuissanceNotificationDependencies = {
-  sendEmail: SendEmail;
-};
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>

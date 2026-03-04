@@ -1,13 +1,9 @@
 import { PériodeProjector } from '@potentiel-applications/projectors';
-import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
+import { PériodeNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
-type SetupPériodeDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) => {
+export const setupPériode = async () => {
   const période = createSubscriptionSetup('période');
 
   PériodeProjector.register();
@@ -17,7 +13,7 @@ export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) =>
     messageType: 'System.Projector.Période',
   });
 
-  PériodeNotification.register({ sendEmail });
+  PériodeNotification.register();
   await période.setupSubscription<
     PériodeNotification.SubscriptionEvent,
     PériodeNotification.Execute

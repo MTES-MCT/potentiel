@@ -40,7 +40,6 @@ import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5.js';
 import {
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
-  mockEmailAdapter,
   addEmailSpyMiddleware,
 } from './_mocks/index.js';
 
@@ -141,7 +140,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
 
   unsetup = await startSubscribers({
     dependencies: {
-      sendEmail: mockEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
       récupererConstitutionGarantiesFinancières: mockRécupererGarantiesFinancières.bind(this),
     },

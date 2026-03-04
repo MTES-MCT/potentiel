@@ -1,17 +1,24 @@
 import { assert, expect } from 'chai';
 
-import { EmailPayload } from '@potentiel-applications/notifications';
 import { Email } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+type Email = {
+  recipients: Array<{ email: string }>;
+  subject: string;
+  values: Record<string, string>;
+};
+
 export class NotificationWorld {
-  #notifications: (Pick<EmailPayload, 'variables' | 'messageSubject'> & {
+  #notifications: {
+    subject: string;
+    values: Record<string, string>;
     email: Email.ValueType;
     checked?: true;
-  })[] = [];
+  }[] = [];
 
-  ajouterNotification(notif: EmailPayload) {
-    for (const recipient of [...notif.recipients, ...(notif.cc ?? []), ...(notif.bcc ?? [])]) {
+  ajouterNotification(notif: Email) {
+    for (const recipient of notif.recipients) {
       this.#notifications.push({
         ...notif,
         email: Email.convertirEnValueType(recipient.email),
@@ -26,18 +33,18 @@ export class NotificationWorld {
       if (notif.checked) {
         return false;
       }
-      if (sujet && !notif.messageSubject.match(new RegExp(sujet))) {
+      if (sujet && !notif.subject.match(new RegExp(sujet))) {
         return false;
       }
       if (variables) {
         for (const [key, value] of Object.entries(variables)) {
-          if (!new RegExp(value).test(notif.variables[key])) {
+          if (!new RegExp(value).test(notif.values[key])) {
             logger.warn(
               "Une notification correspond au sujet et à l'email, mais pas aux variables",
               {
                 key,
                 expected: value,
-                actual: notif.variables[key],
+                actual: notif.values[key],
                 email: email.formatter(),
                 sujet,
               },
@@ -55,7 +62,7 @@ export class NotificationWorld {
         sujet,
         emailValue,
         notificationsEnvoyées: this.#notifications.map((x) => ({
-          sujet: x.messageSubject,
+          sujet: x.subject,
           recipients: x.email,
         })),
       });
@@ -69,7 +76,7 @@ export class NotificationWorld {
     this.#notifications = [];
   }
 
-  vérifierAucunEmailsEnvoyés(emailValue: string) {
+  vérifierAucunEmailEnvoyé(emailValue: string) {
     const email = Email.convertirEnValueType(emailValue);
     const notif = this.#notifications.find((notif) => notif.email.estÉgaleÀ(email));
     expect(notif, `Des emails ont été envoyés`).to.be.undefined;
@@ -79,7 +86,7 @@ export class NotificationWorld {
     expect(
       this.#notifications
         .filter((notif) => !notif.checked)
-        .map((notif) => ({ email: notif.email, subject: notif.messageSubject })),
+        .map((notif) => ({ email: notif.email, subject: notif.subject })),
       `Des notifications ont été envoyées sans avoir été testées`,
     ).to.deep.equal([]);
   }
