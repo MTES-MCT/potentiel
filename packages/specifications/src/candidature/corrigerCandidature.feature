@@ -28,7 +28,6 @@ Fonctionnalité: Corriger une candidature
         Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
-    @select
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
@@ -40,7 +39,7 @@ Fonctionnalité: Corriger une candidature
         Et le détail de la candidature devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Boulodrome Sainte Livrade - Nouvelle attestation disponible |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
+            | url   | https://potentiel.beta.gouv.fr/projets/.*                               |
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"

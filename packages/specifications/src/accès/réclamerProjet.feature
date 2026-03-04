@@ -24,7 +24,6 @@ Fonctionnalité: Réclamer un projet en tant que porteur
             | lauréat | https://potentiel.beta.gouv.fr/laureats/.* |
             | éliminé | https://potentiel.beta.gouv.fr/elimines/.* |
 
-    @select
     Scénario: Réclamer un projet en connaissant le prix et le numéro CRE
         Etant donné le projet lauréat "Du boulodrome de Lormont"
         Et la dreal "Dreal du sud" associée à la région du projet
