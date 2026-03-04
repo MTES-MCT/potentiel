@@ -9,8 +9,8 @@ import {
   getHistoriqueAbandon,
   getLocalité,
   getDispositifDeStockage,
-  getAutorisationDUrbanisme,
   getTypologieInstallation,
+  getAutorisation,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
@@ -47,9 +47,9 @@ export const mapApiResponseToDépôt = ({
 }: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
   const accessor = createDossierAccessor(champs, colonnes);
   const accessorAutorisationDUrbanisme = createDossierAccessor(champs, {
-    numéro: "Numéro de l'autorisation d'urbanisme",
-    date: "Date d'obtention de l'autorisation d'urbanisme",
-  } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>);
+    numéro: "numéro de l'autorisation",
+    date: "date d'obtention de l'autorisation",
+  } satisfies Record<keyof Candidature.Dépôt.RawType['autorisation'], string>);
 
   const accessorDispositifDeStockage = createDossierAccessor(champs, {
     installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
@@ -127,7 +127,7 @@ export const mapApiResponseToDépôt = ({
       nomChampTaux: 'tauxPrévisionnelACI',
     }),
 
-    autorisationDUrbanisme: getAutorisationDUrbanisme({
+    autorisation: getAutorisation({
       accessor: accessorAutorisationDUrbanisme,
       nomChampNuméro: 'numéro',
       nomChampDate: 'date',

@@ -74,13 +74,13 @@ Quand(
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const changedValues = this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {});
 
-  const dateDAutorisationDUrbanisme =
-    changedValues.dépôt.autorisationDUrbanisme.date ??
-    this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.date;
+  const dateDAutorisation =
+    changedValues.dépôt.autorisation.date ??
+    this.candidatureWorld.importerCandidature.dépôtValue.autorisation?.date;
 
-  const numéroDAutorisationDUrbanisme =
-    changedValues.dépôt.autorisationDUrbanisme.numéro ??
-    this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.numéro;
+  const numéroDAutorisation =
+    changedValues.dépôt.autorisation.numéro ??
+    this.candidatureWorld.importerCandidature.dépôtValue.autorisation?.numéro;
 
   const attestationConstitutionGf = {
     ...this.candidatureWorld.importerCandidature.dépôtValue.attestationConstitutionGf,
@@ -123,11 +123,11 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,
         },
-        autorisationDUrbanisme:
-          dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+        autorisation:
+          dateDAutorisation && numéroDAutorisation
             ? {
-                date: dateDAutorisationDUrbanisme,
-                numéro: numéroDAutorisationDUrbanisme,
+                date: dateDAutorisation,
+                numéro: numéroDAutorisation,
               }
             : undefined,
         fournisseurs: this.candidatureWorld.importerCandidature.dépôtValue.fournisseurs,

@@ -40,7 +40,7 @@ export type ÉliminéEnrichiListItemReadModel = {
   typeActionnariat: TypeActionnariat.ValueType | undefined;
 
   prixReference: Dépôt.ValueType['prixReference'];
-  numéroAutorisationDUrbanisme: string | undefined;
+  numéroAutorisation: string | undefined;
 
   puissance: Dépôt.ValueType['puissance'];
   puissanceDeSite: Dépôt.ValueType['puissanceDeSite'];
@@ -160,7 +160,7 @@ const mapToReadModel: MapToReadModelProps = ({
   actionnariat,
   sociétéMère,
   coefficientKChoisi,
-  autorisationDUrbanisme,
+  autorisation,
   installateur,
   dispositifDeStockage,
   typologieInstallation,
@@ -191,7 +191,7 @@ const mapToReadModel: MapToReadModelProps = ({
 
     prixReference,
     coefficientKChoisi,
-    numéroAutorisationDUrbanisme: autorisationDUrbanisme?.numéro,
+    numéroAutorisation: autorisation?.numéro,
 
     puissance,
     puissanceDeSite,

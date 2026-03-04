@@ -17,15 +17,15 @@ import {
   doitRegenererAttestationSchema,
 } from '@/utils/candidature';
 import {
-  dateDAutorisationDUrbanismeSchema,
-  numéroDAutorisationDUrbanismeSchema,
+  dateDAutorisationSchema,
+  numéroDAutorisationSchema,
 } from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
 
 const schema = dépôtSchema
   .omit({
-    autorisationDUrbanisme: true,
+    autorisation: true,
     localité: true,
     typologieInstallation: true,
     historiqueAbandon: true,
@@ -36,8 +36,8 @@ const schema = dépôtSchema
     statut: instructionSchema.shape.statut.optional(),
     motifElimination: instructionSchema.shape.motifÉlimination,
     noteTotale: instructionSchema.shape.noteTotale,
-    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    dateDAutorisation: dateDAutorisationSchema,
+    numéroDAutorisation: numéroDAutorisationSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -108,11 +108,11 @@ const mapBodyToUseCaseData = (
         : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
-      autorisationDUrbanisme:
-        data.numéroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+      autorisation:
+        data.numéroDAutorisation && data.dateDAutorisation
           ? {
-              numéro: data.numéroDAutorisationDUrbanisme,
-              date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
+              numéro: data.numéroDAutorisation,
+              date: DateTime.convertirEnValueType(data.dateDAutorisation).formatter(),
             }
           : undefined,
       installateur: data.installateur,

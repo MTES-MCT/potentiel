@@ -40,7 +40,7 @@ export type RawType = {
   fournisseurs: Array<Fournisseur.RawType>;
   typologieInstallation: Array<TypologieInstallation.RawType>;
   obligationDeSolarisation: boolean | undefined;
-  autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
+  autorisation: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType | undefined;
   natureDeLExploitation:
@@ -73,7 +73,7 @@ export type ValueType = ReadonlyValueType<{
   fournisseurs: Array<Fournisseur.ValueType>;
   typologieInstallation: Array<TypologieInstallation.ValueType>;
   obligationDeSolarisation: boolean | undefined;
-  autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
+  autorisation: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
@@ -111,10 +111,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     : undefined,
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
-  autorisationDUrbanisme: plain.autorisationDUrbanisme
+  autorisation: plain.autorisation
     ? {
-        date: DateTime.bind(plain.autorisationDUrbanisme.date),
-        numéro: plain.autorisationDUrbanisme.numéro,
+        date: DateTime.bind(plain.autorisation.date),
+        numéro: plain.autorisation.numéro,
       }
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
@@ -147,12 +147,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.sociétéMère === this.sociétéMère &&
       valueType.territoireProjet === this.territoireProjet &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
-      valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
+      valueType.autorisation?.numéro === this.autorisation?.numéro &&
       valueType.installateur === this.installateur &&
       areEqual(valueType.dispositifDeStockage, this.dispositifDeStockage) &&
       valueType.natureDeLExploitation?.tauxPrévisionnelACI ===
         this.natureDeLExploitation?.tauxPrévisionnelACI &&
-      areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
+      areEqual(valueType.autorisation?.date, this.autorisation?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
       areEqual(valueType.historiqueAbandon, this.historiqueAbandon) &&
@@ -199,10 +199,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
         typologieInstallation.formatter(),
       ),
-      autorisationDUrbanisme: this.autorisationDUrbanisme
+      autorisation: this.autorisation
         ? {
-            date: this.autorisationDUrbanisme.date.formatter(),
-            numéro: this.autorisationDUrbanisme.numéro,
+            date: this.autorisation.date.formatter(),
+            numéro: this.autorisation.numéro,
           }
         : undefined,
       installateur: this.installateur,
@@ -258,11 +258,11 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       TypologieInstallation.convertirEnValueType,
     ),
     puissanceDeSite: raw.puissanceDeSite,
-    autorisationDUrbanisme:
-      raw.autorisationDUrbanisme?.date && raw.autorisationDUrbanisme.numéro
+    autorisation:
+      raw.autorisation?.date && raw.autorisation.numéro
         ? mapToPlainObject({
-            date: DateTime.convertirEnValueType(raw.autorisationDUrbanisme.date),
-            numéro: raw.autorisationDUrbanisme.numéro,
+            date: DateTime.convertirEnValueType(raw.autorisation.date),
+            numéro: raw.autorisation.numéro,
           })
         : undefined,
     installateur: raw.installateur,

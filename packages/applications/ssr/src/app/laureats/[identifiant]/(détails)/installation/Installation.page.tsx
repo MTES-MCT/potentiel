@@ -2,7 +2,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
-import { AutorisationUrbanismeSection } from './(sections)/AutorisationUrbanisme.section';
+import { AutorisationSection } from './(sections)/Autorisation.section';
 import { NatureDeLExploitationSection } from './(sections)/NatureDeLExploitation.section';
 import { TypologieInstallationSection } from './(sections)/TypologieInstallation.section';
 import { InstallateurSection } from './(sections)/Installateur.section';
@@ -16,7 +16,7 @@ export const InstallationPage = ({ identifiantProjet }: Props) => (
       <div className="flex flex-1 flex-col gap-4">
         <TypologieInstallationSection identifiantProjet={identifiantProjet} />
         <InstallateurSection identifiantProjet={identifiantProjet} />
-        <AutorisationUrbanismeSection identifiantProjet={identifiantProjet} />
+        <AutorisationSection identifiantProjet={identifiantProjet} />
       </div>
       <div className="flex flex-1 flex-col gap-4">
         <DispositifDeStockageSection identifiantProjet={identifiantProjet} />
