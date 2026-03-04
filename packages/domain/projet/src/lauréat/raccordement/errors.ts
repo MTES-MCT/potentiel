@@ -83,9 +83,17 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
   }
 }
 
-export class DateIdentiqueDeMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
+export class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
   constructor() {
-    super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
+    super(`La date de mise en service a déjà été transmise pour ce dossier de raccordement`);
+  }
+}
+
+export class DateDeMiseEnServiceNonModifiéeError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement`,
+    );
   }
 }
 

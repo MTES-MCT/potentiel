@@ -82,8 +82,8 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Etant donné le projet lauréat "Du boulodrome de Lille" avec :
             | date notification | 2021-10-26 |
         Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | 2021-12-30 |
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
-        Et le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
-            | La date de mise en service | 2021-12-31 |
-        Alors le gestionnaire de réseau devrait être informé que "La date de mise en service est déjà transmise pour ce dossier de raccordement"
+        Alors le gestionnaire de réseau devrait être informé que "La date de mise en service a déjà été transmise pour ce dossier de raccordement"
