@@ -3,25 +3,15 @@ import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-
 import { handleCandidatureCorrigée } from './handlers/index.js';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent;
 
 export type Execute = Message<'System.Notification.Candidature', SubscriptionEvent>;
 
-export type RegisterCandidatureNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterCandidatureNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
-    match(event)
-      .with({ type: 'CandidatureCorrigée-V2' }, (event) =>
-        handleCandidatureCorrigée({ sendEmail, event }),
-      )
-      .exhaustive();
+    match(event).with({ type: 'CandidatureCorrigée-V2' }, handleCandidatureCorrigée).exhaustive();
 
   mediator.register('System.Notification.Candidature', handler);
 };

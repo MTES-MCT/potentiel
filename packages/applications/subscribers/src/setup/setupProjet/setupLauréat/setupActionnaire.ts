@@ -2,9 +2,8 @@ import { HistoriqueProjector, ActionnaireProjector } from '@potentiel-applicatio
 import { ActionnaireNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
 
-export const setupActionnaire: SetupProjet = async () => {
+export const setupActionnaire = async () => {
   const actionnaire = createSubscriptionSetup('actionnaire');
 
   ActionnaireProjector.register();

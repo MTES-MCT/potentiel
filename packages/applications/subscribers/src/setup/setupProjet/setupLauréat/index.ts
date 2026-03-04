@@ -84,20 +84,20 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
   });
 
-  const unsetupPuissance = await setupPuissance(dependencies);
-  const unsetupProducteur = await setupProducteur(dependencies);
-  const unsetupFournisseur = await setupFournisseur(dependencies);
-  const unsetupAchèvement = await setupAchèvement(dependencies);
-  const unsetupAbandon = await setupAbandon(dependencies);
-  const unsetupActionnaire = await setupActionnaire(dependencies);
-  const unsetupReprésentantLégal = await setupReprésentantLégal(dependencies);
+  const unsetupPuissance = await setupPuissance();
+  const unsetupProducteur = await setupProducteur();
+  const unsetupFournisseur = await setupFournisseur();
+  const unsetupAchèvement = await setupAchèvement();
+  const unsetupAbandon = await setupAbandon();
+  const unsetupActionnaire = await setupActionnaire();
+  const unsetupReprésentantLégal = await setupReprésentantLégal();
   const unsetupRaccordement = await setupRaccordement(dependencies);
-  const unsetupDélai = await setupDélai(dependencies);
+  const unsetupDélai = await setupDélai();
   const unsetupGarantiesFinancières = await setupGarantiesFinancières(dependencies);
   const unsetupTâchePlanifiée = await setupTâchePlanifiée();
   const unsetupTâche = await setupTâche();
-  const unsetupInstallation = await setupInstallation(dependencies);
-  const unsetupNatureDeLExploitation = await setupNatureDeLExploitation(dependencies);
+  const unsetupInstallation = await setupInstallation();
+  const unsetupNatureDeLExploitation = await setupNatureDeLExploitation();
 
   return async () => {
     await lauréat.clearSubscriptions();

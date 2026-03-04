@@ -2,9 +2,8 @@ import { AchèvementProjector, HistoriqueProjector } from '@potentiel-applicatio
 import { AchèvementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
 
-export const setupAchèvement: SetupProjet = async () => {
+export const setupAchèvement = async () => {
   const achèvement = createSubscriptionSetup('achevement');
 
   AchèvementProjector.register();

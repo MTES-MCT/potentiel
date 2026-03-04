@@ -9,3 +9,5 @@ export type SetupProjetDependencies = {
 };
 
 export type SetupProjet = (dependencies: SetupProjetDependencies) => Promise<Unsubscribe>;
+
+export type SetupWithoutDeps = () => Promise<Unsubscribe>;

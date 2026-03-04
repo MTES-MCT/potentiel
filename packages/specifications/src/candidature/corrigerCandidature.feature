@@ -2,6 +2,8 @@
 @candidature
 Fonctionnalité: Corriger une candidature
 
+    # // viovio
+    # // Nouvelle attestation disponible
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 

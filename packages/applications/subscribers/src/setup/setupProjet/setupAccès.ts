@@ -4,9 +4,7 @@ import { UtilisateurSaga } from '@potentiel-domain/utilisateur';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
-import { SetupProjet } from './setup.js';
-
-export const setupAccès: SetupProjet = async () => {
+export const setupAccès = async () => {
   const accès = createSubscriptionSetup('accès');
 
   AccèsProjector.register();

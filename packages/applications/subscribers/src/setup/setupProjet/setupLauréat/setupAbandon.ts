@@ -3,9 +3,8 @@ import { AbandonNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
 
-export const setupAbandon: SetupProjet = async () => {
+export const setupAbandon = async () => {
   const abandon = createSubscriptionSetup('abandon');
 
   AbandonProjector.register();

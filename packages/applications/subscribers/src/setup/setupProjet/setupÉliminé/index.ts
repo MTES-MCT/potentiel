@@ -1,12 +1,11 @@
 import { HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { ÉliminéNotification } from '@potentiel-applications/notifications';
 
-import { SetupProjet } from '../setup.js';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
 import { setupRecours } from './setupRecours.js';
 
-export const setupÉliminé: SetupProjet = async (dependencies) => {
+export const setupÉliminé = async () => {
   const éliminé = createSubscriptionSetup('éliminé');
 
   ÉliminéProjector.register();
@@ -35,7 +34,7 @@ export const setupÉliminé: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Historique',
   });
 
-  const unsubscribeRecours = await setupRecours(dependencies);
+  const unsubscribeRecours = await setupRecours();
 
   return async () => {
     await éliminé.clearSubscriptions();
