@@ -85,7 +85,7 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
 
 export class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
   constructor() {
-    super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
+    super(`La date de mise en service a déjà été transmise pour ce dossier de raccordement`);
   }
 }
 

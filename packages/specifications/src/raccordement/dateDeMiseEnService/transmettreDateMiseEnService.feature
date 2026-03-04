@@ -86,4 +86,4 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | La date de mise en service | 2021-12-30 |
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
-        Alors le gestionnaire de réseau devrait être informé que "La date de mise en service est déjà transmise pour ce dossier de raccordement"
+        Alors le gestionnaire de réseau devrait être informé que "La date de mise en service a déjà été transmise pour ce dossier de raccordement"
