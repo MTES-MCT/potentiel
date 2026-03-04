@@ -10,6 +10,7 @@ const envSchema = zod.object({
   DATAGOUV_API_URL: zod.url(),
   DATAGOUV_API_KEY: zod.string(),
   DATAGOUV_DATASET_ID: zod.string(),
+  DATAGOUV_RESSOURCE_ID: zod.string(),
 });
 
 type DataLine = {
@@ -49,11 +50,13 @@ export class UpdateRessources extends Command {
   #apiUrl!: string;
   #datasetId!: string;
   #apiKey!: string;
+  #ressourceId!: string;
 
   async init() {
     const env = envSchema.parse(process.env);
     this.#apiUrl = env.DATAGOUV_API_URL;
     this.#datasetId = env.DATAGOUV_DATASET_ID;
+    this.#ressourceId = env.DATAGOUV_RESSOURCE_ID;
     this.#apiKey = env.DATAGOUV_API_KEY;
   }
 
@@ -88,7 +91,7 @@ export class UpdateRessources extends Command {
     return { path: csvPath, format: 'csv', type: 'main', buffer };
   }
 
-  async getExistingResources(): Promise<DataGouvResource[]> {
+  async getExistingResource(): Promise<DataGouvResource[]> {
     const response = await fetch(`${this.#apiUrl}/datasets/${this.#datasetId}/`, {
       headers: {
         'X-API-KEY': this.#apiKey,
@@ -104,9 +107,8 @@ export class UpdateRessources extends Command {
     return data.resources || [];
   }
 
-  async uploadFile(file: FileToUpload, existingResources: DataGouvResource[]) {
+  async uploadFile(file: FileToUpload) {
     const fileName = file.path.split('/').pop()!;
-    const existing = existingResources.find((r) => r.title === fileName);
 
     const form = new FormData();
     form.append('file', new Blob([file.buffer]), fileName);
@@ -115,11 +117,9 @@ export class UpdateRessources extends Command {
     form.append('type', file.type);
     form.append('private', 'true');
 
-    const url = existing
-      ? `${this.#apiUrl}/datasets/${this.#datasetId}/resources/${existing.id}/upload/`
-      : `${this.#apiUrl}/datasets/${this.#datasetId}/upload/`;
+    const url = `${this.#apiUrl}/datasets/${this.#datasetId}/resources/${this.#ressourceId}/upload/`;
 
-    this.log(existing ? `Mise à jour : ${fileName}` : `Création : ${fileName}`);
+    this.log(`URL`, url);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -142,8 +142,7 @@ export class UpdateRessources extends Command {
     let file: FileToUpload | undefined;
     try {
       file = await this.createFile();
-      const existingResources = await this.getExistingResources();
-      await this.uploadFile(file, existingResources);
+      await this.uploadFile(file);
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error(`Erreur : ${err.message}`);
