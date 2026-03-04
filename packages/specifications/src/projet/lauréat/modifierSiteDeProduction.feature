@@ -1,10 +1,12 @@
 # language: fr
 @lauréat
+@site-de-production
 Fonctionnalité: Modifier le site de production d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal de la sardine" associée à la région du projet
 
     Scénario: Modifier le site de production d'un projet lauréat
         Quand un administrateur modifie le site de production du projet

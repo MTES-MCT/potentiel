@@ -1,5 +1,6 @@
 # language: fr
 @lauréat
+@nom-projet
 Fonctionnalité: Enregistrer un changement de nom d'un projet lauréat en tant que porteur
 
     Contexte:
