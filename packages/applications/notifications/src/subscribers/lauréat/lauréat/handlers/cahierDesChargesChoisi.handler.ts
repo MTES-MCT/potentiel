@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { sendEmail } from '#sendEmail';
-import { formatDateForEmail, getLauréat, listerPorteursRecipients } from '#helpers';
+import { getLauréat, listerPorteursRecipients } from '#helpers';
 
 export const handleCahierDesChargesChoisi = async ({
   payload: { identifiantProjet, cahierDesCharges },
@@ -32,7 +32,7 @@ export const handleCahierDesChargesChoisi = async ({
       recipients,
       values: {
         ...commonValues,
-        cdc_date: formatDateForEmail(new Date(cdc.paruLe)),
+        cdc_date: cdc.paruLe,
         cdc_alternatif: cdc.alternatif ? 'alternatif ' : '',
       },
     });
