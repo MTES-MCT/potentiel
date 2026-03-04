@@ -25,7 +25,7 @@ type DataLine = {
   ecs_moyenne: string;
 };
 
-export class UpdateRessources extends Command {
+export class UpdateRessource extends Command {
   async run() {
     try {
       const env = envSchema.parse(process.env);
