@@ -47,7 +47,6 @@ import {
 } from './raccordement.event.js';
 import {
   DateDansLeFuturError,
-  DateIdentiqueDeMiseEnServiceDéjàTransmiseError,
   DateMiseEnServiceAntérieureDateDésignationProjetError,
   DemandeComplèteRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   DossierAvecDateDeMiseEnServiceNonSupprimableError,
@@ -63,6 +62,8 @@ import {
   PropositionTechniqueEtFinancièreNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   DemandeComplèteDeRaccordementNonModifiéeError,
   PropositionTechniqueEtFinancièreNonModifiéeError,
+  DateMiseEnServiceDéjàTransmiseError,
+  DateDeMiseEnServiceNonModifiéeError,
 } from './errors.js';
 import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options.js';
 import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options.js';
@@ -182,20 +183,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       }
     }
     return false;
-  }
-
-  private dateModifiée(
-    { référence }: RéférenceDossierRaccordement.ValueType,
-    date: DateTime.ValueType,
-  ) {
-    const dossier = this.récupérerDossier(référence);
-    if (
-      !dossier.miseEnService?.dateMiseEnService ||
-      Option.isNone(dossier.miseEnService.dateMiseEnService)
-    ) {
-      return true;
-    }
-    return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
   //#endregion helpers
@@ -618,12 +605,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DateDansLeFuturError();
     }
 
-    if (!this.contientLeDossier(référenceDossierRaccordement)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
-
     const dossierEnService = Option.isSome(dossier.miseEnService.dateMiseEnService);
 
     if (
@@ -969,12 +951,9 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
     }
 
-    if (!this.contientLeDossier(référenceDossier)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
-    if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
-      throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
+    const dossier = this.récupérerDossier(référenceDossier.formatter());
+    if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+      throw new DateMiseEnServiceDéjàTransmiseError();
     }
 
     const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
@@ -1038,20 +1017,16 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new DossierRaccordementPasEnServiceError();
     }
 
+    if (dateMiseEnService.estÉgaleÀ(dossier.miseEnService.dateMiseEnService)) {
+      throw new DateDeMiseEnServiceNonModifiéeError();
+    }
+
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
 
     if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
       throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
-    }
-
-    if (!this.contientLeDossier(référenceDossier)) {
-      throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
-    }
-
-    if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
-      throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
     }
 
     const event: DateMiseEnServiceModifiéeEvent = {

@@ -94,3 +94,13 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Quand l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors l'administrateur devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"
+
+    Scénario: Impossible de modifier une date de mise en service avec une valeur identique à la date déjà transmise
+        Etant donné le projet lauréat "Du boulodrome de Lille" avec :
+            | date notification | 2021-10-26 |
+        Et une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | 2021-12-31 |
+        Quand l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La date de mise en service | 2021-12-31 |
+        Alors le gestionnaire de réseau devrait être informé que "Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement"
