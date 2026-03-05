@@ -91,6 +91,7 @@ export async function soumettreDépôt(
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
       ...props,
     });
+
   await mediator.send<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {

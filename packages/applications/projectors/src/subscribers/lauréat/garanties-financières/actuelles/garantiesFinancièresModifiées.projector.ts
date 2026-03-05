@@ -1,5 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  removeProjection,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const garantiesFinancièresModifiéesProjector = async ({
   payload: {
@@ -12,7 +15,7 @@ export const garantiesFinancièresModifiéesProjector = async ({
     modifiéPar,
   },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent) => {
-  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
