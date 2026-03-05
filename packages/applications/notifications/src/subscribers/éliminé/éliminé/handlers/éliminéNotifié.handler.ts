@@ -39,6 +39,8 @@ export const handleÉliminéNotifié = async ({
       },
     ],
     values: {
+      nom_projet: candidature.dépôt.nomProjet,
+      departement_projet: candidature.dépôt.localité.département,
       appel_offre: candidature.identifiantProjet.appelOffre,
       période: candidature.identifiantProjet.période,
       url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
