@@ -1,5 +1,5 @@
 ---
-subject: Potentiel - Résultats pour le projet {{ nom_projet }} (période {{ période }} de l'appel d'offres {{ appel_offre }})
+subject: Potentiel - Résultats pour le projet {{ nom_projet }} ({{ période }} période de l'appel d'offres {{ appel_offre }})
 ---
 
 Madame, Monsieur,
