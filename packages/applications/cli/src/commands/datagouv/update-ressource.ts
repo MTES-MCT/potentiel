@@ -12,6 +12,7 @@ const envSchema = zod.object({
 });
 
 type DataLine = {
+  cycle_appel_offres: string;
   appel_offres: string;
   periode: string;
   famille: string;
@@ -23,6 +24,7 @@ type DataLine = {
   puissance_cumulee: string;
   puissance_moyenne: string;
   ecs_moyenne: string;
+  nombre_de_projets: string;
 };
 
 export class UpdateRessource extends Command {
@@ -52,6 +54,7 @@ export class UpdateRessource extends Command {
     const csv = await ExportCSV.toCSV({
       data,
       fields: [
+        'cycle_appel_offres',
         'appel_offres',
         'periode',
         'famille',
@@ -62,6 +65,7 @@ export class UpdateRessource extends Command {
         'puissance_cumulee',
         'puissance_moyenne',
         'ecs_moyenne',
+        'nombre_de_projets',
       ],
     });
 
