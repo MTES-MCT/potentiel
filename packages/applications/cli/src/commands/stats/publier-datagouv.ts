@@ -3,6 +3,7 @@ import { Command } from '@oclif/core';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { DateTime } from '@potentiel-domain/common';
 
 const envSchema = zod.object({
   DATAGOUV_API_URL: zod.url(),
@@ -47,9 +48,14 @@ export class PublierDatagouvStats extends Command {
   }
 
   async generateCsvBuffer() {
-    const data = await executeSelect<DataLine>(
-      `select * from domain_public_statistic.indicateurs_projets`,
-    );
+    const data = (
+      await executeSelect<DataLine>(`select * from domain_public_statistic.indicateurs_projets`)
+    ).map((line) => ({
+      ...line,
+      date_de_notification: DateTime.convertirEnValueType(line.date_de_notification)
+        .date.toISOString()
+        .split('T')[0],
+    }));
 
     const csv = await ExportCSV.toCSV({
       data,
