@@ -40,7 +40,7 @@ Quand(
 );
 
 Quand(
-  `un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat`,
+  /un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat$/,
   async function (this: PotentielWorld) {
     try {
       await enregistrerAttestation.call(this, this.lauréatWorld.identifiantProjet, {});

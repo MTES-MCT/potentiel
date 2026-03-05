@@ -18,6 +18,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              | CRE4 - ZNI               |                 |                      |
             | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
+    # @select
     Scénario: Un admin importe des garanties financières actuelles ayant initialement un statut échu
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |

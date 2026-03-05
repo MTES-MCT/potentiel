@@ -44,11 +44,17 @@ export class GarantiesFinancièresActuellesWorld {
 
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
-    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
-      .filter((action) => action.aÉtéCréé)
-      .sort((a, b) => a.enregistréLe.localeCompare(b.enregistréLe));
 
-    const { dépôtValue: dépôtCandidature } =
+    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation, this.demander]
+      .filter((action) => action.aÉtéCréé)
+      .sort((a, b) => {
+        const aDate = a.enregistréLe;
+        const bDate = b.enregistréLe;
+
+        return aDate.localeCompare(bDate);
+      });
+
+    const candidatureInitiale =
       this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
@@ -57,46 +63,44 @@ export class GarantiesFinancièresActuellesWorld {
       dateÉchéanceGf,
       dateConstitutionGf,
       attestationConstitutionGf,
-    } = dépôtCandidature;
+    } = candidatureInitiale.dépôtValue;
 
-    const garantiesFinancièresÀLaDésignation = typeGarantiesFinancières
-      ? ({
-          garantiesFinancières:
-            Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-              type: typeGarantiesFinancières,
-              dateÉchéance: dateÉchéanceGf,
-              attestation: this.importer.aÉtéCréé
-                ? this.importer.attestation
-                : attestationConstitutionGf,
-              dateConstitution: this.importer.aÉtéCréé
-                ? this.importer.dateConstitution
-                : dateConstitutionGf,
-            }),
-          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-          dernièreMiseÀJour: {
-            date: DateTime.convertirEnValueType(notifiéLe),
-          },
-          identifiantProjet,
-          document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
-        } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
-      : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
+    let gfReadModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel =
+      typeGarantiesFinancières
+        ? {
+            identifiantProjet,
+            garantiesFinancières:
+              Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+                type: typeGarantiesFinancières,
+                dateÉchéance: dateÉchéanceGf,
+                attestation: this.importer.aÉtéCréé
+                  ? this.importer.attestation
+                  : attestationConstitutionGf,
+                dateConstitution: this.importer.aÉtéCréé
+                  ? this.importer.dateConstitution
+                  : dateConstitutionGf,
+              }),
+            statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
+            dernièreMiseÀJour: {
+              date: DateTime.convertirEnValueType(notifiéLe),
+            },
+            document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
+          }
+        : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
-    const readModel = actions.reduce(
-      (prev, curr) => ({
-        ...prev,
-        ...curr.mapToExpected(),
-      }),
-      garantiesFinancièresÀLaDésignation,
-    );
+    for (const action of actions) {
+      gfReadModel = action.mapToExpected();
+    }
 
     const sontÉchues =
-      readModel.garantiesFinancières.estAvecDateÉchéance() &&
-      readModel.garantiesFinancières.dateÉchéance.estPassée();
+      gfReadModel.garantiesFinancières.estAvecDateÉchéance() &&
+      gfReadModel.garantiesFinancières.dateÉchéance.estPassée();
 
     if (sontÉchues) {
-      readModel.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
+      gfReadModel.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
     }
-    return readModel;
+
+    return gfReadModel;
   }
   mapToAttestation() {
     const lastAction = [this.enregistrer, this.modifier, this.enregistrerAttestation]

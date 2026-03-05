@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getGfActuelles, getMainlevéeGf } from '../_utils/index.js';
@@ -50,9 +50,5 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
         },
       },
     },
-  );
-
-  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
-    `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
   );
 };

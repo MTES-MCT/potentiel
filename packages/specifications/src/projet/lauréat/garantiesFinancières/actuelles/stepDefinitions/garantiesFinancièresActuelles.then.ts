@@ -121,7 +121,8 @@ Alors(
         });
 
       expect(Option.isSome(actualReadModel)).to.be.true;
-      assert(Option.isSome(actualReadModel));
+      assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
+
       expect(actualReadModel.statut.estÉchu()).to.be.true;
     });
   },

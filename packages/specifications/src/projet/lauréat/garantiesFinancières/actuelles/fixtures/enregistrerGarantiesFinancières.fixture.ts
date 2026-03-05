@@ -93,19 +93,18 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return fixture;
   }
 
-  mapToExpected() {
-    const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-      type: this.#garantiesFinancièresType,
-      dateÉchéance: this.#dateÉchéance,
-      attestation: this.attestation,
-      dateConstitution: this.#dateConstitution,
-    });
-    const readModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel = {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+    return {
       identifiantProjet:
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
           .identifiantProjet,
       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-      garantiesFinancières: gf,
+      garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+        type: this.#garantiesFinancièresType,
+        dateÉchéance: this.#dateÉchéance,
+        attestation: this.attestation,
+        dateConstitution: this.#dateConstitution,
+      }),
       document: DocumentProjet.convertirEnValueType(
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
         Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
@@ -116,7 +115,9 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         date: DateTime.convertirEnValueType(this.enregistréLe),
         par: Email.convertirEnValueType(this.enregistréPar),
       },
+
+      dateLimiteSoumission: undefined,
+      motifEnAttente: undefined,
     };
-    return readModel;
   }
 }

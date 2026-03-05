@@ -9,6 +9,7 @@ export const garantiesFinancièresÉchuesProjector = async ({
     {
       garantiesFinancières: {
         statut: 'échu',
+
         dernièreMiseÀJour: {
           date: échuLe,
         },

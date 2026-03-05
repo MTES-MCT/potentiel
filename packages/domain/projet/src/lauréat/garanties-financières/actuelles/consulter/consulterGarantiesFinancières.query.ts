@@ -7,7 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 import {
   GarantiesFinancièresDétails,
   GarantiesFinancièresEntity,
-} from '../garantiesFinancièresActuelles.entity.js';
+} from '../../garantiesFinancières.entity.js';
 import {
   GarantiesFinancières,
   StatutGarantiesFinancières,
@@ -19,6 +19,8 @@ export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
+  motifEnAttente?: string;
+  dateLimiteSoumission?: DateTime.ValueType;
   document?: DocumentProjet.ValueType;
   soumisLe?: DateTime.ValueType;
   validéLe?: DateTime.ValueType;
@@ -57,16 +59,16 @@ export const registerConsulterGarantiesFinancièresQuery = ({
     }
 
     return mapToReadModel({
-      garantiesFinancières: result.garantiesFinancières,
       identifiantProjet,
+      garantiesFinancières: result.garantiesFinancières,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières', handler);
 };
 
 type MapToReadModelProps = {
-  garantiesFinancières: GarantiesFinancièresDétails;
   identifiantProjet: IdentifiantProjet.ValueType;
+  garantiesFinancières: GarantiesFinancièresDétails;
 };
 
 export const mapToReadModel = ({
@@ -79,30 +81,39 @@ export const mapToReadModel = ({
     soumisLe,
     validéLe,
     attestation,
+    motifEnAttente,
+    dateLimiteSoumission,
   },
   identifiantProjet,
-}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => ({
-  identifiantProjet,
-  statut: StatutGarantiesFinancières.convertirEnValueType(statut),
-  garantiesFinancières: GarantiesFinancières.convertirEnValueType({
-    type,
-    dateÉchéance,
-    attestation,
-    dateConstitution,
-  }),
-  soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
-  validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
-  document:
-    dateConstitution && attestation
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-          DateTime.convertirEnValueType(dateConstitution).formatter(),
-          attestation.format,
-        )
+}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
+  return {
+    identifiantProjet,
+    statut: StatutGarantiesFinancières.convertirEnValueType(statut),
+    garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+      type,
+      dateÉchéance,
+      attestation,
+      dateConstitution,
+    }),
+    soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
+    validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
+    document:
+      dateConstitution && attestation
+        ? DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+            DateTime.convertirEnValueType(dateConstitution).formatter(),
+            attestation.format,
+          )
+        : undefined,
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+      par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
+    },
+
+    motifEnAttente,
+    dateLimiteSoumission: dateLimiteSoumission
+      ? DateTime.convertirEnValueType(dateLimiteSoumission)
       : undefined,
-  dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
-  },
-});
+  };
+};
