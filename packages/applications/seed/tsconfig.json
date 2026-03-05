@@ -1,0 +1,24 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    {
+      "path": "../../domain/common"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../bootstrap"
+    },
+    {
+      "path": "../projectors"
+    },
+    {
+      "path": "../subscribers"
+    }
+  ]
+}

@@ -80,11 +80,9 @@ export type SpécificitésRolePayload =
   | RôleGrdPayload
   | RôleCocontractantPayload;
 
-export type RawType =
-  | ({
-      identifiantUtilisateur: Email.RawType;
-    } & SpécificitésRolePayload)
-  | RolePorteurPayload;
+export type RawType = {
+  identifiantUtilisateur: Email.RawType;
+} & (SpécificitésRolePayload | RolePorteurPayload);
 
 export type ValueType<TRole extends Role.RawType = Role.RawType> = ReadonlyValueType<
   (

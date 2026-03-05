@@ -1,0 +1,17 @@
+{
+  "name": "@potentiel-applications/seed",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx ./src/main.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@potentiel-applications/bootstrap": "*",
+    "@potentiel-applications/projectors": "*",
+    "@potentiel-applications/subscribers": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/utilisateur": "*"
+  }
+}
