@@ -258,10 +258,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.#tâchePlanifiéeRappel3mois.ajouter({
         àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(3),
       });
-    } else if (!this.estÉchu) {
+
+      return;
+    }
+
+    if (!this.estÉchu) {
       // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
       // Idéalement les projecteurs devrait s'éxécuter dans l'ordre des versions du stream
       await new Promise((r) => setTimeout(r, 100));
+
       await this.échoir({ échuLe });
     }
   }
@@ -417,6 +422,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     enregistréPar,
   }: EnregistrerAttestationOptions) {
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+
     if (this.aUneAttestation) {
       throw new AttestationGarantiesFinancièresDéjàExistanteError();
     }
@@ -470,6 +476,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
     await this.échoirOuPlanifierÉchéance(enregistréLe);
 
     /**

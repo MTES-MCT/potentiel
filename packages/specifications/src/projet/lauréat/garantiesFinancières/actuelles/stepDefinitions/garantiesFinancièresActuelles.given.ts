@@ -67,8 +67,14 @@ export async function enregistrerAttestation(
   const { dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrerAttestation.créer({
       enregistréPar: this.utilisateurWorld.porteurFixture.email,
+      type: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.aÉtéCréé
+        ? this.lauréatWorld.garantiesFinancièresWorld.actuelles
+            .mapToExpected()
+            .garantiesFinancières?.type.formatter()
+        : undefined,
       ...props,
     });
+
   await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
     {
       type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
@@ -93,6 +99,7 @@ export async function enregistrerGarantiesFinancièresActuelles(
       enregistréPar: this.utilisateurWorld.porteurFixture.email,
       ...props,
     });
+
   await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
     data: {

@@ -32,13 +32,13 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
         IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
       );
 
-      const projetAvecGarantiesFinancièresEnAttente =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-            data: { identifiantProjetValue },
+      const garantiesFinancières =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue,
           },
-        );
+        });
 
       const garantieFinanciereEnMoisNumber =
         famille &&
@@ -84,8 +84,8 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
               )
             : '!!! dateFinGarantieFinanciere non disponible !!!',
           dateLimiteDepotGF: formatDateForDocument(
-            Option.isSome(projetAvecGarantiesFinancièresEnAttente)
-              ? projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date
+            Option.isSome(garantiesFinancières) && garantiesFinancières.dateLimiteSoumission
+              ? garantiesFinancières.dateLimiteSoumission.date
               : undefined,
           ),
           // TODO vérifer

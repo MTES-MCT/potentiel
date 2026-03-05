@@ -96,6 +96,10 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
       `garanties-financieres|${event.payload.identifiantProjet}`,
       { identifiantProjet: event.payload.identifiantProjet, garantiesFinancières },
     );
+    await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
+      `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
+    );
+    return;
   }
 
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(

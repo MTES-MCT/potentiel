@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { GarantiesFinancièresDétails } from '../garantiesFinancièresActuelles.entity.js';
+import { GarantiesFinancièresDétails } from '../../garantiesFinancières.entity.js';
 
 export type ArchiveGarantiesFinancières = GarantiesFinancièresDétails & {
   motif:

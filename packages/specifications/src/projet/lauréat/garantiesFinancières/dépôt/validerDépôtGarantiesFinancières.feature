@@ -37,7 +37,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
+        Et l'historique des garanties financières du projet lauréat devrait être mis à jour avec :
             | type GF         | avec-date-échéance                              |
             | date d'échéance | 2024-07-17                                      |
             | statut          | échu                                            |
@@ -50,6 +50,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2050-12-02" pour le projet lauréat
 
+    # @select
     Scénario: Les nouvelles garanties financières sont échues si le dépôt de garanties financières avec date d'échéance est échu
         Etant donné un dépôt de garanties financières avec :
             | type GF         | avec-date-échéance |

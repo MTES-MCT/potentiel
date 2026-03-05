@@ -30,10 +30,12 @@ export const GarantiesFinancièresDétails = ({
   garantiesFinancières,
   estAchevé,
 }: GarantiesFinancièresDétailsProps) => {
-  const { motifGarantiesFinancièresEnAttente, dépôt, actuelles } = garantiesFinancières;
+  const { dépôt, actuelles } = garantiesFinancières;
   const motifDemandeGarantiesFinancières =
-    motifGarantiesFinancièresEnAttente &&
-    getMotifGarantiesFinancièresEnAttente(motifGarantiesFinancièresEnAttente);
+    actuelles?.motifEnAttente &&
+    getMotifGarantiesFinancièresEnAttente(
+      actuelles.motifEnAttente as Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+    );
 
   return (
     <>
