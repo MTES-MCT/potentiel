@@ -27,7 +27,7 @@ type DataLine = {
   nombre_de_projets: string;
 };
 
-export class UpdateRessource extends Command {
+export class PublierDatagouvStats extends Command {
   async run() {
     try {
       const env = envSchema.parse(process.env);
