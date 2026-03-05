@@ -11,6 +11,7 @@ export type Candidat = {
   famille: string;
   numéroCRE: string;
   statut: Candidature.StatutCandidature.RawType;
+  périodeTitle: string;
   sociétéMère?: string;
   emailContact: string;
 };

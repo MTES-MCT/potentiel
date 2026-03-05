@@ -33,7 +33,8 @@ export class NotificationWorld {
       if (notif.checked) {
         return false;
       }
-      if (sujet && !notif.subject.match(new RegExp(sujet))) {
+
+      if (sujet && !(notif.subject.match(new RegExp(sujet)) || sujet === notif.subject)) {
         return false;
       }
       if (variables) {
