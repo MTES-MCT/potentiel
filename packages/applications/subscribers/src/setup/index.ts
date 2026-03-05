@@ -1,4 +1,3 @@
-import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { seedAppelOffre, seedPériodes } from '@potentiel-applications/projectors';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -10,7 +9,6 @@ import { setupPériode } from './setupPériode.js';
 import { setupRéseau } from './setupRéseau.js';
 
 const defaultDependencies = {
-  sendEmail,
   récupérerGRDParVille,
   récupererConstitutionGarantiesFinancières:
     ProjetAdapter.récupererConstututionGarantiesFinancièresAdapter,
@@ -32,7 +30,7 @@ export const setupSubscribers = async ({ dependencies }: SetupSubscribersProps) 
   setupHistorique();
   const unsetupProjet = await setupProjet(allDependencies);
   const unsetupUtilisateur = await setupUtilisateur();
-  const unsetupPériode = await setupPériode(allDependencies);
+  const unsetupPériode = await setupPériode();
   const unsetupRéseau = await setupRéseau();
 
   return async () => {

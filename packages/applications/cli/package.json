@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@potentiel-applications/bootstrap": "*",
+    "@potentiel-applications/notifications": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
@@ -40,7 +41,6 @@
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*",
-    "@potentiel-infrastructure/email": "*",
     "@oclif/core": "4.5.0",
     "mediateur": "0.3.0",
     "zod": "4.1.9"

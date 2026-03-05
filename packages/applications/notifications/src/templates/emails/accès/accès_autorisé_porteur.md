@@ -8,6 +8,6 @@ En tant que nouveau producteur vous avez récupéré la gestion du projet **{{ n
 
 Vous devez déposer de nouvelles garanties financières pour ce projet qui seront instruites par les services de l'État en région.
 
-Pour consulter le projet, connectez-vous à Potentiel.
+Pour le consulter, connectez-vous à Potentiel.
 
 {{ cta url 'Accéder au projet' }}

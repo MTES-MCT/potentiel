@@ -1,30 +1,29 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients, NotificationHandlerProps } from '#helpers';
-
-import { candidatureNotificationTemplateId } from '../constant.js';
+import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleCandidatureCorrigée = async ({
-  sendEmail,
-  event,
-}: NotificationHandlerProps<Candidature.CandidatureCorrigéeEvent>) => {
-  if (!event.payload.doitRégénérerAttestation) {
+  payload: { identifiantProjet, doitRégénérerAttestation, nomProjet, localité },
+}: Candidature.CandidatureCorrigéeEvent) => {
+  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  if (!doitRégénérerAttestation) {
     return;
   }
 
-  const porteurs = await listerPorteursRecipients(
-    IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet),
-  );
+  const porteurs = await listerPorteursRecipients(identifiantProjetValue);
 
   await sendEmail({
-    templateId: candidatureNotificationTemplateId.attestationRegénéréePorteur,
-    messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${event.payload.nomProjet}`,
+    key: 'candidature/régénérer_attestation',
     recipients: porteurs,
-    variables: {
-      nom_projet: event.payload.nomProjet,
-      raison: 'Votre candidature a été modifiée',
-      redirect_url: `${getBaseUrl()}${Routes.Projet.details(event.payload.identifiantProjet)}`,
+    values: {
+      nom_projet: nomProjet,
+      departement_projet: localité.département,
+      appel_offre: identifiantProjet,
+      période: identifiantProjetValue.période,
+      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
     },
   });
 };

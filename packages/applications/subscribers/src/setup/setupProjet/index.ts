@@ -9,10 +9,10 @@ import { setupAccès } from './setupAccès.js';
 export const setupProjet: SetupProjet = async (dependencies) => {
   ProjetSaga.register();
 
-  const unsetupÉliminé = await setupÉliminé(dependencies);
+  const unsetupÉliminé = await setupÉliminé();
   const unsetupLauréat = await setupLauréat(dependencies);
-  const unsetupCandidature = await setupCandidature(dependencies);
-  const unsetupAccès = await setupAccès(dependencies);
+  const unsetupCandidature = await setupCandidature();
+  const unsetupAccès = await setupAccès();
 
   return async () => {
     await unsetupÉliminé();

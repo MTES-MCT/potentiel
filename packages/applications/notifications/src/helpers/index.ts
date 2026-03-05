@@ -1,4 +1,3 @@
-export type * from './NotificationHandlerProps.type.js';
 export * from './formatDateForEmail.js';
 export * from './getAppelOffre.js';
 export * from './getBaseUrl.js';
@@ -15,3 +14,4 @@ export * from './listerDrealsRecipients.js';
 export * from './listerPorteursRecipients.js';
 export * from './listerRecipientsAutoritéInstructrice.js';
 export * from './listerTeamRecipients.js';
+export * from './listerRecipients.js';

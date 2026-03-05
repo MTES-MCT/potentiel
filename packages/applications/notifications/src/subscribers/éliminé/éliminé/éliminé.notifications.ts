@@ -3,22 +3,16 @@ import { match } from 'ts-pattern';
 
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { SendEmail } from '#sendEmail';
-
 import { handleÉliminéNotifié } from './handlers/éliminéNotifié.handler.js';
 
 export type SubscriptionEvent = Éliminé.ÉliminéNotifiéEvent;
 
 export type Execute = Message<'System.Notification.Éliminé', SubscriptionEvent>;
 
-export type RegisterÉliminéNotificationDependencies = {
-  sendEmail: SendEmail;
-};
-
-export const register = ({ sendEmail }: RegisterÉliminéNotificationDependencies) => {
+export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     return await match(event)
-      .with({ type: 'ÉliminéNotifié-V1' }, (event) => handleÉliminéNotifié({ sendEmail, event }))
+      .with({ type: 'ÉliminéNotifié-V1' }, handleÉliminéNotifié)
       .exhaustive();
   };
 

@@ -2,12 +2,13 @@ import { CandidatureProjector, HistoriqueProjector } from '@potentiel-applicatio
 import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 import { ProjetSaga } from '@potentiel-domain/projet';
+import { Unsubscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
-import { SetupProjet } from './setup.js';
+type SetupCandidature = () => Promise<Unsubscribe>;
 
-export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
+export const setupCandidature: SetupCandidature = async () => {
   const candidature = createSubscriptionSetup('candidature');
 
   CandidatureProjector.register();
@@ -31,7 +32,7 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Candidature',
   });
 
-  CandidatureNotification.register({ sendEmail });
+  CandidatureNotification.register();
   await candidature.setupSubscription<
     CandidatureNotification.SubscriptionEvent,
     CandidatureNotification.Execute

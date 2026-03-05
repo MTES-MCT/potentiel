@@ -6,6 +6,6 @@ Madame, Monsieur,
 
 Une attestation de conformité et la preuve de sa transmission au co-contractant ont été **transmises** dans Potentiel pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**.
 
-Pour consulter le projet, connectez-vous à Potentiel.
+Pour le consulter, connectez-vous à Potentiel.
 
 {{ cta url 'Accéder au projet' }}

@@ -8,6 +8,6 @@ L'achèvement prévisionnel pour le projet **{{ nom_projet }} ({{ appel_offre }}
 
 Le projet doit être mis en demeure de réaliser son achèvement avant l'expiration de sa date d'achèvement prévisionnelle.
 
-Pour consulter le projet, connectez-vous à Potentiel.
+Pour le consulter, connectez-vous à Potentiel.
 
 {{ cta url 'Accéder au projet' }}

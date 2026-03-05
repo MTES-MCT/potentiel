@@ -1,48 +1,40 @@
-import { match } from 'ts-pattern';
-
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { sendEmail } from '#sendEmail';
 import { getLauréat, listerPorteursRecipients } from '#helpers';
-import { EmailPayload } from '#sendEmail';
-
-import { lauréatNotificationTemplateId } from '../constant.js';
-import { LauréatNotificationsProps } from '../type.js';
 
 export const handleCahierDesChargesChoisi = async ({
-  event: { payload },
-  sendEmail,
-}: LauréatNotificationsProps<Lauréat.CahierDesChargesChoisiEvent>) => {
-  const lauréat = await getLauréat(payload.identifiantProjet);
-  const recipients = await listerPorteursRecipients(lauréat.identifiantProjet);
-  const cahierDesCharges = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
-    payload.cahierDesCharges,
-  );
+  payload: { identifiantProjet, cahierDesCharges },
+}: Lauréat.CahierDesChargesChoisiEvent) => {
+  const projet = await getLauréat(identifiantProjet);
 
-  const messageSubject = `Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet ${lauréat.nom}`;
-  const email = match(cahierDesCharges)
-    .returnType<EmailPayload>()
-    .with({ type: 'initial' }, () => ({
-      templateId: lauréatNotificationTemplateId.cahierDesCharges.initialChoisi,
-      messageSubject,
-      recipients,
-      variables: {
-        nom_projet: lauréat.nom,
-        projet_url: lauréat.url,
-      },
-    }))
-    .with({ type: 'modifié' }, ({ paruLe, alternatif }) => ({
-      templateId: lauréatNotificationTemplateId.cahierDesCharges.modifiéChoisi,
-      messageSubject,
-      recipients,
-      variables: {
-        nom_projet: lauréat.nom,
-        projet_url: lauréat.url,
-        cdc_date: paruLe,
-        cdc_alternatif: alternatif ? 'alternatif ' : '',
-      },
-    }))
-    .exhaustive();
+  const recipients = await listerPorteursRecipients(projet.identifiantProjet);
+  const cdc = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(cahierDesCharges);
 
-  await sendEmail(email);
+  const commonValues = {
+    nom_projet: projet.nom,
+    departement_projet: projet.département,
+    appel_offre: projet.identifiantProjet.appelOffre,
+    période: projet.identifiantProjet.période,
+    url: projet.url,
+  };
+
+  if (cdc.type === 'initial') {
+    return await sendEmail({
+      key: 'lauréat/cahier-des-charges/choisir_initial',
+      recipients,
+      values: commonValues,
+    });
+  } else {
+    return await sendEmail({
+      key: 'lauréat/cahier-des-charges/choisir_modifié',
+      recipients,
+      values: {
+        ...commonValues,
+        cdc_date: cdc.paruLe,
+        cdc_alternatif: cdc.alternatif ? 'alternatif ' : '',
+      },
+    });
+  }
 };

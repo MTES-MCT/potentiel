@@ -22,7 +22,7 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
 
 export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string) {
   await sleep(500);
-  this.notificationWorld.vérifierAucunEmailsEnvoyés(email);
+  this.notificationWorld.vérifierAucunEmailEnvoyé(email);
 }
 
 Alors(

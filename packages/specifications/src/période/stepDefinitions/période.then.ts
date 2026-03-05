@@ -121,9 +121,9 @@ Alors(
         const identifiantProjet = IdentifiantProjet.bind(candidat);
         this.notificationWorld.vérifierNotification(
           candidat.emailContact,
-          "Résultats de la .* période de l'appel d'offres .*",
+          `Potentiel - Résultats pour le projet ${candidat.nomProjet} (${candidat.périodeTitle} période de l'appel d'offres ${candidat.appelOffre})`,
           {
-            redirect_url: `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
+            url: `https://potentiel.beta.gouv.fr${Routes.Projet.details(identifiantProjet.formatter())}`,
           },
         );
       }

@@ -63,16 +63,6 @@ Alors(
 );
 
 Alors(
-  'le porteur a été prévenu que son attestation a été modifiée',
-  async function (this: PotentielWorld) {
-    this.notificationWorld.vérifierNotification(
-      this.candidatureWorld.importerCandidature.values.emailContactValue,
-      'Potentiel - Une nouvelle attestation est disponible pour le projet .*',
-    );
-  },
-);
-
-Alors(
   "l'attestation de désignation de la candidature devrait être consultable",
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.candidatureWorld.importerCandidature;

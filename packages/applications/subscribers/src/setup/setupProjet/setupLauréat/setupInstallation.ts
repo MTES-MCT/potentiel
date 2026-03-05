@@ -2,9 +2,8 @@ import { HistoriqueProjector, InstallationProjector } from '@potentiel-applicati
 import { InstallationNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
-import { SetupProjet } from '../setup.js';
 
-export const setupInstallation: SetupProjet = async () => {
+export const setupInstallation = async () => {
   const installation = createSubscriptionSetup('installation');
 
   InstallationProjector.register();

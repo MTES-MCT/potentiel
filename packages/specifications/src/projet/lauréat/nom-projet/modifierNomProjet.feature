@@ -1,5 +1,6 @@
 # language: fr
 @lauréat
+@nom-projet
 Fonctionnalité: Modifier le nom d'un projet lauréat
 
     Contexte:
@@ -11,13 +12,11 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
         Quand un administrateur modifie le nom du projet
         Alors le projet lauréat devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet             | Potentiel - Modification du nom du projet Du boulodrome de Marseille dans le département(.*) |
-            | ancien_nom_projet | Du boulodrome de Marseille                                                                   |
-            | url               | https://potentiel.beta.gouv.fr/projets/.*                                                    |
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification du nom du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                             |
         Et un email a été envoyé à la dreal avec :
-            | sujet             | Potentiel - Modification du nom du projet Du boulodrome de Marseille dans le département(.*) |
-            | ancien_nom_projet | Du boulodrome de Marseille                                                                   |
-            | url               | https://potentiel.beta.gouv.fr/projets/.*                                                    |
+            | sujet | Potentiel - Du boulodrome de Marseille - Modification du nom du projet |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                             |
 
     Scénario: Modifier le nom d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"

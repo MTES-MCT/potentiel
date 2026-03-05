@@ -7,8 +7,6 @@ import {
   UtilisateurInvitéEvent,
 } from '@potentiel-domain/utilisateur';
 
-import { SendEmail } from '#sendEmail';
-
 import {
   handlePorteurInvité,
   handleRôleUtilisateurModifié,
@@ -21,10 +19,6 @@ export type SubscriptionEvent =
   | RôleUtilisateurModifiéEvent;
 
 export type Execute = Message<'System.Notification.Utilisateur', SubscriptionEvent>;
-
-export type RegisterUtilisateurNotificationDependencies = {
-  sendEmail: SendEmail;
-};
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>

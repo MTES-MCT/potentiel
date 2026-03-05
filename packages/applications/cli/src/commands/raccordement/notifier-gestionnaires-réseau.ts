@@ -7,7 +7,6 @@ import {
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { sendEmail } from '@potentiel-infrastructure/email';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
@@ -16,6 +15,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
+import { sendEmail } from '@potentiel-applications/notifications';
 
 export class NotifierGestionnaireRéseau extends Command {
   static monitoringSlug = 'notification-grd';
@@ -98,14 +98,15 @@ export class NotifierGestionnaireRéseau extends Command {
         logger.warn(`No recipient found for ${gestionnaire.raisonSociale} (${codeEIC})`);
         continue;
       }
+
       await sendEmail({
-        templateId: 6540182,
-        messageSubject: `Potentiel - Des dossiers de raccordement sont en attente de mise en service`,
-        recipients,
-        variables: {
+        key: 'lauréat/raccordement/dossiers_en_attente',
+        recipients: recipients.map(({ email }) => email),
+        values: {
           url: Routes.Raccordement.lister,
         },
       });
+
       logger.info(`Email sent for ${gestionnaire.raisonSociale} (${codeEIC})`);
     }
   }

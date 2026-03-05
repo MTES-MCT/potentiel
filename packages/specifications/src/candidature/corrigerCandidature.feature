@@ -35,7 +35,9 @@ Fonctionnalité: Corriger une candidature
         Et l'attestation de désignation de la candidature devrait être consultable
         Et l'attestation de désignation de la candidature devrait être régénérée
         Et le détail de la candidature devrait être consultable
-        Et le porteur a été prévenu que son attestation a été modifiée
+        Et un email a été envoyé au porteur avec :
+            | sujet | Potentiel - Boulodrome Sainte Livrade - Nouvelle attestation disponible |
+            | url   | https://potentiel.beta.gouv.fr/projets/.*                               |
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"

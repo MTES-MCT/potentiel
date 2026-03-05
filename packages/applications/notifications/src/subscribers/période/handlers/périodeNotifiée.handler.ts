@@ -1,42 +1,37 @@
 import { Période } from '@potentiel-domain/periode';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl, NotificationHandlerProps } from '#helpers';
-
-import { périodeNotificationTemplateId } from '../constant.js';
-import { listerRecipients } from '../../../helpers/listerRecipients.js';
+import { getBaseUrl } from '#helpers';
+import { sendEmail } from '#sendEmail';
+import { listerRecipients } from '#helpers';
 
 export const handlePériodeNotifiée = async ({
-  event,
-  sendEmail,
-}: NotificationHandlerProps<Période.PériodeNotifiéeEvent>) => {
-  const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
-    event.payload.identifiantPériode,
-  );
+  payload: { identifiantPériode, notifiéeLe },
+}: Période.PériodeNotifiéeEvent) => {
+  const identifiantPériodeValueType =
+    Période.IdentifiantPériode.convertirEnValueType(identifiantPériode);
 
-  const usersOthersThanDGECOrPorteur = await listerRecipients({
+  const utilisateursAutresQuePorteurs = await listerRecipients({
     roles: [
-      'admin',
-      'dreal',
-      'cocontractant',
-      'ademe',
-      'dgec-validateur',
-      'caisse-des-dépôts',
-      'cre',
+      Role.admin.nom,
+      Role.dreal.nom,
+      Role.cocontractant.nom,
+      Role.ademe.nom,
+      Role.caisseDesDépôts.nom,
+      Role.cre.nom,
+      Role.dgecValidateur.nom,
     ],
   });
 
-  const baseUrl = getBaseUrl();
-
-  for (const { email } of usersOthersThanDGECOrPorteur) {
+  for (const { email } of utilisateursAutresQuePorteurs) {
     await sendEmail({
-      templateId: périodeNotificationTemplateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
+      key: 'période/notifier',
       recipients: [{ email }],
-      messageSubject: `Potentiel - Notification de la période ${identifiantPériode.période} de l'appel d'offres ${identifiantPériode.appelOffre}`,
-      variables: {
-        appel_offre: identifiantPériode.appelOffre,
-        periode: identifiantPériode.période,
-        date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-        redirect_url: baseUrl,
+      values: {
+        appel_offre: identifiantPériodeValueType.appelOffre,
+        période: identifiantPériodeValueType.période,
+        date_notification: new Date(notifiéeLe).toLocaleDateString('fr-FR'),
+        url: getBaseUrl(),
       },
     });
   }

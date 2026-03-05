@@ -1,4 +1,5 @@
 # language: fr
+@lauréat
 @cahier-des-charges
 Fonctionnalité: Choisir un cahier des charges
 
@@ -9,11 +10,10 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors le cahier des charges devrait être modifié
         Et un email a été envoyé au porteur avec :
-            | sujet          | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
-            | nom_projet     | Du boulodrome de Marseille                                                                                      |
-            | projet_url     | https://potentiel.beta.gouv.fr/laureats/.*                                                                      |
-            | cdc_date       | 30/08/2022                                                                                                      |
-            | cdc_alternatif |                                                                                                                 |
+            | sujet          | Potentiel - Du boulodrome de Marseille - Nouveau cahier des charges choisi |
+            | url            | https://potentiel.beta.gouv.fr/laureats/.*                                 |
+            | cdc_date       | 30/08/2022                                                                 |
+            | cdc_alternatif |                                                                            |
 
     Scénario: Choisir le cahier des charges initial après avoir choisi un cahier des charges modifié
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -23,9 +23,8 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "initial"
         Alors le cahier des charges devrait être modifié
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
-            | nom_projet | Du boulodrome de Marseille                                                                                      |
-            | projet_url | https://potentiel.beta.gouv.fr/laureats/.*                                                                      |
+            | sujet | Potentiel - Du boulodrome de Marseille - Nouveau cahier des charges choisi |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                 |
 
     Scénario: Impossible de choisir un cahier des charges identique au cahier des charges actuel
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
