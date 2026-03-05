@@ -1,29 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import {
+  removeProjection,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
-import { getGfActuelles, getMainlevéeGf } from '../_utils/index.js';
+import { getMainlevéeGf } from '../_utils/index.js';
 
 export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
   payload: { identifiantProjet, accordéLe, accordéPar, réponseSignée },
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent) => {
   const mainlevéeAAccorder = await getMainlevéeGf(identifiantProjet);
-  const gfActuelles = await getGfActuelles(identifiantProjet);
 
-  if (!gfActuelles) {
-    if (!gfActuelles) {
-      getLogger().error(`garanties financières non trouvé`, {
-        identifiantProjet,
-        fonction: 'demandeMainlevéeGarantiesFinancièresAccordéeProjector',
-      });
-      return;
-    }
-  }
-
-  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
     {
-      ...mainlevéeAAccorder,
       statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
       accord: {
         accordéeLe: accordéLe,
@@ -37,12 +27,10 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     },
   );
 
-  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
-      ...gfActuelles,
       garantiesFinancières: {
-        ...gfActuelles.garantiesFinancières,
         statut: 'levé',
         dernièreMiseÀJour: {
           date: accordéLe,

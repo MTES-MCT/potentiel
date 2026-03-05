@@ -1,5 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  removeProjection,
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getArchivesGf, getDépôtGf, getGfActuelles } from '../_utils/index.js';
@@ -54,16 +58,13 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
       },
     );
 
-    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
-        ...gfActuelles,
         garantiesFinancières: {
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
           type: dépôtExistant.dépôt.type,
-          ...(dépôtExistant.dépôt.dateÉchéance && {
-            dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
-          }),
+          dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
 
           attestation: dépôtExistant.dépôt.attestation,
           dateConstitution: dépôtExistant.dépôt.dateConstitution,
@@ -84,9 +85,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         garantiesFinancières: {
           statut: 'validé',
           type: dépôtExistant.dépôt.type,
-          ...(dépôtExistant.dépôt.dateÉchéance && {
-            dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
-          }),
+          dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
           attestation: dépôtExistant.dépôt.attestation,
           dateConstitution: dépôtExistant.dépôt.dateConstitution,
           validéLe,

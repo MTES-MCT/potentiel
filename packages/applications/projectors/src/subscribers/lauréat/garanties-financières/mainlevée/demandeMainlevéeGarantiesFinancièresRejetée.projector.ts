@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getMainlevéeGf } from '../_utils/index.js';
 
@@ -8,10 +8,9 @@ export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent) => {
   const mainlevéeARejeter = await getMainlevéeGf(identifiantProjet);
 
-  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
     {
-      ...mainlevéeARejeter,
       statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
       rejet: {
         rejetéLe,
