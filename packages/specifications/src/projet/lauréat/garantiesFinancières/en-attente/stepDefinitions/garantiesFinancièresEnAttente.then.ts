@@ -1,5 +1,5 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -49,16 +49,21 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const result =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
           },
-        );
+        });
 
-      expect(Option.isNone(result)).to.be.true;
+      assert(
+        Option.isSome(result),
+        'Les garanties financières en attente du projet sont introuvables',
+      );
+
+      expect(result.statut.estEnAttente()).to.be.false;
+      expect(result.motifEnAttente).to.be.undefined;
+      expect(result.dateLimiteSoumission).to.be.undefined;
     });
   },
 );
@@ -71,23 +76,32 @@ async function vérifierGarantiesFinancièresAttendues(
 ) {
   await waitForExpect(async () => {
     const actualReadModel =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
-      );
+      });
 
     if (Option.isNone(actualReadModel)) {
       throw new Error(
         `Le read model des garanties financières en attente pour le projet ${identifiantProjet.formatter()} n'existe pas`,
       );
     }
-    expect(actualReadModel.motif.motif).to.deep.equal(motif);
+
+    assert(
+      actualReadModel.motifEnAttente,
+      'Le motif des garanties financières en attente doit être défini',
+    );
+
+    expect(actualReadModel.motifEnAttente).to.deep.equal(motif);
 
     if (dateLimiteSoumission) {
+      assert(
+        actualReadModel.dateLimiteSoumission,
+        'La date limite de soumission des garanties financières en attente doit être définie',
+      );
+
       expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
         new Date(dateLimiteSoumission),
       );

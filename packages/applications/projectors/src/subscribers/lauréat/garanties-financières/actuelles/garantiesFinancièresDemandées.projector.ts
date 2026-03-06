@@ -4,14 +4,19 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const garantiesFinancièresDemandéesProjector = async ({
   payload: { identifiantProjet, demandéLe, motif, dateLimiteSoumission },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent) => {
-  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
-    `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
-      motif,
-      dateLimiteSoumission,
-      dernièreMiseÀJour: {
-        date: demandéLe,
+      garantiesFinancières: {
+        statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
+        motifEnAttente: motif,
+        dateLimiteSoumission,
+        type: 'type-inconnu',
+        dateÉchéance: undefined,
+        dernièreMiseÀJour: {
+          date: demandéLe,
+        },
       },
     },
   );

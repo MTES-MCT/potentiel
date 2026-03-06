@@ -10,11 +10,10 @@ export type * from './mainlevée/mainlevéeGarantiesFinancières.queries.js';
 export type * from './en-attente/garantiesFinancièresEnAttente.queries.js';
 
 // Entities
+export type * from './garantiesFinancières.entity.js';
 export type * from './dépôt/dépôtGarantiesFinancières.entity.js';
-export type * from './actuelles/garantiesFinancièresActuelles.entity.js';
 export type * from './actuelles/archives/archivesGarantiesFinancières.entity.js';
 export type * from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
-export type * from './en-attente/garantiesFinancièresEnAttente.entity.js';
 
 // Events
 export type * from './garantiesFinancières.event.js';

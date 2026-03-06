@@ -4,8 +4,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
 import {
-  GarantiesFinancièresEnAttenteEntity,
+  GarantiesFinancièresEntity,
   MotifDemandeGarantiesFinancières,
+  StatutGarantiesFinancières,
 } from '../../index.js';
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
@@ -66,36 +67,37 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<GarantiesFinancièresEnAttenteEntity, [LauréatEntity]>(
-      'projet-avec-garanties-financieres-en-attente',
-      {
-        orderBy: { dernièreMiseÀJour: { date: 'descending' } },
-        range,
-        where: {
-          identifiantProjet: Where.matchAny(scope.identifiantProjets),
-          motif: Where.equal(motif),
+    } = await list<GarantiesFinancièresEntity, [LauréatEntity]>('garanties-financieres', {
+      orderBy: { garantiesFinancières: { dernièreMiseÀJour: { date: 'descending' } } },
+      range,
+      where: {
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
+
+        garantiesFinancières: {
+          statut: Where.equal(StatutGarantiesFinancières.enAttente.statut),
+          motifEnAttente: Where.equal(motif),
         },
-        join: [
-          {
-            entity: 'lauréat',
-            on: 'identifiantProjet',
-            where: {
-              appelOffre: appelOffre?.length
-                ? Where.matchAny(appelOffre)
-                : cycle
-                  ? cycle === 'PPE2'
-                    ? Where.like('PPE2')
-                    : Where.notLike('PPE2')
-                  : undefined,
-              localité: {
-                région: Where.matchAny(scope.régions),
-              },
-              statut: Where.equal(statut),
-            },
-          },
-        ],
       },
-    );
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: appelOffre?.length
+              ? Where.matchAny(appelOffre)
+              : cycle
+                ? cycle === 'PPE2'
+                  ? Where.like('PPE2')
+                  : Where.notLike('PPE2')
+                : undefined,
+            localité: {
+              région: Where.matchAny(scope.régions),
+            },
+            statut: Where.equal(statut),
+          },
+        },
+      ],
+    });
 
     return {
       items: items.map((item) => mapToReadModel(item)),
@@ -113,15 +115,17 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 const mapToReadModel = ({
   lauréat: { nomProjet, statut },
   identifiantProjet,
-  motif,
-  dateLimiteSoumission,
-  dernièreMiseÀJour: { date },
-}: GarantiesFinancièresEnAttenteEntity &
+  garantiesFinancières: {
+    motifEnAttente,
+    dateLimiteSoumission,
+    dernièreMiseÀJour: { date },
+  },
+}: GarantiesFinancièresEntity &
   Joined<[LauréatEntity]>): GarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
-  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motifEnAttente!),
+  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission!),
   statut: StatutLauréat.convertirEnValueType(statut),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),

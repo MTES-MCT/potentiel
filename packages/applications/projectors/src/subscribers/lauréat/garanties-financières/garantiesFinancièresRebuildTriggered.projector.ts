@@ -16,10 +16,6 @@ export const garantiesFinancièresRebuildTriggeredProjector = async ({
     `depot-en-cours-garanties-financieres`,
     id,
   );
-  await clearProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
-    `projet-avec-garanties-financieres-en-attente`,
-    id,
-  );
 
   await clearProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
     `archives-garanties-financieres`,

@@ -1,9 +1,11 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { StatutGarantiesFinancières } from '../index.js';
+import { StatutGarantiesFinancières } from './index.js';
 
 export type GarantiesFinancièresDétails = {
   statut: StatutGarantiesFinancières.RawType;
+  motifEnAttente?: string;
+  dateLimiteSoumission?: string;
   type: string;
   dateÉchéance?: string;
   attestation?: { format: string };

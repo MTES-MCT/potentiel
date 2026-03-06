@@ -8,12 +8,15 @@ export const attestationGarantiesFinancièresEnregistréeProjector = async ({
     `garanties-financieres|${identifiantProjet}`,
     {
       garantiesFinancières: {
+        statut: 'validé',
         dateConstitution,
         attestation,
         dernièreMiseÀJour: {
           par: enregistréPar,
           date: enregistréLe,
         },
+        motifEnAttente: undefined,
+        dateLimiteSoumission: undefined,
       },
     },
   );
