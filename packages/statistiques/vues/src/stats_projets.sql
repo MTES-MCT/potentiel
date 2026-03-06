@@ -1,6 +1,7 @@
 DROP VIEW IF EXISTS domain_views.stats_projets;
 CREATE VIEW domain_views.stats_projets AS 
 SELECT proj.value->>'identifiantProjet' AS id,
+  ao.value->>'cycleAppelOffre' as "cycleAppelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 1) as "appelOffre",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 2)::float as "periode",
   SPLIT_PART(proj.value->>'identifiantProjet', '#', 3) as "famille",
@@ -43,6 +44,10 @@ FROM domain_views.projection proj
   INNER JOIN domain_views.projection cand on cand.key = format(
     'candidature|%s',
     proj.value->>'identifiantProjet'
+  )
+  INNER JOIN domain_views.projection ao on ao.key = format(
+    'appel-offre|%s',
+    SPLIT_PART(proj.value->>'identifiantProjet', '#', 1)
   )
   LEFT JOIN domain_views.projection puiss on puiss.key = format(
     'puissance|%s',

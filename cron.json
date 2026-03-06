@@ -31,6 +31,10 @@
     {
       "command": "0 2 * * * potentiel-cli tache-planifiee executer",
       "size": "M"
+    },
+    {
+      "command": "0 4 * * 0 potentiel-cli datagouv update-ressource",
+      "size": "M"
     }
   ]
 }
