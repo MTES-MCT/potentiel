@@ -70,6 +70,10 @@ export const sendEmailV2 = async ({ content, subject, recipients }: EmailOptions
       html: content,
       to: recipients.join(';'),
       from: transporter.options.from!,
+      headers: {
+        // suppress out-of-office auto-replies
+        'X-Auto-Response-Suppress': 'All',
+      },
     }),
   );
 
