@@ -16,6 +16,7 @@ export const computeIndicateursProjetsAgrégés = async () => {
       "departement" as "departement_projet",
       "typeActionnariat" as "type_actionnariat",
       "dateNotification" as "date_de_notification", 
+      "unitePuissance" as "unite_puissance",
       SUM("puissance") as "puissance_cumulee",
       AVG("puissance") as "puissance_moyenne",
       AVG("evaluationCarbone") as "ecs_moyenne",
@@ -23,9 +24,9 @@ export const computeIndicateursProjetsAgrégés = async () => {
     from 
       domain_views.stats_projets
     group by 
-       "cycleAppelOffre", "appelOffre", "periode", "famille", "statut", "region", "departement", "dateNotification", "typeActionnariat"
+       "cycleAppelOffre", "appelOffre", "periode", "famille", "statut", "region", "departement", "dateNotification", "typeActionnariat", "unitePuissance"
     order by 
-       "cycleAppelOffre", "appelOffre", "periode", "famille", "statut", "region", "departement", "dateNotification", "typeActionnariat";
+       "cycleAppelOffre", "appelOffre", "periode", "famille", "statut", "region", "departement", "dateNotification", "typeActionnariat", "unitePuissance";
     `,
   );
 };

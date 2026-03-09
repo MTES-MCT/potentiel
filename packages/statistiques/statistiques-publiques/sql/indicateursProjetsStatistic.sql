@@ -8,6 +8,7 @@ create table if not exists domain_public_statistic.indicateurs_projets (
   departement_projet varchar not null,
   type_actionnariat varchar,
   date_de_notification timestamp not null,
+  unite_puissance varchar not null,
   puissance_cumulee decimal not null,
   puissance_moyenne decimal not null,
   ecs_moyenne decimal not null, 

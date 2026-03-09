@@ -22,6 +22,7 @@ type DataLine = {
   departement_projet: string;
   type_actionnariat?: string;
   date_de_notification: string;
+  unite_puissance: string;
   puissance_cumulee: string;
   puissance_moyenne: string;
   ecs_moyenne: string;
@@ -68,6 +69,7 @@ export class PublierDatagouvStats extends Command {
         'departement_projet',
         'type_actionnariat',
         'date_de_notification',
+        'unite_puissance',
         'puissance_cumulee',
         'puissance_moyenne',
         'ecs_moyenne',
