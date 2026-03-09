@@ -50,7 +50,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2050-12-02" pour le projet lauréat
 
-    # @select
     Scénario: Les nouvelles garanties financières sont échues si le dépôt de garanties financières avec date d'échéance est échu
         Etant donné un dépôt de garanties financières avec :
             | type GF         | avec-date-échéance |

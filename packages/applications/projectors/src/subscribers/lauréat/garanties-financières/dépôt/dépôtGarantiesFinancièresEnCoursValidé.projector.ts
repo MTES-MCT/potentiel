@@ -105,4 +105,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
   );
+
+  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
+    `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
+  );
 };

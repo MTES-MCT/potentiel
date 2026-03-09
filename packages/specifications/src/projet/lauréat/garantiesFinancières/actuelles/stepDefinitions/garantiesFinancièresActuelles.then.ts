@@ -57,7 +57,11 @@ Alors(
             identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
-      expect(Option.isNone(garantiesFinancièresActuelles)).to.be.true;
+
+      assert(Option.isSome(garantiesFinancièresActuelles), 'Garanties financières manquante');
+
+      expect(garantiesFinancièresActuelles.statut.estEnAttente()).to.be.true;
+      expect(garantiesFinancièresActuelles.garantiesFinancières.type.estInconnu()).to.be.true;
     });
   },
 );

@@ -64,14 +64,14 @@ export async function enregistrerAttestation(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: Partial<EnregistrerGarantiesFinancièresProps>,
 ) {
+  const typeGFExistant = this.lauréatWorld.garantiesFinancièresWorld
+    .mapToExpected()
+    .garantiesFinancières?.type.formatter();
+
   const { dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrerAttestation.créer({
       enregistréPar: this.utilisateurWorld.porteurFixture.email,
-      type: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.aÉtéCréé
-        ? this.lauréatWorld.garantiesFinancièresWorld.actuelles
-            .mapToExpected()
-            .garantiesFinancières?.type.formatter()
-        : undefined,
+      ...(typeGFExistant && { type: typeGFExistant }),
       ...props,
     });
 

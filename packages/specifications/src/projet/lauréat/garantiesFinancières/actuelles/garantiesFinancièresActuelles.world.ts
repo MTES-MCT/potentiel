@@ -93,6 +93,7 @@ export class GarantiesFinancièresActuellesWorld {
     }
 
     const sontÉchues =
+      Object.keys(gfReadModel).length &&
       gfReadModel.garantiesFinancières.estAvecDateÉchéance() &&
       gfReadModel.garantiesFinancières.dateÉchéance.estPassée();
 
