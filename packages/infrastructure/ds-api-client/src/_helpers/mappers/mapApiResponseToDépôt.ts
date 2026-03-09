@@ -21,7 +21,7 @@ const colonnes = {
   nomReprésentantLégal: `NOM et Prénom du représentant légal`,
   emailContact: 'Adresse électronique du contact',
   nomProjet: 'Nom du projet',
-  puissance: 'Puissance installée P',
+  puissance: 'Puissance installée',
   puissanceDeSite: 'Puissance P+Q',
   prixReference: 'Prix unitaire de référence',
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
