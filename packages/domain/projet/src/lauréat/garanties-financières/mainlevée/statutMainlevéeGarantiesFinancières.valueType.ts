@@ -9,6 +9,8 @@ import {
 
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;
 
+export const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'] as const;
+
 export type RawType = (typeof statuts)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
@@ -80,7 +82,7 @@ export const bind = <Type extends RawType = RawType>({
   };
 };
 
-export const convertirEnValueType = <Type extends RawType = RawType>(statut: string): ValueType => {
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string) => {
   estValide(statut);
   return bind<Type>({ statut });
 };
