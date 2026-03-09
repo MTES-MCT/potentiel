@@ -52,7 +52,8 @@ export const mapApiResponseToDépôt = ({
   } satisfies Record<keyof Candidature.Dépôt.RawType['autorisation'], string>);
 
   const accessorDispositifDeStockage = createDossierAccessor(champs, {
-    installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+    installationAvecDispositifDeStockage:
+      "L'Installation est-elle couplée à un dispositif de stockage ?",
     capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
     puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
