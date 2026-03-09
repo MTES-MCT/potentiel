@@ -86,12 +86,17 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         archives: archivesGf ? [...archivesGf.archives, archiveÀAjouter] : [archiveÀAjouter],
       },
     );
-  }
 
-  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
-    `garanties-financieres|${event.payload.identifiantProjet}`,
-    { garantiesFinancières },
-  );
+    await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+      `garanties-financieres|${event.payload.identifiantProjet}`,
+      { garantiesFinancières },
+    );
+  } else {
+    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+      `garanties-financieres|${event.payload.identifiantProjet}`,
+      { identifiantProjet: event.payload.identifiantProjet, garantiesFinancières },
+    );
+  }
 
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
