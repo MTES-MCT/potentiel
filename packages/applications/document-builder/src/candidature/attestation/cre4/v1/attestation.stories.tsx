@@ -51,7 +51,7 @@ const fakeProject: AttestationCRE4Options = {
   technologie: 'eolien',
   unitePuissance: 'MW',
   coefficientKChoisi: undefined,
-  autorisationDUrbanisme: undefined,
+  autorisation: undefined,
 };
 
 export const ElimineAuDessusDePcible: Story = {

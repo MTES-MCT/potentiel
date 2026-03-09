@@ -81,7 +81,7 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.dispositifDeStockage ||
     champsSupplémentaires.natureDeLExploitation ||
     champsSupplémentaires.typologieInstallation ||
-    champsSupplémentaires.autorisationDUrbanisme
+    champsSupplémentaires.autorisation
   );
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')

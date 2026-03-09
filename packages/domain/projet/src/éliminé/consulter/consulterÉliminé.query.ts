@@ -26,7 +26,7 @@ export type ConsulterÉliminéReadModel = {
   | 'prixReference'
   | 'nomReprésentantLégal'
   | 'sociétéMère'
-  | 'autorisationDUrbanisme'
+  | 'autorisation'
   | 'actionnariat'
   | 'evaluationCarboneSimplifiée'
 >;
@@ -83,10 +83,10 @@ const mapToReadModel: MapToReadModel = (
   puissanceDeSite: candidature.dépôt.puissanceDeSite,
   unitéPuissance: candidature.unitéPuissance,
   attestationDésignation: candidature.notification?.attestation,
-  autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme
+  autorisation: candidature.dépôt.autorisation
     ? {
-        date: candidature.dépôt.autorisationDUrbanisme.date,
-        numéro: candidature.dépôt.autorisationDUrbanisme.numéro,
+        date: candidature.dépôt.autorisation.date,
+        numéro: candidature.dépôt.autorisation.numéro,
       }
     : undefined,
   actionnariat: candidature.dépôt.actionnariat,

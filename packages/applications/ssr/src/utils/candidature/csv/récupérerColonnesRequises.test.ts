@@ -49,16 +49,12 @@ test(`Récupérer les colonnes requises de candidature csv sans champs suppléme
 test(`Récupérer les colonnes requises de candidature csv avec champs supplémentaires`, () => {
   const colonnesChampsSupplémentaires = [
     'indexation_k',
-    "Date d'obtention de l'autorisation d'urbanisme",
-    "Numéro de l'autorisation d'urbanisme",
+    "date d'obtention de l'autorisation",
+    "numéro de l'autorisation",
   ];
 
   const actual = récupérerColonnesRequises({
-    champsSupplémentaires: [
-      ...champsSupplémentaires,
-      'coefficientKChoisi',
-      'autorisationDUrbanisme',
-    ],
+    champsSupplémentaires: [...champsSupplémentaires, 'coefficientKChoisi', 'autorisation'],
   });
 
   expect(actual).to.have.members([...colonnesCommunes, ...colonnesChampsSupplémentaires]);

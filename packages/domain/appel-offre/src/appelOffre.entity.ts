@@ -269,7 +269,7 @@ const champsCandidature = [
    * puissance de site = P + Q
    */
   'puissanceDeSite',
-  'autorisationDUrbanisme',
+  'autorisation',
   'installateur',
   'dispositifDeStockage',
   'natureDeLExploitation',
