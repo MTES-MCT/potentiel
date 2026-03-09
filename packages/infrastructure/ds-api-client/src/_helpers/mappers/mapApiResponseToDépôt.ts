@@ -35,7 +35,7 @@ const colonnes = {
 
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
-  coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
+  coefficientKChoisi: "Souhaitez-vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 type MapApiResponseToDépôt = {
