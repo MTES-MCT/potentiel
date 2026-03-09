@@ -4,8 +4,7 @@ import { getTypeGarantiesFinancières } from './getTypeGarantiesFinancières.js'
 
 const gfDateLabels = {
   exemption: "Date de la délibération portant sur le projet objet de l'offre",
-  consignation: 'Date de la consignation',
-  'avec-date-échéance': "Date de prise d'effet de la garantie financière",
+  exécution: "Date de la garantie financière d'exécution",
 } as const;
 
 export const getDateConstitutionGarantiesFinancières = (
@@ -14,13 +13,12 @@ export const getDateConstitutionGarantiesFinancières = (
 ) => {
   if (!typeGarantiesFinancieres) return undefined;
 
-  const label = gfDateLabels[typeGarantiesFinancieres];
-  if (!label) return undefined;
-
-  const accessor = createDossierAccessor(champs, { dateConstitutionGf: label } as Record<
-    'dateConstitutionGf',
-    string
-  >);
+  const accessor = createDossierAccessor(champs, {
+    dateConstitutionGf:
+      typeGarantiesFinancieres === 'exemption'
+        ? gfDateLabels['exemption']
+        : gfDateLabels['exécution'],
+  } as Record<'dateConstitutionGf', string>);
 
   return accessor.getDateValue('dateConstitutionGf');
 };

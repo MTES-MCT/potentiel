@@ -26,7 +26,7 @@ const colonnes = {
   prixReference: 'Prix unitaire de référence',
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
-  typeGarantiesFinancières: 'Type de garantie financière',
+  typeGarantiesFinancières: "Type de garantie financière d'exécution",
 
   localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',
