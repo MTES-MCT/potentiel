@@ -29,7 +29,7 @@ const colonnes = {
   typeGarantiesFinancières: "Type de garantie financière d'exécution",
 
   localité: 'Adresse postale du site de production',
-  historiqueAbandon: 'Préciser le statut du projet',
+  historiqueAbandon: "Le projet a-t-il fait l'objet d'une candidature précédemment ?",
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
 
