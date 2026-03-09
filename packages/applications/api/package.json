@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc",
     "test": "tsx --test **/*.test.ts",
+    "dev": "tsx --watch ./bin/dev.js",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "imports": {

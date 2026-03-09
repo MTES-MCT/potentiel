@@ -5,7 +5,7 @@ import { Raccordement } from '@potentiel-applications/api-documentation';
 
 import { getUtilisateur, mapToRangeOptions } from '#helpers';
 
-export const listerManquantsHandlers: Raccordement['listerManquants'] = async (_, options) => {
+export const listerManquantsHandler: Raccordement['listerManquants'] = async (_, options) => {
   const utilisateur = getUtilisateur();
   const { after } = options ?? {};
 
