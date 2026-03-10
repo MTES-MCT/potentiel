@@ -1,17 +1,19 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-
-import { getMainlevéeGf } from '../_utils/index.js';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 
 export const instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjector = async ({
   payload: { identifiantProjet, démarréLe, démarréPar },
 }: Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent) => {
-  const mainlevéeAInstruire = await getMainlevéeGf(identifiantProjet);
-
-  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-    `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAInstruire.demande.demandéeLe}`,
+  await updateManyProjections<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres`,
     {
-      ...mainlevéeAInstruire,
+      identifiantProjet: Where.equal(identifiantProjet),
+      statut: Where.equal(
+        Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+      ),
+    },
+    {
       statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
       instruction: { démarréeLe: démarréLe, démarréePar: démarréPar },
       dernièreMiseÀJour: {

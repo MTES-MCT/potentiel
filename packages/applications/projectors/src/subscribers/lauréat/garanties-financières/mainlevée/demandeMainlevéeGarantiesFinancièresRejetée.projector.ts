@@ -1,17 +1,20 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-
-import { getMainlevéeGf } from '../_utils/index.js';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
+import { Where } from '@potentiel-domain/entity';
 
 export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
   payload: { identifiantProjet, rejetéLe, rejetéPar, réponseSignée },
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent) => {
-  const mainlevéeARejeter = await getMainlevéeGf(identifiantProjet);
-
-  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-    `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
+  await updateManyProjections<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres`,
     {
-      ...mainlevéeARejeter,
+      identifiantProjet: Where.equal(identifiantProjet),
+      statut: Where.matchAny(
+        Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statutsEnCours,
+      ),
+    },
+
+    {
       statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
       rejet: {
         rejetéLe,

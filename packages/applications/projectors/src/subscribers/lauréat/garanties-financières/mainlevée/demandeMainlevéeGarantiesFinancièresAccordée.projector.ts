@@ -1,29 +1,23 @@
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { getGfActuelles, getMainlevéeGf } from '../_utils/index.js';
+import {
+  removeProjection,
+  updateManyProjections,
+  updateOneProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
   payload: { identifiantProjet, accordéLe, accordéPar, réponseSignée },
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent) => {
-  const mainlevéeAAccorder = await getMainlevéeGf(identifiantProjet);
-  const gfActuelles = await getGfActuelles(identifiantProjet);
-
-  if (!gfActuelles) {
-    if (!gfActuelles) {
-      getLogger().error(`garanties financières non trouvé`, {
-        identifiantProjet,
-        fonction: 'demandeMainlevéeGarantiesFinancièresAccordéeProjector',
-      });
-      return;
-    }
-  }
-
-  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-    `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
+  await updateManyProjections<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres`,
     {
-      ...mainlevéeAAccorder,
+      identifiantProjet: Where.equal(identifiantProjet),
+      statut: Where.matchAny(
+        Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statutsEnCours,
+      ),
+    },
+    {
       statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
       accord: {
         accordéeLe: accordéLe,
@@ -37,12 +31,10 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     },
   );
 
-  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
-      ...gfActuelles,
       garantiesFinancières: {
-        ...gfActuelles.garantiesFinancières,
         statut: 'levé',
         dernièreMiseÀJour: {
           date: accordéLe,
