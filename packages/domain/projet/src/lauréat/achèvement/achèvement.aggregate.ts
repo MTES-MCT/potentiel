@@ -54,9 +54,17 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#attestationConformité;
   }
 
+  get attestationConformitéTransmise() {
+    return Option.isSome(this.#attestationConformité);
+  }
+
   #preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType> = Option.none;
   get preuveTransmissionAuCocontractant() {
     return this.#preuveTransmissionAuCocontractant;
+  }
+
+  get preuveTransmissionAuCocontractantTransmise() {
+    return Option.isSome(this.#preuveTransmissionAuCocontractant);
   }
 
   get délaiRéalisationEnMois() {
@@ -154,10 +162,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
 
-    if (
-      Option.isSome(this.attestationConformité) &&
-      Option.isSome(this.preuveTransmissionAuCocontractant)
-    ) {
+    if (this.attestationConformitéTransmise && this.preuveTransmissionAuCocontractantTransmise) {
       throw new AttestationDeConformitéDéjàTransmiseError();
     }
 
@@ -199,7 +204,7 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
 
-    if (Option.isNone(this.attestationConformité)) {
+    if (!this.attestationConformitéTransmise) {
       throw new AucuneAttestationDeConformitéÀCorrigerError();
     }
 
@@ -231,7 +236,6 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async transmettreDateAchèvement({
     dateAchèvement,
-    attestation: { format },
     transmiseLe,
     transmisePar,
   }: TransmettreDateAchèvementOptions) {
@@ -255,9 +259,6 @@ export class AchèvementAggregate extends AbstractAggregate<
       type: 'DateAchèvementTransmise-V1',
       payload: {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
-        attestation: {
-          format,
-        },
         dateAchèvement: dateAchèvement.formatter(),
         transmiseLe: transmiseLe.formatter(),
         transmisePar: transmisePar.formatter(),
@@ -397,16 +398,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
   }
 
-  private applyDateAchèvementTransmiseV1({
-    payload: { identifiantProjet, attestation, transmiseLe: date },
-  }: DateAchèvementTransmiseEvent) {
+  private applyDateAchèvementTransmiseV1(_: DateAchèvementTransmiseEvent) {
     this.#estAchevé = true;
-
-    this.#attestationConformité = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      date,
-      attestation.format,
-    );
   }
 }

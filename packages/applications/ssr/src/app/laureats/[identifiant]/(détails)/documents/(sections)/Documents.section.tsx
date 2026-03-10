@@ -121,7 +121,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       // ACHEVEMENT
       const achèvement = await getAchèvement(identifiantProjet);
 
-      if (achèvement.estAchevé) {
+      if (achèvement.estAchevé && Option.isSome(achèvement.attestation)) {
         documents.push({
           type: 'Attestation de conformité',
           date: achèvement.attestation.dateCréation,

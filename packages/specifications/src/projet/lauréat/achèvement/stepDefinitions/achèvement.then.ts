@@ -2,7 +2,7 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
 
-import { Document, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
@@ -34,30 +34,15 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      // dans le contexte d'une transmission de la date par le Cocontractant, une "fausse" attestation est générée
-      // or on ne peut pas comparer le contenu du fichier généré
-      const estUneTransmissionParCocontractant =
-        this.lauréatWorld.achèvementWorld.transmettreDateAchèvementFixture.aÉtéCréé;
+      await expectFileContent(
+        achèvement.attestation,
+        this.lauréatWorld.achèvementWorld.mapToAttestation(),
+      );
 
-      if (estUneTransmissionParCocontractant) {
-        const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: achèvement.attestation.formatter(),
-          },
-        });
-        assert(Option.isSome(result), "L'attestation de conformité n'a pas été trouvée !");
-      } else {
-        await expectFileContent(
-          achèvement.attestation,
-          this.lauréatWorld.achèvementWorld.mapToAttestation(),
-        );
-
-        await expectFileContent(
-          achèvement.preuveTransmissionAuCocontractant,
-          this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
-        );
-      }
+      await expectFileContent(
+        achèvement.preuveTransmissionAuCocontractant,
+        this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
+      );
     });
   },
 );

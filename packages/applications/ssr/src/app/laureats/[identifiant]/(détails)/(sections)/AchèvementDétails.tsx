@@ -15,7 +15,7 @@ export type AchèvementDétailsProps = ChampAvecMultiplesActions<
 export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps) => {
   return (
     <>
-      {value.estAchevé && value.attestation && (
+      {value.estAchevé && Option.isSome(value.attestation) && (
         <DownloadDocument
           label="Télécharger l'attestation de conformité"
           url={Routes.Document.télécharger(DocumentProjet.bind(value.attestation).formatter())}

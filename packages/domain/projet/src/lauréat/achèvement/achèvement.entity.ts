@@ -16,7 +16,7 @@ export type AchèvementEntity = Entity<
     };
     réel?: {
       date: DateTime.RawType;
-      attestationConformité: { format: string; transmiseLe: DateTime.RawType };
+      attestationConformité?: { format: string; transmiseLe: DateTime.RawType };
       preuveTransmissionAuCocontractant?: { format: string; transmiseLe: DateTime.RawType };
       dernièreMiseÀJour: {
         date: DateTime.RawType;
