@@ -106,6 +106,26 @@ interface Raccordement {
   ): ListResult<DossierRaccordement> | Error;
 
   /**
+   * Transmet une demande complète de raccordement
+   */
+  @action("raccordements/demande-complete-raccordement")
+  @post
+  transmettreDemandeComplète(
+    ...LaureatParameters,
+    @body body: TransmettreDemandeCompleteRaccordementBody,
+  ): {} | Error;
+
+  /**
+   * Modifie la demande complète de raccordement
+   */
+  @action("demande-complete-raccordement")
+  @patch
+  modifierDemandeComplète(
+    ...DossierRaccordementParameters,
+    @body body: MergePatchCreateOrUpdate<ModifierDemandeCompleteBody>,
+  ): {} | Error;
+
+  /**
    * Transmet la date de mise en service pour un dossier de raccordement.
    *
    * _NB: un projet peut avoir plusieurs dossiers de raccordement._
@@ -127,25 +147,5 @@ interface Raccordement {
   modifierMiseEnService(
     ...DossierRaccordementParameters,
     @body body: MergePatchCreateOrUpdate<MiseEnServiceBody>,
-  ): {} | Error;
-
-  /**
-   * Transmet une demande complète de raccordement
-   */
-  @action("raccordements/demande-complete-raccordement")
-  @post
-  transmettreDemandeComplète(
-    ...LaureatParameters,
-    @body body: TransmettreDemandeCompleteRaccordementBody,
-  ): {} | Error;
-
-  /**
-   * Modifie la demande complète de raccordement
-   */
-  @action("demande-complete-raccordement")
-  @patch
-  modifierDemandeComplète(
-    ...DossierRaccordementParameters,
-    @body body: MergePatchCreateOrUpdate<ModifierDemandeCompleteBody>,
   ): {} | Error;
 }
