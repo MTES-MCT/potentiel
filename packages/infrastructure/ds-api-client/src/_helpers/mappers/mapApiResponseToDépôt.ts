@@ -11,6 +11,7 @@ import {
   getDispositifDeStockage,
   getTypologieInstallation,
   getAutorisation,
+  getFournisseurs,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
@@ -136,9 +137,9 @@ export const mapApiResponseToDépôt = ({
 
     typologieInstallation: getTypologieInstallation(champs),
 
+    fournisseurs: getFournisseurs(champs),
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
-    fournisseurs: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
