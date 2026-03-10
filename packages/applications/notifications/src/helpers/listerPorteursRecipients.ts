@@ -41,7 +41,5 @@ export const listerPorteursRecipients = async (
 
   return identifiantsUtilisateur
     .filter((id) => !identifiantsUtilisateurDésactivés.has(id))
-    .map((email) => ({
-      email,
-    }));
+    .map((email) => email);
 };

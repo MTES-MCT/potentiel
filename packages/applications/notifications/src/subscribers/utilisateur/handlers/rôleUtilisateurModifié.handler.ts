@@ -16,7 +16,7 @@ export async function handleRôleUtilisateurModifié({
   const teamRecipients = listerTeamRecipients();
 
   for (const recipient of recipients.concat(teamRecipients)) {
-    if (recipient.email === identifiantUtilisateur) {
+    if (recipient === identifiantUtilisateur) {
       continue;
     }
     await sendEmail({

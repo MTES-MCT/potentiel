@@ -9,5 +9,5 @@ export const listerDgecRecipients = async ({
 }: IdentifiantProjet.ValueType): Promise<Recipient[]> => {
   const ao = await getAppelOffre(appelOffre);
 
-  return [{ email: ao.dossierSuiviPar }];
+  return [ao.dossierSuiviPar];
 };

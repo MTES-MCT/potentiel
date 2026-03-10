@@ -1,7 +1,7 @@
 import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { sendEmailV2 } from '@potentiel-infrastructure/email';
+import { sendEmail } from '@potentiel-infrastructure/email';
 import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { setupDocumentProjet } from './setupDocumentProjet.js';
@@ -26,7 +26,7 @@ export const bootstrap = async ({ middlewares }: BootstrapProps) => {
   setupStatistiqueUtilisation({
     ajouterStatistiqueUtilisation: StatistiquesAdapter.ajouterStatistique,
   });
-  setupNotifications({ sendEmail: sendEmailV2 });
+  setupNotifications({ sendEmail });
   setupUtilisateur();
   setupAppelOffre();
   setupDocumentProjet();

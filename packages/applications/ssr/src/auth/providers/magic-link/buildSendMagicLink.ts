@@ -1,6 +1,6 @@
 import { GenericEndpointContext } from 'better-auth';
 
-import { SendEmailV2 } from '@potentiel-applications/notifications';
+import { SendEmail } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -9,7 +9,7 @@ import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
 type SendOptions = { email: string; url: string };
 
 type BuildSendVerificationRequest = (props: {
-  sendEmail: SendEmailV2;
+  sendEmail: SendEmail;
   getUtilisateurFromEmail: GetUtilisateurFromEmail;
   isActifAgentsPublics: boolean;
 }) => (options: SendOptions, ctx?: GenericEndpointContext) => Promise<void>;

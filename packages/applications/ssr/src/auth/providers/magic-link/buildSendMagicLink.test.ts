@@ -1,7 +1,7 @@
 import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
 
-import { SendEmailV2 } from '@potentiel-applications/notifications';
+import { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
@@ -89,7 +89,7 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
       let emailWasSent = false;
       const url = 'verification-request-url';
 
-      const fakeSendEmail: SendEmailV2 = async (actual) => {
+      const fakeSendEmail: SendEmail = async (actual) => {
         const expected = {
           key: 'auth/lien-magique',
           recipients: [email],
@@ -144,7 +144,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       let emailWasSent = false;
       const url = 'verification-request-url';
 
-      const fakeSendEmail: SendEmailV2 = async (actual) => {
+      const fakeSendEmail: SendEmail = async (actual) => {
         const envoiEmailAvecLienDeConnexion = {
           key: 'auth/lien-magique',
           recipients: [email],
@@ -196,7 +196,7 @@ describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
     const email = porteurDeProjetDésactivé.identifiantUtilisateur.email;
     const url = 'verification-request-url';
 
-    const fakeSendEmail: SendEmailV2 = async () => {
+    const fakeSendEmail: SendEmail = async () => {
       emailWasSent = true;
     };
 

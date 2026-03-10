@@ -23,10 +23,10 @@ export const handlePériodeNotifiée = async ({
     ],
   });
 
-  for (const { email } of utilisateursAutresQuePorteurs) {
+  for (const email of utilisateursAutresQuePorteurs) {
     await sendEmail({
       key: 'période/notifier',
-      recipients: [{ email }],
+      recipients: [email],
       values: {
         appel_offre: identifiantPériodeValueType.appelOffre,
         période: identifiantPériodeValueType.période,

@@ -2,6 +2,8 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { Recipient } from '#sendEmail';
+
 import { getCahierDesChargesLauréat } from './getCahierDesChargesLauréat.js';
 import { listerDrealsRecipients } from './listerDrealsRecipients.js';
 
@@ -15,10 +17,10 @@ export const listerRecipientsAutoritéInstructrice = async ({
   identifiantProjet,
   région,
   domain,
-}: ListerRecipientsAutoritéInstructriceProps): Promise<{ email: string }[]> => {
+}: ListerRecipientsAutoritéInstructriceProps): Promise<Recipient[]> => {
   const cahierDesCharges = await getCahierDesChargesLauréat(identifiantProjet);
   return match(cahierDesCharges.getAutoritéCompétente(domain))
-    .with('dgec', () => [{ email: cahierDesCharges.appelOffre.dossierSuiviPar }])
+    .with('dgec', () => [cahierDesCharges.appelOffre.dossierSuiviPar])
     .with('dreal', () => listerDrealsRecipients(région))
     .exhaustive();
 };

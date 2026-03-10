@@ -52,9 +52,9 @@ const globalCircuitBreaker = circuitBreaker(handleAll, {
   breaker: new ConsecutiveBreaker(3),
 });
 
-export const sendEmailV2 = async ({ content, subject, recipients }: EmailOptions) => {
+export const sendEmail = async ({ content, subject, recipients }: EmailOptions) => {
   const transporter = getTransporter();
-  const logger = getLogger('sendEmailv2');
+  const logger = getLogger('sendEmail');
 
   // Retry policy with exponential backoff for individual calls
   const retryPolicy = retry(handleAll, {
