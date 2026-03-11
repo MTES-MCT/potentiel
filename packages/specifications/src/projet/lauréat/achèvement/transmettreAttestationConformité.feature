@@ -77,7 +77,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une tâche indiquant de 'transmettre les garanties financières' n'est plus consultable dans la liste des tâches du porteur pour le projet
 
-    Scénario: le porteur transmet une attestation de conformité pour un appel d'offres le cahier des charges ne le permet pas
+    Scénario: le porteur transmet une attestation de conformité pour un projet avec un cahier des charges sans changement autorisé
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | CRE4 - Sol |
             | période        | 7          |
@@ -91,7 +91,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors le porteur devrait être informé que "La date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet est dejà achevé
-        Et une attestation de conformité transmise pour le projet lauréat
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors le porteur devrait être informé que "Le projet est déjà achevé"
 

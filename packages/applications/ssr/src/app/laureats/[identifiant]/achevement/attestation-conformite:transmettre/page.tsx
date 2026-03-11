@@ -26,7 +26,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>(
-        'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+        'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
       );
       utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
         'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',

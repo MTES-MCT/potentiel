@@ -249,14 +249,14 @@ const référencielPermissions = {
     achèvement: {
       command: {
         transmettreAttestationConformité:
-          'Lauréat.AchèvementCommand.TransmettreAttestationConformité',
-        modifierAttestationConformité: 'Lauréat.AchèvementCommand.ModifierAttestationConformité',
+          'Lauréat.Achèvement.Command.TransmettreAttestationConformité',
+        modifierAttestationConformité: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
         transmettreDateAchèvement: 'Lauréat.Achèvement.Command.TransmettreDateAchèvement',
       },
       useCase: {
         transmettreAttestationConformité:
-          'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
-        modifierAttestationConformité: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+          'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
+        modifierAttestationConformité: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         transmettreDateAchèvement: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
       },
       query: {

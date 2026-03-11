@@ -9,7 +9,7 @@ import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command.js';
 
 export type TransmettreAttestationConformitéUseCase = Message<
-  'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+  'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -72,7 +72,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     });
 
     await mediator.send<TransmettreAttestationConformitéCommand>({
-      type: 'Lauréat.AchèvementCommand.TransmettreAttestationConformité',
+      type: 'Lauréat.Achèvement.Command.TransmettreAttestationConformité',
       data: {
         identifiantProjet,
         attestation,
@@ -83,5 +83,5 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.AchèvementUseCase.TransmettreAttestationConformité', runner);
+  mediator.register('Lauréat.Achèvement.UseCase.TransmettreAttestationConformité', runner);
 };
