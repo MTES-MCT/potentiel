@@ -10,21 +10,18 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   documentSelectionSchema,
-  keepOrUpdateManyDocuments,
+  keepOrUpdateManyOptionalDocuments,
   keepOrUpdateSingleOptionalDocument,
 } from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: keepOrUpdateManyDocuments({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: keepOrUpdateManyOptionalDocuments({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
-  }),
-  attestationDocumentSelection: documentSelectionSchema,
-  preuveTransmissionAuCocontractantDocumentSelection: zod.enum([
-    'keep_existing_document',
-    'edit_document',
-  ]),
+  }).optional(),
+  attestationDocumentSelection: documentSelectionSchema.optional(),
+  preuveTransmissionAuCocontractantDocumentSelection: documentSelectionSchema.optional(),
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
