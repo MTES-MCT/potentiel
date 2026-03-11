@@ -3,5 +3,5 @@ export const listerTeamRecipients = () => {
   if (!teamEmail) {
     throw new Error('TEAM_EMAIL non défini');
   }
-  return [{ email: teamEmail }];
+  return [teamEmail];
 };

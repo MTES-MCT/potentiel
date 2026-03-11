@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { EmailPayloadV2 } from '#sendEmail';
+import { EmailPayload } from '#sendEmail';
 
 import { render } from './templates/render.js';
 
-export type EnvoyerNotificationCommand = Message<'System.Notification.Envoyer', EmailPayloadV2>;
+export type EnvoyerNotificationCommand = Message<'System.Notification.Envoyer', EmailPayload>;
 
 export type SendEmailPort = (options: {
   recipients: string[];
@@ -35,9 +35,7 @@ export const registerEnvoyerNotificationCommand = ({
     await sendEmail({
       content: html,
       subject: subject ?? '',
-      recipients: recipients.map((recipient) =>
-        typeof recipient === 'string' ? recipient : recipient.email,
-      ),
+      recipients,
     });
   };
   mediator.register('System.Notification.Envoyer', handler);

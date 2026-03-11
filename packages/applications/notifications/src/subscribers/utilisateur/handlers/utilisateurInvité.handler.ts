@@ -5,7 +5,7 @@ import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getBaseUrl, listerAdminEtValidateursRecipients } from '#helpers';
-import { EmailPayloadV2, sendEmail } from '#sendEmail';
+import { EmailPayload, sendEmail } from '#sendEmail';
 
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
 
@@ -26,23 +26,23 @@ export async function handleUtilisateurInvité({
   const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   const payload = match(rôle)
-    .returnType<EmailPayloadV2>()
+    .returnType<EmailPayload>()
     .with('dreal', () => ({
       key: 'utilisateur/inviter_dreal',
-      recipients: [{ email: identifiantUtilisateur }],
+      recipients: [identifiantUtilisateur],
       values: { url: urlPageProjets },
     }))
     .with(
       P.union('cocontractant', 'caisse-des-dépôts', 'ademe', 'dgec-validateur', 'cre', 'admin'),
       () => ({
         key: 'utilisateur/inviter_partenaire',
-        recipients: [{ email: identifiantUtilisateur }],
+        recipients: [identifiantUtilisateur],
         values: { url: urlPageProjets },
       }),
     )
     .with('grd', () => ({
       key: 'utilisateur/inviter_partenaire',
-      recipients: [{ email: identifiantUtilisateur }],
+      recipients: [identifiantUtilisateur],
       values: { url: `${getBaseUrl()}${Routes.Raccordement.lister}` },
     }))
     .exhaustive();
@@ -54,7 +54,7 @@ export async function handleUtilisateurInvité({
     const teamRecipients = listerTeamRecipients();
 
     for (const recipient of recipients.concat(teamRecipients)) {
-      if (recipient.email === identifiantUtilisateur) {
+      if (recipient === identifiantUtilisateur) {
         continue;
       }
       await sendEmail({

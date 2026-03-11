@@ -37,16 +37,11 @@ export const handleLauréatNotifié = async ({
     throw new Error(`La période de l'appel d'offre n'a pas été trouvée`);
   }
 
-  const { emailContact, nomReprésentantLégal } = candidature.dépôt;
+  const { emailContact } = candidature.dépôt;
 
   await sendEmail({
     key: 'projet/notifier',
-    recipients: [
-      {
-        email: emailContact.formatter(),
-        fullName: nomReprésentantLégal,
-      },
-    ],
+    recipients: [emailContact.formatter()],
     values: {
       nom_projet: candidature.dépôt.nomProjet,
       departement_projet: candidature.dépôt.localité.département,

@@ -26,7 +26,7 @@ export const handlePorteurInvité = async ({
 
   await sendEmail({
     key: 'utilisateur/inviter_porteur',
-    recipients: [{ email: identifiantUtilisateur }],
+    recipients: [identifiantUtilisateur],
     values: {
       nomProjet: projets
         .filter(Boolean)

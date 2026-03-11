@@ -22,6 +22,6 @@ export const listerRecipients = async ({
     data: { roles, région, zone, identifiantGestionnaireRéseau, actif: true },
   });
   return utilisateurs.items
-    .map(({ identifiantUtilisateur: { email } }) => ({ email }))
-    .filter(({ email }) => !email.endsWith('@clients'));
+    .map(({ identifiantUtilisateur: { email } }) => email)
+    .filter((email) => !email.endsWith('@clients'));
 };

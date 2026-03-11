@@ -4,7 +4,7 @@ import { EnvoyerNotificationCommand, render } from '@potentiel-applications/noti
 
 import { PotentielWorld } from '../potentiel.world.js';
 
-// sendEmailV2 ne recoit pas les variables du template, mais le html de l'email.
+// sendEmail ne recoit pas les variables du template, mais le html de l'email.
 // On écoute donc les appels à EnvoyerNotificationCommand pour vérifier les variables.
 export function addEmailSpyMiddleware(this: PotentielWorld) {
   const middleware: Middleware = async (message, next) => {

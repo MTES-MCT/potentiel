@@ -34,7 +34,7 @@ export type { EnvoyerNotificationCommand } from './envoyerNotification.command.j
 export type { TemplateDefinitions } from './templates/emails/index.js';
 export { registerNotificationsCommands } from './register.js';
 
-export type { SendEmailV2, EmailPayloadV2 } from './sendEmail.js';
+export type { SendEmail, EmailPayload } from './sendEmail.js';
 export type { SendEmailPort } from './envoyerNotification.command.js';
 export { render } from './templates/render.js';
 export { sendEmail } from './sendEmail.js';
