@@ -8,13 +8,7 @@ export class ImpossibleDeCalculerLaDateAchèvementPrévisionnelle extends Invali
 
 export class DateDeTransmissionAuCoContractantFuturError extends InvalidOperationError {
   constructor() {
-    super('la date de transmission au co-contractant ne peut pas être une date future');
-  }
-}
-
-export class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError {
-  constructor() {
-    super('le projet a déjà une attestation de conformité');
+    super('La date de transmission au co-contractant ne peut pas être une date future');
   }
 }
 
@@ -29,12 +23,6 @@ export class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError 
     super(
       'Il est impossible de transmettre une attestation de conformité pour un projet abandonné',
     );
-  }
-}
-
-export class AucuneAttestationDeConformitéÀCorrigerError extends InvalidOperationError {
-  constructor() {
-    super("Aucune attestation de conformité à modifier n'a été trouvée");
   }
 }
 
@@ -53,5 +41,11 @@ export class DateAchèvementDansLeFuturError extends InvalidOperationError {
 export class ProjetDéjàAchevéError extends InvalidOperationError {
   constructor() {
     super('Le projet est déjà achevé');
+  }
+}
+
+export class ProjetNonAchevéError extends InvalidOperationError {
+  constructor() {
+    super(`Le projet n'est pas achevé`);
   }
 }

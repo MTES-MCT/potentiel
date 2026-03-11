@@ -9,24 +9,24 @@ Fonctionnalité: Modifier une attestation de conformité
     Scénario: Un admin modifie une attestation de conformité
         Et une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat
-        Alors une attestation de conformité devrait être consultable pour le projet lauréat
+        Alors l'achèvement du projet devrait être consultable
 
-    Scénario: Un admin modifie une date d'achèvement sans preuve de transmission au cocontractant
+    Scénario: Un admin modifie une date d'achèvement sans attestation de conformité transmise
         Et une date d'achèvement réel transmise pour le projet lauréat
-        Quand l'admin modifie l'attestation de conformité pour le projet lauréat sans preuve de transmission au cocontractant
-        Alors une attestation de conformité devrait être consultable pour le projet lauréat
+        Quand l'admin modifie l'attestation de conformité pour le projet lauréat sans attestation de conformité transmise
+        Alors l'achèvement du projet devrait être consultable
 
     Scénario: Impossible de modifier une attestation de conformité si la date de transmission au co-contractant est dans le futur
         Et une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat avec :
             | date transmission au co-contractant | 2040-01-01 |
-        Alors l'admin devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"
+        Alors l'admin devrait être informé que "La date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de modifier une attestation de conformité si aucune modification n'est transmise
         Et une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat avec les mêmes valeurs
         Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
 
-    Scénario: Impossible de modifier une attestation de conformité si le projet n'a pas d'attestation de conformité à modifier
+    Scénario: Impossible de modifier une attestation de conformité si le projet n'est pas achevé
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat
-        Alors l'admin devrait être informé que "Aucune attestation de conformité à modifier n'a été trouvée"
+        Alors l'admin devrait être informé que "Le projet n'est pas achevé"

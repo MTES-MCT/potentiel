@@ -1,20 +1,14 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
-import { DocumentProjet } from '../../document-projet/index.js';
 import { ProjetAbandonnéError } from '../abandon/abandon.error.js';
 import { Lauréat } from '../../index.js';
 
-import {
-  DateAchèvementPrévisionnel,
-  TypeTâchePlanifiéeAchèvement,
-  TypeDocumentAttestationConformité,
-} from './index.js';
+import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from './index.js';
 
 import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option.js';
 import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
@@ -24,13 +18,12 @@ import { AchèvementEvent } from './achèvement.event.js';
 import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
 import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
 import {
-  AttestationDeConformitéDéjàTransmiseError,
   AttestationDeConformitéNonModifiéeError,
-  AucuneAttestationDeConformitéÀCorrigerError,
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
   ProjetDéjàAchevéError,
+  ProjetNonAchevéError,
 } from './achèvement.error.js';
 import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option.js';
 import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
@@ -49,24 +42,6 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#estAchevé;
   }
 
-  #attestationConformité: Option.Type<DocumentProjet.ValueType> = Option.none;
-  get attestationConformité() {
-    return this.#attestationConformité;
-  }
-
-  get attestationConformitéTransmise() {
-    return Option.isSome(this.#attestationConformité);
-  }
-
-  #preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType> = Option.none;
-  get preuveTransmissionAuCocontractant() {
-    return this.#preuveTransmissionAuCocontractant;
-  }
-
-  get preuveTransmissionAuCocontractantTransmise() {
-    return Option.isSome(this.#preuveTransmissionAuCocontractant);
-  }
-
   get délaiRéalisationEnMois() {
     return this.lauréat.projet.cahierDesChargesActuel.getDélaiRéalisationEnMois();
   }
@@ -74,6 +49,11 @@ export class AchèvementAggregate extends AbstractAggregate<
   #dateAchèvementPrévisionnel!: DateAchèvementPrévisionnel.ValueType;
   get dateAchèvementPrévisionnel() {
     return this.#dateAchèvementPrévisionnel;
+  }
+
+  #dateAchèvementRéel: DateTime.ValueType | undefined;
+  get dateAchèvementRéel() {
+    return this.#dateAchèvementRéel;
   }
 
   #tâchePlanifiéeRappelÉchéanceTroisMois!: AggregateType<TâchePlanifiéeAggregate>;
@@ -162,8 +142,8 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
 
-    if (this.attestationConformitéTransmise && this.preuveTransmissionAuCocontractantTransmise) {
-      throw new AttestationDeConformitéDéjàTransmiseError();
+    if (this.estAchevé) {
+      throw new ProjetDéjàAchevéError();
     }
 
     const event: AttestationConformitéTransmiseEvent = {
@@ -204,17 +184,15 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     this.vérifierDateAchèvementPostérieureDateNotification(dateTransmissionAuCocontractant);
 
-    if (!this.attestationConformitéTransmise) {
-      throw new AucuneAttestationDeConformitéÀCorrigerError();
+    if (!this.estAchevé) {
+      throw new ProjetNonAchevéError();
     }
 
     if (
       !attestation &&
       !preuveTransmissionAuCocontractant &&
-      Option.isSome(this.#preuveTransmissionAuCocontractant) &&
-      dateTransmissionAuCocontractant.estÉgaleÀ(
-        DateTime.convertirEnValueType(this.#preuveTransmissionAuCocontractant.dateCréation),
-      )
+      this.dateAchèvementRéel &&
+      dateTransmissionAuCocontractant.estÉgaleÀ(this.dateAchèvementRéel)
     ) {
       throw new AttestationDeConformitéNonModifiéeError();
     }
@@ -315,81 +293,33 @@ export class AchèvementAggregate extends AbstractAggregate<
   apply(event: AchèvementEvent): void {
     match(event)
       .with(
-        {
-          type: 'AttestationConformitéTransmise-V1',
-        },
-        (event) => this.applyAttestationConformitéTransmiseV1(event),
+        { type: 'AttestationConformitéTransmise-V1' },
+        this.applyAttestationConformitéTransmiseV1.bind(this),
       )
       .with(
-        {
-          type: 'AttestationConformitéModifiée-V1',
-        },
-        (event) => this.applyAttestationConformitéModifiéeV1(event),
+        { type: 'AttestationConformitéModifiée-V1' },
+        this.applyAttestationConformitéModifiéeV1.bind(this),
       )
       .with(
-        {
-          type: 'DateAchèvementPrévisionnelCalculée-V1',
-        },
-        (event) => this.applyDateAchèvementPrévisionnelCalculéeV1(event),
+        { type: 'DateAchèvementPrévisionnelCalculée-V1' },
+        this.applyDateAchèvementPrévisionnelCalculéeV1.bind(this),
       )
-      .with({ type: 'DateAchèvementTransmise-V1' }, (event) =>
-        this.applyDateAchèvementTransmiseV1(event),
-      )
+      .with({ type: 'DateAchèvementTransmise-V1' }, this.applyDateAchèvementTransmiseV1.bind(this))
       .exhaustive();
   }
 
   private applyAttestationConformitéTransmiseV1({
-    payload: {
-      identifiantProjet,
-      attestation,
-      date,
-      preuveTransmissionAuCocontractant,
-      dateTransmissionAuCocontractant,
-    },
+    payload: { dateTransmissionAuCocontractant },
   }: AttestationConformitéTransmiseEvent) {
     this.#estAchevé = true;
 
-    this.#attestationConformité = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      date,
-      attestation.format,
-    );
-
-    this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-      dateTransmissionAuCocontractant,
-      preuveTransmissionAuCocontractant.format,
-    );
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
   }
 
   private applyAttestationConformitéModifiéeV1({
-    payload: {
-      identifiantProjet,
-      attestation,
-      date,
-      preuveTransmissionAuCocontractant,
-      dateTransmissionAuCocontractant,
-    },
+    payload: { dateTransmissionAuCocontractant },
   }: AttestationConformitéModifiéeEvent) {
-    if (attestation) {
-      this.#attestationConformité = DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        date,
-        attestation.format,
-      );
-    }
-
-    if (preuveTransmissionAuCocontractant) {
-      this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-        dateTransmissionAuCocontractant,
-        preuveTransmissionAuCocontractant.format,
-      );
-    }
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
   }
 
   private applyDateAchèvementPrévisionnelCalculéeV1({

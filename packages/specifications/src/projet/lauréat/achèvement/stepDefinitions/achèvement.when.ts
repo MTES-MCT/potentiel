@@ -71,7 +71,7 @@ Quand(
 );
 
 Quand(
-  "l'admin modifie l'attestation de conformité pour le projet lauréat sans preuve de transmission au cocontractant",
+  "l'admin modifie l'attestation de conformité pour le projet lauréat sans attestation de conformité transmise",
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
@@ -79,6 +79,7 @@ Quand(
       const { attestation, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
+          attestation: undefined,
           preuve: undefined,
         });
 

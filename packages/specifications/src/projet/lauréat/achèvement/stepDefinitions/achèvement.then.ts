@@ -12,40 +12,37 @@ import { waitForExpect } from '#helpers';
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
-Alors(
-  'une attestation de conformité devrait être consultable pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    return waitForExpect(async () => {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+Alors(`l'achèvement du projet devrait être consultable`, async function (this: PotentielWorld) {
+  return waitForExpect(async () => {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
-        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-      assert(Option.isSome(achèvement), 'Non trouvé');
-      assert(achèvement.estAchevé, 'Non achevé');
-      const actual = mapToPlainObject(achèvement);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet),
-      );
-
-      actual.should.be.deep.equal(expected);
-
-      await expectFileContent(
-        achèvement.attestation,
-        this.lauréatWorld.achèvementWorld.mapToAttestation(),
-      );
-
-      await expectFileContent(
-        achèvement.preuveTransmissionAuCocontractant,
-        this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
-      );
+    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
     });
-  },
-);
+
+    assert(Option.isSome(achèvement), 'Non trouvé');
+    assert(achèvement.estAchevé, 'Non achevé');
+    const actual = mapToPlainObject(achèvement);
+    const expected = mapToPlainObject(
+      this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet),
+    );
+
+    actual.should.be.deep.equal(expected);
+
+    await expectFileContent(
+      achèvement.attestation,
+      this.lauréatWorld.achèvementWorld.mapToAttestation(),
+    );
+
+    await expectFileContent(
+      achèvement.preuveTransmissionAuCocontractant,
+      this.lauréatWorld.achèvementWorld.mapToPreuveTransmissionAuCocontractant(),
+    );
+  });
+});
 
 Alors(
   `la date d'achèvement prévisionnel du projet lauréat devrait être au {string}`,
