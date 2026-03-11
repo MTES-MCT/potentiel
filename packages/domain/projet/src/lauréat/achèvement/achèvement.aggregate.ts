@@ -165,6 +165,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (this.attestationConformitéTransmise && this.preuveTransmissionAuCocontractantTransmise) {
       throw new AttestationDeConformitéDéjàTransmiseError();
     }
+    if (this.estAchevé) {
+      throw new ProjetDéjàAchevéError();
+    }
 
     const event: AttestationConformitéTransmiseEvent = {
       type: 'AttestationConformitéTransmise-V1',

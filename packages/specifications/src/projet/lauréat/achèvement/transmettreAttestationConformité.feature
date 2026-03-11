@@ -88,12 +88,17 @@ Fonctionnalité: Transmettre une attestation de conformité
     Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est dans le futur
         Quand le porteur transmet une attestation de conformité pour le projet lauréat avec :
             | date transmission au co-contractant | 2040-01-01 |
-        Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"
+        Alors le porteur devrait être informé que "La date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet a déjà une attestation de conformité
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors le porteur devrait être informé que "le projet a déjà une attestation de conformité"
+        Alors le porteur devrait être informé que "Le projet a déjà une attestation de conformité"
+
+    Scénario: Impossible de transmettre une attestation de conformité si le projet a déjà une date d'achèvement
+        Et une date d'achèvement réel transmise pour le projet lauréat
+        Quand le porteur transmet une attestation de conformité pour le projet lauréat
+        Alors le porteur devrait être informé que "Le projet est déjà achevé"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet est éliminé
         Etant donné le projet éliminé "MIOS"
