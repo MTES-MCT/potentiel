@@ -59,7 +59,11 @@ export const GarantiesFinancièresActuellesActions = ({
           </Button>
         )}
         {actions.includes('garantiesFinancières.mainlevée.demander') && motif && (
-          <DemanderMainlevéeForm identifiantProjet={identifiantProjet} motif={motif.motif} />
+          <DemanderMainlevéeForm
+            identifiantProjet={identifiantProjet}
+            motif={motif.motif}
+            actions={actions}
+          />
         )}
       </div>
     </div>

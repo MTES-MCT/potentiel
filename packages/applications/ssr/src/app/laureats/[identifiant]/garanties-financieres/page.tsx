@@ -13,6 +13,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerLauréat, getPériodeAppelOffres } from '@/app/_helpers';
 
+import { getAchèvement } from '../_helpers';
+
 import {
   ActionGarantiesFinancières,
   DétailsGarantiesFinancièresPage,
@@ -89,6 +91,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           })
         : Option.none;
 
+      const achèvement = await getAchèvement(identifiantProjet.formatter());
+
       const data = {
         statut,
         actuelles,
@@ -99,6 +103,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffres,
         mainlevéesRejetées,
         archivesGarantiesFinancières,
+        achèvement,
       };
       const { infos, actions } = mapToActionsAndInfos(data);
       const props = mapToProps(data);
@@ -132,6 +137,7 @@ type Props = {
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
+  achèvement: Lauréat.Achèvement.ConsulterAchèvementReadModel;
 };
 
 const mapToActionsAndInfos = ({
@@ -140,6 +146,7 @@ const mapToActionsAndInfos = ({
   actuelles,
   dépôtEnCours,
   mainlevée,
+  achèvement,
 }: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
   const actions: ActionGarantiesFinancières[] = [];
   const infos: DétailsGarantiesFinancièresPageProps['infos'] = [];
@@ -182,8 +189,12 @@ const mapToActionsAndInfos = ({
         } else if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
-        if (!estAbandonné && actuelles.garantiesFinancières.estConstitué()) {
-          actions.push('achèvement.transmettreAttestation');
+        if (achèvement.estAchevé && actuelles.garantiesFinancières.estConstitué()) {
+          if (Option.isSome(achèvement.attestation)) {
+            actions.push('achèvement.transmettreAttestation');
+          } else {
+            actions.push('achèvement.enregistrerAttestation');
+          }
         }
       }
 

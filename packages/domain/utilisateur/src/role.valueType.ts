@@ -250,12 +250,16 @@ const référencielPermissions = {
       command: {
         transmettreAttestationConformité:
           'Lauréat.Achèvement.Command.TransmettreAttestationConformité',
+        enregistrerAttestationConformité:
+          'Lauréat.Achèvement.Command.EnregistrerAttestationConformité',
         modifierAttestationConformité: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
         transmettreDateAchèvement: 'Lauréat.Achèvement.Command.TransmettreDateAchèvement',
       },
       useCase: {
         transmettreAttestationConformité:
           'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
+        enregistrerAttestationConformité:
+          'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
         modifierAttestationConformité: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         transmettreDateAchèvement: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
       },
@@ -937,6 +941,11 @@ const policies = {
     transmettreAttestation: [
       référencielPermissions.lauréat.achèvement.useCase.transmettreAttestationConformité,
       référencielPermissions.lauréat.achèvement.command.transmettreAttestationConformité,
+      référencielPermissions.document.command.enregister,
+    ],
+    enregistrerAttestation: [
+      référencielPermissions.lauréat.achèvement.useCase.enregistrerAttestationConformité,
+      référencielPermissions.lauréat.achèvement.command.enregistrerAttestationConformité,
       référencielPermissions.document.command.enregister,
     ],
     transmettreDate: [
@@ -2028,6 +2037,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Attestation conformité
   'achèvement.transmettreAttestation',
+  'achèvement.enregistrerAttestation',
 
   // Candidature
   'candidature.attestation.télécharger',

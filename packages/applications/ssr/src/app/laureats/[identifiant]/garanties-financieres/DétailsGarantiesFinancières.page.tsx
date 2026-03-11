@@ -36,6 +36,7 @@ const actions = [
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.supprimer',
   'achèvement.transmettreAttestation',
+  'achèvement.enregistrerAttestation',
 ] satisfies Role.Policy[];
 export type ActionGarantiesFinancières = (typeof actions)[number];
 
