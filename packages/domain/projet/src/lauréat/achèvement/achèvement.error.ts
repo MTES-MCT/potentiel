@@ -49,3 +49,9 @@ export class ProjetNonAchevéError extends InvalidOperationError {
     super(`Le projet n'est pas achevé`);
   }
 }
+
+export class AttestationConformitéDéjàEnregistréeError extends InvalidOperationError {
+  constructor() {
+    super(`Une attestation de conformité est déjà présente pour ce projet`);
+  }
+}

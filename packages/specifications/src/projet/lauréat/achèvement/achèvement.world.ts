@@ -1,3 +1,5 @@
+import { assert } from 'chai';
+
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { LauréatWorld } from '../lauréat.world.js';
@@ -6,15 +8,21 @@ import { TransmettreAttestationConformitéFixture } from './fixture/transmettreA
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
 import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
 import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
+import { EnregistrerAttestationConformitéFixture } from './fixture/enregistrerAttestationConformité.fixture.js';
 
 export class AchèvementWorld {
   #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;
+  #enregistrerAttestationConformitéFixture: EnregistrerAttestationConformitéFixture;
   #modifierAttestationConformitéFixture: ModifierAttestationConformitéFixture;
   #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
   #transmettreDateAchèvementFixture: TransmettreDateAchèvementFixture;
 
   get transmettreAttestationConformitéFixture() {
     return this.#transmettreAttestationConformitéFixture;
+  }
+
+  get enregistrerAttestationConformitéFixture() {
+    return this.#enregistrerAttestationConformitéFixture;
   }
 
   get modifierAttestationConformitéFixture() {
@@ -31,6 +39,9 @@ export class AchèvementWorld {
 
   constructor(private lauréat: LauréatWorld) {
     this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture(
+      lauréat,
+    );
+    this.#enregistrerAttestationConformitéFixture = new EnregistrerAttestationConformitéFixture(
       lauréat,
     );
     this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture(lauréat);
@@ -79,6 +90,18 @@ export class AchèvementWorld {
         ...this.transmettreDateAchèvementFixture.mapToExpected(),
       };
     }
+    if (this.enregistrerAttestationConformitéFixture.aÉtéCréé) {
+      assert(
+        result.estAchevé,
+        'Le projet devrait être achevé pour enregistrer une attestation de conformité',
+      );
+      result = {
+        ...result,
+        estAchevé: true,
+        dateAchèvementRéel: result.dateAchèvementRéel,
+        ...this.enregistrerAttestationConformitéFixture.mapToExpected(identifiantProjet),
+      };
+    }
     if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
       result = {
         ...result,
@@ -95,6 +118,9 @@ export class AchèvementWorld {
     }
     if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
       return this.transmettreAttestationConformitéFixture.attestation;
+    }
+    if (this.enregistrerAttestationConformitéFixture.aÉtéCréé) {
+      return this.enregistrerAttestationConformitéFixture.attestation;
     }
   }
 

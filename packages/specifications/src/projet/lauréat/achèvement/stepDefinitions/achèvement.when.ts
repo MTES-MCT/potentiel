@@ -19,7 +19,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: convertFixtureFileToReadableStream(attestation),
@@ -54,7 +54,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: convertFixtureFileToReadableStream(attestation),
@@ -84,7 +84,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -111,7 +111,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -146,7 +146,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -181,7 +181,7 @@ Quand(
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -221,6 +221,30 @@ Quand(
           dateAchèvementValue: dateAchèvement,
           transmiseLeValue: transmiseLe,
           transmiseParValue: transmisePar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre une attestation de conformité pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const { attestation, enregistréeLe, enregistréePar } =
+        this.lauréatWorld.achèvementWorld.enregistrerAttestationConformitéFixture.créer({});
+
+      await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          attestationConformitéValue: convertFixtureFileToReadableStream(attestation),
+          enregistréeLeValue: enregistréeLe,
+          enregistréeParValue: enregistréePar,
         },
       });
     } catch (error) {

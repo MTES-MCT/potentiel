@@ -17,6 +17,7 @@ export const setupAchèvement = async () => {
       'AttestationConformitéModifiée-V1',
       'DateAchèvementPrévisionnelCalculée-V1',
       'DateAchèvementTransmise-V1',
+      'AttestationConformitéEnregistrée-V1',
       'RebuildTriggered',
     ],
     messageType: 'System.Projector.Lauréat.Achèvement',
