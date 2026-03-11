@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { getUtilisateur, validate } from '#helpers';
 
-export const modifierReferenceHandler: Raccordement['modifierReference'] = async (
+export const modifierDateMiseEnServiceHandler: Raccordement['modifierMiseEnService'] = async (
   _,
   identifiantProjet,
   reference,
@@ -14,17 +14,16 @@ export const modifierReferenceHandler: Raccordement['modifierReference'] = async
 ) => {
   const utilisateur = getUtilisateur();
 
-  const { nouvelleReference } = validate('ModifierReferenceBody', body);
+  const { dateMiseEnService } = validate('MiseEnServiceBody', body);
 
-  await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-    type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+  await mediator.send<Lauréat.Raccordement.ModifierDateMiseEnServiceUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.ModifierDateMiseEnService',
     data: {
       identifiantProjetValue: decodeURIComponent(identifiantProjet),
-      référenceDossierRaccordementActuelleValue: decodeURIComponent(reference),
-      nouvelleRéférenceDossierRaccordementValue: nouvelleReference,
+      référenceDossierValue: decodeURIComponent(reference),
+      dateMiseEnServiceValue: new Date(dateMiseEnService.toString()).toISOString(),
       modifiéeLeValue: DateTime.now().formatter(),
       modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-      rôleValue: utilisateur.rôle.nom,
     },
   });
 

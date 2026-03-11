@@ -5,8 +5,8 @@ Potentiel propose une API afin de permettre aux Gestionnaires de Réseau de Dist
 ## Fonctionnement
 
 - le GRD récupère la liste des projets en attente de mise en service via le endpoint `/reseaux/raccordements`
-- (optionnel) le GRD modifie la référence de dossier via le endpoint `/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier`
-- le GRD transmet la date de mise en service via le endpoint `/laureats/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre`
+- (optionnel) le GRD modifie la référence de dossier via le endpoint `PATCH /laureats/{identifiantProjet}/raccordements/{reference}`
+- le GRD transmet la date de mise en service via le endpoint `POST /laureats/{identifiantProjet}/raccordements/{reference}/mise-en-service`
 
 ## Documentation
 
