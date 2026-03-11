@@ -9,7 +9,6 @@ export type TransmettreDateAchèvementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateAchèvement: DateTime.ValueType;
-    attestation: { format: string };
     transmiseLe: DateTime.ValueType;
     transmisePar: Email.ValueType;
   }

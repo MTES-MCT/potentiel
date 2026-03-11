@@ -11,8 +11,6 @@ export type DateAchèvementTransmiseEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
 
-    /** document sans valeur, pour palier au manque temporaire d'attestation entre AttestationConformitéTransmise-V1 et AttestationConformitéTransmise-V2 */
-    attestation: { format: string };
     dateAchèvement: DateTime.RawType;
     transmiseLe: DateTime.RawType;
     transmisePar: Email.RawType;

@@ -14,7 +14,7 @@ export type ConsulterAchèvementAchevéReadModel = {
   aBénéficiéDuDélaiCDC2022: boolean;
 
   estAchevé: true;
-  attestation: DocumentProjet.ValueType;
+  attestation: Option.Type<DocumentProjet.ValueType>;
   dateAchèvementRéel: DateTime.ValueType;
   preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType>;
   misÀJourLe: DateTime.ValueType;
@@ -90,12 +90,14 @@ const mapToReadModel = ({
   return {
     ...common,
     estAchevé: true,
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      DateTime.convertirEnValueType(attestationConformité.transmiseLe).formatter(),
-      attestationConformité.format,
-    ),
+    attestation: attestationConformité
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+          DateTime.convertirEnValueType(attestationConformité.transmiseLe).formatter(),
+          attestationConformité.format,
+        )
+      : Option.none,
     dateAchèvementRéel: DateTime.convertirEnValueType(dateAchèvementRéel),
     preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
       ? DocumentProjet.convertirEnValueType(

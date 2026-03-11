@@ -36,7 +36,7 @@
     "pretest": "npm run down:test && npm run up:test && npm run build:test",
     "test:libraries": "npm run pretest && turbo run test --filter=@potentiel-domain/* --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
     "test:apps": "npm run pretest && turbo run test --filter=@potentiel-applications/*",
-    "prespecs": "npm run pretest && turbo run build --filter=@potentiel/specifications",
+    "prespecs": "npm run down:test && npm run up:test && turbo run build --filter=@potentiel/specifications...",
     "specs": "npm run prespecs && npm run test -w @potentiel/specifications -- ",
     "specs:select": "npm run prespecs && npm run test:select -w @potentiel/specifications",
     "update:dump": "./.database/scripts/update-potentiel-dump.sh",

@@ -3,11 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-import {
-  DocumentProjet,
-  EnregistrerDocumentSubstitutCommand,
-} from '../../../document-projet/index.js';
-import { TypeDocumentAttestationConformité } from '../index.js';
 
 import { TransmettreDateAchèvementCommand } from './transmettreDateAchèvement.command.js';
 
@@ -34,27 +29,11 @@ export const registerTransmettreDateAchèvementUseCase = () => {
     const transmiseLe = DateTime.convertirEnValueType(transmiseLeValue);
     const transmisePar = Email.convertirEnValueType(transmiseParValue);
 
-    await mediator.send<EnregistrerDocumentSubstitutCommand>({
-      type: 'Document.Command.EnregistrerDocumentSubstitut',
-      data: {
-        documentProjet: DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-          transmiseLe.formatter(),
-          'application/pdf',
-        ),
-        // aujourd'hui seul le co-contractant peut transmettre la date d'achèvement
-        texte:
-          "L'attestation de conformité a été transmise au co-contractant, qui a communiqué à Potentiel la date d'achèvement.",
-      },
-    });
-
     await mediator.send<TransmettreDateAchèvementCommand>({
       type: 'Lauréat.Achèvement.Command.TransmettreDateAchèvement',
       data: {
         identifiantProjet,
         dateAchèvement,
-        attestation: { format: 'application/pdf' },
         transmiseLe,
         transmisePar,
       },

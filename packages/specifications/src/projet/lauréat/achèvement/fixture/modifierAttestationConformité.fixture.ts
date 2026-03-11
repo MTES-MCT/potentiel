@@ -23,26 +23,15 @@ export class ModifierAttestationConformitéFixture
   extends AbstractFixture<ModifierAttestationConformité>
   implements ModifierAttestationConformité
 {
-  #formatAttestation!: string;
-  #contentAttestation!: string;
+  #attestation?: ModifierAttestationConformité['attestation'];
 
   get attestation(): ModifierAttestationConformité['attestation'] {
-    return {
-      format: this.#formatAttestation,
-      content: this.#contentAttestation,
-    };
+    return this.#attestation;
   }
 
-  #formatPreuve: string | undefined;
-  #contentPreuve: string | undefined;
-
+  #preuve?: ModifierAttestationConformité['preuve'];
   get preuve(): ModifierAttestationConformité['preuve'] {
-    return this.#formatPreuve && this.#contentPreuve
-      ? {
-          format: this.#formatPreuve,
-          content: this.#contentPreuve,
-        }
-      : undefined;
+    return this.#preuve;
   }
 
   #dateTransmissionAuCocontractant!: string;
@@ -68,12 +57,6 @@ export class ModifierAttestationConformitéFixture
   }
 
   créer(partialFixture?: Partial<ModifierAttestationConformité>): ModifierAttestationConformité {
-    const contentAttestation = faker.word.words();
-    const formatAttestation = 'application/pdf';
-
-    const contentPreuve = faker.word.words();
-    const formatPreuve = 'application/pdf';
-
     const fixture: ModifierAttestationConformité = {
       dateTransmissionAuCocontractant: faker.date
         .between({
@@ -83,26 +66,24 @@ export class ModifierAttestationConformitéFixture
           to: DateTime.now().date,
         })
         .toISOString(),
-      date: faker.date.soon().toISOString(),
-      utilisateur: faker.internet.email(),
       attestation: {
-        format: formatAttestation,
-        content: contentAttestation,
+        format: 'application/pdf',
+        content: faker.word.words(),
       },
       preuve: {
-        format: formatPreuve,
-        content: contentPreuve,
+        format: 'application/pdf',
+        content: faker.word.words(),
       },
+      date: faker.date.soon().toISOString(),
+      utilisateur: faker.internet.email(),
       ...partialFixture,
     };
 
     this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
     this.#date = fixture.date;
     this.#utilisateur = fixture.utilisateur;
-    this.#formatAttestation = formatAttestation;
-    this.#contentAttestation = contentAttestation;
-    this.#formatPreuve = fixture.preuve?.format;
-    this.#contentPreuve = fixture.preuve?.content;
+    this.#attestation = fixture.attestation;
+    this.#preuve = fixture.preuve;
 
     this.aÉtéCréé = true;
 
@@ -111,20 +92,22 @@ export class ModifierAttestationConformitéFixture
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     return {
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(this.date).formatter(),
-        this.#formatAttestation,
-      ),
-
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
-      ...(this.#formatPreuve && {
+
+      ...(this.attestation && {
+        attestation: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
+          DateTime.convertirEnValueType(this.date).formatter(),
+          this.attestation.format,
+        ),
+      }),
+      ...(this.preuve && {
         preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
           DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant).formatter(),
-          this.#formatPreuve,
+          this.preuve.format,
         ),
       }),
       misÀJourLe: DateTime.convertirEnValueType(this.date),

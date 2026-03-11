@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -62,16 +61,10 @@ export class TransmettreDateAchèvementFixture
     return this;
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected() {
     return {
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(this.transmiseLe).formatter(),
-        'application/pdf',
-      ),
-
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateAchèvement),
+      attestation: Option.none,
       preuveTransmissionAuCocontractant: Option.none,
       misÀJourLe: DateTime.convertirEnValueType(this.transmiseLe),
       misÀJourPar: Email.convertirEnValueType(this.transmisePar),

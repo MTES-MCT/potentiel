@@ -69,7 +69,7 @@ const mapToProps: MapToProps = (
   identifiantProjet: identifiantProjet.formatter(),
   lauréatNotifiéLe: notifiéLe.formatter(),
   dateTransmissionAuCocontractant: dateAchèvementRéel.formatter(),
-  attestationConformité: attestation.formatter(),
+  attestationConformité: Option.isSome(attestation) ? attestation.formatter() : undefined,
   preuveTransmissionAuCocontractant: Option.isSome(preuveTransmissionAuCocontractant)
     ? preuveTransmissionAuCocontractant.formatter()
     : undefined,
