@@ -12,7 +12,7 @@ Lors de la première itération, EDF OA recueille l'attestation de conformité e
 
 - EDF OA recoupe les données récupérées sur Potentiel pour vérifier la cohérence de la donnée.
 
-- EDF OA transmet l'attestation de conformité via le endpoint `POST /laureats/{identifiantProjet}/achevement/date-achevement:transmettre`.
+- EDF OA transmet l'attestation de conformité via le endpoint `POST /laureats/{identifiantProjet}/achevement/date-achevement`.
 
 ### Documentation
 
