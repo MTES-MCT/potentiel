@@ -1,5 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -134,15 +135,15 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
+      const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet);
+      assert(achèvement.estAchevé, 'impossible de mofidier si non achevé');
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           // Quand un document n'est pas changé, on transmet undefined au usecase
           attestation: undefined,
           preuve: undefined,
-          dateTransmissionAuCocontractant:
-            this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture
-              .dateTransmissionAuCocontractant,
+          dateTransmissionAuCocontractant: achèvement.dateAchèvementRéel.formatter(),
         });
 
       await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
