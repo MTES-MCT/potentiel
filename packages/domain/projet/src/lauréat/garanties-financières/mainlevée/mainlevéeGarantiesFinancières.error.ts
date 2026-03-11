@@ -16,6 +16,14 @@ export class ProjetNonAchevéError extends InvalidOperationError {
   }
 }
 
+export class AttestationConformitéManquanteError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Votre demande de mainlevée de garanties financières est invalide car l'attestation de conformité est manquante",
+    );
+  }
+}
+
 export class DépôtDeGarantiesFinancièresÀSupprimerError extends InvalidOperationError {
   constructor() {
     super(

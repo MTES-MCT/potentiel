@@ -75,6 +75,7 @@ import { ModifierDépôtOptions } from './dépôt/modifier/modifierDépôtGarant
 import { SupprimerDépôtOptions } from './dépôt/supprimer/supprimerDépôtGarantiesFinancières.option.js';
 import { DemanderMainlevéeOptions } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.options.js';
 import {
+  AttestationConformitéManquanteError,
   DépôtDeGarantiesFinancièresÀSupprimerError,
   MainlevéeDéjàAccordéeError,
   MainlevéeDéjàEnInstructionError,
@@ -765,8 +766,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new ProjetNonAbandonnéError();
     }
 
-    if (motif.estProjetAchevé() && !this.lauréat.achèvement.estAchevé) {
-      throw new ProjetNonAchevéError();
+    if (motif.estProjetAchevé()) {
+      if (!this.lauréat.achèvement.estAchevé) {
+        throw new ProjetNonAchevéError();
+      }
+      if (!this.lauréat.achèvement.attestationConformitéTransmise) {
+        throw new AttestationConformitéManquanteError();
+      }
     }
 
     this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
