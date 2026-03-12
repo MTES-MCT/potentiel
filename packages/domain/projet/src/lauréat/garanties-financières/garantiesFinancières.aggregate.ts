@@ -682,6 +682,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
+
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {

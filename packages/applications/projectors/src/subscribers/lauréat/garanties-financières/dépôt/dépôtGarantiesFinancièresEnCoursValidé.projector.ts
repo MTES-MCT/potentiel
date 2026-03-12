@@ -44,6 +44,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
           date: payload.validéLe,
           par: payload.validéPar,
         },
+        dateLimiteSoumission: undefined,
+        motifEnAttente: undefined,
       };
     })
     .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
@@ -58,6 +60,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         date: payload.validéLe,
         par: payload.validéPar,
       },
+      dateLimiteSoumission: undefined,
+      motifEnAttente: undefined,
     }))
     .exhaustive();
 
