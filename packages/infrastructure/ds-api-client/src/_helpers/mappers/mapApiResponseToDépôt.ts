@@ -47,9 +47,9 @@ export const mapApiResponseToDépôt = ({
   champs,
 }: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
   const accessor = createDossierAccessor(champs, colonnes);
-  const accessorAutorisationDUrbanisme = createDossierAccessor(champs, {
-    numéro: "numéro de l'autorisation",
-    date: "date d'obtention de l'autorisation",
+  const accessorAutorisation = createDossierAccessor(champs, {
+    numéro: "Numéro de l'autorisation",
+    date: "Date d'obtention de l'autorisation",
   } satisfies Record<keyof Candidature.Dépôt.RawType['autorisation'], string>);
 
   const accessorDispositifDeStockage = createDossierAccessor(champs, {
@@ -130,7 +130,7 @@ export const mapApiResponseToDépôt = ({
     }),
 
     autorisation: getAutorisation({
-      accessor: accessorAutorisationDUrbanisme,
+      accessor: accessorAutorisation,
       nomChampNuméro: 'numéro',
       nomChampDate: 'date',
     }),

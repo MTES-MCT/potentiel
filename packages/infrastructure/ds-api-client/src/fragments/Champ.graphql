@@ -25,4 +25,14 @@ fragment ChampFragment on Champ {
       ...AddressFragment
     }
   }
+
+  ... on RepetitionChamp {
+    rows {
+      champs {
+        __typename
+        label
+        stringValue
+      }
+    }
+  }
 }

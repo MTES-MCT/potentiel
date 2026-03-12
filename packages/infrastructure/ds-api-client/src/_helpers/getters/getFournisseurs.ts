@@ -53,7 +53,7 @@ export const getFournisseurs = (champs: Champs) => {
   addFournisseurs(
     'poste-conversion',
     'Poste de conversion',
-    'Pour chaque fabricant de poste de conversion, ajouter les informations dans un bloc dédié',
+    'Pour chaque poste de conversion, ajouter un bloc contenant les informations du poste de conversion:',
   );
 
   // Dispositif de stockage
