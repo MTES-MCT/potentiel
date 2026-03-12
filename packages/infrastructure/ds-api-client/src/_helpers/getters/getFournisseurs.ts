@@ -7,7 +7,7 @@ export const getFournisseurs = (champs: Champs) => {
 
   const normalizeLabel = (label: string) => label.trim().toLowerCase();
 
-  const findChampBlocsRépétés = (label: string): RepetitionChamp | undefined =>
+  const findRepetitionChamp = (label: string): RepetitionChamp | undefined =>
     champs.find(
       (champ) =>
         champ.__typename === 'RepetitionChamp' &&
@@ -20,12 +20,19 @@ export const getFournisseurs = (champs: Champs) => {
         champ.__typename === 'TextChamp' && normalizeLabel(champ.label) === normalizeLabel(label),
     );
 
+  const findMultipleDropDownListChamp = (label: string) =>
+    champs.find(
+      (champ) =>
+        champ.__typename === 'MultipleDropDownListChamp' &&
+        normalizeLabel(champ.label) === normalizeLabel(label),
+    );
+
   const addFournisseurs = (
     typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType,
     partialChampLabel: string,
     blocLabel: string,
   ) => {
-    const groupeDeFournisseurs = findChampBlocsRépétés(blocLabel);
+    const groupeDeFournisseurs = findRepetitionChamp(blocLabel);
     if (!groupeDeFournisseurs?.rows) return;
 
     groupeDeFournisseurs.rows.forEach((fournisseur) => {
@@ -58,7 +65,7 @@ export const getFournisseurs = (champs: Champs) => {
 
   // Dispositif de stockage
   const stockageNom = findTextChamp('Stockage - Nom du fabricant');
-  const stockagePays = findTextChamp('Stockage - Pays de fabrication');
+  const stockagePays = findMultipleDropDownListChamp('Stockage - Pays de fabrication');
   if (stockageNom?.stringValue && stockagePays?.stringValue) {
     fournisseurs.push({
       typeFournisseur: 'dispositif-de-stockage',
