@@ -34,7 +34,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et une demande de mainlevée pour des garanties financières échues
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
-        Et les garanties financières en attente du projet ne devraient plus être consultables
+        Et les garanties financières actuelles du projet sont levées
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet lauréat

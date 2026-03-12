@@ -537,14 +537,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    /**
-     * Si une demande de mainlevée est déjà en cours,
-     * on ne demande pas au PP des nouvelles garanties financières
-     */
-    if (this.#statutMainlevée?.estDemandé()) {
-      return;
-    }
-
     await this.demander({
       demandéLe: échuLe,
       dateLimiteSoumission: échuLe.ajouterNombreDeMois(2),

@@ -79,11 +79,6 @@ export const getGarantiesFinancièresData = async ({
           dateÉchéance: actuelles.garantiesFinancières.estAvecDateÉchéance()
             ? actuelles.garantiesFinancières.dateÉchéance.formatter()
             : undefined,
-          motifEnAttente:
-            rôle.aLaPermission('garantiesFinancières.enAttente.consulter') &&
-            actuelles.motifEnAttente
-              ? actuelles.motifEnAttente
-              : undefined,
         }
       : undefined,
     dépôt: dépôt

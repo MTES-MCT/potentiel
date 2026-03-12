@@ -35,6 +35,8 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     {
       garantiesFinancières: {
         statut: 'levé',
+        dateLimiteSoumission: undefined,
+        motifEnAttente: undefined,
         dernièreMiseÀJour: {
           date: accordéLe,
           par: accordéPar,

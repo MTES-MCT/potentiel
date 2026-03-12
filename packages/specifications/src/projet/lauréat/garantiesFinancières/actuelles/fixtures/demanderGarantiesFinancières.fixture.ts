@@ -15,28 +15,6 @@ export interface DemanderGarantiesFinancières {
 
 export type DemanderGarantiesFinancièresProps = DeepPartial<DemanderGarantiesFinancières>;
 
-/***
- * 
- *       identifiantProjet:
-         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
-           .identifiantProjet,
-       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-       garantiesFinancières: gf,
-       document: DocumentProjet.convertirEnValueType(
-         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-         Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-         this.dateConstitution,
-         this.attestation.format,
-       ),
-       dernièreMiseÀJour: {
-         date: DateTime.convertirEnValueType(this.enregistréLe),
-         par: Email.convertirEnValueType(this.enregistréPar),
-       },
- * 
- * 
- * 
- */
-
 export class DemanderGarantiesFinancièresFixture extends AbstractFixture<DemanderGarantiesFinancières> {
   #motif!: string;
   get motif() {
