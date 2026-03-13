@@ -85,10 +85,10 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors l'achèvement du projet devrait être consultable
         Et le statut du projet lauréat devrait être "achevé"
 
-    Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est dans le futur
+    Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au cocontractant est dans le futur
         Quand le porteur transmet une attestation de conformité pour le projet lauréat avec :
-            | date transmission au co-contractant | 2040-01-01 |
-        Alors le porteur devrait être informé que "La date de transmission au co-contractant ne peut pas être une date future"
+            | date transmission au cocontractant | 2040-01-01 |
+        Alors le porteur devrait être informé que "La date de transmission au cocontractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet est dejà achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -105,9 +105,9 @@ Fonctionnalité: Transmettre une attestation de conformité
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
-    Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est antérieure à la date de désignation
+    Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au cocontractant est antérieure à la date de désignation
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | date notification | 2025-11-01 |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat avec :
-            | date transmission au co-contractant | 2025-10-01 |
+            | date transmission au cocontractant | 2025-10-01 |
         Alors le porteur devrait être informé que "La date d'achèvement ne peut pas être antérieure à la date de notification du projet"

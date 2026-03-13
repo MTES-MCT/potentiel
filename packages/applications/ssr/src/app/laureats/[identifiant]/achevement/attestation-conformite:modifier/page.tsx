@@ -19,7 +19,7 @@ import {
 
 export const metadata: Metadata = {
   title: `Modifier l'attestation de conformité - Potentiel`,
-  description: `Formulaire de modification de l'attestation de conformité du projet et de la preuve de sa transmission au co-contractant`,
+  description: `Formulaire de modification de l'attestation de conformité du projet et de la preuve de sa transmission au cocontractant`,
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {

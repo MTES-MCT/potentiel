@@ -4,7 +4,7 @@ subject: Potentiel - {{nom_projet}} - Transmission de l'attestation de conformit
 
 Madame, Monsieur,
 
-Une attestation de conformité et la preuve de sa transmission au co-contractant ont été **transmises** dans Potentiel pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**.
+Une attestation de conformité et la preuve de sa transmission au cocontractant ont été **transmises** dans Potentiel pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**.
 
 Pour le consulter, connectez-vous à Potentiel.
 

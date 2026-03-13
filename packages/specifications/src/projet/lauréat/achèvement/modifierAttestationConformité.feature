@@ -16,11 +16,11 @@ Fonctionnalité: Modifier une attestation de conformité
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat sans attestation de conformité transmise
         Alors l'achèvement du projet devrait être consultable
 
-    Scénario: Impossible de modifier une attestation de conformité si la date de transmission au co-contractant est dans le futur
+    Scénario: Impossible de modifier une attestation de conformité si la date de transmission au cocontractant est dans le futur
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat avec :
-            | date transmission au co-contractant | 2040-01-01 |
-        Alors l'admin devrait être informé que "La date de transmission au co-contractant ne peut pas être une date future"
+            | date transmission au cocontractant | 2040-01-01 |
+        Alors l'admin devrait être informé que "La date de transmission au cocontractant ne peut pas être une date future"
 
     Scénario: Impossible de modifier une attestation de conformité si aucune modification n'est transmise
         Etant donné une attestation de conformité transmise pour le projet lauréat
