@@ -11,7 +11,7 @@ export class ProjetNonAbandonnéError extends InvalidOperationError {
 export class ProjetNonAchevéError extends InvalidOperationError {
   constructor() {
     super(
-      "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au co-contractant et dans Potentiel)",
+      "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au Cocontractant et dans Potentiel)",
     );
   }
 }

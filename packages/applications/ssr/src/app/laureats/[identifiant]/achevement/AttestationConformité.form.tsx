@@ -93,7 +93,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           documentKeys={
             preuveTransmissionAuCocontractant ? [preuveTransmissionAuCocontractant] : undefined
           }
-          label={`Preuve de transmission au co-contractant${estUneModification ? ' (optionnel)' : ''}`}
+          label={`Preuve de transmission au Cocontractant${estUneModification ? ' (optionnel)' : ''}`}
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
@@ -101,7 +101,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
 
         <div className="w-fit">
           <InputDate
-            label="Date de transmission au co-contractant"
+            label="Date de transmission au Cocontractant"
             name="dateTransmissionAuCocontractant"
             max={now()}
             min={DateTime.convertirEnValueType(lauréatNotifiéLe)

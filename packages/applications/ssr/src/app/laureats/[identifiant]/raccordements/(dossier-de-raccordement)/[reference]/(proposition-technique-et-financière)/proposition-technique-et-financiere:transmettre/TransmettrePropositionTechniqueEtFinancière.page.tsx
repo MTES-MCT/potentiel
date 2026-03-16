@@ -36,7 +36,7 @@ export const TransmettrePropositionTechniqueEtFinancièrePage: FC<
           description={
             <div className="py-4 text-justify">
               La proposition technique et financière transmise sur Potentiel facilitera vos
-              démarches administratives avec le cocontractant connecté à Potentiel, notamment pour
+              démarches administratives avec le Cocontractant connecté à Potentiel, notamment pour
               des retards de délai de raccordement.
               <br /> Le dépôt dans Potentiel est informatif, il ne remplace pas la transmission à
               votre gestionnaire de réseau.

@@ -6,7 +6,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Etant donné le projet lauréat "L'hélice qui tourne"
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et le co-contractant "EDF" associé à la zone du projet
+        Et le Cocontractant "EDF" associé à la zone du projet
 
     Scénario: La DGEC accorde la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
@@ -23,7 +23,7 @@ Fonctionnalité: Accorder la demande d'abandon d'un projet lauréat
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
             | nom_projet | L'hélice qui tourne                                          |
-        Et un email a été envoyé au cocontractant avec :
+        Et un email a été envoyé au Cocontractant avec :
             | sujet      | Potentiel - L'hélice qui tourne - Demande d'abandon accordée |
             | nom_projet | L'hélice qui tourne                                          |
 

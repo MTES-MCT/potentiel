@@ -8,7 +8,7 @@ export class ImpossibleDeCalculerLaDateAchèvementPrévisionnelle extends Invali
 
 export class DateDeTransmissionAuCoContractantFuturError extends InvalidOperationError {
   constructor() {
-    super('La date de transmission au co-contractant ne peut pas être une date future');
+    super('La date de transmission au Cocontractant ne peut pas être une date future');
   }
 }
 

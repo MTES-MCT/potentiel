@@ -261,7 +261,7 @@ const champsCandidature = [
   'puissanceALaPointe',
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
-   * Cette information est utilisée par le co-contractant.
+   * Cette information est utilisée par le Cocontractant.
    */
   'coefficientKChoisi',
   /**

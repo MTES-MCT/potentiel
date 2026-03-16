@@ -43,12 +43,12 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
           ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
         />
         <TimelineItemFile
-          label="Télécharger la preuve de transmission au cocontractant"
+          label="Télécharger la preuve de transmission au Cocontractant"
           document={preuveTransmission}
-          ariaLabel={`Télécharger la preuve de transmission au cocontractant du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
+          ariaLabel={`Télécharger la preuve de transmission au Cocontractant du projet achevé le ${formatDateToText(dateTransmissionAuCocontractant)}`}
         />
         <div>
-          Date de transmission au cocontractant :{' '}
+          Date de transmission au Cocontractant :{' '}
           <span className="font-semibold">
             {<FormattedDate date={dateTransmissionAuCocontractant} />}
           </span>

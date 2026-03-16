@@ -145,7 +145,7 @@ Quand(
 );
 
 Quand(
-  'un administrateur invite un cocontractant pour la zone {string}',
+  'un administrateur invite un Cocontractant pour la zone {string}',
   async function (this: PotentielWorld, zone: string) {
     await inviterUtilisateur.call(this, {
       rôle: Role.cocontractant.nom,
@@ -155,7 +155,7 @@ Quand(
 );
 
 Quand(
-  'un administrateur invite un cocontractant pour la zone du projet',
+  'un administrateur invite un Cocontractant pour la zone du projet',
   async function (this: PotentielWorld) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.cocontractant.nom));
   },

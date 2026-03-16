@@ -28,7 +28,7 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
         ))}
       {value.estAchevé && Option.isSome(value.preuveTransmissionAuCocontractant) && (
         <DownloadDocument
-          label="Télécharger la preuve de transmission au cocontractant"
+          label="Télécharger la preuve de transmission au Cocontractant"
           url={Routes.Document.télécharger(
             DocumentProjet.bind(value.preuveTransmissionAuCocontractant).formatter(),
           )}
