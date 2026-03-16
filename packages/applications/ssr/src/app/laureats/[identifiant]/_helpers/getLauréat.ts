@@ -18,6 +18,7 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   abandon?: Lauréat.Abandon.ConsulterAbandonReadModel;
+  demandeDélai?: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
 };
 
 export const getLauréat = cache(async (identifiantProjet: Props): Promise<GetLauréat> => {
@@ -188,3 +189,16 @@ export const getInstallationInfos = cache(async (identifiantProjet: Props) => {
 
   return Option.isSome(installation) ? installation : undefined;
 });
+
+// export const getDemandeDélaiInfos = cache(async (identifiantProjet: Props) => {
+//   const demandeDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+//     type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+//     data: {
+//       // utilisateur
+//       identifiantProjet,
+//       statuts: ['demandé'],
+//     },
+//   });
+
+//   return Option.isSome(demandeDélai) ? demandeDélai : undefined;
+// });

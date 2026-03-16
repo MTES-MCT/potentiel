@@ -10,6 +10,7 @@ import { BadgeTâches } from '@/components/atoms/menu/BadgeTâches';
 
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
+import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -83,6 +84,7 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.typologieInstallation ||
     champsSupplémentaires.autorisation
   );
+
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')
     : undefined;
@@ -105,6 +107,18 @@ export const getLauréatMenuItems = async ({
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
+
+  const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
+
+  const demandesEnCoursMenu =
+    demandesEnCours.length > 0
+      ? {
+          text: 'Demandes en cours',
+          items: demandesEnCours
+            .map((item) => link(item.text, item.href))
+            .toSorted((a, b) => a.text.localeCompare(b.text)),
+        }
+      : undefined;
 
   const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine]
     .filter((item) => !!item)
@@ -129,6 +143,7 @@ export const getLauréatMenuItems = async ({
       ].filter((item) => !!item),
     },
     modificationMenu,
+    demandesEnCoursMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
