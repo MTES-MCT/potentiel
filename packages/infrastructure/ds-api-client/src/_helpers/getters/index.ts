@@ -6,3 +6,4 @@ export * from './getTypeGarantiesFinancières.js';
 export * from './getTypeNatureDeLExploitation.js';
 export * from './getTypologieInstallation.js';
 export * from './getDispositifDeStockage.js';
+export * from './getFournisseurs.js';

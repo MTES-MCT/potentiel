@@ -11,6 +11,7 @@ import {
   getDispositifDeStockage,
   getTypologieInstallation,
   getAutorisation,
+  getFournisseurs,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
@@ -21,21 +22,21 @@ const colonnes = {
   nomReprésentantLégal: `NOM et Prénom du représentant légal`,
   emailContact: 'Adresse électronique du contact',
   nomProjet: 'Nom du projet',
-  puissance: 'Puissance installée P',
+  puissance: 'Puissance installée',
   puissanceDeSite: 'Puissance P+Q',
   prixReference: 'Prix unitaire de référence',
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
-  typeGarantiesFinancières: 'Type de garantie financière',
+  typeGarantiesFinancières: "Type de garantie financière d'exécution",
 
   localité: 'Adresse postale du site de production',
-  historiqueAbandon: 'Préciser le statut du projet',
+  historiqueAbandon: "Le projet a-t-il fait l'objet d'une candidature précédemment ?",
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
 
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
-  coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
+  coefficientKChoisi: "Souhaitez-vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 type MapApiResponseToDépôt = {
@@ -46,13 +47,14 @@ export const mapApiResponseToDépôt = ({
   champs,
 }: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
   const accessor = createDossierAccessor(champs, colonnes);
-  const accessorAutorisationDUrbanisme = createDossierAccessor(champs, {
-    numéro: "numéro de l'autorisation",
-    date: "date d'obtention de l'autorisation",
+  const accessorAutorisation = createDossierAccessor(champs, {
+    numéro: "Numéro de l'autorisation",
+    date: "Date d'obtention de l'autorisation",
   } satisfies Record<keyof Candidature.Dépôt.RawType['autorisation'], string>);
 
   const accessorDispositifDeStockage = createDossierAccessor(champs, {
-    installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+    installationAvecDispositifDeStockage:
+      "L'Installation est-elle couplée à un dispositif de stockage ?",
     capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
     puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
@@ -128,16 +130,16 @@ export const mapApiResponseToDépôt = ({
     }),
 
     autorisation: getAutorisation({
-      accessor: accessorAutorisationDUrbanisme,
+      accessor: accessorAutorisation,
       nomChampNuméro: 'numéro',
       nomChampDate: 'date',
     }),
 
     typologieInstallation: getTypologieInstallation(champs),
 
+    fournisseurs: getFournisseurs(champs),
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
-    fournisseurs: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
