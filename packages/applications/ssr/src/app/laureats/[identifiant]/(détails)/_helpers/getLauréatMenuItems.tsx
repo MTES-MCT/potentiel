@@ -7,6 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 import { BadgeTâches } from '@/components/atoms/menu/BadgeTâches';
+import { BadgeDemandesEnCours } from '@/components/atoms/menu/BadgeDemandeEnCours';
 
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
@@ -113,7 +114,12 @@ export const getLauréatMenuItems = async ({
   const demandesEnCoursMenu =
     demandesEnCours.length > 0
       ? {
-          text: 'Demandes en cours',
+          text: (
+            <BadgeDemandesEnCours
+              nombreDemandes={demandesEnCours.length}
+              utilisateur={utilisateur}
+            />
+          ),
           items: demandesEnCours
             .map((item) => link(item.text, item.href))
             .toSorted((a, b) => a.text.localeCompare(b.text)),
