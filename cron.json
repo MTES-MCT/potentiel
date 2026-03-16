@@ -33,7 +33,7 @@
       "size": "M"
     },
     {
-      "command": "0 4 * * 0 potentiel-cli datagouv update-ressource",
+      "command": "0 4 * * 0 potentiel-cli stats publier-datagouv",
       "size": "M"
     }
   ]
