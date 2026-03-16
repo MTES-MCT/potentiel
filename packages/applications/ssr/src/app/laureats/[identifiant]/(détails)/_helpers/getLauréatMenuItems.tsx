@@ -114,12 +114,7 @@ export const getLauréatMenuItems = async ({
   const demandesEnCoursMenu =
     demandesEnCours.length > 0
       ? {
-          text: (
-            <BadgeDemandesEnCours
-              nombreDemandes={demandesEnCours.length}
-              utilisateur={utilisateur}
-            />
-          ),
+          text: <BadgeDemandesEnCours nombreDemandes={demandesEnCours.length} />,
           items: demandesEnCours
             .map((item) => link(item.text, item.href))
             .toSorted((a, b) => a.text.localeCompare(b.text)),
