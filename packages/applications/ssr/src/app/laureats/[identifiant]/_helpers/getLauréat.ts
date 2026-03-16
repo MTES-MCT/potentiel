@@ -5,6 +5,7 @@ import { cache } from 'react';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Email } from '@potentiel-domain/common';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
@@ -190,15 +191,18 @@ export const getInstallationInfos = cache(async (identifiantProjet: Props) => {
   return Option.isSome(installation) ? installation : undefined;
 });
 
-// export const getDemandeDélaiInfos = cache(async (identifiantProjet: Props) => {
-//   const demandeDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
-//     type: 'Lauréat.Délai.Query.ListerDemandeDélai',
-//     data: {
-//       // utilisateur
-//       identifiantProjet,
-//       statuts: ['demandé'],
-//     },
-//   });
+export const getDemandeDélaiEnCoursInfos = async (
+  identifiantProjet: IdentifiantProjet.RawType,
+  emailUtilisateur: Email.RawType,
+) => {
+  const demandeDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+    type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+    data: {
+      utilisateur: emailUtilisateur,
+      identifiantProjet,
+      statuts: ['demandé'],
+    },
+  });
 
-//   return Option.isSome(demandeDélai) ? demandeDélai : undefined;
-// });
+  return demandeDélai.items.length ? demandeDélai.items[0] : undefined;
+};

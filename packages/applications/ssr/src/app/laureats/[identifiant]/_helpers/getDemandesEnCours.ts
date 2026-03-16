@@ -13,6 +13,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import {
   getAbandonInfos,
   getActionnaireInfos,
+  getDemandeDélaiEnCoursInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from './getLauréat';
@@ -74,7 +75,17 @@ export const getDemandesEnCours = async ({
     });
   }
 
-  // délai
+  const délai = await getDemandeDélaiEnCoursInfos(
+    identifiantProjet.formatter(),
+    utilisateur.identifiantUtilisateur.email,
+  );
+
+  if (délai) {
+    test.push({
+      text: 'Délai',
+      href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
+    });
+  }
 
   return test;
 };
