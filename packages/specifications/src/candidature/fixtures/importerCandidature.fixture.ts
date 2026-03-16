@@ -278,7 +278,7 @@ const getNatureDeLExploitationFixture = (
     : {
         typeNatureDeLExploitation,
         tauxPrévisionnelACI:
-          typeNatureDeLExploitation === 'vente-avec-injection-du-surplus'
+          typeNatureDeLExploitation === 'autoconsommation-individuelle'
             ? faker.number.int({ min: 0, max: 100 })
             : undefined,
         ...dépôtValue,

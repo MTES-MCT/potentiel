@@ -48,8 +48,9 @@ const typeGf = [
 ] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
 const typeNatureDeLExploitationMapper = {
-  'Vente avec injection du surplus': 'vente-avec-injection-du-surplus',
+  'Vente avec injection du surplus': 'autoconsommation-individuelle',
   'Vente avec injection en totalité': 'vente-avec-injection-en-totalité',
+  'Autoconsommation individuelle': 'autoconsommation-individuelle',
 } satisfies Record<string, Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType>;
 
 const historiqueAbandon = [

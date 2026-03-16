@@ -275,7 +275,7 @@ describe('Schéma dépôt', () => {
         autorisation: { numéro: 'URB-01', date: '12/12/2022' },
         puissanceDeSite: '200',
         natureDeLExploitation: {
-          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          typeNatureDeLExploitation: 'autoconsommation-individuelle',
           tauxPrévisionnelACI: '10',
         },
         dispositifDeStockage: {
@@ -305,7 +305,7 @@ describe('Schéma dépôt', () => {
         },
         obligationDeSolarisation: true,
         natureDeLExploitation: {
-          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          typeNatureDeLExploitation: 'autoconsommation-individuelle',
           tauxPrévisionnelACI: 10,
         },
       });
@@ -388,7 +388,7 @@ describe('Schéma dépôt', () => {
     test('taux prévisionnel ACI requis', () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
-        natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-du-surplus' },
+        natureDeLExploitation: { typeNatureDeLExploitation: 'autoconsommation-individuelle' },
         tauxPrévisionnelACI: undefined,
       });
 
@@ -396,7 +396,7 @@ describe('Schéma dépôt', () => {
       assertError(
         result,
         ['natureDeLExploitation', 'tauxPrévisionnelACI'],
-        `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+        `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type autoconsommation individuelle (vente avec injection du surplus)`,
       );
     });
 

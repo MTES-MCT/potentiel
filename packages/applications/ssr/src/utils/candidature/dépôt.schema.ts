@@ -75,12 +75,12 @@ const natureDeLExploitationOptionalSchema = z
   })
   .superRefine((data, ctx) => {
     if (
-      data.typeNatureDeLExploitation === 'vente-avec-injection-du-surplus' &&
+      data.typeNatureDeLExploitation === 'autoconsommation-individuelle' &&
       data.tauxPrévisionnelACI === undefined
     ) {
       ctx.addIssue({
         code: 'custom',
-        message: `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
+        message: `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type autoconsommation individuelle (vente avec injection du surplus)`,
         path: ['tauxPrévisionnelACI'],
       });
     }

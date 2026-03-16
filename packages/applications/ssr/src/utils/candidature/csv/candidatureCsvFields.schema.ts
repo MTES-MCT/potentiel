@@ -88,7 +88,11 @@ export const codePostalCsvSchema = z
 
 export const natureDeLExploitationCsvSchema = z
   .union([
-    z.enum(['Vente avec injection du surplus', 'Vente avec injection en totalité']),
+    z.enum([
+      'Vente avec injection du surplus',
+      'Autoconsommation individuelle',
+      'Vente avec injection en totalité',
+    ]),
     z.literal(''),
   ])
   .optional()

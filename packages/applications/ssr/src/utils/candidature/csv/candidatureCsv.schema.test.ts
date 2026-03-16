@@ -198,7 +198,7 @@ describe('Schema candidature CSV', () => {
       actionnariat: 'gouvernance-partagée',
       autorisation: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
       natureDeLExploitation: {
-        typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+        typeNatureDeLExploitation: 'autoconsommation-individuelle',
         tauxPrévisionnelACI: 32,
       },
       typologieInstallation: [
