@@ -45,28 +45,6 @@ Alors(
 );
 
 Alors(
-  `les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await waitForExpect(async () => {
-      const garantiesFinancièresActuelles =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
-
-      assert(Option.isSome(garantiesFinancièresActuelles), 'Garanties financières manquante');
-
-      expect(garantiesFinancièresActuelles.statut.estEnAttente()).to.be.true;
-      expect(garantiesFinancièresActuelles.garantiesFinancières.type.estInconnu()).to.be.true;
-    });
-  },
-);
-
-Alors(
   /l'historique des garanties financières du projet lauréat devrait être mis à jour avec :$/,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

@@ -26,6 +26,8 @@ export const garantiesFinancièresEnregistréesProjector = async ({
           date: enregistréLe,
           par: enregistréPar,
         },
+        dateLimiteSoumission: undefined,
+        motifEnAttente: undefined,
       },
     },
   );

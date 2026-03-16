@@ -10,21 +10,23 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
   const actuelles = await getGfActuelles(identifiantProjet);
 
   if (actuelles) {
+    const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity['archives'][number] =
+      {
+        ...actuelles.garantiesFinancières,
+        dernièreMiseÀJour: {
+          date: effacéLe,
+          par: effacéPar,
+        },
+        motif: 'changement de producteur',
+      };
+
     await upsertProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
       `archives-garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,
-        archives: [
-          ...(archives?.archives ?? []),
-          {
-            ...actuelles.garantiesFinancières,
-            dernièreMiseÀJour: {
-              date: effacéLe,
-              par: effacéPar,
-            },
-            motif: 'changement de producteur',
-          },
-        ],
+        archives: archives?.archives.length
+          ? [...archives.archives, archiveÀAjouter]
+          : [archiveÀAjouter],
       },
     );
   }

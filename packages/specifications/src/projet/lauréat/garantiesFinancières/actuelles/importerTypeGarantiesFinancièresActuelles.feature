@@ -18,7 +18,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              | CRE4 - ZNI               |                 |                      |
             | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
-    Scénario: Un admin importe des garanties financières actuelles ayant initialement un statut échu doit re-demander des gf
+    Scénario: Si des GF avec date d'échéance déjà passée sont importées avec la candidature, le projet doit avoir des GF en attente avec comme motif "échéance-garanties-financières-actuelles"
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |

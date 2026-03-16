@@ -41,7 +41,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
-    Scénario: La DREAL enregistre des garanties financières actuelles ayant initialement un statut échu doit re-demander des gf
+    Scénario: Si la DREAL enregistre des GF avec date d'échéance passée, des GF doivent être attendues avec pour motif "échéance-garanties-financières-actuelles"
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |

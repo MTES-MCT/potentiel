@@ -13,7 +13,6 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
         Et le projet éliminé ne devrait plus être consultable
-        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat

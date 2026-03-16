@@ -5,7 +5,6 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
     Scénario: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |
-            | type GF        | consignation    |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un dépôt de garanties financières avec :
             | type GF | consignation |
@@ -15,7 +14,8 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et le porteur ne doit plus avoir accès au projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet
-        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
+        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+            | motif | changement-producteur |
         Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | raison | changement de producteur |
         Et un email a été envoyé au porteur avec :
