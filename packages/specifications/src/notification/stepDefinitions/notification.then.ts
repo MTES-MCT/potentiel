@@ -136,7 +136,7 @@ Alors(
 );
 
 Alors(
-  'un email a été envoyé au cocontractant avec :',
+  'un email a été envoyé au Cocontractant avec :',
   async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.cocontractantFixture.email, data);
   },

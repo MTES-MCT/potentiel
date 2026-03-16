@@ -28,7 +28,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  'le cocontractant {string} associé à la zone du projet',
+  'le Cocontractant {string} associé à la zone du projet',
   async function (this: PotentielWorld, nom: string) {
     const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
     const cocontractant = this.utilisateurWorld.cocontractantFixture.créer({

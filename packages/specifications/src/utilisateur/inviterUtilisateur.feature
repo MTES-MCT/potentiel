@@ -48,10 +48,10 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | sujet | Invitation à suivre les projets sur Potentiel        |
             | url   | https://potentiel.beta.gouv.fr/reseaux/raccordements |
 
-    Scénario: Inviter un cocontractant
+    Scénario: Inviter un Cocontractant
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | région | <Région> |
-        Quand un administrateur invite un cocontractant pour la zone du projet
+        Quand un administrateur invite un Cocontractant pour la zone du projet
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet | Invitation à suivre les projets sur Potentiel |
@@ -138,10 +138,10 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | dreal             |
             | cocontractant     |
 
-    Scénario: Un cocontractant n'a accès qu'aux projets de sa zone
+    Scénario: Un Cocontractant n'a accès qu'aux projets de sa zone
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | région | <Région> |
-        Quand un administrateur invite un cocontractant pour la zone "<Zone>"
+        Quand un administrateur invite un Cocontractant pour la zone "<Zone>"
         Alors l'utilisateur invité n'a pas accès au projet lauréat
 
         Exemples:

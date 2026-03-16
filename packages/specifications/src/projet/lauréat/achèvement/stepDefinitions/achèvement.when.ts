@@ -46,9 +46,9 @@ Quand(
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
-          ...(exemple['date transmission au cocontractant'] && {
+          ...(exemple['date transmission au Cocontractant'] && {
             dateTransmissionAuCocontractant: new Date(
-              exemple['date transmission au cocontractant'],
+              exemple['date transmission au Cocontractant'],
             ).toISOString(),
           }),
         });
@@ -173,9 +173,9 @@ Quand(
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
-          ...(exemple['date transmission au cocontractant'] && {
+          ...(exemple['date transmission au Cocontractant'] && {
             dateTransmissionAuCocontractant: new Date(
-              exemple['date transmission au cocontractant'],
+              exemple['date transmission au Cocontractant'],
             ).toISOString(),
           }),
         });
@@ -199,7 +199,7 @@ Quand(
 );
 
 Quand(
-  "le cocontractant transmet la date d'achèvement {string} pour le projet {lauréat-éliminé}",
+  "le Cocontractant transmet la date d'achèvement {string} pour le projet {lauréat-éliminé}",
   async function (
     this: PotentielWorld,
     dateAchèvementValue: string,

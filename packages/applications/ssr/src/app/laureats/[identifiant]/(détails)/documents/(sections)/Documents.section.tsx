@@ -131,7 +131,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
 
         if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
           documents.push({
-            type: 'Preuve de transmission au cocontractant',
+            type: 'Preuve de transmission au Cocontractant',
             date: achèvement.preuveTransmissionAuCocontractant.dateCréation,
             format: achèvement.preuveTransmissionAuCocontractant.format,
             url: Routes.Document.télécharger(

@@ -11,7 +11,7 @@ export const InfoBoxAttestationConformité = () => (
         :
         <br />
         <span className="italic">
-          Date de fourniture au cocontractant de l’attestation de conformité mentionnée à l’article
+          Date de fourniture au Cocontractant de l’attestation de conformité mentionnée à l’article
           R. 311-27-1 du code de l’énergie.
         </span>
       </p>
