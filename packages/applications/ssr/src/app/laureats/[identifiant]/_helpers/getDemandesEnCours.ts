@@ -1,11 +1,3 @@
-// type Props<TDomain extends AppelOffre.DomainesConcernésParChangement> = {
-//   identifiantProjet: IdentifiantProjet.ValueType;
-//   utilisateur: Role.ValueType;
-//   domain: TDomain;
-//   /** Forcer l'instruction, utile quand le domaine a une règle complexe (actionnaire)  */
-//   nécessiteInstruction?: boolean;
-// };
-
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
