@@ -8,16 +8,19 @@ import {
   ListerProjetAvecAchevementATransmettreReadModel,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
 import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
 
 // UseCases
 export type AchèvementUseCase =
+  | EnregistrerAttestationConformitéUseCase
   | TransmettreAttestationConformitéUseCase
   | ModifierAttestationConformitéUseCase
   | TransmettreDateAchèvementUseCase;
 
 export type {
+  EnregistrerAttestationConformitéUseCase,
   TransmettreAttestationConformitéUseCase,
   ModifierAttestationConformitéUseCase,
   TransmettreDateAchèvementUseCase,

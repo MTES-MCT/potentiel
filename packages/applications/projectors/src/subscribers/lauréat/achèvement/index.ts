@@ -9,6 +9,7 @@ import { attestationConformitéModifiéeProjector } from './attestationConformit
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector.js';
 import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector.js';
 import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector.js';
+import { attestationConformitéEnregistréeProjector } from './attestationConformité/attestationConformitéEnregistrée.projector.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent | RebuildTriggered;
 
@@ -20,6 +21,10 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
       .with({ type: 'AttestationConformitéTransmise-V1' }, attestationConformitéTransmiseProjector)
       .with({ type: 'AttestationConformitéModifiée-V1' }, attestationConformitéModifiéeProjector)
+      .with(
+        { type: 'AttestationConformitéEnregistrée-V1' },
+        attestationConformitéEnregistréeProjector,
+      )
       .with(
         { type: 'DateAchèvementPrévisionnelCalculée-V1' },
         dateAchèvementPrévisionnelCalculéeProjector,

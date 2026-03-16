@@ -23,24 +23,15 @@ export class TransmettreAttestationConformitéFixture
   extends AbstractFixture<TransmettreAttestationConformité>
   implements TransmettreAttestationConformité
 {
-  #formatAttestation!: string;
-  #contentAttestation!: string;
+  #attestation!: TransmettreAttestationConformité['attestation'];
 
   get attestation(): TransmettreAttestationConformité['attestation'] {
-    return {
-      format: this.#formatAttestation,
-      content: this.#contentAttestation,
-    };
+    return this.#attestation;
   }
 
-  #formatPreuve!: string;
-  #contentPreuve!: string;
-
+  #preuve!: TransmettreAttestationConformité['preuve'];
   get preuve(): TransmettreAttestationConformité['preuve'] {
-    return {
-      format: this.#formatPreuve,
-      content: this.#contentPreuve,
-    };
+    return this.#preuve;
   }
 
   #dateTransmissionAuCocontractant!: string;
@@ -68,12 +59,6 @@ export class TransmettreAttestationConformitéFixture
   créer(
     partialFixture?: Partial<TransmettreAttestationConformité>,
   ): TransmettreAttestationConformité {
-    const contentAttestation = faker.word.words();
-    const formatAttestation = 'application/pdf';
-
-    const contentPreuve = faker.word.words();
-    const formatPreuve = 'application/pdf';
-
     const fixture: TransmettreAttestationConformité = {
       dateTransmissionAuCocontractant: faker.date
         .between({
@@ -86,12 +71,12 @@ export class TransmettreAttestationConformitéFixture
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       attestation: {
-        format: formatAttestation,
-        content: contentAttestation,
+        format: 'application/pdf',
+        content: faker.word.words(),
       },
       preuve: {
-        format: formatPreuve,
-        content: contentPreuve,
+        format: 'application/pdf',
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
@@ -99,10 +84,8 @@ export class TransmettreAttestationConformitéFixture
     this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
     this.#date = fixture.date;
     this.#utilisateur = fixture.utilisateur;
-    this.#formatAttestation = formatAttestation;
-    this.#contentAttestation = contentAttestation;
-    this.#formatPreuve = formatPreuve;
-    this.#contentPreuve = contentPreuve;
+    this.#attestation = fixture.attestation;
+    this.#preuve = fixture.preuve;
 
     this.aÉtéCréé = true;
 
@@ -115,7 +98,7 @@ export class TransmettreAttestationConformitéFixture
         identifiantProjet.formatter(),
         Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(this.date).formatter(),
-        this.#formatAttestation,
+        this.attestation.format,
       ),
 
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
@@ -123,7 +106,7 @@ export class TransmettreAttestationConformitéFixture
         identifiantProjet.formatter(),
         Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant).formatter(),
-        this.#formatPreuve,
+        this.attestation.format,
       ),
       misÀJourLe: DateTime.convertirEnValueType(this.date),
       misÀJourPar: Email.convertirEnValueType(this.utilisateur),

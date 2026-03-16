@@ -17,7 +17,7 @@ EtantDonné(
       this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
-      type: 'Lauréat.AchèvementUseCase.TransmettreAttestationConformité',
+      type: 'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         attestationValue: convertFixtureFileToReadableStream(attestation),
@@ -25,6 +25,49 @@ EtantDonné(
         dateValue: date,
         preuveTransmissionAuCocontractantValue: convertFixtureFileToReadableStream(preuve),
         identifiantUtilisateurValue: utilisateur,
+      },
+    });
+  },
+);
+
+EtantDonné(
+  'une attestation de conformité enregistrée pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { enregistréeLe, enregistréePar, attestation } =
+      this.lauréatWorld.achèvementWorld.enregistrerAttestationConformitéFixture.créer({});
+
+    await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        attestationConformitéValue: convertFixtureFileToReadableStream(attestation),
+        enregistréeLeValue: enregistréeLe,
+        enregistréeParValue: enregistréePar,
+      },
+    });
+  },
+);
+
+EtantDonné(
+  'une attestation de conformité modifiée pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { attestation, date, dateTransmissionAuCocontractant, utilisateur, preuve } =
+      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({});
+
+    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+        attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
+        preuveTransmissionAuCocontractantValue:
+          preuve && convertFixtureFileToReadableStream(preuve),
+        dateValue: date,
+        utilisateurValue: utilisateur,
       },
     });
   },

@@ -26,7 +26,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>(
-        'Lauréat.AchèvementUseCase.ModifierAttestationConformité',
+        'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
       );
 
       const identifiantProjet = decodeParameter(identifiant);
