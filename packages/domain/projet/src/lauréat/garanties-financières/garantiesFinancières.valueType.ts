@@ -213,9 +213,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 
 type ConvertirEnValueTypeProps = {
   type: string;
-  dateÉchéance: string | undefined;
-  attestation: { format: string } | undefined;
-  dateConstitution: string | undefined;
+  dateÉchéance?: string;
+  attestation?: { format: string };
+  dateConstitution?: string;
 };
 
 export const convertirEnValueType = ({

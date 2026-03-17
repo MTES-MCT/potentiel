@@ -1,29 +1,41 @@
 import { Entity } from '@potentiel-domain/entity';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { StatutGarantiesFinancières } from './index.js';
+import { IdentifiantProjet } from '../../index.js';
 
-export type GarantiesFinancièresDétails = {
-  statut: StatutGarantiesFinancières.RawType;
-  motifEnAttente?: string;
-  dateLimiteSoumission?: string;
-  type: string;
-  dateÉchéance?: string;
-  attestation?: { format: string };
-  dateConstitution?: string;
-  soumisLe?: string;
-  validéLe?: string;
-  typeImportéLe?: string;
-  dernièreMiseÀJour: {
-    date: string;
-    par?: string;
-  };
-};
+import {
+  GarantiesFinancières,
+  MotifDemandeGarantiesFinancières,
+  StatutGarantiesFinancières,
+} from './index.js';
+
+// type ArchiveGarantiesFinancières = GarantiesFinancières.RawType & {
+//   dateArchivage: DateTime.RawType;
+//   motif:
+//     | 'changement de producteur'
+//     | 'renouvellement des garanties financières échues'
+//     | 'modification des garanties financières';
+
+//   soumisLe?: DateTime.RawType;
+//   validéLe?: DateTime.RawType;
+// };
 
 export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
   {
-    identifiantProjet: string;
+    identifiantProjet: IdentifiantProjet.RawType;
+    statut: StatutGarantiesFinancières.RawType;
+    enAttente?: {
+      motif: MotifDemandeGarantiesFinancières.RawType;
+      dateLimiteSoumission: DateTime.RawType;
+    };
+    actuelles?: GarantiesFinancières.RawType;
 
-    garantiesFinancières: GarantiesFinancièresDétails;
+    soumisLe?: DateTime.RawType;
+    validéLe?: DateTime.RawType;
+    dernièreMiseÀJour: {
+      date: DateTime.RawType;
+      par?: Email.RawType;
+    };
   }
 >;

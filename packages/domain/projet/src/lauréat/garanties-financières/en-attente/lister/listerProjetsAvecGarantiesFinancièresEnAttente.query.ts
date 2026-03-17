@@ -34,7 +34,7 @@ export type ListerGarantiesFinancièresEnAttenteQuery = Message<
   'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
   {
     appelOffre?: Array<string>;
-    motif?: string;
+    motif?: MotifDemandeGarantiesFinancières.RawType;
     cycle?: string;
     statut?: StatutLauréat.RawType;
     identifiantUtilisateur: string;
@@ -72,17 +72,17 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       GarantiesFinancièresEntity,
       [LauréatEntity, LeftJoin<DépôtGarantiesFinancièresEntity>]
     >('garanties-financieres', {
-      orderBy: { garantiesFinancières: { dernièreMiseÀJour: { date: 'descending' } } },
+      orderBy: { dernièreMiseÀJour: { date: 'descending' } },
       range,
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
 
-        garantiesFinancières: {
-          statut: Where.matchAny([
-            StatutGarantiesFinancières.enAttente.statut,
-            StatutGarantiesFinancières.échu.statut,
-          ]),
-          motifEnAttente: Where.equal(motif) ?? Where.notEqualNull(),
+        statut: Where.matchAny([
+          StatutGarantiesFinancières.enAttente.statut,
+          StatutGarantiesFinancières.échu.statut,
+        ]),
+        enAttente: {
+          motif: Where.equal(motif) ?? Where.notEqualNull(),
         },
       },
       join: [
@@ -134,16 +134,13 @@ type MapToReadModelProps = (
 const mapToReadModel: MapToReadModelProps = ({
   lauréat: { nomProjet, statut },
   identifiantProjet,
-  garantiesFinancières: {
-    motifEnAttente,
-    dateLimiteSoumission,
-    dernièreMiseÀJour: { date },
-  },
+  enAttente,
+  dernièreMiseÀJour: { date },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motifEnAttente!),
-  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission!),
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente!.motif),
+  dateLimiteSoumission: DateTime.convertirEnValueType(enAttente!.dateLimiteSoumission),
   statut: StatutLauréat.convertirEnValueType(statut),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),

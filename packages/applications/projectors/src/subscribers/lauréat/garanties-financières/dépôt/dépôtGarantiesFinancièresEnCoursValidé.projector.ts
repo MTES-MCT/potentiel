@@ -16,10 +16,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
     | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
     | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) => {
-  const garantiesFinancières = await match(event)
-    .returnType<
-      Promise<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['garantiesFinancières']>
-    >()
+  const nouvellesGarantiesFinancières = await match(event)
+    .returnType<Promise<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>>()
     .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' }, async ({ payload }) => {
       const dépôtExistant =
         await findProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
@@ -32,51 +30,41 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         );
       }
 
-      return {
-        statut: 'validé',
-        type: dépôtExistant.dépôt.type,
-        dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
-        attestation: dépôtExistant.dépôt.attestation,
-        dateConstitution: dépôtExistant.dépôt.dateConstitution,
-        soumisLe: dépôtExistant.dépôt.soumisLe,
-        validéLe: payload.validéLe,
-        dernièreMiseÀJour: {
-          date: payload.validéLe,
-          par: payload.validéPar,
-        },
-        dateLimiteSoumission: undefined,
-        motifEnAttente: undefined,
-      };
+      return Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+        dépôtExistant.dépôt,
+      );
     })
-    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
-      statut: 'validé',
-      type: payload.type,
-      dateÉchéance: payload.dateÉchéance,
-      attestation: payload.attestation,
-      dateConstitution: payload.dateConstitution,
-      validéLe: payload.validéLe,
-      soumisLe: payload.soumisLe,
-      dernièreMiseÀJour: {
-        date: payload.validéLe,
-        par: payload.validéPar,
-      },
-      dateLimiteSoumission: undefined,
-      motifEnAttente: undefined,
-    }))
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) =>
+      Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(payload),
+    )
     .exhaustive();
 
+  const garantiesFinancières: Omit<
+    Lauréat.GarantiesFinancières.GarantiesFinancièresEntity,
+    'type'
+  > = {
+    identifiantProjet: event.payload.identifiantProjet,
+    actuelles: nouvellesGarantiesFinancières.formatter(),
+    statut: 'validé',
+    dernièreMiseÀJour: {
+      date: event.payload.validéLe,
+      par: event.payload.validéPar,
+    },
+  };
   const gfActuelles = await getGfActuelles(event.payload.identifiantProjet);
-
-  if (gfActuelles) {
+  if (gfActuelles?.actuelles) {
     const motif: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
-      gfActuelles.garantiesFinancières.statut === 'échu'
+      gfActuelles.statut === 'échu'
         ? 'renouvellement des garanties financières échues'
         : 'modification des garanties financières';
 
     const archivesGf = await getArchivesGf(event.payload.identifiantProjet);
 
-    const archiveÀAjouter = {
-      ...gfActuelles.garantiesFinancières,
+    const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières = {
+      statut: gfActuelles.statut,
+      ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+        gfActuelles.actuelles,
+      ).formatter(),
       dernièreMiseÀJour: {
         date: event.payload.validéLe,
         par: event.payload.validéPar,
@@ -94,12 +82,12 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
 
     await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${event.payload.identifiantProjet}`,
-      { garantiesFinancières },
+      garantiesFinancières,
     );
   } else {
     await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${event.payload.identifiantProjet}`,
-      { identifiantProjet: event.payload.identifiantProjet, garantiesFinancières },
+      garantiesFinancières,
     );
     await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
       `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,

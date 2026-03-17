@@ -12,12 +12,12 @@ export const garantiesFinancièresDemandéesProjector = async ({
     await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
-        garantiesFinancières: {
-          motifEnAttente: motif,
+        enAttente: {
+          motif,
           dateLimiteSoumission,
-          dernièreMiseÀJour: {
-            date: demandéLe,
-          },
+        },
+        dernièreMiseÀJour: {
+          date: demandéLe,
         },
       },
     );
@@ -29,15 +29,13 @@ export const garantiesFinancièresDemandéesProjector = async ({
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
-      garantiesFinancières: {
-        statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
-        motifEnAttente: motif,
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
+      enAttente: {
+        motif,
         dateLimiteSoumission,
-        type: 'type-inconnu',
-        dateÉchéance: undefined,
-        dernièreMiseÀJour: {
-          date: demandéLe,
-        },
+      },
+      dernièreMiseÀJour: {
+        date: demandéLe,
       },
     },
   );

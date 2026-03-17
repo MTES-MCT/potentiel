@@ -7,16 +7,20 @@ export const attestationGarantiesFinancièresEnregistréeProjector = async ({
   await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
-      garantiesFinancières: {
-        statut: 'validé',
-        dateConstitution,
-        attestation,
-        dernièreMiseÀJour: {
-          par: enregistréPar,
-          date: enregistréLe,
+      statut: 'validé',
+      actuelles: {
+        constitution: {
+          date: dateConstitution,
+          attestation,
         },
-        motifEnAttente: undefined,
+      },
+      enAttente: {
+        motif: undefined,
         dateLimiteSoumission: undefined,
+      },
+      dernièreMiseÀJour: {
+        par: enregistréPar,
+        date: enregistréLe,
       },
     },
   );

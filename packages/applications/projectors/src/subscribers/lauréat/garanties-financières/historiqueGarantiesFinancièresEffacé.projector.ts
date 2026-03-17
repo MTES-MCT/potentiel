@@ -9,10 +9,13 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
   const archives = await getArchivesGf(identifiantProjet);
   const actuelles = await getGfActuelles(identifiantProjet);
 
-  if (actuelles) {
+  if (actuelles?.actuelles) {
     const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity['archives'][number] =
       {
-        ...actuelles.garantiesFinancières,
+        statut: actuelles.statut,
+        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+          actuelles.actuelles,
+        ).formatter(),
         dernièreMiseÀJour: {
           date: effacéLe,
           par: effacéPar,
