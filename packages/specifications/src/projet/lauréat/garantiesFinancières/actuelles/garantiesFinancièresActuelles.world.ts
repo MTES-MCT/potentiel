@@ -73,12 +73,17 @@ export class GarantiesFinancièresActuellesWorld {
               Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
                 type: typeGarantiesFinancières,
                 dateÉchéance: dateÉchéanceGf,
-                attestation: this.importer.aÉtéCréé
-                  ? this.importer.attestation
-                  : attestationConstitutionGf,
-                dateConstitution: this.importer.aÉtéCréé
-                  ? this.importer.dateConstitution
-                  : dateConstitutionGf,
+                constitution: this.importer.aÉtéCréé
+                  ? {
+                      attestation: this.importer.attestation,
+                      date: this.importer.dateConstitution,
+                    }
+                  : dateConstitutionGf && attestationConstitutionGf
+                    ? {
+                        attestation: attestationConstitutionGf,
+                        date: dateConstitutionGf,
+                      }
+                    : undefined,
               }),
             statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
             dernièreMiseÀJour: {

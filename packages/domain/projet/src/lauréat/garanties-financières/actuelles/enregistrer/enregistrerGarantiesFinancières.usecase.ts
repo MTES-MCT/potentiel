@@ -40,10 +40,11 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
       type: typeValue,
-      dateÉchéance:
-        dateÉchéanceValue && DateTime.convertirEnValueType(dateÉchéanceValue).formatter(),
-      attestation: { format: attestationValue.format },
-      dateConstitution: DateTime.convertirEnValueType(dateConstitutionValue).formatter(),
+      dateÉchéance: dateÉchéanceValue,
+      constitution: {
+        attestation: { format: attestationValue.format },
+        date: dateConstitutionValue,
+      },
     });
     const documentProjet = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,

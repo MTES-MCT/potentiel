@@ -69,8 +69,7 @@ const mapToReadModel = ({
         statut,
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution,
         soumisLe,
         validéLe,
         dernièreMiseÀJour,
@@ -82,20 +81,18 @@ const mapToReadModel = ({
           garantiesFinancières: GarantiesFinancières.convertirEnValueType({
             type,
             dateÉchéance,
-            attestation,
-            dateConstitution,
+            constitution,
           }),
           soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
           validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
-          document:
-            dateConstitution && attestation
-              ? DocumentProjet.convertirEnValueType(
-                  identifiantProjet,
-                  TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-                  DateTime.convertirEnValueType(dateConstitution).formatter(),
-                  attestation.format,
-                )
-              : undefined,
+          document: constitution
+            ? DocumentProjet.convertirEnValueType(
+                identifiantProjet,
+                TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+                constitution.date,
+                constitution.attestation.format,
+              )
+            : undefined,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
             par: dernièreMiseÀJour.par

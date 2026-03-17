@@ -71,12 +71,7 @@ export const mapToReadModel = ({
   validéLe,
   identifiantProjet,
 }: Omit<MapToReadModelProps, ''>): ConsulterGarantiesFinancièresReadModel => {
-  const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
-    ...actuelles,
-    // TODO fixer props convertirEnValueType
-    dateConstitution: actuelles.constitution?.date,
-    attestation: actuelles.constitution?.attestation,
-  });
+  const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     statut: StatutGarantiesFinancières.convertirEnValueType(statut),

@@ -1,4 +1,5 @@
 import { Entity } from '@potentiel-domain/entity';
+import { DateTime } from '@potentiel-domain/common';
 
 import { StatutGarantiesFinancières } from '../../index.js';
 
@@ -8,8 +9,7 @@ type GarantiesFinancièresDétails = {
   dateLimiteSoumission?: string;
   type: string;
   dateÉchéance?: string;
-  attestation?: { format: string };
-  dateConstitution?: string;
+  constitution?: { date: DateTime.RawType; attestation: { format: string } };
   soumisLe?: string;
   validéLe?: string;
   typeImportéLe?: string;

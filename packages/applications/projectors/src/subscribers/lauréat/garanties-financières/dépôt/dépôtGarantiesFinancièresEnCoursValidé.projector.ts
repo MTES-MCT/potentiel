@@ -68,14 +68,9 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
 
     const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières = {
       statut: gfActuelles.statut,
-      // TODO fixer props convertirEnValueTypec
-      ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-        ...gfActuelles.actuelles,
-        dateConstitution: gfActuelles.actuelles.constitution?.date,
-        attestation: gfActuelles.actuelles.constitution?.attestation,
-      }).formatter(),
-      dateConstitution: gfActuelles.actuelles.constitution?.date,
-      attestation: gfActuelles.actuelles.constitution?.attestation,
+      ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+        gfActuelles.actuelles,
+      ).formatter(),
       dernièreMiseÀJour: {
         date: event.payload.validéLe,
         par: event.payload.validéPar,

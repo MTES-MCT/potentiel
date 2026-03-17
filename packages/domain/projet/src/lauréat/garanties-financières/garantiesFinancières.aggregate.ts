@@ -329,8 +329,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -343,8 +342,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateConstitution: undefined,
-        attestation: undefined,
       }),
     };
   }
@@ -410,8 +407,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -449,8 +445,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
         dateÉchéance: undefined,
         ...this.#actuelles.garantiesFinancières.formatter(),
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       });
     }
   }
@@ -498,8 +493,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -623,8 +617,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
       soumisLe: DateTime.convertirEnValueType(soumisLe),
     };
@@ -659,8 +652,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
       soumisLe: DateTime.convertirEnValueType(modifiéLe),
     };
@@ -722,8 +714,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: attestation && { date: dateConstitution, attestation },
       }),
     };
     /**

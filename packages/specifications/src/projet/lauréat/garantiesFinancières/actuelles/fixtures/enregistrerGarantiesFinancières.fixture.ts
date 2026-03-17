@@ -102,8 +102,10 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: this.#garantiesFinancièresType,
         dateÉchéance: this.#dateÉchéance,
-        attestation: this.attestation,
-        dateConstitution: this.#dateConstitution,
+        constitution: {
+          attestation: this.attestation,
+          date: this.#dateConstitution,
+        },
       }),
       document: DocumentProjet.convertirEnValueType(
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
