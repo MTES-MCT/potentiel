@@ -75,7 +75,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 
         garantiesFinancières: {
           statut: Where.equal(StatutGarantiesFinancières.enAttente.statut),
-          motifEnAttente: Where.equal(motif),
+          motifEnAttente: Where.equal(motif) ?? Where.notEqualNull(),
         },
       },
       join: [
@@ -112,7 +112,11 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   );
 };
 
-const mapToReadModel = ({
+type MapToReadModelProps = (
+  args: GarantiesFinancièresEntity & Joined<[LauréatEntity]>,
+) => GarantiesFinancièresEnAttenteListItemReadModel;
+
+const mapToReadModel: MapToReadModelProps = ({
   lauréat: { nomProjet, statut },
   identifiantProjet,
   garantiesFinancières: {
@@ -120,8 +124,7 @@ const mapToReadModel = ({
     dateLimiteSoumission,
     dernièreMiseÀJour: { date },
   },
-}: GarantiesFinancièresEntity &
-  Joined<[LauréatEntity]>): GarantiesFinancièresEnAttenteListItemReadModel => ({
+}) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motifEnAttente!),

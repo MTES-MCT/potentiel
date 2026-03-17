@@ -31,7 +31,6 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF | exemption |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
-        Et les garanties financières en attente du projet ne devraient plus être consultables
 
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières avec :

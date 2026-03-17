@@ -66,6 +66,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
     .exhaustive();
 
   const gfActuelles = await getGfActuelles(event.payload.identifiantProjet);
+
   if (gfActuelles) {
     const motif: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
       gfActuelles.garantiesFinancières.statut === 'échu'

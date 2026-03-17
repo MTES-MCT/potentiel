@@ -1,5 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const dépôtGarantiesFinancièresSoumisProjector = async ({
   payload: {
@@ -26,6 +29,16 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
           date: soumisLe,
           par: soumisPar,
         },
+      },
+    },
+  );
+
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
+    {
+      garantiesFinancières: {
+        dateLimiteSoumission: undefined,
+        motifEnAttente: undefined,
       },
     },
   );

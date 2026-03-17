@@ -13,6 +13,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
+        Et les garanties financières ne devraient plus être attendues pour le projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                        |
@@ -32,7 +33,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | exemption |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
-        Et les garanties financières en attente du projet ne devraient plus être consultables
+        Et les garanties financières ne devraient plus être attendues pour le projet lauréat
 
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une dépôt de garanties financiéres est soumis
         Etant donné des garanties financières actuelles pour le projet lauréat avec :

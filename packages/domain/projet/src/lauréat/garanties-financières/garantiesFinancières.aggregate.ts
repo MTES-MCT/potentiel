@@ -242,6 +242,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   private async échoirOuPlanifierÉchéance(échuLe: DateTime.ValueType) {
     const garantiesFinancières = this.#actuelles?.garantiesFinancières;
+
     if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.statut.estAchevé()) {
       return;
     }
@@ -704,6 +705,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         estÉchu: false,
       };
       this.#dépôtEnCours = undefined;
+      /**
+       * TODO : TEST à ajouter
+       */
+      this.#motifDemande = undefined;
+      this.#dateLimiteSoumission = undefined;
     }
   }
 
@@ -720,6 +726,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         dateConstitution,
       }),
     };
+    /**
+     * TODO : TEST à ajouter
+     */
+    this.#motifDemande = undefined;
+    this.#dateLimiteSoumission = undefined;
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
@@ -743,17 +754,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
     await this.publish(event);
 
-    if (!this.lauréat.achèvement.estAchevé) {
-      if (this.#dateLimiteSoumission && this.#motifDemande) {
-        await this.demander({
-          demandéLe: suppriméLe,
-          dateLimiteSoumission: this.#dateLimiteSoumission,
-          motif: this.#motifDemande,
-        });
-      }
-      // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-      await this.échoirOuPlanifierÉchéance(suppriméLe);
+    if (this.lauréat.achèvement.estAchevé) {
+      return;
     }
+
+    if (this.#dateLimiteSoumission && this.#motifDemande) {
+      await this.demander({
+        demandéLe: suppriméLe,
+        dateLimiteSoumission: this.#dateLimiteSoumission,
+        motif: this.#motifDemande,
+      });
+    }
+    // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
+    await this.échoirOuPlanifierÉchéance(suppriméLe);
   }
 
   private applyDépôtGarantiesFinancièresEnCoursSupprimé(

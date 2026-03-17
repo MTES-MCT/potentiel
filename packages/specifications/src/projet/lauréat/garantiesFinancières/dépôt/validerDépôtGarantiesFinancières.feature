@@ -37,7 +37,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et l'historique des garanties financières du projet lauréat devrait être mis à jour avec :
+        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | type GF         | avec-date-échéance                              |
             | date d'échéance | 2024-07-17                                      |
             | statut          | échu                                            |

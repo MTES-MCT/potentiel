@@ -9,8 +9,13 @@ import { PotentielWorld } from '../../../../../potentiel.world.js';
 EtantDonné(
   `des garanties financières en attente pour le projet lauréat`,
   async function (this: PotentielWorld) {
-    const { motif, dateLimiteSoumission, enregistréLe } =
-      this.lauréatWorld.garantiesFinancièresWorld.actuelles.demander.créer();
+    const {
+      motif,
+      dateLimiteSoumission,
+      enregistréLe: demandéLe,
+    } = this.lauréatWorld.garantiesFinancièresWorld.actuelles.demander.créer({
+      motif: 'non-déposé',
+    });
 
     // on accède directement à l'aggregate root car il n'y a pas de commande pour Demander, qui réagit à d'autres actions
     const projet = await ProjetAdapter.getProjetAggregateRootAdapter(
@@ -18,7 +23,7 @@ EtantDonné(
     );
 
     await projet.lauréat.garantiesFinancières.demander({
-      demandéLe: DateTime.convertirEnValueType(enregistréLe),
+      demandéLe: DateTime.convertirEnValueType(demandéLe),
       motif:
         Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
       dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),

@@ -13,6 +13,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | sujet | Potentiel - Du boulodrome de Lyon - Attestation de constitution des garanties financières enregistrée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                      |
 
+    # Vérifier la pertinence de ce test
     Scénario: Un porteur enregistre l'attestation des garanties financières d'un projet en attente de GF
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
