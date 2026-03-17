@@ -51,6 +51,8 @@ const typeNatureDeLExploitationMapper = {
   'Vente avec injection du surplus': 'autoconsommation-individuelle',
   'Vente avec injection en totalité': 'vente-avec-injection-en-totalité',
   'Autoconsommation individuelle': 'autoconsommation-individuelle',
+  'Autoconsommation collective': 'autoconsommation-collective',
+  'Autoconsommation individuelle et collective': 'autoconsommation-individuelle-et-collective',
 } satisfies Record<string, Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType>;
 
 const historiqueAbandon = [
@@ -111,6 +113,7 @@ export const candidatureCsvHeadersMapping = {
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+  tauxPrévisionnelACC: "Taux d'autoconsommation collective (ACC) prévisionnel",
   dateDAutorisation: "date d'obtention de l'autorisation",
   numéroDAutorisation: "numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
@@ -167,6 +170,7 @@ const candidatureCsvRowSchema = z
       capacitéDuDispositifDeStockageSchema,
     [candidatureCsvHeadersMapping.natureDeLExploitation]: natureDeLExploitationCsvSchema,
     [candidatureCsvHeadersMapping.tauxPrévisionnelACI]: optionalPercentageSchema,
+    [candidatureCsvHeadersMapping.tauxPrévisionnelACC]: optionalPercentageSchema,
     [candidatureCsvHeadersMapping.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
     [candidatureCsvHeadersMapping.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [candidatureCsvHeadersMapping.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
@@ -311,6 +315,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       capacitéDuDispositifDeStockageEnKWh,
       puissanceDuDispositifDeStockageEnKW,
       tauxPrévisionnelACI,
+      tauxPrévisionnelACC,
       natureDeLExploitation,
       ...val
     }) => {
@@ -345,6 +350,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
             ? {
                 typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
                 tauxPrévisionnelACI,
+                tauxPrévisionnelACC,
               }
             : undefined,
         typologieInstallation: mapCsvToTypologieInstallation({

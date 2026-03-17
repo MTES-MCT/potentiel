@@ -200,6 +200,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: {
         typeNatureDeLExploitation: 'autoconsommation-individuelle',
         tauxPrévisionnelACI: 32,
+        tauxPrévisionnelACC: undefined,
       },
       typologieInstallation: [
         {
