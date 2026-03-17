@@ -1,13 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import {
-  removeProjection,
-  updateOneProjection,
-  upsertProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 import { getArchivesGf, getGfActuelles } from '../_utils/index.js';
 
@@ -16,8 +13,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
     | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
     | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) => {
-  const nouvellesGarantiesFinancières = await match(event)
-    .returnType<Promise<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>>()
+  const garantiesFinancières = await match(event)
+    .returnType<Promise<Omit<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity, 'type'>>>()
     .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' }, async ({ payload }) => {
       const dépôtExistant =
         await findProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
@@ -30,28 +27,37 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         );
       }
 
-      return Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-        dépôtExistant.dépôt,
-      );
+      return {
+        identifiantProjet: payload.identifiantProjet,
+        statut: 'validé',
+        actuelles: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+          dépôtExistant.dépôt,
+        ).formatter(),
+        soumisLe: DateTime.convertirEnValueType(dépôtExistant.dépôt.soumisLe).formatter(),
+        validéLe: payload.validéLe,
+
+        dernièreMiseÀJour: {
+          date: payload.validéLe,
+          par: payload.validéPar,
+        },
+      };
     })
-    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) =>
-      Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(payload),
-    )
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
+      identifiantProjet: payload.identifiantProjet,
+      statut: 'validé',
+      actuelles:
+        Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(payload).formatter(),
+      soumisLe: payload.soumisLe,
+      validéLe: payload.validéLe,
+      dernièreMiseÀJour: {
+        date: payload.validéLe,
+        par: payload.validéPar,
+      },
+    }))
     .exhaustive();
 
-  const garantiesFinancières: Omit<
-    Lauréat.GarantiesFinancières.GarantiesFinancièresEntity,
-    'type'
-  > = {
-    identifiantProjet: event.payload.identifiantProjet,
-    actuelles: nouvellesGarantiesFinancières.formatter(),
-    statut: 'validé',
-    dernièreMiseÀJour: {
-      date: event.payload.validéLe,
-      par: event.payload.validéPar,
-    },
-  };
   const gfActuelles = await getGfActuelles(event.payload.identifiantProjet);
+
   if (gfActuelles?.actuelles) {
     const motif: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
       gfActuelles.statut === 'échu'
@@ -62,9 +68,14 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
 
     const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières = {
       statut: gfActuelles.statut,
-      ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-        gfActuelles.actuelles,
-      ).formatter(),
+      // TODO fixer props convertirEnValueTypec
+      ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+        ...gfActuelles.actuelles,
+        dateConstitution: gfActuelles.actuelles.constitution?.date,
+        attestation: gfActuelles.actuelles.constitution?.attestation,
+      }).formatter(),
+      dateConstitution: gfActuelles.actuelles.constitution?.date,
+      attestation: gfActuelles.actuelles.constitution?.attestation,
       dernièreMiseÀJour: {
         date: event.payload.validéLe,
         par: event.payload.validéPar,
@@ -79,24 +90,11 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         archives: archivesGf ? [...archivesGf.archives, archiveÀAjouter] : [archiveÀAjouter],
       },
     );
-
-    await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
-      `garanties-financieres|${event.payload.identifiantProjet}`,
-      garantiesFinancières,
-    );
-  } else {
-    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
-      `garanties-financieres|${event.payload.identifiantProjet}`,
-      garantiesFinancières,
-    );
-    await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-      `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
-    );
-    return;
   }
 
-  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${event.payload.identifiantProjet}`,
+    garantiesFinancières,
   );
 
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
