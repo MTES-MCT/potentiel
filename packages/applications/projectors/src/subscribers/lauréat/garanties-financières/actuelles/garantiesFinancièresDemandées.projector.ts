@@ -7,17 +7,14 @@ import {
 export const garantiesFinancièresDemandéesProjector = async ({
   payload: { identifiantProjet, demandéLe, motif, dateLimiteSoumission },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent) => {
-  if (motif === 'non-déposé' || motif === 'recours-accordé') {
-    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  // dans le cas d'une échéance, on garde les données existantes, dont le statut
+  if (motif === 'échéance-garanties-financières-actuelles') {
+    await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
-        identifiantProjet,
         garantiesFinancières: {
-          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
           motifEnAttente: motif,
           dateLimiteSoumission,
-          type: 'type-inconnu',
-          dateÉchéance: undefined,
           dernièreMiseÀJour: {
             date: demandéLe,
           },
@@ -27,12 +24,17 @@ export const garantiesFinancièresDemandéesProjector = async ({
     return;
   }
 
-  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  // dans les autres cas, il s'agit d'une initialisation des garanties financières.
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
+      identifiantProjet,
       garantiesFinancières: {
+        statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
         motifEnAttente: motif,
         dateLimiteSoumission,
+        type: 'type-inconnu',
+        dateÉchéance: undefined,
         dernièreMiseÀJour: {
           date: demandéLe,
         },

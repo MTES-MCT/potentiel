@@ -62,7 +62,7 @@ async function récupérerGarantiesFinancièresEnAttente(
     await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
       type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
       data: {
-        identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+        identifiantUtilisateur: this.utilisateurWorld.adminFixture.email,
       },
     });
 
