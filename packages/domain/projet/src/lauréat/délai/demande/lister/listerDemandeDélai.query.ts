@@ -32,7 +32,7 @@ export type ListerDemandeDélaiQuery = Message<
     appelOffre?: Array<string>;
     nomProjet?: string;
     autoritéCompétente?: AutoritéCompétente.RawType;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerDemandeDélaiReadModel
 >;

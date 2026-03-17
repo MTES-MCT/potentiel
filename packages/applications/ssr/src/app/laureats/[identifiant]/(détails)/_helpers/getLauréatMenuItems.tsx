@@ -1,4 +1,5 @@
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
+import Badge from '@mui/material/Badge';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
@@ -6,10 +7,11 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { BadgeTâches } from '@/components/atoms/menu/BadgeTâches';
 
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
+import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
+import { getTâches } from '../taches/_helpers/getTâches';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -83,6 +85,7 @@ export const getLauréatMenuItems = async ({
     champsSupplémentaires.typologieInstallation ||
     champsSupplémentaires.autorisation
   );
+
   const installationMenu = afficherInstallation
     ? linkToSection('Installation', 'installation')
     : undefined;
@@ -105,6 +108,18 @@ export const getLauréatMenuItems = async ({
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
+
+  const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
+
+  const demandesEnCoursMenu =
+    demandesEnCours.length > 0
+      ? {
+          text: <BadgeDemandesEnCours nombreDemandes={demandesEnCours.length} />,
+          items: demandesEnCours
+            .map((item) => link(item.text, item.href))
+            .toSorted((a, b) => a.text.localeCompare(b.text)),
+        }
+      : undefined;
 
   const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine]
     .filter((item) => !!item)
@@ -129,10 +144,51 @@ export const getLauréatMenuItems = async ({
       ].filter((item) => !!item),
     },
     modificationMenu,
+    demandesEnCoursMenu,
     tâchesMenu,
     linkToSection('Historique', 'historique'),
     utilisateursMenu,
     linkToSection('Documents', 'documents'),
     linkToSection('Imprimer la page', 'imprimer'),
   ].filter((item) => !!item);
+};
+
+type BadgeDemandesEnCoursProps = {
+  nombreDemandes: number;
+};
+
+const BadgeDemandesEnCours: React.FC<BadgeDemandesEnCoursProps> = async ({ nombreDemandes }) => {
+  return (
+    <Badge badgeContent={nombreDemandes} max={99} color="primary" overlap="circular">
+      <div className="mr-12">Demandes en cours</div>
+    </Badge>
+  );
+};
+
+type BadgeTâchesProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  utilisateur: Utilisateur.ValueType;
+};
+
+const BadgeTâches: React.FC<BadgeTâchesProps> = async ({ identifiantProjet, utilisateur }) => {
+  const tâches = await getTâches(
+    identifiantProjet.formatter(),
+    utilisateur.identifiantUtilisateur.email,
+  );
+
+  const utilisateurEstPorteur = utilisateur.rôle.estPorteur();
+
+  return (
+    <Badge
+      badgeContent={tâches.total}
+      max={99}
+      color="primary"
+      overlap="circular"
+      invisible={tâches.total === 0}
+    >
+      <div className={utilisateurEstPorteur ? 'mr-6' : 'mr-8'}>
+        {utilisateurEstPorteur ? 'Tâches' : 'Tâches porteur'}
+      </div>
+    </Badge>
+  );
 };
