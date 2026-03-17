@@ -256,6 +256,7 @@ const mapBodyToCandidatureUsecaseData = (
             typeNatureDeLExploitation:
               previous.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: previous.natureDeLExploitation.tauxPrévisionnelACI,
+            tauxPrévisionnelACC: previous.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
       puissanceProjetInitial: previous.puissanceProjetInitial,
