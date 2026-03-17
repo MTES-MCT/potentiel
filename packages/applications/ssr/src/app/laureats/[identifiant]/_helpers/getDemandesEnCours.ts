@@ -21,14 +21,14 @@ export const getDemandesEnCours = async ({
   identifiantProjet,
   utilisateur,
 }: Props): Promise<DemandesEnCours> => {
-  const test: DemandesEnCours = [];
+  const demandes: DemandesEnCours = [];
   const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
   if (
     puissance.aUneDemandeEnCours &&
     utilisateur.rôle.aLaPermission('puissance.consulterChangement')
   ) {
-    test.push({
+    demandes.push({
       text: 'Puissance',
       href: Routes.Puissance.changement.détailsPourRedirection(identifiantProjet.formatter()),
     });
@@ -40,7 +40,7 @@ export const getDemandesEnCours = async ({
     actionnaire.aUneDemandeEnCours &&
     utilisateur.rôle.aLaPermission('actionnaire.consulterChangement')
   ) {
-    test.push({
+    demandes.push({
       text: 'Actionnaire(s)',
       href: Routes.Actionnaire.changement.détailsPourRedirection(identifiantProjet.formatter()),
     });
@@ -51,7 +51,7 @@ export const getDemandesEnCours = async ({
     représentantLégal.aUneDemandeEnCours &&
     utilisateur.rôle.aLaPermission('représentantLégal.consulterChangement')
   ) {
-    test.push({
+    demandes.push({
       text: 'Représentant Légal',
       href: Routes.ReprésentantLégal.changement.détailsPourRedirection(
         identifiantProjet.formatter(),
@@ -61,7 +61,7 @@ export const getDemandesEnCours = async ({
 
   const abandon = await getAbandonInfos(identifiantProjet.formatter());
   if (abandon?.demandeEnCours && utilisateur.rôle.aLaPermission('abandon.consulter.demande')) {
-    test.push({
+    demandes.push({
       text: 'Abandon',
       href: Routes.Abandon.détailRedirection(identifiantProjet.formatter()),
     });
@@ -73,11 +73,11 @@ export const getDemandesEnCours = async ({
   );
 
   if (délai) {
-    test.push({
+    demandes.push({
       text: 'Délai',
       href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
     });
   }
 
-  return test;
+  return demandes;
 };
