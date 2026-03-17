@@ -4,7 +4,7 @@ subject: Potentiel - {{nom_projet}} - Demande de mainlevée en instruction
 
 Madame, Monsieur,
 
-Votre demande de mainlevée des garanties financières pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** a été passée **en instruction**.
+Votre demande de mainlevée des garanties financières pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** est **en instruction**.
 
 Pour la consulter, connectez-vous à Potentiel.
 
