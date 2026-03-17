@@ -47,6 +47,7 @@ export type RawType = {
     | {
         typeNatureDeLExploitation: TypeDeNatureDeLExploitation.RawType;
         tauxPrévisionnelACI?: number;
+        tauxPrévisionnelACC?: number;
       }
     | undefined;
 };
@@ -80,6 +81,7 @@ export type ValueType = ReadonlyValueType<{
     | {
         typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType;
         tauxPrévisionnelACI?: number;
+        tauxPrévisionnelACC?: number;
       }
     | undefined;
 
@@ -129,6 +131,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           plain.natureDeLExploitation.typeNatureDeLExploitation,
         ),
         tauxPrévisionnelACI: plain.natureDeLExploitation.tauxPrévisionnelACI,
+        tauxPrévisionnelACC: plain.natureDeLExploitation.tauxPrévisionnelACC,
       }
     : undefined,
 
@@ -152,6 +155,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.dispositifDeStockage, this.dispositifDeStockage) &&
       valueType.natureDeLExploitation?.tauxPrévisionnelACI ===
         this.natureDeLExploitation?.tauxPrévisionnelACI &&
+      valueType.natureDeLExploitation?.tauxPrévisionnelACC ===
+        this.natureDeLExploitation?.tauxPrévisionnelACC &&
       areEqual(valueType.autorisation?.date, this.autorisation?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
@@ -212,6 +217,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             typeNatureDeLExploitation:
               this.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: this.natureDeLExploitation.tauxPrévisionnelACI,
+            tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
     };
@@ -283,6 +289,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
               raw.natureDeLExploitation.typeNatureDeLExploitation,
             ),
           tauxPrévisionnelACI: raw.natureDeLExploitation.tauxPrévisionnelACI,
+          tauxPrévisionnelACC: raw.natureDeLExploitation.tauxPrévisionnelACC,
         })
       : undefined,
   });

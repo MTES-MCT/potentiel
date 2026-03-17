@@ -73,6 +73,7 @@ export type CandidatureEntity = Entity<
     natureDeLExploitation?: {
       typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
       tauxPrévisionnelACI?: number;
+      tauxPrévisionnelACC?: number;
     };
     puissanceDeSite?: number;
 

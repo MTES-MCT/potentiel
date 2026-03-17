@@ -72,6 +72,7 @@ const natureDeLExploitationOptionalSchema = z
       Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
     ),
     tauxPrévisionnelACI: optionalPercentageSchema,
+    tauxPrévisionnelACC: optionalPercentageSchema,
   })
   .superRefine((data, ctx) => {
     if (
@@ -80,19 +81,63 @@ const natureDeLExploitationOptionalSchema = z
     ) {
       ctx.addIssue({
         code: 'custom',
-        message: `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type autoconsommation individuelle (vente avec injection du surplus)`,
+        message: `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle" (vente avec injection du surplus)`,
         path: ['tauxPrévisionnelACI'],
       });
     }
 
     if (
-      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' &&
+      data.typeNatureDeLExploitation === 'autoconsommation-individuelle' &&
+      data.tauxPrévisionnelACC !== undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `Le taux prévisionnel ACC doit être vide lorsque la nature de l'exploitation est de type "autoconsommation individuelle" (vente avec injection du surplus)`,
+        path: ['tauxPrévisionnelACC'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'autoconsommation-collective' &&
+      data.tauxPrévisionnelACC === undefined
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `Le taux prévisionnel ACC est requis lorsque la nature de l'exploitation est de type "autoconsommation collective"`,
+        path: ['tauxPrévisionnelACC'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'autoconsommation-collective' &&
       data.tauxPrévisionnelACI !== undefined
     ) {
       ctx.addIssue({
         code: 'custom',
-        message: `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
+        message: `Le taux prévisionnel ACI doit être vide lorsque la nature de l'exploitation est de type "autoconsommation collective"`,
         path: ['tauxPrévisionnelACI'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'autoconsommation-individuelle-et-collective' &&
+      (data.tauxPrévisionnelACC === undefined || data.tauxPrévisionnelACI === undefined)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `Les taux prévisionnels ACI et ACC sont requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle et collective"`,
+        path: ['tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
+      });
+    }
+
+    if (
+      data.typeNatureDeLExploitation === 'vente-avec-injection-en-totalité' &&
+      (data.tauxPrévisionnelACI !== undefined || data.tauxPrévisionnelACC !== undefined)
+    ) {
+      ctx.addIssue({
+        code: 'custom',
+        message: `Les taux prévisionnels ACI et ACC doivent être vides lorsque l'exploitation est de type "vente avec injection en totalité"`,
+        path: ['tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
       });
     }
   })
