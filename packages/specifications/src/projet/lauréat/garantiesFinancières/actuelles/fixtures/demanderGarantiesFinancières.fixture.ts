@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
@@ -60,25 +59,5 @@ export class DemanderGarantiesFinancièresFixture extends AbstractFixture<Demand
     this.aÉtéCréé = true;
 
     return fixture;
-  }
-
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
-    return {
-      identifiantProjet:
-        this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
-          .identifiantProjet,
-      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente,
-      garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-        type: this.#type,
-        dateÉchéance: undefined,
-        attestation: undefined,
-        dateConstitution: undefined,
-      }),
-      document: undefined,
-      dernièreMiseÀJour: {
-        date: DateTime.convertirEnValueType(this.enregistréLe),
-        par: Email.système,
-      },
-    };
   }
 }
