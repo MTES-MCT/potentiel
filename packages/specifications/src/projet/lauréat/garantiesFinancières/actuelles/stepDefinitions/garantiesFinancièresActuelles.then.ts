@@ -131,26 +131,3 @@ Alors(
     });
   },
 );
-
-Alors(
-  `les garanties financières ne devraient plus être attendues pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
-          data: {
-            identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
-          },
-        });
-
-      const actual = actualReadModel.items.find((item) =>
-        item.identifiantProjet.estÉgaleÀ(identifiantProjet),
-      );
-
-      expect(actual).to.be.undefined;
-    });
-  },
-);

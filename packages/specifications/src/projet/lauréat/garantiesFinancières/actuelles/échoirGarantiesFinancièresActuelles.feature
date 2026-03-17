@@ -12,6 +12,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-07-17         |
         Quand on exécute la tâche planifiée "échoir les garanties financières" pour le projet lauréat à la date du "2050-07-18"
+        Alors les garanties financières actuelles du projet sont échues
         Alors des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
         Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
