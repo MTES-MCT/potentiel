@@ -33,9 +33,7 @@ export const GarantiesFinancièresDétails = ({
   const { dépôt, actuelles } = garantiesFinancières;
   const motifDemandeGarantiesFinancières =
     actuelles?.motifEnAttente &&
-    getMotifGarantiesFinancièresEnAttente(
-      actuelles.motifEnAttente as Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
-    );
+    getMotifGarantiesFinancièresEnAttente(actuelles.motifEnAttente.motif);
 
   return (
     <>

@@ -7,6 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 import { GarantiesFinancièresEntity } from '../../garantiesFinancières.entity.js';
 import {
   GarantiesFinancières,
+  MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../../index.js';
@@ -16,7 +17,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
-  motifEnAttente?: string;
+  motifEnAttente?: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   document?: DocumentProjet.ValueType;
   soumisLe?: DateTime.ValueType;
@@ -95,7 +96,9 @@ export const mapToReadModel = ({
       par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
     },
 
-    motifEnAttente: enAttente?.motif,
+    motifEnAttente: enAttente
+      ? MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente.motif)
+      : undefined,
     dateLimiteSoumission: enAttente?.dateLimiteSoumission
       ? DateTime.convertirEnValueType(enAttente.dateLimiteSoumission)
       : undefined,

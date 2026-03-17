@@ -45,7 +45,7 @@ export class GarantiesFinancièresActuellesWorld {
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
 
-    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation, this.demander]
+    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)
       .sort((a, b) => {
         const aDate = a.enregistréLe;
@@ -97,8 +97,11 @@ export class GarantiesFinancièresActuellesWorld {
       gfReadModel.garantiesFinancières.estAvecDateÉchéance() &&
       gfReadModel.garantiesFinancières.dateÉchéance.estPassée();
 
-    if (sontÉchues) {
+    if (sontÉchues && gfReadModel.garantiesFinancières.estAvecDateÉchéance()) {
       gfReadModel.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
+      gfReadModel.dateLimiteSoumission = gfReadModel.dernièreMiseÀJour.date.ajouterNombreDeMois(2);
+      gfReadModel.motifEnAttente =
+        Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles;
     }
 
     return gfReadModel;

@@ -28,7 +28,7 @@ const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
   appelOffre: optionalStringArray,
   cycle: z.enum(['CRE4', 'PPE2']).optional(),
-  motif: z.string().optional(),
+  motif: z.enum(Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs).optional(),
   statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
 });
 
