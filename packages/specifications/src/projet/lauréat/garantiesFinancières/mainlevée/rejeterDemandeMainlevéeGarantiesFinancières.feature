@@ -16,8 +16,8 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable
         Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées
         Et un email a été envoyé au porteur avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Statut de la demande de mainlevée modifié |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                   |
+            | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée rejetée |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres      |
 
     Scénario: Un utilisateur Dreal rejette une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -28,8 +28,8 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières ne devrait plus être consultable
         Et une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées
         Et un email a été envoyé au porteur avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Statut de la demande de mainlevée modifié |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                   |
+            | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée rejetée |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres      |
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet lauréat

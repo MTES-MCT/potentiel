@@ -5,7 +5,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleAttestationGarantiesFinancièresEnregistrée,
-  handleDemandeMainlevéeMiseÀJour,
+  handleDemandeMainlevéeAccordée,
+  handleDemandeMainlevéePasséeEnInstruction,
+  handleDemandeMainlevéeRejetée,
   handleDépôtGarantiesFinancièresSoumis,
   handleDépôtGarantiesFinancièresValidé,
   handleGarantiesFinancièresMiseÀJour,
@@ -72,13 +74,21 @@ export const register = () => {
         .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, handleMainlevéeDemandée)
         .with(
           {
-            type: P.union(
-              'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
-              'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
-              'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-            ),
+            type: P.union('DemandeMainlevéeGarantiesFinancièresAccordée-V1'),
           },
-          handleDemandeMainlevéeMiseÀJour,
+          handleDemandeMainlevéeAccordée,
+        )
+        .with(
+          {
+            type: P.union('DemandeMainlevéeGarantiesFinancièresRejetée-V1'),
+          },
+          handleDemandeMainlevéeRejetée,
+        )
+        .with(
+          {
+            type: P.union('InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1'),
+          },
+          handleDemandeMainlevéePasséeEnInstruction,
         )
         .with(
           { type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1' },
