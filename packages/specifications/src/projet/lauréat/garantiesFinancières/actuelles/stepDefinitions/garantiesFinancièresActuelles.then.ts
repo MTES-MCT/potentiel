@@ -45,6 +45,24 @@ Alors(
 );
 
 Alors(
+  `les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    await waitForExpect(async () => {
+      const garantiesFinancièresActuelles =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+      expect(Option.isNone(garantiesFinancièresActuelles)).to.be.true;
+    });
+  },
+);
+
+Alors(
   `un historique des garanties financières devrait être consultable pour le projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
