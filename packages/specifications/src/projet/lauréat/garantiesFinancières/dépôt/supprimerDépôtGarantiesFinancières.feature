@@ -19,6 +19,9 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet
         Et des garanties financières devraient être attendues pour le projet lauréat
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières supprimées |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                |
 
         Exemples:
             | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | motif                                    |
@@ -38,6 +41,9 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières supprimées |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                |
 
         Exemples:
             | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution |

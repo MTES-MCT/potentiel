@@ -12,6 +12,8 @@ import {
   handleGarantiesFinancièresÉchues,
   handleMainlevéeDemandée,
 } from './handlers/index.js';
+import { handleDépôtGarantiesFinancièresSupprimé } from './handlers/dépôt/dépôtGarantiesFinancièresSupprimé.handler.js';
+import { handleDemandeMainlevéeAnnulée } from './handlers/mainlevée/demandeMainlevéeAnnulée.handler.js';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 
@@ -40,6 +42,15 @@ export const register = () => {
           },
           handleDépôtGarantiesFinancièresValidé,
         )
+        .with(
+          {
+            type: P.union(
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+            ),
+          },
+          handleDépôtGarantiesFinancièresSupprimé,
+        )
         //#endregion Dépôt
         //#region Actuelles
         .with(
@@ -55,7 +66,7 @@ export const register = () => {
           },
           handleGarantiesFinancièresMiseÀJour,
         )
-
+        .with({ type: 'GarantiesFinancièresÉchues-V1' }, handleGarantiesFinancièresÉchues)
         //#endregion Actuelles
         //#region Mainlevée
         .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, handleMainlevéeDemandée)
@@ -69,20 +80,20 @@ export const register = () => {
           },
           handleDemandeMainlevéeMiseÀJour,
         )
-        .with({ type: 'GarantiesFinancièresÉchues-V1' }, handleGarantiesFinancièresÉchues)
+        .with(
+          { type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1' },
+          handleDemandeMainlevéeAnnulée,
+        )
         //#endregion Mainlevée
         //#region Évènements ignorés
         .with(
           {
             type: P.union(
               'DépôtGarantiesFinancièresEnCoursModifié-V1',
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
               'GarantiesFinancièresDemandées-V1',
               'GarantiesFinancièresImportées-V1',
               'HistoriqueGarantiesFinancièresEffacé-V1',
               'TypeGarantiesFinancièresImporté-V1',
-              'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
             ),
           },
           () => Promise.resolve(),
