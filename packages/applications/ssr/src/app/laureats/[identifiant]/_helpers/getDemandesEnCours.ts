@@ -22,61 +22,63 @@ export const getDemandesEnCours = async ({
   utilisateur,
 }: Props): Promise<DemandesEnCours> => {
   const demandes: DemandesEnCours = [];
-  const puissance = await getPuissanceInfos(identifiantProjet.formatter());
 
-  if (
-    puissance.aUneDemandeEnCours &&
-    utilisateur.rôle.aLaPermission('puissance.consulterChangement')
-  ) {
-    demandes.push({
-      text: 'Puissance',
-      href: Routes.Puissance.changement.détailsPourRedirection(identifiantProjet.formatter()),
-    });
+  if (utilisateur.rôle.aLaPermission('puissance.consulterChangement')) {
+    const puissance = await getPuissanceInfos(identifiantProjet.formatter());
+
+    if (puissance.aUneDemandeEnCours) {
+      demandes.push({
+        text: 'Puissance',
+        href: Routes.Puissance.changement.détailsPourRedirection(identifiantProjet.formatter()),
+      });
+    }
   }
 
-  const actionnaire = await getActionnaireInfos(identifiantProjet.formatter());
+  if (utilisateur.rôle.aLaPermission('actionnaire.consulterChangement')) {
+    const actionnaire = await getActionnaireInfos(identifiantProjet.formatter());
 
-  if (
-    actionnaire.aUneDemandeEnCours &&
-    utilisateur.rôle.aLaPermission('actionnaire.consulterChangement')
-  ) {
-    demandes.push({
-      text: 'Actionnaire(s)',
-      href: Routes.Actionnaire.changement.détailsPourRedirection(identifiantProjet.formatter()),
-    });
+    if (actionnaire.aUneDemandeEnCours) {
+      demandes.push({
+        text: 'Actionnaire(s)',
+        href: Routes.Actionnaire.changement.détailsPourRedirection(identifiantProjet.formatter()),
+      });
+    }
   }
 
-  const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
-  if (
-    représentantLégal.aUneDemandeEnCours &&
-    utilisateur.rôle.aLaPermission('représentantLégal.consulterChangement')
-  ) {
-    demandes.push({
-      text: 'Représentant Légal',
-      href: Routes.ReprésentantLégal.changement.détailsPourRedirection(
-        identifiantProjet.formatter(),
-      ),
-    });
+  if (utilisateur.rôle.aLaPermission('représentantLégal.consulterChangement')) {
+    const représentantLégal = await getReprésentantLégalInfos(identifiantProjet.formatter());
+    if (représentantLégal.aUneDemandeEnCours) {
+      demandes.push({
+        text: 'Représentant Légal',
+        href: Routes.ReprésentantLégal.changement.détailsPourRedirection(
+          identifiantProjet.formatter(),
+        ),
+      });
+    }
   }
 
-  const abandon = await getAbandonInfos(identifiantProjet.formatter());
-  if (abandon?.demandeEnCours && utilisateur.rôle.aLaPermission('abandon.consulter.demande')) {
-    demandes.push({
-      text: 'Abandon',
-      href: Routes.Abandon.détailRedirection(identifiantProjet.formatter()),
-    });
+  if (utilisateur.rôle.aLaPermission('abandon.consulter.demande')) {
+    const abandon = await getAbandonInfos(identifiantProjet.formatter());
+    if (abandon?.demandeEnCours) {
+      demandes.push({
+        text: 'Abandon',
+        href: Routes.Abandon.détailRedirection(identifiantProjet.formatter()),
+      });
+    }
   }
 
-  const délai = await getDemandeDélaiEnCoursInfos(
-    identifiantProjet.formatter(),
-    utilisateur.identifiantUtilisateur.email,
-  );
+  if (utilisateur.rôle.aLaPermission('délai.listerDemandes')) {
+    const délai = await getDemandeDélaiEnCoursInfos(
+      identifiantProjet.formatter(),
+      utilisateur.identifiantUtilisateur.email,
+    );
 
-  if (délai) {
-    demandes.push({
-      text: 'Délai',
-      href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
-    });
+    if (délai) {
+      demandes.push({
+        text: 'Délai',
+        href: Routes.Délai.détail(identifiantProjet.formatter(), délai.demandéLe.formatter()),
+      });
+    }
   }
 
   return demandes;
