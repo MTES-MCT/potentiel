@@ -12,7 +12,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et les garanties financières en attente du projet ne devraient plus être consultables
+        Et les garanties financières ne devraient plus être attendues pour le projet lauréat
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
         Et une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
@@ -41,7 +41,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
-    Scénario: La DREAL enregistre des garanties financières actuelles ayant initialement un statut échu
+    Scénario: Si la DREAL enregistre des GF avec date d'échéance passée, des GF doivent être attendues avec pour motif "échéance-garanties-financières-actuelles"
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |

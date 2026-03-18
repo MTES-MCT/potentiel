@@ -94,8 +94,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: this.type,
         dateÉchéance: this.dateÉchéance,
-        attestation: this.attestation,
-        dateConstitution: this.dateConstitution,
+        constitution: {
+          attestation: this.attestation,
+          date: this.dateConstitution,
+        },
       });
     return {
       identifiantProjet:

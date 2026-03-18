@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '../../candidature/index.js';
 
@@ -213,16 +213,17 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 
 type ConvertirEnValueTypeProps = {
   type: string;
-  dateÉchéance: string | undefined;
-  attestation: { format: string } | undefined;
-  dateConstitution: string | undefined;
+  dateÉchéance?: string;
+  constitution?: {
+    attestation: { format: string };
+    date: string;
+  };
 };
 
 export const convertirEnValueType = ({
   type,
   dateÉchéance,
-  attestation,
-  dateConstitution,
+  constitution,
 }: ConvertirEnValueTypeProps) => {
   const typeGarantiesFinancières = TypeGarantiesFinancières.convertirEnValueType(type);
 
@@ -230,13 +231,12 @@ export const convertirEnValueType = ({
     throw new DateÉchéanceNonAttendueError();
   }
 
-  const constitutionPlainType =
-    attestation && dateConstitution
-      ? {
-          attestation: { format: attestation.format },
-          date: { date: DateTime.convertirEnValueType(dateConstitution).formatter() },
-        }
-      : undefined;
+  const constitutionPlainType = constitution
+    ? mapToPlainObject({
+        attestation: { format: constitution.attestation.format },
+        date: DateTime.convertirEnValueType(constitution.date),
+      })
+    : undefined;
 
   return match(typeGarantiesFinancières.type)
     .returnType<ValueType>()

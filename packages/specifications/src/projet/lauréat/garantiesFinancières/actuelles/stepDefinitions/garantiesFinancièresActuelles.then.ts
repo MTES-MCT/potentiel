@@ -121,8 +121,31 @@ Alors(
         });
 
       expect(Option.isSome(actualReadModel)).to.be.true;
-      assert(Option.isSome(actualReadModel));
+      assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
+
       expect(actualReadModel.statut.estÉchu()).to.be.true;
+    });
+  },
+);
+
+Alors(
+  `les garanties financières actuelles du projet sont levées`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    await waitForExpect(async () => {
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isSome(actualReadModel)).to.be.true;
+      assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
+
+      expect(actualReadModel.statut.estLevé()).to.be.true;
     });
   },
 );

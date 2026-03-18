@@ -1,8 +1,7 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { waitForExpect } from '#helpers';
@@ -44,24 +43,31 @@ Alors(
 );
 
 Alors(
-  `les garanties financières en attente du projet ne devraient plus être consultables`,
+  `les garanties financières ne devraient plus être attendues pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    await waitForExpect(async () => {
-      const result =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
 
-      expect(Option.isNone(result)).to.be.true;
+    await waitForExpect(async () => {
+      const actual = await récupérerGarantiesFinancièresEnAttente.call(this, identifiantProjet);
+      expect(actual).to.be.undefined;
     });
   },
 );
+
+async function récupérerGarantiesFinancièresEnAttente(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+) {
+  const actualReadModel =
+    await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
+      data: {
+        identifiantUtilisateur: this.utilisateurWorld.adminFixture.email,
+      },
+    });
+
+  return actualReadModel.items.find((item) => item.identifiantProjet.estÉgaleÀ(identifiantProjet));
+}
 
 async function vérifierGarantiesFinancièresAttendues(
   this: PotentielWorld,
@@ -70,26 +76,23 @@ async function vérifierGarantiesFinancièresAttendues(
   dateLimiteSoumission?: string,
 ) {
   await waitForExpect(async () => {
-    const actualReadModel =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        },
-      );
+    const actualReadModel = await récupérerGarantiesFinancièresEnAttente.call(
+      this,
+      identifiantProjet,
+    );
 
-    if (Option.isNone(actualReadModel)) {
-      throw new Error(
-        `Le read model des garanties financières en attente pour le projet ${identifiantProjet.formatter()} n'existe pas`,
-      );
-    }
-    expect(actualReadModel.motif.motif).to.deep.equal(motif);
+    assert(actualReadModel, 'Aucune garantie financière en attente trouvée pour le projet');
+    assert(actualReadModel.motif, 'Le motif des garanties financières en attente doit être défini');
+    expect(actualReadModel.motif.formatter()).to.equal(motif);
 
     if (dateLimiteSoumission) {
-      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
-        new Date(dateLimiteSoumission),
+      assert(
+        actualReadModel.dateLimiteSoumission,
+        'La date limite de soumission des garanties financières en attente doit être définie',
+      );
+
+      expect(actualReadModel.dateLimiteSoumission.formatter()).to.equal(
+        new Date(dateLimiteSoumission).toISOString(),
       );
     }
   });

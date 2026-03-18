@@ -242,6 +242,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   private async échoirOuPlanifierÉchéance(échuLe: DateTime.ValueType) {
     const garantiesFinancières = this.#actuelles?.garantiesFinancières;
+
     if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.statut.estAchevé()) {
       return;
     }
@@ -258,10 +259,15 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.#tâchePlanifiéeRappel3mois.ajouter({
         àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(3),
       });
-    } else if (!this.estÉchu) {
+
+      return;
+    }
+
+    if (!this.estÉchu) {
       // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
       // Idéalement les projecteurs devrait s'éxécuter dans l'ordre des versions du stream
       await new Promise((r) => setTimeout(r, 100));
+
       await this.échoir({ échuLe });
     }
   }
@@ -323,8 +329,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -337,8 +342,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateConstitution: undefined,
-        attestation: undefined,
       }),
     };
   }
@@ -404,8 +407,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -417,6 +419,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     enregistréPar,
   }: EnregistrerAttestationOptions) {
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+
     if (this.aUneAttestation) {
       throw new AttestationGarantiesFinancièresDéjàExistanteError();
     }
@@ -442,8 +445,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
         dateÉchéance: undefined,
         ...this.#actuelles.garantiesFinancières.formatter(),
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       });
     }
   }
@@ -470,6 +472,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
     await this.échoirOuPlanifierÉchéance(enregistréLe);
 
     /**
@@ -490,8 +493,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
     };
   }
@@ -615,8 +617,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
       soumisLe: DateTime.convertirEnValueType(soumisLe),
     };
@@ -651,8 +652,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: { attestation, date: dateConstitution },
       }),
       soumisLe: DateTime.convertirEnValueType(modifiéLe),
     };
@@ -667,6 +667,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
+
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
@@ -696,6 +697,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         estÉchu: false,
       };
       this.#dépôtEnCours = undefined;
+      /**
+       * TODO : TEST à ajouter
+       */
+      this.#motifDemande = undefined;
+      this.#dateLimiteSoumission = undefined;
     }
   }
 
@@ -708,10 +714,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        attestation,
-        dateConstitution,
+        constitution: attestation && { date: dateConstitution, attestation },
       }),
     };
+    /**
+     * TODO : TEST à ajouter
+     */
+    this.#motifDemande = undefined;
+    this.#dateLimiteSoumission = undefined;
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
@@ -735,17 +745,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
     await this.publish(event);
 
-    if (!this.lauréat.achèvement.estAchevé) {
-      if (this.#dateLimiteSoumission && this.#motifDemande) {
-        await this.demander({
-          demandéLe: suppriméLe,
-          dateLimiteSoumission: this.#dateLimiteSoumission,
-          motif: this.#motifDemande,
-        });
-      }
-      // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-      await this.échoirOuPlanifierÉchéance(suppriméLe);
+    if (this.lauréat.achèvement.estAchevé) {
+      return;
     }
+
+    if (this.#dateLimiteSoumission && this.#motifDemande) {
+      await this.demander({
+        demandéLe: suppriméLe,
+        dateLimiteSoumission: this.#dateLimiteSoumission,
+        motif: this.#motifDemande,
+      });
+    }
+    // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
+    await this.échoirOuPlanifierÉchéance(suppriméLe);
   }
 
   private applyDépôtGarantiesFinancièresEnCoursSupprimé(

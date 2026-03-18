@@ -41,10 +41,11 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
 
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
       type: typeValue,
-      dateÉchéance:
-        dateÉchéanceValue && DateTime.convertirEnValueType(dateÉchéanceValue).formatter(),
-      attestation: { format: attestationValue.format },
-      dateConstitution: DateTime.convertirEnValueType(dateConstitutionValue).formatter(),
+      dateÉchéance: dateÉchéanceValue,
+      constitution: {
+        date: dateConstitutionValue,
+        attestation: { format: attestationValue.format },
+      },
     });
 
     const documentProjet = DocumentProjet.convertirEnValueType(

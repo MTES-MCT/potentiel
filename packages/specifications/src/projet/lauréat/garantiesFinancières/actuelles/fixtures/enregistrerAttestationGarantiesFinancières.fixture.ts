@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture.js';
 
 export class EnregistrerAttestationGarantiesFinancièresFixture extends EnregistrerGarantiesFinancièresFixture {
-  mapToExpected() {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const expected = super.mapToExpected();
 
     const dépôtCandidature =
@@ -14,16 +13,16 @@ export class EnregistrerAttestationGarantiesFinancièresFixture extends Enregist
     return {
       ...expected,
       garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-        type: dépôtCandidature.typeGarantiesFinancières!,
         dateÉchéance: dépôtCandidature.dateÉchéanceGf,
-        attestation:
-          expected.garantiesFinancières.constitution?.attestation ??
-          dépôtCandidature.attestationConstitutionGf,
-        dateConstitution: expected.garantiesFinancières.constitution?.date
-          ? DateTime.convertirEnValueType(
-              expected.garantiesFinancières.constitution?.date.date,
-            ).formatter()
-          : dépôtCandidature.dateConstitutionGf,
+        type:
+          expected.garantiesFinancières.type.formatter() ??
+          dépôtCandidature.typeGarantiesFinancières,
+        constitution: expected.garantiesFinancières.constitution
+          ? {
+              attestation: expected.garantiesFinancières.constitution.attestation,
+              date: expected.garantiesFinancières.constitution.date.formatter(),
+            }
+          : undefined,
       }),
     };
   }

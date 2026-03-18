@@ -7,11 +7,9 @@ export const garantiesFinancièresÉchuesProjector = async ({
   await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
-      garantiesFinancières: {
-        statut: 'échu',
-        dernièreMiseÀJour: {
-          date: échuLe,
-        },
+      statut: 'échu',
+      dernièreMiseÀJour: {
+        date: échuLe,
       },
     },
   );

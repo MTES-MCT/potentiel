@@ -10,6 +10,7 @@ const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
 > = {
   validé: 'success',
   levé: 'info',
+  'non-déposé': 'info',
   échu: 'warning',
 };
 

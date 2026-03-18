@@ -248,8 +248,13 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
             type: raw.typeGarantiesFinancières,
             dateÉchéance: raw.dateÉchéanceGf,
-            attestation: raw.attestationConstitutionGf,
-            dateConstitution: raw.dateConstitutionGf,
+            constitution:
+              raw.attestationConstitutionGf && raw.dateConstitutionGf
+                ? {
+                    attestation: raw.attestationConstitutionGf,
+                    date: raw.dateConstitutionGf,
+                  }
+                : undefined,
           }),
         )
       : undefined,

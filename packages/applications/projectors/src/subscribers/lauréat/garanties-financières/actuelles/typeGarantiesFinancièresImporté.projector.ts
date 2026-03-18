@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const typeGarantiesFinancièresImportéProjector = async ({
   payload: { identifiantProjet, importéLe, type, dateÉchéance },
@@ -8,18 +8,14 @@ export const typeGarantiesFinancièresImportéProjector = async ({
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
-      garantiesFinancières: {
+      statut: 'validé',
+      actuelles: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type,
-        statut: 'validé',
         dateÉchéance,
-        dernièreMiseÀJour: {
-          date: importéLe,
-        },
+      }).formatter(),
+      dernièreMiseÀJour: {
+        date: importéLe,
       },
     },
-  );
-
-  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
-    `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
   );
 };

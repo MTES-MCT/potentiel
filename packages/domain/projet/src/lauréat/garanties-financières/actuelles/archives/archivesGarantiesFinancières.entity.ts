@@ -1,6 +1,23 @@
 import { Entity } from '@potentiel-domain/entity';
+import { DateTime } from '@potentiel-domain/common';
 
-import { GarantiesFinancièresDétails } from '../garantiesFinancièresActuelles.entity.js';
+import { StatutGarantiesFinancières } from '../../index.js';
+
+type GarantiesFinancièresDétails = {
+  statut: StatutGarantiesFinancières.RawType;
+  motifEnAttente?: string;
+  dateLimiteSoumission?: string;
+  type: string;
+  dateÉchéance?: string;
+  constitution?: { date: DateTime.RawType; attestation: { format: string } };
+  soumisLe?: string;
+  validéLe?: string;
+  typeImportéLe?: string;
+  dernièreMiseÀJour: {
+    date: string;
+    par?: string;
+  };
+};
 
 export type ArchiveGarantiesFinancières = GarantiesFinancièresDétails & {
   motif:

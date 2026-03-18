@@ -76,7 +76,7 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           `garanties-financieres`,
           {
             where: {
-              garantiesFinancières: {
+              actuelles: {
                 type: Where.equal('consignation'),
               },
             },

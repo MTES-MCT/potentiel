@@ -6,9 +6,10 @@ import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
 export interface DemanderGarantiesFinancières {
+  readonly type: 'type-inconnu';
   readonly motif: string;
   readonly dateLimiteSoumission: string;
-  readonly demandéLe: string;
+  readonly enregistréLe: string;
 }
 
 export type DemanderGarantiesFinancièresProps = DeepPartial<DemanderGarantiesFinancières>;
@@ -23,9 +24,14 @@ export class DemanderGarantiesFinancièresFixture extends AbstractFixture<Demand
   get dateLimiteSoumission() {
     return this.#dateLimiteSoumission;
   }
-  #demandéLe!: string;
-  get demandéLe() {
-    return this.#demandéLe;
+  #enregistréLe!: string;
+  get enregistréLe() {
+    return this.#enregistréLe;
+  }
+
+  #type!: 'type-inconnu';
+  get type() {
+    return this.#type;
   }
 
   constructor(
@@ -40,12 +46,15 @@ export class DemanderGarantiesFinancièresFixture extends AbstractFixture<Demand
         Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs,
       ),
       dateLimiteSoumission: faker.date.future().toISOString(),
-      demandéLe: new Date().toISOString(),
+      enregistréLe: new Date().toISOString(),
       ...partialData,
+
+      type: 'type-inconnu',
     };
+    this.#type = fixture.type;
     this.#motif = fixture.motif;
     this.#dateLimiteSoumission = fixture.dateLimiteSoumission;
-    this.#demandéLe = fixture.demandéLe;
+    this.#enregistréLe = fixture.enregistréLe;
 
     this.aÉtéCréé = true;
 

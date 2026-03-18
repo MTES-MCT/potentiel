@@ -65,8 +65,10 @@ const mapToReadModel = ({
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
     dateÉchéance,
-    attestation,
-    dateConstitution,
+    constitution: {
+      date: dateConstitution,
+      attestation: { format: attestation.format },
+    },
   }),
   soumisLe: DateTime.convertirEnValueType(soumisLe),
   document: DocumentProjet.convertirEnValueType(

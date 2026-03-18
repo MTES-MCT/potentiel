@@ -19,10 +19,10 @@ export const getGarantiesFinancières = cache(
       });
 
     return {
-      actuelles: Option.isNone(garantiesFinancièresActuelles)
-        ? undefined
-        : garantiesFinancièresActuelles,
-      dépôt: Option.isNone(dépôt) ? undefined : dépôt,
+      actuelles: Option.isSome(garantiesFinancièresActuelles)
+        ? garantiesFinancièresActuelles
+        : undefined,
+      dépôt: Option.isSome(dépôt) ? dépôt : undefined,
     };
   },
 );

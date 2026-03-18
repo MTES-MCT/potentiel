@@ -62,6 +62,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const dateÉchéance = DateTime.convertirEnValueType(new Date('2050-07-17'));
+
     await modifierGarantiesFinancièresActuelles.call(this, identifiantProjet, {
       type: 'avec-date-échéance' as const,
       dateÉchéance: dateÉchéance.formatter(),

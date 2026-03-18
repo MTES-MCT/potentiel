@@ -1,15 +1,39 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const garantiesFinancièresDemandéesProjector = async ({
   payload: { identifiantProjet, demandéLe, motif, dateLimiteSoumission },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent) => {
-  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
-    `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
+  // dans le cas d'une échéance, on garde les données existantes, dont le statut
+  if (motif === 'échéance-garanties-financières-actuelles') {
+    await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjet}`,
+      {
+        enAttente: {
+          motif,
+          dateLimiteSoumission,
+        },
+        dernièreMiseÀJour: {
+          date: demandéLe,
+        },
+      },
+    );
+    return;
+  }
+
+  // dans les autres cas, il s'agit d'une initialisation des garanties financières.
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
-      motif,
-      dateLimiteSoumission,
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.nonDéposé.statut,
+      enAttente: {
+        motif,
+        dateLimiteSoumission,
+      },
       dernièreMiseÀJour: {
         date: demandéLe,
       },

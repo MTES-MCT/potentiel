@@ -1,9 +1,6 @@
-import { mediator } from 'mediateur';
-
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -75,8 +72,6 @@ export const getGarantiesFinancièresData = async ({
 
   const { actuelles, dépôt } = await getGarantiesFinancières(identifiantProjet.formatter());
 
-  const motifGarantiesFinancièresEnAttente = await getMotifGfEnAttente(identifiantProjet, rôle);
-
   return {
     actuelles: actuelles
       ? {
@@ -94,25 +89,5 @@ export const getGarantiesFinancièresData = async ({
             : undefined,
         }
       : undefined,
-    motifGarantiesFinancièresEnAttente,
   };
-};
-
-const getMotifGfEnAttente = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  rôle: Role.ValueType,
-) => {
-  if (!rôle.aLaPermission('garantiesFinancières.enAttente.consulter')) {
-    return undefined;
-  }
-
-  const garantiesFinancièresEnAttente =
-    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
-  return Option.isSome(garantiesFinancièresEnAttente)
-    ? garantiesFinancièresEnAttente.motif.motif
-    : undefined;
 };

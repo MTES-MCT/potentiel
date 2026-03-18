@@ -51,10 +51,12 @@ export const handleLauréatNotifié = async (
     dateÉchéance: candidature.dépôt.garantiesFinancières.estAvecDateÉchéance()
       ? candidature.dépôt.garantiesFinancières.dateÉchéance.formatter()
       : undefined,
-    attestation: constitutionGarantiesFinancières
-      ? { format: constitutionGarantiesFinancières.attestation.format }
+    constitution: constitutionGarantiesFinancières
+      ? {
+          attestation: constitutionGarantiesFinancières.attestation,
+          date: constitutionGarantiesFinancières.dateConstitution,
+        }
       : undefined,
-    dateConstitution: constitutionGarantiesFinancières?.dateConstitution,
   });
 
   if (constitutionGarantiesFinancières?.attestation) {

@@ -74,6 +74,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
     await this.lauréat.projet.accès.retirerTous({
       retiréLe: dateChangement,
       retiréPar: identifiantUtilisateur,
@@ -86,6 +87,11 @@ export class ProducteurAggregate extends AbstractAggregate<
     });
 
     if (this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
+      // TODO: Il faut attendre un peu ici car sinon l'exécution des projecteurs risque se faire en même temps
+      // et générer des projections avec des données erronées
+      // Idéalement il ne faudrait pas avoir des projecteur qui s'exécute en parallèle
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
       await this.lauréat.projet.lauréat.garantiesFinancières.demander({
         demandéLe: dateChangement,
         motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
