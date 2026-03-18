@@ -93,7 +93,10 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return fixture;
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Omit<
+    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+    'archives'
+  > {
     return {
       identifiantProjet:
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
@@ -117,10 +120,9 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         date: DateTime.convertirEnValueType(this.enregistréLe),
         par: Email.convertirEnValueType(this.enregistréPar),
       },
-
+      validéLe: DateTime.convertirEnValueType(this.#enregistréLe),
       dateLimiteSoumission: undefined,
       motifEnAttente: undefined,
-      archives: [],
     };
   }
 }

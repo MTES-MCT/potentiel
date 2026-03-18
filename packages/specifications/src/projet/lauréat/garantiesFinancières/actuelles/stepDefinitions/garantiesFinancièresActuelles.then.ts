@@ -26,15 +26,12 @@ Alors(
 
       assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
 
-      const actual = mapToPlainObject(actualReadModel);
-
+      // on ne compare pas les archives ici, qui font l'objet d'un step dédié
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { archives: _archives, ...actual } = mapToPlainObject(actualReadModel);
       const expected = mapToPlainObject(
         this.lauréatWorld.garantiesFinancièresWorld.mapToExpected(),
       );
-
-      // on ne compare pas les archives ici, qui font l'objet d'un step dédié
-      actual.archives = [];
-
       actual.should.be.deep.equal(expected);
 
       if (actualReadModel.document) {
