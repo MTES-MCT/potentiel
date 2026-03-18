@@ -80,7 +80,11 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <SectionGarantiesFinancières>
             <GarantiesFinancières
               title="Garanties financières actuelles"
-              garantiesFinancières={actuelles}
+              garantiesFinancières={actuelles.garantiesFinancières}
+              dernièreMiseÀJour={actuelles.dernièreMiseÀJour}
+              document={actuelles.document}
+              soumisLe={actuelles.soumisLe}
+              validéLe={actuelles.validéLe}
               statutBadge={<StatutGarantiesFinancièresBadge statut={actuelles.statut.statut} />}
               actions={actions}
             />
@@ -98,7 +102,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <SectionGarantiesFinancières>
             <GarantiesFinancières
               title="Garanties financières à traiter"
-              garantiesFinancières={dépôtEnCours}
+              garantiesFinancières={dépôtEnCours.garantiesFinancières}
+              dernièreMiseÀJour={dépôtEnCours.dernièreMiseÀJour}
+              document={dépôtEnCours.document}
               actions={actions}
             />
 
