@@ -16,6 +16,7 @@ import {
 } from './handlers/index.js';
 import { handleDépôtGarantiesFinancièresSupprimé } from './handlers/dépôt/dépôtGarantiesFinancièresSupprimé.handler.js';
 import { handleDemandeMainlevéeAnnulée } from './handlers/mainlevée/demandeMainlevéeAnnulée.handler.js';
+import { handleDépôtGarantiesFinancièresModifié } from './handlers/dépôt/dépôtGarantiesFinancièresModifié.handler.js';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 
@@ -53,6 +54,12 @@ export const register = () => {
           },
           handleDépôtGarantiesFinancièresSupprimé,
         )
+        .with(
+          {
+            type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+          },
+          handleDépôtGarantiesFinancièresModifié,
+        )
         //#endregion Dépôt
         //#region Actuelles
         .with(
@@ -74,19 +81,19 @@ export const register = () => {
         .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, handleMainlevéeDemandée)
         .with(
           {
-            type: P.union('DemandeMainlevéeGarantiesFinancièresAccordée-V1'),
+            type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
           },
           handleDemandeMainlevéeAccordée,
         )
         .with(
           {
-            type: P.union('DemandeMainlevéeGarantiesFinancièresRejetée-V1'),
+            type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
           },
           handleDemandeMainlevéeRejetée,
         )
         .with(
           {
-            type: P.union('InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1'),
+            type: 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
           },
           handleDemandeMainlevéePasséeEnInstruction,
         )
@@ -99,7 +106,6 @@ export const register = () => {
         .with(
           {
             type: P.union(
-              'DépôtGarantiesFinancièresEnCoursModifié-V1',
               'GarantiesFinancièresDemandées-V1',
               'GarantiesFinancièresImportées-V1',
               'HistoriqueGarantiesFinancièresEffacé-V1',

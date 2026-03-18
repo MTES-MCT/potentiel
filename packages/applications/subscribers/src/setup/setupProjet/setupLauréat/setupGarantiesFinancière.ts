@@ -59,6 +59,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({
       'DépôtGarantiesFinancièresEnCoursValidé-V2',
       'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
       'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+      'DépôtGarantiesFinancièresEnCoursModifié-V1',
       'AttestationGarantiesFinancièresEnregistrée-V1',
       'GarantiesFinancièresModifiées-V1',
       'GarantiesFinancièresEnregistrées-V1',

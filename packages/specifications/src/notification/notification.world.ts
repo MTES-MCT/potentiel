@@ -18,6 +18,7 @@ export class NotificationWorld {
   }[] = [];
 
   ajouterNotification(notif: Email) {
+    console.log(notif);
     for (const recipient of notif.recipients) {
       this.#notifications.push({
         ...notif,

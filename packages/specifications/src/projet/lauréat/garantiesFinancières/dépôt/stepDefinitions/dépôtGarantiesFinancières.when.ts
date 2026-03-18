@@ -112,7 +112,11 @@ export async function modifierDépôt(
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
   const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
-    this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer(props);
+    this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
+      ...props,
+      soumisPar: this.utilisateurWorld.porteurFixture.email,
+    });
+
   await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
     {
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
