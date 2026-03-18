@@ -35,7 +35,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
                     .renouvellementDesGarantiesFinancièresÉchues.motif
                 : Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières
                     .modificationDesGarantiesFinancières.motif,
-            validéLe: entityToUpsert.validéLe,
+            validéLe: entityToUpsert.actuelles.validéLe,
           },
         ]
       : entityToUpsert.archives;
@@ -57,11 +57,13 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
       return {
         identifiantProjet: payload.identifiantProjet,
         statut: 'validé',
-        actuelles: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-          dépôtExistant.dépôt,
-        ).formatter(),
+        actuelles: {
+          ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+            dépôtExistant.dépôt,
+          ).formatter(),
+          validéLe: payload.validéLe,
+        },
         soumisLe: DateTime.convertirEnValueType(dépôtExistant.dépôt.soumisLe).formatter(),
-        validéLe: payload.validéLe,
         archives,
         dernièreMiseÀJour: {
           date: payload.validéLe,
@@ -72,8 +74,12 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
     .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, async ({ payload }) => ({
       identifiantProjet: payload.identifiantProjet,
       statut: 'validé',
-      actuelles:
-        Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(payload).formatter(),
+      actuelles: {
+        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+          payload,
+        ).formatter(),
+        validéLe: payload.validéLe,
+      },
       soumisLe: payload.soumisLe,
       validéLe: payload.validéLe,
       dernièreMiseÀJour: {

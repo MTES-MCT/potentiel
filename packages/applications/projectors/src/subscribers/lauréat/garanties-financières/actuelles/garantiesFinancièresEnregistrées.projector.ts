@@ -17,14 +17,17 @@ export const garantiesFinancièresEnregistréesProjector = async ({
   },
   version,
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent & Event) => {
-  const actuelles = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-    type,
-    dateÉchéance,
-    constitution: {
-      date: dateConstitution,
-      attestation,
-    },
-  }).formatter();
+  const actuelles: Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['actuelles'] = {
+    ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+      type,
+      dateÉchéance,
+      constitution: {
+        date: dateConstitution,
+        attestation,
+      },
+    }).formatter(),
+    validéLe: enregistréLe,
+  };
 
   const dernièreMiseÀJour = { date: enregistréLe, par: enregistréPar };
 

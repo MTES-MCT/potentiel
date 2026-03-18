@@ -13,7 +13,7 @@ import {
 export type ArchiveGarantiesFinancières = {
   garantiesFinancières: GarantiesFinancières.RawType;
   motifArchivage: MotifArchivageGarantiesFinancières.RawType;
-  validéLe?: DateTime.RawType;
+  validéLe: DateTime.RawType;
 };
 
 export type GarantiesFinancièresEntity = Entity<
@@ -25,10 +25,11 @@ export type GarantiesFinancièresEntity = Entity<
       motif: MotifDemandeGarantiesFinancières.RawType;
       dateLimiteSoumission: DateTime.RawType;
     };
-    actuelles?: GarantiesFinancières.RawType;
-
+    actuelles?: GarantiesFinancières.RawType & {
+      validéLe: DateTime.RawType;
+    };
     soumisLe?: DateTime.RawType;
-    validéLe?: DateTime.RawType;
+
     dernièreMiseÀJour: {
       date: DateTime.RawType;
       par?: Email.RawType;

@@ -25,7 +25,7 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
                 entityToUpsert.actuelles,
               ).formatter(),
             motifArchivage: 'changement de producteur',
-            validéLe: entityToUpsert.validéLe,
+            validéLe: entityToUpsert.actuelles.validéLe,
           },
         ]
       : entityToUpsert.archives;

@@ -20,7 +20,7 @@ type GarantiesFinancièresProps = {
   // en réalité ce champs peut accueillir soit des GF actuelles soit un dépôt,
   // mais le type Actuel gère plus de cas
   garantiesFinancières: PlainType<
-    Omit<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'statut'>
+    Omit<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'statut' | 'archives'>
   >;
   statutBadge?: React.ReactNode;
   actions: DétailsGarantiesFinancièresPageProps['actions'];

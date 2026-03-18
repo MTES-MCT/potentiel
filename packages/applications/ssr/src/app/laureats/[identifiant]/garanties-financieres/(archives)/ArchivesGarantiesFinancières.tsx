@@ -8,12 +8,11 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3, Heading4 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
-import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 
 type ArchivesGarantiesFinancièresProps = {
-  archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
+  archives: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresReadModel>[];
 };
 
 export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFinancièresProps) => {
@@ -30,20 +29,16 @@ export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFin
 const mapToTimelineItem = ({
   garantiesFinancières,
   document,
-  dernièreMiseÀJour,
-  motif,
-  statut,
-  soumisLe,
   validéLe,
-}: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresListItemReadModel>): TimelineItemProps => {
+  motifArchivage,
+}: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresReadModel>): TimelineItemProps => {
   const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancières);
   return {
     status: 'info',
-    date: dernièreMiseÀJour.date.date,
+    date: validéLe.date,
     title: (
       <div className="flex gap-2">
         <Heading4>Garanties financières</Heading4>
-        <StatutGarantiesFinancièresBadge statut={statut.statut} />
       </div>
     ),
     details: (
@@ -70,18 +65,7 @@ const mapToTimelineItem = ({
             <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
           </div>
         )}
-        <>
-          {validéLe && (
-            <div>
-              Validé le : <FormattedDate className="font-semibold" date={validéLe.date} />
-            </div>
-          )}
-          {soumisLe && (
-            <div>
-              Soumis le : <FormattedDate className="font-semibold" date={soumisLe.date} />
-            </div>
-          )}
-        </>
+
         <div>
           {document ? (
             <DownloadDocument
@@ -97,7 +81,7 @@ const mapToTimelineItem = ({
         </div>
         <div>
           Motif d'archivage :{' '}
-          <span className="font-semibold first-letter:capitalize">{motif.motif}</span>
+          <span className="font-semibold first-letter:capitalize">{motifArchivage.motif}</span>
         </div>
       </div>
     ),

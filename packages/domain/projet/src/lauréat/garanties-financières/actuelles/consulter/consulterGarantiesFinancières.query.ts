@@ -17,7 +17,7 @@ import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 export type ArchiveGarantiesFinancièresReadModel = {
   garantiesFinancières: GarantiesFinancières.ValueType;
   document?: DocumentProjet.ValueType;
-  validéLe?: DateTime.ValueType;
+  validéLe: DateTime.ValueType;
   motifArchivage: MotifArchivageGarantiesFinancières.ValueType;
 };
 
@@ -78,7 +78,6 @@ export const mapToReadModel = ({
   enAttente,
   actuelles,
   soumisLe,
-  validéLe,
   archives,
 }: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
@@ -87,7 +86,7 @@ export const mapToReadModel = ({
     statut: StatutGarantiesFinancières.convertirEnValueType(statut),
     garantiesFinancières,
     soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
-    validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
+    validéLe: DateTime.convertirEnValueType(actuelles.validéLe),
     document: garantiesFinancières.estConstitué()
       ? DocumentProjet.convertirEnValueType(
           identifiantProjet,
@@ -115,7 +114,7 @@ export const mapToReadModel = ({
         motifArchivage: MotifArchivageGarantiesFinancières.convertirEnValueType(
           archive.motifArchivage,
         ),
-        validéLe: archive.validéLe && DateTime.convertirEnValueType(archive.validéLe),
+        validéLe: DateTime.convertirEnValueType(archive.validéLe),
         document: garantiesFinancières.estConstitué()
           ? DocumentProjet.convertirEnValueType(
               identifiantProjet,
