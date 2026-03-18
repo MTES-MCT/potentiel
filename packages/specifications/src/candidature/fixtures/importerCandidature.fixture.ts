@@ -278,7 +278,13 @@ const getNatureDeLExploitationFixture = (
     : {
         typeNatureDeLExploitation,
         tauxPrévisionnelACI:
-          typeNatureDeLExploitation === 'autoconsommation-individuelle'
+          typeNatureDeLExploitation === 'autoconsommation-individuelle' ||
+          typeNatureDeLExploitation === 'autoconsommation-individuelle-et-collective'
+            ? faker.number.int({ min: 0, max: 100 })
+            : undefined,
+        tauxPrévisionnelACC:
+          typeNatureDeLExploitation === 'autoconsommation-collective' ||
+          typeNatureDeLExploitation === 'autoconsommation-individuelle-et-collective'
             ? faker.number.int({ min: 0, max: 100 })
             : undefined,
         ...dépôtValue,

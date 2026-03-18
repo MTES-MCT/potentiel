@@ -318,6 +318,7 @@ export class LauréatAggregate extends AbstractAggregate<
         typeNatureDeLExploitation:
           this.projet.candidature.natureDeLExploitation.typeNatureDeLExploitation,
         tauxPrévisionnelACI: this.projet.candidature.natureDeLExploitation.tauxPrévisionnelACI,
+        tauxPrévisionnelACC: this.projet.candidature.natureDeLExploitation.tauxPrévisionnelACC,
         importéeLe: notifiéLe,
         importéePar: notifiéPar,
       });
