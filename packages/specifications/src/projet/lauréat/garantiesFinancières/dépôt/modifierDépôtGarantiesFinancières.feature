@@ -39,8 +39,8 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et les garanties financières ne devraient plus être attendues pour le projet lauréat
         Et un email a été envoyé à la dreal avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation modifiées |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                  |
+            | sujet | Potentiel - Du boulodrome de Lyon - Garanties financières en attente de validation modifiées |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                             |
 
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières avec :
