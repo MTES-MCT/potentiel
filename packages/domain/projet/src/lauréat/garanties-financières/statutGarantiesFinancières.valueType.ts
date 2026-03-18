@@ -1,12 +1,12 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statut = ['en-attente', 'validé', 'levé', 'échu'] as const;
+export const statut = ['non-déposé', 'validé', 'levé', 'échu'] as const;
 
 export type RawType = (typeof statut)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   statut: Type;
-  estEnAttente: () => boolean;
+  estNonDéposé: () => boolean;
   estValidé: () => boolean;
   estLevé: () => boolean;
   estÉchu: () => boolean;
@@ -24,8 +24,8 @@ export const bind = <Type extends RawType = RawType>({
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
     },
-    estEnAttente() {
-      return this.statut === 'en-attente';
+    estNonDéposé() {
+      return this.statut === 'non-déposé';
     },
     estValidé() {
       return this.statut === 'validé';
@@ -58,7 +58,7 @@ function estValide(value: string): asserts value is RawType {
 export const validé = convertirEnValueType<'validé'>('validé');
 export const levé = convertirEnValueType<'levé'>('levé');
 export const échu = convertirEnValueType<'échu'>('échu');
-export const enAttente = convertirEnValueType<'en-attente'>('en-attente');
+export const nonDéposé = convertirEnValueType<'non-déposé'>('non-déposé');
 
 class StatutGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

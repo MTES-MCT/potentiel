@@ -78,7 +78,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
 
         statut: Where.matchAny([
-          StatutGarantiesFinancières.enAttente.statut,
+          StatutGarantiesFinancières.nonDéposé.statut,
           StatutGarantiesFinancières.échu.statut,
         ]),
         enAttente: {

@@ -29,7 +29,7 @@ export const garantiesFinancièresDemandéesProjector = async ({
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
-      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.enAttente.statut,
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.nonDéposé.statut,
       enAttente: {
         motif,
         dateLimiteSoumission,

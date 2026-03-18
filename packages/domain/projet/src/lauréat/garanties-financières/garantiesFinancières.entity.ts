@@ -9,17 +9,6 @@ import {
   StatutGarantiesFinancières,
 } from './index.js';
 
-// type ArchiveGarantiesFinancières = GarantiesFinancières.RawType & {
-//   dateArchivage: DateTime.RawType;
-//   motif:
-//     | 'changement de producteur'
-//     | 'renouvellement des garanties financières échues'
-//     | 'modification des garanties financières';
-
-//   soumisLe?: DateTime.RawType;
-//   validéLe?: DateTime.RawType;
-// };
-
 export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
   {
