@@ -142,16 +142,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     },
   });
 
-  await mediator.send<InviterPorteurUseCase>({
-    type: 'Utilisateur.UseCase.InviterPorteur',
-    data: {
-      identifiantUtilisateurValue: candidature.values.emailContactValue,
-      identifiantsProjetValues: [identifiantProjetValue],
-      invitéLeValue: notifiéLe,
-      invitéParValue: Email.système.formatter(),
-    },
-  });
-
   await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
     type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
     data: {
