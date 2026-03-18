@@ -17,11 +17,6 @@ export const garantiesFinancièresRebuildTriggeredProjector = async ({
     id,
   );
 
-  await clearProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
-    `archives-garanties-financieres`,
-    id,
-  );
-
   await removeProjectionWhere<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres`,
     { identifiantProjet: Where.equal(id) },

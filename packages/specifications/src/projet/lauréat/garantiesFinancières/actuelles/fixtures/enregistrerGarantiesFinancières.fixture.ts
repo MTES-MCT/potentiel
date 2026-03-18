@@ -120,6 +120,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
 
       dateLimiteSoumission: undefined,
       motifEnAttente: undefined,
+      archives: [],
     };
   }
 }

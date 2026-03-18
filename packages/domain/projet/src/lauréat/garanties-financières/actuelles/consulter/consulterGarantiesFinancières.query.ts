@@ -7,11 +7,19 @@ import { Find } from '@potentiel-domain/entity';
 import { GarantiesFinancièresEntity } from '../../garantiesFinancières.entity.js';
 import {
   GarantiesFinancières,
+  MotifArchivageGarantiesFinancières,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+
+export type ArchiveGarantiesFinancièresReadModel = {
+  garantiesFinancières: GarantiesFinancières.ValueType;
+  document?: DocumentProjet.ValueType;
+  validéLe?: DateTime.ValueType;
+  motifArchivage: MotifArchivageGarantiesFinancières.ValueType;
+};
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -26,6 +34,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
     date: DateTime.ValueType;
     par?: Email.ValueType;
   };
+  archives: ArchiveGarantiesFinancièresReadModel[];
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
@@ -63,14 +72,15 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
 type MapToReadModelProps = GarantiesFinancièresEntity & { actuelles: GarantiesFinancières.RawType };
 export const mapToReadModel = ({
+  identifiantProjet,
   dernièreMiseÀJour,
   statut,
   enAttente,
   actuelles,
   soumisLe,
   validéLe,
-  identifiantProjet,
-}: Omit<MapToReadModelProps, ''>): ConsulterGarantiesFinancièresReadModel => {
+  archives,
+}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -90,12 +100,31 @@ export const mapToReadModel = ({
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
       par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
     },
-
     motifEnAttente: enAttente
       ? MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente.motif)
       : undefined,
     dateLimiteSoumission: enAttente?.dateLimiteSoumission
       ? DateTime.convertirEnValueType(enAttente.dateLimiteSoumission)
       : undefined,
+    archives: archives.map((archive) => {
+      const garantiesFinancières = GarantiesFinancières.convertirEnValueType(
+        archive.garantiesFinancières,
+      );
+      return {
+        garantiesFinancières,
+        motifArchivage: MotifArchivageGarantiesFinancières.convertirEnValueType(
+          archive.motifArchivage,
+        ),
+        validéLe: archive.validéLe && DateTime.convertirEnValueType(archive.validéLe),
+        document: garantiesFinancières.estConstitué()
+          ? DocumentProjet.convertirEnValueType(
+              identifiantProjet,
+              TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+              garantiesFinancières.constitution.date.formatter(),
+              garantiesFinancières.constitution.attestation.format,
+            )
+          : undefined,
+      };
+    }),
   };
 };

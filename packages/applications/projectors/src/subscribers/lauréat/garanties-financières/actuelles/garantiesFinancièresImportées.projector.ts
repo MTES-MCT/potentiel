@@ -20,6 +20,7 @@ export const garantiesFinancièresImportéesProjector = async ({
       dernièreMiseÀJour: {
         date: importéLe,
       },
+      archives: [],
     },
   );
 };

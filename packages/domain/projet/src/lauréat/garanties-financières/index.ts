@@ -12,7 +12,6 @@ export type * from './en-attente/garantiesFinancièresEnAttente.queries.js';
 // Entities
 export type * from './garantiesFinancières.entity.js';
 export type * from './dépôt/dépôtGarantiesFinancières.entity.js';
-export type * from './actuelles/archives/archivesGarantiesFinancières.entity.js';
 export type * from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
 
 // Events
@@ -29,7 +28,7 @@ export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motif
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType.js';
 export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType.js';
 
-export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType.js';
+export * as MotifArchivageGarantiesFinancières from './actuelles/motifArchivageGarantiesFinancières.valueType.js';
 
 // Saga
 export * as GarantiesFinancièresSaga from './saga/garantiesFinancières.saga.js';

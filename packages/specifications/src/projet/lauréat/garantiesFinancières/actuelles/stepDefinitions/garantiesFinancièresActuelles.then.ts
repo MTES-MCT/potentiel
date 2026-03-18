@@ -32,6 +32,9 @@ Alors(
         this.lauréatWorld.garantiesFinancièresWorld.mapToExpected(),
       );
 
+      // on ne compare pas les archives ici, qui font l'objet d'un step dédié
+      actual.archives = [];
+
       actual.should.be.deep.equal(expected);
 
       if (actualReadModel.document) {
@@ -77,21 +80,23 @@ Alors(
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
     await waitForExpect(async () => {
-      const archives =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+      const gf =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
 
-      expect(archives).to.have.length(1);
-      const actualArchive = archives[0];
+      assert(Option.isSome(gf), 'Pas de garanties financières actuelles trouvées');
+
+      expect(gf.archives).to.have.length(1);
+      const actualArchive = gf.archives[0];
 
       const actualGf = mapToPlainObject(actualArchive.garantiesFinancières);
       expect(actualGf).to.deep.equal(mapToPlainObject(expectedGf));
 
-      const actualMotif = mapToPlainObject(actualArchive.motif);
+      const actualMotif = mapToPlainObject(actualArchive.motifArchivage);
       const expectedMotif = mapToPlainObject(
         Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
           raisonValue,

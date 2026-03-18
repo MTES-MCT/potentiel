@@ -42,7 +42,10 @@ export class GarantiesFinancièresActuellesWorld {
     return mapToExemple(exemple, garantiesFinancièresMap);
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Omit<
+    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+    'archives'
+  > {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
 
     const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
@@ -65,33 +68,35 @@ export class GarantiesFinancièresActuellesWorld {
       attestationConstitutionGf,
     } = candidatureInitiale.dépôtValue;
 
-    let gfReadModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel =
-      typeGarantiesFinancières
-        ? {
-            identifiantProjet,
-            garantiesFinancières:
-              Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-                type: typeGarantiesFinancières,
-                dateÉchéance: dateÉchéanceGf,
-                constitution: this.importer.aÉtéCréé
+    let gfReadModel: Omit<
+      Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+      'archives'
+    > = typeGarantiesFinancières
+      ? {
+          identifiantProjet,
+          garantiesFinancières:
+            Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+              type: typeGarantiesFinancières,
+              dateÉchéance: dateÉchéanceGf,
+              constitution: this.importer.aÉtéCréé
+                ? {
+                    attestation: this.importer.attestation,
+                    date: this.importer.dateConstitution,
+                  }
+                : dateConstitutionGf && attestationConstitutionGf
                   ? {
-                      attestation: this.importer.attestation,
-                      date: this.importer.dateConstitution,
+                      attestation: attestationConstitutionGf,
+                      date: dateConstitutionGf,
                     }
-                  : dateConstitutionGf && attestationConstitutionGf
-                    ? {
-                        attestation: attestationConstitutionGf,
-                        date: dateConstitutionGf,
-                      }
-                    : undefined,
-              }),
-            statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-            dernièreMiseÀJour: {
-              date: DateTime.convertirEnValueType(notifiéLe),
-            },
-            document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
-          }
-        : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
+                  : undefined,
+            }),
+          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
+          dernièreMiseÀJour: {
+            date: DateTime.convertirEnValueType(notifiéLe),
+          },
+          document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
+        }
+      : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
     for (const action of actions) {
       gfReadModel = action.mapToExpected();
