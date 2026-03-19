@@ -8,6 +8,7 @@ const typologieToLabelMap: Record<
   'agrivoltaïque.jachère-plus-de-5-ans': 'Installation agrivoltaïque (jachère de plus de 5 ans)',
   'agrivoltaïque.serre': 'Installation agrivoltaïque (serre)',
   'agrivoltaïque.élevage': 'Installation agrivoltaïque (élevage)',
+  'agrivoltaïque.non-précisé': 'Installation agrivoltaïque (non précisé)',
   'bâtiment.existant-avec-rénovation-de-toiture': 'Bâtiment existant avec rénovation de toiture',
   'bâtiment.existant-sans-rénovation-de-toiture': 'Bâtiment existant sans rénovation de toiture',
   'bâtiment.neuf': 'Bâtiment neuf',
