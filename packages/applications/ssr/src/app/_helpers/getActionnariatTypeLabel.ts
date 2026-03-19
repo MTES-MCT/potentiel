@@ -8,9 +8,8 @@ export const getActionnariatTypeLabel = (type: Candidature.TypeActionnariat.RawT
     .with('financement-participatif', () => 'Financement Participatif')
     .with('gouvernance-partagée', () => 'Gouvernance Partagée')
     .with('investissement-participatif', () => 'Investissement Participatif')
-    // viovio à voir, peut plutôt être remplacé par un multiselect ?
     .with(
       'financement-collectif-et-gouvernance-partagée',
-      () => 'Financement Collectif et gouvernance partagée',
+      () => 'Financement Participatif et Gouvernance Partagée',
     )
     .exhaustive();

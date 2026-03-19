@@ -7,16 +7,20 @@ export const getTypeActionnariatFilterOptions = (
   cycleAppelOffre?: AppelOffre.ConsulterAppelOffreReadModel['cycleAppelOffre'],
 ) =>
   cycleAppelOffre === 'PPE2'
-    ? Candidature.TypeActionnariat.ppe2Types.map((t) => ({
-        label: getActionnariatTypeLabel(t),
-        value: t,
-      }))
+    ? Candidature.TypeActionnariat.ppe2Types
+        .filter((type) => type !== 'financement-collectif-et-gouvernance-partagée')
+        .map((t) => ({
+          label: getActionnariatTypeLabel(t),
+          value: t,
+        }))
     : cycleAppelOffre === 'CRE4'
       ? Candidature.TypeActionnariat.cre4Types.map((t) => ({
           label: getActionnariatTypeLabel(t),
           value: t,
         }))
-      : Candidature.TypeActionnariat.types.map((t) => ({
-          label: getActionnariatTypeLabel(t),
-          value: t,
-        }));
+      : Candidature.TypeActionnariat.types
+          .filter((type) => type !== 'financement-collectif-et-gouvernance-partagée')
+          .map((t) => ({
+            label: getActionnariatTypeLabel(t),
+            value: t,
+          }));

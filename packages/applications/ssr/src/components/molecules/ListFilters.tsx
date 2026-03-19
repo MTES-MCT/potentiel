@@ -3,6 +3,8 @@
 import { FC } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+import { Candidature } from '@potentiel-domain/projet';
+
 import { Filter } from './Filter';
 import { MultipleSelect } from './MultipleSelect';
 
@@ -55,6 +57,28 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
       }
+    }
+
+    // cas spécifique pour type d'actionnariat
+    if (
+      searchParamKey === 'typeActionnariat' &&
+      (value.includes('financement-collectif') || value.includes('gouvernance-partagée'))
+    ) {
+      newSearchParams.append(
+        searchParamKey,
+        Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée.type,
+      );
+    }
+
+    if (
+      searchParamKey === 'typeActionnariat' &&
+      !value.includes('financement-collectif') &&
+      !value.includes('gouvernance-partagée')
+    ) {
+      newSearchParams.delete(
+        searchParamKey,
+        Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée.type,
+      );
     }
 
     // cas spécifique pour appel d'offre, période et famille
