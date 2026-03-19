@@ -16,6 +16,7 @@ export const agrivoltaïque = [
   'agrivoltaïque.jachère-plus-de-5-ans',
   'agrivoltaïque.élevage',
   'agrivoltaïque.serre',
+  'agrivoltaïque.non-précisé',
 ] as const;
 
 export const typologies = [...bâtiment, ...ombrière, ...agrivoltaïque] as const;
