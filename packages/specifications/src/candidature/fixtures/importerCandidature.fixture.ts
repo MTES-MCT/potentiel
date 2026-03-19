@@ -147,6 +147,13 @@ const créerDépôt = (
   const { appelOffre, période } = identifiantProjet;
 
   const aoData = appelsOffreData.find((x) => x.id === appelOffre);
+  const référentielPériode = appelsOffreData
+    .find((ao) => ao.id === appelOffre)
+    ?.periodes.find((p) => p.id === période);
+  const champsSupplémentaires = {
+    ...aoData?.champsSupplémentaires,
+    ...référentielPériode?.champsSupplémentaires,
+  };
 
   const localité: Candidature.Localité.RawType = {
     adresse1: faker.location.streetAddress(),
@@ -178,12 +185,10 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
     coefficientKChoisi:
-      aoData?.champsSupplémentaires?.coefficientKChoisi === 'requis'
-        ? faker.datatype.boolean()
-        : undefined,
+      champsSupplémentaires?.coefficientKChoisi === 'requis' ? faker.datatype.boolean() : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
-      aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+      champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
@@ -205,22 +210,15 @@ const créerDépôt = (
       : undefined,
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
-      aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis',
+      champsSupplémentaires?.dispositifDeStockage === 'requis',
     ),
     natureDeLExploitation: getNatureDeLExploitationFixture(
       dépôt.natureDeLExploitation,
-      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis',
+      champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
   };
 
-  const référentielPériode = appelsOffreData
-    .find((ao) => ao.id === appelOffre)
-    ?.periodes.find((p) => p.id === période);
-
-  if (
-    référentielPériode?.champsSupplémentaires?.coefficientKChoisi &&
-    !('coefficientKChoisi' in dépôt)
-  ) {
+  if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {
     dépôtValue.coefficientKChoisi = faker.datatype.boolean();
   }
 
