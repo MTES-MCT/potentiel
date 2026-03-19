@@ -147,7 +147,8 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>
 
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {(project.actionnariat === 'gouvernance-partagée' ||
+            project.actionnariat === 'financement-collectif-et-gouvernance-partagée') && (
             <Text
               style={{
                 marginTop: 10,
@@ -157,8 +158,8 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
               {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
             </Text>
           )}
-
-          {project.actionnariat === 'financement-collectif' && (
+          {(project.actionnariat === 'financement-collectif' ||
+            project.actionnariat === 'financement-collectif-et-gouvernance-partagée') && (
             <Text
               style={{
                 marginTop: 10,

@@ -73,14 +73,16 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           {période.addendums?.paragraphePrix ? (
             <Text> {période.addendums.paragraphePrix}</Text>
           ) : null}
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {(project.actionnariat === 'gouvernance-partagée' ||
+            project.actionnariat === 'financement-collectif-et-gouvernance-partagée') && (
             <Text>
               {' '}
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
               d’Achèvement de l’Installation.{' '}
             </Text>
           )}
-          {project.actionnariat === 'financement-collectif' && (
+          {(project.actionnariat === 'financement-collectif' ||
+            project.actionnariat === 'financement-collectif-et-gouvernance-partagée') && (
             <Text>
               {' '}
               Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la

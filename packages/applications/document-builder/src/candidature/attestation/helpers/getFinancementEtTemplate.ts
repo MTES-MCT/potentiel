@@ -14,7 +14,11 @@ export const getFinancementEtTemplate = ({
     ? ('financement-collectif' as const)
     : actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
       ? ('gouvernance-partagée' as const)
-      : undefined;
+      : actionnariat?.estÉgaleÀ(
+            Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée,
+          )
+        ? ('financement-collectif-et-gouvernance-partagée' as const)
+        : undefined;
 
   const template = période.certificateTemplate;
   switch (template) {
