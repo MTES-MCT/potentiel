@@ -1,14 +1,13 @@
 import { Accès } from '@potentiel-domain/projet';
 
-import { getProjet, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getProjet, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
-  payload: { identifiantProjet },
+  payload: { identifiantProjet, identifiantUtilisateur },
 }: Accès.AccèsProjetAutoriséEvent) {
   const projet = await getProjet(identifiantProjet);
 
-  const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const drealRecipients = await listerDrealsRecipients(projet.région);
 
   const values = {
@@ -22,7 +21,7 @@ export async function handleAccèsProjetAutoriséSuiteÀRéclamation({
   await sendEmail({
     key: 'accès/accès_autorisé_porteur',
     values,
-    recipients: porteursRecipients,
+    recipients: [identifiantUtilisateur],
   });
 
   await sendEmail({
