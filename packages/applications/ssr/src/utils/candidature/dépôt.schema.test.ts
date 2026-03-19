@@ -115,7 +115,7 @@ describe('Schéma dépôt', () => {
       assertError(
         result,
         ['actionnariat'],
-        'Option invalide : une valeur parmi "financement-collectif"|"gouvernance-partagée"|"financement-participatif"|"investissement-participatif" attendue',
+        'Option invalide : une valeur parmi "financement-collectif"|"gouvernance-partagée"|"financement-collectif-et-gouvernance-partagée"|"financement-participatif"|"investissement-participatif" attendue',
       );
     });
 
