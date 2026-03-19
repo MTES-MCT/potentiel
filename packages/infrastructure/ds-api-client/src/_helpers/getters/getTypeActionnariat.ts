@@ -16,9 +16,12 @@ export const getTypeActionnariat = <TDossier extends Record<string, string>>({
   const estFinancementCollectif = accessor.getBooleanValue(nomChampFinancementCollectif);
   const estGouvernancePartagée = accessor.getBooleanValue(nomChampGouvernancePartagée);
 
+  if (!estFinancementCollectif && !estGouvernancePartagée) return undefined;
+
   if (estFinancementCollectif && estGouvernancePartagée)
     return Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée.type;
-  if (estFinancementCollectif) return Candidature.TypeActionnariat.financementCollectif.type;
-  if (estGouvernancePartagée) return Candidature.TypeActionnariat.gouvernancePartagée.type;
-  return undefined;
+
+  return estFinancementCollectif
+    ? Candidature.TypeActionnariat.financementCollectif.type
+    : Candidature.TypeActionnariat.gouvernancePartagée.type;
 };
