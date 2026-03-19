@@ -4,6 +4,8 @@ import { FC } from 'react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import Tag from '@codegouvfr/react-dsfr/Tag';
 
+import { Candidature } from '@potentiel-domain/projet';
+
 import { ListFiltersProps } from '@/components/molecules/ListFilters';
 
 export type FiltersTagListProps = {
@@ -26,12 +28,14 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters, searchBarPara
     }
 
     for (const value of currentValues) {
-      tagFilters.push({
-        searchParamKey,
-        label: `${label} : ${options.find((x) => x.value === value)?.label}`,
-        value,
-        affects,
-      });
+      if (value !== Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée.type) {
+        tagFilters.push({
+          searchParamKey,
+          label: `${label} : ${options.find((x) => x.value === value)?.label}`,
+          value,
+          affects,
+        });
+      }
     }
 
     return tagFilters;

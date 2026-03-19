@@ -75,7 +75,7 @@ export const LaureatPPE2BatimentGouvernancePartagee: Story = {
   args: {
     projet: {
       ...fakeProject,
-      actionnariat: 'gouvernance-partagée',
+      actionnariat: 'financement-collectif-et-gouvernance-partagée',
       appelOffre: batimentPPE2,
       période: batimentPPE2.periodes[0],
       famille: batimentPPE2.periodes[0].familles[0],
