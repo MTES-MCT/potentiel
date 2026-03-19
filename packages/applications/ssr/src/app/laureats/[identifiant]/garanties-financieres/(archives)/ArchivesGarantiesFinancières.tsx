@@ -12,7 +12,7 @@ import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinan
 import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 
 type ArchivesGarantiesFinancièresProps = {
-  archives: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresReadModel>[];
+  archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
 };
 
 export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFinancièresProps) => {
@@ -30,8 +30,8 @@ const mapToTimelineItem = ({
   garantiesFinancières,
   document,
   validéLe,
-  motifArchivage,
-}: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresReadModel>): TimelineItemProps => {
+  motif: { motif },
+}: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresListItemReadModel>): TimelineItemProps => {
   const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancières);
   return {
     status: 'info',
@@ -80,8 +80,7 @@ const mapToTimelineItem = ({
           )}
         </div>
         <div>
-          Motif d'archivage :{' '}
-          <span className="font-semibold first-letter:capitalize">{motifArchivage.motif}</span>
+          Motif d'archivage : <span className="font-semibold first-letter:capitalize">{motif}</span>
         </div>
       </div>
     ),

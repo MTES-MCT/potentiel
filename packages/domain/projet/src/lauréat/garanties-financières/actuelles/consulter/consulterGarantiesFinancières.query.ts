@@ -7,19 +7,11 @@ import { Find } from '@potentiel-domain/entity';
 import { GarantiesFinancièresEntity } from '../../garantiesFinancières.entity.js';
 import {
   GarantiesFinancières,
-  MotifArchivageGarantiesFinancières,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-
-export type ArchiveGarantiesFinancièresReadModel = {
-  garantiesFinancières: GarantiesFinancières.ValueType;
-  document?: DocumentProjet.ValueType;
-  validéLe: DateTime.ValueType;
-  motifArchivage: MotifArchivageGarantiesFinancières.ValueType;
-};
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,7 +26,6 @@ export type ConsulterGarantiesFinancièresReadModel = {
     date: DateTime.ValueType;
     par?: Email.ValueType;
   };
-  archives: ArchiveGarantiesFinancièresReadModel[];
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
@@ -78,7 +69,6 @@ export const mapToReadModel = ({
   enAttente,
   actuelles,
   soumisLe,
-  archives,
 }: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
   return {
@@ -105,25 +95,5 @@ export const mapToReadModel = ({
     dateLimiteSoumission: enAttente?.dateLimiteSoumission
       ? DateTime.convertirEnValueType(enAttente.dateLimiteSoumission)
       : undefined,
-    archives: archives.map((archive) => {
-      const garantiesFinancières = GarantiesFinancières.convertirEnValueType(
-        archive.garantiesFinancières,
-      );
-      return {
-        garantiesFinancières,
-        motifArchivage: MotifArchivageGarantiesFinancières.convertirEnValueType(
-          archive.motifArchivage,
-        ),
-        validéLe: DateTime.convertirEnValueType(archive.validéLe),
-        document: garantiesFinancières.estConstitué()
-          ? DocumentProjet.convertirEnValueType(
-              identifiantProjet,
-              TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-              garantiesFinancières.constitution.date.formatter(),
-              garantiesFinancières.constitution.attestation.format,
-            )
-          : undefined,
-      };
-    }),
   };
 };

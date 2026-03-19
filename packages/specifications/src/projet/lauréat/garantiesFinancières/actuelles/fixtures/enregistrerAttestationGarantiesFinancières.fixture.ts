@@ -4,10 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture.js';
 
 export class EnregistrerAttestationGarantiesFinancièresFixture extends EnregistrerGarantiesFinancièresFixture {
-  mapToExpected(): Omit<
-    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
-    'archives'
-  > {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const expected = super.mapToExpected();
 
     const dépôtCandidature =

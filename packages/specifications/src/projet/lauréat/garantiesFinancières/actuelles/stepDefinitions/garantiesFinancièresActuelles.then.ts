@@ -26,12 +26,12 @@ Alors(
 
       assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
 
-      // on ne compare pas les archives ici, qui font l'objet d'un step dédié
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { archives: _archives, ...actual } = mapToPlainObject(actualReadModel);
+      const actual = mapToPlainObject(actualReadModel);
+
       const expected = mapToPlainObject(
         this.lauréatWorld.garantiesFinancièresWorld.mapToExpected(),
       );
+
       actual.should.be.deep.equal(expected);
 
       if (actualReadModel.document) {
@@ -77,23 +77,21 @@ Alors(
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
     await waitForExpect(async () => {
-      const gf =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+      const archives =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
 
-      assert(Option.isSome(gf), 'Pas de garanties financières actuelles trouvées');
-
-      expect(gf.archives).to.have.length(1);
-      const actualArchive = gf.archives[0];
+      expect(archives).to.have.length(1);
+      const actualArchive = archives[0];
 
       const actualGf = mapToPlainObject(actualArchive.garantiesFinancières);
       expect(actualGf).to.deep.equal(mapToPlainObject(expectedGf));
 
-      const actualMotif = mapToPlainObject(actualArchive.motifArchivage);
+      const actualMotif = mapToPlainObject(actualArchive.motif);
       const expectedMotif = mapToPlainObject(
         Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
           raisonValue,

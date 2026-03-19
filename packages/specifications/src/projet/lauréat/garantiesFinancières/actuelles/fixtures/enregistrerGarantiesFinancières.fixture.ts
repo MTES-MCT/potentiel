@@ -93,10 +93,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return fixture;
   }
 
-  mapToExpected(): Omit<
-    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
-    'archives'
-  > {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     return {
       identifiantProjet:
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
