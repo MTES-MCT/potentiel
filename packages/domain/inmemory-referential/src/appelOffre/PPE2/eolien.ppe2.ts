@@ -73,7 +73,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MW',
   changement: {
     nomProjet: {},
-    natureDeLExploitation: {},
+    natureDeLExploitation: { informationEnregistrée: true },
     typologieInstallation: {},
     siteDeProduction: {},
     représentantLégal: {
@@ -110,9 +110,14 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       autoritéCompétente: 'dreal',
     },
     installateur: {},
-    dispositifDeStockage: {},
+    dispositifDeStockage: { informationEnregistrée: true },
   },
-  modification: defaultModifications,
+  modification: {
+    ...defaultModifications,
+    natureDeLExploitation: { modificationAdmin: true },
+    dispositifDeStockage: { modificationAdmin: true },
+    typologieInstallation: { modificationAdmin: true },
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -460,6 +465,30 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           autoritéCompétente: 'dgec',
         },
       },
+    },
+    {
+      id: '11',
+      title: 'onzième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '🦺REF JOUE À AJOUTER🦺',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      champsSupplémentaires: {
+        coefficientKChoisi: 'requis',
+        autorisation: 'requis',
+        dispositifDeStockage: 'optionnel',
+        natureDeLExploitation: 'requis',
+      },
+      typeImport: 'démarche-simplifiée',
     },
     /** à partir de la P11 l'autorité compétente pour les abandons est la dreal,
      *  plus besoin de redéfinir cete règle au niveau de la période
