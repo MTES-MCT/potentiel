@@ -16,12 +16,10 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
       `garanties-financieres|${event.payload.identifiantProjet}`,
     );
 
-  if (Option.isNone(entityToUpsert)) {
-    throw new Error('Pas de garanties financières à mettre à jour');
-  }
-
-  const archives: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières[] =
-    entityToUpsert.actuelles
+  const archives: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières[] = Option.isSome(
+    entityToUpsert,
+  )
+    ? entityToUpsert.actuelles
       ? [
           ...entityToUpsert.archives,
           {
@@ -38,7 +36,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
             validéLe: entityToUpsert.actuelles.validéLe,
           },
         ]
-      : entityToUpsert.archives;
+      : entityToUpsert.archives
+    : [];
 
   const garantiesFinancières = await match(event)
     .returnType<Promise<Omit<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity, 'type'>>>()
