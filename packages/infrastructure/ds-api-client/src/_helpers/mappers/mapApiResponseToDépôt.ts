@@ -131,7 +131,7 @@ export const mapApiResponseToDépôt = ({
     natureDeLExploitation: getNatureDeLExploitation({
       accessor: accessorNatureDeLExploitation,
       nomChampTauxPrévisionnelACI: 'tauxPrévisionnelACI',
-      nomChampTauxPrévisionnelACC: 'tauxPrévisionnelACI',
+      nomChampTauxPrévisionnelACC: 'tauxPrévisionnelACC',
     }),
 
     autorisation: getAutorisation({
