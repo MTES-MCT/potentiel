@@ -11,7 +11,8 @@ select
   es.created_at,
   es.version,
   es.type,
-  es.payload
+  es.payload,
+  pa.error
 from event_store.pending_acknowledgement pa 
 inner join event_store.event_stream es on 
   pa.stream_id = es.stream_id and 
@@ -24,5 +25,5 @@ export async function waitForSagasNotificationsAndProjectionsToFinish() {
   await waitForExpect(async () => {
     const pending = await executeSelect(queryPendingAcknowledgements);
     expect(pending).to.deep.eq([], "pending_acknowledgement n'est pas vide");
-  });
+  }, 5000);
 }

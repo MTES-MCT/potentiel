@@ -1,10 +1,8 @@
 import { EventEmitter } from 'events';
 
-import { faker } from '@faker-js/faker';
 import {
   Before,
   setWorldConstructor,
-  BeforeStep,
   After,
   BeforeAll,
   setDefaultTimeout,
@@ -13,15 +11,8 @@ import {
 } from '@cucumber/cucumber';
 import { should } from 'chai';
 import { clear } from 'mediateur';
-import {
-  CreateBucketCommand,
-  DeleteBucketCommand,
-  DeleteObjectsCommand,
-  ListObjectsV2Command,
-} from '@aws-sdk/client-s3';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 import { initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { createLogger } from '@potentiel-libraries/monitoring/winston';
@@ -30,70 +21,27 @@ import { startSubscribers } from '@potentiel-applications/subscribers';
 import { waitForExpect } from '#helpers';
 
 import { PotentielWorld } from './potentiel.world.js';
-import { sleep } from './helpers/sleep.js';
-import { getFakeFormat } from './helpers/getFakeFormat.js';
-import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet.js';
-import { getFakeContent, getFakeDocument } from './helpers/getFakeContent.js';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5.js';
 import {
+  createSendEmailTestAdapter,
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
-  addEmailSpyMiddleware,
 } from './_mocks/index.js';
+import { resetBucket } from './helpers/resetBucket.js';
 
 should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
-waitForExpect.defaults.timeout = Number(process.env.WAIT_FOR_EXPECT_TIMEOUT_MS) || 800;
-
-declare module '@faker-js/faker' {
-  interface Faker {
-    potentiel: {
-      identifiantProjet: typeof getFakeIdentifiantProjet;
-      fileFormat: () => string;
-      fileContent: () => ReadableStream;
-      document: () => { format: string; content: string };
-    };
-  }
-}
-
-faker.potentiel = {
-  fileFormat: getFakeFormat,
-  identifiantProjet: getFakeIdentifiantProjet,
-  fileContent: getFakeContent,
-  document: getFakeDocument,
-};
+waitForExpect.defaults.timeout = Number(process.env.WAIT_FOR_EXPECT_TIMEOUT_MS) || 300;
 
 const bucketName = 'potentiel';
 
 let unsetup: (() => Promise<void>) | undefined;
+// emails are not sent for context steps
+let enableEmails: (() => Promise<void>) | undefined;
+
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
-
-BeforeStep(async ({ pickleStep }) => {
-  // As read data are inconsistant, we wait 100ms before each step.
-  if (pickleStep.type !== 'Context') {
-    await sleep(100);
-  }
-});
-
-AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) {
-  await waitForSagasNotificationsAndProjectionsToFinish();
-
-  const expectsErrorOutcome = pickle.steps.find(
-    (step) => step.type === 'Outcome' && step.text.includes('devrait être informé que'),
-  );
-
-  if (this.hasError && result.status === 'PASSED' && !expectsErrorOutcome) {
-    throw this.error;
-  }
-
-  // ignore notifications sent in context steps
-  if (pickleStep.type === 'Context') {
-    this.notificationWorld.resetNotifications();
-  }
-});
 
 BeforeAll(async () => {
   process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
@@ -109,6 +57,8 @@ BeforeAll(async () => {
   process.env.SMTP_PORT = '1026';
 
   disableNodeMaxListenerWarning();
+
+  await resetBucket(bucketName);
 
   await executeQuery(
     'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',
@@ -126,17 +76,15 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   await executeQuery(`delete from event_store.subscriber`);
   await executeQuery(`delete from domain_views.projection`);
 
-  await getClient().send(
-    new CreateBucketCommand({
-      Bucket: bucketName,
-    }),
-  );
-
   clear();
 
-  await bootstrap({ middlewares: [logMiddleware] });
+  const emailsAdapter = createSendEmailTestAdapter.bind(this)();
+  enableEmails = emailsAdapter.enableEmails;
 
-  addEmailSpyMiddleware.bind(this)();
+  await bootstrap({
+    middlewares: [logMiddleware],
+    dependencies: { sendEmail: emailsAdapter.sendEmail },
+  });
 
   unsetup = await startSubscribers({
     dependencies: {
@@ -148,24 +96,24 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   await initialiserUtilisateursTests.call(this);
 });
 
-After(async function (this: PotentielWorld) {
-  const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
+AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) {
+  await waitForSagasNotificationsAndProjectionsToFinish();
 
-  if (objectsToDelete.Contents?.length) {
-    await createS3ClientWithMD5().send(
-      new DeleteObjectsCommand({
-        Bucket: bucketName,
-        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key })) },
-      }),
-    );
-  }
-
-  await getClient().send(
-    new DeleteBucketCommand({
-      Bucket: bucketName,
-    }),
+  const expectsErrorOutcome = pickle.steps.find(
+    (step) => step.type === 'Outcome' && step.text.includes('devrait être informé que'),
   );
 
+  if (this.hasError && result.status === 'PASSED' && !expectsErrorOutcome) {
+    throw this.error;
+  }
+
+  const lastContextStep = pickle.steps.filter((step) => step.type === 'Context').pop();
+  if (pickleStep.id === lastContextStep?.id && enableEmails) {
+    await enableEmails();
+  }
+});
+
+After(async function (this: PotentielWorld) {
   if (unsetup) {
     await unsetup();
   }

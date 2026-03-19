@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { getFakeLocation } from '../../../helpers/getFakeLocation.js';
 
 export interface ModifierSiteDeProduction {
   readonly modifiéLe: string;
@@ -69,7 +68,7 @@ export class ModifierSiteDeProductionFixture
       localité: {
         adresse1: faker.location.streetAddress(),
         adresse2: faker.location.streetAddress(),
-        ...getFakeLocation(),
+        ...faker.potentiel.location(),
       },
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),

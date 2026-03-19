@@ -1,12 +1,11 @@
+import './faker/index.js';
+
 export * from './convertFixtureFileToReadable.js';
 export * from './convertReadableToString.js';
 export * from './convertStringToReadable.js';
 export * from './createS3ClientWithMD5.js';
 export * from './expectFileContent.js';
-export * from './getFakeContent.js';
-export * from './getFakeFormat.js';
-export * from './getFakeIdentifiantProjet.js';
-export * from './getFakeLocation.js';
+
 export * from './getRôle.js';
 export * from './mapToExemple.js';
 export * from './sleep.js';

@@ -164,7 +164,7 @@ export function getPayloadForRôle(this: PotentielWorld, rôle: string) {
     }))
     .with(Role.dreal.nom, () => ({
       rôle,
-      région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+      région: this.candidatureWorld.importerCandidature.dépôtValue.localité.région,
     }))
     .with(Role.grd.nom, () => ({
       rôle,
