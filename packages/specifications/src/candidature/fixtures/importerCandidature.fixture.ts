@@ -201,9 +201,10 @@ const créerDépôt = (
     installateur: undefined,
     ...dépôt,
     localité,
-    autorisation: dépôt.autorisation
-      ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisation }
-      : undefined,
+    autorisation: getAutorisationFixture(
+      dépôt.autorisation,
+      champsSupplémentaires?.autorisation === 'requis',
+    ),
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
@@ -287,4 +288,24 @@ const getNatureDeLExploitationFixture = (
             : undefined,
         ...dépôtValue,
       };
+};
+
+const getAutorisationFixture = (
+  dépôtValue: Partial<ImporterCandidature['dépôtValue']['autorisation']>,
+  champsRequis: boolean,
+) => {
+  const défaultValue: ImporterCandidature['dépôtValue']['autorisation'] = {
+    date: DateTime.now().formatter(),
+    numéro: '12',
+  };
+
+  let autorisation: ImporterCandidature['dépôtValue']['autorisation'] | undefined;
+
+  if (dépôtValue) {
+    autorisation = { ...défaultValue, ...dépôtValue };
+  } else if (champsRequis) {
+    autorisation = défaultValue;
+  }
+
+  return autorisation;
 };
