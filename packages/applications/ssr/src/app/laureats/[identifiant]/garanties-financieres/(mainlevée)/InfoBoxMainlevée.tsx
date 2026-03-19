@@ -30,7 +30,7 @@ export const InfoBoxMainlevée: FC<Props> = ({ actions, identifiantProjet }: Pro
           </li>
           <li>
             L'attestation de conformité a été transmise dans Potentiel ou le projet est abandonné
-            (abandon accordé par la DGEC).
+            (abandon accordé par l'autorité compétente).
           </li>
         </ul>
         {actions.includes('achèvement.transmettreAttestation') && (
