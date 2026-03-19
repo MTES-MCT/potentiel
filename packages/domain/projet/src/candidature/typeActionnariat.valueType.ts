@@ -1,6 +1,10 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const ppe2Types = ['financement-collectif', 'gouvernance-partagée'] as const;
+export const ppe2Types = [
+  'financement-collectif',
+  'gouvernance-partagée',
+  'financement-collectif-et-gouvernance-partagée',
+] as const;
 export const cre4Types = ['financement-participatif', 'investissement-participatif'] as const;
 export const types = [...ppe2Types, ...cre4Types] as const;
 export type RawType = (typeof types)[number];
@@ -29,10 +33,16 @@ export const bind = <Type extends RawType = RawType>({
       return this.type === type.type;
     },
     estFinancementCollectif() {
-      return this.type === 'financement-collectif';
+      return (
+        this.type === 'financement-collectif' ||
+        this.type === 'financement-collectif-et-gouvernance-partagée'
+      );
     },
     estGouvernancePartagée() {
-      return this.type === 'gouvernance-partagée';
+      return (
+        this.type === 'gouvernance-partagée' ||
+        this.type === 'financement-collectif-et-gouvernance-partagée'
+      );
     },
     estFinancementParticipatif() {
       return this.type === 'financement-participatif';
@@ -60,6 +70,10 @@ export const financementCollectif =
   convertirEnValueType<'financement-collectif'>('financement-collectif');
 export const gouvernancePartagée =
   convertirEnValueType<'gouvernance-partagée'>('gouvernance-partagée');
+export const financementCollectifEtGouvernancePartagée =
+  convertirEnValueType<'financement-collectif-et-gouvernance-partagée'>(
+    'financement-collectif-et-gouvernance-partagée',
+  );
 export const financementParticipatif = convertirEnValueType<'financement-participatif'>(
   'financement-participatif',
 );

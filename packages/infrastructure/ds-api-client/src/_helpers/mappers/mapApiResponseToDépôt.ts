@@ -15,6 +15,7 @@ import {
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
+import { getTypeActionnariat } from '../getters/getTypeActionnariat.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -64,6 +65,11 @@ export const mapApiResponseToDépôt = ({
     tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
   } satisfies Record<keyof Candidature.Dépôt.RawType['natureDeLExploitation'], string>);
 
+  const accessorTypeActionnariat = createDossierAccessor(champs, {
+    gouvernancePartagée: "Le projet fait-il l'objet d'un engagement à la gouvernance partagée ?",
+    financementCollectif: "Le projet fait-il l'objet d'un engagement au financement collectif ?",
+  } satisfies Record<string, string>);
+
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
     'typeGarantiesFinancières',
@@ -85,6 +91,8 @@ export const mapApiResponseToDépôt = ({
           .formatter()
       : undefined;
   };
+  //   "Le projet fait-il l'objet d'un engagement au financement collectif ?": 'false',
+  // "Le projet fait-il l'objet d'un engagement à la gouvernance partagée ?": 'false',
 
   return {
     //  1. Renseignements administratifs
@@ -92,6 +100,7 @@ export const mapApiResponseToDépôt = ({
     sociétéMère: accessor.getStringValue('sociétéMère'),
     nomReprésentantLégal: accessor.getStringValue('nomReprésentantLégal'),
     emailContact: accessor.getStringValue('emailContact'),
+    // fourver: accessor.getBooleanValue('obligationDeSolarisation'),
 
     //  2. Identification du projet
     nomProjet: accessor.getStringValue('nomProjet'),
@@ -138,8 +147,13 @@ export const mapApiResponseToDépôt = ({
     typologieInstallation: getTypologieInstallation(champs),
 
     fournisseurs: getFournisseurs(champs),
+
+    actionnariat: getTypeActionnariat({
+      accessor: accessorTypeActionnariat,
+      nomChampFinancementCollectif: 'financementCollectif',
+      nomChampGouvernancePartagée: 'gouvernancePartagée',
+    }),
     // Non disponibles sur Démarches simplifiées
-    actionnariat: undefined,
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
