@@ -3,8 +3,6 @@ import { Middleware, mediator } from 'mediateur';
 import { EnvoyerNotificationCommand, render } from '@potentiel-applications/notifications';
 import { EmailOptions, sendEmail } from '@potentiel-infrastructure/email';
 
-import { sleep } from '#helpers';
-
 import { PotentielWorld } from '../potentiel.world.js';
 
 export function createSendEmailTestAdapter(this: PotentielWorld) {
@@ -13,11 +11,11 @@ export function createSendEmailTestAdapter(this: PotentielWorld) {
   // sendEmail ne recoit pas les variables du template, mais le html de l'email.
   // On écoute donc les appels à EnvoyerNotificationCommand pour vérifier les variables.
   const middleware: Middleware = async (message, next) => {
-    const emailMessage = message as EnvoyerNotificationCommand;
     if (!emailsEnabled) {
       return;
     }
 
+    const emailMessage = message as EnvoyerNotificationCommand;
     const { subject } = render(emailMessage.data);
     const { recipients, values } = emailMessage.data;
 
@@ -37,10 +35,11 @@ export function createSendEmailTestAdapter(this: PotentielWorld) {
   return {
     enableEmails: async () => {
       emailsEnabled = true;
-      await sleep(50);
     },
     sendEmail: async ({ content, subject, recipients }: EmailOptions) => {
-      return sendEmail({ content, subject, recipients });
+      if (emailsEnabled) {
+        return sendEmail({ content, subject, recipients });
+      }
     },
   };
 }
