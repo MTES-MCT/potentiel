@@ -5,19 +5,23 @@ export const cre4Types = ['financement-participatif', 'investissement-participat
 export const types = [...ppe2Types, ...cre4Types] as const;
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
-  formatter(): RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
+  formatter(): Type;
   estFinancementCollectif(): boolean;
   estGouvernancePartagée(): boolean;
   estFinancementParticipatif(): boolean;
   estInvestissementParticipatif(): boolean;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(type);
   return {
-    type,
+    get type() {
+      return type as Type;
+    },
     formatter() {
       return this.type;
     },
@@ -25,23 +29,23 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
       return this.type === type.type;
     },
     estFinancementCollectif() {
-      return this.estÉgaleÀ(financementCollectif);
+      return this.type === 'financement-collectif';
     },
     estGouvernancePartagée() {
-      return this.estÉgaleÀ(gouvernancePartagée);
+      return this.type === 'gouvernance-partagée';
     },
     estFinancementParticipatif() {
-      return this.estÉgaleÀ(financementParticipatif);
+      return this.type === 'financement-participatif';
     },
     estInvestissementParticipatif() {
-      return this.estÉgaleÀ(investissementParticipatif);
+      return this.type === 'investissement-participatif';
     },
   };
 };
 
-export const convertirEnValueType = (type: string) => {
+export const convertirEnValueType = <Type extends RawType = RawType>(type: string) => {
   estValide(type);
-  return bind({ type });
+  return bind<Type>({ type });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -52,10 +56,16 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const financementCollectif = convertirEnValueType('financement-collectif');
-export const gouvernancePartagée = convertirEnValueType('gouvernance-partagée');
-export const financementParticipatif = convertirEnValueType('financement-participatif');
-export const investissementParticipatif = convertirEnValueType('investissement-participatif');
+export const financementCollectif =
+  convertirEnValueType<'financement-collectif'>('financement-collectif');
+export const gouvernancePartagée =
+  convertirEnValueType<'gouvernance-partagée'>('gouvernance-partagée');
+export const financementParticipatif = convertirEnValueType<'financement-participatif'>(
+  'financement-participatif',
+);
+export const investissementParticipatif = convertirEnValueType<'investissement-participatif'>(
+  'investissement-participatif',
+);
 
 class TypeActionnariatInvalideError extends InvalidOperationError {
   constructor(value: string) {
