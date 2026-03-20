@@ -24,9 +24,6 @@
       "path": "../../infrastructure/ds-api-client"
     },
     {
-      "path": "../../infrastructure/email"
-    },
-    {
       "path": "../../infrastructure/ore-client"
     },
     {
@@ -55,6 +52,9 @@
     },
     {
       "path": "../document-builder"
+    },
+    {
+      "path": "../notifications"
     }
   ]
 }

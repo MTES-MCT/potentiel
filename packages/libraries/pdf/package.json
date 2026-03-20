@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel-libraries/pdf",
+  "description": "PDF utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx --test **/*.test.ts",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "pdf-lib": "1.17.1"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}
