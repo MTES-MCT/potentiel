@@ -29,13 +29,13 @@ export const recoursAccordéProjector = async ({
           },
         },
       },
-      statut: Éliminé.Recours.StatutRecours.accordé.value,
+      statut: Éliminé.Recours.StatutRecours.accordé.statut,
       miseÀJourLe: accordéLe,
     },
   );
 
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
-    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.accordé.value },
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.accordé.statut },
   });
 };

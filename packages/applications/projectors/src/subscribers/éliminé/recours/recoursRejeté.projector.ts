@@ -29,12 +29,12 @@ export const recoursRejetéProjector = async ({
           },
         },
       },
-      statut: Éliminé.Recours.StatutRecours.rejeté.value,
+      statut: Éliminé.Recours.StatutRecours.rejeté.statut,
       miseÀJourLe: rejetéLe,
     },
   );
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
-    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.rejeté.value },
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.rejeté.statut },
   });
 };

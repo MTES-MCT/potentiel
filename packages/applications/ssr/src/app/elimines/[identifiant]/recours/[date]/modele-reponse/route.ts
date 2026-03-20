@@ -71,7 +71,7 @@ export const GET = async (
 
           dateDemande: formatDateForDocument(recours.demande.demandéLe.date),
           justificationDemande: recours.demande.raison,
-          status: recours.statut.value,
+          status: recours.statut.statut,
 
           affichageParagrapheECS: formatBoolean(appelOffres.affichageParagrapheECS),
           AOInnovation: formatBoolean(appelOffres.typeAppelOffre === 'innovation'),

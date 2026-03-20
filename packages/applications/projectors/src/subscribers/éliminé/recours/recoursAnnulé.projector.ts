@@ -18,13 +18,13 @@ export const recoursAnnuléProjector = async ({
       demande: {
         annulation: { annuléLe, annuléPar },
       },
-      statut: Éliminé.Recours.StatutRecours.annulé.value,
+      statut: Éliminé.Recours.StatutRecours.annulé.statut,
       miseÀJourLe: annuléLe,
     },
   );
 
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
-    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.annulé.value },
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.annulé.statut },
   });
 };

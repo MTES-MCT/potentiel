@@ -24,7 +24,7 @@ import {
 } from './recours.error.js';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
-  statut = StatutRecours.inconnu;
+  #statut: StatutRecours.ValueType = StatutRecours.inconnu;
 
   instruction?: {
     instruitPar: Email.ValueType;
@@ -37,7 +37,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
-    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
+    this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
       type: 'RecoursAccordé-V1',
@@ -76,7 +76,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
-    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
+    this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
 
     const event: RecoursAnnuléEvent = {
       type: 'RecoursAnnulé-V1',
@@ -96,7 +96,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     pièceJustificative,
     raison,
   }: DemanderOptions) {
-    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
+    this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
     this.éliminé.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
       'demande',
       'recours',
@@ -121,7 +121,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
-    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
+    this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
 
     const event: RecoursRejetéEvent = {
       type: 'RecoursRejeté-V1',
@@ -141,7 +141,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
     this.vérifierQueDemandeRecoursExiste();
 
-    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
+    this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
     if (this.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError();
@@ -195,28 +195,28 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
   }
 
   private applyRecoursAccordéV1(_: RecoursAccordéEvent) {
-    this.statut = StatutRecours.accordé;
+    this.#statut = StatutRecours.accordé;
     this.instruction = undefined;
   }
 
   private applyRecoursAnnuléV1(_: RecoursAnnuléEvent) {
-    this.statut = StatutRecours.annulé;
+    this.#statut = StatutRecours.annulé;
     this.instruction = undefined;
   }
 
   private applyRecoursDemandéV1(_: RecoursDemandéEvent) {
-    this.statut = StatutRecours.demandé;
+    this.#statut = StatutRecours.demandé;
   }
 
   private applyRecoursRejetéV1(_: RecoursRejetéEvent) {
-    this.statut = StatutRecours.rejeté;
+    this.#statut = StatutRecours.rejeté;
     this.instruction = undefined;
   }
 
   private applyRecoursPasséEnInstructionV1({
     payload: { passéEnInstructionPar },
   }: RecoursPasséEnInstructionEvent) {
-    this.statut = StatutRecours.enInstruction;
+    this.#statut = StatutRecours.enInstruction;
     this.instruction = {
       instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
     };

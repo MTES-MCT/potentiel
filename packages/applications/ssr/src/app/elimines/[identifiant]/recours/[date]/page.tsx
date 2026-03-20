@@ -56,7 +56,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={identifiantProjet}
           actions={mapToActions({
             role: utilisateur.rôle.nom,
-            statut: recours.statut.value,
+            statut: recours.statut.statut,
           })}
           historique={historique.items.map(mapToRecoursTimelineItemProps)}
         />

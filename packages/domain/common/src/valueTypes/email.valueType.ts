@@ -2,21 +2,17 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 export type RawType = string;
 
-export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
-  email: Type;
-  formatter: () => Type;
+export type ValueType = ReadonlyValueType<{
+  email: string;
+  formatter: () => RawType;
   estInconnu: () => boolean;
   estSystème: () => boolean;
 }>;
 
-export const bind = <Type extends RawType = RawType>({
-  email,
-}: PlainType<ValueType>): ValueType<Type> => {
+export const bind = ({ email }: PlainType<ValueType>): ValueType => {
   estValide(email);
   return {
-    get email() {
-      return email as Type;
-    },
+    email,
     formatter() {
       return this.email;
     },
@@ -24,25 +20,24 @@ export const bind = <Type extends RawType = RawType>({
       return valueType.email === this.email;
     },
     estInconnu() {
-      return convertirEnValueType(this.email).estÉgaleÀ(inconnu);
+      return this.estÉgaleÀ(inconnu);
     },
     estSystème() {
-      return convertirEnValueType(this.email).estÉgaleÀ(système);
+      return this.estÉgaleÀ(système);
     },
   };
 };
 
-export const convertirEnValueType = <Type extends RawType = RawType>(email: string): ValueType => {
-  estValide(email);
-  return bind<Type>({
-    email: email.toLowerCase(),
+export const convertirEnValueType = (value: string): ValueType => {
+  return bind({
+    email: value.toLowerCase(),
   });
 };
 
 const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
-export const système = convertirEnValueType<'système'>('system@system');
-export const inconnu = convertirEnValueType<'inconnu'>('unknown-user@unknown-email.com');
+export const système = convertirEnValueType('system@system');
+export const inconnu = convertirEnValueType('unknown-user@unknown-email.com');
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);
