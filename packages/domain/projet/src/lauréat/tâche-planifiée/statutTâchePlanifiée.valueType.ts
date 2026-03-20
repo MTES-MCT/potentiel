@@ -4,18 +4,24 @@ export const statuts = ['annulé', 'en-attente-exécution', 'exécuté', 'inconn
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
+  formatter: () => Type;
   estAnnulé: () => boolean;
   estEnAttenteExécution: () => boolean;
   estExécuté: () => boolean;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const convertirEnValueType = <Type extends RawType = RawType>(
+  statut: string,
+): ValueType<Type> => {
+  estValide(statut);
   return {
     get statut() {
-      return value;
+      return statut as Type;
+    },
+    formatter() {
+      return this.statut;
     },
     estAnnulé() {
       return this.statut === 'annulé';
@@ -26,8 +32,8 @@ export const convertirEnValueType = (value: string): ValueType => {
     estExécuté() {
       return this.statut === 'exécuté';
     },
-    estÉgaleÀ(valueType) {
-      return this.statut === valueType.statut;
+    estÉgaleÀ({ statut }) {
+      return this.statut === statut;
     },
   };
 };
@@ -40,10 +46,11 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const annulée = convertirEnValueType('annulé');
-export const enAttenteExécution = convertirEnValueType('en-attente-exécution');
-export const exécutée = convertirEnValueType('exécuté');
-export const inconnu = convertirEnValueType('inconnu');
+export const annulée = convertirEnValueType<'annulé'>('annulé');
+export const enAttenteExécution =
+  convertirEnValueType<'en-attente-exécution'>('en-attente-exécution');
+export const exécutée = convertirEnValueType<'exécuté'>('exécuté');
+export const inconnu = convertirEnValueType<'inconnu'>('inconnu');
 
 class StatutTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
