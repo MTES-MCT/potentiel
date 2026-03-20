@@ -8,7 +8,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { loadFromStream } from '../load/loadFromStream.js';
 
-import { publish } from './publish.js';
+import { publish, PublishEvent } from './publish.js';
 
 should();
 
@@ -69,5 +69,23 @@ describe(`publish`, () => {
     actual2.type.should.be.equal(event2.type);
     actual1.payload.should.be.deep.equal(event1.payload);
     actual2.payload.should.be.deep.equal(event2.payload);
+  });
+
+  it(`Lorsqu'on publie un événement avec une date de création spécifique,
+    alors l'événement devrait être présent dans le stream avec la date de création spécifiée`, async () => {
+    const event: PublishEvent = {
+      type: 'Un-événement-métier-est-survenu',
+      payload: { test: 'propriété-test' },
+      created_at: '2024-01-01T00:00:00Z',
+    };
+    await publish(streamId, event);
+
+    const actual = await loadFromStream({ streamId });
+    actual.length.should.be.equal(1);
+    const [actual1] = actual;
+
+    actual1.type.should.be.equal(event.type);
+    actual1.payload.should.be.deep.equal(event.payload);
+    actual1.created_at.should.be.equal(event.created_at);
   });
 });
