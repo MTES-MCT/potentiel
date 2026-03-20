@@ -11,11 +11,11 @@ export type RawType = (typeof motifs)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   motif: Type;
+  formatter(): Type;
   estRecoursAccordé: () => boolean;
   estChangementProducteur: () => boolean;
   estÉchéance: () => boolean;
   estNonDéposé: () => boolean;
-  formatter(): Type;
 }>;
 
 export const bind = <Type extends RawType = RawType>({
@@ -26,8 +26,11 @@ export const bind = <Type extends RawType = RawType>({
     get motif() {
       return motif as Type;
     },
-    estÉgaleÀ(valueType) {
-      return this.motif === valueType.motif;
+    formatter() {
+      return this.motif;
+    },
+    estÉgaleÀ({ motif }) {
+      return this.motif === motif;
     },
     estRecoursAccordé() {
       return this.motif === 'recours-accordé';
@@ -40,9 +43,6 @@ export const bind = <Type extends RawType = RawType>({
     },
     estNonDéposé() {
       return this.motif === 'non-déposé';
-    },
-    formatter() {
-      return this.motif;
     },
   };
 };
