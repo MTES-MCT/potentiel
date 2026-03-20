@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { AucunAbandonEnCours } from './abandon.error.js';
 
@@ -22,8 +22,9 @@ export const statutsEnCours: Array<RawType> = [
   'en-instruction',
 ];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
+  formatter: () => Type;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   estEnAttenteConfirmation: () => boolean;
@@ -36,17 +37,22 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(statut);
   return {
     get statut() {
-      return value;
+      return statut as Type;
+    },
+    formatter() {
+      return this.statut;
     },
     estAccordé() {
       return this.statut === 'accordé';
     },
     estEnCours() {
-      return statutsEnCours.includes(value);
+      return statutsEnCours.includes(statut);
     },
     estRejeté() {
       return this.statut === 'rejeté';
@@ -73,7 +79,7 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (this.estÉgaleÀ(inconnu) && !nouveauStatut.estDemandé()) {
+      if (this.statut === 'inconnu' && !nouveauStatut.estDemandé()) {
         throw new AucunAbandonEnCours();
       }
       if (nouveauStatut.estAccordé()) {
@@ -183,6 +189,11 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string) => {
+  estValide(statut);
+  return bind<Type>({ statut });
+};
+
 function estValide(value: string): asserts value is RawType {
   const isValid = statuts.includes(value as RawType);
 
@@ -191,14 +202,15 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const accordé = convertirEnValueType('accordé');
-export const annulé = convertirEnValueType('annulé');
-export const confirmationDemandée = convertirEnValueType('confirmation-demandée');
-export const confirmé = convertirEnValueType('confirmé');
-export const demandé = convertirEnValueType('demandé');
-export const rejeté = convertirEnValueType('rejeté');
-export const enInstruction = convertirEnValueType('en-instruction');
-export const inconnu = convertirEnValueType('inconnu');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const annulé = convertirEnValueType<'annulé'>('annulé');
+export const confirmationDemandée =
+  convertirEnValueType<'confirmation-demandée'>('confirmation-demandée');
+export const confirmé = convertirEnValueType<'confirmé'>('confirmé');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
+export const enInstruction = convertirEnValueType<'en-instruction'>('en-instruction');
+export const inconnu = convertirEnValueType<'inconnu'>('inconnu');
 
 class StatutAbandonInvalideError extends InvalidOperationError {
   constructor(value: string) {

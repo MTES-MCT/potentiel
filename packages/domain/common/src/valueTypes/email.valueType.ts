@@ -32,10 +32,12 @@ export const bind = <Type extends RawType = RawType>({
   };
 };
 
-export const convertirEnValueType = <Type extends RawType = RawType>(value: string): ValueType =>
-  bind<Type>({
-    email: value.toLowerCase(),
+export const convertirEnValueType = <Type extends RawType = RawType>(email: string): ValueType => {
+  estValide(email);
+  return bind<Type>({
+    email: email.toLowerCase(),
   });
+};
 
 const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
