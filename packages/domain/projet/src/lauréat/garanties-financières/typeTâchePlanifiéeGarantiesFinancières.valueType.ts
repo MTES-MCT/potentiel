@@ -12,23 +12,31 @@ export const types = [
 
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
+  formatter: () => Type;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
   return {
-    type,
+    get type() {
+      return type as Type;
+    },
+    formatter() {
+      return this.type;
+    },
     estÉgaleÀ({ type }) {
       return this.type === type;
     },
   };
 };
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
-  return bind({
-    type: value,
+export const convertirEnValueType = <Type extends RawType = RawType>(type: string) => {
+  estValide(type);
+  return bind<Type>({
+    type,
   });
 };
 
@@ -40,17 +48,24 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const échoir = convertirEnValueType('garanties-financières.échoir');
-export const rappelÉchéanceUnMois = convertirEnValueType(
-  'garanties-financières.rappel-échéance-un-mois',
+export const échoir = convertirEnValueType<'garanties-financières.échoir'>(
+  'garanties-financières.échoir',
 );
-export const rappelÉchéanceDeuxMois = convertirEnValueType(
-  'garanties-financières.rappel-échéance-deux-mois',
+export const rappelÉchéanceUnMois =
+  convertirEnValueType<'garanties-financières.rappel-échéance-un-mois'>(
+    'garanties-financières.rappel-échéance-un-mois',
+  );
+export const rappelÉchéanceDeuxMois =
+  convertirEnValueType<'garanties-financières.rappel-échéance-deux-mois'>(
+    'garanties-financières.rappel-échéance-deux-mois',
+  );
+export const rappelÉchéanceTroisMois =
+  convertirEnValueType<'garanties-financières.rappel-échéance-trois-mois'>(
+    'garanties-financières.rappel-échéance-trois-mois',
+  );
+export const rappelEnAttente = convertirEnValueType<'garanties-financières.rappel-en-attente'>(
+  'garanties-financières.rappel-en-attente',
 );
-export const rappelÉchéanceTroisMois = convertirEnValueType(
-  'garanties-financières.rappel-échéance-trois-mois',
-);
-export const rappelEnAttente = convertirEnValueType('garanties-financières.rappel-en-attente');
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
