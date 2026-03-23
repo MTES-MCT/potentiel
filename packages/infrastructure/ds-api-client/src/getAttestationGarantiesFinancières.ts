@@ -6,6 +6,7 @@ import {
   récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers,
   récupérerFichier,
 } from './_helpers/index.js';
+import { getGarantiesFinancièresFiles } from './getGarantiesFinancièresFiles.js';
 
 export const getAttestationGarantiesFinancières = async (dossierNumber: number) => {
   const logger = getLogger('ds-api-client');
@@ -21,13 +22,8 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
     }
 
     const {
-      dépôt: { dateConstitutionGf, attestationConstitutionGf },
+      dépôt: { dateConstitutionGf },
     } = dossier;
-
-    if (!attestationConstitutionGf.length) {
-      logger.warn(`Aucune attestation de garanties financières pour le dossier ${dossierNumber}`);
-      return Option.none;
-    }
 
     if (!dateConstitutionGf) {
       logger.warn(
@@ -36,23 +32,30 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
       return Option.none;
     }
 
-    if (attestationConstitutionGf.length > 1) {
+    const fichiersGarantiesFinancières = await getGarantiesFinancièresFiles(dossierNumber);
+
+    if (fichiersGarantiesFinancières.length === 0) {
+      logger.warn(`Aucun fichier de garanties financières trouvé pour le dossier ${dossierNumber}`);
+      return Option.none;
+    }
+
+    if (fichiersGarantiesFinancières.length > 1) {
       return await récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers({
         dossierNumber,
         dateConstitution: dateConstitutionGf,
-        attestations: attestationConstitutionGf,
+        attestations: fichiersGarantiesFinancières,
       });
     }
 
     const fichier = await récupérerFichier({
-      attestation: attestationConstitutionGf[0],
+      attestation: fichiersGarantiesFinancières[0],
       dossierNumber,
     });
 
     return {
       attestation: {
         content: (await fichier.blob()).stream(),
-        format: attestationConstitutionGf[0].contentType,
+        format: fichiersGarantiesFinancières[0].contentType,
       },
       dateConstitution: dateConstitutionGf,
     };
