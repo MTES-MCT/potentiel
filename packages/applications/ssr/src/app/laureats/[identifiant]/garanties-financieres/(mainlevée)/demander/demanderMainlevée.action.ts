@@ -8,30 +8,27 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  documentSelectionSchema,
-  keepOrUpdateManyOptionalDocuments,
-} from '@/utils/zod/document/keepOrUpdateDocument';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   motif: zod.enum(['projet-abandonné', 'projet-achevé']),
 
   // Pas nécessaire en cas d'abandon (géré dans le front et dans le domaine)
-  attestationConformite: keepOrUpdateManyOptionalDocuments({
+  attestationConformite: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
-  }),
-  attestationConformiteDocumentSelection: documentSelectionSchema.optional(),
+    optional: true,
+  }).optional(),
 });
 
 export type DemanderMainlevéeFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, motif, attestationConformite, attestationConformiteDocumentSelection },
+  { identifiantProjet, motif, attestationConformite },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    if (attestationConformite && attestationConformiteDocumentSelection === 'edit_document') {
+    if (attestationConformite) {
       await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
         data: {

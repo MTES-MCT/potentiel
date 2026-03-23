@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
-import { KeepOrEditDocument } from '@/components/atoms/form/document/KeepOrEditDocument';
+import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
@@ -47,12 +47,12 @@ export const DemanderMainlevéeForm = ({
           onValidationError: setValidationErrors,
           children: (
             <>
-              {actions.includes('achèvement.enregistrerAttestation') && (
-                <KeepOrEditDocument
+              {/* Temporaire : le document va devenir modifiable, et on aura besoin de la clé de l'attestation */}
+              {!attestationAchèvement && actions.includes('achèvement.enregistrerAttestation') && (
+                <UploadDocument
                   name="attestationConformite"
                   multiple
                   required
-                  documentKeys={attestationAchèvement ? [attestationAchèvement] : []}
                   label="Attestation de conformité et rapport associé"
                   hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
                   state={validationErrors['attestationConformite'] ? 'error' : 'default'}
