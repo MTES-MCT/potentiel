@@ -8,17 +8,10 @@ export const getFinancementEtTemplate = ({
   période: AppelOffre.Periode;
   actionnariat?: Candidature.TypeActionnariat.ValueType;
 }) => {
-  const ppe2Actionnariat = actionnariat?.estÉgaleÀ(
-    Candidature.TypeActionnariat.financementCollectif,
-  )
-    ? ('financement-collectif' as const)
-    : actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
-      ? ('gouvernance-partagée' as const)
-      : actionnariat?.estÉgaleÀ(
-            Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée,
-          )
-        ? ('financement-collectif-et-gouvernance-partagée' as const)
-        : undefined;
+  const ppe2Actionnariat =
+    actionnariat?.estFinancementCollectif() && actionnariat.estGouvernancePartagée()
+      ? Candidature.TypeActionnariat.financementCollectifEtGouvernancePartagée
+      : actionnariat;
 
   const template = période.certificateTemplate;
   switch (template) {
