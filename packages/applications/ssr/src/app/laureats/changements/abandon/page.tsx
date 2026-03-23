@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
-import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -10,7 +9,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/app/_helpers';
 import { optionalStringArray } from '@/app/_helpers';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
@@ -128,10 +127,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Autorité compétente',
           searchParamKey: 'autorite',
           options: Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
-            label: match(autorité)
-              .with('dreal', () => 'DREAL')
-              .with('dgec', () => 'DGEC')
-              .exhaustive(),
+            label: getAutoritéCompétenteLabel(autorité),
             value: autorité,
           })),
         },

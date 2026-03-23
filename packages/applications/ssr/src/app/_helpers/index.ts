@@ -18,3 +18,4 @@ export * from './récupérerChangementsPermisParLeCahierDesCharges';
 export * from './récupérerLauréat';
 export * from './transformToOptionalEnumArray';
 export * from './vérifierQueLeCahierDesChargesPermetUnChangement';
+export * from './getAutoritéCompétenteLabel';

@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
-import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -14,7 +13,7 @@ import {
   DemandeDélaiListPage,
   DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
-import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers';
 
@@ -91,10 +90,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Autorité compétente',
           searchParamKey: 'autoriteCompetente',
           options: Lauréat.Délai.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
-            label: match(autorité)
-              .with('dreal', () => 'DREAL')
-              .with('dgec', () => 'DGEC')
-              .exhaustive(),
+            label: getAutoritéCompétenteLabel(autorité),
             value: autorité,
           })),
         },
