@@ -18,6 +18,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pdf": "*",
+    "@potentiel-libraries/zip": "*",
     "graphql-request": "7.4.0"
   },
   "devDependencies": {

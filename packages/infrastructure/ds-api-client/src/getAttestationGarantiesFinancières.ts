@@ -1,6 +1,8 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { mergeDocuments } from '@potentiel-libraries/pdf';
+import { zipDocuments } from '@potentiel-libraries/zip';
+import { DateTime } from '@potentiel-domain/common';
 
 import { getDossier } from './getDossier.js';
 
@@ -34,23 +36,11 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
     }
 
     if (attestationConstitutionGf.length > 1) {
-      const documents = [];
-
-      for (const attestation of attestationConstitutionGf) {
-        const fichier = await récupérerFichier(attestation, dossierNumber);
-
-        documents.push(await fichier.blob());
-      }
-
-      const content = (await mergeDocuments(documents)).stream();
-
-      return {
+      return await récupérerAttestationAvecPlusieursFichiers({
+        dossierNumber,
         dateConstitution: dateConstitutionGf,
-        attestation: {
-          content,
-          format: 'application/pdf',
-        },
-      };
+        attestations: attestationConstitutionGf,
+      });
     }
 
     const fichier = await récupérerFichier(attestationConstitutionGf[0], dossierNumber);
@@ -93,4 +83,42 @@ const récupérerFichier = async (
     );
   }
   return fichier;
+};
+
+type RécupérerAttestatestionAvecPlusieursFichiers = {
+  dateConstitution: DateTime.RawType;
+  dossierNumber: number;
+  attestations: Array<{ url: string; contentType: string }>;
+};
+
+const récupérerAttestationAvecPlusieursFichiers = async ({
+  dossierNumber,
+  dateConstitution,
+  attestations,
+}: RécupérerAttestatestionAvecPlusieursFichiers) => {
+  const documents = [];
+
+  for (const attestation of attestations) {
+    const fichier = await récupérerFichier(attestation, dossierNumber);
+
+    documents.push(await fichier.blob());
+  }
+
+  const plusieurFichiersAvecDesFormatsDifférents =
+    new Set(attestations.map((a) => a.contentType)).size > 1;
+
+  const attestation = plusieurFichiersAvecDesFormatsDifférents
+    ? {
+        content: (await zipDocuments(documents)).stream(),
+        format: 'application/zip',
+      }
+    : {
+        content: (await mergeDocuments(documents)).stream(),
+        format: 'application/pdf',
+      };
+
+  return {
+    dateConstitution,
+    attestation,
+  };
 };
