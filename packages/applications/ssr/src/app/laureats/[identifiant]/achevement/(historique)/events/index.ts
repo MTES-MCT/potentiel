@@ -1,4 +1,4 @@
 export { mapToAttestationConformitéTransmiseTimelineItemProps } from './mapToAttestationConformitéTransmiseTimelineItemProps';
-export { mapToAttestationConformitéModifiéeTimelineItemProps } from './mapToAttestationConformitéModifiéeTimelineItemProps';
+export { mapToAchèvementModifiéTimelineItemProps } from './mapToAchèvementModifiéTimelineItemProps';
 export { mapToDateAchèvementPrévisionnelCalculéeProps } from './mapToDateAchèvementPrévisionnelCalculéeProps';
 export { mapToDateAchèvementTransmiseTimelineItemProps } from './mapToDateAchèvementTransmiseTimelineItemProps';

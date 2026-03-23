@@ -102,7 +102,7 @@ export const getLauréatMenuItems = async ({
       : utilisateur.rôle.aLaPermission('achèvement.transmettreDate') && lauréat.statut.estActif()
         ? linkToSection("Date d'achèvement", 'achevement/date-achevement:transmettre')
         : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
-          ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite:modifier')
+          ? linkToSection('Attestation de conformité', 'achevement/modifier')
           : undefined;
 
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
