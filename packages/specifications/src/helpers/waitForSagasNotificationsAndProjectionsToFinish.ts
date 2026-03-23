@@ -11,7 +11,8 @@ select
   es.created_at,
   es.version,
   es.type,
-  es.payload
+  es.payload,
+  pa.error
 from event_store.pending_acknowledgement pa 
 inner join event_store.event_stream es on 
   pa.stream_id = es.stream_id and 

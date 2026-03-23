@@ -13,10 +13,17 @@ import { setupPériode } from './setupPériode.js';
 import { setupStatistiqueUtilisation } from './setupStatistiqueUtilisation.js';
 import { setupNotifications } from './setupNotifications.js';
 
+const defaultDependencies = {
+  sendEmail,
+};
 type BootstrapProps = {
   middlewares: Array<Middleware>;
+  dependencies?: typeof defaultDependencies;
 };
-export const bootstrap = async ({ middlewares }: BootstrapProps) => {
+export const bootstrap = async ({
+  middlewares,
+  dependencies = defaultDependencies,
+}: BootstrapProps) => {
   if (mediator.getMessageTypes().length > 0) {
     throw new Error('Application already bootstrapped');
   }
@@ -26,7 +33,7 @@ export const bootstrap = async ({ middlewares }: BootstrapProps) => {
   setupStatistiqueUtilisation({
     ajouterStatistiqueUtilisation: StatistiquesAdapter.ajouterStatistique,
   });
-  setupNotifications({ sendEmail });
+  setupNotifications({ sendEmail: dependencies.sendEmail });
   setupUtilisateur();
   setupAppelOffre();
   setupDocumentProjet();

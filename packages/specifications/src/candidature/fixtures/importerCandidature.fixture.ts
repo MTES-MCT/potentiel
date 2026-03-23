@@ -7,7 +7,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 
 import { AbstractFixture, DeepPartial } from '../../fixture.js';
-import { getFakeLocation } from '../../helpers/getFakeLocation.js';
 
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;
@@ -152,7 +151,7 @@ const créerDépôt = (
   const localité: Candidature.Localité.RawType = {
     adresse1: faker.location.streetAddress(),
     adresse2: faker.location.secondaryAddress(),
-    ...getFakeLocation(),
+    ...faker.potentiel.location(),
     ...dépôt.localité,
   };
 

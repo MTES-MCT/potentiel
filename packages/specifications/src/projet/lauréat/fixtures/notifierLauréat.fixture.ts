@@ -4,7 +4,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
-import { getFakeLocation } from '../../../helpers/getFakeLocation.js';
 
 export interface NotifierLauréat {
   readonly identifiantProjet: string;
@@ -72,7 +71,7 @@ export class NotifierLauréatFixture
       localité: {
         adresse1: faker.location.streetAddress(),
         adresse2: faker.location.streetAddress(),
-        ...getFakeLocation(),
+        ...faker.potentiel.location(),
       },
       ...partialFixture,
     };
