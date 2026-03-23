@@ -4,8 +4,6 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { getTypeActionnariatWhereConditions } from '#helpers';
-
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
 import { ÉliminéEntity } from '../éliminé.entity.js';
@@ -80,7 +78,10 @@ export const registerListerÉliminéQuery = ({
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
           localité: { région: Where.matchAny(scope.régions) },
-          actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
+          actionnariat:
+            Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+              typeActionnariat,
+            ),
         },
         join: [
           {

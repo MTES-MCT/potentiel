@@ -3,12 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
-import { getTypeActionnariatWhereConditions } from '#helpers';
-
 import { CandidatureEntity } from '../candidature.entity.js';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
 import * as StatutCandidature from '../statutCandidature.valueType.js';
-import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
 import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '../index.js';
 
 export type CandidaturesListItemReadModel = {
@@ -77,7 +75,8 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),
-        actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
+        actionnariat:
+          Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
         nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },

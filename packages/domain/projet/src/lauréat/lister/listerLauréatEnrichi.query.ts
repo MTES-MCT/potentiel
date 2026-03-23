@@ -4,10 +4,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { getTypeActionnariatWhereConditions } from '#helpers';
-
 import { LauréatEntity } from '../lauréat.entity.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -159,7 +157,10 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
+            actionnariat:
+              Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+                typeActionnariat,
+              ),
           },
         },
         {

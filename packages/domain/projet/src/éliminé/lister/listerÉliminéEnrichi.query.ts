@@ -3,8 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
-import { getTypeActionnariatWhereConditions } from '#helpers';
-
 import { ÉliminéEntity } from '../éliminé.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -121,7 +119,8 @@ export const registerListerÉliminéEnrichiQuery = ({
           période: Where.equal(periode),
           famille: Where.equal(famille),
           localité: { région: Where.matchAny(scope.régions) },
-          actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
+          actionnariat:
+            TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
         },
         join: [
           {

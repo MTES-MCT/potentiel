@@ -1,4 +1,5 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { Where } from '@potentiel-domain/entity';
 
 export const ppe2Types = [
   'financement-collectif',
@@ -80,6 +81,20 @@ export const financementParticipatif = convertirEnValueType<'financement-partici
 export const investissementParticipatif = convertirEnValueType<'investissement-participatif'>(
   'investissement-participatif',
 );
+
+export const getTypeActionnariaWhereConditionsForQuery = (typeActionnariat?: Array<RawType>) => {
+  if (!typeActionnariat?.length) {
+    return undefined;
+  }
+  if (
+    (typeActionnariat?.includes('financement-collectif') ||
+      typeActionnariat?.includes('gouvernance-partagée')) &&
+    !typeActionnariat.includes('financement-collectif-et-gouvernance-partagée')
+  ) {
+    typeActionnariat.push('financement-collectif-et-gouvernance-partagée');
+  }
+  return Where.matchAny(typeActionnariat);
+};
 
 class TypeActionnariatInvalideError extends InvalidOperationError {
   constructor(value: string) {
