@@ -1,23 +1,26 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const motifs = ['projet-abandonné', 'projet-achevé'] as const;
 
 export type RawType = (typeof motifs)[number];
 
-export type ValueType = ReadonlyValueType<{
-  motif: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  motif: Type;
+  formatter: () => Type;
   estProjetAbandonné: () => boolean;
   estProjetAchevé: () => boolean;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = <Type extends RawType = RawType>({
+  motif,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(motif);
   return {
     get motif() {
-      return value;
+      return motif as Type;
     },
-    estÉgaleÀ(valueType) {
-      return this.motif === valueType.motif;
+    formatter() {
+      return this.motif;
     },
     estProjetAbandonné() {
       return this.motif === 'projet-abandonné';
@@ -25,7 +28,15 @@ export const convertirEnValueType = (value: string): ValueType => {
     estProjetAchevé() {
       return this.motif === 'projet-achevé';
     },
+    estÉgaleÀ({ motif }) {
+      return this.motif === motif;
+    },
   };
+};
+
+export const convertirEnValueType = <Type extends RawType = RawType>(motif: string) => {
+  estValide(motif);
+  return bind<Type>({ motif });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -36,8 +47,8 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const projetAbandonné = convertirEnValueType('projet-abandonné');
-export const projetAchevé = convertirEnValueType('projet-achevé');
+export const projetAbandonné = convertirEnValueType<'projet-abandonné'>('projet-abandonné');
+export const projetAchevé = convertirEnValueType<'projet-achevé'>('projet-achevé');
 
 class MotifDemandeMainlevéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

@@ -14,12 +14,12 @@ export const recoursDemandéProjector = async ({
         raison,
         pièceJustificative,
       },
-      statut: Éliminé.Recours.StatutRecours.demandé.value,
+      statut: Éliminé.Recours.StatutRecours.demandé.statut,
       miseÀJourLe: demandéLe,
     },
   );
   await upsertProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
-    dernièreDemande: { date: demandéLe, statut: Éliminé.Recours.StatutRecours.demandé.value },
+    dernièreDemande: { date: demandéLe, statut: Éliminé.Recours.StatutRecours.demandé.statut },
   });
 };

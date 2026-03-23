@@ -48,7 +48,7 @@ export default async function Page({ searchParams }: PageProps) {
               itemsPerPage: 10,
             }),
             statut: statut?.length
-              ? statut.map((s) => Éliminé.Recours.StatutRecours.convertirEnValueType(s).value)
+              ? statut.map((s) => Éliminé.Recours.StatutRecours.convertirEnValueType(s).statut)
               : undefined,
             appelOffre,
             nomProjet,

@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const motif = [
   'changement de producteur',
@@ -8,21 +8,27 @@ export const motif = [
 
 export type RawType = (typeof motif)[number];
 
-export type ValueType = ReadonlyValueType<{
-  motif: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  motif: Type;
+  formatter: () => Type;
   estChangementDeProducteur: () => boolean;
   estRenouvellementDesGarantiesFinancièresÉchues: () => boolean;
   estModificationDesGarantiesFinancières: () => boolean;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = <Type extends RawType = RawType>({
+  motif,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(motif);
   return {
     get motif() {
-      return value;
+      return motif as Type;
     },
-    estÉgaleÀ(valueType) {
-      return this.motif === valueType.motif;
+    formatter() {
+      return this.motif;
+    },
+    estÉgaleÀ({ motif }) {
+      return this.motif === motif;
     },
     estChangementDeProducteur() {
       return this.motif === 'changement de producteur';
@@ -36,6 +42,11 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const convertirEnValueType = <Type extends RawType = RawType>(motif: string) => {
+  estValide(motif);
+  return bind<Type>({ motif });
+};
+
 function estValide(value: string): asserts value is RawType {
   const isValid = motif.includes(value as RawType);
 
@@ -44,13 +55,17 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const changementDeProducteur = convertirEnValueType('changement de producteur');
-export const renouvellementDesGarantiesFinancièresÉchues = convertirEnValueType(
-  'renouvellement des garanties financières échues',
+export const changementDeProducteur = convertirEnValueType<'changement de producteur'>(
+  'changement de producteur',
 );
-export const modificationDesGarantiesFinancières = convertirEnValueType(
-  'modification des garanties financières',
-);
+export const renouvellementDesGarantiesFinancièresÉchues =
+  convertirEnValueType<'renouvellement des garanties financières échues'>(
+    'renouvellement des garanties financières échues',
+  );
+export const modificationDesGarantiesFinancières =
+  convertirEnValueType<'modification des garanties financières'>(
+    'modification des garanties financières',
+  );
 
 class MotifArchivageGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

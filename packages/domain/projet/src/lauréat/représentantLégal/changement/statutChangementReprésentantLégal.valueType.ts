@@ -12,9 +12,9 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
-  formatter(): RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
+  formatter(): Type;
   estDemandé: () => boolean;
   estAnnulé: () => boolean;
   estAccordé: () => boolean;
@@ -23,10 +23,14 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(statut);
   return {
-    statut,
+    get statut() {
+      return statut as Type;
+    },
     estÉgaleÀ({ statut }) {
       return this.statut === statut;
     },
@@ -79,9 +83,9 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
   };
 };
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
-  return bind({ statut: value });
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string) => {
+  estValide(statut);
+  return bind<Type>({ statut });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -92,11 +96,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const demandé = convertirEnValueType('demandé');
-export const annulé = convertirEnValueType('annulé');
-export const accordé = convertirEnValueType('accordé');
-export const rejeté = convertirEnValueType('rejeté');
-export const informationEnregistrée = convertirEnValueType('information-enregistrée');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const annulé = convertirEnValueType<'annulé'>('annulé');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
+export const informationEnregistrée =
+  convertirEnValueType<'information-enregistrée'>('information-enregistrée');
 
 class StatutChangementReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(value: string) {

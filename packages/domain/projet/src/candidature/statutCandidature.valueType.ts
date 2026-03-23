@@ -4,17 +4,21 @@ export const statuts = ['éliminé', 'classé'] as const;
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
-  formatter(): RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
+  formatter(): Type;
   estClassé(): boolean;
   estÉliminé(): boolean;
 }>;
 
-export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(statut);
   return {
-    statut,
+    get statut() {
+      return statut as Type;
+    },
     estÉgaleÀ({ statut }) {
       return this.statut === statut;
     },
@@ -22,17 +26,17 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       return this.statut;
     },
     estClassé() {
-      return this.estÉgaleÀ(classé);
+      return this.statut === 'classé';
     },
     estÉliminé() {
-      return this.estÉgaleÀ(éliminé);
+      return this.statut === 'éliminé';
     },
   };
 };
 
-export const convertirEnValueType = (value: string) => {
-  estValide(value);
-  return bind({ statut: value });
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string) => {
+  estValide(statut);
+  return bind<Type>({ statut });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -43,8 +47,8 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const éliminé = convertirEnValueType('éliminé');
-export const classé = convertirEnValueType('classé');
+export const éliminé = convertirEnValueType<'éliminé'>('éliminé');
+export const classé = convertirEnValueType<'classé'>('classé');
 
 class StatutCandidatureInvalideError extends InvalidOperationError {
   constructor(value: string) {

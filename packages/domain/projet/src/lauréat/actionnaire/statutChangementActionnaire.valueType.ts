@@ -1,5 +1,3 @@
-import { match } from 'ts-pattern';
-
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { DemandeDeChangementEnCoursError } from './errors.js';
@@ -14,8 +12,9 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
+  formatter: () => Type;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   estAnnulé: () => boolean;
@@ -24,11 +23,16 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(statut);
   return {
     get statut() {
-      return statut;
+      return statut as Type;
+    },
+    formatter() {
+      return this.statut;
     },
     estAccordé() {
       return this.statut === 'accordé';
@@ -60,21 +64,24 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
           throw new DemandeDeChangementEnCoursError();
         }
       } else if (nouveauStatut.statut !== 'demandé') {
-        const error = match(this.statut)
-          .with('accordé', () => new ChangementActionnaireDéjàAccordéeErreur())
-          .with('annulé', () => new ChangementActionnaireDéjàAnnuléeErreur())
-          .with('rejeté', () => new ChangementActionnaireDéjàRejetéeErreur())
-          .exhaustive();
-        throw error;
+        if (this.statut === 'accordé') {
+          throw new ChangementActionnaireDéjàAccordéeErreur();
+        }
+        if (this.statut === 'annulé') {
+          throw new ChangementActionnaireDéjàAnnuléeErreur();
+        }
+        if (this.statut === 'rejeté') {
+          throw new ChangementActionnaireDéjàRejetéeErreur();
+        }
       }
       return;
     },
   };
 };
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
-  return bind({ statut: value });
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string) => {
+  estValide(statut);
+  return bind<Type>({ statut });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -85,11 +92,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const accordé = convertirEnValueType('accordé');
-export const annulé = convertirEnValueType('annulé');
-export const demandé = convertirEnValueType('demandé');
-export const rejeté = convertirEnValueType('rejeté');
-export const informationEnregistrée = convertirEnValueType('information-enregistrée');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const annulé = convertirEnValueType<'annulé'>('annulé');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
+export const informationEnregistrée =
+  convertirEnValueType<'information-enregistrée'>('information-enregistrée');
 
 class StatutChangementActionnaireInvalideError extends InvalidOperationError {
   constructor(value: string) {

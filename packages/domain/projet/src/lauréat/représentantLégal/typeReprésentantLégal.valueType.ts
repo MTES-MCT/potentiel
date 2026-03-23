@@ -10,16 +10,20 @@ export const types = [
 
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
-  formatter(): RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
+  formatter(): Type;
   estInconnu(): boolean;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(type);
   return {
-    type,
+    get type() {
+      return type as Type;
+    },
     estÉgaleÀ({ type }) {
       return this.type === type;
     },
@@ -27,14 +31,14 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
       return this.type;
     },
     estInconnu() {
-      return this.estÉgaleÀ(inconnu);
+      return this.type === 'inconnu';
     },
   };
 };
 
-export const convertirEnValueType = (value: string) => {
+export const convertirEnValueType = <Type extends RawType = RawType>(value: string) => {
   estValide(value);
-  return bind({ type: value });
+  return bind<Type>({ type: value });
 };
 
 function estValide(type: string): asserts type is RawType {
@@ -45,11 +49,11 @@ function estValide(type: string): asserts type is RawType {
   }
 }
 
-export const personnePhysique = convertirEnValueType('personne-physique');
-export const personneMorale = convertirEnValueType('personne-morale');
-export const collectivité = convertirEnValueType('collectivité');
-export const autre = convertirEnValueType('autre');
-export const inconnu = convertirEnValueType('inconnu');
+export const personnePhysique = convertirEnValueType<'personne-physique'>('personne-physique');
+export const personneMorale = convertirEnValueType<'personne-morale'>('personne-morale');
+export const collectivité = convertirEnValueType<'collectivité'>('collectivité');
+export const autre = convertirEnValueType<'autre'>('autre');
+export const inconnu = convertirEnValueType<'inconnu'>('inconnu');
 
 class TypeReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(type: string) {

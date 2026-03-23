@@ -9,15 +9,19 @@ export const types = [
 
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
-  formatter(): RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
+  formatter(): Type;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(type);
   return {
-    type,
+    get type() {
+      return type as Type;
+    },
     estÉgaleÀ({ type }) {
       return this.type === type;
     },
@@ -27,9 +31,9 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   };
 };
 
-export const convertirEnValueType = (value: string) => {
-  estValide(value);
-  return bind({ type: value });
+export const convertirEnValueType = <Type extends RawType = RawType>(type: string) => {
+  estValide(type);
+  return bind<Type>({ type });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -40,10 +44,14 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const premièreCandidature = convertirEnValueType('première-candidature');
-export const abandonClassique = convertirEnValueType('abandon-classique');
-export const abandonAvecRecandidature = convertirEnValueType('abandon-avec-recandidature');
-export const lauréatAutrePériode = convertirEnValueType('lauréat-autre-période');
+export const premièreCandidature =
+  convertirEnValueType<'première-candidature'>('première-candidature');
+export const abandonClassique = convertirEnValueType<'abandon-classique'>('abandon-classique');
+export const abandonAvecRecandidature = convertirEnValueType<'abandon-avec-recandidature'>(
+  'abandon-avec-recandidature',
+);
+export const lauréatAutrePériode =
+  convertirEnValueType<'lauréat-autre-période'>('lauréat-autre-période');
 
 class HistoriqueAbandonInvalideError extends InvalidOperationError {
   constructor(value: string) {

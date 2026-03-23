@@ -46,7 +46,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         </Button>
       }
     >
-      <StatutDemandeBadge statut={statut.value} small />
+      <StatutDemandeBadge statut={statut.statut} small />
     </ListItem>
   );
 };

@@ -21,13 +21,13 @@ export const recoursPasséEnInstructionProjector = async ({
           passéEnInstructionPar,
         },
       },
-      statut: Éliminé.Recours.StatutRecours.enInstruction.value,
+      statut: Éliminé.Recours.StatutRecours.enInstruction.statut,
       miseÀJourLe: passéEnInstructionLe,
     },
   );
 
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
-    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.enInstruction.value },
+    dernièreDemande: { statut: Éliminé.Recours.StatutRecours.enInstruction.statut },
   });
 };
