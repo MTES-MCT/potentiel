@@ -19,19 +19,18 @@ export const getDossier = async (dossierNumber: number) => {
     const fichiers = mapApiResponseToFichiers({
       champs,
     });
+
     return {
       dépôt: {
         ...mapApiResponseToDépôt({
           champs,
         }),
-        attestationConstitutionGf: fichiers.garantiesFinancières
-          ? {
-              format: fichiers.garantiesFinancières.contentType,
-              url: fichiers.garantiesFinancières.url,
-            }
-          : undefined,
+        attestationConstitutionGf:
+          fichiers.garantiesFinancières.length > 0 ? fichiers.garantiesFinancières : [],
       } satisfies DeepPartial<
-        Candidature.Dépôt.RawType & { attestationConstitutionGf?: { format: string; url: string } }
+        Candidature.Dépôt.RawType & {
+          attestationConstitutionGf?: Array<{ format: string; url: string }>;
+        }
       >,
     };
   } catch (e) {

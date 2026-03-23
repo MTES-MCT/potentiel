@@ -10,7 +10,9 @@
       }
     ]
   },
-  "include": ["./src"],
+  "include": [
+    "./src"
+  ],
   "references": [
     {
       "path": "../../domain/projet"
@@ -20,6 +22,9 @@
     },
     {
       "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../libraries/pdf"
     }
   ]
 }

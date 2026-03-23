@@ -17,6 +17,7 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
+    "@potentiel-libraries/pdf": "*",
     "graphql-request": "7.4.0"
   },
   "devDependencies": {

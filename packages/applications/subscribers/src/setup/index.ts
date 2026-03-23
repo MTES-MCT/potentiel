@@ -11,7 +11,7 @@ import { setupRéseau } from './setupRéseau.js';
 const defaultDependencies = {
   récupérerGRDParVille,
   récupererConstitutionGarantiesFinancières:
-    ProjetAdapter.récupererConstututionGarantiesFinancièresAdapter,
+    ProjetAdapter.récupererConstitutionGarantiesFinancièresAdapter,
 };
 
 export type SetupSubscribersProps = {

@@ -12,11 +12,7 @@ export type DossierAccessor<
   getNumberValue: (nom: TKey) => number | undefined;
   getDateValue: (nom: TKey) => Iso8601DateTime | undefined;
   getBooleanValue: (nom: TKey) => boolean | undefined;
-  /**
-   *  TODO: Passer le retour de la fonction à un array
-   * getUrlPièceJustificativeValue: (nom: TKey) => Array<{ url: string; contentType: string }>;
-   */
-  getUrlPièceJustificativeValue: (nom: TKey) => { url: string; contentType: string } | undefined;
+  getUrlPièceJustificativeValue: (nom: TKey) => Array<{ url: string; contentType: string }>;
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
 };
 
@@ -71,9 +67,7 @@ export const createDossierAccessor = <
       const val = getChampValue(nom, ['YesNoChamp', 'CheckboxChamp'])?.stringValue ?? undefined;
       return val === 'false' ? false : val === 'true' ? true : undefined;
     },
-    /**
-     * 
-     *    getUrlPièceJustificativeValue: (urls) => {
+    getUrlPièceJustificativeValue: (urls) => {
       const files = getChampValue(urls, ['PieceJustificativeChamp'])?.files ?? [];
 
       return files.map((file) => {
@@ -82,18 +76,6 @@ export const createDossierAccessor = <
           contentType: file.contentType,
         };
       });
-    },
-
-     */
-    getUrlPièceJustificativeValue: (nom) => {
-      const file = getChampValue(nom, ['PieceJustificativeChamp'])?.files?.[0];
-      if (!file) {
-        return undefined;
-      }
-      return {
-        url: file.url,
-        contentType: file.contentType,
-      };
     },
 
     getAdresse: (nom) => getChampValue(nom, ['AddressChamp'])?.address ?? undefined,
