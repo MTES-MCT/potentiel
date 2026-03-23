@@ -17,12 +17,20 @@ export const récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers = 
   dateConstitution,
   attestations,
 }: RécupérerAttestationAvecPlusieursFichiersProps) => {
-  const documents = [];
+  const documents: Array<{
+    fileName: string;
+    content: Blob;
+  }> = [];
 
-  for (const attestation of attestations) {
+  for (let i = 0; i < attestations.length; i++) {
+    const attestation = attestations[i];
     const fichier = await récupérerFichier({ attestation, dossierNumber });
 
-    documents.push(await fichier.blob());
+    const fileName =
+      new URL(attestation.url).searchParams.get('filename') ??
+      `attestation-${i}.${extension(attestation.contentType)}`;
+
+    documents.push({ fileName, content: await fichier.blob() });
   }
 
   const plusieurFichiersAvecDesFormatsDifférents =
@@ -34,7 +42,7 @@ export const récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers = 
         format: 'application/zip',
       }
     : {
-        content: (await mergeDocuments(documents)).stream(),
+        content: (await mergeDocuments(documents.map((d) => d.content))).stream(),
         format: 'application/pdf',
       };
 
@@ -45,7 +53,10 @@ export const récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers = 
 };
 
 const zipDocuments = async (
-  documents: Blob[],
+  documents: Array<{
+    fileName: string;
+    content: Blob;
+  }>,
   options: Omit<PizZip.GenerateOptions, 'type'> = {
     compression: 'DEFLATE',
     mimeType: 'application/zip',
@@ -55,9 +66,9 @@ const zipDocuments = async (
 
   for (let i = 0; i < documents.length; i++) {
     const document = documents[i];
-    const arrayBuffer = await document.arrayBuffer();
+    const arrayBuffer = await document.content.arrayBuffer();
 
-    zip.file(`document-${i}.${extension(document.type)}`, arrayBuffer);
+    zip.file(document.fileName, arrayBuffer);
   }
 
   return zip.generate({ ...options, type: 'blob' });
