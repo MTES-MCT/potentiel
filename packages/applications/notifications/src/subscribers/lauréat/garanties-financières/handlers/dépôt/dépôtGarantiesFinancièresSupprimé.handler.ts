@@ -5,9 +5,7 @@ import { sendEmail } from '#sendEmail';
 
 export const handleDépôtGarantiesFinancièresSupprimé = async ({
   payload,
-}:
-  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1
-  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent) => {
+}: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
 
   const dreals = await listerDrealsRecipients(projet.région);

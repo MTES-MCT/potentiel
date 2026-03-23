@@ -38,19 +38,13 @@ export const register = () => {
         )
         .with(
           {
-            type: P.union(
-              'DépôtGarantiesFinancièresEnCoursValidé-V1',
-              'DépôtGarantiesFinancièresEnCoursValidé-V2',
-            ),
+            type: 'DépôtGarantiesFinancièresEnCoursValidé-V2',
           },
           handleDépôtGarantiesFinancièresValidé,
         )
         .with(
           {
-            type: P.union(
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
-            ),
+            type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
           },
           handleDépôtGarantiesFinancièresSupprimé,
         )
@@ -110,6 +104,8 @@ export const register = () => {
               'GarantiesFinancièresImportées-V1',
               'HistoriqueGarantiesFinancièresEffacé-V1',
               'TypeGarantiesFinancièresImporté-V1',
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+              'DépôtGarantiesFinancièresEnCoursValidé-V1',
             ),
           },
           () => Promise.resolve(),
