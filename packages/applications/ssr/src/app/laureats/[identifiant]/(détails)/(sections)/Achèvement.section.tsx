@@ -59,7 +59,7 @@ const getAchèvementData = async (
     actions.push({
       permission: 'achèvement.modifier',
       label: "Modifier les informations d'achèvement du projet",
-      url: Routes.Achèvement.modifierAttestationConformité(identifiantProjet),
+      url: Routes.Achèvement.modifierAchèvement(identifiantProjet),
     });
   } else {
     actions.push({

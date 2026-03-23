@@ -6,5 +6,5 @@ export const transmettreDateAchèvement = (identifiantProjet: string) =>
 export const transmettreAttestationConformité = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite:transmettre`;
 
-export const modifierAttestationConformité = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite:modifier`;
+export const modifierAchèvement = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/modifier`;

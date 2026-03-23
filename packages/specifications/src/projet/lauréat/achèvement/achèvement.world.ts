@@ -7,13 +7,13 @@ import { LauréatWorld } from '../lauréat.world.js';
 import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
 import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
-import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
+import { ModifierAchèvementFixture } from './fixture/modifierAchèvement.fixture.js';
 import { EnregistrerAttestationConformitéFixture } from './fixture/enregistrerAttestationConformité.fixture.js';
 
 export class AchèvementWorld {
   #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;
   #enregistrerAttestationConformitéFixture: EnregistrerAttestationConformitéFixture;
-  #modifierAttestationConformitéFixture: ModifierAttestationConformitéFixture;
+  #modifierAchèvementFixture: ModifierAchèvementFixture;
   #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
   #transmettreDateAchèvementFixture: TransmettreDateAchèvementFixture;
 
@@ -25,8 +25,8 @@ export class AchèvementWorld {
     return this.#enregistrerAttestationConformitéFixture;
   }
 
-  get modifierAttestationConformitéFixture() {
-    return this.#modifierAttestationConformitéFixture;
+  get modifierAchèvementFixture() {
+    return this.#modifierAchèvementFixture;
   }
 
   get calculerDateAchèvementPrévisionnelFixture() {
@@ -44,7 +44,7 @@ export class AchèvementWorld {
     this.#enregistrerAttestationConformitéFixture = new EnregistrerAttestationConformitéFixture(
       lauréat,
     );
-    this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture(lauréat);
+    this.#modifierAchèvementFixture = new ModifierAchèvementFixture(lauréat);
     this.#calculerDateAchèvementPrévisionnelFixture = new CalculerDateAchèvementPrévisionnelFixture(
       lauréat,
     );
@@ -102,10 +102,10 @@ export class AchèvementWorld {
         ...this.enregistrerAttestationConformitéFixture.mapToExpected(identifiantProjet),
       };
     }
-    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
+    if (this.modifierAchèvementFixture.aÉtéCréé) {
       result = {
         ...result,
-        ...this.modifierAttestationConformitéFixture.mapToExpected(identifiantProjet),
+        ...this.modifierAchèvementFixture.mapToExpected(identifiantProjet),
       };
     }
 
@@ -113,8 +113,8 @@ export class AchèvementWorld {
   }
 
   mapToAttestation(): { format: string; content: string } | undefined {
-    if (this.modifierAttestationConformitéFixture.attestation) {
-      return this.modifierAttestationConformitéFixture.attestation;
+    if (this.modifierAchèvementFixture.attestation) {
+      return this.modifierAchèvementFixture.attestation;
     }
     if (this.transmettreAttestationConformitéFixture.aÉtéCréé) {
       return this.transmettreAttestationConformitéFixture.attestation;
@@ -125,8 +125,8 @@ export class AchèvementWorld {
   }
 
   mapToPreuveTransmissionAuCocontractant(): { format: string; content: string } | undefined {
-    if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
-      return this.modifierAttestationConformitéFixture.preuve;
+    if (this.modifierAchèvementFixture.aÉtéCréé) {
+      return this.modifierAchèvementFixture.preuve;
     }
     return this.transmettreAttestationConformitéFixture.preuve;
   }

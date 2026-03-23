@@ -79,6 +79,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
       return <FormAlertError description="Une erreur est survenue" />;
 
     case 'validation-error':
+      console.log(formState.errors);
       return (
         <FormAlertError description="Erreur lors de la validation des données du formulaire" />
       );

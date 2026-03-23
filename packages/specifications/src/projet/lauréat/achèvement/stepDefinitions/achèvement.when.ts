@@ -78,14 +78,14 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           attestation: undefined,
           preuve: undefined,
         });
 
-      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -107,12 +107,12 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -138,7 +138,7 @@ Quand(
       const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet);
       assert(achèvement.estAchevé, 'impossible de mofidier si non achevé');
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           // Quand un document n'est pas changé, on transmet undefined au usecase
           attestation: undefined,
@@ -146,8 +146,8 @@ Quand(
           dateTransmissionAuCocontractant: achèvement.dateAchèvementRéel.formatter(),
         });
 
-      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
@@ -172,7 +172,7 @@ Quand(
       const { identifiantProjet } = this.lauréatWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
             dateTransmissionAuCocontractant: new Date(
@@ -181,8 +181,8 @@ Quand(
           }),
         });
 
-      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+        type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           attestationValue: attestation && convertFixtureFileToReadableStream(attestation),

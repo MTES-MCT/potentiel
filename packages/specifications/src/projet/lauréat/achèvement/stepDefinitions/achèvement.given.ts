@@ -56,10 +56,10 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     const { attestation, date, dateTransmissionAuCocontractant, utilisateur, preuve } =
-      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({});
+      this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({});
 
-    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+    await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
