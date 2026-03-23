@@ -4,10 +4,11 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { getTypeActionnariatWhereConditions } from '#helpers';
+
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
 import { ÉliminéEntity } from '../éliminé.entity.js';
-import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 type ÉliminéListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

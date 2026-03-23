@@ -1,6 +1,6 @@
 import { Where } from '@potentiel-domain/entity';
 
-import { TypeActionnariat } from './candidature/index.js';
+import { TypeActionnariat } from '../candidature/index.js';
 
 export const getTypeActionnariatWhereConditions = (
   typeActionnariat?: Array<TypeActionnariat.RawType>,

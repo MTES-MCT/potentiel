@@ -9,7 +9,7 @@ import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../..
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
-import { getTypeActionnariatWhereConditions } from '../../../getTypeActionnariatWhereConditions.js';
+import { getTypeActionnariatWhereConditions } from '../../../helpers/getTypeActionnariatWhereConditions.js';
 
 type DossierRaccordement = {
   nomProjet: string;

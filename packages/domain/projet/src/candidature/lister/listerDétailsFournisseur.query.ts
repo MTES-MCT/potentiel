@@ -3,11 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 
+import { getTypeActionnariatWhereConditions } from '#helpers';
+
 import { CandidatureEntity } from '../candidature.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
 import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur.js';
-import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 export type DétailFournisseur = {
   typeFournisseur: string;

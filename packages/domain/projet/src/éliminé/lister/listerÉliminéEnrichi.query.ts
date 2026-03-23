@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, Where } from '@potentiel-domain/entity';
 
+import { getTypeActionnariatWhereConditions } from '#helpers';
+
 import { ÉliminéEntity } from '../éliminé.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -19,7 +21,6 @@ import {
   TypeDeNatureDeLExploitation,
   NatureDeLExploitationEntity,
 } from '../../lauréat/nature-de-l-exploitation/index.js';
-import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 export type ÉliminéEnrichiListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

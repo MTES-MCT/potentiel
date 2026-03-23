@@ -4,6 +4,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { getTypeActionnariatWhereConditions } from '#helpers';
+
 import { LauréatEntity } from '../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
@@ -25,7 +27,6 @@ import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
-import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
