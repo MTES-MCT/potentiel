@@ -15,3 +15,4 @@ export * from './listerPorteursRecipients.js';
 export * from './listerRecipientsAutoritéInstructrice.js';
 export * from './listerTeamRecipients.js';
 export * from './listerRecipients.js';
+export * from './getRôleFromEmail.js';

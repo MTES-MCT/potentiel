@@ -4,6 +4,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
@@ -13,6 +14,10 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | type GF         | <nouveau type GF>          |
             | date d'échéance | <nouvelle date d'échéance> |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation modifiées |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                                  |
+        Et aucun email n'a été envoyé au porteur
 
         Exemples:
             | type GF actuel            | date d'échéance actuelle | nouveau type GF           | nouvelle date d'échéance |
@@ -24,14 +29,19 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | six-mois-après-achèvement |                          | avec-date-échéance        | 2027-12-01               |
 
     Scénario: Un porteur modifie un dépôt de garanties financières avec un type exemption
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Et la dreal "Dreal du quasi-sud" associée à la région du projet
         Et un dépôt de garanties financières avec :
             | type GF | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF | exemption |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et les garanties financières ne devraient plus être attendues pour le projet lauréat
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Lyon - Garanties financières en attente de validation modifiées |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                             |
+        Et aucun email n'a été envoyé au porteur
 
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières avec :

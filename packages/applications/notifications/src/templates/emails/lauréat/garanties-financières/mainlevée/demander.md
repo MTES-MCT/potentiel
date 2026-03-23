@@ -4,7 +4,7 @@ subject: Potentiel - {{nom_projet}} - Mainlevée des garanties financières dema
 
 Madame, Monsieur,
 
-Une demande de mainlevée de garanties financières a été déposée pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}**.
+Une demande de mainlevée de garanties financières pour le projet **{{ nom_projet }} ({{ appel_offre }} période {{ période }})** situé dans le département **{{ departement_projet }}** a été **déposée**.
 
 Pour la consulter, connectez-vous à Potentiel.
 

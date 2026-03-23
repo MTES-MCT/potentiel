@@ -15,6 +15,7 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
   if (utilisateur.rôle === 'visiteur') {
     throw new Error("Le rôle 'visiteur' ne peut pas être invité");
   }
+
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
     ...utilisateur,
     identifiantUtilisateur,

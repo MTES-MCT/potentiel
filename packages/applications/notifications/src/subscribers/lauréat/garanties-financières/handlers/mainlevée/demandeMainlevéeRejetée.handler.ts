@@ -6,17 +6,14 @@ import { getBaseUrl } from '#helpers';
 import { getLauréat } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDemandeMainlevéeMiseÀJour = async ({
+export const handleDemandeMainlevéeRejetée = async ({
   payload,
-}:
-  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent
-  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent) => {
+}: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/mainlevée/statut_modifié',
+    key: 'lauréat/garanties-financières/mainlevée/rejeter',
     recipients: porteurs,
     values: {
       nom_projet: projet.nom,

@@ -1,19 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { listerPorteursRecipients } from '#helpers';
+import { getBaseUrl } from '#helpers';
 import { getLauréat } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
-export const handleDépôtGarantiesFinancièresValidé = async ({
+export const handleDemandeMainlevéePasséeEnInstruction = async ({
   payload,
-}: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent) => {
+}: Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent) => {
   const projet = await getLauréat(payload.identifiantProjet);
-
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   await sendEmail({
-    key: 'lauréat/garanties-financières/dépôt/valider',
+    key: 'lauréat/garanties-financières/mainlevée/démarrer_instruction',
     recipients: porteurs,
     values: {
       nom_projet: projet.nom,

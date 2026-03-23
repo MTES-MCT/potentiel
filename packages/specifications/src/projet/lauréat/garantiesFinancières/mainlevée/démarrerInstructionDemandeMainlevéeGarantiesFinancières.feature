@@ -15,8 +15,8 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Statut de la demande de mainlevée modifié |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                   |
+            | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée en instruction |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres             |
 
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
@@ -26,8 +26,8 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
         Quand un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières
         Alors une demande de mainlevée de garanties financières devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Statut de la demande de mainlevée modifié |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres                   |
+            | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée en instruction |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres             |
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné des garanties financières actuelles pour le projet lauréat

@@ -5,13 +5,18 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleAttestationGarantiesFinancièresEnregistrée,
-  handleDemandeMainlevéeMiseÀJour,
+  handleDemandeMainlevéeAccordée,
+  handleDemandeMainlevéePasséeEnInstruction,
+  handleDemandeMainlevéeRejetée,
   handleDépôtGarantiesFinancièresSoumis,
   handleDépôtGarantiesFinancièresValidé,
   handleGarantiesFinancièresMiseÀJour,
   handleGarantiesFinancièresÉchues,
   handleMainlevéeDemandée,
 } from './handlers/index.js';
+import { handleDépôtGarantiesFinancièresSupprimé } from './handlers/dépôt/dépôtGarantiesFinancièresSupprimé.handler.js';
+import { handleDemandeMainlevéeAnnulée } from './handlers/mainlevée/demandeMainlevéeAnnulée.handler.js';
+import { handleDépôtGarantiesFinancièresModifié } from './handlers/dépôt/dépôtGarantiesFinancièresModifié.handler.js';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 
@@ -33,12 +38,21 @@ export const register = () => {
         )
         .with(
           {
-            type: P.union(
-              'DépôtGarantiesFinancièresEnCoursValidé-V1',
-              'DépôtGarantiesFinancièresEnCoursValidé-V2',
-            ),
+            type: 'DépôtGarantiesFinancièresEnCoursValidé-V2',
           },
           handleDépôtGarantiesFinancièresValidé,
+        )
+        .with(
+          {
+            type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+          },
+          handleDépôtGarantiesFinancièresSupprimé,
+        )
+        .with(
+          {
+            type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+          },
+          handleDépôtGarantiesFinancièresModifié,
         )
         //#endregion Dépôt
         //#region Actuelles
@@ -55,34 +69,43 @@ export const register = () => {
           },
           handleGarantiesFinancièresMiseÀJour,
         )
-
+        .with({ type: 'GarantiesFinancièresÉchues-V1' }, handleGarantiesFinancièresÉchues)
         //#endregion Actuelles
         //#region Mainlevée
         .with({ type: 'MainlevéeGarantiesFinancièresDemandée-V1' }, handleMainlevéeDemandée)
         .with(
           {
-            type: P.union(
-              'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
-              'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
-              'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-            ),
+            type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
           },
-          handleDemandeMainlevéeMiseÀJour,
+          handleDemandeMainlevéeAccordée,
         )
-        .with({ type: 'GarantiesFinancièresÉchues-V1' }, handleGarantiesFinancièresÉchues)
+        .with(
+          {
+            type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+          },
+          handleDemandeMainlevéeRejetée,
+        )
+        .with(
+          {
+            type: 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+          },
+          handleDemandeMainlevéePasséeEnInstruction,
+        )
+        .with(
+          { type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1' },
+          handleDemandeMainlevéeAnnulée,
+        )
         //#endregion Mainlevée
         //#region Évènements ignorés
         .with(
           {
             type: P.union(
-              'DépôtGarantiesFinancièresEnCoursModifié-V1',
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
-              'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
               'GarantiesFinancièresDemandées-V1',
               'GarantiesFinancièresImportées-V1',
               'HistoriqueGarantiesFinancièresEffacé-V1',
               'TypeGarantiesFinancièresImporté-V1',
-              'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
+              'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+              'DépôtGarantiesFinancièresEnCoursValidé-V1',
             ),
           },
           () => Promise.resolve(),
