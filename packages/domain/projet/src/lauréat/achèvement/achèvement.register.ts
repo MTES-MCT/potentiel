@@ -8,8 +8,8 @@ import {
   ListerProjetAvecAchevementATransmettreDependencies,
   registerListerProjetAvecAchevementATransmettreQuery,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
-import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command.js';
-import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import { registerModifierAchèvementCommand } from './modifier/modifierAchèvement.command.js';
+import { registerModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
 import { registerEnregistrerAttestationConformitéCommand } from './enregistrer/enregistrerAttestationConformité.command.js';
 import { registerEnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command.js';
@@ -25,8 +25,8 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
   registerTransmettreAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
   registerTransmettreAttestationConformitéUseCase();
 
-  registerModifierAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
-  registerModifierAttestationConformitéUseCase();
+  registerModifierAchèvementCommand(dependencies.getProjetAggregateRoot);
+  registerModifierAchèvementUseCase();
 
   registerTransmettreDateAchèvementCommand(dependencies.getProjetAggregateRoot);
   registerTransmettreDateAchèvementUseCase();

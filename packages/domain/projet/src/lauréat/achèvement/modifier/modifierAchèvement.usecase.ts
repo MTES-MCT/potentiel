@@ -6,10 +6,10 @@ import { TypeDocumentAttestationConformité } from '../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
-import { ModifierAttestationConformitéCommand } from './modifierAttestationConformité.command.js';
+import { ModifierAchèvementCommand } from './modifierAchèvement.command.js';
 
-export type ModifierAttestationConformitéUseCase = Message<
-  'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+export type ModifierAchèvementUseCase = Message<
+  'Lauréat.Achèvement.UseCase.ModifierAchèvement',
   {
     identifiantProjetValue: string;
     attestationValue?: {
@@ -26,8 +26,8 @@ export type ModifierAttestationConformitéUseCase = Message<
   }
 >;
 
-export const registerModifierAttestationConformitéUseCase = () => {
-  const runner: MessageHandler<ModifierAttestationConformitéUseCase> = async ({
+export const registerModifierAchèvementUseCase = () => {
+  const runner: MessageHandler<ModifierAchèvementUseCase> = async ({
     identifiantProjetValue,
     attestationValue,
     dateValue,
@@ -80,8 +80,8 @@ export const registerModifierAttestationConformitéUseCase = () => {
       });
     }
 
-    await mediator.send<ModifierAttestationConformitéCommand>({
-      type: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
+    await mediator.send<ModifierAchèvementCommand>({
+      type: 'Lauréat.Achèvement.Command.ModifierAchèvement',
       data: {
         identifiantProjet,
         attestation,
@@ -92,5 +92,5 @@ export const registerModifierAttestationConformitéUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.Achèvement.UseCase.ModifierAttestationConformité', runner);
+  mediator.register('Lauréat.Achèvement.UseCase.ModifierAchèvement', runner);
 };

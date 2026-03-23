@@ -6,31 +6,31 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractFixture } from '../../../../fixture.js';
 import { LauréatWorld } from '../../lauréat.world.js';
 
-interface ModifierAttestationConformitéDocument {
+interface ModifierAchèvementDocument {
   readonly content: string;
   readonly format: string;
 }
 
-interface ModifierAttestationConformité {
-  readonly attestation?: ModifierAttestationConformitéDocument;
-  readonly preuve?: ModifierAttestationConformitéDocument;
+interface ModifierAchèvement {
+  readonly attestation?: ModifierAchèvementDocument;
+  readonly preuve?: ModifierAchèvementDocument;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
   readonly utilisateur: string;
 }
 
-export class ModifierAttestationConformitéFixture
-  extends AbstractFixture<ModifierAttestationConformité>
-  implements ModifierAttestationConformité
+export class ModifierAchèvementFixture
+  extends AbstractFixture<ModifierAchèvement>
+  implements ModifierAchèvement
 {
-  #attestation?: ModifierAttestationConformité['attestation'];
+  #attestation?: ModifierAchèvement['attestation'];
 
-  get attestation(): ModifierAttestationConformité['attestation'] {
+  get attestation(): ModifierAchèvement['attestation'] {
     return this.#attestation;
   }
 
-  #preuve?: ModifierAttestationConformité['preuve'];
-  get preuve(): ModifierAttestationConformité['preuve'] {
+  #preuve?: ModifierAchèvement['preuve'];
+  get preuve(): ModifierAchèvement['preuve'] {
     return this.#preuve;
   }
 
@@ -56,8 +56,8 @@ export class ModifierAttestationConformitéFixture
     super();
   }
 
-  créer(partialFixture?: Partial<ModifierAttestationConformité>): ModifierAttestationConformité {
-    const fixture: ModifierAttestationConformité = {
+  créer(partialFixture?: Partial<ModifierAchèvement>): ModifierAchèvement {
+    const fixture: ModifierAchèvement = {
       dateTransmissionAuCocontractant: faker.date
         .between({
           from: DateTime.convertirEnValueType(

@@ -8,9 +8,9 @@ import {
 } from '../AttestationConformité.form';
 import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 
-import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
+import { modifierAchèvementAction } from './modifierAchèvement.action';
 
-export type ModifierAttestationConformitéPageProps = Pick<
+export type ModifierAchèvementPageProps = Pick<
   AttestationConformitéFormProps,
   | 'identifiantProjet'
   | 'dateTransmissionAuCocontractant'
@@ -19,7 +19,7 @@ export type ModifierAttestationConformitéPageProps = Pick<
   | 'lauréatNotifiéLe'
 >;
 
-export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
+export const ModifierAchèvementPage: FC<ModifierAchèvementPageProps> = ({
   identifiantProjet,
   dateTransmissionAuCocontractant,
   attestationConformité,
@@ -31,7 +31,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm
       identifiantProjet={identifiantProjet}
-      action={modifierAttestationConformitéAction}
+      action={modifierAchèvementAction}
       submitLabel="Modifier"
       dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
       attestationConformité={attestationConformité}
