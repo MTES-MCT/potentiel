@@ -99,20 +99,17 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
         />
 
-        <div className="w-fit">
-          <InputDate
-            label="Date de transmission au Cocontractant"
-            name="dateTransmissionAuCocontractant"
-            max={now()}
-            min={DateTime.convertirEnValueType(lauréatNotifiéLe)
-              .ajouterNombreDeJours(1)
-              .formatter()}
-            required
-            defaultValue={dateTransmissionAuCocontractant}
-            state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
-          />
-        </div>
+        <InputDate
+          label="Date de transmission au Cocontractant"
+          name="dateTransmissionAuCocontractant"
+          max={now()}
+          min={DateTime.convertirEnValueType(lauréatNotifiéLe).ajouterNombreDeJours(1).formatter()}
+          required
+          defaultValue={dateTransmissionAuCocontractant}
+          state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
+          small
+        />
 
         {demanderMainlevée.visible && (
           <>

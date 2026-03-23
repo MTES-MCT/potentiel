@@ -35,17 +35,16 @@ export const TransmettreDateAchèvementForm: FC<TransmettreDateAchèvementFormPr
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-      <div className="max-w-sm">
-        <InputDate
-          label="Date d'achèvement"
-          name="dateAchevement"
-          min={DateTime.convertirEnValueType(lauréatNotifiéLe).ajouterNombreDeJours(1).formatter()}
-          max={DateTime.now().formatter()}
-          required
-          state={validationErrors['dateAchevement'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['dateAchevement']}
-        />
-      </div>
+      <InputDate
+        label="Date d'achèvement"
+        name="dateAchevement"
+        min={DateTime.convertirEnValueType(lauréatNotifiéLe).ajouterNombreDeJours(1).formatter()}
+        max={DateTime.now().formatter()}
+        required
+        state={validationErrors['dateAchevement'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateAchevement']}
+        small
+      />
     </Form>
   );
 };

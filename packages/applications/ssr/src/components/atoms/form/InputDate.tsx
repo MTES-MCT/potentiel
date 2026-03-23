@@ -14,6 +14,7 @@ type InputDateProps = {
   value?: Iso8601DateTime;
   state: InputProps['state'];
   stateRelatedMessage: InputProps['stateRelatedMessage'];
+  small?: true;
 };
 
 export const InputDate: FC<InputDateProps> = ({
@@ -27,6 +28,7 @@ export const InputDate: FC<InputDateProps> = ({
   value,
   state,
   stateRelatedMessage,
+  small,
 }) => {
   return (
     <Input
@@ -41,6 +43,9 @@ export const InputDate: FC<InputDateProps> = ({
         max: formatDateForInput(max),
         defaultValue: formatDateForInput(defaultValue),
         value: formatDateForInput(value),
+      }}
+      classes={{
+        nativeInputOrTextArea: small ? 'w-48' : undefined,
       }}
       state={state}
       stateRelatedMessage={stateRelatedMessage}
