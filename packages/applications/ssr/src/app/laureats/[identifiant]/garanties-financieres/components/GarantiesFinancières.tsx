@@ -4,6 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -19,18 +20,26 @@ type GarantiesFinancièresProps = {
 
   // en réalité ce champs peut accueillir soit des GF actuelles soit un dépôt,
   // mais le type Actuel gère plus de cas
-  garantiesFinancières: PlainType<
-    Omit<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'statut'>
+  garantiesFinancières: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
+  dernièreMiseÀJour: PlainType<
+    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['dernièreMiseÀJour']
   >;
   statutBadge?: React.ReactNode;
   actions: DétailsGarantiesFinancièresPageProps['actions'];
+  validéLe?: PlainType<DateTime.ValueType>;
+  soumisLe?: PlainType<DateTime.ValueType>;
+  document?: PlainType<DocumentProjet.ValueType>;
 };
 
 export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
   title,
   actions,
-  garantiesFinancières: { dernièreMiseÀJour, soumisLe, validéLe, garantiesFinancières, document },
+  garantiesFinancières,
+  dernièreMiseÀJour,
   statutBadge,
+  validéLe,
+  soumisLe,
+  document,
 }) => {
   const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancières);
   return (

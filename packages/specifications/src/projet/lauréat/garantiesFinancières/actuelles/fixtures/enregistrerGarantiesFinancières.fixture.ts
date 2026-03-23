@@ -117,7 +117,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         date: DateTime.convertirEnValueType(this.enregistréLe),
         par: Email.convertirEnValueType(this.enregistréPar),
       },
-
+      validéLe: DateTime.convertirEnValueType(this.#enregistréLe),
       dateLimiteSoumission: undefined,
       motifEnAttente: undefined,
     };

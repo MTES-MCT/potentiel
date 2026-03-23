@@ -1,41 +1,47 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-
-import { getArchivesGf, getGfActuelles } from './_utils/index.js';
+import { Option } from '@potentiel-libraries/monads';
 
 export const historiqueGarantiesFinancièresEffacéProjector = async ({
-  payload: { identifiantProjet, effacéLe, effacéPar },
+  payload: { identifiantProjet, effacéLe },
 }: Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent) => {
-  const archives = await getArchivesGf(identifiantProjet);
-  const actuelles = await getGfActuelles(identifiantProjet);
-
-  if (actuelles?.actuelles) {
-    const archiveÀAjouter: Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity['archives'][number] =
-      {
-        statut: actuelles.statut,
-        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-          actuelles.actuelles,
-        ).formatter(),
-        dernièreMiseÀJour: {
-          date: effacéLe,
-          par: effacéPar,
-        },
-        motif: 'changement de producteur',
-      };
-
-    await upsertProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
-      `archives-garanties-financieres|${identifiantProjet}`,
-      {
-        identifiantProjet,
-        archives: archives?.archives.length
-          ? [...archives.archives, archiveÀAjouter]
-          : [archiveÀAjouter],
-      },
+  const entityToUpsert =
+    await findProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjet}`,
     );
+
+  if (Option.isNone(entityToUpsert)) {
+    throw new Error('Pas de garanties financières à effacer');
   }
 
-  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+  const archives: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières[] =
+    entityToUpsert.actuelles
+      ? [
+          ...entityToUpsert.archives,
+          {
+            garantiesFinancières:
+              Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
+                entityToUpsert.actuelles,
+              ).formatter(),
+            motifArchivage: 'changement de producteur',
+            validéLe: entityToUpsert.actuelles.validéLe,
+          },
+        ]
+      : entityToUpsert.archives;
+
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
+    {
+      identifiantProjet,
+      actuelles: undefined,
+      archives,
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.nonDéposé.statut,
+      dernièreMiseÀJour: {
+        date: effacéLe,
+        par: undefined,
+      },
+    },
   );
 
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(

@@ -63,21 +63,20 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
 type MapToReadModelProps = GarantiesFinancièresEntity & { actuelles: GarantiesFinancières.RawType };
 export const mapToReadModel = ({
+  identifiantProjet,
   dernièreMiseÀJour,
   statut,
   enAttente,
   actuelles,
   soumisLe,
-  validéLe,
-  identifiantProjet,
-}: Omit<MapToReadModelProps, ''>): ConsulterGarantiesFinancièresReadModel => {
+}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => {
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType(actuelles);
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     statut: StatutGarantiesFinancières.convertirEnValueType(statut),
     garantiesFinancières,
     soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
-    validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
+    validéLe: DateTime.convertirEnValueType(actuelles.validéLe),
     document: garantiesFinancières.estConstitué()
       ? DocumentProjet.convertirEnValueType(
           identifiantProjet,
@@ -90,7 +89,6 @@ export const mapToReadModel = ({
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
       par: dernièreMiseÀJour.par ? Email.convertirEnValueType(dernièreMiseÀJour.par) : undefined,
     },
-
     motifEnAttente: enAttente
       ? MotifDemandeGarantiesFinancières.convertirEnValueType(enAttente.motif)
       : undefined,

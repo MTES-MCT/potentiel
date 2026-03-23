@@ -89,6 +89,7 @@ export class GarantiesFinancièresActuellesWorld {
             dernièreMiseÀJour: {
               date: DateTime.convertirEnValueType(notifiéLe),
             },
+            validéLe: DateTime.convertirEnValueType(notifiéLe),
             document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
           }
         : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);

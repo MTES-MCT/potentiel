@@ -1,4 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture.js';
 
@@ -24,6 +25,10 @@ export class EnregistrerAttestationGarantiesFinancièresFixture extends Enregist
             }
           : undefined,
       }),
+      validéLe: DateTime.convertirEnValueType(
+        this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
+          .notifierLauréatFixture.notifiéLe,
+      ),
     };
   }
 }

@@ -9,13 +9,17 @@ export const typeGarantiesFinancièresImportéProjector = async ({
     {
       identifiantProjet,
       statut: 'validé',
-      actuelles: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-        type,
-        dateÉchéance,
-      }).formatter(),
+      actuelles: {
+        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+          type,
+          dateÉchéance,
+        }).formatter(),
+        validéLe: importéLe,
+      },
       dernièreMiseÀJour: {
         date: importéLe,
       },
+      archives: [],
     },
   );
 };
