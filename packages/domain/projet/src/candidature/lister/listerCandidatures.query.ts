@@ -8,6 +8,7 @@ import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature
 import * as StatutCandidature from '../statutCandidature.valueType.js';
 import { DocumentProjet, IdentifiantProjet } from '../../index.js';
 import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '../index.js';
+import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -75,10 +76,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),
-        actionnariat:
-          typeActionnariat && typeActionnariat.length > 0
-            ? Where.matchAny(typeActionnariat)
-            : undefined,
+        actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
         nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },

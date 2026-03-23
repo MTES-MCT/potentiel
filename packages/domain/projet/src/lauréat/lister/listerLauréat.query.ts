@@ -10,6 +10,7 @@ import { PuissanceEntity } from '../puissance/index.js';
 import { ProducteurEntity } from '../producteur/index.js';
 import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
+import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -104,10 +105,7 @@ export const registerListerLauréatQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
           },
         },
       ],

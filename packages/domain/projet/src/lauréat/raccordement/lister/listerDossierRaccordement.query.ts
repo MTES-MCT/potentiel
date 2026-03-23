@@ -9,6 +9,7 @@ import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../..
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
+import { getTypeActionnariatWhereConditions } from '../../../getTypeActionnariatWhereConditions.js';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -121,10 +122,7 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
             période: Where.equal(periode),
             famille: Where.equal(famille),
           },

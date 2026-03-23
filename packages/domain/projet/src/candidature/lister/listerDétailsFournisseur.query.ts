@@ -7,6 +7,7 @@ import { CandidatureEntity } from '../candidature.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
 import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur.js';
+import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 export type DétailFournisseur = {
   typeFournisseur: string;
@@ -84,7 +85,7 @@ export const registerListerDétailsFournisseurQuery = ({
         appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        actionnariat: typeActionnariat?.length ? Where.matchAny(typeActionnariat) : undefined,
+        actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
         estNotifiée: Where.equal(true),
       },
       orderBy: {

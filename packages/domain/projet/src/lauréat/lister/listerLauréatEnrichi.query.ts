@@ -25,6 +25,7 @@ import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
+import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
@@ -157,10 +158,7 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
           },
         },
         {

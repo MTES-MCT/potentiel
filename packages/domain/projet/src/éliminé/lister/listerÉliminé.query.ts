@@ -7,6 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
 import { ÉliminéEntity } from '../éliminé.entity.js';
+import { getTypeActionnariatWhereConditions } from '../../getTypeActionnariatWhereConditions.js';
 
 type ÉliminéListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -78,10 +79,7 @@ export const registerListerÉliminéQuery = ({
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
           localité: { région: Where.matchAny(scope.régions) },
-          actionnariat:
-            typeActionnariat && typeActionnariat.length > 0
-              ? Where.matchAny(typeActionnariat)
-              : undefined,
+          actionnariat: getTypeActionnariatWhereConditions(typeActionnariat),
         },
         join: [
           {
