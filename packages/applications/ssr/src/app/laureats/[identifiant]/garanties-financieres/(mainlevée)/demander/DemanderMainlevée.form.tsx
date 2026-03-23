@@ -3,9 +3,11 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
+import { DocumentProjet } from '@potentiel-domain/projet';
+
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
+import { KeepOrEditDocument } from '@/components/atoms/form/document/KeepOrEditDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
@@ -15,12 +17,14 @@ type DemanderMainlevéeFormProps = {
   identifiantProjet: string;
   motif: string;
   actions: ActionGarantiesFinancières[];
+  attestationAchèvement?: DocumentProjet.RawType;
 };
 
 export const DemanderMainlevéeForm = ({
   identifiantProjet,
   motif,
   actions,
+  attestationAchèvement,
 }: DemanderMainlevéeFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
@@ -44,10 +48,11 @@ export const DemanderMainlevéeForm = ({
           children: (
             <>
               {actions.includes('achèvement.enregistrerAttestation') && (
-                <UploadDocument
+                <KeepOrEditDocument
                   name="attestationConformite"
                   multiple
                   required
+                  documentKeys={attestationAchèvement ? [attestationAchèvement] : []}
                   label="Attestation de conformité et rapport associé"
                   hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
                   state={validationErrors['attestationConformite'] ? 'error' : 'default'}

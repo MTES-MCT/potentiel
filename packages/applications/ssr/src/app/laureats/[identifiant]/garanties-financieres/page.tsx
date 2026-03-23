@@ -121,6 +121,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           appelOffres={props.appelOffres}
           actions={actions}
           infos={infos}
+          attestationAchèvement={props.attestationAchèvement}
         />
       );
     }),
@@ -170,8 +171,14 @@ const mapToActionsAndInfos = ({
   } else {
     if (Option.isNone(actuelles)) {
       actions.push('garantiesFinancières.actuelles.enregistrer');
-    } else {
-      if (!actuelles.garantiesFinancières.estConstitué()) {
+    } else if (!actuelles.garantiesFinancières.estExemption()) {
+      const estConstitué = actuelles.garantiesFinancières.estConstitué();
+      const gfConstituéeEtSansDépôt = !aUnDépôtEnCours && estConstitué;
+      const achèvementPossible = !estAbandonné && !estAchevé && gfConstituéeEtSansDépôt;
+      const mainlevéePossible = estAchevéOuAbandonné && gfConstituéeEtSansDépôt;
+
+      actions.push('garantiesFinancières.actuelles.modifier');
+      if (!estConstitué) {
         actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
       }
 
@@ -179,26 +186,19 @@ const mapToActionsAndInfos = ({
         if (utilisateur.rôle.estDreal()) {
           infos.push('échues');
         }
-      } else if (Option.isNone(mainlevée) && !actuelles.garantiesFinancières.estExemption()) {
-        if (
-          estAchevéOuAbandonné &&
-          !aUnDépôtEnCours &&
-          actuelles.garantiesFinancières.estConstitué()
-        ) {
-          actions.push('garantiesFinancières.mainlevée.demander');
-        } else if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
+      } else if (mainlevéePossible) {
+        actions.push('garantiesFinancières.mainlevée.demander');
+        if (achèvement.estAchevé) {
+          actions.push('achèvement.enregistrerAttestation');
+        }
+      } else {
+        if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
-        if (achèvement.estAchevé && actuelles.garantiesFinancières.estConstitué()) {
-          if (Option.isSome(achèvement.attestation)) {
-            actions.push('achèvement.transmettreAttestation');
-          } else {
-            actions.push('achèvement.enregistrerAttestation');
-          }
+        if (achèvementPossible) {
+          actions.push('achèvement.transmettreAttestation');
         }
       }
-
-      actions.push('garantiesFinancières.actuelles.modifier');
     }
 
     if (Option.isSome(dépôtEnCours)) {
@@ -232,6 +232,7 @@ const mapToProps = ({
   statut,
   accès,
   appelOffres,
+  achèvement,
 }: Props) => {
   return {
     actuelles: mapToPlainObject(actuelles),
@@ -246,5 +247,9 @@ const mapToProps = ({
       .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.map((porteur) => porteur.email))
       .none(() => []),
     appelOffres: mapToPlainObject(appelOffres),
+    attestationAchèvement:
+      achèvement.estAchevé && Option.isSome(achèvement.attestation)
+        ? achèvement.attestation.formatter()
+        : undefined,
   } satisfies Partial<DétailsGarantiesFinancièresPageProps>;
 };

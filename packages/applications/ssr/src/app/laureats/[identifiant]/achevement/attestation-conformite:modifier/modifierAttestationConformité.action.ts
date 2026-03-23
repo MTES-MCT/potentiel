@@ -19,7 +19,7 @@ const schema = zod.object({
   attestation: keepOrUpdateManyOptionalDocuments({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: keepOrUpdateSingleOptionalDocument({
     acceptedFileTypes: ['application/pdf'],
-  }).optional(),
+  }),
   attestationDocumentSelection: documentSelectionSchema.optional(),
   preuveTransmissionAuCocontractantDocumentSelection: documentSelectionSchema.optional(),
   dateTransmissionAuCocontractant: zod.string().min(1),
