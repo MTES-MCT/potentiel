@@ -25,9 +25,6 @@
     },
     {
       "path": "../../libraries/pdf"
-    },
-    {
-      "path": "../../libraries/zip"
     }
   ]
 }

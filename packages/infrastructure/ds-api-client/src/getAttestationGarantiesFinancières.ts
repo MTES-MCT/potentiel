@@ -1,10 +1,11 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
-import { mergeDocuments } from '@potentiel-libraries/pdf';
-import { zipDocuments } from '@potentiel-libraries/zip';
-import { DateTime } from '@potentiel-domain/common';
 
 import { getDossier } from './getDossier.js';
+import {
+  récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers,
+  récupérerFichier,
+} from './_helpers/index.js';
 
 export const getAttestationGarantiesFinancières = async (dossierNumber: number) => {
   const logger = getLogger('ds-api-client');
@@ -36,14 +37,17 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
     }
 
     if (attestationConstitutionGf.length > 1) {
-      return await récupérerAttestationAvecPlusieursFichiers({
+      return await récupérerAttestationGarantiesFinancièresAvecPlusieursFichiers({
         dossierNumber,
         dateConstitution: dateConstitutionGf,
         attestations: attestationConstitutionGf,
       });
     }
 
-    const fichier = await récupérerFichier(attestationConstitutionGf[0], dossierNumber);
+    const fichier = await récupérerFichier({
+      attestation: attestationConstitutionGf[0],
+      dossierNumber,
+    });
 
     return {
       attestation: {
@@ -63,62 +67,4 @@ export const getAttestationGarantiesFinancières = async (dossierNumber: number)
     );
     return Option.none;
   }
-};
-
-const récupérerFichier = async (
-  attestation: { url: string; contentType: string },
-  dossierNumber: number,
-) => {
-  const fichier = await fetch(attestation.url);
-
-  if (!fichier.ok) {
-    throw new Error(
-      `Impossible de récupérer l'attestation de garanties financières pour le dossier ${dossierNumber}`,
-    );
-  }
-
-  if (!fichier.body) {
-    throw new Error(
-      `Le fichier de l'attestation de garanties financières est introuvable pour le dossier ${dossierNumber}`,
-    );
-  }
-  return fichier;
-};
-
-type RécupérerAttestatestionAvecPlusieursFichiers = {
-  dateConstitution: DateTime.RawType;
-  dossierNumber: number;
-  attestations: Array<{ url: string; contentType: string }>;
-};
-
-const récupérerAttestationAvecPlusieursFichiers = async ({
-  dossierNumber,
-  dateConstitution,
-  attestations,
-}: RécupérerAttestatestionAvecPlusieursFichiers) => {
-  const documents = [];
-
-  for (const attestation of attestations) {
-    const fichier = await récupérerFichier(attestation, dossierNumber);
-
-    documents.push(await fichier.blob());
-  }
-
-  const plusieurFichiersAvecDesFormatsDifférents =
-    new Set(attestations.map((a) => a.contentType)).size > 1;
-
-  const attestation = plusieurFichiersAvecDesFormatsDifférents
-    ? {
-        content: (await zipDocuments(documents)).stream(),
-        format: 'application/zip',
-      }
-    : {
-        content: (await mergeDocuments(documents)).stream(),
-        format: 'application/pdf',
-      };
-
-  return {
-    dateConstitution,
-    attestation,
-  };
 };
