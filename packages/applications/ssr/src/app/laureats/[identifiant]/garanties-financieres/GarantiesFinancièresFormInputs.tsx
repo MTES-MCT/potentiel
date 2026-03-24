@@ -57,6 +57,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
         options={typesGarantiesFinancières}
         state={validationErrors['type'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['type']}
+        className="w-fit"
       />
 
       {typeSélectionné === 'avec-date-échéance' && (
@@ -69,6 +70,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
           }
           state={validationErrors['dateEcheance'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateEcheance']}
+          small
         />
       )}
 
@@ -83,6 +85,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
+        small
       />
 
       <UploadNewOrModifyExistingDocument

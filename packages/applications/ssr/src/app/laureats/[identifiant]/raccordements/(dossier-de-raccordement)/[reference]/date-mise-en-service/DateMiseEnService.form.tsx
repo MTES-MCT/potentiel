@@ -56,6 +56,7 @@ export const DateMiseEnServiceForm: FC<DateMiseEnServiceFormProps> = ({
         required
         state={validationErrors['dateMiseEnService'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateMiseEnService']}
+        small
       />
     </Form>
   );

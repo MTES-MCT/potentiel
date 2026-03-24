@@ -140,6 +140,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         max={now()}
         defaultValue={dateQualification}
         required
+        small
       />
     </Form>
   );

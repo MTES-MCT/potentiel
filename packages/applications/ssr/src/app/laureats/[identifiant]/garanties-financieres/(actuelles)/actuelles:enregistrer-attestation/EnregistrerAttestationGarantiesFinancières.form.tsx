@@ -53,6 +53,7 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
+        small
       />
 
       <UploadNewOrModifyExistingDocument

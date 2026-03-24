@@ -66,6 +66,7 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         required
         state={validationErrors['dateSignature'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateSignature']}
+        small
       />
 
       <UploadNewOrModifyExistingDocument
