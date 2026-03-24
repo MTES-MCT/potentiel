@@ -5,7 +5,7 @@ import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { LauréatEntity } from '../lauréat.entity.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Dépôt,
@@ -157,10 +157,11 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: Where.matchAny(
+              Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+                typeActionnariat,
+              ),
+            ),
           },
         },
         {

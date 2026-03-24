@@ -73,14 +73,14 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           {période.addendums?.paragraphePrix ? (
             <Text> {période.addendums.paragraphePrix}</Text>
           ) : null}
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {project.isGouvernancePartagée && (
             <Text>
               {' '}
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
               d’Achèvement de l’Installation.{' '}
             </Text>
           )}
-          {project.actionnariat === 'financement-collectif' && (
+          {project.isFinancementCollectif && (
             <Text>
               {' '}
               Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la
@@ -183,7 +183,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             {appelOffre.paragrapheAttestationConformite} du cahier des charges&thinsp;;
           </Text>
 
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {project.isGouvernancePartagée && (
             <Text
               style={{
                 marginTop: 10,
@@ -194,7 +194,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             </Text>
           )}
 
-          {project.actionnariat === 'financement-collectif' && (
+          {project.isFinancementCollectif && (
             <Text
               style={{
                 marginTop: 10,

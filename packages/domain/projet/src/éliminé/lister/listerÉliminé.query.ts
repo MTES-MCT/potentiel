@@ -78,10 +78,11 @@ export const registerListerÉliminéQuery = ({
           famille: Where.equal(famille),
           nomProjet: Where.like(nomProjet),
           localité: { région: Where.matchAny(scope.régions) },
-          actionnariat:
-            typeActionnariat && typeActionnariat.length > 0
-              ? Where.matchAny(typeActionnariat)
-              : undefined,
+          actionnariat: Where.matchAny(
+            Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+              typeActionnariat,
+            ),
+          ),
         },
         join: [
           {

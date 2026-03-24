@@ -121,10 +121,11 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: Where.matchAny(
+              Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+                typeActionnariat,
+              ),
+            ),
             période: Where.equal(periode),
             famille: Where.equal(famille),
           },

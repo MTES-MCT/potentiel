@@ -44,14 +44,14 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '
             : ' '}
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {project.isGouvernancePartagée && (
             <Text>
               Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} à la
               gouvernance partagée jusqu’à dix ans minimum après la Date d’Achèvement de
               l’Installation.
             </Text>
           )}
-          {project.actionnariat === 'financement-collectif' && (
+          {project.isFinancementCollectif && (
             <Text>
               Vous vous êtes engagés{addFootNote(appelOffre.renvoiEngagementIPFPGPFC)} au
               financement collectif jusqu’à trois ans minimum après la Date d’Achèvement de
@@ -147,7 +147,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>
 
-          {project.actionnariat === 'gouvernance-partagée' && (
+          {project.isGouvernancePartagée && (
             <Text
               style={{
                 marginTop: 10,
@@ -157,8 +157,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: MakeLaureatProps) =
               {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
             </Text>
           )}
-
-          {project.actionnariat === 'financement-collectif' && (
+          {project.isFinancementCollectif && (
             <Text
               style={{
                 marginTop: 10,

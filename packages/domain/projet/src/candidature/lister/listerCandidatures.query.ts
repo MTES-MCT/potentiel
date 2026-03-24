@@ -6,7 +6,7 @@ import { Email } from '@potentiel-domain/common';
 import { CandidatureEntity } from '../candidature.entity.js';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
 import * as StatutCandidature from '../statutCandidature.valueType.js';
-import { DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
 import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '../index.js';
 
 export type CandidaturesListItemReadModel = {
@@ -75,10 +75,9 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),
-        actionnariat:
-          typeActionnariat && typeActionnariat.length > 0
-            ? Where.matchAny(typeActionnariat)
-            : undefined,
+        actionnariat: Where.matchAny(
+          Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
+        ),
         nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },

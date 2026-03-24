@@ -119,10 +119,9 @@ export const registerListerÉliminéEnrichiQuery = ({
           période: Where.equal(periode),
           famille: Where.equal(famille),
           localité: { région: Where.matchAny(scope.régions) },
-          actionnariat:
-            typeActionnariat && typeActionnariat.length > 0
-              ? Where.matchAny(typeActionnariat)
-              : undefined,
+          actionnariat: Where.matchAny(
+            TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
+          ),
         },
         join: [
           {

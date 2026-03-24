@@ -8,4 +8,8 @@ export const getActionnariatTypeLabel = (type: Candidature.TypeActionnariat.RawT
     .with('financement-participatif', () => 'Financement Participatif')
     .with('gouvernance-partagée', () => 'Gouvernance Partagée')
     .with('investissement-participatif', () => 'Investissement Participatif')
+    .with(
+      'financement-collectif-et-gouvernance-partagée',
+      () => 'Financement Collectif et Gouvernance Partagée',
+    )
     .exhaustive();

@@ -58,13 +58,15 @@ const fakeProject: AttestationPPE2Options = {
   unitePuissance: 'MWc',
   coefficientKChoisi: undefined,
   autorisation: undefined,
+  isFinancementCollectif: false,
+  isGouvernancePartagée: false,
 };
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
   args: {
     projet: {
       ...fakeProject,
-      actionnariat: 'financement-collectif',
+      isFinancementCollectif: true,
       appelOffre: autoconsommationMetropolePPE2,
       période: autoconsommationMetropolePPE2.periodes[0],
     },
@@ -75,7 +77,7 @@ export const LaureatPPE2BatimentGouvernancePartagee: Story = {
   args: {
     projet: {
       ...fakeProject,
-      actionnariat: 'gouvernance-partagée',
+      isGouvernancePartagée: true,
       appelOffre: batimentPPE2,
       période: batimentPPE2.periodes[0],
     },

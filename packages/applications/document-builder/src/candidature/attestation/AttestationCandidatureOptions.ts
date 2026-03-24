@@ -35,8 +35,10 @@ export type AttestationCRE4Options = Common & {
 };
 
 type PPE2BaseOptions = Common & {
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagée';
+  isFinancementCollectif: boolean;
+  isGouvernancePartagée: boolean;
 };
+
 export type AttestationPPE2V1Options = PPE2BaseOptions & {
   template: 'ppe2.v1';
 };

@@ -104,10 +104,11 @@ export const registerListerLauréatQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
-              typeActionnariat && typeActionnariat.length > 0
-                ? Where.matchAny(typeActionnariat)
-                : undefined,
+            actionnariat: Where.matchAny(
+              Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
+                typeActionnariat,
+              ),
+            ),
           },
         },
       ],

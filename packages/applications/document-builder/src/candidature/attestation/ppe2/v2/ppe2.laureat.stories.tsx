@@ -57,13 +57,15 @@ const fakeProject = {
   unitePuissance: 'MWc',
   coefficientKChoisi: undefined,
   autorisation: undefined,
+  isFinancementCollectif: false,
+  isGouvernancePartagée: false,
 } satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre' | 'cahierDesCharges'>;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
   args: {
     projet: {
       ...fakeProject,
-      actionnariat: 'financement-collectif',
+      isFinancementCollectif: true,
       appelOffre: autoconsommationMetropolePPE2,
       période: autoconsommationMetropolePPE2.periodes[0],
       famille: autoconsommationMetropolePPE2.periodes[0].familles[0],
@@ -75,7 +77,8 @@ export const LaureatPPE2BatimentGouvernancePartagee: Story = {
   args: {
     projet: {
       ...fakeProject,
-      actionnariat: 'gouvernance-partagée',
+      isFinancementCollectif: true,
+      isGouvernancePartagée: true,
       appelOffre: batimentPPE2,
       période: batimentPPE2.periodes[0],
       famille: batimentPPE2.periodes[0].familles[0],
@@ -139,7 +142,7 @@ export const LaureatPPE2BatimentAvecCoefficientK: Story = {
       ...fakeProject,
       appelOffre: batimentPPE2,
       période: batimentPPE2.periodes[8],
-      actionnariat: 'gouvernance-partagée',
+      isGouvernancePartagée: true,
       coefficientKChoisi: true,
     },
   },
