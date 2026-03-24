@@ -53,6 +53,8 @@ const fakeProject = {
   unitePuissance: 'MW',
   coefficientKChoisi: undefined,
   autorisation: undefined,
+  isFinancementCollectif: false,
+  isGouvernancePartagée: false,
 } satisfies AttestationPPE2V2Options;
 
 export const EliminePPE2AuDessusDePcible: Story = {

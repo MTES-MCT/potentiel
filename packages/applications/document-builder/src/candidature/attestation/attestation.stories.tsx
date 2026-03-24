@@ -50,6 +50,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
   const période =
     appelOffre.periodes.find((x) => x.id === périodeId) ??
     appelOffre.periodes[appelOffre.periodes.length - 1];
+
   const data = {
     appelOffre,
     période,
@@ -59,6 +60,8 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     evaluationCarbone: 42,
     isFinancementParticipatif: true,
     isInvestissementParticipatif: true,
+    isGouvernancePartagée: true,
+    isFinancementCollectif: true,
     engagementFournitureDePuissanceAlaPointe: true,
     motifsElimination: 'motifsElimination',
     notifiedOn: Date.now(),
@@ -76,6 +79,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     coefficientKChoisi: undefined,
     autorisation: undefined,
   } satisfies Partial<AttestationCandidatureOptions>;
+
   if (!période.certificateTemplate || période.certificateTemplate === 'ppe2.v2') {
     return {
       template: 'ppe2.v2',
