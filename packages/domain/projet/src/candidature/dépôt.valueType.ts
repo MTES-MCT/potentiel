@@ -2,7 +2,7 @@ import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domai
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur/index.js';
-import { GarantiesFinancières } from '../lauréat/index.js';
+import { GarantiesFinancières, Raccordement } from '../lauréat/index.js';
 import { Lauréat } from '../index.js';
 import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
 
@@ -50,6 +50,7 @@ export type RawType = {
         tauxPrévisionnelACC?: number;
       }
     | undefined;
+  référencesRaccordement?: Array<Raccordement.RéférenceDossierRaccordement.RawType>;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -84,6 +85,7 @@ export type ValueType = ReadonlyValueType<{
         tauxPrévisionnelACC?: number;
       }
     | undefined;
+  référencesRaccordement?: Array<Raccordement.RéférenceDossierRaccordement.ValueType>;
 
   formatter(): RawType;
 }>;
@@ -134,6 +136,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         tauxPrévisionnelACC: plain.natureDeLExploitation.tauxPrévisionnelACC,
       }
     : undefined,
+  référencesRaccordement: plain.référencesRaccordement?.map((r) =>
+    Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r.référence),
+  ),
 
   estÉgaleÀ(valueType) {
     return (
@@ -169,7 +174,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
-      )
+      ) &&
+      areEqualArrays(valueType.référencesRaccordement, this.référencesRaccordement)
     );
   },
   formatter() {
@@ -220,6 +226,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
+      référencesRaccordement: this.référencesRaccordement?.map((r) => r.formatter()),
     };
   },
 });
@@ -292,6 +299,9 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           tauxPrévisionnelACC: raw.natureDeLExploitation.tauxPrévisionnelACC,
         })
       : undefined,
+    référencesRaccordement: raw.référencesRaccordement?.map((r) =>
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r),
+    ),
   });
 
 const bindOptional = <TValue, TValueType>(
@@ -305,6 +315,9 @@ const areEqual = <TValueType extends ReadonlyValueType<unknown>>(
 ) => (v1 === undefined ? v2 === undefined : v2 !== undefined && v1.estÉgaleÀ(v2));
 
 const areEqualArrays = <TValueType extends ReadonlyValueType<unknown>>(
-  v1: TValueType[],
-  v2: TValueType[],
-) => v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
+  v1: TValueType[] | undefined,
+  v2: TValueType[] | undefined,
+) =>
+  v1 === undefined
+    ? v2 === undefined
+    : v2 !== undefined && v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
