@@ -1,5 +1,4 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
-import { Where } from '@potentiel-domain/entity';
 
 export const ppe2Types = [
   'financement-collectif',
@@ -93,7 +92,7 @@ export const getTypeActionnariaWhereConditionsForQuery = (typeActionnariat?: Arr
   ) {
     typeActionnariat.push('financement-collectif-et-gouvernance-partagée');
   }
-  return Where.matchAny(typeActionnariat);
+  return typeActionnariat;
 };
 
 class TypeActionnariatInvalideError extends InvalidOperationError {

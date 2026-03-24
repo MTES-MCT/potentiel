@@ -75,8 +75,9 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         période: Where.equal(période),
         famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),
-        actionnariat:
+        actionnariat: Where.matchAny(
           Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
+        ),
         nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },

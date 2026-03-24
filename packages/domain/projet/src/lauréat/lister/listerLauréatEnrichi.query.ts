@@ -157,10 +157,11 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
-            actionnariat:
+            actionnariat: Where.matchAny(
               Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
                 typeActionnariat,
               ),
+            ),
           },
         },
         {
