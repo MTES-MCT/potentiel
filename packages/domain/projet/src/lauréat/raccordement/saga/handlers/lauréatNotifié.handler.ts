@@ -2,10 +2,13 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Email } from '@potentiel-domain/common';
 
 import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../../../index.js';
 import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
 import { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
+import { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
+import { FormatRéférenceDossierRaccordementInvalideError } from '../../errors.js';
 
 type HandlerLauréatNotifiéProps = {
   event: LauréatNotifiéEvent;
@@ -42,5 +45,24 @@ export const handleLauréatNotifié = async ({
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       identifiantGestionnaireRéseau,
     },
+  });
+
+  candidature.dépôt.référencesRaccordement?.forEach(async (référence) => {
+    try {
+      await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
+        type: 'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
+        data: {
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+          référenceDossier: référence,
+          transmisePar: Email.système,
+        },
+      });
+    } catch (error) {
+      if (error instanceof FormatRéférenceDossierRaccordementInvalideError) {
+        return;
+      } else {
+        throw error;
+      }
+    }
   });
 };
