@@ -220,6 +220,7 @@ const créerDépôt = (
       dépôt.natureDeLExploitation,
       champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
+    raccordements: [],
   };
 
   if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {

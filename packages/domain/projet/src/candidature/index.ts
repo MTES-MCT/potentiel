@@ -109,6 +109,7 @@ export * as Dépôt from './dépôt.valueType.js';
 export * as Instruction from './instruction.valueType.js';
 export * as TypologieInstallation from './typologieInstallation.valueType.js';
 export type * as DétailCandidature from './détail/détailCandidature.valueType.js';
+export * as RaccordementDépôt from './raccordementDépôt.valueType.js';
 
 // Type
 export type * from './détail/détailCandidature.valueType.js';
