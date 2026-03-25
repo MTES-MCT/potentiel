@@ -31,7 +31,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "npm run format --workspaces --if-present",
-    "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
+    "storybook:documents": "npm run storybook -w @potentiel-applications/document-builder",
     "db:restart": "docker stop potentiel_db && docker rm potentiel_db && npm run up",
     "pretest": "npm run down:test && npm run up:test && npm run build:test",
     "test:libraries": "npm run pretest && turbo run test --filter=@potentiel-domain/* --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
