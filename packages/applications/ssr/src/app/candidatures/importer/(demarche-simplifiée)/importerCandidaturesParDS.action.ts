@@ -122,11 +122,9 @@ const action: FormAction<FormState, typeof schema> = async (
             natureDeLExploitation: undefined,
             dateÉchéanceGf: undefined,
             puissanceProjetInitial: undefined,
-            ...dépôt,
-            // On force ces valeurs à undefined puisqu'elles
-            // seront récupérées lors de la désignation lauréate de la candidature
-            attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
+            attestationConstitutionGf: undefined,
+            ...dépôt,
             puissance:
               appelOffre === 'PPE2 - Petit PV Bâtiment'
                 ? convertirKWcEnMWc(dépôt.puissance)
@@ -143,7 +141,6 @@ const action: FormAction<FormState, typeof schema> = async (
           détailsValue: {
             typeImport: 'démarches-simplifiées',
             demarcheId: demarcheId.toString(),
-            pièceJustificativeGf: dossier.fichiers.garantiesFinancières?.url ?? '',
           },
           instructionValue: instruction,
         });

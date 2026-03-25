@@ -5,10 +5,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter.js';
 
-export const récupererConstututionGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.RécupererConstitutionGarantiesFinancièresPort =
+export const récupererConstitutionGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.RécupererConstitutionGarantiesFinancièresPort =
   async (identifiantProjet) => {
     const ao = await loadAppelOffreAggregateAdapter(identifiantProjet.appelOffre);
-    const logger = getLogger('récupererConstututionGarantiesFinancièresAdapter');
+    const logger = getLogger('récupererConstitutionGarantiesFinancièresAdapter');
 
     if (Option.isNone(ao)) {
       throw new Error("Appel d'offre introuvable");

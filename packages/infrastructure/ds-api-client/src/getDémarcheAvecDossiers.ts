@@ -3,12 +3,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getDSApiClient } from './graphql/index.js';
-import {
-  DeepPartial,
-  mapApiResponseToDépôt,
-  mapApiResponseToDétails,
-  mapApiResponseToFichiers,
-} from './_helpers/index.js';
+import { DeepPartial, mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
 
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
@@ -44,21 +39,13 @@ export const getDémarcheAvecDossiers = async (démarcheId: number) => {
       .map((dossier) => {
         const { champs } = dossier;
 
-        const fichiers = mapApiResponseToFichiers({
-          champs: dossier.champs,
-        });
-
         return {
           numeroDS: dossier.number,
           dépôt: {
             ...mapApiResponseToDépôt({
               champs,
             }),
-            attestationConstitutionGf: fichiers.garantiesFinancières
-              ? { format: fichiers.garantiesFinancières.contentType }
-              : undefined,
           } satisfies DeepPartial<Candidature.Dépôt.RawType>,
-          fichiers,
           détails: mapApiResponseToDétails({
             champs,
           }),

@@ -17,7 +17,10 @@
     "@potentiel-domain/projet": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "graphql-request": "7.4.0"
+    "@potentiel-libraries/pdf": "*",
+    "graphql-request": "7.4.0",
+    "pizzip": "3.1.8",
+    "mime-types": "3.0.2"
   },
   "devDependencies": {
     "@graphql-codegen/add": "6.0.0",
