@@ -47,22 +47,24 @@ export const handleLauréatNotifié = async ({
     },
   });
 
-  candidature.dépôt.référencesRaccordement?.forEach(async (référence) => {
-    try {
-      await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
-        type: 'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
-        data: {
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-          référenceDossier: référence,
-          transmisePar: Email.système,
-        },
-      });
-    } catch (error) {
-      if (error instanceof FormatRéférenceDossierRaccordementInvalideError) {
-        return;
-      } else {
-        throw error;
+  if (candidature.dépôt.référencesRaccordement?.length) {
+    for (const référence of candidature.dépôt.référencesRaccordement) {
+      try {
+        await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
+          type: 'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            référenceDossier: référence,
+            transmisePar: Email.système,
+          },
+        });
+      } catch (error) {
+        if (error instanceof FormatRéférenceDossierRaccordementInvalideError) {
+          continue;
+        } else {
+          throw error;
+        }
       }
     }
-  });
+  }
 };

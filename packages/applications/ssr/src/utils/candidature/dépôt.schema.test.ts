@@ -32,6 +32,7 @@ const minimumValues = {
   dateÉchéanceGf: '01/01/2025',
   dateConstitutionGf: '01/01/2024',
   typologieInstallation: [],
+  référencesRaccordement: ['ref1', 'ref2'],
 };
 
 const expectedMinimumValues = {
