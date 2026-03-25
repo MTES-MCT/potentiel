@@ -5,8 +5,8 @@ const config: StorybookConfig = {
   stories: ['../src/**/*.stories.tsx'],
   addons: [
     '@storybook/addon-links',
-    '@storybook/addon-essentials',
     '@storybook/addon-webpack5-compiler-swc',
+    '@storybook/addon-docs',
   ],
   framework: '@storybook/react-webpack5',
   staticDirs: ['../src/assets'],
