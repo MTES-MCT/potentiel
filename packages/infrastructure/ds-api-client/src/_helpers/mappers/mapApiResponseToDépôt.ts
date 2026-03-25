@@ -12,10 +12,11 @@ import {
   getTypologieInstallation,
   getAutorisation,
   getFournisseurs,
+  getRéférencesRaccordement,
+  getNatureDeLExploitation,
+  getTypeActionnariat,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
-import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation.js';
-import { getTypeActionnariat } from '../getters/getTypeActionnariat.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -149,6 +150,8 @@ export const mapApiResponseToDépôt = ({
       nomChampFinancementCollectif: 'financementCollectif',
       nomChampGouvernancePartagée: 'gouvernancePartagée',
     }),
+
+    référencesRaccordement: getRéférencesRaccordement(champs),
 
     // Non disponibles sur Démarches simplifiées
     puissanceALaPointe: undefined,

@@ -260,6 +260,9 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       puissanceProjetInitial: previous.puissanceProjetInitial,
+      ...(previous.référencesRaccordement && {
+        référencesRaccordement: previous.référencesRaccordement.map((r) => r.formatter()),
+      }),
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
