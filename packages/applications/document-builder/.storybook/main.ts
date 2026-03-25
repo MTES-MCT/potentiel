@@ -13,12 +13,8 @@ export default defineMain({
     options: {},
   },
   stories: ['../src/**/*.stories.tsx'],
-  addons: [
-    //👇 Use getAbsolutePath when referencing Storybook's addons and frameworks
-    // getAbsolutePath('@storybook/addon-docs'),
-  ],
   staticDirs: [{ from: '../src/assets', to: '/' }],
-  viteFinal: async (config, { configType }) => {
+  viteFinal: async (config) => {
     config.plugins ??= [];
     config.plugins.push(nodePolyfills());
     return config;
