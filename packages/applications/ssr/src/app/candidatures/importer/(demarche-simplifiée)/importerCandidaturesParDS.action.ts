@@ -20,6 +20,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
+import { cleanDétailsKeys } from '@/utils/candidature';
 
 const schema = zod.object({
   appelOffre: zod.string(),
@@ -138,6 +139,7 @@ const action: FormAction<FormState, typeof schema> = async (
             },
           },
           détailsValue: {
+            ...cleanDétailsKeys(dossier.détails),
             typeImport: 'démarches-simplifiées',
             demarcheId: demarcheId.toString(),
             pièceJustificativeGf: dossier.fichiers.garantiesFinancières?.url ?? '',
