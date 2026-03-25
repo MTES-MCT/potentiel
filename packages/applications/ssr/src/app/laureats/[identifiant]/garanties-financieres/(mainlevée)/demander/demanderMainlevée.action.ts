@@ -38,8 +38,6 @@ const action: FormAction<FormState, typeof schema> = async (
           enregistréeLeValue: new Date().toISOString(),
         },
       });
-
-      await new Promise((r) => setTimeout(r, 1500));
     }
 
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
