@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
+    "@storybook/react": "^10.3.3",
     "@storybook/react-vite": "^10.3.3",
     "@types/path-browserify": "^1.0.3",
     "copyfiles": "2.4.1",
