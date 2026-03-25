@@ -147,6 +147,13 @@ const créerDépôt = (
   const { appelOffre, période } = identifiantProjet;
 
   const aoData = appelsOffreData.find((x) => x.id === appelOffre);
+  const référentielPériode = appelsOffreData
+    .find((ao) => ao.id === appelOffre)
+    ?.periodes.find((p) => p.id === période);
+  const champsSupplémentaires = {
+    ...aoData?.champsSupplémentaires,
+    ...référentielPériode?.champsSupplémentaires,
+  };
 
   const localité: Candidature.Localité.RawType = {
     adresse1: faker.location.streetAddress(),
@@ -178,12 +185,10 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
     coefficientKChoisi:
-      aoData?.champsSupplémentaires?.coefficientKChoisi === 'requis'
-        ? faker.datatype.boolean()
-        : undefined,
+      champsSupplémentaires?.coefficientKChoisi === 'requis' ? faker.datatype.boolean() : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
-      aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+      champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
@@ -196,31 +201,25 @@ const créerDépôt = (
     installateur: undefined,
     ...dépôt,
     localité,
-    autorisation: dépôt.autorisation
-      ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisation }
-      : undefined,
+    autorisation: getAutorisationFixture(
+      dépôt.autorisation,
+      champsSupplémentaires?.autorisation === 'requis',
+    ),
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
-      aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis',
+      champsSupplémentaires?.dispositifDeStockage === 'requis',
     ),
     natureDeLExploitation: getNatureDeLExploitationFixture(
       dépôt.natureDeLExploitation,
-      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis',
+      champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
   };
 
-  const référentielPériode = appelsOffreData
-    .find((ao) => ao.id === appelOffre)
-    ?.periodes.find((p) => p.id === période);
-
-  if (
-    référentielPériode?.champsSupplémentaires?.coefficientKChoisi &&
-    !('coefficientKChoisi' in dépôt)
-  ) {
+  if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {
     dépôtValue.coefficientKChoisi = faker.datatype.boolean();
   }
 
@@ -278,9 +277,35 @@ const getNatureDeLExploitationFixture = (
     : {
         typeNatureDeLExploitation,
         tauxPrévisionnelACI:
-          typeNatureDeLExploitation === 'vente-avec-injection-du-surplus'
+          typeNatureDeLExploitation === 'autoconsommation-individuelle' ||
+          typeNatureDeLExploitation === 'autoconsommation-individuelle-et-collective'
+            ? faker.number.int({ min: 0, max: 100 })
+            : undefined,
+        tauxPrévisionnelACC:
+          typeNatureDeLExploitation === 'autoconsommation-collective' ||
+          typeNatureDeLExploitation === 'autoconsommation-individuelle-et-collective'
             ? faker.number.int({ min: 0, max: 100 })
             : undefined,
         ...dépôtValue,
       };
+};
+
+const getAutorisationFixture = (
+  dépôtValue: Partial<ImporterCandidature['dépôtValue']['autorisation']>,
+  champsRequis: boolean,
+) => {
+  const défaultValue: ImporterCandidature['dépôtValue']['autorisation'] = {
+    date: DateTime.now().formatter(),
+    numéro: '12',
+  };
+
+  let autorisation: ImporterCandidature['dépôtValue']['autorisation'] | undefined;
+
+  if (dépôtValue) {
+    autorisation = { ...défaultValue, ...dépôtValue };
+  } else if (champsRequis) {
+    autorisation = défaultValue;
+  }
+
+  return autorisation;
 };

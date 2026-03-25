@@ -257,6 +257,9 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Champs soumis à demande
+
+    const champsSupplémentaire = this.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,
       dateImport: notifiéLe,
@@ -287,19 +290,18 @@ export class LauréatAggregate extends AbstractAggregate<
       importéeLe: notifiéLe,
       puissance: this.projet.candidature.puissance,
       puissanceDeSite:
-        this.projet.appelOffre.champsSupplémentaires?.puissanceDeSite &&
-        this.projet.candidature.dépôt.puissanceDeSite
+        champsSupplémentaire?.puissanceDeSite && this.projet.candidature.dépôt.puissanceDeSite
           ? this.projet.candidature.dépôt.puissanceDeSite
           : undefined,
     });
 
     // Champs supplémentaires, dont l'import dépend de l'appel d'offres
     if (
-      this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined ||
+      champsSupplémentaire?.installateur !== undefined ||
       (this.projet.candidature.dépôt.typologieInstallation &&
-        this.projet.appelOffre.champsSupplémentaires?.typologieInstallation !== undefined) ||
+        champsSupplémentaire?.typologieInstallation !== undefined) ||
       (this.projet.candidature.dépôt.dispositifDeStockage &&
-        this.projet.appelOffre.champsSupplémentaires?.dispositifDeStockage !== undefined)
+        champsSupplémentaire?.dispositifDeStockage !== undefined)
     ) {
       await this.#installation.importer({
         installateur: this.projet.candidature.installateur ?? '',
@@ -311,13 +313,14 @@ export class LauréatAggregate extends AbstractAggregate<
     }
 
     if (
-      this.projet.appelOffre.champsSupplémentaires?.natureDeLExploitation &&
+      champsSupplémentaire?.natureDeLExploitation &&
       this.projet.candidature.natureDeLExploitation
     ) {
       await this.natureDeLExploitation.importer({
         typeNatureDeLExploitation:
           this.projet.candidature.natureDeLExploitation.typeNatureDeLExploitation,
         tauxPrévisionnelACI: this.projet.candidature.natureDeLExploitation.tauxPrévisionnelACI,
+        tauxPrévisionnelACC: this.projet.candidature.natureDeLExploitation.tauxPrévisionnelACC,
         importéeLe: notifiéLe,
         importéePar: notifiéPar,
       });

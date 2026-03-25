@@ -172,8 +172,8 @@ Fonctionnalité: Corriger une candidature
             | appel d'offres                   | PPE2 - Petit PV Bâtiment         |
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |
         Quand le DGEC validateur corrige la candidature avec :
-            | type de nature de l'exploitation | vente-avec-injection-du-surplus |
-            | taux prévisionnel aci            | 54                              |
+            | type de nature de l'exploitation | autoconsommation-individuelle |
+            | taux prévisionnel aci            | 54                            |
         Alors la candidature devrait être consultable
 
     Scénario: Corriger le dispositif de stockadge d'une candidature pour un appel d'offres qui a ce champ requis

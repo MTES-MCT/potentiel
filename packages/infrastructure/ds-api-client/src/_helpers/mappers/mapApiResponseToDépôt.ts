@@ -36,7 +36,6 @@ const colonnes = {
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
 
   installateur: "Identité de l'installateur",
-  natureDeLExploitation: "Nature de l'exploitation",
   coefficientKChoisi: "Souhaitez-vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
@@ -61,8 +60,8 @@ export const mapApiResponseToDépôt = ({
   } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
 
   const accessorNatureDeLExploitation = createDossierAccessor(champs, {
-    typeDeNatureDeLExploitation: "Nature de l'exploitation",
     tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+    tauxPrévisionnelACC: "Taux d'autoconsommation collective (ACC) prévisionnel",
   } satisfies Record<keyof Candidature.Dépôt.RawType['natureDeLExploitation'], string>);
 
   const accessorTypeActionnariat = createDossierAccessor(champs, {
@@ -131,8 +130,8 @@ export const mapApiResponseToDépôt = ({
 
     natureDeLExploitation: getNatureDeLExploitation({
       accessor: accessorNatureDeLExploitation,
-      nomChampType: 'typeDeNatureDeLExploitation',
-      nomChampTaux: 'tauxPrévisionnelACI',
+      nomChampTauxPrévisionnelACI: 'tauxPrévisionnelACI',
+      nomChampTauxPrévisionnelACC: 'tauxPrévisionnelACC',
     }),
 
     autorisation: getAutorisation({

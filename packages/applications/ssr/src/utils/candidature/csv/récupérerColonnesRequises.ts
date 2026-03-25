@@ -24,7 +24,7 @@ export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = ({
       'puissanceDuDispositifDeStockageEnKW',
     ],
     installateur: ['installateur'],
-    natureDeLExploitation: ['natureDeLExploitation', 'tauxPrévisionnelACI'],
+    natureDeLExploitation: ['natureDeLExploitation', 'tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
     puissanceALaPointe: ['puissanceALaPointe'],
     puissanceDeSite: ['puissanceDeSite'],
     typologieInstallation: [

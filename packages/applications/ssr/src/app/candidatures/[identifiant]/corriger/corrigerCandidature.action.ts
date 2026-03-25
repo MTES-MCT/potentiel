@@ -133,6 +133,7 @@ const mapBodyToUseCaseData = (
             typeNatureDeLExploitation:
               previous.dépôt.natureDeLExploitation?.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
+            tauxPrévisionnelACC: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACC,
           }
         : undefined,
     },

@@ -275,7 +275,7 @@ describe('Schéma dépôt', () => {
         autorisation: { numéro: 'URB-01', date: '12/12/2022' },
         puissanceDeSite: '200',
         natureDeLExploitation: {
-          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          typeNatureDeLExploitation: 'autoconsommation-individuelle',
           tauxPrévisionnelACI: '10',
         },
         dispositifDeStockage: {
@@ -305,7 +305,7 @@ describe('Schéma dépôt', () => {
         },
         obligationDeSolarisation: true,
         natureDeLExploitation: {
-          typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+          typeNatureDeLExploitation: 'autoconsommation-individuelle',
           tauxPrévisionnelACI: 10,
         },
       });
@@ -385,38 +385,6 @@ describe('Schéma dépôt', () => {
       );
     });
 
-    test('taux prévisionnel ACI requis', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-du-surplus' },
-        tauxPrévisionnelACI: undefined,
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['natureDeLExploitation', 'tauxPrévisionnelACI'],
-        `"tauxPrévisionnelACI" est requis lorsque le type de la nature de l'exploitation est avec injection du surplus`,
-      );
-    });
-
-    test('taux prévisionnel ACI non attendu', () => {
-      const result = dépôtSchema.safeParse({
-        ...minimumValues,
-        natureDeLExploitation: {
-          typeNatureDeLExploitation: 'vente-avec-injection-en-totalité',
-          tauxPrévisionnelACI: '10',
-        },
-      });
-
-      assert(result.error);
-      assertError(
-        result,
-        ['natureDeLExploitation', 'tauxPrévisionnelACI'],
-        `"tauxPrévisionnelACI" doit être vide lorsque le type de la nature de l'exploitation est avec injection en totalité`,
-      );
-    });
-
     test(`Date et numéro d'autorisation attendus ensemble`, () => {
       const result = dépôtSchema.safeParse({
         ...minimumValues,
@@ -431,6 +399,110 @@ describe('Schéma dépôt', () => {
         ['autorisation'],
         "La date et le numéro de l'autorisation doivent être tous les deux renseignés.",
       );
+    });
+
+    describe(`nature de l'exploitation`, () => {
+      test('taux prévisionnel ACI requis', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: { typeNatureDeLExploitation: 'autoconsommation-individuelle' },
+          tauxPrévisionnelACI: undefined,
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACI'],
+          `Le taux prévisionnel ACI est requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle" (vente avec injection du surplus)`,
+        );
+      });
+
+      test('taux prévisionnel ACC requis', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: { typeNatureDeLExploitation: 'autoconsommation-collective' },
+          tauxPrévisionnelACC: undefined,
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACC'],
+          `Le taux prévisionnel ACC est requis lorsque la nature de l'exploitation est de type "autoconsommation collective"`,
+        );
+      });
+
+      test('taux prévisionnel ACC et ACI requis', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: {
+            typeNatureDeLExploitation: 'autoconsommation-individuelle-et-collective',
+          },
+          tauxPrévisionnelACC: undefined,
+          tauxprévisionnelACI: undefined,
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
+          `Les taux prévisionnels ACI et ACC sont requis lorsque la nature de l'exploitation est de type "autoconsommation individuelle et collective"`,
+        );
+      });
+
+      test('taux prévisionnels ACI et ACC non attendu en cas de vente avec injection en totalité', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: {
+            typeNatureDeLExploitation: 'vente-avec-injection-en-totalité',
+            tauxPrévisionnelACC: '10',
+            tauxPrévisionnelACI: '10',
+          },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACI', 'tauxPrévisionnelACC'],
+          `Les taux prévisionnels ACI et ACC doivent être vides lorsque l'exploitation est de type "vente avec injection en totalité"`,
+        );
+      });
+
+      test("taux prévisionnel ACC non attendu en cas d'autoconsommation individuelle exclusive", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: {
+            typeNatureDeLExploitation: 'autoconsommation-individuelle',
+            tauxPrévisionnelACC: '10',
+            tauxPrévisionnelACI: '10',
+          },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACC'],
+          `Le taux prévisionnel ACC doit être vide lorsque la nature de l'exploitation est de type "autoconsommation individuelle" (vente avec injection du surplus)`,
+        );
+      });
+
+      test("taux prévisionnel ACI non attendu en cas d'autoconsommation collective exclusive", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          natureDeLExploitation: {
+            typeNatureDeLExploitation: 'autoconsommation-collective',
+            tauxPrévisionnelACI: '10',
+            tauxPrévisionnelACC: '10',
+          },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['natureDeLExploitation', 'tauxPrévisionnelACI'],
+          `Le taux prévisionnel ACI doit être vide lorsque la nature de l'exploitation est de type "autoconsommation collective"`,
+        );
+      });
     });
   });
 });

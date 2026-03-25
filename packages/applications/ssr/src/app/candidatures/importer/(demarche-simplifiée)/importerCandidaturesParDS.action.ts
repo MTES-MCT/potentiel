@@ -131,7 +131,9 @@ const action: FormAction<FormState, typeof schema> = async (
                 : dépôt.puissance,
             puissanceDeSite:
               dépôt.puissanceDeSite !== undefined
-                ? convertirKWcEnMWc(dépôt.puissanceDeSite)
+                ? appelOffre === 'PPE2 - Petit PV Bâtiment'
+                  ? convertirKWcEnMWc(dépôt.puissanceDeSite)
+                  : dépôt.puissanceDeSite
                 : undefined,
             localité: {
               ...dépôt.localité,
