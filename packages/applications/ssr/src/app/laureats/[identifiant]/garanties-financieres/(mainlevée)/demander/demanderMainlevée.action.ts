@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   motif: zod.enum(['projet-abandonné', 'projet-achevé']),
 
-  // Pas nécessaire en cas d'abandon (géré dans le front et dans le domaine)
+  // Pas nécessaire en cas d'abandon, dans l'autre cas, l'erreur est gérée dans le front et dans le domaine
   attestationConformite: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
     optional: true,
