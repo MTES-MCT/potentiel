@@ -1,6 +1,6 @@
 'use client';
 
-import { randomBytes } from 'node:crypto';
+import { randomBytes } from 'crypto';
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
