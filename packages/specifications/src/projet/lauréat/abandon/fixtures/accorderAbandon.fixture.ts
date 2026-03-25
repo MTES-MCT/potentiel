@@ -5,7 +5,7 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 
 interface AccorderAbandon {
   readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly accordéeLe: string;
+  readonly accordéLe: string;
   readonly accordéePar: string;
 }
 
@@ -25,7 +25,7 @@ export class AccorderAbandonFixture
 
   #accordéLe!: string;
 
-  get accordéeLe(): string {
+  get accordéLe(): string {
     return this.#accordéLe;
   }
 
@@ -39,7 +39,7 @@ export class AccorderAbandonFixture
     const content = faker.word.words();
 
     const fixture: AccorderAbandon = {
-      accordéeLe: faker.date.soon().toISOString(),
+      accordéLe: faker.date.soon().toISOString(),
       accordéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
@@ -48,7 +48,7 @@ export class AccorderAbandonFixture
       ...partialFixture,
     };
 
-    this.#accordéLe = fixture.accordéeLe;
+    this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;

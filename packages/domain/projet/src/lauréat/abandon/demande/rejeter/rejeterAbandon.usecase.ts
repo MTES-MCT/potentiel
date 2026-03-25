@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-import { TypeDocumentAbandon } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentAbandon } from '../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { RejeterAbandonCommand } from './rejeterAbandon.command.js';
@@ -31,12 +31,11 @@ export const registerRejeterAbandonUseCase = () => {
     identifiantUtilisateurValue,
     rôleUtilisateurValue,
   }) => {
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentAbandon.abandonRejeté.formatter(),
-      dateRejetValue,
-      format,
-    );
+    const réponseSignée = DocumentAbandon.abandonRejeté({
+      identifiantProjet: identifiantProjetValue,
+      rejetéLe: dateRejetValue,
+      réponseSignée: { format },
+    });
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);

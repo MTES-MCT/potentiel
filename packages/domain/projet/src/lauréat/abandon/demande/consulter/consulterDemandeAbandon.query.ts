@@ -7,9 +7,9 @@ import { Find } from '@potentiel-domain/entity';
 import {
   AutoritéCompétente,
   DemandeAbandonEntity,
+  DocumentAbandon,
   StatutAbandon,
   StatutPreuveRecandidature,
-  TypeDocumentAbandon,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
@@ -97,6 +97,7 @@ export const registerConsulterDemandeAbandonQuery = ({
 };
 
 const mapToReadModel = (result: DemandeAbandonEntity) => {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(result.identifiantProjet);
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
@@ -104,12 +105,11 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
       raison: result.demande.raison,
       estUneRecandidature: !!result.demande.recandidature,
       pièceJustificative: result.demande.pièceJustificative
-        ? DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentAbandon.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
-            result.demande.pièceJustificative?.format,
-          )
+        ? DocumentAbandon.pièceJustificative({
+            identifiantProjet: result.identifiantProjet,
+            demandéLe: result.demande.demandéLe,
+            pièceJustificative: result.demande.pièceJustificative,
+          })
         : undefined,
       recandidature: result.demande.recandidature
         ? {
@@ -140,12 +140,11 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
         ? {
             demandéeLe: DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe),
             demandéePar: Email.convertirEnValueType(result.demande.confirmation.demandéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentAbandon.abandonÀConfirmer.formatter(),
-              DateTime.convertirEnValueType(result.demande.confirmation.demandéeLe).formatter(),
-              result.demande.confirmation.réponseSignée.format,
-            ),
+            réponseSignée: DocumentAbandon.abandonAConfirmer({
+              identifiantProjet: result.identifiantProjet,
+              confirmationDemandéeLe: result.demande.confirmation.demandéeLe,
+              réponseSignée: result.demande.confirmation.réponseSignée,
+            }),
             confirméLe: result.demande.confirmation.confirméLe
               ? DateTime.convertirEnValueType(result.demande.confirmation.confirméLe)
               : undefined,
@@ -168,31 +167,28 @@ const mapToReadModel = (result: DemandeAbandonEntity) => {
         ? {
             accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
             accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentAbandon.abandonAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
-              result.demande.accord.réponseSignée.format,
-            ),
+            réponseSignée: DocumentAbandon.abandonAccordé({
+              identifiantProjet: identifiantProjet.formatter(),
+              ...result.demande.accord,
+            }),
           }
         : undefined,
       rejet: result.demande.rejet
         ? {
             rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
             rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentAbandon.abandonRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
-              result.demande.rejet.réponseSignée.format,
-            ),
+            réponseSignée: DocumentAbandon.abandonRejeté({
+              identifiantProjet: result.identifiantProjet,
+              rejetéLe: result.demande.rejet.rejetéLe,
+              réponseSignée: result.demande.rejet.réponseSignée,
+            }),
           }
         : undefined,
       autoritéCompétente: AutoritéCompétente.convertirEnValueType(
         result.demande.autoritéCompétente,
       ),
     },
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    identifiantProjet,
     statut: StatutAbandon.convertirEnValueType(result.statut),
   } satisfies ConsulterDemandeAbandonReadModel;
 };

@@ -50,7 +50,7 @@ export type LauréatNotifiéEvent = DomainEvent<
     attestation: {
       format: string;
     };
-
+    attestation;
     nomProjet: string;
     localité: {
       adresse1: string;

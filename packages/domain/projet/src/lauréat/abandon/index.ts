@@ -95,6 +95,6 @@ export type { AbandonEntity } from './abandon.entity.js';
 
 // ValueTypes
 export * as StatutAbandon from './statutAbandon.valueType.js';
-export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType.js';
+export * as DocumentAbandon from './documentAbandon.valueType.js';
 export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType.js';
 export * as AutoritéCompétente from './autoritéCompétente.valueType.js';

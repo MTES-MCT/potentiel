@@ -170,14 +170,17 @@ async function créerAccordAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { demandéLe, recandidature } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
-  const { accordéeLe, accordéePar, réponseSignée } =
-    this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
-      accordéePar: this.utilisateurWorld.validateurFixture.email,
-      // dans le contexte d'une recandidature, l'accord a forcément été fait avant le 31/03/2025
-      ...(recandidature
-        ? { accordéeLe: faker.date.between({ from: demandéLe, to: '2025-03-31' }).toISOString() }
-        : {}),
-    });
+  const {
+    accordéLe: accordéeLe,
+    accordéePar,
+    réponseSignée,
+  } = this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+    accordéePar: this.utilisateurWorld.validateurFixture.email,
+    // dans le contexte d'une recandidature, l'accord a forcément été fait avant le 31/03/2025
+    ...(recandidature
+      ? { accordéLe: faker.date.between({ from: demandéLe, to: '2025-03-31' }).toISOString() }
+      : {}),
+  });
 
   await mediator.send<Lauréat.Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
@@ -281,7 +284,7 @@ async function annulerDemandeAbandon(this: PotentielWorld) {
 async function créerDemandePreuveRecandidature(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { accordéeLe } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
+  const { accordéLe: accordéeLe } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
   const { demandéeLe } =
     this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({

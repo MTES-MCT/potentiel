@@ -1,13 +1,18 @@
 import { DocumentProjet } from '../../index.js';
 
-export const pièceJustificative = DocumentProjet.documentFactory(
-  'producteur/pièce-justificative',
-  'pièceJustificative',
-  'enregistréLe',
-);
+import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
+import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event.js';
 
-export const pièceJustificativeModification = DocumentProjet.documentFactory(
-  'producteur/pièce-justificative',
-  'pièceJustificative',
-  'modifiéLe',
-);
+export const pièceJustificative =
+  DocumentProjet.documentFactoryV3<ChangementProducteurEnregistréEvent>()(
+    'producteur/pièce-justificative',
+    'pièceJustificative',
+    'enregistréLe',
+  );
+
+export const pièceJustificativeModification =
+  DocumentProjet.documentFactoryV3<ProducteurModifiéEvent>()(
+    'producteur/pièce-justificative',
+    'pièceJustificative',
+    'modifiéLe',
+  );
