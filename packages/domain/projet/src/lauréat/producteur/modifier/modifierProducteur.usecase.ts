@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
-import { TypeDocumentProducteur } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { DocumentProducteur } from '../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
 import { ModifierProducteurCommand } from './modifierProducteur.command.js';
@@ -32,15 +32,15 @@ export const registerModifierProducteurUseCase = () => {
     raisonValue,
     pièceJustificativeValue,
   }) => {
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentProducteur.pièceJustificative.formatter(),
-          dateModificationValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
-
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const dateModification = DateTime.convertirEnValueType(dateModificationValue);
+    const pièceJustificative =
+      pièceJustificativeValue &&
+      DocumentProducteur.pièceJustificative({
+        identifiantProjet: identifiantProjet.formatter(),
+        enregistréLe: dateModification.formatter(),
+        pièceJustificative: pièceJustificativeValue,
+      });
     if (pièceJustificative) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
@@ -54,10 +54,10 @@ export const registerModifierProducteurUseCase = () => {
     await mediator.send<ModifierProducteurCommand>({
       type: 'Lauréat.Producteur.Command.ModifierProducteur',
       data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        identifiantProjet,
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         producteur: producteurValue,
-        dateModification: DateTime.convertirEnValueType(dateModificationValue),
+        dateModification,
         raison: raisonValue,
         pièceJustificative,
       },

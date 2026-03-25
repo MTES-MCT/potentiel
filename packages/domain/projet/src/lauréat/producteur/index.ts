@@ -55,7 +55,7 @@ export type { ProducteurImportéEvent } from './importer/importerProducteur.even
 export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register.js';
 
 // ValueTypes
-export * as TypeDocumentProducteur from './typeDocumentProducteur.valueType.js';
+export * as DocumentProducteur from './documentProducteur.valueType.js';
 
 // Entities
 export type * from './producteur.entity.js';

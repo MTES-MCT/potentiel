@@ -5,9 +5,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { GarantiesFinancières } from '../index.js';
-import { DocumentProjet } from '../../index.js';
 
-import { TypeDocumentProducteur } from './index.js';
+import { DocumentProducteur } from './index.js';
 
 import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
 import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
@@ -188,12 +187,11 @@ export class ProducteurAggregate extends AbstractAggregate<
       ancienProducteur,
       nouveauProducteur,
       raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
+      pièceJustificative: DocumentProducteur.pièceJustificative({
         identifiantProjet,
-        TypeDocumentProducteur.pièceJustificative.formatter(),
         enregistréLe,
-        pièceJustificative?.format,
-      ),
+        pièceJustificative,
+      }),
     });
 
     this.producteur = nouveauProducteur;

@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture.js';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture.js';
@@ -43,25 +42,23 @@ export class ProducteurWorld {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
     }
 
+    const enregistréLe = DateTime.convertirEnValueType(
+      this.#enregistrerChangementProducteurFixture.enregistréLe,
+    );
     const expected: Lauréat.Producteur.ConsulterChangementProducteurReadModel = {
       identifiantProjet,
       changement: {
-        enregistréLe: DateTime.convertirEnValueType(
-          this.#enregistrerChangementProducteurFixture.enregistréLe,
-        ),
+        enregistréLe,
         enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
         ancienProducteur,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
-            this.#enregistrerChangementProducteurFixture.enregistréLe,
-          ).formatter(),
-          this.#enregistrerChangementProducteurFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: enregistréLe.formatter(),
+          pièceJustificative: this.#enregistrerChangementProducteurFixture.pièceJustificative,
+        }),
         raison: undefined,
       },
     };
