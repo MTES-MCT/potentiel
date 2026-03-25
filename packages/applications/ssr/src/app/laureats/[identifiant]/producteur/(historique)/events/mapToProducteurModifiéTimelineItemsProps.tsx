@@ -14,8 +14,8 @@ export const mapToProducteurModifiéTimelineItemsProps = (
     title: 'Producteur modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
-        enregistréLe: modifiéLe,
+      document: Lauréat.Producteur.DocumentProducteur.pièceJustificativeModification({
+        modifiéLe,
         identifiantProjet,
         pièceJustificative,
       }),

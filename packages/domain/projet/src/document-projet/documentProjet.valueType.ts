@@ -92,3 +92,25 @@ class TypeDocumentInvalideError extends InvalidOperationError {
     });
   }
 }
+
+type DynamicField<TNomChamp extends string, TType> = {
+  [PDocument in TNomChamp]: TType;
+};
+
+export const documentFactory =
+  <TTypeDocument extends string, TNomChampDocument extends string, TNomChampDate extends string>(
+    typeDocument: TTypeDocument,
+    nomChampDocument: TNomChampDocument,
+    nomChampDate: TNomChampDate,
+  ) =>
+  (
+    payload: DynamicField<'identifiantProjet', string> &
+      DynamicField<TNomChampDate, string> &
+      DynamicField<TNomChampDocument, { format: string }>,
+  ) =>
+    convertirEnValueType(
+      payload.identifiantProjet,
+      typeDocument,
+      payload[nomChampDate],
+      payload[nomChampDocument].format,
+    );

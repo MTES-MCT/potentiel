@@ -32,15 +32,14 @@ export const registerModifierProducteurUseCase = () => {
     raisonValue,
     pièceJustificativeValue,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const dateModification = DateTime.convertirEnValueType(dateModificationValue);
-    const pièceJustificative =
-      pièceJustificativeValue &&
-      DocumentProducteur.pièceJustificative({
-        identifiantProjet: identifiantProjet.formatter(),
-        enregistréLe: dateModification.formatter(),
-        pièceJustificative: pièceJustificativeValue,
-      });
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProducteur.pièceJustificativeModification({
+          identifiantProjet: identifiantProjetValue,
+          modifiéLe: dateModificationValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
+      : undefined;
+
     if (pièceJustificative) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
@@ -54,10 +53,10 @@ export const registerModifierProducteurUseCase = () => {
     await mediator.send<ModifierProducteurCommand>({
       type: 'Lauréat.Producteur.Command.ModifierProducteur',
       data: {
-        identifiantProjet,
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         producteur: producteurValue,
-        dateModification,
+        dateModification: DateTime.convertirEnValueType(dateModificationValue),
         raison: raisonValue,
         pièceJustificative,
       },

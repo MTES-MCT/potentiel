@@ -42,13 +42,12 @@ export class ProducteurWorld {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
     }
 
-    const enregistréLe = DateTime.convertirEnValueType(
-      this.#enregistrerChangementProducteurFixture.enregistréLe,
-    );
     const expected: Lauréat.Producteur.ConsulterChangementProducteurReadModel = {
       identifiantProjet,
       changement: {
-        enregistréLe,
+        enregistréLe: DateTime.convertirEnValueType(
+          this.#enregistrerChangementProducteurFixture.enregistréLe,
+        ),
         enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
@@ -56,7 +55,7 @@ export class ProducteurWorld {
         ancienProducteur,
         pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),
-          enregistréLe: enregistréLe.formatter(),
+          enregistréLe: this.#enregistrerChangementProducteurFixture.enregistréLe,
           pièceJustificative: this.#enregistrerChangementProducteurFixture.pièceJustificative,
         }),
         raison: undefined,

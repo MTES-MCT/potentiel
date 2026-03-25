@@ -4,9 +4,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { DocumentProducteur } from '../../index.js';
 import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { DocumentProducteur } from '../../index.js';
 
 export type ConsulterChangementProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,9 +57,8 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
     return Option.none;
   }
 
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(result.identifiantProjet);
   return {
-    identifiantProjet,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
 
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
@@ -68,7 +67,7 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
       nouveauProducteur: result.changement.nouveauProducteur,
       raison: result.changement.raison,
       pièceJustificative: DocumentProducteur.pièceJustificative({
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: result.identifiantProjet,
         ...result.changement,
       }),
     },
