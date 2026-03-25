@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
+    "glob": "13.0.6",
     "@types/markdown-it": "^14.1.2",
     "gray-matter": "4.0.3",
     "juice": "8.0.0",
