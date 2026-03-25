@@ -36,9 +36,12 @@ export const keepOrUpdateSingleDocument = (options?: CommonOptions) =>
   existingDocument.or(singleDocument(options));
 
 export const keepOrUpdateSingleOptionalDocument = (options?: CommonOptions) =>
-  existingDocument.or(singleDocument({ ...options, optional: true }));
+  existingDocument.or(singleDocument({ ...options, optional: true })).optional();
 
 export const keepOrUpdateManyDocuments = (options?: CommonOptions) =>
   existingDocument.or(manyDocuments(options));
+
+export const keepOrUpdateManyOptionalDocuments = (options?: CommonOptions) =>
+  existingDocument.or(manyDocuments({ ...options, optional: true })).optional();
 
 export const documentSelectionSchema = zod.enum(['keep_existing_document', 'edit_document']);

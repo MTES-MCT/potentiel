@@ -3,18 +3,33 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { demanderMainlevéeAction } from './demanderMainlevée.action';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { ValidationErrors } from '@/utils/formAction';
+import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
+
+import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
+
+import { demanderMainlevéeAction, DemanderMainlevéeFormKeys } from './demanderMainlevée.action';
 
 type DemanderMainlevéeFormProps = {
   identifiantProjet: string;
   motif: string;
+  actions: ActionGarantiesFinancières[];
+  attestationAchèvement?: DocumentProjet.RawType;
 };
 
-export const DemanderMainlevéeForm = ({ identifiantProjet, motif }: DemanderMainlevéeFormProps) => {
+export const DemanderMainlevéeForm = ({
+  identifiantProjet,
+  motif,
+  actions,
+  attestationAchèvement,
+}: DemanderMainlevéeFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<DemanderMainlevéeFormKeys>
+  >({});
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
@@ -29,11 +44,27 @@ export const DemanderMainlevéeForm = ({ identifiantProjet, motif }: DemanderMai
         form={{
           action: demanderMainlevéeAction,
           omitMandatoryFieldsLegend: true,
+          onValidationError: setValidationErrors,
           children: (
             <>
+              {/* Temporaire : le document va devenir modifiable, et on aura besoin de la clé de l'attestation */}
+              {!attestationAchèvement && actions.includes('achèvement.enregistrerAttestation') && (
+                <UploadDocument
+                  name="attestationConformite"
+                  multiple
+                  required
+                  label="Attestation de conformité et rapport associé"
+                  hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
+                  state={validationErrors['attestationConformite'] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors['attestationConformite']}
+                  formats={['pdf']}
+                />
+              )}
+
               <p className="mt-3">
                 Êtes-vous sûr de vouloir demander la mainlevée de vos garanties financières ?
               </p>
+
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <input type={'hidden'} value={motif} name="motif" />
             </>

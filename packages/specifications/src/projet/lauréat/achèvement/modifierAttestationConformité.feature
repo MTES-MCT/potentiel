@@ -27,6 +27,11 @@ Fonctionnalité: Modifier une attestation de conformité
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat avec les mêmes valeurs
         Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
 
+    Scénario: Impossible de modifier une date d'achèvement sans attestation si aucune modification n'est transmise
+        Etant donné une date d'achèvement réel transmise pour le projet lauréat
+        Quand l'admin modifie l'attestation de conformité pour le projet lauréat avec les mêmes valeurs
+        Alors l'admin devrait être informé que "Aucune modification n'a été transmise"
+
     Scénario: Impossible de modifier une attestation de conformité si le projet n'est pas achevé
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat
         Alors l'admin devrait être informé que "Le projet n'est pas achevé"

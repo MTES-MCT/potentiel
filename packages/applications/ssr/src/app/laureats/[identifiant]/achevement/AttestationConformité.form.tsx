@@ -77,7 +77,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
         <UploadNewOrModifyExistingDocument
           name="attestation"
           multiple
-          required
+          required={!estUneModification}
           documentKeys={attestationConformité ? [attestationConformité] : undefined}
           label="Attestation de conformité et rapport associé"
           hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"

@@ -13,6 +13,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerLauréat, getPériodeAppelOffres } from '@/app/_helpers';
 
+import { getAchèvement } from '../_helpers';
+
 import {
   ActionGarantiesFinancières,
   DétailsGarantiesFinancièresPage,
@@ -89,6 +91,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           })
         : Option.none;
 
+      const achèvement = await getAchèvement(identifiantProjet.formatter());
+
       const data = {
         statut,
         actuelles,
@@ -99,6 +103,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffres,
         mainlevéesRejetées,
         archivesGarantiesFinancières,
+        achèvement,
       };
       const { infos, actions } = mapToActionsAndInfos(data);
       const props = mapToProps(data);
@@ -116,6 +121,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           appelOffres={props.appelOffres}
           actions={actions}
           infos={infos}
+          attestationAchèvement={props.attestationAchèvement}
         />
       );
     }),
@@ -132,6 +138,7 @@ type Props = {
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
+  achèvement: Lauréat.Achèvement.ConsulterAchèvementReadModel;
 };
 
 const mapToActionsAndInfos = ({
@@ -140,6 +147,7 @@ const mapToActionsAndInfos = ({
   actuelles,
   dépôtEnCours,
   mainlevée,
+  achèvement,
 }: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
   const actions: ActionGarantiesFinancières[] = [];
   const infos: DétailsGarantiesFinancièresPageProps['infos'] = [];
@@ -163,8 +171,14 @@ const mapToActionsAndInfos = ({
   } else {
     if (Option.isNone(actuelles)) {
       actions.push('garantiesFinancières.actuelles.enregistrer');
-    } else {
-      if (!actuelles.garantiesFinancières.estConstitué()) {
+    } else if (!actuelles.garantiesFinancières.estExemption()) {
+      const estConstitué = actuelles.garantiesFinancières.estConstitué();
+      const gfConstituéeEtSansDépôt = !aUnDépôtEnCours && estConstitué;
+      const achèvementPossible = !estAbandonné && !estAchevé && gfConstituéeEtSansDépôt;
+      const mainlevéePossible = estAchevéOuAbandonné && gfConstituéeEtSansDépôt;
+
+      actions.push('garantiesFinancières.actuelles.modifier');
+      if (!estConstitué) {
         actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
       }
 
@@ -172,22 +186,19 @@ const mapToActionsAndInfos = ({
         if (utilisateur.rôle.estDreal()) {
           infos.push('échues');
         }
-      } else if (Option.isNone(mainlevée) && !actuelles.garantiesFinancières.estExemption()) {
-        if (
-          estAchevéOuAbandonné &&
-          !aUnDépôtEnCours &&
-          actuelles.garantiesFinancières.estConstitué()
-        ) {
-          actions.push('garantiesFinancières.mainlevée.demander');
-        } else if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
+      } else if (mainlevéePossible) {
+        actions.push('garantiesFinancières.mainlevée.demander');
+        if (achèvement.estAchevé) {
+          actions.push('achèvement.enregistrerAttestation');
+        }
+      } else {
+        if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
-        if (!estAbandonné && actuelles.garantiesFinancières.estConstitué()) {
+        if (achèvementPossible) {
           actions.push('achèvement.transmettreAttestation');
         }
       }
-
-      actions.push('garantiesFinancières.actuelles.modifier');
     }
 
     if (Option.isSome(dépôtEnCours)) {
@@ -221,6 +232,7 @@ const mapToProps = ({
   statut,
   accès,
   appelOffres,
+  achèvement,
 }: Props) => {
   return {
     actuelles: mapToPlainObject(actuelles),
@@ -235,5 +247,9 @@ const mapToProps = ({
       .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.map((porteur) => porteur.email))
       .none(() => []),
     appelOffres: mapToPlainObject(appelOffres),
+    attestationAchèvement:
+      achèvement.estAchevé && Option.isSome(achèvement.attestation)
+        ? achèvement.attestation.formatter()
+        : undefined,
   } satisfies Partial<DétailsGarantiesFinancièresPageProps>;
 };

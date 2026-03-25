@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -36,6 +36,7 @@ const actions = [
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.supprimer',
   'achèvement.transmettreAttestation',
+  'achèvement.enregistrerAttestation',
 ] satisfies Role.Policy[];
 export type ActionGarantiesFinancières = (typeof actions)[number];
 
@@ -55,6 +56,7 @@ export type DétailsGarantiesFinancièresPageProps = {
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
   motifMainlevée?: PlainType<Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType>;
   appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
+  attestationAchèvement?: DocumentProjet.RawType;
   actions: ActionGarantiesFinancières[];
   infos: ('conditions-demande-mainlevée' | 'échues' | 'date-échéance-dépôt-passée')[];
 };
@@ -71,6 +73,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   contactPorteurs,
   motifMainlevée,
   archivesGarantiesFinancières,
+  attestationAchèvement,
 }) => (
   <>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
@@ -95,6 +98,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               contactPorteurs={contactPorteurs}
               motif={motifMainlevée}
               typeGfActuelles={actuelles.garantiesFinancières}
+              attestationAchèvement={attestationAchèvement}
             />
           </SectionGarantiesFinancières>
         )}

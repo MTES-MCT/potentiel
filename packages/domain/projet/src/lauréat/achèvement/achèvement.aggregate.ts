@@ -373,7 +373,10 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
   }
 
-  private applyDateAchèvementTransmiseV1(_: DateAchèvementTransmiseEvent) {
+  private applyDateAchèvementTransmiseV1({
+    payload: { dateAchèvement },
+  }: DateAchèvementTransmiseEvent) {
     this.#estAchevé = true;
+    this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateAchèvement);
   }
 }

@@ -40,6 +40,13 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au Cocontractant et dans Potentiel)"
 
+    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet est achevé sans attestation de conformité transmise
+        Etant donné une date d'achèvement réel transmise pour le projet lauréat
+        Et des garanties financières actuelles pour le projet lauréat
+        Quand le porteur demande la mainlevée des garanties financières avec :
+            | motif | projet-achevé |
+        Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car l'attestation de conformité est manquante"
+
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si les garanties financières sont manquantes pour un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières avec :

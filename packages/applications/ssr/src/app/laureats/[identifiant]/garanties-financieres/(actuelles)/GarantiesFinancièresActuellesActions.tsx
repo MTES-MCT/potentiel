@@ -1,7 +1,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { CopyButton } from '@/components/molecules/CopyButton';
@@ -16,6 +16,7 @@ type GarantiesFinancièresActuellesActionsProps = {
   contactPorteurs: string[];
   motif?: PlainType<Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType>;
   typeGfActuelles?: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
+  attestationAchèvement: DocumentProjet.RawType | undefined;
 };
 
 export const GarantiesFinancièresActuellesActions = ({
@@ -25,6 +26,7 @@ export const GarantiesFinancièresActuellesActions = ({
   contactPorteurs,
   motif,
   typeGfActuelles,
+  attestationAchèvement,
 }: GarantiesFinancièresActuellesActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     <div className="flex flex-col gap-4">
@@ -59,7 +61,12 @@ export const GarantiesFinancièresActuellesActions = ({
           </Button>
         )}
         {actions.includes('garantiesFinancières.mainlevée.demander') && motif && (
-          <DemanderMainlevéeForm identifiantProjet={identifiantProjet} motif={motif.motif} />
+          <DemanderMainlevéeForm
+            identifiantProjet={identifiantProjet}
+            motif={motif.motif}
+            actions={actions}
+            attestationAchèvement={attestationAchèvement}
+          />
         )}
       </div>
     </div>
