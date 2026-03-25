@@ -1,4 +1,4 @@
-import { join, basename } from 'node:path';
+import { join, basename } from 'path';
 
 import { getFiles } from './getFiles.js';
 import { copyFile } from './copyFile.js';
