@@ -1,23 +1,26 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
-import webpack from 'webpack';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const config: StorybookConfig = {
+import { defineMain } from '@storybook/react-vite/node';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+
+const getAbsolutePath = (packageName: string) =>
+  dirname(fileURLToPath(import.meta.resolve(join(packageName, 'package.json'))));
+
+export default defineMain({
+  framework: {
+    name: getAbsolutePath('@storybook/react-vite'),
+    options: {},
+  },
   stories: ['../src/**/*.stories.tsx'],
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-webpack5-compiler-swc',
+    //👇 Use getAbsolutePath when referencing Storybook's addons and frameworks
+    // getAbsolutePath('@storybook/addon-docs'),
   ],
-  framework: '@storybook/react-webpack5',
-  staticDirs: ['../src/assets'],
-  webpackFinal: (config) => {
-    config.plugins?.push(
-      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
-        resource.request = resource.request.replace(/^node:/, '');
-      }),
-    );
-
+  staticDirs: [{ from: '../src/assets', to: '/' }],
+  viteFinal: async (config, { configType }) => {
+    config.plugins ??= [];
+    config.plugins.push(nodePolyfills());
     return config;
   },
-};
-export default config;
+});

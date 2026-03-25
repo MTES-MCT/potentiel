@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import React from 'react';
 import { Font, PDFViewer } from '@react-pdf/renderer';
 import type { Preview } from '@storybook/react';

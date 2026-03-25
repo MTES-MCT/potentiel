@@ -1,5 +1,5 @@
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';

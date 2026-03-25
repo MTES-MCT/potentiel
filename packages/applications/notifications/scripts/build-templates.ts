@@ -9,7 +9,7 @@
 // - precompiles other emails found in src/emails/**/*.hbs
 
 import fs from 'fs';
-import path from 'path';
+import path from 'node:path';
 import { fileURLToPath } from 'url';
 
 import { sync as globSync } from 'glob';
