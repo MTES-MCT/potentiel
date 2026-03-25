@@ -67,8 +67,8 @@ export const createDossierAccessor = <
       const val = getChampValue(nom, ['YesNoChamp', 'CheckboxChamp'])?.stringValue ?? undefined;
       return val === 'false' ? false : val === 'true' ? true : undefined;
     },
-    getUrlPièceJustificativeValue: (urls) => {
-      const files = getChampValue(urls, ['PieceJustificativeChamp'])?.files ?? [];
+    getUrlPièceJustificativeValue: (nom) => {
+      const files = getChampValue(nom, ['PieceJustificativeChamp'])?.files ?? [];
 
       return files.map((file) => {
         return {
