@@ -134,13 +134,8 @@ export type RèglesDemandes = {
   modification: Record<DomainesConcernésParChangement, Modification>;
 };
 
-type RèglesDemandesPériode = {
+type PartialRèglesDemandes = {
   changement?: Partial<RèglesDemandesChangement> | 'indisponible';
-  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
-};
-
-type RèglesDemandesCDCModifié = {
-  changement?: Partial<RèglesDemandesChangement>;
   modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
 };
 
@@ -171,7 +166,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  demandes?: RèglesDemandesCDCModifié;
+  demandes?: PartialRèglesDemandes;
 };
 
 // Technologies
@@ -315,7 +310,7 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
-  demandes?: RèglesDemandesPériode;
+  demandes?: PartialRèglesDemandes;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
