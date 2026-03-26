@@ -10,6 +10,9 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "test": "tsx --test **/*.test.ts"
   },
+  "imports": {
+    "#document-projet": "./dist/document-projet/index.js"
+  },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
