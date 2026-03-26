@@ -34,18 +34,20 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 `,
     },
   },
-  changement: {
-    puissance: {
-      demande: true,
-      informationEnregistrée: true,
-      ratios: {
-        min: 0.9,
-        max: 1.4,
+  demandes: {
+    changement: {
+      puissance: {
+        demande: true,
+        informationEnregistrée: true,
+        ratios: {
+          min: 0.9,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit : 
+  - Inférieure au plafond de puissance de 5 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé ; 
+  - Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
+  `,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit : 
-- Inférieure au plafond de puissance de 5 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé ; 
-- Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
-`,
     },
   },
   délaiApplicable: {
@@ -69,48 +71,50 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.9,
-        max: 1.1,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: { ...defaultModifications, typologieInstallation: true },
   },
-  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
@@ -194,14 +198,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
-        },
-      },
       champsSupplémentaires: {},
-      modification: defaultModifications,
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
+        },
+        modification: defaultModifications,
+      },
     },
     {
       id: '2',
@@ -232,14 +238,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        modification: defaultModifications,
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '3',
@@ -265,14 +273,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '4',
@@ -309,14 +319,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '5',
@@ -353,14 +365,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '6',
@@ -397,14 +411,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '7',
@@ -441,14 +457,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '8',
@@ -483,10 +501,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },

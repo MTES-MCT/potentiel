@@ -124,11 +124,25 @@ export type RèglesDemandesChangement = {
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
 
-type Modification = {
-  modificationAdmin?: boolean;
+type Modification = boolean | 'indisponible';
+
+/**
+ * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
+ **/
+export type RèglesDemandes = {
+  changement: RèglesDemandesChangement | 'indisponible';
+  modification: Record<DomainesConcernésParChangement, Modification>;
 };
 
-export type RèglesModification = Record<DomainesConcernésParChangement, Modification>;
+type RèglesDemandesPériode = {
+  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
+  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+};
+
+type RèglesDemandesCDCModifié = {
+  changement?: Partial<RèglesDemandesChangement>;
+  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+};
 
 // Courriers
 export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
@@ -157,8 +171,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  changement?: Partial<RèglesDemandesChangement>;
-  modification?: Partial<RèglesModification>;
+  demandes?: RèglesDemandesCDCModifié;
 };
 
 // Technologies
@@ -252,32 +265,32 @@ type CertificateTemplateProps =
 
 export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'];
 
+// viovio un champs optionnel ou requis est toujours initialisé
+
 /**
  * Ces champs ne sont pas actifs pour tous les AOs/Périodes.
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
+ * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, modification PP...) ou pas
  **/
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const champsCandidature = [
-  'puissanceALaPointe',
+export type ChampCandidature =
+  | 'puissanceALaPointe'
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
    * Cette information est utilisée par le Cocontractant.
    */
-  'coefficientKChoisi',
+  | 'coefficientKChoisi'
   /**
    * puissance du projet (P) + autres installations sur le même site d'implantation (Q)
    * puissance de site = P + Q
    */
-  'puissanceDeSite',
-  'autorisation',
-  'installateur',
-  'dispositifDeStockage',
-  'natureDeLExploitation',
-  'typologieInstallation',
+  | 'puissanceDeSite'
+  | 'autorisation'
+  | 'installateur'
+  | 'dispositifDeStockage'
+  | 'natureDeLExploitation'
+  | 'typologieInstallation'
   // CRE4 ZNI
-  'territoireProjet',
-] as const;
-export type ChampCandidature = (typeof champsCandidature)[number];
+  | 'territoireProjet';
 
 export type ChampsSupplémentairesCandidature = Partial<
   Record<ChampCandidature, 'requis' | 'optionnel'>
@@ -302,11 +315,7 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
-  /**
-   * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   **/
-  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
-  modification?: Partial<RèglesModification>;
+  demandes?: RèglesDemandesPériode;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -364,11 +373,7 @@ export type AppelOffreReadModel = {
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
-  /**
-   * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   **/
-  changement: RèglesDemandesChangement | 'indisponible';
-  modification: RèglesModification;
+  demandes: RèglesDemandes;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

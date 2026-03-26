@@ -13,15 +13,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
       max: new Date('2024-09-30').toISOString(),
     },
   },
-  changement: {
-    puissance: {
-      demande: true,
-      informationEnregistrée: true,
-      ratios: {
-        min: 0.9,
-        max: 1.4,
+  demandes: {
+    changement: {
+      puissance: {
+        demande: true,
+        informationEnregistrée: true,
+        ratios: {
+          min: 0.9,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
     },
   },
 };
@@ -35,50 +37,52 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   shortTitle: 'Eolien',
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'rejet',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-      informationEnregistréeEstSoumiseÀConditions: true,
-      demande: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    producteur: {
-      informationEnregistrée: false,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.9,
-        max: 1.1,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'rejet',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+        informationEnregistréeEstSoumiseÀConditions: true,
+        demande: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      producteur: {
+        informationEnregistrée: false,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: defaultModifications,
   },
-  modification: defaultModifications,
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
   technologie: 'eolien',

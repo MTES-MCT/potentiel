@@ -1,30 +1,18 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export const defaultModifications: AppelOffre.RèglesModification = {
-  siteDeProduction: {
-    modificationAdmin: true,
-  },
-  représentantLégal: {
-    modificationAdmin: true,
-  },
-  actionnaire: {
-    modificationAdmin: true,
-  },
-  fournisseur: {
-    modificationAdmin: true,
-  },
-  producteur: {
-    modificationAdmin: true,
-  },
-  puissance: {
-    modificationAdmin: true,
-  },
-  nomProjet: {},
-  natureDeLExploitation: {},
-  installateur: {},
-  dispositifDeStockage: {},
-  typologieInstallation: {},
-  délai: {},
-  recours: {},
-  abandon: {},
+export const defaultModifications: AppelOffre.RèglesDemandes['modification'] = {
+  siteDeProduction: true,
+  représentantLégal: true,
+  actionnaire: true,
+  fournisseur: true,
+  producteur: true,
+  puissance: true,
+  nomProjet: 'indisponible',
+  natureDeLExploitation: 'indisponible',
+  installateur: 'indisponible',
+  dispositifDeStockage: 'indisponible',
+  typologieInstallation: 'indisponible',
+  délai: 'indisponible',
+  recours: 'indisponible',
+  abandon: 'indisponible',
 };

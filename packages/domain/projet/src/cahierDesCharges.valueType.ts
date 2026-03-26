@@ -36,7 +36,7 @@ export type ValueType = {
   getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParChangement>(
     domaine: TDomain,
   ): AppelOffre.RèglesDemandesChangement[TDomain];
-  getRèglesModification<TDomain extends keyof AppelOffre.RèglesModification>(
+  getRèglesModification<TDomain extends keyof AppelOffre.RèglesDemandes['modification']>(
     domaine: TDomain,
   ): boolean;
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
@@ -75,26 +75,27 @@ export const bind = ({
       typologieInstallation: {},
     };
 
+    // viovio
     const règlesChangement = {
-      ...(this.appelOffre.changement === 'indisponible'
+      ...(this.appelOffre.demandes.changement === 'indisponible'
         ? changementIndisponible
-        : this.appelOffre.changement),
-      ...(this.période.changement === 'indisponible'
+        : this.appelOffre.demandes.changement),
+      ...(this.période.demandes?.changement === 'indisponible'
         ? changementIndisponible
-        : this.période.changement),
-      ...this.cahierDesChargesModificatif?.changement,
+        : this.période.demandes?.changement),
+      ...this.cahierDesChargesModificatif?.demandes?.changement,
     };
     return règlesChangement[domaine];
   },
 
   getRèglesModification(domaine) {
     const règlesModification = {
-      ...this.appelOffre.modification,
-      ...this.période.modification,
-      ...this.cahierDesChargesModificatif?.modification,
+      ...this.appelOffre.demandes.modification,
+      ...this.période.demandes?.modification,
+      ...this.cahierDesChargesModificatif?.demandes?.modification,
     };
 
-    return !!règlesModification[domaine].modificationAdmin;
+    return !!règlesModification[domaine];
   },
 
   getAutoritéCompétente(domaine) {
@@ -122,7 +123,7 @@ export const bind = ({
   },
 
   doitChoisirUnCahierDesChargesModificatif() {
-    const changement = this.période.changement ?? this.appelOffre.changement;
+    const changement = this.période.demandes?.changement ?? this.appelOffre.demandes.changement;
     return this.cahierDesChargesModificatif === undefined && changement === 'indisponible';
   },
 

@@ -103,8 +103,8 @@ export class AbandonWord {
     const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
 
     const règlesChangementDeLAO =
-      ao?.periodes.find((période) => période.id === identifiantProjet.période)?.changement ??
-      ao?.changement;
+      ao?.periodes.find((période) => période.id === identifiantProjet.période)?.demandes
+        ?.changement ?? ao?.demandes.changement;
 
     const expected: Lauréat.Abandon.ConsulterDemandeAbandonReadModel = {
       statut,

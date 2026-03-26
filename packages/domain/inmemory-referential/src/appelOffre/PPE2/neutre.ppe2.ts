@@ -20,48 +20,50 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.8,
-        max: 1.2,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.8,
+          max: 1.2,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: { ...defaultModifications, typologieInstallation: true },
   },
-  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -147,18 +149,20 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
-        },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '2',
@@ -185,18 +189,20 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
-        },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '3',
@@ -223,18 +229,20 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
-        },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '4',
@@ -259,10 +267,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },

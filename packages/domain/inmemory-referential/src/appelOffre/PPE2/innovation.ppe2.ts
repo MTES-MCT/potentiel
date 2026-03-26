@@ -35,18 +35,20 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  changement: {
-    puissance: {
-      demande: true,
-      informationEnregistrée: true,
-      ratios: {
-        min: 0.7,
-        max: 1.4,
-      },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
+  demandes: {
+    changement: {
+      puissance: {
+        demande: true,
+        informationEnregistrée: true,
+        ratios: {
+          min: 0.7,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
 - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre ; 
 - Inférieure à la limite de puissance de 5 MWc spécifiée au paragraphe 2.2. 
 `,
+      },
     },
   },
 };
@@ -63,48 +65,50 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire-sa',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.7,
-        max: 1.1,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.7,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: { ...defaultModifications, typologieInstallation: true },
   },
-  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',

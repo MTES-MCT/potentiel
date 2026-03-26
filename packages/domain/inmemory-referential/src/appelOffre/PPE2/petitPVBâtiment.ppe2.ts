@@ -13,71 +13,65 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 34,
   delaiRealisationTexte: 'trente-quatre (34) mois',
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
-  changement: {
-    typologieInstallation: {},
-    nomProjet: {
-      informationEnregistrée: true,
-    },
-    natureDeLExploitation: { informationEnregistrée: true },
-    siteDeProduction: {},
-    représentantLégal: {
-      informationEnregistrée: true,
-    },
-    actionnaire: {},
-    fournisseur: {},
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.9,
-        max: 1.1,
+  demandes: {
+    changement: {
+      typologieInstallation: {},
+      nomProjet: {
+        informationEnregistrée: true,
+      },
+      natureDeLExploitation: { informationEnregistrée: true },
+      siteDeProduction: {},
+      représentantLégal: {
+        informationEnregistrée: true,
+      },
+      actionnaire: {},
+      fournisseur: {},
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      installateur: {
+        informationEnregistrée: true,
+      },
+      dispositifDeStockage: {
+        informationEnregistrée: true,
       },
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
+    modification: {
+      siteDeProduction: true,
+      typologieInstallation: true,
+      représentantLégal: true,
+      actionnaire: 'indisponible',
+      fournisseur: 'indisponible',
+      producteur: true,
+      puissance: true,
+      nomProjet: true,
+      natureDeLExploitation: true,
+      installateur: true,
+      dispositifDeStockage: true,
+      délai: 'indisponible',
+      abandon: 'indisponible',
+      recours: 'indisponible',
     },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    installateur: {
-      informationEnregistrée: true,
-    },
-    dispositifDeStockage: {
-      informationEnregistrée: true,
-    },
-  },
-  modification: {
-    siteDeProduction: {
-      modificationAdmin: true,
-    },
-    typologieInstallation: { modificationAdmin: true },
-    représentantLégal: {
-      modificationAdmin: true,
-    },
-    actionnaire: {},
-    fournisseur: {},
-    producteur: {
-      modificationAdmin: true,
-    },
-    puissance: {
-      modificationAdmin: true,
-    },
-    nomProjet: { modificationAdmin: true },
-    natureDeLExploitation: { modificationAdmin: true },
-    installateur: { modificationAdmin: true },
-    dispositifDeStockage: { modificationAdmin: true },
-    délai: {},
-    abandon: {},
-    recours: {},
   },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
