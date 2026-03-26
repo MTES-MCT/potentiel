@@ -106,7 +106,7 @@ export const documentFactory =
   (
     payload: DynamicField<'identifiantProjet', string> &
       DynamicField<TNomChampDate, string> &
-      DynamicField<TNomChampDocument, { format: string } | undefined>,
+      Partial<DynamicField<TNomChampDocument, { format: string }>>,
   ) =>
     payload[nomChampDocument] &&
     convertirEnValueType(
@@ -115,37 +115,3 @@ export const documentFactory =
       payload[nomChampDate],
       payload[nomChampDocument].format,
     );
-
-type FieldsOfType<T, TType> = {
-  [K in keyof T]: T[K] extends TType ? K : never;
-}[keyof T] &
-  string;
-
-export const documentFactoryV3 =
-  <TEvent extends { payload: { identifiantProjet: string } }>() =>
-  <
-    TNomChampDocument extends FieldsOfType<TEvent['payload'], { format: string } | undefined>,
-    TNomChampDate extends FieldsOfType<
-      Omit<TEvent['payload'], 'identifiantProjet'>,
-      DateTime.RawType
-    >,
-  >(
-    typeDocument: string,
-    nomChampDocument: TNomChampDocument,
-    nomChampDate: TNomChampDate,
-  ) =>
-  (
-    payload: DynamicField<'identifiantProjet', string> &
-      DynamicField<TNomChampDate, string> &
-      Pick<TEvent['payload'], TNomChampDocument>,
-  ) => {
-    const document = payload[nomChampDocument] as unknown as { format: string } | undefined;
-    if (document) {
-      return convertirEnValueType(
-        payload.identifiantProjet,
-        typeDocument,
-        payload[nomChampDate] as string,
-        document.format,
-      );
-    }
-  };

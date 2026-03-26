@@ -1,8 +1,6 @@
 import { DocumentProjet } from '../../index.js';
 
-import { AbandonDemandéEventV1 } from './demande/demander/demanderAbandon.event.js';
-
-export const pièceJustificative = DocumentProjet.documentFactoryV3<AbandonDemandéEventV1>()(
+export const pièceJustificative = DocumentProjet.documentFactory(
   'abandon/pièce-justificative',
   'pièceJustificative',
   'demandéLe',
