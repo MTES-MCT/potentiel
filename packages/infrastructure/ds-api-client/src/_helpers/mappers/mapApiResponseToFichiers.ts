@@ -6,7 +6,7 @@ type MapApiResponseToFichiers = {
 
 export const mapApiResponseToFichiers = ({ champs }: MapApiResponseToFichiers) => {
   const accessor = createDossierAccessor(champs, {
-    garantiesFinancières: '9.2 Garantie financière de mise en œuvre du projet',
+    garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
   });
 
   return {
