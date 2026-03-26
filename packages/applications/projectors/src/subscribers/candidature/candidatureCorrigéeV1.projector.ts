@@ -19,6 +19,7 @@ export const candidatureCorrigéeV1Projector = async ({
 
   const candidatureToUpsert = mapToCandidatureToUpsert({
     payload: {
+      référencesRaccordement: [],
       ...payload,
       fournisseurs: Option.isSome(candidature) ? candidature.fournisseurs : [],
       typologieInstallation: Option.isSome(candidature) ? candidature.typologieInstallation : [],

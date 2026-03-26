@@ -217,7 +217,7 @@ const créerDépôt = (
       dépôt.natureDeLExploitation,
       champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
-    référencesRaccordement: undefined,
+    référencesRaccordement: [],
   };
 
   if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {

@@ -50,7 +50,7 @@ export type RawType = {
         tauxPrévisionnelACC?: number;
       }
     | undefined;
-  référencesRaccordement?: Array<Raccordement.RéférenceDossierRaccordement.RawType>;
+  référencesRaccordement: Array<Raccordement.RéférenceDossierRaccordement.RawType>;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -85,7 +85,7 @@ export type ValueType = ReadonlyValueType<{
         tauxPrévisionnelACC?: number;
       }
     | undefined;
-  référencesRaccordement?: Array<Raccordement.RéférenceDossierRaccordement.ValueType>;
+  référencesRaccordement: Array<Raccordement.RéférenceDossierRaccordement.ValueType>;
 
   formatter(): RawType;
 }>;
@@ -136,7 +136,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         tauxPrévisionnelACC: plain.natureDeLExploitation.tauxPrévisionnelACC,
       }
     : undefined,
-  référencesRaccordement: plain.référencesRaccordement?.map((r) =>
+  référencesRaccordement: plain.référencesRaccordement.map((r) =>
     Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r.référence),
   ),
 
@@ -226,7 +226,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
-      référencesRaccordement: this.référencesRaccordement?.map((r) => r.formatter()),
+      référencesRaccordement: this.référencesRaccordement.map((r) => r.formatter()),
     };
   },
 });
@@ -299,7 +299,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           tauxPrévisionnelACC: raw.natureDeLExploitation.tauxPrévisionnelACC,
         })
       : undefined,
-    référencesRaccordement: raw.référencesRaccordement?.map((r) =>
+    référencesRaccordement: raw.référencesRaccordement.map((r) =>
       Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r),
     ),
   });
@@ -315,9 +315,6 @@ const areEqual = <TValueType extends ReadonlyValueType<unknown>>(
 ) => (v1 === undefined ? v2 === undefined : v2 !== undefined && v1.estÉgaleÀ(v2));
 
 const areEqualArrays = <TValueType extends ReadonlyValueType<unknown>>(
-  v1: TValueType[] | undefined,
-  v2: TValueType[] | undefined,
-) =>
-  v1 === undefined
-    ? v2 === undefined
-    : v2 !== undefined && v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
+  v1: TValueType[],
+  v2: TValueType[],
+) => v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
