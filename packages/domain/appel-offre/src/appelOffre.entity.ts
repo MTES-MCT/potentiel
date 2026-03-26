@@ -124,7 +124,7 @@ export type RèglesDemandesChangement = {
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
 
-type Modification = boolean | 'indisponible';
+type Modification = boolean | undefined;
 
 /**
  * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
