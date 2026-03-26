@@ -29,6 +29,7 @@ const schema = dépôtSchema
     localité: true,
     typologieInstallation: true,
     historiqueAbandon: true,
+    référencesRaccordement: true,
   })
   .extend({
     identifiantProjet: identifiantProjetSchema,
@@ -136,9 +137,7 @@ const mapBodyToUseCaseData = (
             tauxPrévisionnelACC: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACC,
           }
         : undefined,
-      ...(previous.dépôt.référencesRaccordement && {
-        référencesRaccordement: previous.dépôt.référencesRaccordement.map((r) => r.formatter()),
-      }),
+      référencesRaccordement: previous.dépôt.référencesRaccordement.map((r) => r.formatter()),
     },
 
     détailsValue: undefined,
