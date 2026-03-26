@@ -139,6 +139,11 @@ type PartialRèglesDemandes = {
   modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
 };
 
+type PartialRèglesCDC = {
+  changement?: Partial<RèglesDemandesChangement>;
+  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+};
+
 // Courriers
 export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
 export type DonnéesCourriersRéponse = {
@@ -166,7 +171,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  demandes?: PartialRèglesDemandes;
+  demandes?: PartialRèglesCDC;
 };
 
 // Technologies
@@ -259,8 +264,6 @@ type CertificateTemplateProps =
     };
 
 export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'];
-
-// viovio un champs optionnel ou requis est toujours initialisé
 
 /**
  * Ces champs ne sont pas actifs pour tous les AOs/Périodes.

@@ -75,7 +75,6 @@ export const bind = ({
       typologieInstallation: {},
     };
 
-    // viovio
     const règlesChangement = {
       ...(this.appelOffre.demandes.changement === 'indisponible'
         ? changementIndisponible
