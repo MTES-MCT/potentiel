@@ -2,7 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '../../../../index.js';
+import { DocumentProjet } from '#document-projet';
+
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type EnregistrerChangementNomProjetCommand = Message<

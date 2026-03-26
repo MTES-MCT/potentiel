@@ -1,5 +1,4 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -15,12 +14,11 @@ export const mapToAbandonDemandéTimelineItemProps = (
     title: "Demande d'abandon déposée",
     actor: demandéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Abandon.DocumentAbandon.pièceJustificative({
         identifiantProjet,
-        Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
         demandéLe,
-        pièceJustificative.format,
-      ),
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif de la demande d'abandon en date du ${formatDateToText(demandéLe)}`,
     },
     link: {

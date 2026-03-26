@@ -5,7 +5,7 @@ import { extension } from 'mime-types';
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../index.js';
+import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 
 import { DossierProjet } from './index.js';
 
@@ -92,3 +92,26 @@ class TypeDocumentInvalideError extends InvalidOperationError {
     });
   }
 }
+
+type DynamicField<TNomChamp extends string, TType> = {
+  [PDocument in TNomChamp]: TType;
+};
+
+export const documentFactory =
+  <TNomChampDocument extends string, TNomChampDate extends string>(
+    typeDocument: string,
+    nomChampDocument: TNomChampDocument,
+    nomChampDate: TNomChampDate,
+  ) =>
+  (
+    payload: DynamicField<'identifiantProjet', string> &
+      DynamicField<TNomChampDate, string> &
+      Partial<DynamicField<TNomChampDocument, { format: string }>>,
+  ) =>
+    payload[nomChampDocument] &&
+    convertirEnValueType(
+      payload.identifiantProjet,
+      typeDocument,
+      payload[nomChampDate],
+      payload[nomChampDocument].format,
+    );

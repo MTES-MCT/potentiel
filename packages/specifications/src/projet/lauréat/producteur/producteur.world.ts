@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture.js';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture.js';
@@ -54,14 +53,11 @@ export class ProducteurWorld {
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
         ancienProducteur,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
-            this.#enregistrerChangementProducteurFixture.enregistréLe,
-          ).formatter(),
-          this.#enregistrerChangementProducteurFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: this.#enregistrerChangementProducteurFixture.enregistréLe,
+          pièceJustificative: this.#enregistrerChangementProducteurFixture.pièceJustificative,
+        }),
         raison: undefined,
       },
     };

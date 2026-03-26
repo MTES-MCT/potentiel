@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
-import { TypeDocumentProducteur } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { DocumentProducteur } from '../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
 import { ModifierProducteurCommand } from './modifierProducteur.command.js';
@@ -33,12 +33,11 @@ export const registerModifierProducteurUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentProducteur.pièceJustificative.formatter(),
-          dateModificationValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentProducteur.pièceJustificativeModification({
+          identifiantProjet: identifiantProjetValue,
+          modifiéLe: dateModificationValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
       : undefined;
 
     if (pièceJustificative) {

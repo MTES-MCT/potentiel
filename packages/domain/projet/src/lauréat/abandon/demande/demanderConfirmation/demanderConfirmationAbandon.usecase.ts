@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-import { TypeDocumentAbandon } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentAbandon } from '../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command.js';
@@ -33,12 +33,11 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
   }) => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeDeConfirmationValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentAbandon.abandonÀConfirmer.formatter(),
-      dateDemandeDeConfirmationValue,
-      format,
-    );
+    const réponseSignée = DocumentAbandon.abandonAConfirmer({
+      identifiantProjet: identifiantProjetValue,
+      confirmationDemandéeLe: dateDemandeDeConfirmationValue,
+      réponseSignée: { format },
+    });
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 

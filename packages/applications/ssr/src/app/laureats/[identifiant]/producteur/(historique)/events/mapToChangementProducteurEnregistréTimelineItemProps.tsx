@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -8,19 +7,13 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
   event: Lauréat.Producteur.ChangementProducteurEnregistréEvent,
 ): TimelineItemProps => {
-  const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, producteur, raison } =
-    event.payload;
+  const { enregistréLe, enregistréPar, identifiantProjet, producteur, raison } = event.payload;
   return {
     date: enregistréLe,
     title: 'Producteur modifié',
     actor: enregistréPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
-        enregistréLe,
-        pièceJustificative.format,
-      ),
+      document: Lauréat.Producteur.DocumentProducteur.pièceJustificative(event.payload),
       ariaLabel: `Télécharger le justificatif du changement de producteur enregistré le ${formatDateToText(enregistréLe)}`,
     },
     details: (

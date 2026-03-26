@@ -1,7 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { DocumentProjet } from '#document-projet';
+
 import { TypeReprésentantLégal } from '../../index.js';
-import { DocumentProjet } from '../../../../index.js';
 
 export type DemanderChangementOptions = {
   nomReprésentantLégal: string;

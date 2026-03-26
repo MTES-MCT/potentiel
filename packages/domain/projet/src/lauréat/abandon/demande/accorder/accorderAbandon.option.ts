@@ -1,7 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet } from '../../../../index.js';
+import { DocumentProjet } from '#document-projet';
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;

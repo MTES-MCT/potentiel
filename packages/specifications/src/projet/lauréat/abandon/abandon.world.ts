@@ -1,5 +1,4 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
@@ -137,12 +136,11 @@ export class AbandonWord {
     }
 
     if (this.#demanderAbandonFixture.pièceJustificative) {
-      expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
-        this.#demanderAbandonFixture.demandéLe,
-        this.#demanderAbandonFixture.pièceJustificative.format,
-      );
+      expected.demande.pièceJustificative = Lauréat.Abandon.DocumentAbandon.pièceJustificative({
+        identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: this.#demanderAbandonFixture.demandéLe,
+        pièceJustificative: this.#demanderAbandonFixture.pièceJustificative,
+      });
     }
 
     if (this.#demanderConfirmationAbandonFixture.aÉtéCréé) {
@@ -153,12 +151,11 @@ export class AbandonWord {
         demandéePar: Email.convertirEnValueType(
           this.#demanderConfirmationAbandonFixture.confirmationDemandéePar,
         ),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
-          this.#demanderConfirmationAbandonFixture.confirmationDemandéeLe,
-          this.#demanderConfirmationAbandonFixture.réponseSignée.format,
-        ),
+        réponseSignée: Lauréat.Abandon.DocumentAbandon.abandonAConfirmer({
+          identifiantProjet: identifiantProjet.formatter(),
+          confirmationDemandéeLe: this.#demanderConfirmationAbandonFixture.confirmationDemandéeLe,
+          réponseSignée: this.#demanderConfirmationAbandonFixture.réponseSignée,
+        }),
       };
     }
 
@@ -186,14 +183,13 @@ export class AbandonWord {
     // Accord
     if (this.#accorderAbandonFixture.aÉtéCréé) {
       expected.demande.accord = {
-        accordéLe: DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéeLe),
+        accordéLe: DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéLe),
         accordéPar: Email.convertirEnValueType(this.#accorderAbandonFixture.accordéePar),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
-          this.#accorderAbandonFixture.accordéeLe,
-          this.#accorderAbandonFixture.réponseSignée.format,
-        ),
+        réponseSignée: Lauréat.Abandon.DocumentAbandon.abandonAccordé({
+          identifiantProjet: identifiantProjet.formatter(),
+          accordéLe: this.#accorderAbandonFixture.accordéLe as DateTime.RawType,
+          réponseSignée: this.#accorderAbandonFixture.réponseSignée,
+        }),
       };
     }
 
@@ -219,12 +215,11 @@ export class AbandonWord {
       expected.demande.rejet = {
         rejetéLe: DateTime.convertirEnValueType(this.#rejeterAbandonFixture.rejetéeLe),
         rejetéPar: Email.convertirEnValueType(this.#rejeterAbandonFixture.rejetéePar),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
-          this.#rejeterAbandonFixture.rejetéeLe,
-          this.#rejeterAbandonFixture.réponseSignée.format,
-        ),
+        réponseSignée: Lauréat.Abandon.DocumentAbandon.abandonRejeté({
+          identifiantProjet: identifiantProjet.formatter(),
+          rejetéLe: this.#rejeterAbandonFixture.rejetéeLe,
+          réponseSignée: this.#rejeterAbandonFixture.réponseSignée,
+        }),
       };
     }
 
@@ -244,8 +239,8 @@ export class AbandonWord {
       demandeEnCours: statut.estEnCours(),
       demandéLe: DateTime.convertirEnValueType(this.#demanderAbandonFixture.demandéLe),
       estAbandonné: this.#accorderAbandonFixture.aÉtéCréé,
-      accordéLe: this.#accorderAbandonFixture.accordéeLe
-        ? DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéeLe)
+      accordéLe: this.#accorderAbandonFixture.accordéLe
+        ? DateTime.convertirEnValueType(this.#accorderAbandonFixture.accordéLe)
         : undefined,
     };
 
