@@ -93,7 +93,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
         </div>
       </div>
       <div className="text-right italic mt-2">
-        * Autres Partenaires : CRE, Ademe, Caisse des dépôts, Gestionnaire de Réseau, Co-contractant
+        * Autres Partenaires : CRE, Ademe, Caisse des dépôts, Gestionnaire de Réseau, Cocontractant
       </div>
     </PageTemplate>
   );
