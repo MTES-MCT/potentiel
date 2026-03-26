@@ -5,7 +5,7 @@ import { extension } from 'mime-types';
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../index.js';
+import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 
 import { DossierProjet } from './index.js';
 
