@@ -96,17 +96,14 @@ Quand(
 
       const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
 
-      const {
-        accordéLe: accordéeLe,
-        accordéePar,
-        réponseSignée,
-      } = this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
-        accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
-      });
+      const { accordéLe, accordéePar, réponseSignée } =
+        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+          accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        });
 
       if (this.lauréatWorld.abandonWorld.demanderAbandonFixture.recandidature) {
         this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-          demandéeLe: accordéeLe,
+          demandéeLe: accordéLe,
         });
       }
 
@@ -114,7 +111,7 @@ Quand(
         type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
-          dateAccordValue: accordéeLe,
+          dateAccordValue: accordéLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: accordéePar,
           rôleUtilisateurValue: rôle,

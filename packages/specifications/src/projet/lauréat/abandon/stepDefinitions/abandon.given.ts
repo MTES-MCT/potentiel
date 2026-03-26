@@ -170,24 +170,21 @@ async function créerAccordAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { demandéLe, recandidature } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
-  const {
-    accordéLe: accordéeLe,
-    accordéePar,
-    réponseSignée,
-  } = this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
-    accordéePar: this.utilisateurWorld.validateurFixture.email,
-    // dans le contexte d'une recandidature, l'accord a forcément été fait avant le 31/03/2025
-    ...(recandidature
-      ? { accordéLe: faker.date.between({ from: demandéLe, to: '2025-03-31' }).toISOString() }
-      : {}),
-  });
+  const { accordéLe, accordéePar, réponseSignée } =
+    this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+      accordéePar: this.utilisateurWorld.validateurFixture.email,
+      // dans le contexte d'une recandidature, l'accord a forcément été fait avant le 31/03/2025
+      ...(recandidature
+        ? { accordéLe: faker.date.between({ from: demandéLe, to: '2025-03-31' }).toISOString() }
+        : {}),
+    });
 
   await mediator.send<Lauréat.Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: réponseSignée,
-      dateAccordValue: accordéeLe,
+      dateAccordValue: accordéLe,
       identifiantUtilisateurValue: accordéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },
@@ -284,11 +281,11 @@ async function annulerDemandeAbandon(this: PotentielWorld) {
 async function créerDemandePreuveRecandidature(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { accordéLe: accordéeLe } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
+  const { accordéLe } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
   const { demandéeLe } =
     this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-      demandéeLe: accordéeLe,
+      demandéeLe: accordéLe,
     });
 
   await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
