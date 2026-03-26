@@ -1,7 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { DocumentProjet } from '#document-projet';
+
 import { DispositifDeStockage } from '../../../index.js';
-import { DocumentProjet } from '../../../../../index.js';
 
 export type EnregistrerChangementDispositifDeStockageOptions = {
   dispositifDeStockage: DispositifDeStockage.ValueType;

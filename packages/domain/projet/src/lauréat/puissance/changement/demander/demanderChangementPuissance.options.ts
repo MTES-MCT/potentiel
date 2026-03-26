@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '../../../../index.js';
+import { DocumentProjet } from '#document-projet';
 
 export type DemanderOptions = {
   puissance: number;

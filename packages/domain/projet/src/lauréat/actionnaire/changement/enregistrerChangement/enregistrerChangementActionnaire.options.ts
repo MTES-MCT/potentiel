@@ -1,6 +1,6 @@
 import { Email, DateTime } from '@potentiel-domain/common';
 
-import { DocumentProjet } from '../../../../index.js';
+import { DocumentProjet } from '#document-projet';
 
 export type EnregistrerChangementOptions = {
   identifiantUtilisateur: Email.ValueType;
