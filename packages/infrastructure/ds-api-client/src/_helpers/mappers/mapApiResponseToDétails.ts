@@ -23,6 +23,6 @@ export const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) =
       prev[curr.label] = curr.stringValue ?? undefined;
       return prev;
     },
-    {} as Record<string, unknown>,
+    {} as Record<string, string>,
   );
 };
