@@ -35,15 +35,17 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-09-30').toISOString(),
     },
   },
-  changement: {
-    puissance: {
-      demande: true,
-      informationEnregistrée: true,
-      ratios: {
-        min: 0.8,
-        max: 1.4,
+  demandes: {
+    changement: {
+      puissance: {
+        demande: true,
+        informationEnregistrée: true,
+        ratios: {
+          min: 0.8,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
     },
   },
 };
@@ -71,48 +73,50 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-imp',
   technologie: 'eolien',
   unitePuissance: 'MW',
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.8,
-        max: 1.2,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.8,
+          max: 1.2,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: defaultModifications,
   },
-  modification: defaultModifications,
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -181,14 +185,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -222,14 +228,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -258,14 +266,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -286,14 +296,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -314,14 +326,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -342,14 +356,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -370,14 +386,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -398,14 +416,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'rejet',
-        },
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          représentantLégal: {
+            demande: true,
+            instructionAutomatique: 'rejet',
+          },
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
       typeImport: 'csv',
@@ -427,10 +447,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },
@@ -454,10 +476,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },

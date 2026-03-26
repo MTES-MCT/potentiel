@@ -27,18 +27,20 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.3 et au 7.1, pour la mise en service peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    siteDeProduction: {},
-    puissance: {
-      demande: true,
-      informationEnregistrée: true,
-      ratios: {
-        min: 0.9,
-        max: 1.4,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      siteDeProduction: {},
+      puissance: {
+        demande: true,
+        informationEnregistrée: true,
+        ratios: {
+          min: 0.9,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
     },
   },
   délaiApplicable: {
@@ -71,48 +73,50 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.9,
-        max: 1.1,
+  demandes: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: { ...defaultModifications, typologieInstallation: true },
   },
-  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -196,14 +200,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '2',
@@ -229,14 +235,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '3',
@@ -268,14 +276,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '4',
@@ -301,14 +311,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '5',
@@ -345,14 +357,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '6',
@@ -389,14 +403,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '7',
@@ -433,14 +449,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '8',
@@ -480,14 +498,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '9',
@@ -525,14 +545,16 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
+        modification: defaultModifications,
       },
       champsSupplémentaires: {},
-      modification: defaultModifications,
     },
     {
       id: '10',
@@ -574,10 +596,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },
@@ -619,10 +643,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
-      changement: {
-        abandon: {
-          demande: true,
-          autoritéCompétente: 'dgec',
+      demandes: {
+        changement: {
+          abandon: {
+            demande: true,
+            autoritéCompétente: 'dgec',
+          },
         },
       },
     },

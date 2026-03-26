@@ -57,7 +57,9 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  demandes: {
+    changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -73,15 +75,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: {
-    ...changementsCdcModifiéOuApplicablesAPartirDeP6,
-    puissance: {
-      ...changementsCdcModifiéOuApplicablesAPartirDeP6.puissance,
-      ratios: {
-        min: changementsCdcModifiéOuApplicablesAPartirDeP6.puissance.ratios.min,
-        max: 1.4,
+  demandes: {
+    changement: {
+      ...changementsCdcModifiéOuApplicablesAPartirDeP6,
+      puissance: {
+        ...changementsCdcModifiéOuApplicablesAPartirDeP6.puissance,
+        ratios: {
+          min: changementsCdcModifiéOuApplicablesAPartirDeP6.puissance.ratios.min,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre. `,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre. `,
     },
   },
 };
@@ -97,7 +101,9 @@ const CDCModifié30082022Alternatif: AppelOffre.CahierDesChargesModifié = {
       dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre.Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: CDCModifié30082022.changement,
+  demandes: {
+    changement: CDCModifié30082022.demandes?.changement,
+  },
 };
 
 const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
@@ -105,7 +111,9 @@ const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
   paruLe: '07/02/2023',
   numéroGestionnaireRequis: true,
   délaiAnnulationAbandon: new Date('2023-02-23'),
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  demandes: {
+    changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  },
 };
 
 const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
@@ -114,7 +122,9 @@ const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
   alternatif: true,
   numéroGestionnaireRequis: true,
   délaiAnnulationAbandon: CDCModifié07022023.délaiAnnulationAbandon,
-  changement: CDCModifié07022023.changement,
+  demandes: {
+    changement: CDCModifié07022023.demandes?.changement,
+  },
 };
 
 export const zni: AppelOffre.AppelOffreReadModel = {
@@ -130,8 +140,10 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
-  modification: defaultModifications,
+  demandes: {
+    changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+    modification: defaultModifications,
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.4',
@@ -280,7 +292,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      demandes: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -367,7 +381,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      demandes: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -454,7 +470,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      demandes: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -541,7 +559,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      demandes: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -628,7 +648,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         CDCModifié07022023Alternatif,
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      demandes: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {

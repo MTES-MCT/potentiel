@@ -55,7 +55,9 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCDCModifié,
+  demandes: {
+    changement: changementsCDCModifié,
+  },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -71,15 +73,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
     },
   },
-  changement: {
-    ...changementsCDCModifié,
-    puissance: {
-      ...changementsCDCModifié.puissance,
-      ratios: {
-        min: changementsCDCModifié.puissance.ratios.min,
-        max: 1.4,
+  demandes: {
+    changement: {
+      ...changementsCDCModifié,
+      puissance: {
+        ...changementsCDCModifié.puissance,
+        ratios: {
+          min: changementsCDCModifié.puissance.ratios.min,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.`,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.`,
     },
   },
 };
@@ -97,8 +101,10 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
-  changement: 'indisponible',
-  modification: defaultModifications,
+  demandes: {
+    changement: 'indisponible',
+    modification: defaultModifications,
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',

@@ -76,9 +76,9 @@ export class DélaiWorld {
         this.#demanderDélaiFixture.pièceJustificative.format,
       ),
       autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
-        ao!.changement === 'indisponible' || !ao?.changement.délai.demande
+        ao!.demandes.changement === 'indisponible' || !ao?.demandes.changement.délai.demande
           ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
-          : ao.changement.délai.autoritéCompétente,
+          : ao.demandes.changement.délai.autoritéCompétente,
       ),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
         ? {
