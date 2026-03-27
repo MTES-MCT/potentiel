@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -69,12 +69,13 @@ export class EnregistrerAttestationConformitéFixture
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     return {
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(this.enregistréeLe).formatter(),
-        this.attestation.format,
-      ),
+      attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+        identifiantProjet: identifiantProjet.formatter(),
+        enregistréLe: DateTime.convertirEnValueType(this.enregistréeLe).formatter(),
+        'attestation-conformite': {
+          format: this.attestation.format,
+        },
+      }),
 
       preuveTransmissionAuCocontractant: Option.none,
       misÀJourLe: DateTime.convertirEnValueType(this.enregistréeLe),

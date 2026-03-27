@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../../fixture.js';
@@ -94,20 +94,25 @@ export class TransmettreAttestationConformitéFixture
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     return {
-      attestation: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(this.date).formatter(),
-        this.attestation.format,
-      ),
+      attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+        identifiantProjet: identifiantProjet.formatter(),
+        enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
+        'attestation-conformite': {
+          format: this.attestation.format,
+        },
+      }),
 
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
-      preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-        DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant).formatter(),
-        this.attestation.format,
-      ),
+      preuveTransmissionAuCocontractant:
+        Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: DateTime.convertirEnValueType(
+            this.dateTransmissionAuCocontractant,
+          ).formatter(),
+          'preuve-transmission-attestation-conformite': {
+            format: this.preuve.format,
+          },
+        }),
       misÀJourLe: DateTime.convertirEnValueType(this.date),
       misÀJourPar: Email.convertirEnValueType(this.utilisateur),
     };
