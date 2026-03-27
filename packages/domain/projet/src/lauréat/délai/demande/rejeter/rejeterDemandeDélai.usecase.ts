@@ -3,12 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeDocumentDemandeDélai } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentDélai } from '../../index.js';
 
 import { RejeterDemandeDélaiCommand } from './rejeterDemandeDélai.command.js';
 
@@ -34,12 +31,13 @@ export const registerRejeterDemandeDélaiUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentDemandeDélai.demandeRejetée.formatter(),
-      dateRejet.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentDélai.délaiRejeté({
+      identifiantProjet: identifiantProjet.formatter(),
+      rejetéeLe: dateRejet.formatter(),
+      réponseSignée: {
+        format,
+      },
+    });
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({

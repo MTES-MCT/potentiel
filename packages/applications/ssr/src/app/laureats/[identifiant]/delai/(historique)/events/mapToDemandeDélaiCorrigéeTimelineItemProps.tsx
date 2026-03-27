@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -22,12 +21,13 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
     title: 'Demande de délai corrigée',
     actor: corrigéePar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Délai.DocumentDélai.pièceJustificative({
         identifiantProjet,
-        Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-        dateDemande,
-        pièceJustificative.format,
-      ),
+        demandéLe: dateDemande,
+        pièceJustificative: {
+          format: pièceJustificative.format,
+        },
+      }),
       ariaLabel: `Télécharger le justificatif de la demande de délai corrigée le ${formatDateToText(corrigéeLe)}`,
     },
     details: (

@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as TypeDocumentDemandeDélai from '../typeDocumentDemandeDélai.valueType.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { CorrigerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentDélai } from '../../index.js';
 
 import { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command.js';
 
@@ -39,12 +39,13 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentDélai.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe: dateDemandeValue,
+          pièceJustificative: {
+            format: pièceJustificativeValue.format,
+          },
+        })
       : undefined;
 
     await mediator.send<CorrigerDemandeDélaiCommand>({

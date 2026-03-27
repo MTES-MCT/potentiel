@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { TypeDocumentDemandeDélai } from '../../index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { DocumentDélai } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { AccorderDemandeDélaiCommand } from './accorderDemandeDélai.command.js';
@@ -33,12 +33,13 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentDemandeDélai.demandeAccordée.formatter(),
-      dateAccord.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentDélai.délaiAccordé({
+      identifiantProjet: identifiantProjet.formatter(),
+      accordéLe: dateAccord.formatter(),
+      réponseSignée: {
+        format,
+      },
+    });
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
