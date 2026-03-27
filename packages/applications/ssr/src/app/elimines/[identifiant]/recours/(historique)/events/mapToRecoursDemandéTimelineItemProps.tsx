@@ -1,5 +1,4 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -20,12 +19,13 @@ export const mapToRecoursDemandéTimelineItemProps = (
     title: 'Demande de recours déposée',
     actor: demandéPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Éliminé.Recours.DocumentRecours.pièceJustificative({
         identifiantProjet,
-        Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
         demandéLe,
-        format,
-      ),
+        pièceJustificative: {
+          format,
+        },
+      }),
       ariaLabel: `Télécharger le justificatif de la demande de recours en date du ${formatDateToText(demandéLe)}`,
     },
     link: {

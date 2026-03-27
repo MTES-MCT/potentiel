@@ -73,7 +73,7 @@ export { registerRecoursQueries, registerRecoursUseCases } from './recours.regis
 
 // ValueTypes
 export * as StatutRecours from './statutRecours.valueType.js';
-export * as TypeDocumentRecours from './typeDocumentRecours.valueType.js';
+export * as DocumentRecours from './documentRecours.valueType.js';
 
 // Entities
 export type * from './demandeRecours.entity.js';
