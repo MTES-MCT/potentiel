@@ -6,7 +6,7 @@ import { Find } from '@potentiel-domain/entity';
 
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { ChangementFournisseurEntity } from '../changementFournisseur.entity.js';
-import { Fournisseur, TypeDocumentFournisseur } from '../../index.js';
+import { Fournisseur, DocumentFournisseur } from '../../index.js';
 
 export type ConsulterChangementFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,8 +57,10 @@ export const mapToReadModel = (result: ChangementFournisseurEntity) => {
     return Option.none;
   }
 
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(result.identifiantProjet);
+
   return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    identifiantProjet,
 
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
@@ -66,12 +68,13 @@ export const mapToReadModel = (result: ChangementFournisseurEntity) => {
       fournisseurs: result.changement.fournisseurs?.map(Fournisseur.convertirEnValueType),
       évaluationCarboneSimplifiée: result.changement.évaluationCarboneSimplifiée,
       raison: result.changement.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        result.identifiantProjet,
-        TypeDocumentFournisseur.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
-        result.changement.pièceJustificative?.format,
-      ),
+      pièceJustificative: DocumentFournisseur.pièceJustificative({
+        identifiantProjet: identifiantProjet.formatter(),
+        enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
+        pièceJustificative: {
+          format: result.changement.pièceJustificative?.format,
+        },
+      }),
     },
   } satisfies ConsulterChangementFournisseurReadModel;
 };

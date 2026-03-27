@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
@@ -22,12 +21,13 @@ export const mapToFournisseurModifiéTimelineItemProps = (
     title: 'Fournisseur modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Fournisseur.DocumentFournisseur.pièceJustificative({
         identifiantProjet,
-        Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-        modifiéLe,
-        pièceJustificative.format,
-      ),
+        enregistréLe: modifiéLe,
+        pièceJustificative: {
+          format: pièceJustificative.format,
+        },
+      }),
       ariaLabel: `Télécharger le justificatif du changement de fournisseur enregistré le ${formatDateToText(modifiéLe)}`,
     },
     details: (
