@@ -1,5 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -20,12 +20,14 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
     title: "Demande de changement d'actionnaire déposée",
     actor: demandéPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
         identifiantProjet,
-        Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
         demandéLe,
-        format,
-      ),
+        pièceJustificative: {
+          format,
+        },
+      }),
+      label: 'Télécharger le justificatif de la demande',
       ariaLabel: `Télécharger le justificatif de la demande de changement d'actionnaire en date du ${formatDateToText(demandéLe)}`,
     },
     link: {

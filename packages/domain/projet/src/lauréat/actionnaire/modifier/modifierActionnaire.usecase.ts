@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../document-projet/index.js';
-import { TypeDocumentActionnaire } from '../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
+import { DocumentActionnaire } from '../index.js';
 import { IdentifiantProjet } from '../../../index.js';
 
 import { ModifierActionnaireCommand } from './modifierActionnaire.command.js';
@@ -36,12 +33,11 @@ export const registerModifierActionnaireUseCase = () => {
     raisonValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentActionnaire.pièceJustificative.formatter(),
-          dateModificationValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentActionnaire.pièceJustificativeModification({
+          identifiantProjet: identifiantProjetValue,
+          modifiéLe: dateModificationValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
       : undefined;
 
     if (pièceJustificative) {
