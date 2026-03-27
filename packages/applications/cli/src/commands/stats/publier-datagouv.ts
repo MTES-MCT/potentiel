@@ -53,6 +53,7 @@ export class PublierDatagouvStats extends Command {
       await executeSelect<DataLine>(`select * from domain_public_statistic.indicateurs_projets`)
     ).map((line) => ({
       ...line,
+      type_actionnariat: line.type_actionnariat ?? '',
       date_de_notification: DateTime.convertirEnValueType(line.date_de_notification)
         .date.toISOString()
         .split('T')[0],
@@ -93,14 +94,13 @@ export class PublierDatagouvStats extends Command {
     resourceId: string;
     apiKey: string;
   }) {
-    const fileName = 'data.csv';
+    const fileName = 'projets_enr_appels_offres_en_france.csv';
 
     const form = new FormData();
     form.append('file', new Blob([buffer]), fileName);
     form.append('title', fileName);
     form.append('format', 'csv');
     form.append('type', 'main');
-    form.append('private', 'true');
 
     const url = `${apiUrl}/datasets/${datasetId}/resources/${resourceId}/upload/`;
 

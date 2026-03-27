@@ -3,6 +3,7 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 export const computeIndicateursProjetsAgrégés = async () => {
   await executeQuery(
     `
+    truncate table domain_public_statistic.indicateurs_projets;
     insert
     into 
       domain_public_statistic.indicateurs_projets
