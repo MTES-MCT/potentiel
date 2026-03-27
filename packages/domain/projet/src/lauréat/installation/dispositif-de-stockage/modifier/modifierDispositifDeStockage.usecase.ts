@@ -33,10 +33,10 @@ export const registerModifierDispositifDeStockageUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentDispositifDeStockage.pièceJustificativeModification({
+      ? DocumentDispositifDeStockage.pièceJustificative({
           identifiantProjet:
             IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
-          modifiéLe: DateTime.convertirEnValueType(modifiéLeValue).formatter(),
+          enregistréLe: DateTime.convertirEnValueType(modifiéLeValue).formatter(),
           pièceJustificative: {
             format: pièceJustificativeValue.format,
           },

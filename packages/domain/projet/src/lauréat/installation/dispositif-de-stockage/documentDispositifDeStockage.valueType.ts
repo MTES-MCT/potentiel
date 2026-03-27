@@ -5,9 +5,3 @@ export const pièceJustificative = DocumentProjet.documentFactory(
   'pièceJustificative',
   'enregistréLe',
 );
-
-export const pièceJustificativeModification = DocumentProjet.documentFactory(
-  'dispositif-de-stockage/pièce-justificative',
-  'pièceJustificative',
-  'modifiéLe',
-);

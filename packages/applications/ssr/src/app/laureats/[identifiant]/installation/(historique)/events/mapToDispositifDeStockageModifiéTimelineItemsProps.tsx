@@ -21,9 +21,9 @@ export const mapToDispositifDeStockageModifiéTimelineItemsProps = ({
   title: 'Dispositif de stockage modifié',
   file: pièceJustificative
     ? {
-        document: Lauréat.Installation.DocumentDispositifDeStockage.pièceJustificativeModification({
+        document: Lauréat.Installation.DocumentDispositifDeStockage.pièceJustificative({
           identifiantProjet,
-          modifiéLe,
+          enregistréLe: modifiéLe,
           pièceJustificative: {
             format: pièceJustificative.format,
           },
