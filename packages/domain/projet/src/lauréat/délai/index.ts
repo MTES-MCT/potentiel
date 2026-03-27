@@ -71,7 +71,7 @@ export * from './délai.register.js';
 
 // ValueTypes
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType.js';
-export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType.js';
+export * as DocumentDélai from './demande/documentDélai.valueType.js';
 export * as AutoritéCompétente from './autoritéCompétente.valueType.js';
 
 // Entities
