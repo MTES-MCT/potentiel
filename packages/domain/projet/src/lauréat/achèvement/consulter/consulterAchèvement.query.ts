@@ -5,7 +5,7 @@ import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AchèvementEntity } from '../achèvement.entity.js';
-import { DateAchèvementPrévisionnel, TypeDocumentAttestationConformité } from '../index.js';
+import { DateAchèvementPrévisionnel, DocumentAchèvement } from '../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterAchèvementAchevéReadModel = {
@@ -91,21 +91,23 @@ const mapToReadModel = ({
     ...common,
     estAchevé: true,
     attestation: attestationConformité
-      ? DocumentProjet.convertirEnValueType(
+      ? DocumentAchèvement.attestationConformité({
           identifiantProjet,
-          TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-          DateTime.convertirEnValueType(attestationConformité.transmiseLe).formatter(),
-          attestationConformité.format,
-        )
+          enregistréLe: attestationConformité.transmiseLe,
+          'attestation-conformite': {
+            format: attestationConformité.format,
+          },
+        })
       : Option.none,
     dateAchèvementRéel: DateTime.convertirEnValueType(dateAchèvementRéel),
     preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
-      ? DocumentProjet.convertirEnValueType(
+      ? DocumentAchèvement.preuveTransmissionAttestationConformité({
           identifiantProjet,
-          TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-          DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.transmiseLe).formatter(),
-          preuveTransmissionAuCocontractant.format,
-        )
+          enregistréLe: preuveTransmissionAuCocontractant.transmiseLe,
+          'preuve-transmission-attestation-conformite': {
+            format: preuveTransmissionAuCocontractant.format,
+          },
+        })
       : Option.none,
     misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
     misÀJourPar: Email.convertirEnValueType(dernièreMiseÀJour.utilisateur),

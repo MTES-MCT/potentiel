@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../../fixture.js';
@@ -95,20 +95,27 @@ export class ModifierAttestationConformitéFixture
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
 
       ...(this.attestation && {
-        attestation: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-          DateTime.convertirEnValueType(this.date).formatter(),
-          this.attestation.format,
-        ),
+        attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformitéModification({
+          identifiantProjet: identifiantProjet.formatter(),
+          modifiéLe: DateTime.convertirEnValueType(this.date).formatter(),
+          'attestation-conformite': {
+            format: this.attestation.format,
+          },
+        }),
       }),
       ...(this.preuve && {
-        preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-          DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant).formatter(),
-          this.preuve.format,
-        ),
+        preuveTransmissionAuCocontractant:
+          Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformitéModification(
+            {
+              identifiantProjet: identifiantProjet.formatter(),
+              modifiéLe: DateTime.convertirEnValueType(
+                this.dateTransmissionAuCocontractant,
+              ).formatter(),
+              'preuve-transmission-attestation-conformite': {
+                format: this.preuve.format,
+              },
+            },
+          ),
       }),
       misÀJourLe: DateTime.convertirEnValueType(this.date),
       misÀJourPar: Email.convertirEnValueType(this.utilisateur),

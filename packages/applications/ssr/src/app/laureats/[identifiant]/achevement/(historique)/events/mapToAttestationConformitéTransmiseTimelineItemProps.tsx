@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -17,19 +16,22 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     utilisateur,
   } = event.payload;
 
-  const attestation = DocumentProjet.convertirEnValueType(
+  const attestation = Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
     identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-    date,
-    format,
-  );
+    enregistréLe: date,
+    'attestation-conformite': {
+      format,
+    },
+  });
 
-  const preuveTransmission = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-    dateTransmissionAuCocontractant,
-    preuveTransmissionAuCocontractant.format,
-  );
+  const preuveTransmission =
+    Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
+      identifiantProjet,
+      enregistréLe: dateTransmissionAuCocontractant,
+      'preuve-transmission-attestation-conformite': {
+        format: preuveTransmissionAuCocontractant.format,
+      },
+    });
 
   return {
     date,
