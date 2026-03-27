@@ -19,7 +19,7 @@ export const candidatureImportéeV1Projector = async ({
       ...payload,
       fournisseurs: [],
       typologieInstallation: [],
-      référencesRaccordement: [],
+      raccordements: [],
     },
     appelOffres,
   });

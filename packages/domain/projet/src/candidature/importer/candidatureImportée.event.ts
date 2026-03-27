@@ -54,7 +54,10 @@ type CandidatureImportéeEventPayload = {
   puissanceDeSite?: number;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
-  référencesRaccordement?: Array<Raccordement.RéférenceDossierRaccordement.RawType>;
+  raccordements?: Array<{
+    référence: Raccordement.RéférenceDossierRaccordement.RawType;
+    dateQualification: DateTime.RawType;
+  }>;
 };
 
 /**

@@ -174,7 +174,7 @@ const mapCorrectionToCandidature = (
   appelOffres: AppelOffre.AppelOffreReadModel,
 ): BuildCertificateProps['candidature'] => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
-  dépôt: Candidature.Dépôt.convertirEnValueType({ référencesRaccordement: [], ...payload }),
+  dépôt: Candidature.Dépôt.convertirEnValueType({ raccordements: undefined, ...payload }),
   instruction: Candidature.Instruction.convertirEnValueType(payload),
   unitéPuissance: Candidature.UnitéPuissance.déterminer({
     appelOffres,
