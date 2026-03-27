@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -21,12 +20,13 @@ export const mapToChangementActionnaireEnregistréTimelineItemProps = (
     title: 'Actionnaire modifié',
     actor: enregistréPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
         identifiantProjet,
-        Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-        enregistréLe,
-        pièceJustificative.format,
-      ),
+        demandéLe: enregistréLe,
+        pièceJustificative: {
+          format: pièceJustificative.format,
+        },
+      }),
       ariaLabel: `Télécharger le justificatif du changement d'actionnaire en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (

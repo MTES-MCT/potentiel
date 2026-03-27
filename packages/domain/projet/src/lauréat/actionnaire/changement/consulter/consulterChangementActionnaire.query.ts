@@ -7,7 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 import {
   ChangementActionnaireEntity,
   StatutChangementActionnaire,
-  TypeDocumentActionnaire,
+  DocumentActionnaire,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
@@ -84,36 +84,33 @@ export const mapToReadModel = (result: ChangementActionnaireEntity) => {
       demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
       raison: result.demande.raison,
       pièceJustificative: result.demande.pièceJustificative?.format
-        ? DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentActionnaire.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
-            result.demande.pièceJustificative?.format,
-          )
+        ? DocumentActionnaire.pièceJustificative({
+            identifiantProjet: result.identifiantProjet,
+            demandéLe: result.demande.demandéeLe,
+            pièceJustificative: result.demande.pièceJustificative,
+          })
         : undefined,
 
       accord: result.demande.accord
         ? {
             accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
             accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentActionnaire.changementAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
-              result.demande.accord.réponseSignée.format,
-            ),
+            réponseSignée: DocumentActionnaire.changementAccordé({
+              identifiantProjet: result.identifiantProjet,
+              accordéLe: result.demande.accord.accordéeLe,
+              réponseSignée: result.demande.accord.réponseSignée,
+            }),
           }
         : undefined,
       rejet: result.demande.rejet
         ? {
             rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
             rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentActionnaire.changementRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
-              result.demande.rejet.réponseSignée.format,
-            ),
+            réponseSignée: DocumentActionnaire.changementRejeté({
+              identifiantProjet: result.identifiantProjet,
+              rejetéLe: result.demande.rejet.rejetéeLe,
+              réponseSignée: result.demande.rejet.réponseSignée,
+            }),
           }
         : undefined,
     },
