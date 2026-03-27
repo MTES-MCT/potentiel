@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
-import { Fournisseur, TypeDocumentFournisseur } from '../../../index.js';
+import { IdentifiantProjet } from '../../../../../index.js';
+import { Fournisseur, DocumentFournisseur } from '../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../../document-projet/index.js';
 
 import { MettreÀJourFournisseurCommand } from './mettreÀJourFournisseur.command.js';
@@ -53,12 +53,13 @@ export const registerMettreÀJourFournisseurUseCase = () => {
     const date = DateTime.convertirEnValueType(dateValue);
 
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          TypeDocumentFournisseur.pièceJustificative.formatter(),
-          date.formatter(),
-          pièceJustificativeValue.format,
-        )
+      ? DocumentFournisseur.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: date.formatter(),
+          pièceJustificative: {
+            format: pièceJustificativeValue.format,
+          },
+        })
       : undefined;
 
     await mediator.send<MettreÀJourFournisseurCommand>({
