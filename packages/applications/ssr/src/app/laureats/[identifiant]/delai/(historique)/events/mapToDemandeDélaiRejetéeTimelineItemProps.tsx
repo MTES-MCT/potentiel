@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -14,12 +13,13 @@ export const mapToDemandeDélaiRejetéeTimelineItemProps = (
     title: 'Demande de délai rejetée',
     actor: rejetéePar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Délai.DocumentDélai.délaiRejeté({
         identifiantProjet,
-        Lauréat.Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
         rejetéeLe,
-        réponseSignée.format,
-      ),
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+      }),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de délai rejetée le ${formatDateToText(rejetéeLe)}`,
     },
