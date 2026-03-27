@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
-import { DispositifDeStockage, TypeDocumentDispositifDeStockage } from '../../../index.js';
+import { DispositifDeStockage, DocumentDispositifDeStockage } from '../../../index.js';
 import { ChangementDispositifDeStockageEntity } from '../changementDispositifDeStockage.entity.js';
 
 export type ConsulterChangementDispositifDeStockageReadModel = {
@@ -55,8 +55,10 @@ export const mapToReadModel = (result: ChangementDispositifDeStockageEntity) => 
     return Option.none;
   }
 
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(result.identifiantProjet);
+
   return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    identifiantProjet,
 
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
@@ -65,12 +67,13 @@ export const mapToReadModel = (result: ChangementDispositifDeStockageEntity) => 
         result.changement.dispositifDeStockage,
       ),
       raison: result.changement.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        result.identifiantProjet,
-        TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
-        result.changement.pièceJustificative.format,
-      ),
+      pièceJustificative: DocumentDispositifDeStockage.pièceJustificative({
+        identifiantProjet: identifiantProjet.formatter(),
+        enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
+        pièceJustificative: {
+          format: result.changement.pièceJustificative.format,
+        },
+      }),
     },
   } satisfies ConsulterChangementDispositifDeStockageReadModel;
 };
