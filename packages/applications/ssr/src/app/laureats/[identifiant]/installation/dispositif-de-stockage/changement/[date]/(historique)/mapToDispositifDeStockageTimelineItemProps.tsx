@@ -4,7 +4,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { mapToDispositifDeStockageMisÀJourTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageMisÀJourTimelineItemsProps';
+import { mapToDispositifDeStockageModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageModifiéTimelineItemsProps';
+import { mapToDispositifDeStockageEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageEnregistréTimelineItemsProps';
 
 import { mapToDispositifDeStockageImportéTimelineItemProps } from './events/mapToDispositifDeStockageImportéTimelineItemProps';
 
@@ -20,10 +21,10 @@ export const mapToDispositifDeStockageTimelineItemProps: MapToInstallationTimeli
       mapToDispositifDeStockageImportéTimelineItemProps(readmodel),
     )
     .with({ type: 'DispositifDeStockageModifié-V1' }, (readmodel) =>
-      mapToDispositifDeStockageMisÀJourTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
     )
     .with({ type: 'ChangementDispositifDeStockageEnregistré-V1' }, (readmodel) =>
-      mapToDispositifDeStockageMisÀJourTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageEnregistréTimelineItemsProps(readmodel),
     )
     .with(
       {
