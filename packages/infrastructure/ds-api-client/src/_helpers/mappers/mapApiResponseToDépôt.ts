@@ -12,7 +12,7 @@ import {
   getTypologieInstallation,
   getAutorisation,
   getFournisseurs,
-  getRéférencesRaccordement,
+  getRaccordements,
   getNatureDeLExploitation,
   getTypeActionnariat,
 } from '../getters/index.js';
@@ -151,7 +151,7 @@ export const mapApiResponseToDépôt = ({
       nomChampGouvernancePartagée: 'gouvernancePartagée',
     }),
 
-    référencesRaccordement: getRéférencesRaccordement(champs),
+    raccordements: getRaccordements(champs),
 
     // Non disponibles sur Démarches simplifiées
     puissanceALaPointe: undefined,

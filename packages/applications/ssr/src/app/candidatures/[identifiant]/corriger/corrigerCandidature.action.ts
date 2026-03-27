@@ -137,7 +137,10 @@ const mapBodyToUseCaseData = (
             tauxPrévisionnelACC: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACC,
           }
         : undefined,
-      référencesRaccordement: previous.dépôt.référencesRaccordement.map((r) => r.formatter()),
+      raccordements: previous.dépôt.raccordements?.map((r) => ({
+        dateQualification: r.dateQualification.formatter(),
+        référence: r.référence.formatter(),
+      })),
     },
 
     détailsValue: undefined,

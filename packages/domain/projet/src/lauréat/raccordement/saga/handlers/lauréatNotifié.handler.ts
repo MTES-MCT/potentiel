@@ -47,14 +47,15 @@ export const handleLauréatNotifié = async ({
     },
   });
 
-  if (candidature.dépôt.référencesRaccordement?.length) {
-    for (const référence of candidature.dépôt.référencesRaccordement) {
+  if (candidature.dépôt.raccordements?.length) {
+    for (const raccordement of candidature.dépôt.raccordements) {
       try {
         await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
           type: 'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            référenceDossier: référence,
+            référenceDossier: raccordement.référence,
+            dateQualification: raccordement.dateQualification,
             transmisePar: Email.système,
           },
         });

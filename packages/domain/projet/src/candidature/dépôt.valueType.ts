@@ -50,7 +50,12 @@ export type RawType = {
         tauxPrévisionnelACC?: number;
       }
     | undefined;
-  référencesRaccordement: Array<Raccordement.RéférenceDossierRaccordement.RawType>;
+  raccordements:
+    | Array<{
+        référence: Raccordement.RéférenceDossierRaccordement.RawType;
+        dateQualification: DateTime.RawType;
+      }>
+    | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -85,7 +90,12 @@ export type ValueType = ReadonlyValueType<{
         tauxPrévisionnelACC?: number;
       }
     | undefined;
-  référencesRaccordement: Array<Raccordement.RéférenceDossierRaccordement.ValueType>;
+  raccordements:
+    | Array<{
+        référence: Raccordement.RéférenceDossierRaccordement.ValueType;
+        dateQualification: DateTime.ValueType;
+      }>
+    | undefined;
 
   formatter(): RawType;
 }>;
@@ -136,9 +146,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         tauxPrévisionnelACC: plain.natureDeLExploitation.tauxPrévisionnelACC,
       }
     : undefined,
-  référencesRaccordement: plain.référencesRaccordement.map((r) =>
-    Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r.référence),
-  ),
+  raccordements: plain.raccordements?.map((r) => ({
+    référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+      r.référence.référence,
+    ),
+    dateQualification: DateTime.bind(r.dateQualification),
+  })),
 
   estÉgaleÀ(valueType) {
     return (
@@ -175,7 +188,14 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
       ) &&
-      areEqualArrays(valueType.référencesRaccordement, this.référencesRaccordement)
+      valueType.raccordements?.length === this.raccordements?.length &&
+      !!valueType.raccordements?.every((rA) =>
+        this.raccordements?.some(
+          (rB) =>
+            areEqual(rA.référence, rB.référence) &&
+            areEqual(rA.dateQualification, rB.dateQualification),
+        ),
+      )
     );
   },
   formatter() {
@@ -226,7 +246,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
-      référencesRaccordement: this.référencesRaccordement.map((r) => r.formatter()),
+      raccordements: this.raccordements?.map((r) => ({
+        référence: r.référence.formatter(),
+        dateQualification: r.dateQualification.formatter(),
+      })),
     };
   },
 });
@@ -299,9 +322,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           tauxPrévisionnelACC: raw.natureDeLExploitation.tauxPrévisionnelACC,
         })
       : undefined,
-    référencesRaccordement: raw.référencesRaccordement.map((r) =>
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(r),
-    ),
+    raccordements: raw.raccordements?.map((raccordement) => ({
+      référence: { référence: raccordement.référence },
+      dateQualification: { date: raccordement.dateQualification },
+    })),
   });
 
 const bindOptional = <TValue, TValueType>(

@@ -22,7 +22,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'dispositifDeStockage'
     | 'natureDeLExploitation'
     | 'puissanceProjetInitial'
-    | 'référencesRaccordement'
+    | 'raccordements'
   >
 > = {
   typeGarantiesFinancières: [

@@ -37,7 +37,7 @@ export const mapToCandidatureToUpsert = ({
     période: identifiantProjet.période,
     famille: identifiantProjet.famille,
     ...Candidature.Dépôt.convertirEnValueType({
-      référencesRaccordement: [],
+      raccordements: undefined,
       ...payload,
     }).formatter(),
     ...Candidature.Instruction.convertirEnValueType(payload).formatter(),
