@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
-import { TypeDocumentInstallateur } from '../../../index.js';
+import { IdentifiantProjet } from '../../../../../index.js';
+import { DocumentInstallateur } from '../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../../document-projet/index.js';
 
 import { EnregistrerChangementInstallateurCommand } from './enregistrerChangementInstallateur.command.js';
@@ -35,12 +35,13 @@ export const registerEnregistrerChangementInstallateurUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      TypeDocumentInstallateur.pièceJustificative.formatter(),
-      dateChangement.formatter(),
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = DocumentInstallateur.pièceJustificative({
+      identifiantProjet: identifiantProjetValue,
+      enregistréeLe: dateChangementValue,
+      pièceJustificative: {
+        format: pièceJustificativeValue.format,
+      },
+    });
 
     await mediator.send<EnregistrerChangementInstallateurCommand>({
       type: 'Lauréat.Installateur.Command.EnregistrerChangement',

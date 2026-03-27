@@ -6,7 +6,7 @@ import { Find } from '@potentiel-domain/entity';
 
 import { ChangementInstallateurEntity } from '../changementInstallateur.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../../index.js';
-import { TypeDocumentInstallateur } from '../../../index.js';
+import { DocumentInstallateur } from '../../../index.js';
 
 export type ConsulterChangementInstallateurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -63,12 +63,13 @@ export const mapToReadModel = (result: ChangementInstallateurEntity) => {
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
       installateur: result.changement.installateur,
       raison: result.changement.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        result.identifiantProjet,
-        TypeDocumentInstallateur.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
-        result.changement.pièceJustificative?.format,
-      ),
+      pièceJustificative: DocumentInstallateur.pièceJustificative({
+        identifiantProjet: result.identifiantProjet,
+        enregistréeLe: result.changement.enregistréLe,
+        pièceJustificative: {
+          format: result.changement.pièceJustificative?.format,
+        },
+      }),
     },
   } satisfies ConsulterChangementInstallateurReadModel;
 };

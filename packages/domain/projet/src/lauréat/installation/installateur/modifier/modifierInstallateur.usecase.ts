@@ -3,11 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-import { TypeDocumentInstallateur } from '../../index.js';
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
+import { DocumentInstallateur } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { ModifierInstallateurCommand } from './modifierInstallateur.command.js';
 
@@ -36,12 +33,13 @@ export const registerModifierInstallateurUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentInstallateur.pièceJustificative.formatter(),
-          dateModificationValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentInstallateur.pièceJustificative({
+          identifiantProjet: identifiantProjetValue,
+          enregistréeLe: dateModificationValue,
+          pièceJustificative: {
+            format: pièceJustificativeValue.format,
+          },
+        })
       : undefined;
 
     if (pièceJustificative) {
