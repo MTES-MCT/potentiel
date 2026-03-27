@@ -17,9 +17,9 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
   } = event.payload;
 
   const attestationConformité = attestation
-    ? Lauréat.Achèvement.DocumentAchèvement.attestationConformitéModification({
+    ? Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
         identifiantProjet,
-        modifiéLe: date,
+        enregistréLe: date,
         'attestation-conformite': {
           format: attestation.format,
         },
@@ -27,9 +27,9 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     : undefined;
 
   const preuveTransmission = preuveTransmissionAuCocontractant
-    ? Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformitéModification({
+    ? Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
         identifiantProjet,
-        modifiéLe: dateTransmissionAuCocontractant,
+        enregistréLe: dateTransmissionAuCocontractant,
         'preuve-transmission-attestation-conformite': {
           format: preuveTransmissionAuCocontractant.format,
         },

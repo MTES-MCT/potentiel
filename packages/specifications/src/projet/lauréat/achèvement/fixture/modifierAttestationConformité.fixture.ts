@@ -95,9 +95,9 @@ export class ModifierAttestationConformitéFixture
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
 
       ...(this.attestation && {
-        attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformitéModification({
+        attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
           identifiantProjet: identifiantProjet.formatter(),
-          modifiéLe: DateTime.convertirEnValueType(this.date).formatter(),
+          enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
           'attestation-conformite': {
             format: this.attestation.format,
           },
@@ -105,17 +105,15 @@ export class ModifierAttestationConformitéFixture
       }),
       ...(this.preuve && {
         preuveTransmissionAuCocontractant:
-          Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformitéModification(
-            {
-              identifiantProjet: identifiantProjet.formatter(),
-              modifiéLe: DateTime.convertirEnValueType(
-                this.dateTransmissionAuCocontractant,
-              ).formatter(),
-              'preuve-transmission-attestation-conformite': {
-                format: this.preuve.format,
-              },
+          Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréLe: DateTime.convertirEnValueType(
+              this.dateTransmissionAuCocontractant,
+            ).formatter(),
+            'preuve-transmission-attestation-conformite': {
+              format: this.preuve.format,
             },
-          ),
+          }),
       }),
       misÀJourLe: DateTime.convertirEnValueType(this.date),
       misÀJourPar: Email.convertirEnValueType(this.utilisateur),
