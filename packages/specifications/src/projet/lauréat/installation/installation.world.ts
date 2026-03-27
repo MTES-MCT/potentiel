@@ -114,14 +114,13 @@ export class InstallationWorld {
           this.#enregistrerChangementInstallateurFixture.enregistréPar,
         ),
         installateur: this.#enregistrerChangementInstallateurFixture.installateur,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
-            this.#enregistrerChangementInstallateurFixture.enregistréLe,
-          ).formatter(),
-          this.#enregistrerChangementInstallateurFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Installation.DocumentInstallateur.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréeLe: this.#enregistrerChangementInstallateurFixture.enregistréLe,
+          pièceJustificative: {
+            format: this.#enregistrerChangementInstallateurFixture.pièceJustificative?.format,
+          },
+        }),
         raison: this.#enregistrerChangementInstallateurFixture.raison,
       },
     };

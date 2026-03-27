@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -14,12 +14,13 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
     title: 'Installateur modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Installation.DocumentInstallateur.pièceJustificative({
         identifiantProjet,
-        Lauréat.Installation.TypeDocumentInstallateur.pièceJustificative.formatter(),
-        modifiéLe,
-        pièceJustificative.format,
-      ),
+        enregistréeLe: modifiéLe,
+        pièceJustificative: {
+          format: pièceJustificative.format,
+        },
+      }),
       ariaLabel: `Télécharger le justificatif du changement d'installateur en date du ${formatDateToText(modifiéLe)}`,
     },
     details: (
