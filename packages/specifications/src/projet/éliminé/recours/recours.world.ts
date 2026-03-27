@@ -1,6 +1,5 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Éliminé, IdentifiantProjet } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture.js';
 import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture.js';
@@ -69,12 +68,13 @@ export class RecoursWord {
         demandéLe: DateTime.convertirEnValueType(this.#demanderRecoursFixture.demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demanderRecoursFixture.demandéPar),
         raison: this.#demanderRecoursFixture.raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
-          this.#demanderRecoursFixture.demandéLe,
-          this.#demanderRecoursFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Éliminé.Recours.DocumentRecours.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe: DateTime.convertirEnValueType(
+            this.#demanderRecoursFixture.demandéLe,
+          ).formatter(),
+          pièceJustificative: { format: this.#demanderRecoursFixture.pièceJustificative.format },
+        }),
       },
     };
 
@@ -95,12 +95,13 @@ export class RecoursWord {
       expected.demande.accord = {
         accordéLe: DateTime.convertirEnValueType(this.#accorderRecoursFixture.accordéLe),
         accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéPar),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Éliminé.Recours.TypeDocumentRecours.recoursAccordé.formatter(),
-          this.#accorderRecoursFixture.accordéLe,
-          this.#accorderRecoursFixture.réponseSignée.format,
-        ),
+        réponseSignée: Éliminé.Recours.DocumentRecours.recoursAccordé({
+          identifiantProjet: identifiantProjet.formatter(),
+          accordéLe: DateTime.convertirEnValueType(
+            this.#accorderRecoursFixture.accordéLe,
+          ).formatter(),
+          réponseSignée: { format: this.#accorderRecoursFixture.réponseSignée.format },
+        }),
       };
     }
 
@@ -109,12 +110,11 @@ export class RecoursWord {
       expected.demande.rejet = {
         rejetéLe: DateTime.convertirEnValueType(this.#rejeterRecoursFixture.rejetéLe),
         rejetéPar: Email.convertirEnValueType(this.#rejeterRecoursFixture.rejetéPar),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Éliminé.Recours.TypeDocumentRecours.recoursRejeté.formatter(),
-          this.#rejeterRecoursFixture.rejetéLe,
-          this.#rejeterRecoursFixture.réponseSignée.format,
-        ),
+        réponseSignée: Éliminé.Recours.DocumentRecours.recoursRejeté({
+          identifiantProjet: identifiantProjet.formatter(),
+          rejetéLe: DateTime.convertirEnValueType(this.#rejeterRecoursFixture.rejetéLe).formatter(),
+          réponseSignée: { format: this.#rejeterRecoursFixture.réponseSignée.format },
+        }),
       };
     }
 

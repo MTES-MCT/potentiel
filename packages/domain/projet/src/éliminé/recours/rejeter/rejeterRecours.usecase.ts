@@ -2,12 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../document-projet/index.js';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType.js';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { DocumentRecours } from '../index.js';
 
 import { RejeterRecoursCommand } from './rejeterRecours.command.js';
 
@@ -35,12 +32,11 @@ export const registerRejeterRecoursUseCase = () => {
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      TypeDocumentRecours.recoursRejeté.formatter(),
-      dateRejet.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentRecours.recoursRejeté({
+      identifiantProjet: identifiantProjet.formatter(),
+      rejetéLe: dateRejet.formatter(),
+      réponseSignée: { format },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
