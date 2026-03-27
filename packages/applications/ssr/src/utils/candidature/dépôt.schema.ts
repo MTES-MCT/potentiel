@@ -193,6 +193,7 @@ export const dépôtSchema = z
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
+    référencesRaccordement: z.array(z.string()),
   })
   // Garanties financières et date d'échéance
   .superRefine((data, ctx) => {

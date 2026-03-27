@@ -260,6 +260,10 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       puissanceProjetInitial: previous.puissanceProjetInitial,
+      raccordements: previous.raccordements?.map((r) => ({
+        dateQualification: r.dateQualification.formatter(),
+        référence: r.référence.formatter(),
+      })),
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
