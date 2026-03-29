@@ -25,7 +25,7 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monitoring": "*",
     "flat": "6.0.1",
-    "handlebars": "4.7.8",
+    "handlebars": "4.7.9",
     "mediateur": "0.3.0"
   },
   "devDependencies": {
