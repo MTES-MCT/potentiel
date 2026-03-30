@@ -49,8 +49,8 @@ type EventWithDocument =
   | Lauréat.Abandon.AbandonAccordéEvent
   | Lauréat.Abandon.AbandonRejetéEvent
   | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
-  | Lauréat.Producteur.ChangementProducteurEnregistréEvent
-  | Lauréat.Producteur.ProducteurModifiéEvent;
+  | Lauréat.Producteur.ChangementProducteurEnregistréEvent;
+// | Lauréat.Producteur.ProducteurModifiéEvent;
 
 type DocumentRecord<K extends EventWithDocument['type'] = EventWithDocument['type']> = {
   [P in K]: (
@@ -67,7 +67,7 @@ const map: DocumentRecord = {
   'AbandonRejeté-V1': Lauréat.Abandon.DocumentAbandon.abandonRejeté,
   // Producteur
   'ChangementProducteurEnregistré-V1': Lauréat.Producteur.DocumentProducteur.pièceJustificative,
-  'ProducteurModifié-V1': Lauréat.Producteur.DocumentProducteur.pièceJustificativeModification,
+  // 'ProducteurModifié-V1': Lauréat.Producteur.DocumentProducteur.pièceJustificative,
 };
 
 const isEventWithDocument = (event: Event): event is EventWithDocument & Event => event.type in map;

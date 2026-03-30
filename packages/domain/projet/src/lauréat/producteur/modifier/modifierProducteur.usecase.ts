@@ -33,9 +33,9 @@ export const registerModifierProducteurUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProducteur.pièceJustificativeModification({
+      ? DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjetValue,
-          modifiéLe: dateModificationValue,
+          enregistréLe: dateModificationValue,
           pièceJustificative: pièceJustificativeValue,
         })
       : undefined;

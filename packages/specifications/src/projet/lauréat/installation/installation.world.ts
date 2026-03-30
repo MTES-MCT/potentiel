@@ -1,4 +1,4 @@
-import { Candidature, DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -153,14 +153,14 @@ export class InstallationWorld {
         dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
           this.#enregistrerChangementDispositifDeStockageFixture.dispositifDeStockage,
         ),
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Installation.TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
+        pièceJustificative: Lauréat.Installation.DocumentDispositifDeStockage.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: DateTime.convertirEnValueType(
             this.#enregistrerChangementDispositifDeStockageFixture.enregistréLe,
           ).formatter(),
-          this.#enregistrerChangementDispositifDeStockageFixture.pièceJustificative.format,
-        ),
+          pièceJustificative:
+            this.#enregistrerChangementDispositifDeStockageFixture.pièceJustificative,
+        }),
         raison: this.#enregistrerChangementDispositifDeStockageFixture.raison,
       },
     };

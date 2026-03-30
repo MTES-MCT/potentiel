@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-import { DispositifDeStockage, TypeDocumentDispositifDeStockage } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { DispositifDeStockage, DocumentDispositifDeStockage } from '../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { ModifierDispositifDeStockageCommand } from './modifierDispositifDeStockage.command.js';
@@ -33,12 +33,14 @@ export const registerModifierDispositifDeStockageUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentDispositifDeStockage.pièceJustificative.formatter(),
-          modifiéLeValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentDispositifDeStockage.pièceJustificative({
+          identifiantProjet:
+            IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+          enregistréLe: DateTime.convertirEnValueType(modifiéLeValue).formatter(),
+          pièceJustificative: {
+            format: pièceJustificativeValue.format,
+          },
+        })
       : undefined;
 
     if (pièceJustificative) {
