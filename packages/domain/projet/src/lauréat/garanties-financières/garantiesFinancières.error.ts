@@ -62,6 +62,12 @@ export class AttestationEtDateGarantiesFinancièresRequisesError extends Invalid
   }
 }
 
+export class DépôtNonModifiéError extends InvalidOperationError {
+  constructor() {
+    super("Le dépôt de garanties financières n'a pas été modifié");
+  }
+}
+
 export class GarantiesFinancièresSansÉchéanceError extends InvalidOperationError {
   constructor() {
     super(`Impossible d'échoir des garanties financières sans date d'échéance`);

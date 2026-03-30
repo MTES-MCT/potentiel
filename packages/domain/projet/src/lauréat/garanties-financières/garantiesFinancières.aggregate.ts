@@ -26,6 +26,7 @@ import {
   AucunesGarantiesFinancièresActuellesError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
+  DépôtNonModifiéError,
   GarantiesFinancièresActuellesDéjàExistantesError,
   GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresDéjàÉchuesError,
@@ -624,10 +625,24 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
   }
 
-  async modifierDépôt({ modifiéLe, garantiesFinancières, modifiéPar }: ModifierDépôtOptions) {
+  async modifierDépôt({
+    modifiéLe,
+    garantiesFinancières,
+    modifiéPar,
+    estUnNouveauDocument,
+  }: ModifierDépôtOptions) {
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
+
+    if (
+      this.#dépôtEnCours?.garantiesFinancières &&
+      garantiesFinancières.estÉgaleÀ(this.#dépôtEnCours?.garantiesFinancières) &&
+      !estUnNouveauDocument
+    ) {
+      throw new DépôtNonModifiéError();
+    }
+
     this.vérifierQuUnDépôtEstEnCours();
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 

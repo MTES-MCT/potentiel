@@ -54,6 +54,22 @@ Quand(
 );
 
 Quand(
+  'le porteur modifie le dépôt de garanties financières avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    try {
+      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, {
+        type: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.type,
+        dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateÉchéance,
+        dateConstition:
+          this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateConstitution,
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   'le porteur supprime le dépôt de garanties financières du projet',
   async function (this: PotentielWorld) {
     try {
@@ -110,6 +126,7 @@ export async function modifierDépôt(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
+  avecLesMêmesValeurs?: boolean,
 ) {
   const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
@@ -128,6 +145,7 @@ export async function modifierDépôt(
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
+        estUnNouveauDocument: avecLesMêmesValeurs !== true,
       },
     },
   );

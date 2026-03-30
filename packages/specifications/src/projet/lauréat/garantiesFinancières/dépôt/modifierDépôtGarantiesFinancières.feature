@@ -76,3 +76,17 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF | exemption |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
+
+    @select
+    Scénario: Impossible de modifier un dépôt de garanties financières sans modification
+        Etant donné un dépôt de garanties financières avec :
+            | type GF         | <type GF actuel>           |
+            | date d'échéance | <date d'échéance actuelle> |
+        Quand le porteur modifie le dépôt de garanties financières avec les mêmes valeurs
+        Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières n'a pas été modifié"
+
+        Exemples:
+            | type GF actuel            | date d'échéance actuelle |
+            | avec-date-échéance        | 2027-12-01               |
+            | consignation              |                          |
+            | six-mois-après-achèvement |                          |

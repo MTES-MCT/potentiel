@@ -18,6 +18,7 @@ export type ModifierDépôtGarantiesFinancièresEnCoursUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    estUnNouveauDocument: boolean;
     dateConstitutionValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
@@ -33,14 +34,16 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     identifiantProjetValue,
     modifiéParValue,
     modifiéLeValue,
+    estUnNouveauDocument,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
       type: typeValue,
       dateÉchéance: dateÉchéanceValue,
       constitution: {
         date: dateConstitutionValue,
-        attestation: { format: attestationValue.format },
+        attestation: attestationValue,
       },
     });
     const documentProjet = DocumentGarantiesFinancières.attestationSoumise({
@@ -66,9 +69,11 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
         modifiéLe,
         modifiéPar,
         garantiesFinancières,
+        estUnNouveauDocument,
       },
     });
   };
+
   mediator.register(
     'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
     runner,
