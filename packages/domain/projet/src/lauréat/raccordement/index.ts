@@ -119,7 +119,7 @@ export type * from './dossierRaccordement.entity.js';
 
 // Value types
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType.js';
-export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType.js';
+export * as DocumentRaccordement from './documentRaccordement.valueType.js';
 export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType.js';
 
 // Saga

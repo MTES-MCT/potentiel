@@ -4,9 +4,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
-import { DossierProjet, DéplacerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DéplacerDossierProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentRaccordement } from '../../index.js';
 
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command.js';
 
@@ -42,48 +42,28 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    const dossierAccuséRéceptionSource = DossierProjet.convertirEnValueType(
+    const dossierProjetActuelRaccordement = DocumentRaccordement.dossierProjetRaccordement(
       identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-        référenceDossierRaccordementActuelleValue,
-      ).formatter(),
+      référenceDossierRaccordementActuelleValue,
+    );
+    const nouveauDossierProjetRaccordement = DocumentRaccordement.dossierProjetRaccordement(
+      identifiantProjetValue,
+      nouvelleRéférenceDossierRaccordementValue,
     );
 
-    const dossierAccuséRéceptionDestination = DossierProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-        nouvelleRéférenceDossierRaccordementValue,
-      ).formatter(),
-    );
-
-    const dossierPropositionTechniqueEtFinancièreSignéeSource = DossierProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-        référenceDossierRaccordementActuelleValue,
-      ).formatter(),
-    );
-
-    const dossierPropositionTechniqueEtFinancièreSignéeDestination =
-      DossierProjet.convertirEnValueType(
-        identifiantProjetValue,
-        TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-          nouvelleRéférenceDossierRaccordementValue,
-        ).formatter(),
-      );
-
-    await mediator.send<DéplacerDocumentProjetCommand>({
-      type: 'Document.Command.DéplacerDocumentProjet',
+    await mediator.send<DéplacerDossierProjetCommand>({
+      type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: dossierAccuséRéceptionSource,
-        dossierProjetTarget: dossierAccuséRéceptionDestination,
+        dossierProjetSource: dossierProjetActuelRaccordement.accuséRéception,
+        dossierProjetTarget: nouveauDossierProjetRaccordement.accuséRéception,
       },
     });
 
-    await mediator.send<DéplacerDocumentProjetCommand>({
-      type: 'Document.Command.DéplacerDocumentProjet',
+    await mediator.send<DéplacerDossierProjetCommand>({
+      type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: dossierPropositionTechniqueEtFinancièreSignéeSource,
-        dossierProjetTarget: dossierPropositionTechniqueEtFinancièreSignéeDestination,
+        dossierProjetSource: dossierProjetActuelRaccordement.propositionTechniqueEtFinancière,
+        dossierProjetTarget: nouveauDossierProjetRaccordement.propositionTechniqueEtFinancière,
       },
     });
 

@@ -3,13 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentRaccordement } from '../../index.js';
 
 import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositionTechniqueEtFinancière.command.js';
 
@@ -39,17 +36,6 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
-    const propositionTechniqueEtFinancièreSignée = propositionTechniqueEtFinancièreSignéeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-            référenceDossierRaccordementValue,
-          ).formatter(),
-          dateSignatureValue,
-          propositionTechniqueEtFinancièreSignéeValue.format,
-        )
-      : undefined;
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateSignature = DateTime.convertirEnValueType(dateSignatureValue);
     const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
@@ -59,11 +45,18 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    if (propositionTechniqueEtFinancièreSignée) {
+    if (propositionTechniqueEtFinancièreSignéeValue) {
+      const propositionTechniqueEtFinancièreSignée =
+        DocumentRaccordement.propositionTechniqueEtFinancière({
+          identifiantProjet: identifiantProjetValue,
+          référence: référenceDossierRaccordementValue,
+          dateSignature: dateSignatureValue,
+          propositionTechniqueEtFinancièreSignée: propositionTechniqueEtFinancièreSignéeValue,
+        });
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: propositionTechniqueEtFinancièreSignéeValue!.content,
+          content: propositionTechniqueEtFinancièreSignéeValue.content,
           documentProjet: propositionTechniqueEtFinancièreSignée,
         },
       });
@@ -76,7 +69,7 @@ export const registerModifierPropositionTechniqueEtFinancièreUseCase = () => {
         identifiantProjet,
         référenceDossierRaccordement,
         formatPropositionTechniqueEtFinancièreSignée:
-          propositionTechniqueEtFinancièreSignée?.format,
+          propositionTechniqueEtFinancièreSignéeValue?.format,
         rôle: Role.convertirEnValueType(rôleValue),
         modifiéeLe,
         modifiéePar,

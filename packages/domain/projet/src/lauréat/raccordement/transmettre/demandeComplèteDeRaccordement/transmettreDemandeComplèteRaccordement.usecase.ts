@@ -2,13 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentRaccordement } from '../../index.js';
 
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command.js';
 
@@ -53,14 +50,12 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     });
 
     if (accuséRéceptionValue) {
-      const accuséRéception = DocumentProjet.convertirEnValueType(
-        identifiantProjetValue,
-        TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-          référenceDossierValue,
-        ).formatter(),
-        dateQualificationValue,
-        accuséRéceptionValue.format,
-      );
+      const accuséRéception = DocumentRaccordement.accuséRéception({
+        identifiantProjet: identifiantProjetValue,
+        référence: référenceDossierValue,
+        dateQualification: dateQualificationValue,
+        accuséRéception: accuséRéceptionValue,
+      });
 
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',

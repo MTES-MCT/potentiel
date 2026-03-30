@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -75,16 +74,12 @@ export class ModifierDemandeComplèteRaccordementFixture
     if (!this.aÉtéCréé) return;
 
     return {
-      accuséRéception: this.accuséRéception
-        ? DocumentProjet.convertirEnValueType(
-            this.identifiantProjet,
-            Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référenceDossier ?? this.référenceDossier,
-            ).formatter(),
-            this.#dateQualification,
-            this.accuséRéception.format,
-          )
-        : undefined,
+      accuséRéception: Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+        identifiantProjet: this.identifiantProjet,
+        référence: référenceDossier ?? this.référenceDossier,
+        dateQualification: this.#dateQualification,
+        accuséRéception: this.accuséRéception,
+      }),
       dateQualification: DateTime.convertirEnValueType(this.dateQualification),
     };
   }

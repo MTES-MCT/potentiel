@@ -15,6 +15,7 @@ export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}
 export type ValueType = Readonly<{
   identifiantProjet: string;
   typeDocument: string;
+  cléDocument?: string;
   dateCréation: string;
   format: string;
   formatter(): RawType;
@@ -24,27 +25,30 @@ export const bind = ({
   dateCréation,
   format,
   identifiantProjet,
+  cléDocument,
   typeDocument,
 }: PlainType<ValueType>): ValueType => {
   const extensionFichier = extension(format);
   estUneExtensionFichierValide(extensionFichier);
-  estUnTypeDeDocumentValide(typeDocument);
+
+  const dossierProjet = DossierProjet.convertirEnValueType({
+    identifiantProjet,
+    typeDocument,
+    cléDocument,
+  });
 
   return {
     format,
     dateCréation: DateTime.convertirEnValueType(dateCréation).formatter(),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
     typeDocument,
+    cléDocument,
     formatter() {
       /**
        * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
        * cf upload.ts
        */
-      return join(
-        identifiantProjet,
-        typeDocument,
-        `${dateCréation}.${extensionFichier}`,
-      ) as RawType;
+      return join(dossierProjet.formatter(), `${dateCréation}.${extensionFichier}`) as RawType;
     },
   };
 };
@@ -69,27 +73,9 @@ function estUneExtensionFichierValide(value: string | false): asserts value is s
   }
 }
 
-const nomRépertoireRegex = /^[^?*:;{}\\]+$/;
-
-const estUnTypeDeDocumentValide = (value: string) => {
-  const isValid = nomRépertoireRegex.test(value);
-
-  if (!isValid) {
-    throw new TypeDocumentInvalideError(value);
-  }
-};
-
 class FormatDocumentInvalideError extends InvalidOperationError {
   constructor() {
     super(`Le format est invalide`);
-  }
-}
-
-class TypeDocumentInvalideError extends InvalidOperationError {
-  constructor(value: string) {
-    super(`Le type du document n'est pas valide`, {
-      value,
-    });
   }
 }
 
@@ -122,11 +108,10 @@ export const documentFactory =
       (TNomCléDocument extends string ? DynamicField<TNomCléDocument, string> : unknown),
   ) =>
     payload[nomChampDocument] &&
-    convertirEnValueType(
-      payload.identifiantProjet,
-      [domaine, nomCléDocument ? [nomCléDocument as keyof typeof payload] : '', typeDocument]
-        .filter(Boolean)
-        .join('/'),
-      payload[nomChampDate],
-      payload[nomChampDocument].format,
-    );
+    bind({
+      identifiantProjet: payload.identifiantProjet,
+      typeDocument: `${domaine}/${typeDocument}`,
+      cléDocument: nomCléDocument ? payload[nomCléDocument as keyof typeof payload] : undefined,
+      dateCréation: payload[nomChampDate],
+      format: payload[nomChampDocument].format,
+    });
