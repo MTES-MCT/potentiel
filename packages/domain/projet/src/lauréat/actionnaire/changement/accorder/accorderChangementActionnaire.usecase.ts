@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeDocumentActionnaire } from '../../index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { DocumentActionnaire } from '../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { AccorderChangementActionnaireCommand } from './accorderChangementActionnairet.command.js';
@@ -31,12 +31,13 @@ export const registerAccorderChangementActionnaireUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const accordéPar = Email.convertirEnValueType(accordéParValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentActionnaire.changementAccordé.formatter(),
-      accordéLe.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentActionnaire.changementAccordé({
+      identifiantProjet: identifiantProjetValue,
+      accordéLe: accordéLeValue,
+      réponseSignée: {
+        format,
+      },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

@@ -74,7 +74,7 @@ export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rej
 
 // ValueType
 export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType.js';
-export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType.js';
+export * as DocumentActionnaire from './documentActionnaire.valueType.js';
 export * as InstructionChangementActionnaire from './instructionChangementActionnaire.valueType.js';
 
 // Entities

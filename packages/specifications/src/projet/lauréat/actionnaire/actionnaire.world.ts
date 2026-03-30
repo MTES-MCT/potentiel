@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet, IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture.js';
@@ -101,12 +101,13 @@ export class ActionnaireWorld {
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
         raison: baseFixture.raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-          baseFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe: baseFixture.demandéLe,
+          pièceJustificative: {
+            format: baseFixture.pièceJustificative.format,
+          },
+        }),
 
         accord: this.#accorderChangementActionnaireFixture.aÉtéCréé
           ? {
@@ -117,14 +118,13 @@ export class ActionnaireWorld {
                 this.#accorderChangementActionnaireFixture.accordéePar,
               ),
 
-              réponseSignée: DocumentProjet.convertirEnValueType(
-                identifiantProjet.formatter(),
-                Lauréat.Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
-                DateTime.convertirEnValueType(
-                  this.#accorderChangementActionnaireFixture.accordéeLe,
-                ).formatter(),
-                this.#accorderChangementActionnaireFixture.réponseSignée.format,
-              ),
+              réponseSignée: Lauréat.Actionnaire.DocumentActionnaire.changementAccordé({
+                identifiantProjet: identifiantProjet.formatter(),
+                accordéLe: this.#accorderChangementActionnaireFixture.accordéeLe,
+                réponseSignée: {
+                  format: this.#accorderChangementActionnaireFixture.réponseSignée.format,
+                },
+              }),
             }
           : undefined,
 
@@ -137,14 +137,13 @@ export class ActionnaireWorld {
                 this.#rejeterChangementActionnaireFixture.rejetéePar,
               ),
 
-              réponseSignée: DocumentProjet.convertirEnValueType(
-                identifiantProjet.formatter(),
-                Lauréat.Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
-                DateTime.convertirEnValueType(
-                  this.#rejeterChangementActionnaireFixture.rejetéeLe,
-                ).formatter(),
-                this.#rejeterChangementActionnaireFixture.réponseSignée.format,
-              ),
+              réponseSignée: Lauréat.Actionnaire.DocumentActionnaire.changementRejeté({
+                identifiantProjet: identifiantProjet.formatter(),
+                rejetéLe: this.#rejeterChangementActionnaireFixture.rejetéeLe,
+                réponseSignée: {
+                  format: this.#rejeterChangementActionnaireFixture.réponseSignée.format,
+                },
+              }),
             }
           : undefined,
       },

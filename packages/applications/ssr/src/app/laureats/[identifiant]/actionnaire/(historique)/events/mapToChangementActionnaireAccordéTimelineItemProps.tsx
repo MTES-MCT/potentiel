@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -20,12 +19,13 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
     title: "Demande de changement d'actionnaire accordée",
     actor: accordéPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Actionnaire.DocumentActionnaire.changementAccordé({
         identifiantProjet,
-        Lauréat.Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
         accordéLe,
-        format,
-      ),
+        réponseSignée: {
+          format,
+        },
+      }),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de changement d'actionnaire accordée le ${formatDateToText(accordéLe)}`,
     },
