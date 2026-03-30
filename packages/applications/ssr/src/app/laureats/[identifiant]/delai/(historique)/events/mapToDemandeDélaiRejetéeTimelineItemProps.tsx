@@ -13,7 +13,7 @@ export const mapToDemandeDélaiRejetéeTimelineItemProps = (
     title: 'Demande de délai rejetée',
     actor: rejetéePar,
     file: {
-      document: Lauréat.Délai.DocumentDélai.délaiRejeté(event.payload),
+      document: Lauréat.Délai.DocumentDélai.demandeRejetée(event.payload),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de délai rejetée le ${formatDateToText(rejetéeLe)}`,
     },

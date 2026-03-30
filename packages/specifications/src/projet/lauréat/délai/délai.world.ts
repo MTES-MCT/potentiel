@@ -94,7 +94,7 @@ export class DélaiWorld {
             rejetéeLe: DateTime.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéeLe),
             rejetéePar: Email.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéePar),
 
-            réponseSignée: Lauréat.Délai.DocumentDélai.délaiRejeté({
+            réponseSignée: Lauréat.Délai.DocumentDélai.demandeRejetée({
               identifiantProjet: identifiantProjet.formatter(),
               rejetéeLe: this.#rejeterDemandeDélaiFixture.rejetéeLe,
               réponseSignée: {
@@ -113,7 +113,7 @@ export class DélaiWorld {
               Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
                 this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
               ).ajouterDélai(this.#demanderDélaiFixture.nombreDeMois).dateTime,
-            réponseSignée: Lauréat.Délai.DocumentDélai.délaiAccordé({
+            réponseSignée: Lauréat.Délai.DocumentDélai.demandeAccordée({
               identifiantProjet: identifiantProjet.formatter(),
               accordéLe: this.#accorderDemandeDélaiFixture.accordéeLe,
               réponseSignée: {

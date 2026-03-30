@@ -6,13 +6,13 @@ export const pièceJustificative = DocumentProjet.documentFactory(
   'demandéLe',
 );
 
-export const délaiAccordé = DocumentProjet.documentFactory(
+export const demandeAccordée = DocumentProjet.documentFactory(
   'délai/demande-accordée',
   'réponseSignée',
   'accordéLe',
 );
 
-export const délaiRejeté = DocumentProjet.documentFactory(
+export const demandeRejetée = DocumentProjet.documentFactory(
   'délai/demande-rejetée',
   'réponseSignée',
   'rejetéeLe',

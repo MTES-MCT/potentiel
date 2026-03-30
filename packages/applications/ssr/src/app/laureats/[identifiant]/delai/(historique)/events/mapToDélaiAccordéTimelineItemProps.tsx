@@ -15,7 +15,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
     title: 'Demande de délai de force majeure accordée',
     actor: accordéPar,
     file: {
-      document: Lauréat.Délai.DocumentDélai.délaiAccordé(event.payload),
+      document: Lauréat.Délai.DocumentDélai.demandeAccordée(event.payload),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de délai accordée le ${formatDateToText(accordéLe)}`,
     },

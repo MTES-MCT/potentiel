@@ -31,7 +31,7 @@ export const registerRejeterDemandeDélaiUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const réponseSignée = DocumentDélai.délaiRejeté({
+    const réponseSignée = DocumentDélai.demandeRejetée({
       identifiantProjet: identifiantProjet.formatter(),
       rejetéeLe: dateRejet.formatter(),
       réponseSignée: {

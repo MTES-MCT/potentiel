@@ -117,7 +117,7 @@ const mapToReadModel: MapToReadModel = ({
       motif: rejet.motif,
       rejetéePar: Email.convertirEnValueType(rejet.rejetéePar),
       rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéeLe),
-      réponseSignée: DocumentDélai.délaiRejeté({
+      réponseSignée: DocumentDélai.demandeRejetée({
         identifiantProjet: identifiantProjet.formatter(),
         rejetéeLe: rejet.rejetéeLe,
         réponseSignée: {
@@ -133,7 +133,7 @@ const mapToReadModel: MapToReadModel = ({
       dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
         accord.dateAchèvementPrévisionnelCalculée,
       ),
-      réponseSignée: DocumentDélai.délaiAccordé({
+      réponseSignée: DocumentDélai.demandeAccordée({
         identifiantProjet: identifiantProjet.formatter(),
         accordéLe: accord.accordéeLe,
         réponseSignée: {

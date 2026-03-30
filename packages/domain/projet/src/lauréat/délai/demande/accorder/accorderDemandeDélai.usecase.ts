@@ -33,7 +33,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const réponseSignée = DocumentDélai.délaiAccordé({
+    const réponseSignée = DocumentDélai.demandeAccordée({
       identifiantProjet: identifiantProjet.formatter(),
       accordéLe: dateAccord.formatter(),
       réponseSignée: {
