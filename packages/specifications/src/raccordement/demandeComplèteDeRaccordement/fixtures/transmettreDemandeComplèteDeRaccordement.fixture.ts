@@ -10,7 +10,7 @@ export type PièceJustificative = { format: string; content: string };
 interface TransmettreDemandeComplèteRaccordement {
   dateQualification: string;
   référenceDossier: string;
-  accuséRéception: PièceJustificative;
+  accuséRéception?: PièceJustificative;
 }
 
 export class TransmettreDemandeComplèteRaccordementFixture
@@ -27,13 +27,9 @@ export class TransmettreDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #format!: string;
-  #content!: string;
-  get accuséRéception(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  #accuséRéception?: PièceJustificative;
+  get accuséRéception(): PièceJustificative | undefined {
+    return this.#accuséRéception;
   }
 
   #identifiantProjet!: string;
@@ -46,23 +42,19 @@ export class TransmettreDemandeComplèteRaccordementFixture
       identifiantProjet: string;
     },
   ): Readonly<TransmettreDemandeComplèteRaccordement> {
-    const content = faker.word.words();
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
-      accuséRéception: {
-        format: faker.potentiel.fileFormat(),
-        content,
+      attestation: {
+        format: 'application/pdf',
+        content: faker.word.words(),
       },
       ...partialFixture,
     };
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    if (fixture.accuséRéception) {
-      this.#format = fixture.accuséRéception.format;
-      this.#content = content;
-    }
+    this.#accuséRéception = fixture.accuséRéception;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
 

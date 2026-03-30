@@ -36,7 +36,7 @@ export type DocumentProjetCommand =
 
 export type {
   EnregistrerDocumentProjetCommand,
-  DéplacerDossierProjetCommand as DéplacerDossierProjetCommand,
+  DéplacerDossierProjetCommand,
   CorrigerDocumentProjetCommand,
   EnregistrerDocumentSubstitutCommand,
 };

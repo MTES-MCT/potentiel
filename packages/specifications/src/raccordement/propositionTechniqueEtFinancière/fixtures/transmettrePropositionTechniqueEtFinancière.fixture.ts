@@ -22,14 +22,9 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
     return this.#dateSignature;
   }
 
-  #format!: string;
-  #content!: string;
-
+  #propositionTechniqueEtFinancièreSignée!: PièceJustificative;
   get propositionTechniqueEtFinancièreSignée(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#propositionTechniqueEtFinancièreSignée;
   }
 
   #identifiantProjet!: string;
@@ -58,9 +53,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
 
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
-    this.#content = fixture.propositionTechniqueEtFinancièreSignée.content;
-    this.#identifiantProjet = fixture.identifiantProjet;
+    this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
     this.aÉtéCréé = true;
     return fixture;
   }
@@ -73,7 +66,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
           identifiantProjet: this.identifiantProjet,
           référence: référenceDossier ?? this.référenceDossier,
           dateSignature: this.#dateSignature,
-          propositionTechniqueEtFinancièreSignée: { format: this.#format },
+          propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
         }),
     };
   }
