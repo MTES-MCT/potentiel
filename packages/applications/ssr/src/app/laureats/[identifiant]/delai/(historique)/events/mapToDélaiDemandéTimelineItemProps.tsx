@@ -1,5 +1,4 @@
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -16,12 +15,7 @@ export const mapToDélaiDemandéTimelineItemProps = (
     title: 'Délai demandé',
     actor: demandéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-        demandéLe,
-        pièceJustificative.format,
-      ),
+      document: Lauréat.Délai.DocumentDélai.pièceJustificative(event.payload),
       ariaLabel: `Télécharger le justificatif de la demande de délai en date du ${formatDateToText(demandéLe)}`,
     },
     link: {

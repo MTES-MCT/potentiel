@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
+import { AutoritéCompétente, DocumentDélai, StatutDemandeDélai } from '../../index.js';
 import { Délai } from '../../../index.js';
 import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
@@ -83,7 +83,7 @@ const mapToReadModel: MapToReadModel = ({
     demandéPar,
     nombreDeMois,
     raison,
-    pièceJustificative,
+    pièceJustificative: { format },
     instruction,
     accord,
     rejet,
@@ -93,12 +93,13 @@ const mapToReadModel: MapToReadModel = ({
   return {
     identifiantProjet,
     statut: Délai.StatutDemandeDélai.convertirEnValueType(statut),
-    pièceJustificative: DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
+    pièceJustificative: DocumentDélai.pièceJustificative({
+      identifiantProjet: identifiantProjet.formatter(),
       demandéLe,
-      pièceJustificative.format,
-    ),
+      pièceJustificative: {
+        format,
+      },
+    }),
     demandéLe: DateTime.convertirEnValueType(demandéLe),
     demandéPar: Email.convertirEnValueType(demandéPar),
 
@@ -116,12 +117,13 @@ const mapToReadModel: MapToReadModel = ({
       motif: rejet.motif,
       rejetéePar: Email.convertirEnValueType(rejet.rejetéePar),
       rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéeLe),
-      réponseSignée: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
-        rejet.rejetéeLe,
-        rejet.réponseSignée.format,
-      ),
+      réponseSignée: DocumentDélai.demandeRejetée({
+        identifiantProjet: identifiantProjet.formatter(),
+        rejetéeLe: rejet.rejetéeLe,
+        réponseSignée: {
+          format: rejet.réponseSignée.format,
+        },
+      }),
     },
 
     accord: accord && {
@@ -131,12 +133,13 @@ const mapToReadModel: MapToReadModel = ({
       dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
         accord.dateAchèvementPrévisionnelCalculée,
       ),
-      réponseSignée: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),
-        accord.accordéeLe,
-        accord.réponseSignée.format,
-      ),
+      réponseSignée: DocumentDélai.demandeAccordée({
+        identifiantProjet: identifiantProjet.formatter(),
+        accordéLe: accord.accordéeLe,
+        réponseSignée: {
+          format: accord.réponseSignée.format,
+        },
+      }),
     },
   };
 };
