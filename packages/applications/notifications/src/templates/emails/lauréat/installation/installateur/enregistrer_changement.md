@@ -8,4 +8,4 @@ Un changement d'installateur a été **enregistré** pour le projet **{{ nom_pro
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 
-{{ cta url 'Voir le changement' }}
+{{ cta url 'Accéder au changement' }}
