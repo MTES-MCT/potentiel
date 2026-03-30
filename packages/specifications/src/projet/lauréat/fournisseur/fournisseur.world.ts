@@ -1,6 +1,5 @@
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -62,12 +61,15 @@ export class FournisseurWorld {
           Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
         ),
         évaluationCarboneSimplifiée: this.mettreÀJourFournisseur.évaluationCarbone,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(this.mettreÀJourFournisseur.misAJourLe).formatter(),
-          this.mettreÀJourFournisseur.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Fournisseur.DocumentFournisseur.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: DateTime.convertirEnValueType(
+            this.mettreÀJourFournisseur.misAJourLe,
+          ).formatter(),
+          pièceJustificative: {
+            format: this.mettreÀJourFournisseur.pièceJustificative.format,
+          },
+        }),
         raison: this.mettreÀJourFournisseur.raison,
       },
     };
