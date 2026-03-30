@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -38,7 +39,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         identifiantProjet.formatter(),
       );
       if (Option.isSome(garantiesFinancières)) {
-        throw new Error('Le projet possède déjà des garanties financières.');
+        throw new InvalidOperationError('Le projet possède déjà des garanties financières.');
       }
 
       return (
