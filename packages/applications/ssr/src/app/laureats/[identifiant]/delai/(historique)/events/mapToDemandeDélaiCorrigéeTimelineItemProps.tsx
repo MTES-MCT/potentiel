@@ -24,9 +24,7 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
       document: Lauréat.Délai.DocumentDélai.pièceJustificative({
         identifiantProjet,
         demandéLe: dateDemande,
-        pièceJustificative: {
-          format: pièceJustificative.format,
-        },
+        pièceJustificative,
       }),
       ariaLabel: `Télécharger le justificatif de la demande de délai corrigée le ${formatDateToText(corrigéeLe)}`,
     },

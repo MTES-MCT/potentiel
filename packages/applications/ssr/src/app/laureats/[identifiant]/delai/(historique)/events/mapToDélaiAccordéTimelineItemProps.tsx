@@ -8,27 +8,14 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToDélaiAccordéTimelineItemProps = (
   event: Lauréat.Délai.DélaiAccordéEvent,
 ): TimelineItemProps => {
-  const {
-    accordéPar,
-    accordéLe,
-    nombreDeMois,
-    dateAchèvementPrévisionnelCalculée,
-    identifiantProjet,
-    ...payload
-  } = event.payload;
+  const { accordéPar, accordéLe, nombreDeMois, dateAchèvementPrévisionnelCalculée } = event.payload;
 
   return {
     date: accordéLe,
     title: 'Demande de délai de force majeure accordée',
     actor: accordéPar,
     file: {
-      document: Lauréat.Délai.DocumentDélai.délaiAccordé({
-        identifiantProjet,
-        accordéLe,
-        réponseSignée: {
-          format: payload.réponseSignée.format,
-        },
-      }),
+      document: Lauréat.Délai.DocumentDélai.délaiAccordé(event.payload),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de délai accordée le ${formatDateToText(accordéLe)}`,
     },
