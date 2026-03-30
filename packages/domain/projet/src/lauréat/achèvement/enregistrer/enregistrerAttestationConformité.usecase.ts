@@ -2,11 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet, Lauréat } from '../../../index.js';
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../document-projet/index.js';
+import { IdentifiantProjet } from '../../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
+import { DocumentAchèvement } from '../index.js';
 
 import { EnregistrerAttestationConformitéCommand } from './enregistrerAttestationConformité.command.js';
 
@@ -34,12 +32,13 @@ export const registerEnregistrerAttestationConformitéUseCase = () => {
     const enregistréeLe = DateTime.convertirEnValueType(enregistréeLeValue);
     const enregistréePar = Email.convertirEnValueType(enregistréeParValue);
 
-    const attestation = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-      enregistréeLeValue,
-      attestationConformitéValue.format,
-    );
+    const attestation = DocumentAchèvement.attestationConformité({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréLe: enregistréeLe.formatter(),
+      'attestation-conformite': {
+        format: attestationConformitéValue.format,
+      },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

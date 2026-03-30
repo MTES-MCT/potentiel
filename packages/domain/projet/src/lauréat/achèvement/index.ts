@@ -46,7 +46,7 @@ export type { AchèvementEntity } from './achèvement.entity.js';
 // ValueTypes
 export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType.js';
 export * as TypeTâchePlanifiéeAchèvement from './typeTâchePlanifiéeAchèvement.valueType.js';
-export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType.js';
+export * as DocumentAchèvement from './documentAchèvement.valueType.js';
 
 // Event
 export type * from './achèvement.event.js';

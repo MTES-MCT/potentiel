@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeDocumentAttestationConformité } from '../index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { DocumentAchèvement } from '../index.js';
+import { IdentifiantProjet } from '../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
 import { ModifierAttestationConformitéCommand } from './modifierAttestationConformité.command.js';
@@ -37,23 +37,25 @@ export const registerModifierAttestationConformitéUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = attestationValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-          dateValue,
-          attestationValue.format,
-        )
+      ? DocumentAchèvement.attestationConformité({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: DateTime.convertirEnValueType(dateValue).formatter(),
+          'attestation-conformite': {
+            format: attestationValue.format,
+          },
+        })
       : undefined;
     const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
       dateTransmissionAuCocontractantValue,
     );
     const preuveTransmissionAuCocontractant = preuveTransmissionAuCocontractantValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
-          dateTransmissionAuCocontractantValue,
-          preuveTransmissionAuCocontractantValue.format,
-        )
+      ? DocumentAchèvement.preuveTransmissionAttestationConformité({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréLe: dateTransmissionAuCocontractant.formatter(),
+          'preuve-transmission-attestation-conformite': {
+            format: preuveTransmissionAuCocontractantValue.format,
+          },
+        })
       : undefined;
 
     const date = DateTime.convertirEnValueType(dateValue);

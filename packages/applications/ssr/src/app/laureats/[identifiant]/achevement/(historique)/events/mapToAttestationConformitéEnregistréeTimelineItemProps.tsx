@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -13,12 +12,13 @@ export const mapToAttestationConformitéEnregistréeTimelineItemProps = (
     enregistréePar,
   } = event.payload;
 
-  const attestation = DocumentProjet.convertirEnValueType(
+  const attestation = Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
     identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
-    enregistréeLe,
-    format,
-  );
+    enregistréLe: enregistréeLe,
+    'attestation-conformite': {
+      format,
+    },
+  });
 
   return {
     date: enregistréeLe,
