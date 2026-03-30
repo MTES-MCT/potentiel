@@ -2,12 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeReprésentantLégal } from '../../index.js';
-import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { DemanderChangementReprésentantLégalCommand } from './demanderChangementReprésentantLégal.command.js';
@@ -43,12 +39,11 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
     const typeReprésentantLégal = TypeReprésentantLégal.convertirEnValueType(
       typeReprésentantLégalValue,
     );
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      dateDemandeValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréeLe: dateDemandeValue,
+      pièceJustificative: { format: pièceJustificativeValue.format },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

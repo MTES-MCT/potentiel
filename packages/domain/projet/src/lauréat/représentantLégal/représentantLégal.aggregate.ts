@@ -9,7 +9,7 @@ import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée
 import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
 
 import {
-  TypeDocumentChangementReprésentantLégal,
+  DocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
   TypeTâchePlanifiéeChangementReprésentantLégal,
 } from './index.js';
@@ -452,12 +452,11 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       nom: nomReprésentantLégal,
       demandéLe: DateTime.convertirEnValueType(demandéLe),
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
-      pièceJustificative: DocumentProjet.convertirEnValueType(
+      pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet,
-        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        demandéLe,
-        format,
-      ),
+        enregistréeLe: demandéLe,
+        pièceJustificative: { format },
+      }),
     };
   }
 
@@ -469,11 +468,12 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       this.#demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
       if (pièceJustificative) {
         {
-          this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-            identifiantProjet,
-            TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-            this.#demande.demandéLe.formatter(),
-            pièceJustificative.format,
+          this.#demande.pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative(
+            {
+              identifiantProjet,
+              enregistréeLe: this.#demande.demandéLe.formatter(),
+              pièceJustificative: { format: pièceJustificative.format },
+            },
           );
         }
       }
@@ -527,12 +527,11 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       nom: nomReprésentantLégal,
       demandéLe: DateTime.convertirEnValueType(enregistréLe),
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
-      pièceJustificative: DocumentProjet.convertirEnValueType(
+      pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet,
-        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        enregistréLe,
-        format,
-      ),
+        enregistréeLe: enregistréLe,
+        pièceJustificative: { format },
+      }),
     };
   }
 

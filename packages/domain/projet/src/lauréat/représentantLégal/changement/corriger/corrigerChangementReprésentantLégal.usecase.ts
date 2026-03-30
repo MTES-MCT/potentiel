@@ -2,13 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  CorrigerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType.js';
+import { CorrigerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { TypeReprésentantLégal } from '../../index.js';
+import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
 
 import { CorrigerChangementReprésentantLégalCommand } from './corrigerChangementReprésentantLégal.command.js';
 
@@ -46,12 +42,11 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
       typeReprésentantLégalValue,
     );
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentChangementReprésentantLégal.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréeLe: dateDemandeValue,
+          pièceJustificative: { format: pièceJustificativeValue.format },
+        })
       : undefined;
 
     await mediator.send<CorrigerChangementReprésentantLégalCommand>({

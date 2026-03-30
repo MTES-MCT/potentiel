@@ -2,12 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeReprésentantLégal } from '../../index.js';
-import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 
@@ -44,12 +40,12 @@ export const registerEnregistrerChangementReprésentantLégalUseCase = () => {
     const typeReprésentantLégal = TypeReprésentantLégal.convertirEnValueType(
       typeReprésentantLégalValue,
     );
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      dateChangementValue,
-      pièceJustificativeValue.format,
-    );
+
+    const pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréeLe: dateChangementValue,
+      pièceJustificative: { format: pièceJustificativeValue.format },
+    });
 
     await mediator.send<SupprimerDocumentProjetSensibleCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
