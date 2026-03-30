@@ -8,7 +8,7 @@ import {
 } from './corriger/corrigerDocumentProjet.command.js';
 import {
   DéplacerDossierProjetDependencies,
-  registerDéplacerDocumentProjetCommand,
+  registerDéplacerDossierProjetCommand,
 } from './déplacer/déplacerDocumentProjet.command.js';
 import {
   EnregistrerDocumentProjetDependencies,
@@ -31,7 +31,7 @@ export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryD
 
 export const registerDocumentProjetCommand = (dependencies: DocumentProjetCommandDependencies) => {
   registerEnregistrerDocumentProjetCommand(dependencies);
-  registerDéplacerDocumentProjetCommand(dependencies);
+  registerDéplacerDossierProjetCommand(dependencies);
   registerCorrigerDocumentProjetCommand(dependencies);
   registerEnregistrerDocumentSubstitutCommand(dependencies);
 };

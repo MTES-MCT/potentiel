@@ -5,7 +5,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import * as DossierProjet from '../dossierProjet.valueType.js';
 
 export type DéplacerDossierProjetCommand = Message<
-  'Document.Command.DéplacerDocumentProjet',
+  'Document.Command.DéplacerDossierProjet',
   {
     dossierProjetSource: DossierProjet.ValueType;
     dossierProjetTarget: DossierProjet.ValueType;
@@ -21,7 +21,7 @@ export type DéplacerDossierProjetDependencies = {
   déplacerDossierProjet: DéplacerDossierProjetPort;
 };
 
-export const registerDéplacerDocumentProjetCommand = ({
+export const registerDéplacerDossierProjetCommand = ({
   déplacerDossierProjet,
 }: DéplacerDossierProjetDependencies) => {
   const handler: MessageHandler<DéplacerDossierProjetCommand> = ({
@@ -34,7 +34,7 @@ export const registerDéplacerDocumentProjetCommand = ({
 
     return déplacerDossierProjet(dossierProjetSource.formatter(), dossierProjetTarget.formatter());
   };
-  mediator.register('Document.Command.DéplacerDocumentProjet', handler);
+  mediator.register('Document.Command.DéplacerDossierProjet', handler);
 };
 
 class DossiersProjetsIdentiquesError extends InvalidOperationError {
