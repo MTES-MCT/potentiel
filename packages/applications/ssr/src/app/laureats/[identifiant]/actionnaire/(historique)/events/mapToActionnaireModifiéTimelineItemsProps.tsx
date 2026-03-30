@@ -14,9 +14,9 @@ export const mapToActionnaireModifiéTimelineItemProps = (
     title: 'Actionnaire modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: Lauréat.Actionnaire.DocumentActionnaire.pièceJustificativeModification({
+      document: Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative({
         identifiantProjet,
-        modifiéLe,
+        demandéLe: modifiéLe,
         pièceJustificative: {
           format: pièceJustificative.format,
         },

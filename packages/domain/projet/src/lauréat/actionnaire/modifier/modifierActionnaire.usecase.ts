@@ -33,9 +33,9 @@ export const registerModifierActionnaireUseCase = () => {
     raisonValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentActionnaire.pièceJustificativeModification({
+      ? DocumentActionnaire.pièceJustificative({
           identifiantProjet: identifiantProjetValue,
-          modifiéLe: dateModificationValue,
+          demandéLe: dateModificationValue,
           pièceJustificative: pièceJustificativeValue,
         })
       : undefined;

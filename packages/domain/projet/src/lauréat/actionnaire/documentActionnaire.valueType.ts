@@ -6,12 +6,6 @@ export const pièceJustificative = DocumentProjet.documentFactory(
   'demandéLe',
 );
 
-export const pièceJustificativeModification = DocumentProjet.documentFactory(
-  'actionnaire/pièce-justificative',
-  'pièceJustificative',
-  'modifiéLe',
-);
-
 export const changementAccordé = DocumentProjet.documentFactory(
   'actionnaire/changement-accordé',
   'réponseSignée',
