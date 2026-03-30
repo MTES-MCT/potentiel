@@ -160,7 +160,7 @@ type BadgeDemandesEnCoursProps = {
 const BadgeDemandesEnCours: React.FC<BadgeDemandesEnCoursProps> = async ({ nombreDemandes }) => {
   return (
     <Badge badgeContent={nombreDemandes} max={99} color="primary" overlap="circular">
-      <div className="mr-12">Demandes en cours</div>
+      <div className="mr-10">Demandes en cours</div>
     </Badge>
   );
 };
@@ -186,7 +186,7 @@ const BadgeTâches: React.FC<BadgeTâchesProps> = async ({ identifiantProjet, ut
       overlap="circular"
       invisible={tâches.total === 0}
     >
-      <div className={utilisateurEstPorteur ? 'mr-6' : 'mr-8'}>
+      <div className={utilisateurEstPorteur ? 'mr-6' : 'mr-9'}>
         {utilisateurEstPorteur ? 'Tâches' : 'Tâches porteur'}
       </div>
     </Badge>

@@ -8,4 +8,4 @@ Un changement de l'information relative au couplage de l'installation avec un di
 
 Afin de suivre votre dossier, nous vous invitons à vous connecter au site Potentiel en cliquant sur le lien ci-dessous :
 
-{{ cta url 'Voir le changement' }}
+{{ cta url 'Accéder au changement' }}
