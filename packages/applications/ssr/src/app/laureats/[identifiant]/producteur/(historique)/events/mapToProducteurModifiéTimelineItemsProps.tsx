@@ -14,9 +14,9 @@ export const mapToProducteurModifiéTimelineItemsProps = (
     title: 'Producteur modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: Lauréat.Producteur.DocumentProducteur.pièceJustificativeModification({
-        modifiéLe,
+      document: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
         identifiantProjet,
+        enregistréLe: modifiéLe,
         pièceJustificative,
       }),
       ariaLabel: `Télécharger le justificatif du changement de producteur enregistré le ${formatDateToText(modifiéLe)}`,
