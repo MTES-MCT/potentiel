@@ -7,7 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 import { ReprésentantLégal } from '../../../index.js';
 import {
   StatutChangementReprésentantLégal,
-  TypeDocumentChangementReprésentantLégal,
+  DocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
@@ -88,11 +88,10 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => {
     demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
     demandéPar: Email.convertirEnValueType(demande.demandéPar),
     statut: StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
-    pièceJustificative: DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      demande.demandéLe,
-      demande.pièceJustificative.format,
-    ),
+    pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
+      identifiantProjet: identifiantProjet.formatter(),
+      enregistréeLe: demande.demandéLe,
+      pièceJustificative: { format: demande.pièceJustificative.format },
+    }),
   };
 };

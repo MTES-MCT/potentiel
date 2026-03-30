@@ -1,5 +1,4 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerChangementReprésentantLégal.fixture.js';
@@ -72,12 +71,16 @@ export class ChangementReprésentantLégalWorld {
         demandéePar: Email.convertirEnValueType(
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéPar,
         ),
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative!.format,
-        ),
+        pièceJustificative:
+          Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréeLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+            pièceJustificative: {
+              format:
+                this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative!
+                  .format,
+            },
+          }),
       },
     };
 
@@ -86,12 +89,14 @@ export class ChangementReprésentantLégalWorld {
         this.corrigerChangementReprésentantLégalFixture.nomReprésentantLégal;
       expected.demande.typeReprésentantLégal =
         this.corrigerChangementReprésentantLégalFixture.typeReprésentantLégal;
-      expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-        this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
-      );
+      expected.demande.pièceJustificative =
+        Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          enregistréeLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+          pièceJustificative: {
+            format: this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
+          },
+        });
     }
 
     if (this.accorderChangementReprésentantLégalFixture.aÉtéCréé) {

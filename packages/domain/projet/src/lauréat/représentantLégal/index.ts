@@ -84,7 +84,7 @@ export type * from './changement/changementReprésentantLégal.entity.js';
 
 // ValueType
 export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType.js';
-export * as TypeDocumentChangementReprésentantLégal from './changement/typeDocumentChangementReprésentantLégal.valueType.js';
+export * as DocumentChangementReprésentantLégal from './changement/documentChangementReprésentantLégal.valueType.js';
 export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType.js';
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
 
