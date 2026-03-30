@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -19,12 +18,14 @@ export const mapToRecoursAccordéTimelineItemProps = (
     title: 'Demande de recours accordée',
     actor: accordéPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Éliminé.Recours.DocumentRecours.recoursAccordé({
         identifiantProjet,
-        Éliminé.Recours.TypeDocumentRecours.recoursAccordé.formatter(),
         accordéLe,
-        format,
-      ),
+        réponseSignée: {
+          format,
+        },
+      }),
+
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de recours accordée le ${formatDateToText(accordéLe)}`,
     },

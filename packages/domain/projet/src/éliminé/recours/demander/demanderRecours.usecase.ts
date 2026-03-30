@@ -2,12 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../document-projet/index.js';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType.js';
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { DocumentRecours } from '../index.js';
 
 import { DemanderRecoursCommand } from './demanderRecours.command.js';
 
@@ -37,12 +34,11 @@ export const registerDemanderRecoursUseCase = () => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      TypeDocumentRecours.pièceJustificative.formatter(),
-      dateDemande.formatter(),
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = DocumentRecours.pièceJustificative({
+      identifiantProjet: identifiantProjet.formatter(),
+      demandéLe: dateDemande.formatter(),
+      pièceJustificative: { format: pièceJustificativeValue.format },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

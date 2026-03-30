@@ -6,8 +6,8 @@ import { Find } from '@potentiel-domain/entity';
 
 import * as StatutRecours from '../statutRecours.valueType.js';
 import { DemandeRecoursEntity } from '../demandeRecours.entity.js';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { DocumentRecours } from '../index.js';
 
 export type ConsulterDemandeRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -65,17 +65,20 @@ export const registerConsulterDemandeRecoursQuery = ({
 };
 
 const mapToReadModel = (result: DemandeRecoursEntity) => {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    result.identifiantProjet,
+  ).formatter();
+
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        result.identifiantProjet,
-        TypeDocumentRecours.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
-        result.demande.pièceJustificative?.format,
-      ),
+      pièceJustificative: DocumentRecours.pièceJustificative({
+        identifiantProjet,
+        demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+        pièceJustificative: result.demande.pièceJustificative,
+      }),
       instruction: result.demande.instruction
         ? {
             passéEnInstructionLe: DateTime.convertirEnValueType(
@@ -90,28 +93,26 @@ const mapToReadModel = (result: DemandeRecoursEntity) => {
         ? {
             accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
             accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentRecours.recoursAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
-              result.demande.accord.réponseSignée.format,
-            ),
+            réponseSignée: DocumentRecours.recoursAccordé({
+              identifiantProjet,
+              accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              réponseSignée: { format: result.demande.accord.réponseSignée.format },
+            }),
           }
         : undefined,
       rejet: result.demande.rejet
         ? {
             rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
             rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentRecours.recoursRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
-              result.demande.rejet.réponseSignée.format,
-            ),
+            réponseSignée: DocumentRecours.recoursRejeté({
+              identifiantProjet,
+              rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+              réponseSignée: { format: result.demande.rejet.réponseSignée.format },
+            }),
           }
         : undefined,
     },
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     statut: StatutRecours.convertirEnValueType(result.statut),
-  } satisfies ConsulterDemandeRecoursReadModel;
+  };
 };
