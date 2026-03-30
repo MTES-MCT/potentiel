@@ -98,20 +98,35 @@ type DynamicField<TNomChamp extends string, TType> = {
 };
 
 export const documentFactory =
-  <TNomChampDocument extends string, TNomChampDate extends string>(
-    typeDocument: string,
-    nomChampDocument: TNomChampDocument,
-    nomChampDate: TNomChampDate,
-  ) =>
+  <
+    TNomChampDocument extends string,
+    TNomChampDate extends string,
+    TNomCléDocument extends string | undefined,
+  >({
+    domaine,
+    nomChampDate,
+    nomChampDocument,
+    typeDocument,
+    nomCléDocument,
+  }: {
+    domaine: string;
+    typeDocument: string;
+    nomChampDocument: TNomChampDocument;
+    nomChampDate: TNomChampDate;
+    nomCléDocument?: TNomCléDocument;
+  }) =>
   (
     payload: DynamicField<'identifiantProjet', string> &
       DynamicField<TNomChampDate, string> &
-      Partial<DynamicField<TNomChampDocument, { format: string }>>,
+      Partial<DynamicField<TNomChampDocument, { format: string }>> &
+      (TNomCléDocument extends string ? DynamicField<TNomCléDocument, string> : unknown),
   ) =>
     payload[nomChampDocument] &&
     convertirEnValueType(
       payload.identifiantProjet,
-      typeDocument,
+      [domaine, nomCléDocument ? [nomCléDocument as keyof typeof payload] : '', typeDocument]
+        .filter(Boolean)
+        .join('/'),
       payload[nomChampDate],
       payload[nomChampDocument].format,
     );

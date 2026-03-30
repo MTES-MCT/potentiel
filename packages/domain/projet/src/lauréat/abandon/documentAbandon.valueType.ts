@@ -1,25 +1,31 @@
 import { DocumentProjet } from '#document-projet';
 
-export const pièceJustificative = DocumentProjet.documentFactory(
-  'abandon/pièce-justificative',
-  'pièceJustificative',
-  'demandéLe',
-);
+const domaine = 'abandon';
 
-export const abandonAccordé = DocumentProjet.documentFactory(
-  'abandon/abandon-accordé',
-  'réponseSignée',
-  'accordéLe',
-);
+export const pièceJustificative = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'pièce-justificative',
+  nomChampDocument: 'pièceJustificative',
+  nomChampDate: 'demandéLe',
+});
 
-export const abandonRejeté = DocumentProjet.documentFactory(
-  'abandon/abandon-rejeté',
-  'réponseSignée',
-  'rejetéLe',
-);
+export const abandonAccordé = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'abandon-accordé',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'accordéLe',
+});
 
-export const abandonAConfirmer = DocumentProjet.documentFactory(
-  'abandon/abandon-à-confirmer',
-  'réponseSignée',
-  'confirmationDemandéeLe',
-);
+export const abandonRejeté = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'abandon-rejeté',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'rejetéLe',
+});
+
+export const abandonAConfirmer = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'abandon-à-confirmer',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'confirmationDemandéeLe',
+});

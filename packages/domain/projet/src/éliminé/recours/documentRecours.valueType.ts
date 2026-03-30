@@ -1,19 +1,24 @@
 import { DocumentProjet } from '#document-projet';
 
-export const pièceJustificative = DocumentProjet.documentFactory(
-  'recours/pièce-justificative',
-  'pièceJustificative',
-  'demandéLe',
-);
+const domaine = 'recours';
 
-export const recoursAccordé = DocumentProjet.documentFactory(
-  'recours/recours-accordé',
-  'réponseSignée',
-  'accordéLe',
-);
+export const pièceJustificative = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'pièce-justificative',
+  nomChampDocument: 'pièceJustificative',
+  nomChampDate: 'demandéLe',
+});
 
-export const recoursRejeté = DocumentProjet.documentFactory(
-  'recours/recours-rejeté',
-  'réponseSignée',
-  'rejetéLe',
-);
+export const recoursAccordé = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'recours-accordé',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'accordéLe',
+});
+
+export const recoursRejeté = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'recours-rejeté',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'rejetéLe',
+});
