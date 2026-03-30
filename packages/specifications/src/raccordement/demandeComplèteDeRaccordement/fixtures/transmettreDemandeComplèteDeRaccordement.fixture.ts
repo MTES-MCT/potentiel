@@ -45,7 +45,7 @@ export class TransmettreDemandeComplèteRaccordementFixture
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
-      attestation: {
+      accuséRéception: {
         format: 'application/pdf',
         content: faker.word.words(),
       },
