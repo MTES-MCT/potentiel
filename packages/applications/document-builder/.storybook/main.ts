@@ -1,23 +1,29 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
-import webpack from 'webpack';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.tsx'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-webpack5-compiler-swc',
-  ],
-  framework: '@storybook/react-webpack5',
-  staticDirs: ['../src/assets'],
-  webpackFinal: (config) => {
-    config.plugins?.push(
-      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
-        resource.request = resource.request.replace(/^node:/, '');
-      }),
-    );
+import { defineMain } from '@storybook/react-vite/node';
 
-    return config;
+const getAbsolutePath = (packageName: string) =>
+  dirname(fileURLToPath(import.meta.resolve(join(packageName, 'package.json'))));
+
+export default defineMain({
+  framework: {
+    name: getAbsolutePath('@storybook/react-vite'),
+    options: {},
   },
-};
-export default config;
+  stories: ['../src/**/*.stories.tsx'],
+  staticDirs: [{ from: '../src/assets', to: '/' }],
+  viteFinal: async (config) => {
+    return {
+      ...config,
+      resolve: {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          'node:path': 'path-browserify',
+          path: 'path-browserify',
+        },
+      },
+    };
+  },
+});
