@@ -41,8 +41,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Quand le porteur modifie la proposition technique et financière avec :
-            | La date de qualification    | 2022-01-01 |
-            | Le document a été modifié ? | non        |
+            | Le document a été modifié ? | non |
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
