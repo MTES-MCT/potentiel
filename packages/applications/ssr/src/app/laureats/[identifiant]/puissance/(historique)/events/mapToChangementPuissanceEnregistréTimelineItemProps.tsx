@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -23,12 +22,11 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
     title: 'Puissance modifiée',
     actor: enregistréPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Puissance.DocumentPuissance.pièceJustificative({
         identifiantProjet,
-        Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-        enregistréLe,
-        pièceJustificative.format,
-      ),
+        demandéLe: enregistréLe,
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif du changement de puissance en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (

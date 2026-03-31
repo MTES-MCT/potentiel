@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeDocumentPuissance } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentPuissance } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { RejeterChangementPuissanceCommand } from './rejeterChangementPuissance.command.js';
@@ -36,12 +33,11 @@ export const registerRejeterChangementPuissanceUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const rejetéLe = DateTime.convertirEnValueType(rejetéLeValue);
     const rejetéPar = Email.convertirEnValueType(rejetéParValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentPuissance.changementRejeté.formatter(),
-      rejetéLe.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentPuissance.changementRejeté({
+      identifiantProjet: identifiantProjetValue,
+      rejetéLe: rejetéLeValue,
+      réponseSignée: { format },
+    });
 
     await mediator.send<RejeterChangementPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.RejeterDemandeChangement',

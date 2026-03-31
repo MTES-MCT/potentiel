@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -22,12 +22,11 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (
     title: 'Puissance modifiée',
     actor: modifiéePar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Puissance.DocumentPuissance.pièceJustificative({
         identifiantProjet,
-        Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-        modifiéeLe,
-        pièceJustificative.format,
-      ),
+        demandéLe: modifiéeLe,
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif du changement de puissance enregistré le ${formatDateToText(modifiéeLe)}`,
     },
     details: (

@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture.js';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture.js';
@@ -74,12 +73,13 @@ export class ChangementPuissanceWorld {
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
         nouvellePuissance: baseFixture.ratioPuissance * puissanceActuelle,
         nouvellePuissanceDeSite: baseFixture.puissanceDeSite,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-          baseFixture.pièceJustificative.format,
-        ),
+        pièceJustificative: Lauréat.Puissance.DocumentPuissance.pièceJustificative({
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe: baseFixture.demandéLe,
+          pièceJustificative: {
+            format: baseFixture.pièceJustificative.format,
+          },
+        }),
         raison: baseFixture.raison,
         statut,
       },
@@ -94,14 +94,13 @@ export class ChangementPuissanceWorld {
           this.#accorderChangementPuissanceFixture.accordéePar,
         ),
 
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
-          DateTime.convertirEnValueType(
-            this.#accorderChangementPuissanceFixture.accordéeLe,
-          ).formatter(),
-          this.#accorderChangementPuissanceFixture.réponseSignée.format,
-        ),
+        réponseSignée: Lauréat.Puissance.DocumentPuissance.changementAccordé({
+          identifiantProjet: identifiantProjet.formatter(),
+          accordéLe: this.#accorderChangementPuissanceFixture.accordéeLe,
+          réponseSignée: {
+            format: this.#accorderChangementPuissanceFixture.réponseSignée.format,
+          },
+        }),
       };
     }
 
@@ -110,14 +109,13 @@ export class ChangementPuissanceWorld {
         rejetéeLe: DateTime.convertirEnValueType(this.#rejeterChangementPuissanceFixture.rejetéeLe),
         rejetéePar: Email.convertirEnValueType(this.#rejeterChangementPuissanceFixture.rejetéePar),
 
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
-          DateTime.convertirEnValueType(
-            this.#rejeterChangementPuissanceFixture.rejetéeLe,
-          ).formatter(),
-          this.#rejeterChangementPuissanceFixture.réponseSignée.format,
-        ),
+        réponseSignée: Lauréat.Puissance.DocumentPuissance.changementRejeté({
+          identifiantProjet: identifiantProjet.formatter(),
+          rejetéLe: this.#rejeterChangementPuissanceFixture.rejetéeLe,
+          réponseSignée: {
+            format: this.#rejeterChangementPuissanceFixture.réponseSignée.format,
+          },
+        }),
       };
     }
 

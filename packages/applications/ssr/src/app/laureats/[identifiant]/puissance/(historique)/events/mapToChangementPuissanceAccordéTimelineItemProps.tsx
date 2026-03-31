@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -10,7 +9,6 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
   const {
     accordéLe,
     accordéPar,
-    identifiantProjet,
     réponseSignée,
     nouvellePuissance,
     nouvellePuissanceDeSite,
@@ -22,12 +20,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
     title: 'Changement de puissance accordé',
     actor: accordéPar,
     file: réponseSignée && {
-      document: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        Lauréat.Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
-        accordéLe,
-        réponseSignée.format,
-      ),
+      document: Lauréat.Puissance.DocumentPuissance.changementAccordé(event.payload),
       label: 'Télécharger la réponse signée',
       ariaLabel: `Télécharger la réponse signée de la demande de changement de puissance accordée le ${accordéLe}`,
     },

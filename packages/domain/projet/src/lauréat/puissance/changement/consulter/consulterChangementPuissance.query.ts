@@ -7,7 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 import {
   ChangementPuissanceEntity,
   StatutChangementPuissance,
-  TypeDocumentPuissance,
+  DocumentPuissance,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
@@ -83,24 +83,22 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
       statut,
       raison: result.demande.raison,
       pièceJustificative: result.demande.pièceJustificative
-        ? DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentPuissance.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
-            result.demande.pièceJustificative?.format,
-          )
+        ? DocumentPuissance.pièceJustificative({
+            identifiantProjet: result.identifiantProjet,
+            demandéLe: result.demande.demandéeLe,
+            pièceJustificative: result.demande.pièceJustificative,
+          })
         : undefined,
       accord: result.demande.accord
         ? {
             accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
             accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
             réponseSignée: result.demande.accord.réponseSignée
-              ? DocumentProjet.convertirEnValueType(
-                  result.identifiantProjet,
-                  TypeDocumentPuissance.changementAccordé.formatter(),
-                  DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
-                  result.demande.accord.réponseSignée.format,
-                )
+              ? DocumentPuissance.changementAccordé({
+                  identifiantProjet: result.identifiantProjet,
+                  accordéLe: result.demande.accord.accordéeLe,
+                  réponseSignée: result.demande.accord.réponseSignée,
+                })
               : undefined,
           }
         : undefined,
@@ -108,12 +106,11 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
         ? {
             rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
             rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentPuissance.changementRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
-              result.demande.rejet.réponseSignée.format,
-            ),
+            réponseSignée: DocumentPuissance.changementRejeté({
+              identifiantProjet: result.identifiantProjet,
+              rejetéLe: result.demande.rejet.rejetéeLe,
+              réponseSignée: result.demande.rejet.réponseSignée,
+            }),
           }
         : undefined,
     },

@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -7,25 +6,14 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToChangementPuissanceRejetéTimelineItemProps = (
   event: Lauréat.Puissance.ChangementPuissanceRejetéEvent,
 ): TimelineItemProps => {
-  const {
-    rejetéLe,
-    rejetéPar,
-    identifiantProjet,
-    réponseSignée: { format },
-    estUneDécisionDEtat,
-  } = event.payload;
+  const { rejetéLe, rejetéPar, estUneDécisionDEtat } = event.payload;
 
   return {
     date: rejetéLe,
     title: 'Changement de puissance rejeté',
     actor: rejetéPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        Lauréat.Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
-        rejetéLe,
-        format,
-      ),
+      document: Lauréat.Puissance.DocumentPuissance.changementRejeté(event.payload),
       ariaLabel: `Télécharger la réponse signée de la demande de changement de puissance rejetée le ${formatDateToText(rejetéLe)}`,
     },
     details: (
