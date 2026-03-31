@@ -10,7 +10,7 @@ export type PièceJustificative = { format: string; content: string };
 interface TransmettreDemandeComplèteRaccordement {
   dateQualification: string;
   référenceDossier: string;
-  accuséRéception?: PièceJustificative;
+  accuséRéception: PièceJustificative;
 }
 
 export class TransmettreDemandeComplèteRaccordementFixture
@@ -27,8 +27,8 @@ export class TransmettreDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #accuséRéception?: PièceJustificative;
-  get accuséRéception(): PièceJustificative | undefined {
+  #accuséRéception!: PièceJustificative;
+  get accuséRéception(): PièceJustificative {
     return this.#accuséRéception;
   }
 

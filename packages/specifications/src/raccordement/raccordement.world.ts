@@ -1,5 +1,5 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
 
@@ -34,7 +34,7 @@ export class RaccordementWorld {
     this.#identifiantGestionnaireRéseau = identifiantGestionnaireRéseau;
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected() {
     const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : undefined;
@@ -45,7 +45,7 @@ export class RaccordementWorld {
       );
 
     const dossier = {
-      identifiantProjet,
+      identifiantProjet: this.lauréatWorld.identifiantProjet,
       identifiantGestionnaireRéseau,
       demandeComplèteRaccordement:
         this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
@@ -68,7 +68,7 @@ export class RaccordementWorld {
     return {
       raccordement: {
         dossiers: [dossier],
-        identifiantProjet,
+        identifiantProjet: this.lauréatWorld.identifiantProjet,
         identifiantGestionnaireRéseau,
         gestionnaireRéseau: gestionnaireRéseau
           ? {

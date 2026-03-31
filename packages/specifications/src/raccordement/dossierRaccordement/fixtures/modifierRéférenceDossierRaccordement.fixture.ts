@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../fixture.js';
 
-interface ModifierRéférenceDossierRaccordement {
+export interface ModifierRéférenceDossierRaccordement {
   référenceDossier: string;
   nouvelleRéférenceDossier: string;
 }

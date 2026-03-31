@@ -66,17 +66,19 @@ const action: FormAction<FormState, typeof schema> = async (
       }
     }
 
+    const estUnNouveauDocumentValue = accuseReceptionDocumentSelection === 'keep_existing_document';
+
     await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
-        accuséRéceptionValue:
-          accuseReceptionDocumentSelection === 'edit_document' ? accuseReception : undefined,
+        accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
         rôleValue: utilisateur.rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
+        estUnNouveauDocumentValue,
       },
     });
 

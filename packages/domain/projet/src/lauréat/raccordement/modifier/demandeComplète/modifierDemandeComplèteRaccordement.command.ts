@@ -15,7 +15,8 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
     rôle: Role.ValueType;
     modifiéeLe: DateTime.ValueType;
     modifiéePar: Email.ValueType;
-    formatAccuséRéception?: string;
+    accuséRéception: { format: string };
+    estUnNouveauDocument: boolean;
   }
 >;
 
@@ -25,21 +26,23 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     dateQualification,
     référenceDossierRaccordement,
-    formatAccuséRéception,
+    accuséRéception,
     identifiantProjet,
     rôle,
     modifiéeLe,
     modifiéePar,
+    estUnNouveauDocument,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.raccordement.modifierDemandeComplèteRaccordement({
       dateQualification,
       référenceDossierRaccordement,
-      formatAccuséRéception,
+      accuséRéception,
       rôle,
       modifiéeLe,
       modifiéePar,
+      estUnNouveauDocument,
     });
   };
 

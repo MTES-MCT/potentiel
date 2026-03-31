@@ -26,7 +26,7 @@ Alors(
           },
         });
 
-      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
+      vérifierDossierRaccordement.call(this, dossierRaccordement);
     });
   },
 );

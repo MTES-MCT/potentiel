@@ -832,7 +832,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     rôle,
     modifiéeLe,
     modifiéePar,
-    formatAccuséRéception,
+    accuséRéception: { format },
+    estUnNouveauDocument,
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
@@ -851,7 +852,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      !formatAccuséRéception &&
+      !estUnNouveauDocument &&
       Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
       dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
     ) {
@@ -886,11 +887,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateQualification: dateQualification.formatter(),
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
-        accuséRéception: formatAccuséRéception
-          ? {
-              format: formatAccuséRéception,
-            }
-          : undefined,
+        accuséRéception: { format },
       },
     };
 
