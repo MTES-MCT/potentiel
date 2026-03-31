@@ -6,9 +6,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
-import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType.js';
 import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
+import { DocumentRaccordement } from '../index.js';
 
 export type ConsulterDossierRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -82,37 +82,35 @@ export const mapToReadModel = ({
       dateQualification: demandeComplèteRaccordement?.dateQualification
         ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
         : undefined,
-      accuséRéception: demandeComplèteRaccordement?.accuséRéception
-        ? DocumentProjet.convertirEnValueType(
-            identifiantProjet,
-            TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(référence).formatter(),
-            // Initialement dans le legacy certaines DCR n'avait pas de date de qualitification.
-            // Lorsque le domain raccordement a été migré, l'optionalité de la date a été conservé.
-            // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
-            // Ce module s'appuie sur des dates pour les noms de fichier
-            // Dans le cas de la DCR étant donnée que les date ne sont pas toujours présentes, une date par défaut au 1er commit du projet
-            // A été mise en place. Les fichiers correspondant dans le bucket ont la même date aussi.
-            // Au moment de l'introduction de ce changement (2024-02-08), il y avait 946 DCR ayant le soucis.
-            // Pour corriger le probléme définitivement il faudrait mettre la date de qualitification contenu dans le fichier,
-            // Mais étant donnée que le legacy n'avait pas de retriction au niveau du format de fichier, il est compliqué d'extraire automatiquement cette information
-            demandeComplèteRaccordement.dateQualification || '2020-02-17T00:00:00.000Z',
-            demandeComplèteRaccordement.accuséRéception.format,
-          )
-        : undefined,
+      accuséRéception: DocumentRaccordement.accuséRéception({
+        identifiantProjet,
+        référence,
+        // Initialement dans le legacy certaines DCR n'avait pas de date de qualification.
+        // Lorsque le domaine raccordement a été migré, l'optionalité de la date a été conservée.
+        // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
+        // Ce module s'appuie sur des dates pour les noms de fichier
+        // Dans le cas de la DCR étant donnée que les date ne sont pas toujours présentes, une date par défaut au 1er commit du projet a été mise en place. Les fichiers correspondant dans le bucket ont la même date.
+        // Au moment de l'introduction de ce changement (2024-02-08), il y avait 946 DCR ayant le soucis.
+        // Pour corriger le probléme définitivement il faudrait mettre la date de qualification contenu dans le fichier,
+        // Mais étant donné que le legacy n'avait pas de restriction au niveau du format de fichier, il est compliqué d'extraire automatiquement cette information
+        dateQualification:
+          demandeComplèteRaccordement?.dateQualification || '2020-02-17T00:00:00.000Z',
+        accuséRéception: demandeComplèteRaccordement?.accuséRéception,
+      }),
     },
     propositionTechniqueEtFinancière: propositionTechniqueEtFinancière
       ? {
           dateSignature: DateTime.convertirEnValueType(
             propositionTechniqueEtFinancière.dateSignature,
           ),
-          propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
-            identifiantProjet,
-            TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+          propositionTechniqueEtFinancièreSignée:
+            DocumentRaccordement.propositionTechniqueEtFinancière({
+              identifiantProjet,
               référence,
-            ).formatter(),
-            propositionTechniqueEtFinancière.dateSignature,
-            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée?.format || '',
-          ),
+              dateSignature: propositionTechniqueEtFinancière.dateSignature,
+              propositionTechniqueEtFinancièreSignée:
+                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
+            }),
         }
       : undefined,
     miseEnService: miseEnService?.dateMiseEnService

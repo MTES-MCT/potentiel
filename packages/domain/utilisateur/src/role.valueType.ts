@@ -593,7 +593,7 @@ const référencielPermissions = {
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       enregisterSubstitut: 'Document.Command.EnregistrerDocumentSubstitut',
-      déplacer: 'Document.Command.DéplacerDocumentProjet',
+      déplacer: 'Document.Command.DéplacerDossierProjet',
       corriger: 'Document.Command.CorrigerDocumentProjet',
     },
   },

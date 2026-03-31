@@ -1,13 +1,17 @@
 import { DocumentProjet } from '#document-projet';
 
-export const attestationConformité = DocumentProjet.documentFactory(
-  'achevement/attestation-conformite',
-  'attestation-conformite',
-  'enregistréLe',
-);
+const domaine = 'achevement';
 
-export const preuveTransmissionAttestationConformité = DocumentProjet.documentFactory(
-  'achevement/preuve-transmission-attestation-conformite',
-  'preuve-transmission-attestation-conformite',
-  'enregistréLe',
-);
+export const attestationConformité = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'attestation-conformite',
+  nomChampDocument: 'attestation-conformite',
+  nomChampDate: 'enregistréLe',
+});
+
+export const preuveTransmissionAttestationConformité = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'preuve-transmission-attestation-conformite',
+  nomChampDocument: 'preuve-transmission-attestation-conformite',
+  nomChampDate: 'enregistréLe',
+});

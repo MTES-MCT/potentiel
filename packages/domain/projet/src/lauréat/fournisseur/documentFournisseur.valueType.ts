@@ -1,7 +1,10 @@
 import { DocumentProjet } from '#document-projet';
 
-export const pièceJustificative = DocumentProjet.documentFactory(
-  'fournisseur/pièce-justificative',
-  'pièceJustificative',
-  'enregistréLe',
-);
+const domaine = 'fournisseur';
+
+export const pièceJustificative = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'pièce-justificative',
+  nomChampDocument: 'pièceJustificative',
+  nomChampDate: 'enregistréLe',
+});

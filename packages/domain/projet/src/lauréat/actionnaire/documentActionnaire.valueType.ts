@@ -1,18 +1,23 @@
 import { DocumentProjet } from '#document-projet';
 
-export const pièceJustificative = DocumentProjet.documentFactory(
-  'actionnaire/pièce-justificative',
-  'pièceJustificative',
-  'demandéLe',
-);
+const domaine = 'actionnaire';
 
-export const changementAccordé = DocumentProjet.documentFactory(
-  'actionnaire/changement-accordé',
-  'réponseSignée',
-  'accordéLe',
-);
-export const changementRejeté = DocumentProjet.documentFactory(
-  'actionnaire/changement-rejeté',
-  'réponseSignée',
-  'rejetéLe',
-);
+export const pièceJustificative = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'pièce-justificative',
+  nomChampDocument: 'pièceJustificative',
+  nomChampDate: 'demandéLe',
+});
+
+export const changementAccordé = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'changement-accordé',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'accordéLe',
+});
+export const changementRejeté = DocumentProjet.documentFactory({
+  domaine,
+  typeDocument: 'changement-rejeté',
+  nomChampDocument: 'réponseSignée',
+  nomChampDate: 'rejetéLe',
+});

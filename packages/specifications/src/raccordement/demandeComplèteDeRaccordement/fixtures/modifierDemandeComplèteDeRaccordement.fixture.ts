@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -28,14 +27,10 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #format!: string;
-  #content!: string;
+  #accuséRéception!: PièceJustificative;
 
-  get accuséRéception(): ModifierDemandeComplèteRaccordement['accuséRéception'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get accuséRéception(): PièceJustificative {
+    return this.#accuséRéception;
   }
 
   #identifiantProjet!: string;
@@ -60,11 +55,7 @@ export class ModifierDemandeComplèteRaccordementFixture
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-
-    if (fixture.accuséRéception) {
-      this.#format = fixture.accuséRéception.format;
-      this.#content = fixture.accuséRéception.content;
-    }
+    this.#accuséRéception = fixture.accuséRéception;
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
@@ -75,16 +66,12 @@ export class ModifierDemandeComplèteRaccordementFixture
     if (!this.aÉtéCréé) return;
 
     return {
-      accuséRéception: this.accuséRéception
-        ? DocumentProjet.convertirEnValueType(
-            this.identifiantProjet,
-            Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-              référenceDossier ?? this.référenceDossier,
-            ).formatter(),
-            this.#dateQualification,
-            this.accuséRéception.format,
-          )
-        : undefined,
+      accuséRéception: Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+        identifiantProjet: this.identifiantProjet,
+        référence: référenceDossier ?? this.référenceDossier,
+        dateQualification: this.#dateQualification,
+        accuséRéception: this.accuséRéception,
+      }),
       dateQualification: DateTime.convertirEnValueType(this.dateQualification),
     };
   }

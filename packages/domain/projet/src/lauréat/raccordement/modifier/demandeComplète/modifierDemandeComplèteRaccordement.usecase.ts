@@ -3,10 +3,10 @@ import { mediator, MessageHandler, Message } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType.js';
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentRaccordement } from '../../index.js';
 
 import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command.js';
 
@@ -36,17 +36,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     modifiéeLeValue,
     modifiéeParValue,
   }) => {
-    const accuséRéception = accuséRéceptionValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-            référenceDossierRaccordementValue,
-          ).formatter(),
-          dateQualificationValue,
-          accuséRéceptionValue.format,
-        )
-      : undefined;
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
@@ -61,11 +50,18 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
 
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    if (accuséRéception) {
+    if (accuséRéceptionValue) {
+      const accuséRéception = DocumentRaccordement.accuséRéception({
+        identifiantProjet: identifiantProjetValue,
+        référence: référenceDossierRaccordementValue,
+        dateQualification: dateQualificationValue,
+        accuséRéception: accuséRéceptionValue,
+      });
+
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: accuséRéceptionValue!.content,
+          content: accuséRéceptionValue.content,
           documentProjet: accuséRéception,
         },
       });
@@ -75,7 +71,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       type: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
-        formatAccuséRéception: accuséRéception ? accuséRéceptionValue!.format : undefined,
+        formatAccuséRéception: accuséRéceptionValue?.format,
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,

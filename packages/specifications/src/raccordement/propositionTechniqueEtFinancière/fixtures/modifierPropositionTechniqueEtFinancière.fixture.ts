@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture.js';
@@ -23,14 +22,10 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
     return this.#dateSignature;
   }
 
-  #format!: string;
-  #content!: string;
+  #propositionTechniqueEtFinancièreSignée!: PièceJustificative;
 
   get propositionTechniqueEtFinancièreSignée(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#propositionTechniqueEtFinancièreSignée;
   }
 
   #identifiantProjet!: string;
@@ -59,10 +54,7 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
 
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
-    if (fixture.propositionTechniqueEtFinancièreSignée) {
-      this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
-      this.#content = fixture.propositionTechniqueEtFinancièreSignée.content;
-    }
+    this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
@@ -85,14 +77,13 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
     if (!this.aÉtéCréé) return;
     return {
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),
-      propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
-        this.identifiantProjet,
-        Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
-          référenceDossier ?? this.référenceDossier,
-        ).formatter(),
-        this.#dateSignature,
-        this.#format,
-      ),
+      propositionTechniqueEtFinancièreSignée:
+        Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière({
+          identifiantProjet: this.identifiantProjet,
+          référence: référenceDossier ?? this.référenceDossier,
+          dateSignature: this.#dateSignature,
+          propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
+        }),
     };
   }
 }

@@ -28,16 +28,18 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
     const validéPar = Email.convertirEnValueType(validéParValue);
 
     await mediator.send<DocumentProjetCommand>({
-      type: 'Document.Command.DéplacerDocumentProjet',
+      type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: DossierProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-        ),
-        dossierProjetTarget: DossierProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-        ),
+        dossierProjetSource: DossierProjet.convertirEnValueType({
+          identifiantProjet: identifiantProjetValue,
+          typeDocument:
+            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+        }),
+        dossierProjetTarget: DossierProjet.convertirEnValueType({
+          identifiantProjet: identifiantProjetValue,
+          typeDocument:
+            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+        }),
       },
     });
 

@@ -11,17 +11,33 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (
-  identifiantProjetValue: string,
-  typeDocumentValue: string,
-): ValueType => {
+type Payload = {
+  identifiantProjet: string;
+  typeDocument: string;
+  cléDocument?: string;
+};
+
+export const convertirEnValueType = ({
+  identifiantProjet: identifiantProjetValue,
+  typeDocument: typeDocumentValue,
+  cléDocument: cléDocumentValue,
+}: Payload): ValueType => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-  estUnTypeDeDocumentValide(typeDocumentValue);
+  estValide(typeDocumentValue);
+  if (cléDocumentValue) {
+    estValide(cléDocumentValue);
+  }
 
   return {
     formatter() {
-      return join(identifiantProjet.formatter(), typeDocumentValue) as RawType;
+      const parts: string[] = [identifiantProjet.formatter()];
+
+      if (cléDocumentValue) {
+        parts.push(cléDocumentValue);
+      }
+      parts.push(typeDocumentValue);
+      return join(...parts) as RawType;
     },
     estÉgaleÀ(valueType: ValueType) {
       return this.formatter() === valueType.formatter();
@@ -31,7 +47,7 @@ export const convertirEnValueType = (
 
 const nomRépertoireRegex = /^[^?*:;{}\\]+$/;
 
-const estUnTypeDeDocumentValide = (value: string) => {
+const estValide = (value: string) => {
   const isValid = nomRépertoireRegex.test(value);
 
   if (!isValid) {

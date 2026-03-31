@@ -142,7 +142,7 @@ export async function transmettreDemandeComplèteRaccordement(
     await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
-        accuséRéceptionValue: {
+        accuséRéceptionValue: accuséRéception && {
           format: accuséRéception.format,
           content: convertStringToReadableStream(accuséRéception.content),
         },
@@ -199,7 +199,7 @@ export async function transmettreDemandeComplèteRaccordementSansDateDeQualifica
     type: 'DemandeComplèteDeRaccordementTransmise-V2',
     payload: {
       identifiantProjet,
-      accuséRéception,
+      accuséRéception: accuséRéception!,
       identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
       référenceDossierRaccordement: référenceDossier,
       dateQualification: undefined,
