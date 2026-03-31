@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,
@@ -22,7 +23,10 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
-          pièceJustificativeValue: pièceJustificative,
+          pièceJustificativeValue: {
+            content: convertStringToReadableStream(pièceJustificative.content),
+            format: pièceJustificative.format,
+          },
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },
@@ -70,7 +74,10 @@ Quand(
         data: {
           identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateRejetValue: rejetéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: {
+            content: convertStringToReadableStream(réponseSignée.content),
+            format: réponseSignée.format,
+          },
           identifiantUtilisateurValue: rejetéePar,
         },
       });
@@ -99,7 +106,10 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: accordéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: {
+            content: convertStringToReadableStream(réponseSignée.content),
+            format: réponseSignée.format,
+          },
           identifiantUtilisateurValue: accordéePar,
         },
       });

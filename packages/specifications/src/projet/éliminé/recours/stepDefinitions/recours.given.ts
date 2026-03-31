@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,
@@ -56,7 +57,10 @@ async function créerDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.DemanderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: {
+        content: convertStringToReadableStream(pièceJustificative.content),
+        format: pièceJustificative.format,
+      },
       raisonValue: raison,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
@@ -87,7 +91,10 @@ async function créerAccordRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: {
+        content: convertStringToReadableStream(réponseSignée.content),
+        format: réponseSignée.format,
+      },
       dateAccordValue: accordéeLe,
       identifiantUtilisateurValue: accordéePar,
     },
@@ -108,7 +115,10 @@ async function créerRejetDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: {
+        content: convertStringToReadableStream(réponseSignée.content),
+        format: réponseSignée.format,
+      },
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
     },

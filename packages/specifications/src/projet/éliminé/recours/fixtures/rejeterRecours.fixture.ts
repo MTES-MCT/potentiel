@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface RejeterRecours {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly rejetéLe: string;
   readonly rejetéPar: string;
 }
@@ -19,7 +18,7 @@ export class RejeterRecoursFixture
   get réponseSignée(): RejeterRecours['réponseSignée'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -36,22 +35,17 @@ export class RejeterRecoursFixture
   }
 
   créer(partialData?: Partial<RejeterRecours>): Readonly<RejeterRecours> {
-    const content = faker.word.words();
-
     const fixture: RejeterRecours = {
       rejetéLe: faker.date.soon().toISOString(),
       rejetéPar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      réponseSignée: faker.potentiel.document(),
       ...partialData,
     };
 
     this.#rejetéLe = fixture.rejetéLe;
     this.#rejetéPar = fixture.rejetéPar;
     this.#format = fixture.réponseSignée.format;
-    this.#content = content;
+    this.#content = fixture.réponseSignée.content;
 
     this.aÉtéCréé = true;
     return fixture;
