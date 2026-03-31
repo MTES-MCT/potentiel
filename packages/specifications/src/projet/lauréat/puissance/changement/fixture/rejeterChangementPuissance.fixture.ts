@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 export interface RejeterChangementPuissance {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
   readonly estUneDécisionDEtat: boolean;
@@ -20,7 +19,7 @@ export class RejeterChangementPuissanceFixture
   get réponseSignée(): RejeterChangementPuissance['réponseSignée'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -45,7 +44,7 @@ export class RejeterChangementPuissanceFixture
     const fixture = {
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),

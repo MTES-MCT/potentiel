@@ -1,12 +1,11 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface DemanderConfirmationAbandon {
   readonly confirmationDemandéeLe: string;
   readonly confirmationDemandéePar: string;
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
 }
 
 export class DemanderConfirmationAbandonFixture
@@ -31,7 +30,7 @@ export class DemanderConfirmationAbandonFixture
   get réponseSignée(): DemanderConfirmationAbandon['réponseSignée'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -45,7 +44,7 @@ export class DemanderConfirmationAbandonFixture
       confirmationDemandéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialData,
     };

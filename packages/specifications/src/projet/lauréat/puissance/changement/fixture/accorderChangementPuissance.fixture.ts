@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 export interface AccorderChangementPuissance {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly accordéeLe: string;
   readonly accordéePar: string;
   readonly estUneDécisionDEtat: boolean;
@@ -20,7 +19,7 @@ export class AccorderChangementPuissanceFixture
   get réponseSignée(): AccorderChangementPuissance['réponseSignée'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -45,7 +44,7 @@ export class AccorderChangementPuissanceFixture
     const fixture = {
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),

@@ -1,12 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat, Document } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect, convertReadableStreamToString } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 
@@ -85,30 +85,18 @@ async function vérifierDemande(this: PotentielWorld) {
     actual.should.be.deep.equal(expected);
 
     if (Option.isSome(demande)) {
-      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: demande.demande.pièceJustificative.formatter(),
-        },
-      });
-
-      assert(Option.isSome(result), `Pièce justificative non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-
       const {
         demanderOuEnregistrerChangementReprésentantLégalFixture,
         corrigerChangementReprésentantLégalFixture,
       } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
 
-      const expectedContent = await convertReadableStreamToString(
+      await expectFileContent(
+        demande.demande.pièceJustificative,
         corrigerChangementReprésentantLégalFixture.aÉtéCréé &&
           corrigerChangementReprésentantLégalFixture.pièceJustificative
-          ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
-          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
+          ? corrigerChangementReprésentantLégalFixture.pièceJustificative
+          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative,
       );
-
-      actualContent.should.be.equal(expectedContent);
     }
   });
 }

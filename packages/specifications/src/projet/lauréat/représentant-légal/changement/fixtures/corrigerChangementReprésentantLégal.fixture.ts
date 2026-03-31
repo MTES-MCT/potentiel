@@ -3,9 +3,8 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+type PièceJustificative = { format: string; content: string };
 
 export type CréerCorrectionChangementReprésentantLégalFixture = Partial<
   Readonly<CorrigerChangementReprésentantLégal>
@@ -49,7 +48,7 @@ export class CorrigerChangementReprésentantLégalFixture
   get pièceJustificative(): CorrigerChangementReprésentantLégal['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -84,7 +83,7 @@ export class CorrigerChangementReprésentantLégalFixture
       corrigéPar: faker.internet.email(),
       pièceJustificative: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialFixture,
     };

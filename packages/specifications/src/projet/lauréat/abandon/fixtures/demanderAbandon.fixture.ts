@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+type PièceJustificative = { format: string; content: string };
 
 interface DemanderAbandon {
   readonly demandéLe: string;
@@ -24,7 +23,7 @@ export class DemanderAbandonFixture
     return this.#format && this.#content
       ? {
           format: this.#format,
-          content: convertStringToReadableStream(this.#content),
+          content: this.#content,
         }
       : undefined;
   }
@@ -80,7 +79,7 @@ export class DemanderAbandonFixture
       const content = faker.word.words();
       fixture.pièceJustificative = {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       };
       this.#format = fixture.pièceJustificative.format;
       this.#content = content;

@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface RejetAbandon {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
 }
@@ -16,7 +15,7 @@ export class RejetAbandonFixture extends AbstractFixture<RejetAbandon> implement
   get réponseSignée(): RejetAbandon['réponseSignée'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -40,7 +39,7 @@ export class RejetAbandonFixture extends AbstractFixture<RejetAbandon> implement
       rejetéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialData,
     };

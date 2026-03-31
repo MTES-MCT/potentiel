@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface EnregistrerChangementActionnaire {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: string };
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -21,7 +20,7 @@ export class EnregistrerChangementActionnaireFixture
   get pièceJustificative(): EnregistrerChangementActionnaire['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -60,7 +59,7 @@ export class EnregistrerChangementActionnaireFixture
       raison: faker.company.catchPhrase(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       actionnaire: faker.company.name(),
       ...partialData,

@@ -5,6 +5,7 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) modifie l'actionnaire pour le projet (lauréat|éliminé)/,
@@ -156,7 +157,7 @@ export async function demanderChangementActionnaire(
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
@@ -192,7 +193,7 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
       accordéLeValue: accordéeLe,
       accordéParValue: accordéePar,
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
     },
   });
 }
@@ -210,7 +211,7 @@ export async function rejeterChangementActionnaire(this: PotentielWorld, utilisa
     data: {
       rejetéLeValue: rejetéeLe,
       rejetéParValue: rejetéePar,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       identifiantProjetValue: identifiantProjet,
     },
   });
@@ -279,7 +280,7 @@ async function enregistrerChangementActionnaire(
       identifiantUtilisateurValue: demandéPar,
       actionnaireValue: actionnaire,
       dateChangementValue: demandéLe,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
     },
   });

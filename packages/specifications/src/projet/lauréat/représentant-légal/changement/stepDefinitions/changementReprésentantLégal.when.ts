@@ -9,6 +9,7 @@ import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture.js';
 import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture.js';
 import { récupérerTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   'le porteur demande le changement de représentant pour le projet lauréat',
@@ -210,7 +211,7 @@ async function enregistrerChangementReprésentantLégal(
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         nomReprésentantLégalValue: nomReprésentantLégal,
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         dateChangementValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
       },
@@ -236,7 +237,7 @@ async function demanderChangement(
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         nomReprésentantLégalValue: nomReprésentantLégal,
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
       },
@@ -270,7 +271,9 @@ async function corrigerDemandeChangement(
         identifiantProjetValue: partialFixture.identifiantProjet,
         nomReprésentantLégalValue: nomReprésentantLégal,
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: pièceJustificative
+          ? convertFixtureFileToReadableStream(pièceJustificative)
+          : undefined,
         dateDemandeValue: this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
           .demanderOuEnregistrerChangementReprésentantLégalFixture.aÉtéCréé
           ? this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld

@@ -7,6 +7,7 @@ import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture.js';
 import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple.js';
 import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet lauréat avec :',
@@ -133,7 +134,7 @@ export async function demanderChangementPuissance(
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
@@ -166,7 +167,7 @@ export async function enregistrerChangementPuissance(
       dateChangementValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
@@ -211,10 +212,7 @@ export async function accorderChangementPuissance(
       identifiantProjetValue: identifiantProjet,
       accordéLeValue: accordéeLe,
       accordéParValue: accordéePar,
-      réponseSignéeValue: {
-        content: réponseSignée.content,
-        format: réponseSignée.format,
-      },
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });
@@ -240,10 +238,7 @@ export async function rejeterChangementPuissance(
       identifiantProjetValue: identifiantProjet,
       rejetéLeValue: rejetéeLe,
       rejetéParValue: rejetéePar,
-      réponseSignéeValue: {
-        content: réponseSignée.content,
-        format: réponseSignée.format,
-      },
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });

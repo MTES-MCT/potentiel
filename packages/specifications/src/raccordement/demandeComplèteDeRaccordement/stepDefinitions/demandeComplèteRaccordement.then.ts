@@ -4,10 +4,9 @@ import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Document } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { waitForExpect, convertReadableStreamToString } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
@@ -50,19 +49,7 @@ Alors(
         : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.accuséRéception;
 
       if (actualAccuséRéception) {
-        assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
-        const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualAccuséRéception.formatter(),
-          },
-        });
-
-        assert(Option.isSome(result), `Accusé de réception non trouvé !`);
-
-        const actualContent = await convertReadableStreamToString(result.content);
-        const expectedContent = expectedAccuséRéception?.content;
-        actualContent.should.be.equal(expectedContent);
+        await expectFileContent(actualAccuséRéception, expectedAccuséRéception);
       }
     });
   },
