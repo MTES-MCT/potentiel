@@ -124,7 +124,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date de constitution | 2025-01-01 |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    @select
     Scénario: Impossible de modifier les garanties actuelles du projet sans modification
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF | consignation |

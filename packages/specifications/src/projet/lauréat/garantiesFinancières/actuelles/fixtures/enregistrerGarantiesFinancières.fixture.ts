@@ -5,19 +5,19 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { PièceJustificative } from '#helpers';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
+import { AbstractFixture } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
-export interface EnregistrerGarantiesFinancières {
+export type EnregistrerGarantiesFinancières = {
   readonly type: string;
   readonly dateÉchéance: string | undefined;
   readonly dateConstitution: string;
   readonly attestation: PièceJustificative;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
-}
+};
 
-export type EnregistrerGarantiesFinancièresProps = DeepPartial<EnregistrerGarantiesFinancières>;
+export type EnregistrerGarantiesFinancièresProps = Partial<EnregistrerGarantiesFinancières>;
 
 export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<EnregistrerGarantiesFinancières> {
   #type!: EnregistrerGarantiesFinancières['type'];
@@ -74,8 +74,8 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       enregistréPar: faker.internet.email(),
       dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
       type,
-      ...partialData,
       attestation: faker.potentiel.document(),
+      ...partialData,
     };
     this.#attestation = fixture.attestation;
     this.#type = fixture.type;
