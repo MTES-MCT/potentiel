@@ -124,6 +124,7 @@ export async function modifierGarantiesFinancièresActuelles(
       enregistréPar: this.utilisateurWorld.adminFixture.email,
       ...props,
     });
+
   await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
     data: {
@@ -134,6 +135,10 @@ export async function modifierGarantiesFinancièresActuelles(
       modifiéParValue: enregistréPar,
       dateConstitutionValue: dateConstitution,
       attestationValue: convertFixtureFileToReadableStream(attestation),
+      estUnNouveauDocumentValue:
+        JSON.stringify(
+          this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation,
+        ) !== JSON.stringify(props.attestation),
     },
   });
 }

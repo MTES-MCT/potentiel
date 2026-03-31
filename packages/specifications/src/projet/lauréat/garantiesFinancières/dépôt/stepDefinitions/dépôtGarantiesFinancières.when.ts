@@ -65,7 +65,7 @@ Quand(
     };
 
     try {
-      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, props, true);
+      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, props);
     } catch (error) {
       this.error = error as Error;
     }
@@ -129,7 +129,6 @@ export async function modifierDépôt(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
-  avecLesMêmesValeurs?: boolean,
 ) {
   const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
@@ -148,7 +147,9 @@ export async function modifierDépôt(
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
-        estUnNouveauDocument: avecLesMêmesValeurs !== true,
+        estUnNouveauDocumentValue:
+          JSON.stringify(props.attestation) !==
+          JSON.stringify(this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.attestation),
       },
     },
   );

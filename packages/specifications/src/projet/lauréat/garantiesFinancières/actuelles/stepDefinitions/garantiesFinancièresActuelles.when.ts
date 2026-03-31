@@ -1,6 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
+import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture.js';
 
 import {
   enregistrerAttestation,
@@ -43,11 +44,17 @@ Quand(
   `un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs`,
   async function (this: PotentielWorld) {
     try {
-      await modifierGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        {},
+      console.log(
+        this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.garantiesFinancièresType,
       );
+      await modifierGarantiesFinancièresActuelles.call(this, this.lauréatWorld.identifiantProjet, {
+        type: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer
+          .garantiesFinancièresType,
+        dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.dateÉchéance,
+        dateConstitution:
+          this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.dateConstitution,
+        attestation: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation,
+      } satisfies EnregistrerGarantiesFinancièresProps);
     } catch (e) {
       this.error = e as Error;
     }
