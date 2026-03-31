@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -7,11 +7,11 @@ export const mapToNomProjetModifiéTimelineItemProps = (
   event: Lauréat.NomProjetModifiéEvent,
 ): TimelineItemProps => {
   const {
+    identifiantProjet,
     nomProjet,
     modifiéLe,
     modifiéPar,
     raison,
-    identifiantProjet,
     pièceJustificative,
     ancienNomProjet,
   } = event.payload;
@@ -21,12 +21,11 @@ export const mapToNomProjetModifiéTimelineItemProps = (
     title: 'Nom du projet modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.DocumentNomProjet.pièceJustificative({
         identifiantProjet,
-        Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
-        modifiéLe,
-        pièceJustificative.format,
-      ),
+        enregistréLe: modifiéLe,
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif du changement de nom enregistré le ${formatDateToText(modifiéLe)}`,
     },
     details: (

@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -12,9 +12,9 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
     enregistréLe,
     enregistréPar,
     raison,
-    pièceJustificative,
     identifiantProjet,
     ancienNomProjet,
+    pièceJustificative,
   } = event.payload;
 
   return {
@@ -22,12 +22,11 @@ export const mapToChangementNomProjetEnregistréTimelineItemProps = (
     title: 'Nom du projet modifié',
     actor: enregistréPar,
     file: {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.DocumentNomProjet.pièceJustificative({
         identifiantProjet,
-        Lauréat.TypeDocumentNomProjet.pièceJustificative.formatter(),
         enregistréLe,
-        pièceJustificative.format,
-      ),
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif de la modification du nom du projet en date du ${formatDateToText(enregistréLe)}`,
     },
     details: (
