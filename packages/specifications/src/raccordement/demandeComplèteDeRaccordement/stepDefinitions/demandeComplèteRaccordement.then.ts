@@ -7,10 +7,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Document } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, convertReadableStreamToString } from '#helpers';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../helpers/convertReadableToString.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(

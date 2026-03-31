@@ -7,10 +7,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
 Alors(`l'achèvement du projet devrait être consultable`, async function (this: PotentielWorld) {
   return waitForExpect(async () => {

@@ -6,10 +6,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
 Alors(
   "l'installation du projet lauréat devrait être mise à jour",

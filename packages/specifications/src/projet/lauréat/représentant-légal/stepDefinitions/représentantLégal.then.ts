@@ -7,10 +7,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, convertReadableStreamToString } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString.js';
 
 Alors(
   /le représentant légal du projet lauréat devrait être consultable/,

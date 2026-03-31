@@ -6,10 +6,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { expectFileContent } from '../../../../helpers/expectFileContent.js';
 
 Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,

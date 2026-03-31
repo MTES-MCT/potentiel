@@ -11,10 +11,9 @@ import { Document } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, convertReadableStreamToString } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString.js';
 
 Alors(
   `la période devrait être notifiée avec les lauréats et les éliminés`,

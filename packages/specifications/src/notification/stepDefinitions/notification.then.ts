@@ -7,10 +7,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, sleep } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
-import { sleep } from '../../helpers/sleep.js';
 
 export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {

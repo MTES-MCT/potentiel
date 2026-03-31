@@ -6,10 +6,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat, Document } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, convertReadableStreamToString } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString.js';
 
 Alors(
   'le changement enregistré du représentant légal du projet lauréat devrait être consultable',

@@ -6,10 +6,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { expectFileContent } from '../../../../../helpers/expectFileContent.js';
 
 Alors(
   'les garanties financières actuelles devraient être consultables pour le projet lauréat',

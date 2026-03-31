@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,

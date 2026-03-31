@@ -7,10 +7,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Document } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, convertReadableStreamToString } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString.js';
 
 Alors(
   'la demande de changement de puissance devrait être consultable',
