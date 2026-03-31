@@ -1,5 +1,6 @@
 # language: fr
 @candidature
+@select
 Fonctionnalité: Importer une candidature
 
     Plan du scénario: Importer une candidature

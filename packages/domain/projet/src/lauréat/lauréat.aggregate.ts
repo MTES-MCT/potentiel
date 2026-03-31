@@ -296,11 +296,9 @@ export class LauréatAggregate extends AbstractAggregate<
 
     // Champs supplémentaires, dont l'import dépend de l'appel d'offres
     if (
-      champsSupplémentaire?.installateur !== undefined ||
-      (this.projet.candidature.dépôt.typologieInstallation &&
-        champsSupplémentaire?.typologieInstallation !== undefined) ||
-      (this.projet.candidature.dépôt.dispositifDeStockage &&
-        champsSupplémentaire?.dispositifDeStockage !== undefined)
+      this.projet.candidature.dépôt.installateur ||
+      this.projet.candidature.dépôt.typologieInstallation ||
+      this.projet.candidature.dépôt.dispositifDeStockage
     ) {
       await this.#installation.importer({
         installateur: this.projet.candidature.installateur ?? '',

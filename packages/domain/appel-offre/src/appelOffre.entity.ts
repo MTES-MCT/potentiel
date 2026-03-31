@@ -263,28 +263,31 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
  * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, changement PP...)
  **/
-export type ChampCandidature =
-  | 'puissanceALaPointe'
+export const champsCandidature = [
+  'puissanceALaPointe',
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
    * Cette information est utilisée par le Cocontractant.
    */
-  | 'coefficientKChoisi'
+  'coefficientKChoisi',
   /**
    * puissance du projet (P) + autres installations sur le même site d'implantation (Q)
    * puissance de site = P + Q
    */
-  | 'puissanceDeSite'
-  | 'autorisation'
-  | 'installateur'
-  | 'dispositifDeStockage'
-  | 'natureDeLExploitation'
-  | 'typologieInstallation'
+  'puissanceDeSite',
+  'autorisation',
+  'installateur',
+  'dispositifDeStockage',
+  'natureDeLExploitation',
+  'typologieInstallation',
   // CRE4 ZNI
-  | 'territoireProjet';
+  'territoireProjet',
+];
+
+export type ChampCandidature = (typeof champsCandidature)[number];
 
 export type ChampsSupplémentairesCandidature = Partial<
-  Record<ChampCandidature, 'requis' | 'optionnel'>
+  Record<(typeof champsCandidature)[number], 'requis' | 'optionnel'>
 >;
 
 export type Periode = {

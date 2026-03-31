@@ -162,3 +162,15 @@ export class DispositifDeStockageNonAttenduError extends InvalidOperationError {
     super("Le dispositif de stockage n'est pas attendu pour cet appel d'offres");
   }
 }
+
+export class ChampsRequisError extends InvalidOperationError {
+  constructor(champs: string) {
+    super(`Le champs ${champs} est requis pour cet appel d'offres`);
+  }
+}
+
+export class ChampsNonAttenduError extends InvalidOperationError {
+  constructor(champs: string) {
+    super(`Le champs ${champs} n'est pas attendu pour cet appel d'offres`);
+  }
+}
