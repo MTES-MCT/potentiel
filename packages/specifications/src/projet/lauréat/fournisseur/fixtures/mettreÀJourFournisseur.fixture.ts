@@ -3,7 +3,6 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 export interface EnregistrerChangementFournisseur {
   readonly évaluationCarbone: number;
@@ -12,7 +11,7 @@ export interface EnregistrerChangementFournisseur {
   readonly misAJourLe: string;
   readonly misAJourPar: string;
 
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: string };
 }
 
 export class MettreÀJourFournisseurFixture
@@ -25,7 +24,7 @@ export class MettreÀJourFournisseurFixture
   get pièceJustificative(): EnregistrerChangementFournisseur['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -76,7 +75,7 @@ export class MettreÀJourFournisseurFixture
       raison: faker.word.words(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialFixture,
     };

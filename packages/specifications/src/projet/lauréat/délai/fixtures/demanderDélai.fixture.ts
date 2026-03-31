@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+type PièceJustificative = { format: string; content: string };
 
 export type CréerDemandeDélaiFixture = Partial<Readonly<DemanderDélai>> & {
   identifiantProjet: string;
@@ -24,7 +23,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
   get pièceJustificative(): PièceJustificative {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -70,7 +69,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       pièceJustificative: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialFixture,
     };

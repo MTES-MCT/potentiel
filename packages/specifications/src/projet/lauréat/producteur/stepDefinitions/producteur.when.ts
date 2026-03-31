@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   'le porteur enregistre un changement de producteur pour le projet lauréat',
@@ -78,7 +79,7 @@ export async function enregistrerChangementProducteur(
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }

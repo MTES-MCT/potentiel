@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+type PièceJustificative = { format: string; content: string };
 
 interface CorrigerDemandeDélai {
   readonly corrigéeLe: string;
@@ -24,7 +23,7 @@ export class CorrigerDemandeDélaiFixture
     return this.#format && this.#content
       ? {
           format: this.#format,
-          content: convertStringToReadableStream(this.#content),
+          content: this.#content,
         }
       : undefined;
   }
@@ -63,7 +62,7 @@ export class CorrigerDemandeDélaiFixture
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       pièceJustificative: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialFixture,
     };

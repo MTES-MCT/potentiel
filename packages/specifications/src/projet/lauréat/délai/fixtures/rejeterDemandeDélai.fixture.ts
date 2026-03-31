@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface RejeterDemandeDélai {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
 }
@@ -17,7 +16,7 @@ export class RejeterDemandeDélaiFixture
   #content!: string;
 
   get réponseSignée(): RejeterDemandeDélai['réponseSignée'] {
-    return { format: this.#format, content: convertStringToReadableStream(this.#content) };
+    return { format: this.#format, content: this.#content };
   }
 
   #rejetéeLe!: string;
@@ -40,7 +39,7 @@ export class RejeterDemandeDélaiFixture
       rejetéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ...partialData,
     };

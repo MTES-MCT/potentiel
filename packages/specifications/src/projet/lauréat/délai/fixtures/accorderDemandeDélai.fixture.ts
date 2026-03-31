@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface AccorderDemandeDélai {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: { format: string; content: string };
   readonly accordéeLe: string;
   readonly accordéePar: string;
   readonly nombreDeMois: number;
@@ -19,7 +18,7 @@ export class AccorderDemandeDélaiFixture
   #content!: string;
 
   get réponseSignée(): AccorderDemandeDélai['réponseSignée'] {
-    return { format: this.#format, content: convertStringToReadableStream(this.#content) };
+    return { format: this.#format, content: this.#content };
   }
 
   #accordéeLe!: string;
@@ -54,7 +53,7 @@ export class AccorderDemandeDélaiFixture
       accordéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),

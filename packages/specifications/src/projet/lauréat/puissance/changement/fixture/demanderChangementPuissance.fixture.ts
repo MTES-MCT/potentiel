@@ -3,10 +3,9 @@ import { faker } from '@faker-js/faker';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 interface DemanderChangementPuissance {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: string };
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -24,7 +23,7 @@ export class DemanderChangementPuissanceFixture
   get pièceJustificative(): DemanderChangementPuissance['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -74,7 +73,7 @@ export class DemanderChangementPuissanceFixture
       raison: faker.company.catchPhrase(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       ratioPuissance: faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
       puissanceDeSite:

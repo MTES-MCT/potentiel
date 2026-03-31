@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface EnregistrerChangementProducteur {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: { format: string; content: string };
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly producteur: string;
@@ -20,7 +19,7 @@ export class EnregistrerChangementProducteurFixture
   get pièceJustificative(): EnregistrerChangementProducteur['pièceJustificative'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -52,7 +51,7 @@ export class EnregistrerChangementProducteurFixture
       enregistréPar: faker.internet.email(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
       producteur: faker.animal.insect(),
       ...partialData,

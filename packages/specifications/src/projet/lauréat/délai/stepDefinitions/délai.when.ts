@@ -7,6 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
   await demanderDélai.call(this, {
@@ -73,7 +74,7 @@ export async function demanderDélai(
         identifiantProjetValue: partialFixture.identifiantProjet,
         nombreDeMoisValue: nombreDeMois,
         raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
       },
@@ -115,7 +116,9 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
         dateCorrectionValue: corrigéeLe,
         nombreDeMoisValue: nombreDeMois,
         raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: pièceJustificative
+          ? convertFixtureFileToReadableStream(pièceJustificative)
+          : undefined,
       },
     });
   } catch (error) {
@@ -188,7 +191,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
       data: {
         dateRejetValue: rejetéeLe,
         identifiantUtilisateurValue: rejetéePar,
-        réponseSignéeValue: réponseSignée,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         identifiantProjetValue: identifiantProjet,
         rôleUtilisateurValue: Role.dreal.nom,
       },
@@ -220,7 +223,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
         nombreDeMois,
-        réponseSignéeValue: réponseSignée,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: Role.dreal.nom,
       },
     });
