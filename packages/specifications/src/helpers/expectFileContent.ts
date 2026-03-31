@@ -5,10 +5,11 @@ import { DocumentProjet, Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from './convertReadableToString.js';
+import { PièceJustificative } from './PièceJustificative.js';
 
 export const expectFileContent = async (
   actual: Option.Type<DocumentProjet.ValueType>,
-  expected: { format: string; content: string } | undefined,
+  expected: PièceJustificative | undefined,
 ) => {
   if (!expected) {
     assert(Option.isNone(actual), `Aucun document n'était attendu !`);

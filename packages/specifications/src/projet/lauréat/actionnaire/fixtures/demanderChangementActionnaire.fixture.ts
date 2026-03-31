@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface DemanderChangementActionnaire {
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: string };
+import { AbstractFixture } from '../../../../fixture.js';
 
 interface RejeterRecours {
   readonly réponseSignée: PièceJustificative;

@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface RejeterDemandeDélai {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: PièceJustificative;
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
 }

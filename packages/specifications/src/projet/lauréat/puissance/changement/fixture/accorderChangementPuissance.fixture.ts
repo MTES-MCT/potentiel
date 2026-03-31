@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 
 export interface AccorderChangementPuissance {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: PièceJustificative;
   readonly accordéeLe: string;
   readonly accordéePar: string;
   readonly estUneDécisionDEtat: boolean;

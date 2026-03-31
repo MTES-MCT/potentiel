@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 export interface EnregistrerChangementNomProjet {
   readonly nomProjet: string;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: PièceJustificative;
   readonly raison: string;
 }
 

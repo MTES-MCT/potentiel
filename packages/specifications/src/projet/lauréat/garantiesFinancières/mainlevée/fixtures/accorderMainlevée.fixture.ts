@@ -4,12 +4,14 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 
 interface AccorderMainlevée {
   readonly accordéLe: string;
   readonly accordéPar: string;
-  readonly courrierAccord: { format: string; content: string };
+  readonly courrierAccord: PièceJustificative;
 }
 
 export class AccorderMainlevéeFixture

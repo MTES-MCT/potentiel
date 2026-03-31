@@ -4,6 +4,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
@@ -13,7 +15,7 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly dateÉchéance: string | undefined;
   readonly soumisLe: string;
   readonly soumisPar: string;
-  readonly attestation: { format: string; content: string };
+  readonly attestation: PièceJustificative;
 }
 
 export type SoumettreDépôtGarantiesFinancièresProps =

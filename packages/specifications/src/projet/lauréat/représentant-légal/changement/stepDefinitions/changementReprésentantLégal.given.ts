@@ -5,6 +5,8 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given.js';
 import { notifierLauréat } from '../../../stepDefinitions/lauréat.given.js';
@@ -25,7 +27,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: fixture.nomReprésentantLégal,
         typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: fixture.pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(fixture.pièceJustificative),
         identifiantUtilisateurValue: fixture.demandéPar,
         dateDemandeValue: fixture.demandéLe,
       },
@@ -52,7 +54,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: fixture.nomReprésentantLégal,
         typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: fixture.pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(fixture.pièceJustificative),
         identifiantUtilisateurValue: fixture.demandéPar,
         dateChangementValue: fixture.demandéLe,
       },
@@ -80,7 +82,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: fixture.nomReprésentantLégal,
         typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: fixture.pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(fixture.pièceJustificative),
         identifiantUtilisateurValue: fixture.demandéPar,
         dateChangementValue: fixture.demandéLe,
       },
@@ -104,7 +106,9 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: fixtureDemander.nomReprésentantLégal,
         typeReprésentantLégalValue: fixtureDemander.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: fixtureDemander.pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(
+          fixtureDemander.pièceJustificative,
+        ),
         identifiantUtilisateurValue: fixtureDemander.demandéPar,
         dateDemandeValue: fixtureDemander.demandéLe,
       },
@@ -143,7 +147,9 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: fixtureDemander.nomReprésentantLégal,
         typeReprésentantLégalValue: fixtureDemander.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: fixtureDemander.pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(
+          fixtureDemander.pièceJustificative,
+        ),
         identifiantUtilisateurValue: fixtureDemander.demandéPar,
         dateDemandeValue: fixtureDemander.demandéLe,
       },

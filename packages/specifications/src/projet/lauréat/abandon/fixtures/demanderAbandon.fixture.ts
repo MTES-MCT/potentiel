@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: string };
+import { AbstractFixture } from '../../../../fixture.js';
 
 interface DemanderAbandon {
   readonly demandéLe: string;
@@ -16,16 +16,9 @@ export class DemanderAbandonFixture
   extends AbstractFixture<DemanderAbandon>
   implements DemanderAbandon
 {
-  #format?: string;
-  #content?: string;
-
+  #pièceJustificative?: PièceJustificative;
   get pièceJustificative(): PièceJustificative | undefined {
-    return this.#format && this.#content
-      ? {
-          format: this.#format,
-          content: this.#content,
-        }
-      : undefined;
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -76,13 +69,8 @@ export class DemanderAbandonFixture
     this.#identifiantProjet = fixture.identifiantProjet;
 
     if (!fixture.recandidature) {
-      const content = faker.word.words();
-      fixture.pièceJustificative = {
-        format: faker.potentiel.fileFormat(),
-        content,
-      };
-      this.#format = fixture.pièceJustificative.format;
-      this.#content = content;
+      fixture.pièceJustificative = faker.potentiel.document();
+      this.#pièceJustificative = fixture.pièceJustificative;
     }
 
     this.aÉtéCréé = true;

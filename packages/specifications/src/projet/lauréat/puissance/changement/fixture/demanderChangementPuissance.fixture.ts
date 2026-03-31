@@ -2,10 +2,12 @@ import { faker } from '@faker-js/faker';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 
 interface DemanderChangementPuissance {
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;

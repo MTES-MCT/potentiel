@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface RejeterChangementActionnaire {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: PièceJustificative;
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
 }

@@ -3,9 +3,9 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
+import { AbstractFixture } from '../../../fixture.js';
 
 export type ModifierDemandeComplèteRaccordement = {
   dateQualification: string;

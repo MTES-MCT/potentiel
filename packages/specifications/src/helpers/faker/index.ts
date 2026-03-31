@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '../PièceJustificative.js';
+
 import { getFakeContent, getFakeDocument } from './getFakeContent.js';
 import { getFakeFormat } from './getFakeFormat.js';
 import { getFakeIdentifiantProjet } from './getFakeIdentifiantProjet.js';
@@ -11,7 +13,7 @@ declare module '@faker-js/faker' {
       identifiantProjet: typeof getFakeIdentifiantProjet;
       fileFormat: () => string;
       fileContent: () => ReadableStream;
-      document: () => { format: string; content: string };
+      document: () => PièceJustificative;
       location: typeof getFakeLocation;
     };
   }

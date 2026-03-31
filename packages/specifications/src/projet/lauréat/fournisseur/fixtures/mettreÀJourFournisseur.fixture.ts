@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 export interface EnregistrerChangementFournisseur {
@@ -11,7 +13,7 @@ export interface EnregistrerChangementFournisseur {
   readonly misAJourLe: string;
   readonly misAJourPar: string;
 
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class MettreÀJourFournisseurFixture

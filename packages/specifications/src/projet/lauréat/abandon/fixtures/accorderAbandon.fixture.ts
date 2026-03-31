@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface AccorderAbandon {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: PièceJustificative;
   readonly accordéLe: string;
   readonly accordéePar: string;
 }
@@ -12,14 +14,10 @@ export class AccorderAbandonFixture
   extends AbstractFixture<AccorderAbandon>
   implements AccorderAbandon
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): AccorderAbandon['réponseSignée'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get réponseSignée(): PièceJustificative {
+    return this.#réponseSignée;
   }
 
   #accordéLe!: string;
@@ -35,22 +33,16 @@ export class AccorderAbandonFixture
   }
 
   créer(partialFixture?: Partial<AccorderAbandon>): AccorderAbandon {
-    const content = faker.word.words();
-
     const fixture: AccorderAbandon = {
       accordéLe: faker.date.soon().toISOString(),
       accordéePar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      réponseSignée: faker.potentiel.document(),
       ...partialFixture,
     };
 
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéePar;
-    this.#format = fixture.réponseSignée.format;
-    this.#content = content;
+    this.#réponseSignée = fixture.réponseSignée;
 
     this.aÉtéCréé = true;
     return fixture;

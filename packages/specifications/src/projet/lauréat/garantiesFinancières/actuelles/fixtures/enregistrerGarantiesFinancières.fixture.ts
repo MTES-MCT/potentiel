@@ -4,6 +4,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
@@ -11,7 +13,7 @@ export interface EnregistrerGarantiesFinancières {
   readonly type: string;
   readonly dateÉchéance: string | undefined;
   readonly dateConstitution: string;
-  readonly attestation: { format: string; content: string };
+  readonly attestation: PièceJustificative;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
 }

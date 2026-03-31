@@ -6,6 +6,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given.js';
 import { notifierLauréat } from '../../stepDefinitions/lauréat.given.js';
@@ -155,7 +157,7 @@ async function créerDemandeAbandon(this: PotentielWorld) {
       type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         raisonValue: raison,
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
@@ -183,7 +185,7 @@ async function créerAccordAbandon(this: PotentielWorld) {
     type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateAccordValue: accordéLe,
       identifiantUtilisateurValue: accordéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
@@ -202,7 +204,7 @@ async function créerRejetAbandon(this: PotentielWorld) {
     type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
@@ -221,7 +223,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
     type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateDemandeDeConfirmationValue: confirmationDemandéeLe,
       identifiantUtilisateurValue: confirmationDemandéePar,
       rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,

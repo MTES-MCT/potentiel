@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface EnregistrerChangementProducteur {
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: PièceJustificative;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly producteur: string;

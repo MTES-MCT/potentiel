@@ -3,6 +3,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { PièceJustificative } from '#helpers';
+
 import { LauréatWorld } from '../lauréat.world.js';
 
 import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositifDeStockage.fixture.js';
@@ -128,9 +130,7 @@ export class InstallationWorld {
     return expected;
   }
 
-  mapJustificatifChangementInstallateurToExpected():
-    | { format: string; content: string }
-    | undefined {
+  mapJustificatifChangementInstallateurToExpected(): PièceJustificative | undefined {
     return this.#enregistrerChangementInstallateurFixture.pièceJustificative;
   }
 
@@ -168,9 +168,7 @@ export class InstallationWorld {
     return expected;
   }
 
-  mapJustificatifChangementDispositifDeStockageToExpected():
-    | { format: string; content: string }
-    | undefined {
+  mapJustificatifChangementDispositifDeStockageToExpected(): PièceJustificative | undefined {
     return this.#enregistrerChangementDispositifDeStockageFixture.pièceJustificative;
   }
 }

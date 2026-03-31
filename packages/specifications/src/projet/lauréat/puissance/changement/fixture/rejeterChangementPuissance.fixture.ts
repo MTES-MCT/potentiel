@@ -1,9 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 
 export interface RejeterChangementPuissance {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: PièceJustificative;
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
   readonly estUneDécisionDEtat: boolean;

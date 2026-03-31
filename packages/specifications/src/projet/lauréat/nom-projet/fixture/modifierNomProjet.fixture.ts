@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 export interface ModifierNomProjet {
   readonly nomProjet: string;
   readonly modifiéLe: string;
   readonly modifiéPar: string;
-  readonly pièceJustificative?: { format: string; content: string };
+  readonly pièceJustificative?: PièceJustificative;
   readonly raison?: string;
 }
 

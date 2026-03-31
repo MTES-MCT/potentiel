@@ -3,9 +3,9 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-export type PièceJustificative = { format: string; content: string };
+import { AbstractFixture } from '../../../fixture.js';
 
 export type TransmettrePropositionTechniqueEtFinancière = {
   dateSignature: string;
@@ -44,10 +44,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
   ): Readonly<TransmettrePropositionTechniqueEtFinancière> {
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
-      propositionTechniqueEtFinancièreSignée: {
-        format: faker.potentiel.fileFormat(),
-        content: faker.word.words(),
-      },
+      propositionTechniqueEtFinancièreSignée: faker.potentiel.document(),
       ...partialFixture,
     };
 
