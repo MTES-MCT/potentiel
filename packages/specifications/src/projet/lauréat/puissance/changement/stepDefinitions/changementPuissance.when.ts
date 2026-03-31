@@ -3,11 +3,12 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture.js';
 import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple.js';
 import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture.js';
-import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet lauréat avec :',

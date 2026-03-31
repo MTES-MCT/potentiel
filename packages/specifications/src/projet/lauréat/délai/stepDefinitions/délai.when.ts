@@ -5,9 +5,10 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
-import { convertFixtureFileToReadableStream } from '#helpers';
 
 Quand('le porteur demande un délai pour le projet lauréat', async function (this: PotentielWorld) {
   await demanderDélai.call(this, {
