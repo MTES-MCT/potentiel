@@ -7,11 +7,11 @@ import { AbstractFixture } from '../../../fixture.js';
 
 export type PièceJustificative = { format: string; content: string };
 
-interface TransmettreDemandeComplèteRaccordement {
+export type TransmettreDemandeComplèteRaccordement = {
   dateQualification: string;
   référenceDossier: string;
   accuséRéception: PièceJustificative;
-}
+};
 
 export class TransmettreDemandeComplèteRaccordementFixture
   extends AbstractFixture<TransmettreDemandeComplèteRaccordement>
@@ -59,19 +59,6 @@ export class TransmettreDemandeComplèteRaccordementFixture
     this.aÉtéCréé = true;
 
     return fixture;
-  }
-
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<TransmettreDemandeComplèteRaccordement> = {};
-    const dateQualification = exemple['La date de qualification'];
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    if (dateQualification) {
-      values.dateQualification = new Date(dateQualification).toISOString();
-    }
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    return values;
   }
 
   mapToExpected(référenceDossier?: string) {

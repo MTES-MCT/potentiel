@@ -14,45 +14,61 @@ import { ModifierDemandeComplèteRaccordement } from '../fixtures/modifierDemand
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',
   async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordement.call(
-      this,
-      this.lauréatWorld.identifiantProjet,
-      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
-    );
+    try {
+      await transmettreDemandeComplèteRaccordement.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
 Quand(
   'le système transmet une demande complète de raccordement sans accusé de réception pour le projet lauréat',
   async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
-      this,
-      this.lauréatWorld.identifiantProjet,
-      Email.système,
-    );
+    try {
+      await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        Email.système,
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet éliminé',
   async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordement.call(
-      this,
-      this.éliminéWorld.identifiantProjet,
-      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
-    );
+    try {
+      await transmettreDemandeComplèteRaccordement.call(
+        this,
+        this.éliminéWorld.identifiantProjet,
+        Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
-    await transmettreDemandeComplèteRaccordement.call(
-      this,
-      this.lauréatWorld.identifiantProjet,
-      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
-      datatable.rowsHash(),
-    );
+    try {
+      await transmettreDemandeComplèteRaccordement.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+        datatable.rowsHash(),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -61,12 +77,16 @@ Quand(
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
-    await modifierDemandeComplèteRaccordement.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-      getRôle.call(this, rôleUtilisateur),
-    );
+    try {
+      await modifierDemandeComplèteRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
+        référenceDossier,
+        getRôle.call(this, rôleUtilisateur),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -76,15 +96,19 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
-    await modifierDemandeComplèteRaccordement.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-      getRôle.call(this, rôleUtilisateur),
-      this.raccordementWorld.modifierRéférenceDossierRaccordementFixture.mapExempleToFixtureValues(
-        datatable.rowsHash(),
-      ),
-    );
+    try {
+      await modifierDemandeComplèteRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
+        référenceDossier,
+        getRôle.call(this, rôleUtilisateur),
+        this.raccordementWorld.demandeComplèteDeRaccordement.mapExempleToFixtureValues(
+          datatable.rowsHash(),
+        ),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -94,18 +118,22 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
     const { accuséRéception, dateQualification, référenceDossier } =
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
-    await modifierDemandeComplèteRaccordement.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-      Role.porteur.nom,
-      {
-        accuséRéception,
-        dateQualification,
+    try {
+      await modifierDemandeComplèteRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
         référenceDossier,
-        estUnNouveauDocument: false,
-      } satisfies ModifierDemandeComplèteRaccordement,
-    );
+        Role.porteur.nom,
+        {
+          accuséRéception,
+          dateQualification,
+          référenceDossier,
+          estUnNouveauDocument: false,
+        } satisfies ModifierDemandeComplèteRaccordement,
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -114,12 +142,16 @@ Quand(
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
-    await modifierRéférenceDossierRaccordement.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-      getRôle.call(this, rôleUtilisateur),
-    );
+    try {
+      await modifierRéférenceDossierRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
+        référenceDossier,
+        getRôle.call(this, rôleUtilisateur),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -128,15 +160,19 @@ Quand(
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
-    await modifierRéférenceDossierRaccordement.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-      getRôle.call(this, rôleUtilisateur),
-      this.raccordementWorld.modifierRéférenceDossierRaccordementFixture.mapExempleToFixtureValues(
-        datatable.rowsHash(),
-      ),
-    );
+    try {
+      await modifierRéférenceDossierRaccordement.call(
+        this,
+        identifiantProjet.formatter(),
+        référenceDossier,
+        getRôle.call(this, rôleUtilisateur),
+        this.raccordementWorld.modifierRéférenceDossierRaccordementFixture.mapExempleToFixtureValues(
+          datatable.rowsHash(),
+        ),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
   },
 );
 
@@ -149,9 +185,7 @@ export async function transmettreDemandeComplèteRaccordement(
   const { accuséRéception, dateQualification, référenceDossier } =
     this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
-      ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
-        data,
-      ),
+      ...this.raccordementWorld.demandeComplèteDeRaccordement.mapExempleToFixtureValues(data),
     });
 
   try {
@@ -232,33 +266,29 @@ async function modifierDemandeComplèteRaccordement(
   role: Role.RawType,
   data: Partial<ModifierDemandeComplèteRaccordement> = {},
 ) {
-  const { accuséRéception, dateQualification, référenceDossier } =
+  const { accuséRéception, dateQualification, référenceDossier, estUnNouveauDocument } =
     this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
       référenceDossier: référence,
       ...data,
     });
 
-  try {
-    await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
-      type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        référenceDossierRaccordementValue: référenceDossier,
-        dateQualificationValue: dateQualification,
-        accuséRéceptionValue: {
-          format: accuséRéception.format,
-          content: convertStringToReadableStream(accuséRéception.content),
-        },
-        rôleValue: role,
-        modifiéeLeValue: DateTime.now().formatter(),
-        modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
-        estUnNouveauDocumentValue: false,
+  await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      référenceDossierRaccordementValue: référenceDossier,
+      dateQualificationValue: dateQualification,
+      accuséRéceptionValue: {
+        format: accuséRéception.format,
+        content: convertStringToReadableStream(accuséRéception.content),
       },
-    });
-  } catch (e) {
-    this.error = e as Error;
-  }
+      rôleValue: role,
+      modifiéeLeValue: DateTime.now().formatter(),
+      modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
+      estUnNouveauDocumentValue: estUnNouveauDocument,
+    },
+  });
 }
 
 async function modifierRéférenceDossierRaccordement(
@@ -275,19 +305,15 @@ async function modifierRéférenceDossierRaccordement(
       ...data,
     });
 
-  try {
-    await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-      type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossier,
-        référenceDossierRaccordementActuelleValue: référenceDossier,
-        rôleValue: role,
-        modifiéeLeValue: DateTime.now().formatter(),
-        modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
-      },
-    });
-  } catch (e) {
-    this.error = e as Error;
-  }
+  await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossier,
+      référenceDossierRaccordementActuelleValue: référenceDossier,
+      rôleValue: role,
+      modifiéeLeValue: DateTime.now().formatter(),
+      modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),
+    },
+  });
 }

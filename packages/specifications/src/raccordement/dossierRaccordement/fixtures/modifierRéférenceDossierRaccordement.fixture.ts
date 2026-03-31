@@ -1,11 +1,13 @@
 import { faker } from '@faker-js/faker';
 
+import { mapToExemple } from '#helpers';
+
 import { AbstractFixture } from '../../../fixture.js';
 
-export interface ModifierRéférenceDossierRaccordement {
+export type ModifierRéférenceDossierRaccordement = {
   référenceDossier: string;
   nouvelleRéférenceDossier: string;
-}
+};
 
 export class ModifierRéférenceDossierRaccordementFixture
   extends AbstractFixture<ModifierRéférenceDossierRaccordement>
@@ -44,15 +46,9 @@ export class ModifierRéférenceDossierRaccordementFixture
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<ModifierRéférenceDossierRaccordement> = {};
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    const nouvelleRéférenceDossier = exemple['La nouvelle référence du dossier de raccordement'];
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    if (nouvelleRéférenceDossier) {
-      values.nouvelleRéférenceDossier = nouvelleRéférenceDossier;
-    }
-    return values;
+    return mapToExemple<ModifierRéférenceDossierRaccordement>(exemple, {
+      nouvelleRéférenceDossier: ['La nouvelle référence du dossier de raccordement'],
+      référenceDossier: ['La référence du dossier de raccordement'],
+    });
   }
 }

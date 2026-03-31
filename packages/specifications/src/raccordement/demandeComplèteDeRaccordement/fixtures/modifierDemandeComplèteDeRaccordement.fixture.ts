@@ -7,12 +7,12 @@ import { AbstractFixture } from '../../../fixture.js';
 
 import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
 
-export interface ModifierDemandeComplèteRaccordement {
+export type ModifierDemandeComplèteRaccordement = {
   dateQualification: string;
   référenceDossier: string;
   accuséRéception: PièceJustificative;
   estUnNouveauDocument: boolean;
-}
+};
 
 export class ModifierDemandeComplèteRaccordementFixture
   extends AbstractFixture<ModifierDemandeComplèteRaccordement>
