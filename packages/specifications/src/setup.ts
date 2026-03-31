@@ -38,8 +38,6 @@ waitForExpect.defaults.timeout = Number(process.env.WAIT_FOR_EXPECT_TIMEOUT_MS) 
 const bucketName = 'potentiel';
 
 let unsetup: (() => Promise<void>) | undefined;
-// emails are not sent for context steps
-let enableEmails: (() => Promise<void>) | undefined;
 
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
 
@@ -79,11 +77,10 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   clear();
 
   const emailsAdapter = createSendEmailTestAdapter.bind(this)();
-  enableEmails = emailsAdapter.enableEmails;
 
   await bootstrap({
     middlewares: [logMiddleware],
-    dependencies: { sendEmail: emailsAdapter.sendEmail },
+    dependencies: { sendEmail: emailsAdapter },
   });
 
   unsetup = await startSubscribers({
@@ -108,8 +105,8 @@ AfterStep(async function (this: PotentielWorld, { result, pickle, pickleStep }) 
   }
 
   const lastContextStep = pickle.steps.filter((step) => step.type === 'Context').pop();
-  if (pickleStep.id === lastContextStep?.id && enableEmails) {
-    await enableEmails();
+  if (pickleStep.id === lastContextStep?.id) {
+    this.notificationWorld.resetNotifications();
   }
 });
 
