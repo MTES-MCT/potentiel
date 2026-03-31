@@ -44,6 +44,12 @@ export class GarantiesFinancièresDéjàLevéesError extends InvalidOperationErr
   }
 }
 
+export class GarantiesFinancièresNonModifiéesError extends InvalidOperationError {
+  constructor() {
+    super("Les garanties financières n'ont pas été modifiées");
+  }
+}
+
 export class GarantiesFinancièresActuellesDéjàExistantesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);

@@ -18,7 +18,7 @@ export type ModifierDépôtGarantiesFinancièresEnCoursUseCase = Message<
       content: ReadableStream;
       format: string;
     };
-    estUnNouveauDocument: boolean;
+    estUnNouveauDocumentValue: boolean;
     dateConstitutionValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
@@ -34,7 +34,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     identifiantProjetValue,
     modifiéParValue,
     modifiéLeValue,
-    estUnNouveauDocument,
+    estUnNouveauDocumentValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
@@ -69,7 +69,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
         modifiéLe,
         modifiéPar,
         garantiesFinancières,
-        estUnNouveauDocument,
+        estUnNouveauDocument: estUnNouveauDocumentValue,
       },
     });
   };

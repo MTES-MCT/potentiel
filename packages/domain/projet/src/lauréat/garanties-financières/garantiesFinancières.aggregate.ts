@@ -30,6 +30,7 @@ import {
   GarantiesFinancièresActuellesDéjàExistantesError,
   GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresDéjàÉchuesError,
+  GarantiesFinancièresNonModifiéesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   GarantiesFinancièresSansÉchéanceError,
   ProjetExemptDeGarantiesFinancièresError,
@@ -220,6 +221,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
+  private vérifierSiLesGarantiesFinancièresSontModifiées(
+    estUnNouveauDocument: boolean,
+    nouvellesGarantiesFinancières: GarantiesFinancières.ValueType,
+  ) {
+    if (
+      this.#actuelles?.garantiesFinancières &&
+      nouvellesGarantiesFinancières.estÉgaleÀ(this.#actuelles?.garantiesFinancières) &&
+      !estUnNouveauDocument
+    ) {
+      throw new GarantiesFinancièresNonModifiéesError();
+    }
+  }
+
   private vérifierQueLesGarantiesFinancièresActuellesExistent() {
     if (!this.aDesGarantiesFinancières) {
       throw new AucunesGarantiesFinancièresActuellesError();
@@ -374,10 +388,17 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
   }
 
-  async modifier({ garantiesFinancières, modifiéLe, modifiéPar }: ModifierActuellesOptions) {
+  async modifier({
+    garantiesFinancières,
+    modifiéLe,
+    modifiéPar,
+    estUnNouveauDocument,
+  }: ModifierActuellesOptions) {
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
+
+    this.vérifierSiLesGarantiesFinancièresSontModifiées(estUnNouveauDocument, garantiesFinancières);
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();

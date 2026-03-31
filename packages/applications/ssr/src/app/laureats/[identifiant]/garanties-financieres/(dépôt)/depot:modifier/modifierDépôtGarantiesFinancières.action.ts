@@ -40,7 +40,7 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
               : undefined,
           dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
           attestationValue: data.attestation,
-          estUnNouveauDocument: data.attestationDocumentSelection === 'edit_document',
+          estUnNouveauDocumentValue: data.attestationDocumentSelection === 'edit_document',
           modifiéLeValue: new Date().toISOString(),
           modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
         },

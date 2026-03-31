@@ -15,7 +15,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
-
         Et un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
@@ -124,3 +123,8 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF              | exemption  |
             | date de constitution | 2025-01-01 |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
+
+    @select
+    Scénario: Impossible de modifier les garanties actuelles du projet sans modification
+        Quand un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs
+        Alors l'utilisateur devrait être informé que "Les garanties financières n'ont pas été modifiées"

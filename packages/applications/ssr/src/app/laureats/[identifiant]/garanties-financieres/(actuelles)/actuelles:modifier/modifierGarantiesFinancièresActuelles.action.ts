@@ -8,7 +8,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
+import {
+  documentSelectionSchema,
+  keepOrUpdateSingleDocument,
+} from '@/utils/zod/document/keepOrUpdateDocument';
 
 import { addGarantiesFinancièresToSchema } from '../../_helpers/addGarantiesFinancièresToSchema';
 
@@ -17,6 +20,7 @@ const schema = addGarantiesFinancièresToSchema(
     identifiantProjet: zod.string().min(1),
     dateConstitution: zod.string(),
     attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+    attestationDocumentSelection: documentSelectionSchema,
   }),
 );
 
@@ -35,6 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
             : undefined,
         dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
         attestationValue: data.attestation,
+        estUnNouveauDocumentValue: data.attestationDocumentSelection === 'edit_document',
         modifiéLeValue: new Date().toISOString(),
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
       },

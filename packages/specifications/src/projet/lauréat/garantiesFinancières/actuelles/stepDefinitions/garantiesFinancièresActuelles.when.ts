@@ -40,6 +40,21 @@ Quand(
 );
 
 Quand(
+  `un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs`,
+  async function (this: PotentielWorld) {
+    try {
+      await modifierGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        {},
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   /un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat$/,
   async function (this: PotentielWorld) {
     try {
