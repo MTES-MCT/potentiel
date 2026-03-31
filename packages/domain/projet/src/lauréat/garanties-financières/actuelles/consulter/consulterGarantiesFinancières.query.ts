@@ -9,7 +9,7 @@ import {
   GarantiesFinancières,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
-  TypeDocumentGarantiesFinancières,
+  DocumentGarantiesFinancières,
 } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 
@@ -78,12 +78,11 @@ export const mapToReadModel = ({
     soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
     validéLe: DateTime.convertirEnValueType(actuelles.validéLe),
     document: garantiesFinancières.estConstitué()
-      ? DocumentProjet.convertirEnValueType(
+      ? DocumentGarantiesFinancières.attestationGarantiesFinancières({
           identifiantProjet,
-          TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-          garantiesFinancières.constitution.date.formatter(),
-          garantiesFinancières.constitution.attestation.format,
-        )
+          enregistréLe: garantiesFinancières.constitution.date.formatter(),
+          attestation: garantiesFinancières.constitution.attestation,
+        })
       : undefined,
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),

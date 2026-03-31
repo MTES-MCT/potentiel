@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DocumentProjetCommand, DossierProjet } from '../../../../document-projet/index.js';
-import { TypeDocumentGarantiesFinancières } from '../../index.js';
+import { DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancières.command.js';
@@ -33,12 +33,16 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
         dossierProjetSource: DossierProjet.convertirEnValueType({
           identifiantProjet: identifiantProjetValue,
           typeDocument:
-            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+            DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(
+              identifiantProjetValue,
+            ).attestationGarantiesFinancièresDépôt.formatter(),
         }),
         dossierProjetTarget: DossierProjet.convertirEnValueType({
           identifiantProjet: identifiantProjetValue,
           typeDocument:
-            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+            DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(
+              identifiantProjetValue,
+            ).attestationGarantiesFinancières.formatter(),
         }),
       },
     });

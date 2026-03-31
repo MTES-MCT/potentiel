@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { ModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifierDépôtGarantiesFinancières.command.js';
@@ -46,12 +43,11 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
         attestation: { format: attestationValue.format },
       },
     });
-    const documentProjet = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      dateConstitutionValue,
-      attestationValue.format,
-    );
+    const documentProjet = DocumentGarantiesFinancières.attestationGarantiesFinancièresDépôt({
+      identifiantProjet: identifiantProjetValue,
+      soumisLe: dateConstitutionValue,
+      attestation: { format: attestationValue.format },
+    });
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const modifiéPar = Email.convertirEnValueType(modifiéParValue);
 

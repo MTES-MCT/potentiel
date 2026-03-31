@@ -3,11 +3,8 @@ import { mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import {
-  EnregistrerDocumentProjetCommand,
-  DocumentProjet,
-} from '../../../../document-projet/index.js';
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
 import { Candidature, Éliminé } from '../../../../index.js';
 import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
 import { ImporterGarantiesFinancièresCommand } from '../../actuelles/importer/importerGarantiesFinancières.command.js';
@@ -63,12 +60,10 @@ export const handleLauréatNotifié = async (
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        documentProjet: DocumentProjet.bind({
-          dateCréation: constitutionGarantiesFinancières.dateConstitution,
-          format: constitutionGarantiesFinancières.attestation.format,
+        documentProjet: DocumentGarantiesFinancières.attestationGarantiesFinancières({
           identifiantProjet,
-          typeDocument:
-            TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+          enregistréLe: constitutionGarantiesFinancières.dateConstitution,
+          attestation: constitutionGarantiesFinancières.attestation,
         }),
         content: constitutionGarantiesFinancières.attestation.content,
       },

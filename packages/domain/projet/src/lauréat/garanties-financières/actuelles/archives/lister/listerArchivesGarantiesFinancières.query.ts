@@ -9,7 +9,7 @@ import {
   GarantiesFinancières,
   GarantiesFinancièresEntity,
   MotifArchivageGarantiesFinancières,
-  TypeDocumentGarantiesFinancières,
+  DocumentGarantiesFinancières,
 } from '../../../index.js';
 
 export type ArchiveGarantiesFinancièresListItemReadModel = {
@@ -73,12 +73,11 @@ const mapToReadModel = ({
         motif: MotifArchivageGarantiesFinancières.convertirEnValueType(archive.motifArchivage),
         validéLe: DateTime.convertirEnValueType(archive.validéLe),
         document: garantiesFinancières.estConstitué()
-          ? DocumentProjet.convertirEnValueType(
+          ? DocumentGarantiesFinancières.attestationGarantiesFinancières({
               identifiantProjet,
-              TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-              garantiesFinancières.constitution.date.formatter(),
-              garantiesFinancières.constitution.attestation.format,
-            )
+              enregistréLe: garantiesFinancières.constitution.date.formatter(),
+              attestation: garantiesFinancières.constitution.attestation,
+            })
           : undefined,
       };
     })

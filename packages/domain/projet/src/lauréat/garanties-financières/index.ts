@@ -20,7 +20,7 @@ export type * from './garantiesFinancières.event.js';
 // Value types
 export * as GarantiesFinancières from './garantiesFinancières.valueType.js';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType.js';
-export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType.js';
+export * as DocumentGarantiesFinancières from './documentGarantiesFinancières.valueType.js';
 export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType.js';
 export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType.js';
 

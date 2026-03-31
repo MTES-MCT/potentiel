@@ -6,6 +6,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Plan du Scénario: Valider un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Et un dépôt de garanties financières avec :

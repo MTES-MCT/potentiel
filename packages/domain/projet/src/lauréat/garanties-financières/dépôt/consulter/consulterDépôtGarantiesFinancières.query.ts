@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
 import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity.js';
 
@@ -71,12 +71,11 @@ const mapToReadModel = ({
     },
   }),
   soumisLe: DateTime.convertirEnValueType(soumisLe),
-  document: DocumentProjet.convertirEnValueType(
-    identifiantProjetValueType.formatter(),
-    TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-    DateTime.convertirEnValueType(dateConstitution).formatter(),
-    attestation.format,
-  ),
+  document: DocumentGarantiesFinancières.attestationGarantiesFinancièresDépôt({
+    identifiantProjet: identifiantProjetValueType.formatter(),
+    soumisLe: dateConstitution,
+    attestation,
+  }),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
     par: Email.convertirEnValueType(dernièreMiseÀJour.par),

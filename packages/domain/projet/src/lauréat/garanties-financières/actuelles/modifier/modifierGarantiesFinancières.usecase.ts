@@ -2,12 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
 
 import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command.js';
 
@@ -46,12 +43,13 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
         attestation: { format: attestationValue.format },
       },
     });
-    const documentProjet = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-      dateConstitutionValue,
-      attestationValue.format,
-    );
+
+    const attestation = DocumentGarantiesFinancières.attestationGarantiesFinancières({
+      identifiantProjet: identifiantProjetValue,
+      enregistréLe: dateConstitutionValue,
+      attestation: { format: attestationValue.format },
+    });
+
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const modifiéPar = Email.convertirEnValueType(modifiéParValue);
 
@@ -59,7 +57,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
-        documentProjet,
+        documentProjet: attestation,
       },
     });
 
