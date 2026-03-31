@@ -93,21 +93,19 @@ Quand(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
+    const { référenceDossier, dateSignature, propositionTechniqueEtFinancièreSignée } =
+      this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
     try {
       await modifierPropositionTechniqueEtFinancière.call(
         this,
         identifiantProjet,
         'porteur-projet',
         {
-          référenceDossier:
-            this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture
-              .référenceDossier,
-          dateSignature:
-            this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture
-              .dateSignature,
-          // TODO
-          propositionTechniqueEtFinancièreSignée: undefined,
-        },
+          référenceDossier,
+          dateSignature,
+          propositionTechniqueEtFinancièreSignée,
+          estUnNouveauDocument: false,
+        } satisfies ModifierPropositionTechniqueEtFinancière,
       );
     } catch (e) {
       this.error = e as Error;
@@ -150,23 +148,28 @@ async function modifierPropositionTechniqueEtFinancière(
   role: Role.RawType,
   data: Partial<ModifierPropositionTechniqueEtFinancière>,
 ) {
-  const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
-    this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.créer({
-      identifiantProjet: identifiantProjet.formatter(),
-      référenceDossier: this.raccordementWorld.référenceDossier,
-      ...data,
-    });
+  const {
+    dateSignature,
+    propositionTechniqueEtFinancièreSignée,
+    référenceDossier,
+    estUnNouveauDocument,
+  } = this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.créer({
+    identifiantProjet: identifiantProjet.formatter(),
+    référenceDossier: this.raccordementWorld.référenceDossier,
+    ...data,
+  });
 
-  await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
+  await mediator.send<Lauréat.Raccordement.ModifierPropositionTechniqueEtFinancièreUseCase>({
     type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
     data: {
       dateSignatureValue: dateSignature,
       référenceDossierRaccordementValue: référenceDossier,
       identifiantProjetValue: identifiantProjet.formatter(),
-      propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée && {
+      propositionTechniqueEtFinancièreSignéeValue: {
         format: propositionTechniqueEtFinancièreSignée.format,
         content: convertStringToReadableStream(propositionTechniqueEtFinancièreSignée.content),
       },
+      estUnNouveauDocumentValue: estUnNouveauDocument,
       rôleValue: role,
       modifiéeLeValue: DateTime.now().formatter(),
       modifiéeParValue: this.utilisateurWorld.récupérerEmailSelonRôle(role),

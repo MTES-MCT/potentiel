@@ -590,7 +590,8 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierPropositionTechniqueEtFinancière({
     dateSignature,
     référenceDossierRaccordement,
-    formatPropositionTechniqueEtFinancièreSignée,
+    propositionTechniqueEtFinancièreSignée: { format },
+    estUnNouveauDocument,
     rôle,
     modifiéeLe,
     modifiéePar,
@@ -610,7 +611,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (
       dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
-      !formatPropositionTechniqueEtFinancièreSignée &&
+      !estUnNouveauDocument &&
       Option.isSome(dossier.propositionTechniqueEtFinancière.dateSignature) &&
       dateSignature.estÉgaleÀ(dossier.propositionTechniqueEtFinancière.dateSignature)
     ) {
@@ -643,11 +644,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: formatPropositionTechniqueEtFinancièreSignée
-          ? {
-              format: formatPropositionTechniqueEtFinancièreSignée,
-            }
-          : undefined,
+        propositionTechniqueEtFinancièreSignée: { format },
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },

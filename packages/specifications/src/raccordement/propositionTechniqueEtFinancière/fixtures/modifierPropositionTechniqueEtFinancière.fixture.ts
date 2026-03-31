@@ -11,6 +11,7 @@ export type ModifierPropositionTechniqueEtFinancière = {
   dateSignature: string;
   référenceDossier: string;
   propositionTechniqueEtFinancièreSignée: PièceJustificative;
+  estUnNouveauDocument: boolean;
 };
 
 export class ModifierPropositionTechniqueEtFinancièreFixture
@@ -36,6 +37,10 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
   get référenceDossier(): string {
     return this.#référenceDossier;
   }
+  #estUnNouveauDocument!: boolean;
+  get estUnNouveauDocument(): boolean {
+    return this.#estUnNouveauDocument;
+  }
 
   créer(
     partialFixture: Partial<Readonly<ModifierPropositionTechniqueEtFinancière>> & {
@@ -46,13 +51,15 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
       propositionTechniqueEtFinancièreSignée: faker.potentiel.document(),
+      estUnNouveauDocument: true,
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
     this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
-    this.#identifiantProjet = fixture.identifiantProjet;
+    this.#estUnNouveauDocument = fixture.estUnNouveauDocument;
     this.aÉtéCréé = true;
     return fixture;
   }
