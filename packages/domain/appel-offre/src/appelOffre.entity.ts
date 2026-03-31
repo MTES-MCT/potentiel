@@ -257,7 +257,7 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
  **/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const champsCandidature = [
+export const champsCandidature = [
   'puissanceALaPointe',
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
@@ -277,6 +277,7 @@ const champsCandidature = [
   // CRE4 ZNI
   'territoireProjet',
 ] as const;
+
 export type ChampCandidature = (typeof champsCandidature)[number];
 
 export type ChampsSupplémentairesCandidature = Partial<

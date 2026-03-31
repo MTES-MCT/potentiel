@@ -25,30 +25,21 @@ import { ImporterCandidatureOptions } from './importer/importerCandidature.optio
 import * as TypeTechnologie from './typeTechnologie.valueType.js';
 import {
   AttestationNonGénéréeError,
-  AutorisationRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
   CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
-  ChoixCoefficientKNonAttenduError,
-  ChoixCoefficientKRequisError,
   DateAutorisationError,
   FonctionManquanteError,
-  InstallateurNonAttenduError,
-  InstallateurRequisError,
-  DispositifDeStockageNonAttenduError,
-  DispositifDeStockageRequisError,
-  NatureDeLExploitationNonAttendueError,
-  NatureDeLExploitationRequiseError,
   NomManquantError,
-  PuissanceDeSiteNonAttendueError,
-  PuissanceDeSiteRequiseError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
+  ChampsRequisError,
+  ChampsNonAttenduError,
 } from './candidature.error.js';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
 import {
@@ -199,7 +190,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
-    this.vérifierChampSupplémentaires(candidature);
+    this.vérifierChampsSupplémentaires(candidature);
     this.vérifierTechnologie(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
@@ -231,7 +222,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierQueLeStatutEstModifiable(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
-    this.vérifierChampSupplémentaires(candidature);
+    this.vérifierChampsSupplémentaires(candidature);
+    this.vérifierAutorisation(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
@@ -372,62 +364,44 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierChampSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    const {
-      coefficientKChoisi,
-      puissanceDeSite,
-      autorisation,
-      installateur,
-      dispositifDeStockage,
-      natureDeLExploitation,
-    } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
+  private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
+    const champsSupplémentaires = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
-    if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
-      throw new ChoixCoefficientKRequisError();
+    for (const champs of AppelOffre.champsCandidature) {
+      // Cas spécifique de structure spécifique pour le champs autorisation
+      if (champs == 'autorisation') {
+        if (
+          (champsSupplémentaires[champs] === 'requis' && !dépôt.autorisation?.date) ||
+          !dépôt.autorisation?.numéro
+        ) {
+          throw new ChampsRequisError(champs);
+        }
+
+        if (
+          !champsSupplémentaires[champs] &&
+          (dépôt.autorisation?.date || dépôt.autorisation?.numéro)
+        ) {
+          throw new ChampsNonAttenduError(champs);
+        }
+      } else {
+        if (
+          champsSupplémentaires[champs] === 'requis' &&
+          (dépôt[champs] === undefined ||
+            dépôt[champs] === '' ||
+            (Array.isArray(dépôt[champs]) && dépôt[champs].length === 0))
+        ) {
+          throw new ChampsRequisError(champs);
+        }
+        if (!champsSupplémentaires[champs] && dépôt[champs] !== undefined) {
+          throw new ChampsNonAttenduError(champs);
+        }
+      }
     }
+  }
 
-    if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
-      throw new ChoixCoefficientKNonAttenduError();
-    }
-
-    if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
-      throw new PuissanceDeSiteRequiseError();
-    }
-
-    if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
-      throw new PuissanceDeSiteNonAttendueError();
-    }
-
-    if (installateur === 'requis' && dépôt.installateur === undefined) {
-      throw new InstallateurRequisError();
-    }
-
-    if (!installateur && !!dépôt.installateur) {
-      throw new InstallateurNonAttenduError();
-    }
-
-    if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
-      throw new NatureDeLExploitationRequiseError();
-    }
-
-    if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
-      throw new NatureDeLExploitationNonAttendueError();
-    }
-
-    if (autorisation === 'requis' && (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)) {
-      throw new AutorisationRequiseError();
-    }
-
+  private vérifierAutorisation({ dépôt }: CandidatureBehaviorOptions) {
     if (dépôt.autorisation?.date.estDansLeFutur()) {
       throw new DateAutorisationError();
-    }
-
-    if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
-      throw new DispositifDeStockageRequisError();
-    }
-
-    if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
-      throw new DispositifDeStockageNonAttenduError();
     }
   }
 
