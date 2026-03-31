@@ -111,6 +111,7 @@ jobs:
           npm run specs -- --tags "$TAGS_FILTER"
         env:
           WAIT_FOR_EXPECT_TIMEOUT_MS: ${{ vars.WAIT_FOR_EXPECT_TIMEOUT_MS }}
+          EMAILS_DISABLED_FOR_TESTS: 'true'
 
   # Final job to wait for all spec tests to complete, so that we can make it required
   test_specs:
