@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Localité } from '../../candidature/index.js';
-import { DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { TypeDocumentSiteDeProduction } from '../index.js';
+import { IdentifiantProjet } from '../../index.js';
+import { DocumentSiteDeProduction } from '../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../document-projet/index.js';
 
 import { ModifierSiteDeProductionCommand } from './modifierSiteDeProduction.command.js';
@@ -34,12 +34,11 @@ export const registerModifierSiteDeProductionUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentSiteDeProduction.pièceJustificative.formatter(),
-          modifiéLeValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentSiteDeProduction.pièceJustificative({
+          identifiantProjet: identifiantProjetValue,
+          modifiéLe: modifiéLeValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
       : undefined;
 
     if (pièceJustificative) {

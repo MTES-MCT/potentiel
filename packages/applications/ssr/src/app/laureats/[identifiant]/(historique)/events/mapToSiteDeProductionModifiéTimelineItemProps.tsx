@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -6,20 +6,14 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
   event: Lauréat.SiteDeProductionModifiéEvent,
 ): TimelineItemProps => {
-  const { localité, modifiéLe, modifiéPar, raison, pièceJustificative, identifiantProjet } =
-    event.payload;
+  const { localité, modifiéLe, modifiéPar, raison, pièceJustificative } = event.payload;
 
   return {
     date: modifiéLe,
     title: 'Site de production modifié',
     actor: modifiéPar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        Lauréat.TypeDocumentSiteDeProduction.pièceJustificative.formatter(),
-        modifiéLe,
-        pièceJustificative.format,
-      ),
+      document: Lauréat.DocumentSiteDeProduction.pièceJustificative(event.payload),
       ariaLabel: `Télécharger le justificatif de la modification de site de production enregistrée le ${formatDateToText(modifiéLe)}`,
     },
     details: (
