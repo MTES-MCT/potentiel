@@ -1,4 +1,4 @@
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -22,12 +22,11 @@ export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
     title: 'Typologie du projet modifiée',
     actor: modifiéePar,
     file: pièceJustificative && {
-      document: DocumentProjet.convertirEnValueType(
+      document: Lauréat.Installation.DocumentTypologieInstallation.pièceJustificative({
         identifiantProjet,
-        Lauréat.Installation.TypeDocumentTypologieInstallation.pièceJustificative.formatter(),
-        modifiéeLe,
-        pièceJustificative.format,
-      ),
+        enregistréLe: modifiéeLe,
+        pièceJustificative,
+      }),
       ariaLabel: `Télécharger le justificatif de la modification de typologie du projet en date du ${formatDateToText(modifiéeLe)}`,
     },
     details: (

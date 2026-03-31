@@ -116,4 +116,4 @@ export type * from './dispositif-de-stockage/changement/changementDispositifDeSt
 export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType.js';
 export * as DocumentInstallateur from './installateur/documentInstallateur.valueType.js';
 export * as DocumentDispositifDeStockage from './dispositif-de-stockage/documentDispositifDeStockage.valueType.js';
-export * as TypeDocumentTypologieInstallation from './typologie-installation/typeDocumentTypologieInstallation.valueType.js';
+export * as DocumentTypologieInstallation from './typologie-installation/documentTypologieInstallation.valueType.js';
