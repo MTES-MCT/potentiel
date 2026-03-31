@@ -51,6 +51,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
     this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
@@ -63,8 +64,8 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),
       propositionTechniqueEtFinancièreSignée:
         Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière({
-          identifiantProjet: this.identifiantProjet,
-          référence: référenceDossier ?? this.référenceDossier,
+          identifiantProjet: this.#identifiantProjet,
+          référence: référenceDossier ?? this.#référenceDossier,
           dateSignature: this.#dateSignature,
           propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
         }),
