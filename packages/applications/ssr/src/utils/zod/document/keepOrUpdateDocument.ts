@@ -3,6 +3,7 @@ import * as zod from 'zod';
 
 import { Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { FileTypes } from '../blob';
 
@@ -21,7 +22,7 @@ const existingDocument = zod
     });
 
     if (Option.isNone(document)) {
-      throw new Error(`Aucun document n'a été transmis`);
+      throw new InvalidOperationError(`Aucun document n'a été transmis`);
     }
 
     return document;

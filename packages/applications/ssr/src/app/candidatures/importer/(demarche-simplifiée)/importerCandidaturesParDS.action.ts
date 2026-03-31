@@ -3,7 +3,7 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { DomainError } from '@potentiel-domain/core';
+import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 import {
   getDémarcheAvecDossiers,
   getDémarcheIdParDossier,
@@ -70,7 +70,9 @@ const action: FormAction<FormState, typeof schema> = async (
     const demarcheId = await getDémarcheIdParDossier(numeroDossierDS);
 
     if (Option.isNone(demarcheId)) {
-      throw new Error(`La démarche associée au dossier ${numeroDossierDS} est introuvable`);
+      throw new InvalidOperationError(
+        `La démarche associée au dossier ${numeroDossierDS} est introuvable`,
+      );
     }
 
     const candidatures: Omit<
@@ -81,7 +83,7 @@ const action: FormAction<FormState, typeof schema> = async (
     const dossiers = await getDémarcheAvecDossiers(demarcheId);
 
     if (Option.isNone(dossiers)) {
-      throw new Error(`La démarche ${demarcheId} est introuvable`);
+      throw new InvalidOperationError(`La démarche ${demarcheId} est introuvable`);
     }
 
     for (const { numeroDossierDS, statut, note, motifElimination } of instructions) {
