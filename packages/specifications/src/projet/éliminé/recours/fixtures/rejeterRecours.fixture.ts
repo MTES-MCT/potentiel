@@ -2,8 +2,10 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
 
+type Document = { format: string; content: string };
+
 interface RejeterRecours {
-  readonly réponseSignée: { format: string; content: string };
+  readonly réponseSignée: Document;
   readonly rejetéLe: string;
   readonly rejetéPar: string;
 }
@@ -12,14 +14,10 @@ export class RejeterRecoursFixture
   extends AbstractFixture<RejeterRecours>
   implements RejeterRecours
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: Document;
 
-  get réponseSignée(): RejeterRecours['réponseSignée'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get réponseSignée(): Document {
+    return this.#réponseSignée;
   }
 
   #rejetéLe!: string;
@@ -44,8 +42,7 @@ export class RejeterRecoursFixture
 
     this.#rejetéLe = fixture.rejetéLe;
     this.#rejetéPar = fixture.rejetéPar;
-    this.#format = fixture.réponseSignée.format;
-    this.#content = fixture.réponseSignée.content;
+    this.#réponseSignée = fixture.réponseSignée;
 
     this.aÉtéCréé = true;
     return fixture;

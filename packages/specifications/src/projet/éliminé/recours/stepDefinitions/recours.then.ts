@@ -109,14 +109,14 @@ async function vérifierRecours(
 
   await expectFileContent(
     demandeRecours.demande.pièceJustificative,
-    this.éliminéWorld.recoursWorld.mapToPièceJustificative(),
+    this.éliminéWorld.recoursWorld.demanderRecoursFixture.pièceJustificative,
   );
 
   if (this.éliminéWorld.recoursWorld.accorderRecoursFixture.aÉtéCréé) {
     assert(demandeRecours.demande.accord, `L'accord de recours est absent`);
     await expectFileContent(
       demandeRecours.demande.accord.réponseSignée,
-      this.éliminéWorld.recoursWorld.mapToRéponseSignéeAccord(),
+      this.éliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée,
     );
   }
 
@@ -124,7 +124,7 @@ async function vérifierRecours(
     assert(demandeRecours.demande.rejet, `Le rejet de recours est absent`);
     await expectFileContent(
       demandeRecours.demande.rejet.réponseSignée,
-      this.éliminéWorld.recoursWorld.mapToRéponseSignéeRejet(),
+      this.éliminéWorld.recoursWorld.rejeterRecoursFixture.réponseSignée,
     );
   }
 }

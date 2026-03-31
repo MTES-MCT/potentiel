@@ -2,8 +2,10 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
 
+type Document = { format: string; content: string };
+
 interface DemanderRecours {
-  readonly pièceJustificative: { format: string; content: string };
+  readonly pièceJustificative: Document;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -13,14 +15,10 @@ export class DemanderRecoursFixture
   extends AbstractFixture<DemanderRecours>
   implements DemanderRecours
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: Document;
 
-  get pièceJustificative(): DemanderRecours['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get pièceJustificative(): Document {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -53,8 +51,7 @@ export class DemanderRecoursFixture
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = fixture.pièceJustificative.content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
     return fixture;

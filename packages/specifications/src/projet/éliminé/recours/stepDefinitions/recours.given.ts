@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,
@@ -57,10 +57,7 @@ async function créerDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.DemanderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: {
-        content: convertStringToReadableStream(pièceJustificative.content),
-        format: pièceJustificative.format,
-      },
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
@@ -91,10 +88,7 @@ async function créerAccordRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: {
-        content: convertStringToReadableStream(réponseSignée.content),
-        format: réponseSignée.format,
-      },
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateAccordValue: accordéeLe,
       identifiantUtilisateurValue: accordéePar,
     },
@@ -115,10 +109,7 @@ async function créerRejetDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: {
-        content: convertStringToReadableStream(réponseSignée.content),
-        format: réponseSignée.format,
-      },
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
     },

@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
 Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,
@@ -23,10 +23,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
-          pièceJustificativeValue: {
-            content: convertStringToReadableStream(pièceJustificative.content),
-            format: pièceJustificative.format,
-          },
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },
@@ -74,10 +71,7 @@ Quand(
         data: {
           identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateRejetValue: rejetéeLe,
-          réponseSignéeValue: {
-            content: convertStringToReadableStream(réponseSignée.content),
-            format: réponseSignée.format,
-          },
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: rejetéePar,
         },
       });
@@ -106,10 +100,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: accordéeLe,
-          réponseSignéeValue: {
-            content: convertStringToReadableStream(réponseSignée.content),
-            format: réponseSignée.format,
-          },
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
         },
       });

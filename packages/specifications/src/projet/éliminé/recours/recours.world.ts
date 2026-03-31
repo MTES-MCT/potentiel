@@ -53,21 +53,6 @@ export class RecoursWord {
     this.#passerRecoursEnInstructionFixture = new PasserRecoursEnInstructionFixture();
   }
 
-  mapToPièceJustificative(): { format: string; content: string } | undefined {
-    if (!this.#demanderRecoursFixture.aÉtéCréé) return undefined;
-    return this.#demanderRecoursFixture.pièceJustificative;
-  }
-
-  mapToRéponseSignéeAccord(): { format: string; content: string } | undefined {
-    if (!this.#accorderRecoursFixture.aÉtéCréé) return undefined;
-    return this.#accorderRecoursFixture.réponseSignée;
-  }
-
-  mapToRéponseSignéeRejet(): { format: string; content: string } | undefined {
-    if (!this.#rejeterRecoursFixture.aÉtéCréé) return undefined;
-    return this.#rejeterRecoursFixture.réponseSignée;
-  }
-
   mapToDemandeRecoursExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Éliminé.Recours.StatutRecours.ValueType,
