@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
 
-type Document = { format: string; content: string };
+type PièceJustificative = { format: string; content: string };
 
 interface RejeterRecours {
-  readonly réponseSignée: Document;
+  readonly réponseSignée: PièceJustificative;
   readonly rejetéLe: string;
   readonly rejetéPar: string;
 }
@@ -14,9 +14,9 @@ export class RejeterRecoursFixture
   extends AbstractFixture<RejeterRecours>
   implements RejeterRecours
 {
-  #réponseSignée!: Document;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): Document {
+  get réponseSignée(): PièceJustificative {
     return this.#réponseSignée;
   }
 

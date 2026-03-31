@@ -2,10 +2,10 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture.js';
 
-type Document = { format: string; content: string };
+type PièceJustificative = { format: string; content: string };
 
 interface AccorderRecours {
-  readonly réponseSignée: Document;
+  readonly réponseSignée: PièceJustificative;
   readonly accordéLe: string;
   readonly accordéPar: string;
 }
@@ -14,9 +14,9 @@ export class AccorderRecoursFixture
   extends AbstractFixture<AccorderRecours>
   implements AccorderRecours
 {
-  #réponseSignée!: Document;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): Document {
+  get réponseSignée(): PièceJustificative {
     return this.#réponseSignée;
   }
 
