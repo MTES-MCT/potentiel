@@ -7,11 +7,11 @@ import { AbstractFixture } from '../../../fixture.js';
 
 export type PièceJustificative = { format: string; content: string };
 
-interface TransmettrePropositionTechniqueEtFinancière {
+export type TransmettrePropositionTechniqueEtFinancière = {
   dateSignature: string;
   référenceDossier: string;
   propositionTechniqueEtFinancièreSignée: PièceJustificative;
-}
+};
 
 export class TransmettrePropositionTechniqueEtFinancièreFixture
   extends AbstractFixture<TransmettrePropositionTechniqueEtFinancière>
@@ -70,17 +70,5 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
           propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
         }),
     };
-  }
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<TransmettrePropositionTechniqueEtFinancière> = {};
-    const dateSignature = exemple['La date de signature'];
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    if (dateSignature) {
-      values.dateSignature = new Date(dateSignature).toISOString();
-    }
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    return values;
   }
 }

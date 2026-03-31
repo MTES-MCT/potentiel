@@ -37,6 +37,15 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
+    Plan du scénario: Modifier seulement la date de signature d'une PTF, mais pas le document joint
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Quand le porteur modifie la proposition technique et financière avec :
+            | La date de qualification    | 2022-01-01 |
+            | Le document a été modifié ? | non        |
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur modifie la proposition technique et financière avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
