@@ -43,6 +43,7 @@ export const handleLauréatNotifié = async (
   if (!candidature.dépôt.garantiesFinancières) {
     return;
   }
+
   const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
     type: candidature.dépôt.garantiesFinancières.type.type,
     dateÉchéance: candidature.dépôt.garantiesFinancières.estAvecDateÉchéance()

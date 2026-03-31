@@ -126,5 +126,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     @select
     Scénario: Impossible de modifier les garanties actuelles du projet sans modification
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
+            | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs
         Alors l'utilisateur devrait être informé que "Les garanties financières n'ont pas été modifiées"

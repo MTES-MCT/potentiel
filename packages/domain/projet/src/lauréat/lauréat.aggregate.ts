@@ -257,7 +257,6 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Champs soumis à demande
-
     const champsSupplémentaire = this.parent.cahierDesChargesActuel.getChampsSupplémentaires();
 
     await this.producteur.importer({

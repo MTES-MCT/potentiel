@@ -20,9 +20,9 @@ export interface EnregistrerGarantiesFinancières {
 export type EnregistrerGarantiesFinancièresProps = DeepPartial<EnregistrerGarantiesFinancières>;
 
 export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<EnregistrerGarantiesFinancières> {
-  #garantiesFinancièresType!: EnregistrerGarantiesFinancières['type'];
-  get garantiesFinancièresType() {
-    return this.#garantiesFinancièresType;
+  #type!: EnregistrerGarantiesFinancières['type'];
+  get type() {
+    return this.#type;
   }
 
   #dateÉchéance!: EnregistrerGarantiesFinancières['dateÉchéance'];
@@ -78,7 +78,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       attestation: faker.potentiel.document(),
     };
     this.#attestation = fixture.attestation;
-    this.#garantiesFinancièresType = fixture.type;
+    this.#type = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;
     this.#enregistréLe = fixture.enregistréLe;
@@ -96,7 +96,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
           .identifiantProjet,
       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
       garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-        type: this.#garantiesFinancièresType,
+        type: this.#type,
         dateÉchéance: this.#dateÉchéance,
         constitution: {
           attestation: this.attestation,

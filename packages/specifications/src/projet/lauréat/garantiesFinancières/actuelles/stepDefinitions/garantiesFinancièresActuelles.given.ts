@@ -137,7 +137,7 @@ export async function modifierGarantiesFinancièresActuelles(
       attestationValue: convertFixtureFileToReadableStream(attestation),
       estUnNouveauDocumentValue:
         JSON.stringify(
-          this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation,
+          this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer.attestation,
         ) !== JSON.stringify(props.attestation),
     },
   });
