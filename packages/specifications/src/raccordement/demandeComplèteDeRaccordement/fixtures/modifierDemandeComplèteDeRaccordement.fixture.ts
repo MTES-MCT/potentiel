@@ -52,10 +52,7 @@ export class ModifierDemandeComplèteRaccordementFixture
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
-      accuséRéception: {
-        format: faker.potentiel.fileFormat(),
-        content: faker.word.words(),
-      },
+      accuséRéception: faker.potentiel.document(),
       estUnNouveauDocument: true,
       ...partialFixture,
     };

@@ -66,14 +66,8 @@ export class ModifierAttestationConformitéFixture
           to: DateTime.now().date,
         })
         .toISOString(),
-      attestation: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
-      preuve: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
+      attestation: faker.potentiel.document(),
+      preuve: faker.potentiel.document(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       ...partialFixture,

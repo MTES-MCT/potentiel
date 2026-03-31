@@ -70,14 +70,8 @@ export class TransmettreAttestationConformitéFixture
         .toISOString(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
-      attestation: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
-      preuve: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
+      attestation: faker.potentiel.document(),
+      preuve: faker.potentiel.document(),
       ...partialFixture,
     };
 

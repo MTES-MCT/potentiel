@@ -29,15 +29,10 @@ export class RejetAbandonFixture extends AbstractFixture<RejetAbandon> implement
   }
 
   créer(partialData?: Partial<Readonly<RejetAbandon>> | undefined): Readonly<RejetAbandon> {
-    const content = faker.word.words();
-
     const fixture: RejetAbandon = {
       rejetéeLe: faker.date.soon().toISOString(),
       rejetéePar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      réponseSignée: faker.potentiel.document(),
       ...partialData,
     };
 
