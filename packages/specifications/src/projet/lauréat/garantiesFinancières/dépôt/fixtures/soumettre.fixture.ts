@@ -43,14 +43,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return this.#soumisPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #attestation!: SoumettreDépôtGarantiesFinancières['attestation'];
 
   get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#attestation;
   }
 
   constructor(public dépôtGarantiesFinancièresWorld: DépôtGarantiesFinancièresWorld) {
@@ -82,8 +78,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     this.#dateÉchéance = fixture.dateÉchéance;
     this.#soumisLe = fixture.soumisLe;
     this.#soumisPar = fixture.soumisPar;
-    this.#content = fixture.attestation.content;
-    this.#format = fixture.attestation.format;
+    this.#attestation = fixture.attestation;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -14,11 +14,10 @@ export class RejeterDemandeDélaiFixture
   extends AbstractFixture<RejeterDemandeDélai>
   implements RejeterDemandeDélai
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): RejeterDemandeDélai['réponseSignée'] {
-    return { format: this.#format, content: this.#content };
+  get réponseSignée(): PièceJustificative {
+    return this.#réponseSignée;
   }
 
   #rejetéeLe!: string;
@@ -34,22 +33,16 @@ export class RejeterDemandeDélaiFixture
   }
 
   créer(partialData?: Partial<RejeterDemandeDélai>): Readonly<RejeterDemandeDélai> {
-    const content = faker.word.words();
-
     const fixture = {
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      réponseSignée: faker.potentiel.document(),
       ...partialData,
     };
 
     this.#rejetéeLe = fixture.rejetéeLe;
     this.#rejetéePar = fixture.rejetéePar;
-    this.#format = fixture.réponseSignée.format;
-    this.#content = content;
+    this.#réponseSignée = fixture.réponseSignée;
 
     this.aÉtéCréé = true;
 

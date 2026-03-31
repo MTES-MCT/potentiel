@@ -2,16 +2,15 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 export interface ModifierDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType;
   readonly dateModification: string;
   readonly raison: string;
-  readonly pièceJustificative: {
-    readonly content: string;
-    readonly format: string;
-  };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class ModifierDispositifDeStockageFixture
@@ -30,14 +29,10 @@ export class ModifierDispositifDeStockageFixture
     return this.#dateModification;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): ModifierDispositifDeStockage['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -49,7 +44,6 @@ export class ModifierDispositifDeStockageFixture
     partialFixture?: Partial<Readonly<ModifierDispositifDeStockage>>,
   ): Readonly<ModifierDispositifDeStockage> {
     const installationAvecDispositifDeStockage = faker.datatype.boolean();
-    const content = faker.word.words();
     const fixture = {
       dispositifDeStockage: installationAvecDispositifDeStockage
         ? {
@@ -65,18 +59,14 @@ export class ModifierDispositifDeStockageFixture
           }
         : { installationAvecDispositifDeStockage },
       dateModification: faker.date.recent().toISOString(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       raison: faker.word.words(),
       ...partialFixture,
     };
 
     this.#dispositifDeStockage = fixture.dispositifDeStockage;
     this.#dateModification = fixture.dateModification;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

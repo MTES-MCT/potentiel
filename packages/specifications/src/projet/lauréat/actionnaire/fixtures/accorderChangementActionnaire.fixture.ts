@@ -14,14 +14,10 @@ export class AccorderChangementActionnaireFixture
   extends AbstractFixture<AccorderChangementActionnaire>
   implements AccorderChangementActionnaire
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): AccorderChangementActionnaire['réponseSignée'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get réponseSignée(): PièceJustificative {
+    return this.#réponseSignée;
   }
 
   #accordéeLe!: string;
@@ -37,22 +33,16 @@ export class AccorderChangementActionnaireFixture
   }
 
   créer(partialFixture?: Partial<AccorderChangementActionnaire>): AccorderChangementActionnaire {
-    const content = faker.word.words();
-
     const fixture: AccorderChangementActionnaire = {
       accordéeLe: faker.date.soon().toISOString(),
       accordéePar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      réponseSignée: faker.potentiel.document(),
       ...partialFixture,
     };
 
     this.#accordéeLe = fixture.accordéeLe;
     this.#accordéePar = fixture.accordéePar;
-    this.#format = fixture.réponseSignée.format;
-    this.#content = content;
+    this.#réponseSignée = fixture.réponseSignée;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -28,14 +28,10 @@ export class AccorderMainlevéeFixture
     return this.#accordéPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #courrierAccord!: AccorderMainlevée['courrierAccord'];
 
   get courrierAccord(): AccorderMainlevée['courrierAccord'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#courrierAccord;
   }
 
   créer(partialData?: Partial<Readonly<AccorderMainlevée>>): Readonly<AccorderMainlevée> {
@@ -48,8 +44,7 @@ export class AccorderMainlevéeFixture
 
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
-    this.#format = fixture.courrierAccord.format;
-    this.#content = fixture.courrierAccord.content;
+    this.#courrierAccord = fixture.courrierAccord;
 
     this.aÉtéCréé = true;
     return fixture;
@@ -70,7 +65,7 @@ export class AccorderMainlevéeFixture
           identifiantProjet.formatter(),
           Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
           accordéeLe.formatter(),
-          this.#format,
+          this.#courrierAccord.format,
         ),
       },
       dernièreMiseÀJour: {

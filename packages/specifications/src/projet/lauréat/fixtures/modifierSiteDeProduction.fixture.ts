@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Candidature } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../fixture.js';
 
 export interface ModifierSiteDeProduction {
@@ -16,10 +18,7 @@ export interface ModifierSiteDeProduction {
     région: string;
   };
   readonly raison: string;
-  readonly pièceJustificative: {
-    readonly content: string;
-    readonly format: string;
-  };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class ModifierSiteDeProductionFixture
@@ -43,14 +42,10 @@ export class ModifierSiteDeProductionFixture
     return this.#localité;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): ModifierSiteDeProduction['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -61,8 +56,6 @@ export class ModifierSiteDeProductionFixture
   créer(
     partialFixture: Partial<Readonly<ModifierSiteDeProduction>> & { modifiéPar: string },
   ): Readonly<ModifierSiteDeProduction> {
-    const content = faker.word.words();
-
     const fixture = {
       modifiéLe: faker.date.recent().toISOString(),
       localité: {
@@ -70,10 +63,7 @@ export class ModifierSiteDeProductionFixture
         adresse2: faker.location.streetAddress(),
         ...faker.potentiel.location(),
       },
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       raison: faker.word.words(),
       ...partialFixture,
     };
@@ -81,8 +71,7 @@ export class ModifierSiteDeProductionFixture
     this.#localité = fixture.localité;
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

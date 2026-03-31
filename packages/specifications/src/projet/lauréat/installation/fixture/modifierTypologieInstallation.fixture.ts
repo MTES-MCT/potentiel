@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker';
 
 import { Candidature } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 import { LauréatWorld } from '../../lauréat.world.js';
 
@@ -10,10 +12,7 @@ interface ModifierTypologieInstallation {
   readonly modifiéePar: string;
   readonly typologieInstallation: { typologie: string; détails?: string }[];
   readonly raison: string;
-  readonly pièceJustificative: {
-    readonly content: string;
-    readonly format: string;
-  };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class ModifierTypologieInstallationFixture
@@ -38,14 +37,10 @@ export class ModifierTypologieInstallationFixture
     return this.#typologieInstallation;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): ModifierTypologieInstallation['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -60,8 +55,6 @@ export class ModifierTypologieInstallationFixture
   créer(
     partialData?: Partial<ModifierTypologieInstallation>,
   ): Readonly<ModifierTypologieInstallation> {
-    const content = faker.word.words();
-
     const fixture: ModifierTypologieInstallation = {
       modifiéeLe: faker.date.recent().toISOString(),
       modifiéePar: faker.internet.email(),
@@ -78,10 +71,7 @@ export class ModifierTypologieInstallationFixture
           typologie,
           détails: faker.word.words(),
         })),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       raison: faker.word.words(),
       ...partialData,
     };
@@ -89,8 +79,7 @@ export class ModifierTypologieInstallationFixture
     this.#modifiéeLe = fixture.modifiéeLe;
     this.#modifiéePar = fixture.modifiéePar;
     this.#typologieInstallation = fixture.typologieInstallation;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

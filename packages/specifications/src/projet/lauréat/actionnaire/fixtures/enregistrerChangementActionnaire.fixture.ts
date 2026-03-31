@@ -16,14 +16,10 @@ export class EnregistrerChangementActionnaireFixture
   extends AbstractFixture<EnregistrerChangementActionnaire>
   implements EnregistrerChangementActionnaire
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): EnregistrerChangementActionnaire['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -53,16 +49,11 @@ export class EnregistrerChangementActionnaireFixture
   créer(
     partialData?: Partial<EnregistrerChangementActionnaire>,
   ): Readonly<EnregistrerChangementActionnaire> {
-    const content = faker.word.words();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       actionnaire: faker.company.name(),
       ...partialData,
     };
@@ -70,8 +61,7 @@ export class EnregistrerChangementActionnaireFixture
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#actionnaire = fixture.actionnaire;
 
     this.aÉtéCréé = true;

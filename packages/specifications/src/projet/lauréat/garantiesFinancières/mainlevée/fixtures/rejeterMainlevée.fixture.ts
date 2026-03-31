@@ -28,10 +28,9 @@ export class RejeterMainlevéeFixture
     return this.#rejetéePar;
   }
 
-  #format!: string;
-  #content!: string;
+  #courrierRejet!: RejeterMainlevée['courrierRejet'];
   get courrierRejet() {
-    return { format: this.#format, content: this.#content };
+    return this.#courrierRejet;
   }
 
   créer(partialData?: Partial<Readonly<RejeterMainlevée>>): Readonly<RejeterMainlevée> {
@@ -44,8 +43,7 @@ export class RejeterMainlevéeFixture
 
     this.#rejetéeLe = fixture.rejetéeLe;
     this.#rejetéePar = fixture.rejetéePar;
-    this.#format = fixture.courrierRejet.format;
-    this.#content = fixture.courrierRejet.content;
+    this.#courrierRejet = fixture.courrierRejet;
     this.aÉtéCréé = true;
     return fixture;
   }
@@ -65,7 +63,7 @@ export class RejeterMainlevéeFixture
           identifiantProjet.formatter(),
           Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeRejetéeValueType.formatter(),
           rejetéLe.formatter(),
-          this.#format,
+          this.#courrierRejet.format,
         ),
       },
       dernièreMiseÀJour: {

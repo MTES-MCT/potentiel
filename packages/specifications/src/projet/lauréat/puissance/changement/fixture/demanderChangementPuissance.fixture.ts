@@ -19,14 +19,10 @@ export class DemanderChangementPuissanceFixture
   extends AbstractFixture<DemanderChangementPuissance>
   implements DemanderChangementPuissance
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): DemanderChangementPuissance['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -67,16 +63,11 @@ export class DemanderChangementPuissanceFixture
   ): Readonly<DemanderChangementPuissance> {
     const aoData = appelsOffreData.find((x) => x.id === partialData?.appelOffres);
 
-    const content = faker.word.words();
-
     const fixture: DemanderChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       ratioPuissance: faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
@@ -88,8 +79,7 @@ export class DemanderChangementPuissanceFixture
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#ratioPuissance = fixture.ratioPuissance;
     this.#puissanceDeSite = fixture.puissanceDeSite;
 

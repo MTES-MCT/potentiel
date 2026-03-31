@@ -46,14 +46,10 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return this.#enregistréPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #attestation!: EnregistrerGarantiesFinancières['attestation'];
 
   get attestation(): EnregistrerGarantiesFinancières['attestation'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#attestation;
   }
 
   constructor(
@@ -82,8 +78,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       ...partialData,
       attestation: faker.potentiel.document(),
     };
-    this.#content = fixture.attestation.content;
-    this.#format = fixture.attestation.format;
+    this.#attestation = fixture.attestation;
     this.#garantiesFinancièresType = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;
