@@ -114,7 +114,7 @@ export type { ChangementNomProjetEntity } from './nomProjet/changement/changemen
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType.js';
-export * as TypeDocumentNomProjet from './nomProjet/changement/TypeDocumentNomProjet.valueType.js';
+export * as DocumentNomProjet from './nomProjet/changement/documentNomProjet.valueType.js';
 export * as DocumentSiteDeProduction from './documentModificationSiteDeProduction.valueType.js';
 
 export * as Abandon from './abandon/index.js';

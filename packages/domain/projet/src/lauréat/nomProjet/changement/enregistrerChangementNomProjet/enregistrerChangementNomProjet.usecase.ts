@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
-import { TypeDocumentNomProjet } from '../../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentNomProjet } from '../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 
 import { EnregistrerChangementNomProjetCommand } from './enregistrerChangementNomProjet.command.js';
@@ -32,12 +32,11 @@ export const registerEnregistrerChangementNomProjetUseCase = () => {
     pièceJustificativeValue,
     raisonValue,
   }) => {
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentNomProjet.pièceJustificative.formatter(),
-      enregistréLeValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = DocumentNomProjet.pièceJustificative({
+      identifiantProjet: identifiantProjetValue,
+      enregistréLe: enregistréLeValue,
+      pièceJustificative: pièceJustificativeValue,
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
