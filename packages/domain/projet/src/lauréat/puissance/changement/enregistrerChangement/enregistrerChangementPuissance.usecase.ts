@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeDocumentPuissance } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentPuissance } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { EnregistrerChangementPuissanceCommand } from './enregistrerChangementPuissance.command.js';
@@ -38,12 +35,11 @@ export const registerEnregistrerChangementPuissanceUseCase = () => {
     raisonValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentPuissance.pièceJustificative.formatter(),
-          dateChangementValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentPuissance.pièceJustificative({
+          identifiantProjet: identifiantProjetValue,
+          demandéLe: dateChangementValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
       : undefined;
 
     if (pièceJustificative) {

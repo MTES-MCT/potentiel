@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeDocumentPuissance } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentPuissance } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { AccorderChangementPuissanceCommand } from './accorderChangementPuissance.command.js';
@@ -47,12 +44,11 @@ export const registerAccorderChangementPuissanceUseCase = () => {
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const accordéPar = Email.convertirEnValueType(accordéParValue);
     const réponseSignée = réponseSignéeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentPuissance.changementAccordé.formatter(),
-          accordéLe.formatter(),
-          réponseSignéeValue.format,
-        )
+      ? DocumentPuissance.changementAccordé({
+          identifiantProjet: identifiantProjetValue,
+          accordéLe: accordéLeValue,
+          réponseSignée: { format: réponseSignéeValue.format },
+        })
       : undefined;
 
     await mediator.send<AccorderChangementPuissanceCommand>({

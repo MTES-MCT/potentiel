@@ -86,7 +86,7 @@ export type * from './changement/changementPuissance.entity.js';
 
 // ValueType
 export * as StatutChangementPuissance from './valueType/statutChangementPuissance.valueType.js';
-export * as TypeDocumentPuissance from './valueType/typeDocumentPuissance.valueType.js';
+export * as DocumentPuissance from './valueType/documentPuissance.valueType.js';
 export * as RatioChangementPuissance from './valueType/ratioChangementPuissance.valueType.js';
 export * as AutoritéCompétente from './valueType/autoritéCompétente.valueType.js';
 export * as VolumeRéservé from './valueType/volumeRéservé.valueType.js';

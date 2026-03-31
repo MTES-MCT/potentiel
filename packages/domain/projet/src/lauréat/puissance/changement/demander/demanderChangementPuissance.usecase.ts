@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { TypeDocumentPuissance } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { DocumentPuissance } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { DemanderChangementCommand } from './demanderChangementPuissance.command.js';
@@ -41,12 +38,11 @@ export const registerDemanderChangementPuissanceUseCase = () => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentPuissance.pièceJustificative.formatter(),
-      dateDemandeValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = DocumentPuissance.pièceJustificative({
+      identifiantProjet: identifiantProjetValue,
+      demandéLe: dateDemandeValue,
+      pièceJustificative: pièceJustificativeValue,
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
