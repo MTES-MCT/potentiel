@@ -16,7 +16,13 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const fixture =
+    const {
+      demandéLe,
+      demandéPar,
+      nomReprésentantLégal,
+      pièceJustificative,
+      typeReprésentantLégal,
+    } =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
         {},
       );
@@ -25,11 +31,11 @@ EtantDonné(
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
-        nomReprésentantLégalValue: fixture.nomReprésentantLégal,
-        typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: convertFixtureFileToReadableStream(fixture.pièceJustificative),
-        identifiantUtilisateurValue: fixture.demandéPar,
-        dateDemandeValue: fixture.demandéLe,
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+        identifiantUtilisateurValue: demandéPar,
+        dateDemandeValue: demandéLe,
       },
     });
   },

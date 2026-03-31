@@ -1,17 +1,17 @@
 import { faker } from '@faker-js/faker';
-import { contentType } from 'mime-types';
+import mimeTypes from 'mime-types';
 
 import { PièceJustificative } from '../PièceJustificative.js';
 
-export const getFakeDocument = (): PièceJustificative => {
+export const getFakeDocument = (contentType?: string): PièceJustificative => {
   return {
-    format: getFakeFormat(),
+    format: contentType ?? getFakeFormat(),
     content: faker.word.words(),
   };
 };
 
 const getFakeFormat = (): string => {
-  const value = contentType(faker.system.fileExt());
+  const value = mimeTypes.contentType(faker.system.fileExt());
 
   if (!value) {
     return getFakeFormat();

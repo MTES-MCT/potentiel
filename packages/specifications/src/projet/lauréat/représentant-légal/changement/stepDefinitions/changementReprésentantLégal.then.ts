@@ -77,9 +77,7 @@ async function vérifierDemande(this: PotentielWorld) {
     const actual = mapToPlainObject(demande);
 
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.should.be.deep.equal(expected);
@@ -92,10 +90,8 @@ async function vérifierDemande(this: PotentielWorld) {
 
       await expectFileContent(
         demande.demande.pièceJustificative,
-        corrigerChangementReprésentantLégalFixture.aÉtéCréé &&
-          corrigerChangementReprésentantLégalFixture.pièceJustificative
-          ? corrigerChangementReprésentantLégalFixture.pièceJustificative
-          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative,
+        corrigerChangementReprésentantLégalFixture.pièceJustificative ??
+          demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative,
       );
     }
   });
@@ -118,9 +114,7 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
 
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.should.be.deep.equal(expected);
@@ -215,9 +209,7 @@ async function vérifierInstructionAutomatiqueDemande(
 
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.demande.statut.should.be.deep.equal(expected.demande.statut);

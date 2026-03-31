@@ -1,5 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+
+import { ReprésentantLégalWorld } from '../représentantLégal.world.js';
 
 import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerChangementReprésentantLégal.fixture.js';
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture.js';
@@ -33,7 +35,7 @@ export class ChangementReprésentantLégalWorld {
     return this.#rejeterChangementReprésentantLégalFixture;
   }
 
-  constructor() {
+  constructor(public readonly représentantLégalWorld: ReprésentantLégalWorld) {
     this.#demanderOuEnregistrerChangementReprésentantLégalFixture =
       new DemanderChangementReprésentantLégalFixture();
     this.#annulerChangementReprésentantLégalFixture =
@@ -46,9 +48,7 @@ export class ChangementReprésentantLégalWorld {
       new RejeterChangementReprésentantLégalFixture();
   }
 
-  mapToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-  ): Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
+  mapToExpected(): Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
     const expectedStatut = this.annulerChangementReprésentantLégalFixture.aÉtéCréé
       ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.annulé
       : this.accorderChangementReprésentantLégalFixture.aÉtéCréé
@@ -57,6 +57,7 @@ export class ChangementReprésentantLégalWorld {
           ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté
           : this.demanderOuEnregistrerChangementReprésentantLégalFixture.statut;
 
+    const identifiantProjet = this.représentantLégalWorld.lauréatWorld.identifiantProjet;
     const expected: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
       demande: {

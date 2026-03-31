@@ -1,6 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
+import { faker } from '@faker-js/faker';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -228,7 +229,7 @@ async function demanderChangement(
 ) {
   const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
     this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
-      { ...partialFixture },
+      partialFixture,
     );
 
   try {
@@ -263,6 +264,12 @@ async function corrigerDemandeChangement(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.corrigerChangementReprésentantLégalFixture.créer(
         {
           ...partialFixture,
+          // dans le processus de correction, le use case attend que le format du nouveau document soit le même que l'original
+          // ce edge case est peut-être à revoir...
+          pièceJustificative: faker.potentiel.document(
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected()
+              .demande.pièceJustificative.format,
+          ),
         },
       );
 

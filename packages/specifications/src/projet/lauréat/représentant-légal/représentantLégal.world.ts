@@ -1,6 +1,8 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
+import { LauréatWorld } from '../lauréat.world.js';
+
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture.js';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world.js';
 
@@ -21,9 +23,9 @@ export class ReprésentantLégalWorld {
     return this.#modifierReprésentantLégalFixture;
   }
 
-  constructor() {
+  constructor(public readonly lauréatWorld: LauréatWorld) {
     // Subworld
-    this.#changementReprésentantLégalWorld = new ChangementReprésentantLégalWorld();
+    this.#changementReprésentantLégalWorld = new ChangementReprésentantLégalWorld(this);
 
     this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();
   }

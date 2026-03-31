@@ -10,7 +10,7 @@ declare module '@faker-js/faker' {
   interface Faker {
     potentiel: {
       identifiantProjet: typeof getFakeIdentifiantProjet;
-      document: () => PièceJustificative;
+      document: (contentType?: string) => PièceJustificative;
       location: typeof getFakeLocation;
     };
   }
