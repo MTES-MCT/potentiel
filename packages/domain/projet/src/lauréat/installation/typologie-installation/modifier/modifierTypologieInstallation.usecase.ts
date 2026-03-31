@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, IdentifiantProjet } from '../../../../index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { TypologieInstallation } from '../../../../candidature/index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { TypeDocumentTypologieInstallation } from '../../index.js';
+import { DocumentTypologieInstallation } from '../../index.js';
 
 import { ModifierTypologieInstallationCommand } from './modifierTypologieInstallation.command.js';
 
@@ -34,12 +34,11 @@ export const registerModifierTypologieInstallationUseCase = () => {
     pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentTypologieInstallation.pièceJustificative.formatter(),
-          dateModificationValue,
-          pièceJustificativeValue.format,
-        )
+      ? DocumentTypologieInstallation.pièceJustificative({
+          identifiantProjet: identifiantProjetValue,
+          enregistréLe: dateModificationValue,
+          pièceJustificative: pièceJustificativeValue,
+        })
       : undefined;
 
     if (pièceJustificative) {
