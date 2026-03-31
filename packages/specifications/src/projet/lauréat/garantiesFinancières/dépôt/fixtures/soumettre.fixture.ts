@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { PièceJustificative } from '#helpers';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
+import { AbstractFixture } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
 export interface SoumettreDépôtGarantiesFinancières {
@@ -17,8 +17,7 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly attestation: PièceJustificative;
 }
 
-export type SoumettreDépôtGarantiesFinancièresProps =
-  DeepPartial<SoumettreDépôtGarantiesFinancières>;
+export type SoumettreDépôtGarantiesFinancièresProps = Partial<SoumettreDépôtGarantiesFinancières>;
 
 export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixture<SoumettreDépôtGarantiesFinancières> {
   #type!: string;
@@ -69,9 +68,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       soumisLe: new Date().toISOString(),
       soumisPar: faker.internet.email(),
       dateConstitution: faker.date.recent().toISOString(),
-      ...partialData,
       attestation: faker.potentiel.document(),
+      ...partialData,
     };
+
     this.#type = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;

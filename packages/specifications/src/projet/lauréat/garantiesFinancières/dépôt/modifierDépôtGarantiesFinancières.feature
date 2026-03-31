@@ -77,7 +77,6 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | type GF | exemption |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    @select
     Scénario: Impossible de modifier un dépôt de garanties financières sans modification
         Etant donné un dépôt de garanties financières avec :
             | type GF         | <type GF actuel>           |

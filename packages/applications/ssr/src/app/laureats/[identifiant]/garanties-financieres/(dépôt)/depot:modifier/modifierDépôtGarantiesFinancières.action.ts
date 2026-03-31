@@ -40,7 +40,6 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
               : undefined,
           dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
           attestationValue: data.attestation,
-          // cas particulier avec GFs
           estUnNouveauDocument: data.attestationDocumentSelection === 'edit_document',
           modifiéLeValue: new Date().toISOString(),
           modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),

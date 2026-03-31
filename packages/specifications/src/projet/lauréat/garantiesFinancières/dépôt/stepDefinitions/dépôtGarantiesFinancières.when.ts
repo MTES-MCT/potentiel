@@ -56,13 +56,16 @@ Quand(
 Quand(
   'le porteur modifie le dépôt de garanties financières avec les mêmes valeurs',
   async function (this: PotentielWorld) {
+    const props: SoumettreDépôtGarantiesFinancièresProps = {
+      type: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.type,
+      dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateÉchéance,
+      dateConstitution:
+        this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateConstitution,
+      attestation: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.attestation,
+    };
+
     try {
-      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, {
-        type: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.type,
-        dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateÉchéance,
-        dateConstition:
-          this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateConstitution,
-      });
+      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, props, true);
     } catch (error) {
       this.error = error as Error;
     }
@@ -160,6 +163,7 @@ export async function validerDépôtEnCours(
     validéPar: this.utilisateurWorld.drealFixture.email,
     ...props,
   });
+
   await mediator.send<Lauréat.GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
     data: {
