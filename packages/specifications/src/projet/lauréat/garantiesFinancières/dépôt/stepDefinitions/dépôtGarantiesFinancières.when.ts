@@ -4,9 +4,9 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world.js';
-import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture.js';
-import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture.js';
+import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/validerDépôt.fixture.js';
 import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
+import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettreDépôt.fixture.js';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet lauréat',
@@ -130,10 +130,10 @@ export async function modifierDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
+  const { attestation, dateConstitution, modifiéLe, modifiéPar, type, dateÉchéance } =
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
       ...props,
-      soumisPar: this.utilisateurWorld.porteurFixture.email,
+      modifiéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
   await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
@@ -144,8 +144,8 @@ export async function modifierDépôt(
         typeValue: type,
         dateÉchéanceValue: dateÉchéance,
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        modifiéLeValue: new Date(soumisLe).toISOString(),
-        modifiéParValue: soumisPar,
+        modifiéLeValue: new Date(modifiéLe).toISOString(),
+        modifiéParValue: modifiéPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
         estUnNouveauDocumentValue:
           JSON.stringify(props.attestation) !==

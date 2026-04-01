@@ -119,6 +119,7 @@ export class GarantiesFinancièresActuellesWorld {
 
     return gfReadModel;
   }
+
   mapToAttestation() {
     const lastAction = [this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)

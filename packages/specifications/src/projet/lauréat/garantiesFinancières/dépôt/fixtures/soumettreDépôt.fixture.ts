@@ -9,12 +9,12 @@ import { AbstractFixture } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
 export interface SoumettreDépôtGarantiesFinancières {
-  readonly type: string;
-  readonly dateConstitution: string;
-  readonly dateÉchéance: string | undefined;
-  readonly soumisLe: string;
-  readonly soumisPar: string;
-  readonly attestation: PièceJustificative;
+  type: string;
+  dateConstitution: string;
+  dateÉchéance: string | undefined;
+  soumisLe: string;
+  soumisPar: string;
+  attestation: PièceJustificative;
 }
 
 export type SoumettreDépôtGarantiesFinancièresProps = Partial<SoumettreDépôtGarantiesFinancières>;
@@ -41,9 +41,8 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return this.#soumisPar;
   }
 
-  #attestation!: SoumettreDépôtGarantiesFinancières['attestation'];
-
-  get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
+  #attestation!: PièceJustificative;
+  get attestation(): PièceJustificative {
     return this.#attestation;
   }
 

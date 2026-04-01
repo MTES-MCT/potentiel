@@ -45,9 +45,9 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return this.#enregistréPar;
   }
 
-  #attestation!: EnregistrerGarantiesFinancières['attestation'];
+  #attestation!: PièceJustificative;
 
-  get attestation(): EnregistrerGarantiesFinancières['attestation'] {
+  get attestation(): PièceJustificative {
     return this.#attestation;
   }
 

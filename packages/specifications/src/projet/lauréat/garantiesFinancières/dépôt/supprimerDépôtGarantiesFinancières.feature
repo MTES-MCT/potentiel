@@ -14,7 +14,6 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet
@@ -37,7 +36,6 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
-            | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet

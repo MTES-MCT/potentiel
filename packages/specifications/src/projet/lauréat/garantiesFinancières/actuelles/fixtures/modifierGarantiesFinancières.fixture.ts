@@ -6,8 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
-
-export type Attestation = { format: string; content: string };
+import { PièceJustificative } from '../../commonType.js';
 
 export type ModifierGarantiesFinancières = {
   type: string;
@@ -52,9 +51,9 @@ export class ModifierGarantiesFinancièresFixture extends AbstractFixture<Modifi
     return this.#estUnNouveauDocument;
   }
 
-  #attestation!: Attestation;
+  #attestation!: PièceJustificative;
 
-  get attestation(): Attestation {
+  get attestation(): PièceJustificative {
     return this.#attestation;
   }
 
