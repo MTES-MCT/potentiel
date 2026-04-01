@@ -1,11 +1,10 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -37,14 +36,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-      if (Option.isNone(actuel)) {
-        return notFound();
-      }
-
       return (
         <ModifierDispositifDeStockagePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          dispositifDeStockage={mapToPlainObject(actuel.dispositifDeStockage)}
+          dispositifDeStockage={
+            Option.isSome(actuel) ? mapToPlainObject(actuel.dispositifDeStockage) : undefined
+          }
         />
       );
     }),

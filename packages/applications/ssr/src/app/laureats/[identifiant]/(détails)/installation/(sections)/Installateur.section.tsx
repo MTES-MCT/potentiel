@@ -38,7 +38,9 @@ export const InstallateurSection = ({
         domain: 'installateur',
       });
 
-      const value = mapToPlainObject(installation?.installateur);
+      const value = installation?.installateur
+        ? mapToPlainObject(installation.installateur)
+        : undefined;
 
       return (
         <Section title={sectionTitle}>
