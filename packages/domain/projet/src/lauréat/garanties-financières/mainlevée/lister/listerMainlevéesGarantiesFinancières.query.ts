@@ -8,7 +8,7 @@ import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  TypeDocumentRéponseMainlevée,
+  DocumentMainlevée,
 } from '../../index.js';
 import { LauréatEntity } from '../../../index.js';
 
@@ -142,24 +142,22 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet).formatter(),
-          TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
-          mainlevée.accord.accordéeLe,
-          mainlevée.accord.courrierAccord.format,
-        ),
+        courrierAccord: DocumentMainlevée.demandeAccordée({
+          identifiantProjet: mainlevée.identifiantProjet,
+          accordéLe: mainlevée.accord.accordéeLe,
+          reponseSignée: mainlevée.accord.courrierAccord,
+        }),
       }
     : undefined,
   rejet: mainlevée.rejet
     ? {
         rejetéLe: DateTime.convertirEnValueType(mainlevée.rejet.rejetéLe),
         rejetéPar: Email.convertirEnValueType(mainlevée.rejet.rejetéPar),
-        courrierRejet: DocumentProjet.convertirEnValueType(
-          mainlevée.identifiantProjet,
-          TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeRejetéeValueType.formatter(),
-          mainlevée.rejet.rejetéLe,
-          mainlevée.rejet.courrierRejet.format,
-        ),
+        courrierRejet: DocumentMainlevée.demandeRejetée({
+          identifiantProjet: mainlevée.identifiantProjet,
+          rejetéLe: mainlevée.rejet.rejetéLe,
+          reponseSignée: mainlevée.rejet.courrierRejet,
+        }),
       }
     : undefined,
   dernièreMiseÀJour: {

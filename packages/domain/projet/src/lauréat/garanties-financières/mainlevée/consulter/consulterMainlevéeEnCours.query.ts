@@ -9,7 +9,7 @@ import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  TypeDocumentRéponseMainlevée,
+  DocumentMainlevée,
 } from '../../index.js';
 import { LauréatEntity } from '../../../index.js';
 
@@ -94,12 +94,11 @@ const mapToReadModel = (
     ? {
         accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet).formatter(),
-          TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
-          mainlevée.accord.accordéeLe,
-          mainlevée.accord.courrierAccord.format,
-        ),
+        courrierAccord: DocumentMainlevée.demandeAccordée({
+          identifiantProjet: mainlevée.identifiantProjet,
+          accordéLe: mainlevée.accord.accordéeLe,
+          reponseSignée: mainlevée.accord.courrierAccord,
+        }),
       }
     : undefined,
   dernièreMiseÀJour: {

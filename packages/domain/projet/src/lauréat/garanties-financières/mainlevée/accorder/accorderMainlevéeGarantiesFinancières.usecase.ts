@@ -2,12 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { TypeDocumentRéponseMainlevée } from '../../index.js';
+import { DocumentMainlevée } from '../../index.js';
 
 import { AccorderMainlevéeGarantiesFinancièresCommand } from './accorderMainlevéeGarantiesFinancières.command.js';
 
@@ -34,12 +31,13 @@ export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const accordéPar = Email.convertirEnValueType(accordéParValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
-      accordéLe.formatter(),
-      format,
-    );
+    const réponseSignée = DocumentMainlevée.demandeAccordée({
+      identifiantProjet: identifiantProjetValue,
+      accordéLe: accordéLeValue,
+      reponseSignée: {
+        format,
+      },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
