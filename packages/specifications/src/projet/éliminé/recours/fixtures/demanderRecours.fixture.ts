@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface DemanderRecours {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -14,14 +15,10 @@ export class DemanderRecoursFixture
   extends AbstractFixture<DemanderRecours>
   implements DemanderRecours
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): DemanderRecours['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -43,24 +40,18 @@ export class DemanderRecoursFixture
   }
 
   créer(partialData?: Partial<DemanderRecours>): Readonly<DemanderRecours> {
-    const content = faker.word.words();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialData,
     };
 
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
     return fixture;

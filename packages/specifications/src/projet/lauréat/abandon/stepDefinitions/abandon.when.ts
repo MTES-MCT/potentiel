@@ -4,6 +4,8 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (this: PotentielWorld) {
@@ -22,7 +24,7 @@ Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (th
         data: {
           identifiantProjetValue: identifiantProjet,
           raisonValue: raison,
-          pièceJustificativeValue: pièceJustificative,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },
@@ -78,7 +80,7 @@ Quand(
           identifiantProjetValue: identifiantProjet,
           rôleUtilisateurValue: rôle,
           dateRejetValue: rejetéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: rejetéePar,
         },
       });
@@ -112,7 +114,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet,
           dateAccordValue: accordéLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
           rôleUtilisateurValue: rôle,
         },
@@ -141,7 +143,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet,
           dateDemandeDeConfirmationValue: confirmationDemandéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: confirmationDemandéePar,
           rôleUtilisateurValue: rôle,
         },

@@ -6,10 +6,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { expectFileContent } from '../../../../../helpers/expectFileContent.js';
 
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable`,

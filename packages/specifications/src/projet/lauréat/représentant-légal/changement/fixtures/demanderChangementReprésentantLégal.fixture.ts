@@ -2,10 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { AbstractFixture } from '../../../../../fixture.js';
 
 export type CréerDemandeChangementReprésentantLégalFixture = Partial<
   Readonly<DemanderChangementReprésentantLégal>
@@ -36,14 +35,9 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #format!: string;
-  #content!: string;
-
-  get pièceJustificative(): DemanderChangementReprésentantLégal['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  #pièceJustificative!: PièceJustificative;
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -79,23 +73,17 @@ export class DemanderChangementReprésentantLégalFixture
   créer(
     partialFixture: CréerDemandeChangementReprésentantLégalFixture,
   ): Readonly<DemanderChangementReprésentantLégal> {
-    const content = faker.word.words();
-
     const fixture = {
       statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
-      pièceJustificative: {
-        format: 'application/pdf',
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
@@ -105,7 +93,7 @@ export class DemanderChangementReprésentantLégalFixture
 
     this.aÉtéCréé = true;
 
-    this.#ajouterDemandePrécédente({ ...fixture, content });
+    this.#ajouterDemandePrécédente({ ...fixture, content: fixture.pièceJustificative.content });
 
     return fixture;
   }

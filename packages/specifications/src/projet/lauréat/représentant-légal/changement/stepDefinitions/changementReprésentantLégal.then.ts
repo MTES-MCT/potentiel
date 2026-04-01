@@ -4,12 +4,11 @@ import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat, Document } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString.js';
 
 Alors(
   'le changement enregistré du représentant légal du projet lauréat devrait être consultable',
@@ -78,38 +77,22 @@ async function vérifierDemande(this: PotentielWorld) {
     const actual = mapToPlainObject(demande);
 
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.should.be.deep.equal(expected);
 
     if (Option.isSome(demande)) {
-      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: demande.demande.pièceJustificative.formatter(),
-        },
-      });
-
-      assert(Option.isSome(result), `Pièce justificative non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-
       const {
         demanderOuEnregistrerChangementReprésentantLégalFixture,
         corrigerChangementReprésentantLégalFixture,
       } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
 
-      const expectedContent = await convertReadableStreamToString(
-        corrigerChangementReprésentantLégalFixture.aÉtéCréé &&
-          corrigerChangementReprésentantLégalFixture.pièceJustificative
-          ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
-          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
+      await expectFileContent(
+        demande.demande.pièceJustificative,
+        corrigerChangementReprésentantLégalFixture.pièceJustificative ??
+          demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative,
       );
-
-      actualContent.should.be.equal(expectedContent);
     }
   });
 }
@@ -131,9 +114,7 @@ async function vérifierInstructionDemande(this: PotentielWorld) {
 
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.should.be.deep.equal(expected);
@@ -228,9 +209,7 @@ async function vérifierInstructionAutomatiqueDemande(
 
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-        identifiantProjet,
-      ),
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(),
     );
 
     actual.demande.statut.should.be.deep.equal(expected.demande.statut);

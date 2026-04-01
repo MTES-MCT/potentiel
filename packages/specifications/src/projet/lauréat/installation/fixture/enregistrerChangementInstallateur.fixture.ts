@@ -1,16 +1,14 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
-interface EnregistrerChangementInstallateurJustificatif {
-  readonly content: string;
-  readonly format: string;
-}
 interface EnregistrerChangementInstallateur {
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly installateur: string;
-  readonly pièceJustificative: EnregistrerChangementInstallateurJustificatif;
+  readonly pièceJustificative: PièceJustificative;
   readonly raison: string;
 }
 
@@ -30,14 +28,10 @@ export class EnregistrerChangementInstallateurFixture
     return this.#enregistréPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): EnregistrerChangementInstallateur['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -54,14 +48,10 @@ export class EnregistrerChangementInstallateurFixture
   créer(
     partialData?: Partial<EnregistrerChangementInstallateur>,
   ): Readonly<EnregistrerChangementInstallateur> {
-    const content = faker.word.words();
     const fixture: EnregistrerChangementInstallateur = {
       enregistréLe: faker.date.recent().toISOString(),
       enregistréPar: faker.internet.email(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       installateur: faker.company.name(),
       raison: faker.word.words(),
       ...partialData,
@@ -70,8 +60,7 @@ export class EnregistrerChangementInstallateurFixture
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
     this.#installateur = fixture.installateur;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

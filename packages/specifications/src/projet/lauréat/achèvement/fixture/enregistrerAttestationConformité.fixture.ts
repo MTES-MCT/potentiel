@@ -50,11 +50,7 @@ export class EnregistrerAttestationConformitéFixture
     const fixture: EnregistrerAttestationConformité = {
       enregistréeLe: faker.date.soon().toISOString(),
       enregistréePar: faker.internet.email(),
-      attestation: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
-
+      attestation: faker.potentiel.document(),
       ...partialFixture,
     };
 

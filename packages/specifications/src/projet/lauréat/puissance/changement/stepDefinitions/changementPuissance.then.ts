@@ -5,12 +5,11 @@ import { assert, expect } from 'chai';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Document } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString.js';
 
 Alors(
   'la demande de changement de puissance devrait être consultable',
@@ -150,24 +149,12 @@ async function vérifierChangementPuissance(
         .aÉtéCréé
     ) {
       expect(demandeEnCours.demande.accord).to.be.not.undefined;
-
-      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: demandeEnCours.demande.accord?.réponseSignée
-            ? demandeEnCours.demande.accord.réponseSignée.formatter()
-            : '',
-        },
-      });
-
-      assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-      const expectedContent = await convertReadableStreamToString(
+      assert(Option.isSome(demandeEnCours));
+      await expectFileContent(
+        demandeEnCours.demande.accord?.réponseSignée ?? Option.none,
         this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
-          .réponseSignée?.content ?? new ReadableStream(),
+          .réponseSignée,
       );
-      expect(actualContent).to.be.equal(expectedContent);
     }
 
     if (
@@ -175,24 +162,12 @@ async function vérifierChangementPuissance(
         .aÉtéCréé
     ) {
       expect(demandeEnCours.demande.rejet).to.be.not.undefined;
-
-      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: demandeEnCours.demande.rejet
-            ? demandeEnCours.demande.rejet.réponseSignée.formatter()
-            : '',
-        },
-      });
-
-      assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-      const expectedContent = await convertReadableStreamToString(
+      assert(Option.isSome(demandeEnCours));
+      await expectFileContent(
+        demandeEnCours.demande.rejet?.réponseSignée ?? Option.none,
         this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
-          .réponseSignée?.content ?? new ReadableStream(),
+          .réponseSignée,
       );
-      expect(actualContent).to.be.equal(expectedContent);
     }
   });
 }

@@ -1,16 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Document } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString.js';
 
 Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,
@@ -106,65 +104,26 @@ async function vérifierRecours(
 
   actualDemandeRecours.should.be.deep.equal(expectedDemandeRecours);
 
-  const pièceJustificative = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-    type: 'Document.Query.ConsulterDocumentProjet',
-    data: {
-      documentKey: Option.match(demandeRecours)
-        .some<string>(({ demande: { pièceJustificative: piéceJustificative } }) =>
-          piéceJustificative.formatter(),
-        )
-        .none(() => ''),
-    },
-  });
+  assert(Option.isSome(demandeRecours));
 
-  assert(Option.isSome(pièceJustificative), `Pièce justificative non trouvée !`);
-
-  const actualPièceJustificativeContent = await convertReadableStreamToString(
-    pièceJustificative.content,
+  await expectFileContent(
+    demandeRecours.demande.pièceJustificative,
+    this.éliminéWorld.recoursWorld.demanderRecoursFixture.pièceJustificative,
   );
-  const expectedPièceJustificativeContent = await convertReadableStreamToString(
-    this.éliminéWorld.recoursWorld.demanderRecoursFixture.pièceJustificative.content,
-  );
-
-  expect(actualPièceJustificativeContent).to.be.equal(expectedPièceJustificativeContent);
 
   if (this.éliminéWorld.recoursWorld.accorderRecoursFixture.aÉtéCréé) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeRecours)
-          .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
-
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.éliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée?.content ??
-        new ReadableStream(),
+    assert(demandeRecours.demande.accord, `L'accord de recours est absent`);
+    await expectFileContent(
+      demandeRecours.demande.accord.réponseSignée,
+      this.éliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée,
     );
-    expect(actualContent).to.be.equal(expectedContent);
   }
 
   if (this.éliminéWorld.recoursWorld.rejeterRecoursFixture.aÉtéCréé) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeRecours)
-          .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
-
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.éliminéWorld.recoursWorld.rejeterRecoursFixture.réponseSignée?.content ??
-        new ReadableStream(),
+    assert(demandeRecours.demande.rejet, `Le rejet de recours est absent`);
+    await expectFileContent(
+      demandeRecours.demande.rejet.réponseSignée,
+      this.éliminéWorld.recoursWorld.rejeterRecoursFixture.réponseSignée,
     );
-    expect(actualContent).to.be.equal(expectedContent);
   }
 }

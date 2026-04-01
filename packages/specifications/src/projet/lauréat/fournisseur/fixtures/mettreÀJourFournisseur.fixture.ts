@@ -2,8 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 export interface EnregistrerChangementFournisseur {
   readonly évaluationCarbone: number;
@@ -12,21 +13,17 @@ export interface EnregistrerChangementFournisseur {
   readonly misAJourLe: string;
   readonly misAJourPar: string;
 
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class MettreÀJourFournisseurFixture
   extends AbstractFixture<EnregistrerChangementFournisseur>
   implements EnregistrerChangementFournisseur
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): EnregistrerChangementFournisseur['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+    return this.#pièceJustificative;
   }
 
   #évaluationCarbone!: number;
@@ -62,7 +59,6 @@ export class MettreÀJourFournisseurFixture
   créer(
     partialFixture: Partial<Readonly<EnregistrerChangementFournisseur>> & { misAJourPar: string },
   ): Readonly<EnregistrerChangementFournisseur> {
-    const content = faker.word.words();
     const fixture = {
       misAJourLe: faker.date.recent().toISOString(),
       évaluationCarbone: faker.number.float({ fractionDigits: 4 }),
@@ -74,10 +70,7 @@ export class MettreÀJourFournisseurFixture
           lieuDeFabrication: faker.location.country(),
         })),
       raison: faker.word.words(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
@@ -86,8 +79,7 @@ export class MettreÀJourFournisseurFixture
     this.#misAJourPar = fixture.misAJourPar;
     this.#fournisseurs = fixture.fournisseurs;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

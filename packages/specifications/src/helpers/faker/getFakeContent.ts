@@ -1,16 +1,21 @@
 import { faker } from '@faker-js/faker';
+import mimeTypes from 'mime-types';
 
-import { convertStringToReadableStream } from '../convertStringToReadable.js';
+import { PièceJustificative } from '../PièceJustificative.js';
 
-import { getFakeFormat } from './getFakeFormat.js';
-
-export const getFakeContent = (): ReadableStream => {
-  return convertStringToReadableStream(faker.word.words());
-};
-
-export const getFakeDocument = (): { format: string; content: string } => {
+export const getFakeDocument = (contentType?: string): PièceJustificative => {
   return {
-    format: getFakeFormat(),
+    format: contentType ?? getFakeFormat(),
     content: faker.word.words(),
   };
+};
+
+const getFakeFormat = (): string => {
+  const value = mimeTypes.contentType(faker.system.fileExt());
+
+  if (!value) {
+    return getFakeFormat();
+  }
+
+  return value;
 };

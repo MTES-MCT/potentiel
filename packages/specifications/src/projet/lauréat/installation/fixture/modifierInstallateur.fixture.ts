@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface ModifierInstallateur {
@@ -7,10 +9,7 @@ interface ModifierInstallateur {
   readonly modifiéPar: string;
   readonly installateur: string;
   readonly raison: string;
-  readonly pièceJustificative: {
-    readonly content: string;
-    readonly format: string;
-  };
+  readonly pièceJustificative: PièceJustificative;
 }
 
 export class ModifierInstallateurFixture
@@ -35,14 +34,10 @@ export class ModifierInstallateurFixture
     return this.#installateur;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): ModifierInstallateur['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -51,16 +46,11 @@ export class ModifierInstallateurFixture
   }
 
   créer(partialData?: Partial<ModifierInstallateur>): Readonly<ModifierInstallateur> {
-    const content = faker.word.words();
-
     const fixture: ModifierInstallateur = {
       modifiéLe: faker.date.recent().toISOString(),
       modifiéPar: faker.internet.email(),
       installateur: faker.company.name(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       raison: faker.word.words(),
       ...partialData,
     };
@@ -68,8 +58,7 @@ export class ModifierInstallateurFixture
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
     this.#installateur = fixture.installateur;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;

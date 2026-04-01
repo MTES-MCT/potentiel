@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface EnregistrerChangementProducteur {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly producteur: string;
@@ -14,14 +15,10 @@ export class EnregistrerChangementProducteurFixture
   extends AbstractFixture<EnregistrerChangementProducteur>
   implements EnregistrerChangementProducteur
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): EnregistrerChangementProducteur['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #enregistréLe!: string;
@@ -45,23 +42,17 @@ export class EnregistrerChangementProducteurFixture
   créer(
     partialData?: Partial<EnregistrerChangementProducteur>,
   ): Readonly<EnregistrerChangementProducteur> {
-    const content = faker.word.words();
-
     const fixture: EnregistrerChangementProducteur = {
       enregistréLe: faker.date.recent().toISOString(),
       enregistréPar: faker.internet.email(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       producteur: faker.animal.insect(),
       ...partialData,
     };
 
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#producteur = fixture.producteur;
 
     this.aÉtéCréé = true;

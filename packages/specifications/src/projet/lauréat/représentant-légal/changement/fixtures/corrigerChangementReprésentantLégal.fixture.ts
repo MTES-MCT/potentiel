@@ -2,10 +2,9 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { AbstractFixture } from '../../../../../fixture.js';
 
 export type CréerCorrectionChangementReprésentantLégalFixture = Partial<
   Readonly<CorrigerChangementReprésentantLégal>
@@ -43,14 +42,9 @@ export class CorrigerChangementReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #format!: string;
-  #content!: string;
-
-  get pièceJustificative(): CorrigerChangementReprésentantLégal['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  #pièceJustificative!: PièceJustificative;
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #corrigéLe!: string;
@@ -74,25 +68,15 @@ export class CorrigerChangementReprésentantLégalFixture
   créer(
     partialFixture: CréerCorrectionChangementReprésentantLégalFixture,
   ): Readonly<CorrigerChangementReprésentantLégal> {
-    const content = faker.word.words();
-
     const fixture = {
       statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       corrigéLe: faker.date.recent().toISOString(),
       corrigéPar: faker.internet.email(),
-      pièceJustificative: {
-        format: 'application/pdf',
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
-
-    if (fixture.pièceJustificative) {
-      this.#format = fixture.pièceJustificative.format;
-      this.#content = content;
-    }
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
@@ -100,6 +84,7 @@ export class CorrigerChangementReprésentantLégalFixture
     this.#corrigéLe = fixture.corrigéLe;
     this.#corrigéPar = fixture.corrigéPar;
     this.#statut = fixture.statut;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

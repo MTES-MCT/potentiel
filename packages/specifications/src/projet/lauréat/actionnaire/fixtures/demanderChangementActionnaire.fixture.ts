@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 interface DemanderChangementActionnaire {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -15,14 +16,10 @@ export class DemanderChangementActionnaireFixture
   extends AbstractFixture<DemanderChangementActionnaire>
   implements DemanderChangementActionnaire
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): DemanderChangementActionnaire['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -52,16 +49,11 @@ export class DemanderChangementActionnaireFixture
   créer(
     partialData?: Partial<DemanderChangementActionnaire>,
   ): Readonly<DemanderChangementActionnaire> {
-    const content = faker.word.words();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       actionnaire: faker.company.name(),
       ...partialData,
     };
@@ -69,8 +61,7 @@ export class DemanderChangementActionnaireFixture
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#actionnaire = fixture.actionnaire;
 
     this.aÉtéCréé = true;

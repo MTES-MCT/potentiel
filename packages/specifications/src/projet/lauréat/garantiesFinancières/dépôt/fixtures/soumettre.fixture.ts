@@ -3,6 +3,8 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
@@ -12,7 +14,7 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly dateÉchéance: string | undefined;
   readonly soumisLe: string;
   readonly soumisPar: string;
-  readonly attestation: { format: string; content: string };
+  readonly attestation: PièceJustificative;
 }
 
 export type SoumettreDépôtGarantiesFinancièresProps =
@@ -40,14 +42,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return this.#soumisPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #attestation!: SoumettreDépôtGarantiesFinancières['attestation'];
 
   get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#attestation;
   }
 
   constructor(public dépôtGarantiesFinancièresWorld: DépôtGarantiesFinancièresWorld) {
@@ -79,8 +77,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     this.#dateÉchéance = fixture.dateÉchéance;
     this.#soumisLe = fixture.soumisLe;
     this.#soumisPar = fixture.soumisPar;
-    this.#content = fixture.attestation.content;
-    this.#format = fixture.attestation.format;
+    this.#attestation = fixture.attestation;
 
     this.aÉtéCréé = true;
     return fixture;

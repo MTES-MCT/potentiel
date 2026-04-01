@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
+import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,
@@ -56,7 +57,7 @@ async function créerDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.DemanderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
@@ -87,7 +88,7 @@ async function créerAccordRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateAccordValue: accordéeLe,
       identifiantUtilisateurValue: accordéePar,
     },
@@ -108,7 +109,7 @@ async function créerRejetDemandeRecours(this: PotentielWorld) {
     type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
     },

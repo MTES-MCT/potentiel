@@ -3,6 +3,8 @@ import { mediator } from 'mediateur';
 
 import { Éliminé } from '@potentiel-domain/projet';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
@@ -22,7 +24,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
-          pièceJustificativeValue: pièceJustificative,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },
@@ -70,7 +72,7 @@ Quand(
         data: {
           identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateRejetValue: rejetéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: rejetéePar,
         },
       });
@@ -99,7 +101,7 @@ Quand(
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: accordéeLe,
-          réponseSignéeValue: réponseSignée,
+          réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
           identifiantUtilisateurValue: accordéePar,
         },
       });

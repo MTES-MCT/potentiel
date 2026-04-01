@@ -3,9 +3,9 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
+import { AbstractFixture } from '../../../fixture.js';
 
 export type ModifierDemandeComplèteRaccordement = {
   dateQualification: string;
@@ -52,10 +52,7 @@ export class ModifierDemandeComplèteRaccordementFixture
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
       référenceDossier: faker.commerce.isbn(),
-      accuséRéception: {
-        format: faker.potentiel.fileFormat(),
-        content: faker.word.words(),
-      },
+      accuséRéception: faker.potentiel.document(),
       estUnNouveauDocument: true,
       ...partialFixture,
     };

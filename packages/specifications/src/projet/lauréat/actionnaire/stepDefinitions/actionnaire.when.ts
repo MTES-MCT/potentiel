@@ -4,6 +4,8 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
@@ -156,7 +158,7 @@ export async function demanderChangementActionnaire(
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
@@ -192,7 +194,7 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
       accordéLeValue: accordéeLe,
       accordéParValue: accordéePar,
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
     },
   });
 }
@@ -210,7 +212,7 @@ export async function rejeterChangementActionnaire(this: PotentielWorld, utilisa
     data: {
       rejetéLeValue: rejetéeLe,
       rejetéParValue: rejetéePar,
-      réponseSignéeValue: réponseSignée,
+      réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
       identifiantProjetValue: identifiantProjet,
     },
   });
@@ -279,7 +281,7 @@ async function enregistrerChangementActionnaire(
       identifiantUtilisateurValue: demandéPar,
       actionnaireValue: actionnaire,
       dateChangementValue: demandéLe,
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       raisonValue: raison,
     },
   });

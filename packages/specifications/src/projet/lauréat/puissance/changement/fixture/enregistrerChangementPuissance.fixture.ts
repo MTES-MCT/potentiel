@@ -2,11 +2,12 @@ import { faker } from '@faker-js/faker';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 interface EnregistrerChangementPuissance {
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -18,14 +19,10 @@ export class EnregistrerChangementPuissanceFixture
   extends AbstractFixture<EnregistrerChangementPuissance>
   implements EnregistrerChangementPuissance
 {
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
-  get pièceJustificative(): EnregistrerChangementPuissance['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get pièceJustificative(): PièceJustificative {
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -63,16 +60,11 @@ export class EnregistrerChangementPuissanceFixture
   ): Readonly<EnregistrerChangementPuissance> {
     const aoData = appelsOffreData.find((x) => x.id === partialData?.appelOffres);
 
-    const content = faker.word.words();
-
     const fixture: EnregistrerChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ratioPuissance: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
@@ -84,8 +76,7 @@ export class EnregistrerChangementPuissanceFixture
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#ratioPuissance = fixture.ratioPuissance;
     this.#puissanceDeSite = fixture.puissanceDeSite;
 

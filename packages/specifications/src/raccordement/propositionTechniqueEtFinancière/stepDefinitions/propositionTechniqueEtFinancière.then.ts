@@ -3,13 +3,11 @@ import { mediator } from 'mediateur';
 import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Document } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../helpers/convertReadableToString.js';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then.js';
 
 Alors(
@@ -39,19 +37,10 @@ Alors(
         ? this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture
         : this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
 
-      const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey:
-            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
-        },
-      });
-
-      assert(Option.isSome(result), `Proposition technique et financière signée non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-
-      actualContent.should.be.equal(propositionTechniqueEtFinancièreSignée.content);
+      await expectFileContent(
+        propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,
+        propositionTechniqueEtFinancièreSignée,
+      );
     });
   },
 );

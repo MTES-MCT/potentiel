@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable.js';
 
 export interface RejeterChangementPuissance {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: PièceJustificative;
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
   readonly estUneDécisionDEtat: boolean;
@@ -14,14 +15,10 @@ export class RejeterChangementPuissanceFixture
   extends AbstractFixture<RejeterChangementPuissance>
   implements RejeterChangementPuissance
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): RejeterChangementPuissance['réponseSignée'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+  get réponseSignée(): PièceJustificative {
+    return this.#réponseSignée;
   }
 
   #rejetéeLe!: string;
@@ -40,13 +37,8 @@ export class RejeterChangementPuissanceFixture
   }
 
   créer(partialData?: Partial<RejeterChangementPuissance>): Readonly<RejeterChangementPuissance> {
-    const content = faker.word.words();
-
     const fixture = {
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      réponseSignée: faker.potentiel.document(),
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),
       estUneDécisionDEtat: false,
@@ -55,8 +47,7 @@ export class RejeterChangementPuissanceFixture
 
     this.#rejetéeLe = fixture.rejetéeLe;
     this.#rejetéePar = fixture.rejetéePar;
-    this.#format = fixture.réponseSignée.format;
-    this.#content = content;
+    this.#réponseSignée = fixture.réponseSignée;
     this.#estUneDécisionDEtat = fixture.estUneDécisionDEtat;
 
     this.aÉtéCréé = true;

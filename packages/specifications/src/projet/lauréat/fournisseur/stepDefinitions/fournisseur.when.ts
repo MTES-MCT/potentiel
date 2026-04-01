@@ -5,6 +5,8 @@ import { assert } from 'chai';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
@@ -181,7 +183,7 @@ export async function mettreÀJourFournisseur(
         dateValue: misAJourLe,
         identifiantUtilisateurValue: misAJourPar,
         raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         rôleUtilisateurValue: utilisateurFixture.role,
       },
     });

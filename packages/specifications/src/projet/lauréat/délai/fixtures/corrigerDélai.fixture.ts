@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { AbstractFixture } from '../../../../fixture.js';
 
 interface CorrigerDemandeDélai {
   readonly corrigéeLe: string;
@@ -17,16 +16,9 @@ export class CorrigerDemandeDélaiFixture
   extends AbstractFixture<CorrigerDemandeDélai>
   implements CorrigerDemandeDélai
 {
-  #format?: string;
-  #content?: string;
-
+  #pièceJustificative?: PièceJustificative;
   get pièceJustificative(): PièceJustificative | undefined {
-    return this.#format && this.#content
-      ? {
-          format: this.#format,
-          content: convertStringToReadableStream(this.#content),
-        }
-      : undefined;
+    return this.#pièceJustificative;
   }
 
   #corrigéeLe!: string;
@@ -54,17 +46,12 @@ export class CorrigerDemandeDélaiFixture
   }
 
   créer(partialFixture: Partial<Readonly<CorrigerDemandeDélai>>): Readonly<CorrigerDemandeDélai> {
-    const content = faker.word.words();
-
     const fixture = {
       corrigéeLe: faker.date.recent().toISOString(),
       corrigéePar: faker.internet.email(),
       raison: faker.word.words(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
-      pièceJustificative: {
-        format: 'application/pdf',
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
@@ -72,8 +59,7 @@ export class CorrigerDemandeDélaiFixture
     this.#corrigéePar = fixture.corrigéePar;
     this.#raison = fixture.raison;
     this.#nombreDeMois = fixture.nombreDeMois;
-    this.#format = fixture.pièceJustificative ? fixture.pièceJustificative.format : undefined;
-    this.#content = fixture.pièceJustificative ? content : undefined;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

@@ -1,13 +1,14 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 export interface EnregistrerChangementNomProjet {
   readonly nomProjet: string;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
-  readonly pièceJustificative: { format: string; content: ReadableStream };
+  readonly pièceJustificative: PièceJustificative;
   readonly raison: string;
 }
 
@@ -32,14 +33,10 @@ export class EnregistrerChangementNomProjetFixture
     return this.#enregistréPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): EnregistrerChangementNomProjet['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -51,16 +48,11 @@ export class EnregistrerChangementNomProjetFixture
   créer(
     partialFixture: Partial<Readonly<EnregistrerChangementNomProjet>> & { enregistréPar: string },
   ): Readonly<EnregistrerChangementNomProjet> {
-    const content = faker.word.sample();
-
     const fixture = {
       nomProjet: faker.food.dish(),
       enregistréLe: faker.date.recent().toISOString(),
       raison: faker.company.buzzPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
@@ -68,8 +60,7 @@ export class EnregistrerChangementNomProjetFixture
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

@@ -163,7 +163,7 @@ export class LauréatWorld {
 
   constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
-    this.#représentantLégalWorld = new ReprésentantLégalWorld();
+    this.#représentantLégalWorld = new ReprésentantLégalWorld(this);
     this.#actionnaireWorld = new ActionnaireWorld();
     this.#puissanceWorld = new PuissanceWorld();
     this.#producteurWorld = new ProducteurWorld();

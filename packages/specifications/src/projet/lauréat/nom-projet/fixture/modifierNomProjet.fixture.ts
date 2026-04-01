@@ -1,12 +1,14 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
 
 export interface ModifierNomProjet {
   readonly nomProjet: string;
   readonly modifiéLe: string;
   readonly modifiéPar: string;
-  readonly pièceJustificative?: { format: string; content: string };
+  readonly pièceJustificative?: PièceJustificative;
   readonly raison?: string;
 }
 
@@ -30,14 +32,10 @@ export class ModifierNomProjetFixture
   get modifiéPar(): string {
     return this.#modifiéPar;
   }
-  #format!: string;
-  #content!: string;
+  #pièceJustificative?: PièceJustificative;
 
   get pièceJustificative(): ModifierNomProjet['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -49,16 +47,11 @@ export class ModifierNomProjetFixture
   créer(
     partialFixture: Partial<Readonly<ModifierNomProjet>> & { modifiéPar: string },
   ): Readonly<ModifierNomProjet> {
-    const content = faker.word.sample();
-
     const fixture = {
       nomProjet: faker.food.dish(),
       modifiéLe: faker.date.recent().toISOString(),
       raison: faker.company.buzzPhrase(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
@@ -66,8 +59,7 @@ export class ModifierNomProjetFixture
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
     this.#raison = fixture.raison;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

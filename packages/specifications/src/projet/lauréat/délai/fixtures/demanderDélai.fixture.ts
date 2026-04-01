@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
+import { PièceJustificative } from '#helpers';
 
-type PièceJustificative = { format: string; content: ReadableStream };
+import { AbstractFixture } from '../../../../fixture.js';
 
 export type CréerDemandeDélaiFixture = Partial<Readonly<DemanderDélai>> & {
   identifiantProjet: string;
@@ -18,14 +17,9 @@ interface DemanderDélai {
 }
 
 export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> implements DemanderDélai {
-  #format!: string;
-  #content!: string;
-
+  #pièceJustificative!: PièceJustificative;
   get pièceJustificative(): PièceJustificative {
-    return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
-    };
+    return this.#pièceJustificative;
   }
 
   #demandéLe!: string;
@@ -61,17 +55,12 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
   créer(
     partialFixture: Partial<Readonly<DemanderDélai>> & { identifiantProjet: string },
   ): Readonly<DemanderDélai> {
-    const content = faker.word.words();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
-      pièceJustificative: {
-        format: 'application/pdf',
-        content: convertStringToReadableStream(content),
-      },
+      pièceJustificative: faker.potentiel.document(),
       ...partialFixture,
     };
 
@@ -80,8 +69,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
     this.#raison = fixture.raison;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#identifiantProjet = fixture.identifiantProjet;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
 
     this.aÉtéCréé = true;
 

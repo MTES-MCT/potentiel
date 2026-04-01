@@ -1,17 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Document } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { waitForExpect } from '#helpers';
+import { waitForExpect, expectFileContent } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
-import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString.js';
 
 Alors(
   /l'abandon du projet lauréat devrait être(.*)demandé/,
@@ -213,84 +211,32 @@ async function vérifierDemandeAbandon(
 
   actual.should.be.deep.equal(expected);
 
-  if (this.lauréatWorld.abandonWorld.demanderAbandonFixture.pièceJustificative) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeAbandon)
-          .some(({ demande: { pièceJustificative } }) => pièceJustificative?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
+  assert(Option.isSome(demandeAbandon));
 
-    assert(Option.isSome(result), `Pièce justificative non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.abandonWorld.demanderAbandonFixture.pièceJustificative?.content ??
-        new ReadableStream(),
-    );
-    expect(actualContent).to.be.equal(expectedContent);
-  }
+  await expectFileContent(
+    demandeAbandon.demande.pièceJustificative ?? Option.none,
+    this.lauréatWorld.abandonWorld.demanderAbandonFixture.pièceJustificative,
+  );
 
   if (this.lauréatWorld.abandonWorld.accorderAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeAbandon)
-          .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
-
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.abandonWorld.accorderAbandonFixture.réponseSignée?.content ??
-        new ReadableStream(),
+    await expectFileContent(
+      demandeAbandon.demande.accord?.réponseSignée ?? Option.none,
+      this.lauréatWorld.abandonWorld.accorderAbandonFixture.réponseSignée,
     );
-    expect(actualContent).to.be.equal(expectedContent);
   }
 
   if (this.lauréatWorld.abandonWorld.rejeterAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeAbandon)
-          .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
-
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.abandonWorld.rejeterAbandonFixture.réponseSignée?.content ??
-        new ReadableStream(),
+    await expectFileContent(
+      demandeAbandon.demande.rejet?.réponseSignée ?? Option.none,
+      this.lauréatWorld.abandonWorld.rejeterAbandonFixture.réponseSignée,
     );
-    expect(actualContent).to.be.equal(expectedContent);
   }
 
   if (this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.aÉtéCréé) {
-    const result = await mediator.send<Document.ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: Option.match(demandeAbandon)
-          .some(({ demande: { confirmation } }) => confirmation?.réponseSignée?.formatter() ?? '')
-          .none(() => ''),
-      },
-    });
-
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
-
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.réponseSignée?.content ??
-        new ReadableStream(),
+    await expectFileContent(
+      demandeAbandon.demande.confirmation?.réponseSignée ?? Option.none,
+      this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.réponseSignée,
     );
-    expect(actualContent).to.be.equal(expectedContent);
   }
 }
 

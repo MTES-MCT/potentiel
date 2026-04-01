@@ -3,6 +3,8 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
 
@@ -10,7 +12,7 @@ export interface EnregistrerGarantiesFinancières {
   readonly type: string;
   readonly dateÉchéance: string | undefined;
   readonly dateConstitution: string;
-  readonly attestation: { format: string; content: string };
+  readonly attestation: PièceJustificative;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
 }
@@ -43,14 +45,10 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     return this.#enregistréPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #attestation!: EnregistrerGarantiesFinancières['attestation'];
 
   get attestation(): EnregistrerGarantiesFinancières['attestation'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#attestation;
   }
 
   constructor(
@@ -79,8 +77,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       ...partialData,
       attestation: faker.potentiel.document(),
     };
-    this.#content = fixture.attestation.content;
-    this.#format = fixture.attestation.format;
+    this.#attestation = fixture.attestation;
     this.#garantiesFinancièresType = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;

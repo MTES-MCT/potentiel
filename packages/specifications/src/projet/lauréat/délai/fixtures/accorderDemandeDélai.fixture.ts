@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../fixture.js';
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable.js';
 
 interface AccorderDemandeDélai {
-  readonly réponseSignée: { format: string; content: ReadableStream };
+  readonly réponseSignée: PièceJustificative;
   readonly accordéeLe: string;
   readonly accordéePar: string;
   readonly nombreDeMois: number;
@@ -15,11 +16,10 @@ export class AccorderDemandeDélaiFixture
   extends AbstractFixture<AccorderDemandeDélai>
   implements AccorderDemandeDélai
 {
-  #format!: string;
-  #content!: string;
+  #réponseSignée!: PièceJustificative;
 
-  get réponseSignée(): AccorderDemandeDélai['réponseSignée'] {
-    return { format: this.#format, content: convertStringToReadableStream(this.#content) };
+  get réponseSignée(): PièceJustificative {
+    return this.#réponseSignée;
   }
 
   #accordéeLe!: string;
@@ -47,15 +47,10 @@ export class AccorderDemandeDélaiFixture
   }
 
   créer(partialData?: Partial<AccorderDemandeDélai>): Readonly<AccorderDemandeDélai> {
-    const content = faker.word.words();
-
     const fixture = {
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),
-      réponseSignée: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      réponseSignée: faker.potentiel.document(),
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),
       ...partialData,
@@ -63,10 +58,9 @@ export class AccorderDemandeDélaiFixture
 
     this.#accordéeLe = fixture.accordéeLe;
     this.#accordéePar = fixture.accordéePar;
-    this.#format = fixture.réponseSignée.format;
+    this.#réponseSignée = fixture.réponseSignée;
     this.#nombreDeMois = fixture.nombreDeMois;
     this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
-    this.#content = content;
 
     this.aÉtéCréé = true;
 

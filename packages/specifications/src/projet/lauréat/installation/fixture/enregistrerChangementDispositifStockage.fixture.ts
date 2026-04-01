@@ -2,18 +2,15 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture } from '../../../../fixture.js';
+import { PièceJustificative } from '#helpers';
 
-interface EnregistrerChangementDispositifDeStockageJustificatif {
-  readonly content: string;
-  readonly format: string;
-}
+import { AbstractFixture } from '../../../../fixture.js';
 
 export interface EnregistrerChangementDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.Installation.DispositifDeStockage.RawType;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
-  readonly pièceJustificative: EnregistrerChangementDispositifDeStockageJustificatif;
+  readonly pièceJustificative: PièceJustificative;
   readonly raison: string;
 }
 
@@ -39,14 +36,10 @@ export class EnregistrerChangementDispositifDeStockageFixture
     return this.#enregistréPar;
   }
 
-  #format!: string;
-  #content!: string;
+  #pièceJustificative!: PièceJustificative;
 
   get pièceJustificative(): EnregistrerChangementDispositifDeStockage['pièceJustificative'] {
-    return {
-      format: this.#format,
-      content: this.#content,
-    };
+    return this.#pièceJustificative;
   }
 
   #raison!: string;
@@ -58,7 +51,6 @@ export class EnregistrerChangementDispositifDeStockageFixture
     partialFixture?: Partial<Readonly<EnregistrerChangementDispositifDeStockage>>,
   ): Readonly<EnregistrerChangementDispositifDeStockage> {
     const installationAvecDispositifDeStockage = faker.datatype.boolean();
-    const content = faker.word.words();
 
     const fixture = {
       dispositifDeStockage: installationAvecDispositifDeStockage
@@ -76,18 +68,14 @@ export class EnregistrerChangementDispositifDeStockageFixture
         : { installationAvecDispositifDeStockage },
       enregistréLe: faker.date.recent().toISOString(),
       enregistréPar: faker.internet.email(),
-      pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      pièceJustificative: faker.potentiel.document(),
       raison: faker.word.words(),
       ...partialFixture,
     };
 
     this.#dispositifDeStockage = fixture.dispositifDeStockage;
     this.#enregistréLe = fixture.enregistréLe;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
+    this.#pièceJustificative = fixture.pièceJustificative;
     this.#raison = fixture.raison;
     this.#enregistréPar = fixture.enregistréPar;
 

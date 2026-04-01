@@ -5,6 +5,8 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture.js';
 
@@ -73,7 +75,7 @@ export async function demanderDélai(
         identifiantProjetValue: partialFixture.identifiantProjet,
         nombreDeMoisValue: nombreDeMois,
         raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
       },
@@ -99,6 +101,11 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
             }
           : {
               corrigéePar: this.utilisateurWorld.porteurFixture.email,
+              // dans le processus de correction, le use case attend que le format du nouveau document soit le même que l'original
+              // ce edge case est peut-être à revoir...
+              pièceJustificative: faker.potentiel.document(
+                this.lauréatWorld.délaiWorld.demanderDélaiFixture.pièceJustificative?.format,
+              ),
             },
       );
 
@@ -115,7 +122,9 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
         dateCorrectionValue: corrigéeLe,
         nombreDeMoisValue: nombreDeMois,
         raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
+        pièceJustificativeValue: pièceJustificative
+          ? convertFixtureFileToReadableStream(pièceJustificative)
+          : undefined,
       },
     });
   } catch (error) {
@@ -188,7 +197,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
       data: {
         dateRejetValue: rejetéeLe,
         identifiantUtilisateurValue: rejetéePar,
-        réponseSignéeValue: réponseSignée,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         identifiantProjetValue: identifiantProjet,
         rôleUtilisateurValue: Role.dreal.nom,
       },
@@ -220,7 +229,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
         nombreDeMois,
-        réponseSignéeValue: réponseSignée,
+        réponseSignéeValue: convertFixtureFileToReadableStream(réponseSignée),
         rôleUtilisateurValue: Role.dreal.nom,
       },
     });

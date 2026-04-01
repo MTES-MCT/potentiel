@@ -2,6 +2,8 @@ import { assert } from 'chai';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { PièceJustificative } from '#helpers';
+
 import { LauréatWorld } from '../lauréat.world.js';
 
 import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
@@ -112,7 +114,7 @@ export class AchèvementWorld {
     return result;
   }
 
-  mapToAttestation(): { format: string; content: string } | undefined {
+  mapToAttestation(): PièceJustificative | undefined {
     if (this.modifierAttestationConformitéFixture.attestation) {
       return this.modifierAttestationConformitéFixture.attestation;
     }
@@ -124,7 +126,7 @@ export class AchèvementWorld {
     }
   }
 
-  mapToPreuveTransmissionAuCocontractant(): { format: string; content: string } | undefined {
+  mapToPreuveTransmissionAuCocontractant(): PièceJustificative | undefined {
     if (this.modifierAttestationConformitéFixture.aÉtéCréé) {
       return this.modifierAttestationConformitéFixture.preuve;
     }

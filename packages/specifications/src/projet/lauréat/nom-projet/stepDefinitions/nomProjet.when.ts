@@ -75,7 +75,8 @@ Quand(
           enregistréLeValue: enregistréLe,
           nomProjetValue: nomProjet,
           raisonValue: raison,
-          pièceJustificativeValue: pièceJustificative,
+          pièceJustificativeValue:
+            pièceJustificative && convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
     } catch (e) {
@@ -102,7 +103,8 @@ Quand(
           enregistréLeValue: enregistréLe,
           nomProjetValue: nomProjet,
           raisonValue: raison,
-          pièceJustificativeValue: pièceJustificative,
+          pièceJustificativeValue:
+            pièceJustificative && convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
     } catch (e) {

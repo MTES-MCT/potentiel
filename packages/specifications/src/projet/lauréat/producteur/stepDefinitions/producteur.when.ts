@@ -3,6 +3,8 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { convertFixtureFileToReadableStream } from '#helpers';
+
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
@@ -78,7 +80,7 @@ export async function enregistrerChangementProducteur(
       dateChangementValue: enregistréLe,
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
-      pièceJustificativeValue: pièceJustificative,
+      pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
     },
   });
 }
