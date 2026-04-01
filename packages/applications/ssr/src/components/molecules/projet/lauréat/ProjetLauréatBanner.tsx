@@ -42,6 +42,7 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
         }
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
+        utilisateurDgec={rôle.estDGEC()}
       />
     );
   });
