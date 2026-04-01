@@ -11,6 +11,7 @@ import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner
 import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -41,31 +42,34 @@ export default async function CandidatureLayout({
   children,
   params: { identifiant },
 }: LayoutProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjetValue = decodeParameter(identifiant);
-    const { identifiantProjet, notification, dépôt, instruction } =
-      await getCandidature(identifiantProjetValue);
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async ({ rôle }) => {
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const { identifiantProjet, notification, dépôt, instruction } =
+        await getCandidature(identifiantProjetValue);
 
-    return (
-      <PageTemplate
-        banner={
-          <ProjetBannerTemplate
-            identifiantProjet={identifiantProjet}
-            href={notification ? Routes.Projet.details(identifiantProjet.formatter()) : undefined}
-            nom={dépôt.nomProjet}
-            localité={dépôt.localité}
-            badge={
-              <div className="flex gap-2">
-                <StatutCandidatureBadge statut={instruction.statut.statut} />
-                <NotificationBadge estNotifié={!!notification} />
-              </div>
-            }
-            dateDésignation={notification ? notification.notifiéeLe.formatter() : Option.none}
-          />
-        }
-      >
-        {children}
-      </PageTemplate>
-    );
-  });
+      return (
+        <PageTemplate
+          banner={
+            <ProjetBannerTemplate
+              identifiantProjet={identifiantProjet}
+              href={notification ? Routes.Projet.details(identifiantProjet.formatter()) : undefined}
+              nom={dépôt.nomProjet}
+              localité={dépôt.localité}
+              badge={
+                <div className="flex gap-2">
+                  <StatutCandidatureBadge statut={instruction.statut.statut} />
+                  <NotificationBadge estNotifié={!!notification} />
+                </div>
+              }
+              dateDésignation={notification ? notification.notifiéeLe.formatter() : Option.none}
+              utilisateurDgec={rôle.estDGEC()}
+            />
+          }
+        >
+          {children}
+        </PageTemplate>
+      );
+    }),
+  );
 }
