@@ -45,7 +45,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     });
     const attestation = DocumentGarantiesFinancières.attestationActuelle({
       identifiantProjet: identifiantProjetValue,
-      enregistréLe: dateConstitutionValue,
+      dateConstitution: dateConstitutionValue,
       attestation: { format: attestationValue.format },
     });
     const enregistréLe = DateTime.convertirEnValueType(enregistréLeValue);

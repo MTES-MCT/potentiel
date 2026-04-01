@@ -19,13 +19,13 @@ export const dossierProjetGarantiesFinancières = (identifiantProjet: string) =>
 export const attestationSoumise = DocumentProjet.documentFactory({
   domaine,
   typeDocument: typeAttestationSoumise,
-  nomChampDate: 'soumisLe',
+  nomChampDate: 'dateConstitution',
   nomChampDocument: 'attestation',
 });
 
 export const attestationActuelle = DocumentProjet.documentFactory({
   domaine,
   typeDocument: typeAttestationActuelle,
-  nomChampDate: 'enregistréLe',
+  nomChampDate: 'dateConstitution',
   nomChampDocument: 'attestation',
 });

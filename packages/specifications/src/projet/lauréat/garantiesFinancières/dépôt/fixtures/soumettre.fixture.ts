@@ -108,7 +108,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       document: Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationSoumise({
         identifiantProjet:
           this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-        soumisLe: this.dateConstitution,
+        dateConstitution: this.dateConstitution,
         attestation: { format: this.attestation.format },
       }),
       dernièreMiseÀJour: {

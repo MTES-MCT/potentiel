@@ -75,7 +75,7 @@ const mapToReadModel = ({
         document: garantiesFinancières.estConstitué()
           ? DocumentGarantiesFinancières.attestationActuelle({
               identifiantProjet,
-              enregistréLe: garantiesFinancières.constitution.date.formatter(),
+              dateConstitution: garantiesFinancières.constitution.date.formatter(),
               attestation: garantiesFinancières.constitution.attestation,
             })
           : undefined,

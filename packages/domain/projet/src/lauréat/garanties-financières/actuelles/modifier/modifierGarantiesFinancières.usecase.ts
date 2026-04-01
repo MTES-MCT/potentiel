@@ -46,7 +46,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
 
     const attestation = DocumentGarantiesFinancières.attestationActuelle({
       identifiantProjet: identifiantProjetValue,
-      enregistréLe: dateConstitutionValue,
+      dateConstitution: dateConstitutionValue,
       attestation: { format: attestationValue.format },
     });
 

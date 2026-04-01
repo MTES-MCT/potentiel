@@ -121,7 +121,7 @@ const mapToReadModel = ({
     dateConstitution: DateTime.convertirEnValueType(dépôt.dateConstitution),
     attestation: DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet,
-      soumisLe: dépôt.dateConstitution,
+      dateConstitution: dépôt.dateConstitution,
       attestation: dépôt.attestation,
     }),
     soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),

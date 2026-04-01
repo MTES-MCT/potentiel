@@ -62,7 +62,7 @@ export const handleLauréatNotifié = async (
       data: {
         documentProjet: DocumentGarantiesFinancières.attestationActuelle({
           identifiantProjet,
-          enregistréLe: constitutionGarantiesFinancières.dateConstitution,
+          dateConstitution: constitutionGarantiesFinancières.dateConstitution,
           attestation: constitutionGarantiesFinancières.attestation,
         }),
         content: constitutionGarantiesFinancières.attestation.content,

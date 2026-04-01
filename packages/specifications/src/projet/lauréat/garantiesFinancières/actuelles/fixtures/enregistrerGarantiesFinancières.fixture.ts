@@ -109,7 +109,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       document: Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
         identifiantProjet:
           this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-        enregistréLe: this.#dateConstitution,
+        dateConstitution: this.#dateConstitution,
         attestation: { format: this.attestation.format },
       }),
       dernièreMiseÀJour: {

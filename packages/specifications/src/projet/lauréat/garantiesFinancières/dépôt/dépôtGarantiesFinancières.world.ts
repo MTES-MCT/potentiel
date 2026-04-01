@@ -52,7 +52,7 @@ export class DépôtGarantiesFinancièresWorld {
       dépôt.document =
         Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
           identifiantProjet,
-          enregistréLe: dateCréation,
+          dateConstitution: dateCréation,
           attestation: {
             format,
           },

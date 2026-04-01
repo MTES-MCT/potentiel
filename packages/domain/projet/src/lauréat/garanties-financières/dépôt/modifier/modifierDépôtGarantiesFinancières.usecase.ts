@@ -45,7 +45,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     });
     const documentProjet = DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet: identifiantProjetValue,
-      soumisLe: dateConstitutionValue,
+      dateConstitution: dateConstitutionValue,
       attestation: { format: attestationValue.format },
     });
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
