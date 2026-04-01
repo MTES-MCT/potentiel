@@ -39,7 +39,9 @@ export const DispositifDeStockageSection = ({
         domain: 'dispositifDeStockage',
       });
 
-      const value = mapToPlainObject(installation?.dispositifDeStockage);
+      const value = installation?.dispositifDeStockage
+        ? mapToPlainObject(installation.dispositifDeStockage)
+        : undefined;
 
       return (
         <Section title={sectionTitle}>

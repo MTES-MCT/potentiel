@@ -40,7 +40,9 @@ export const TypologieInstallationSection = ({
         domain: 'typologieInstallation',
       });
 
-      const value = mapToPlainObject(installation?.typologieInstallation);
+      const value = installation?.typologieInstallation
+        ? mapToPlainObject(installation.typologieInstallation)
+        : undefined;
 
       return (
         <Section title={sectionTitle}>
