@@ -20,7 +20,7 @@ const schema = addGarantiesFinancièresToSchema(
     identifiantProjet: zod.string().min(1),
     dateConstitution: zod.string(),
     attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
-    attestationDocumentSelection: documentSelectionSchema,
+    attestationDocumentSelection: documentSelectionSchema.optional(),
   }),
 );
 
