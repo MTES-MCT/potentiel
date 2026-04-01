@@ -78,7 +78,7 @@ export const mapToReadModel = ({
     soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
     validéLe: DateTime.convertirEnValueType(actuelles.validéLe),
     document: garantiesFinancières.estConstitué()
-      ? DocumentGarantiesFinancières.attestationGarantiesFinancières({
+      ? DocumentGarantiesFinancières.attestationActuelle({
           identifiantProjet,
           enregistréLe: garantiesFinancières.constitution.date.formatter(),
           attestation: garantiesFinancières.constitution.attestation,

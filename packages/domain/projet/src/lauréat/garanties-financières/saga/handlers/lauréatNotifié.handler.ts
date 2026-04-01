@@ -60,7 +60,7 @@ export const handleLauréatNotifié = async (
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        documentProjet: DocumentGarantiesFinancières.attestationGarantiesFinancières({
+        documentProjet: DocumentGarantiesFinancières.attestationActuelle({
           identifiantProjet,
           enregistréLe: constitutionGarantiesFinancières.dateConstitution,
           attestation: constitutionGarantiesFinancières.attestation,

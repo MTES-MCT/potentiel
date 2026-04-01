@@ -833,9 +833,9 @@ const policies = {
         référencielPermissions.document.command.enregister,
       ],
       valider: [
+        référencielPermissions.document.command.déplacer,
         référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
         référencielPermissions.lauréat.garantiesFinancières.command.valider,
-        référencielPermissions.document.command.déplacer,
       ],
       supprimer: [
         référencielPermissions.lauréat.garantiesFinancières.usecase

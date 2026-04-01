@@ -43,7 +43,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
         attestation: { format: attestationValue.format },
       },
     });
-    const documentProjet = DocumentGarantiesFinancières.attestationGarantiesFinancièresDépôt({
+    const documentProjet = DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet: identifiantProjetValue,
       soumisLe: dateConstitutionValue,
       attestation: { format: attestationValue.format },

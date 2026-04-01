@@ -106,13 +106,12 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
           date: this.#dateConstitution,
         },
       }),
-      document:
-        Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationGarantiesFinancières({
-          identifiantProjet:
-            this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-          enregistréLe: this.#dateConstitution,
-          attestation: { format: this.attestation.format },
-        }),
+      document: Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
+        identifiantProjet:
+          this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+        enregistréLe: this.#dateConstitution,
+        attestation: { format: this.attestation.format },
+      }),
       dernièreMiseÀJour: {
         date: DateTime.convertirEnValueType(this.enregistréLe),
         par: Email.convertirEnValueType(this.enregistréPar),

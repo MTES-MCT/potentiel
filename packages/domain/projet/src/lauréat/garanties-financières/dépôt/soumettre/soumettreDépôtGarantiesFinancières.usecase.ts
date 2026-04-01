@@ -45,7 +45,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
       },
     });
 
-    const attestation = DocumentGarantiesFinancières.attestationGarantiesFinancièresDépôt({
+    const attestation = DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet: identifiantProjetValue,
       soumisLe: dateConstitutionValue,
       attestation: { format: attestationValue.format },

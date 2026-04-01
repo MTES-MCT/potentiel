@@ -2,30 +2,30 @@ import { DocumentProjet, DossierProjet } from '#document-projet';
 
 const domaine = 'garanties-financieres';
 
-const typeAttestationGarantiesFinancièresSoumises = 'attestation-garanties-financieres-soumises';
-const typeAttestationGarantiesFinancières = 'attestation-garanties-financieres';
+const typeAttestationSoumise = 'attestation-garanties-financieres-soumises';
+const typeAttestationActuelle = 'attestation-garanties-financieres';
 
 export const dossierProjetGarantiesFinancières = (identifiantProjet: string) => ({
   attestationGarantiesFinancièresDépôt: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: `${domaine}/${typeAttestationGarantiesFinancièresSoumises}`,
+    typeDocument: `${domaine}/${typeAttestationSoumise}`,
   }),
   attestationGarantiesFinancières: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: `${domaine}/${typeAttestationGarantiesFinancières}`,
+    typeDocument: `${domaine}/${typeAttestationActuelle}`,
   }),
 });
 
-export const attestationGarantiesFinancièresDépôt = DocumentProjet.documentFactory({
+export const attestationSoumise = DocumentProjet.documentFactory({
   domaine,
-  typeDocument: typeAttestationGarantiesFinancièresSoumises,
+  typeDocument: typeAttestationSoumise,
   nomChampDate: 'soumisLe',
   nomChampDocument: 'attestation',
 });
 
-export const attestationGarantiesFinancières = DocumentProjet.documentFactory({
+export const attestationActuelle = DocumentProjet.documentFactory({
   domaine,
-  typeDocument: typeAttestationGarantiesFinancières,
+  typeDocument: typeAttestationActuelle,
   nomChampDate: 'enregistréLe',
   nomChampDocument: 'attestation',
 });

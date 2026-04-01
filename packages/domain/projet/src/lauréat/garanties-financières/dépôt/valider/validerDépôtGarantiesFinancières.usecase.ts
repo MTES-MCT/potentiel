@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjetCommand, DossierProjet } from '../../../../document-projet/index.js';
+import { DéplacerDossierProjetCommand } from '../../../../document-projet/index.js';
 import { DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
@@ -27,23 +27,14 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
     const validéLe = DateTime.convertirEnValueType(validéLeValue);
     const validéPar = Email.convertirEnValueType(validéParValue);
 
-    await mediator.send<DocumentProjetCommand>({
+    const dossierProjetGarantiesFinancières =
+      DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(identifiantProjetValue);
+
+    await mediator.send<DéplacerDossierProjetCommand>({
       type: 'Document.Command.DéplacerDossierProjet',
       data: {
-        dossierProjetSource: DossierProjet.convertirEnValueType({
-          identifiantProjet: identifiantProjetValue,
-          typeDocument:
-            DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(
-              identifiantProjetValue,
-            ).attestationGarantiesFinancièresDépôt.formatter(),
-        }),
-        dossierProjetTarget: DossierProjet.convertirEnValueType({
-          identifiantProjet: identifiantProjetValue,
-          typeDocument:
-            DocumentGarantiesFinancières.dossierProjetGarantiesFinancières(
-              identifiantProjetValue,
-            ).attestationGarantiesFinancières.formatter(),
-        }),
+        dossierProjetSource: dossierProjetGarantiesFinancières.attestationGarantiesFinancièresDépôt,
+        dossierProjetTarget: dossierProjetGarantiesFinancières.attestationGarantiesFinancières,
       },
     });
 

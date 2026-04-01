@@ -119,7 +119,7 @@ const mapToReadModel = ({
       ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
       : undefined,
     dateConstitution: DateTime.convertirEnValueType(dépôt.dateConstitution),
-    attestation: DocumentGarantiesFinancières.attestationGarantiesFinancièresDépôt({
+    attestation: DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet,
       soumisLe: dépôt.dateConstitution,
       attestation: dépôt.attestation,

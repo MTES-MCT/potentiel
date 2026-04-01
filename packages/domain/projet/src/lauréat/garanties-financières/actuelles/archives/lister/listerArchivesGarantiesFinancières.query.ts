@@ -73,7 +73,7 @@ const mapToReadModel = ({
         motif: MotifArchivageGarantiesFinancières.convertirEnValueType(archive.motifArchivage),
         validéLe: DateTime.convertirEnValueType(archive.validéLe),
         document: garantiesFinancières.estConstitué()
-          ? DocumentGarantiesFinancières.attestationGarantiesFinancières({
+          ? DocumentGarantiesFinancières.attestationActuelle({
               identifiantProjet,
               enregistréLe: garantiesFinancières.constitution.date.formatter(),
               attestation: garantiesFinancières.constitution.attestation,
