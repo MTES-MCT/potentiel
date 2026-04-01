@@ -15,7 +15,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet
         Et les garanties financières actuelles ne devraient pas être consultables
-        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+        Et des garanties financières devraient être attendues avec :
             | motif | changement-producteur |
         Et un historique des garanties financières devrait être consultable avec :
             | raison | changement de producteur |

@@ -26,7 +26,7 @@ Alors(
 );
 
 Alors(
-  `des garanties financières devraient être attendues pour le projet lauréat avec :`,
+  `des garanties financières devraient être attendues avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 

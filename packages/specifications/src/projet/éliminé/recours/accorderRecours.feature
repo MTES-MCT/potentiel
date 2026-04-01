@@ -14,7 +14,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Et le projet lauréat devrait être consultable
         Et les garanties financières actuelles ne devraient pas être consultables
         Et le projet éliminé ne devrait plus être consultable
-        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+        Et des garanties financières devraient être attendues avec :
             | motif | recours-accordé |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
         Et un email a été envoyé à la dgec avec :
@@ -42,7 +42,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
         Et le projet éliminé ne devrait plus être consultable
-        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+        Et des garanties financières devraient être attendues avec :
             | motif | recours-accordé |
         Et les garanties financières actuelles ne devraient pas être consultables
 

@@ -56,7 +56,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date d'échéance | 2024-12-01         |
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors les garanties financières actuelles du projet sont échues
-        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+        Et des garanties financières devraient être attendues avec :
             | motif | échéance-garanties-financières-actuelles |
         Et il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
