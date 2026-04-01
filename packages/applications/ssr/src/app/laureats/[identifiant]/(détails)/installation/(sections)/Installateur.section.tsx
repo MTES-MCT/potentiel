@@ -32,22 +32,13 @@ export const InstallateurSection = ({
 
       const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-      if (!installation) {
-        return (
-          <Section title={sectionTitle}>
-            <span>Champ non renseigné</span>
-          </Section>
-        );
-      }
-
       const action = await getAction({
         identifiantProjet,
         rôle,
         domain: 'installateur',
       });
 
-      const { installateur } = installation;
-      const value = mapToPlainObject(installateur);
+      const value = mapToPlainObject(installation?.installateur);
 
       return (
         <Section title={sectionTitle}>

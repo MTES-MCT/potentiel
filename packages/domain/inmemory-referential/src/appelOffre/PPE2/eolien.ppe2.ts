@@ -122,6 +122,13 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       typologieInstallation: true,
     },
   },
+  // viovio test
+  champsSupplémentaires: {
+    coefficientKChoisi: 'requis',
+    autorisation: 'requis',
+    dispositifDeStockage: 'optionnel',
+    natureDeLExploitation: 'requis',
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',

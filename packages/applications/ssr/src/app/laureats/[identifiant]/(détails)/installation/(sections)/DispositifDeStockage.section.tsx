@@ -30,15 +30,8 @@ export const DispositifDeStockageSection = ({
       if (!champSupplémentaireDispositifDeStockage) {
         return null;
       }
-      const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-      if (!installation) {
-        return (
-          <Section title={sectionTitle}>
-            <span>Champ non renseigné</span>
-          </Section>
-        );
-      }
+      const installation = await getInstallationInfos(identifiantProjet.formatter());
 
       const action = await getAction({
         identifiantProjet,
@@ -46,8 +39,7 @@ export const DispositifDeStockageSection = ({
         domain: 'dispositifDeStockage',
       });
 
-      const { dispositifDeStockage } = installation;
-      const value = mapToPlainObject(dispositifDeStockage);
+      const value = mapToPlainObject(installation?.dispositifDeStockage);
 
       return (
         <Section title={sectionTitle}>
