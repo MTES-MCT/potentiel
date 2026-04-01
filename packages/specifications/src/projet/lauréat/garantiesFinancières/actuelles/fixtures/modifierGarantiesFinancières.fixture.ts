@@ -3,15 +3,16 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world.js';
-import { PièceJustificative } from '../../commonType.js';
 
 export type ModifierGarantiesFinancières = {
   type: string;
   dateÉchéance: string | undefined;
   dateConstitution: string;
-  attestation: { format: string; content: string };
+  attestation: PièceJustificative;
   enregistréLe: string;
   enregistréPar: string;
   estUnNouveauDocument: boolean;

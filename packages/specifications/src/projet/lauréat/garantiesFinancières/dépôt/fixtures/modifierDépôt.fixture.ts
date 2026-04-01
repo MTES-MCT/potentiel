@@ -3,9 +3,10 @@ import { faker } from '@faker-js/faker';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { PièceJustificative } from '#helpers';
+
 import { AbstractFixture } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
-import { PièceJustificative } from '../../commonType.js';
 
 export interface ModifierDépôtGarantiesFinancières {
   type: string;
@@ -13,7 +14,7 @@ export interface ModifierDépôtGarantiesFinancières {
   dateÉchéance: string | undefined;
   modifiéLe: string;
   modifiéPar: string;
-  attestation: { format: string; content: string };
+  attestation: PièceJustificative;
   estUnNouveauDocument: boolean;
 }
 
