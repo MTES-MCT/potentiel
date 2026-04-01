@@ -104,7 +104,7 @@ export async function corrigerDemandeDélai(this: PotentielWorld, avecLesMêmesV
               // dans le processus de correction, le use case attend que le format du nouveau document soit le même que l'original
               // ce edge case est peut-être à revoir...
               pièceJustificative: faker.potentiel.document(
-                this.lauréatWorld.délaiWorld.demanderDélaiFixture.pièceJustificative.format,
+                this.lauréatWorld.délaiWorld.demanderDélaiFixture.pièceJustificative?.format,
               ),
             },
       );

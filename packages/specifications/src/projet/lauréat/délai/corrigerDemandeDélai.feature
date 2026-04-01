@@ -17,7 +17,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                             |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai/.*    |
 
-    Scénario: Impossible de corriger une demande de délai d'un projet lauréat si aucunde demande n'a été demandée
+    Scénario: Impossible de corriger une demande de délai d'un projet lauréat si aucune demande n'a été demandée
         Quand le porteur corrige la demande de délai pour le projet lauréat
         Alors le porteur devrait être informé que "Aucune demande de délai n'est en cours"
 

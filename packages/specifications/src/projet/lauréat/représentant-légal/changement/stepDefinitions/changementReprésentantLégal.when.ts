@@ -268,7 +268,7 @@ async function corrigerDemandeChangement(
           // ce edge case est peut-être à revoir...
           pièceJustificative: faker.potentiel.document(
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected()
-              .demande.pièceJustificative.format,
+              .demande.pièceJustificative?.format,
           ),
         },
       );
