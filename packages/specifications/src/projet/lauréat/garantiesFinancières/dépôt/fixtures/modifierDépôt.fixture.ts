@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
@@ -115,12 +114,12 @@ export class ModifierDépôtGarantiesFinancièresFixture extends AbstractFixture
           .identifiantProjet,
       garantiesFinancières,
       soumisLe: DateTime.convertirEnValueType(this.modifiéLe),
-      document: DocumentProjet.convertirEnValueType(
-        this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-        Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-        this.dateConstitution,
-        this.attestation.format,
-      ),
+      document: Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationSoumise({
+        identifiantProjet:
+          this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+        dateConstitution: this.dateConstitution,
+        attestation: { format: this.attestation.format },
+      }),
       dernièreMiseÀJour: {
         date: DateTime.convertirEnValueType(this.modifiéLe),
         par: Email.convertirEnValueType(this.modifiéPar),
