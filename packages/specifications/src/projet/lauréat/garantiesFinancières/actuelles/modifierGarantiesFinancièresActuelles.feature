@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@select
 Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:
@@ -10,8 +9,9 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Plan du Scénario: Un admin modifie des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
-            | type GF         | <type GF>         |
-            | date d'échéance | <date d'échéance> |
+            | type GF                     | <type GF>                   |
+            | date d'échéance             | <date d'échéance>           |
+            | Le document a été modifié ? | <Le document a été modifié> |
         Alors les garanties financières actuelles devraient être consultables
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
@@ -21,10 +21,10 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
 
         Exemples:
-            | type GF                   | date d'échéance |
-            | avec-date-échéance        | 2027-12-01      |
-            | consignation              |                 |
-            | six-mois-après-achèvement |                 |
+            | type GF                   | date d'échéance | Le document a été modifié |
+            | avec-date-échéance        | 2027-12-01      | non                       |
+            | consignation              |                 | oui                       |
+            | six-mois-après-achèvement |                 | non                       |
 
     Scénario: Une tâche du type "échoir les garanties financières" est replanifiée quand la date d'échéance des garanties financières est modifiée
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
