@@ -45,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateSignatureValue: new Date(dateSignature).toISOString(),
         propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinanciereSignee,
         estUnNouveauDocumentValue:
-          propositionTechniqueEtFinanciereSigneeDocumentSelection === 'keep_existing_document',
+          propositionTechniqueEtFinanciereSigneeDocumentSelection === 'edit_document',
         rôleValue: utilisateur.rôle.nom,
         modifiéeLeValue: DateTime.now().formatter(),
         modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),

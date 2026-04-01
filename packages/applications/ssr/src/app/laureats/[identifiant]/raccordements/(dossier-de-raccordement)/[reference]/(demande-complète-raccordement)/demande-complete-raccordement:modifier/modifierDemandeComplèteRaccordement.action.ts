@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (
       }
     }
 
-    const estUnNouveauDocumentValue = accuseReceptionDocumentSelection === 'keep_existing_document';
+    const estUnNouveauDocumentValue = accuseReceptionDocumentSelection === 'edit_document';
 
     await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
