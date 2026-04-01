@@ -43,20 +43,18 @@ Quand(
 Quand(
   `un admin modifie les garanties financières actuelles du projet lauréat avec les mêmes valeurs`,
   async function (this: PotentielWorld) {
-    const props = {
-      type: this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.type,
-      dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.dateÉchéance,
-      dateConstitution:
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.dateConstitution,
-      attestation: this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.attestation,
-    };
+    const { type, dateÉchéance, dateConstitution, attestation } = this.lauréatWorld
+      .garantiesFinancièresWorld.actuelles.modifier.aÉtéCréé
+      ? this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier
+      : this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer;
 
     try {
-      await modifierGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        props satisfies EnregistrerGarantiesFinancièresProps,
-      );
+      await modifierGarantiesFinancièresActuelles.call(this, this.lauréatWorld.identifiantProjet, {
+        type,
+        dateÉchéance,
+        dateConstitution,
+        attestation,
+      } satisfies EnregistrerGarantiesFinancièresProps);
     } catch (e) {
       this.error = e as Error;
     }
