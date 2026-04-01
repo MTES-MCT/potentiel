@@ -11,7 +11,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
         Et les garanties financières ne devraient plus être attendues pour le projet lauréat
         Et il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
         Et une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
@@ -33,7 +33,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
 
         Exemples:
             | type GF                   | date d'échéance |
@@ -45,7 +45,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
         Et les garanties financières actuelles du projet sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
@@ -71,7 +71,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Et une demande de recours accordée pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF | exemption |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
 
     Plan du Scénario: Impossible d'enregistrer des garanties financières actuelles avec date d'échéance si le type renseigné n'est pas compatible
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :

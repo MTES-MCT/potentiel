@@ -119,11 +119,18 @@ export async function modifierGarantiesFinancièresActuelles(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: Partial<EnregistrerGarantiesFinancièresProps>,
 ) {
-  const { type, dateÉchéance, dateConstitution, attestation, enregistréLe, enregistréPar } =
-    this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.créer({
-      enregistréPar: this.utilisateurWorld.adminFixture.email,
-      ...props,
-    });
+  const {
+    type,
+    dateÉchéance,
+    dateConstitution,
+    attestation,
+    enregistréLe,
+    enregistréPar,
+    estUnNouveauDocument,
+  } = this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.créer({
+    enregistréPar: this.utilisateurWorld.adminFixture.email,
+    ...props,
+  });
 
   await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
@@ -135,12 +142,7 @@ export async function modifierGarantiesFinancièresActuelles(
       modifiéParValue: enregistréPar,
       dateConstitutionValue: dateConstitution,
       attestationValue: convertFixtureFileToReadableStream(attestation),
-      estUnNouveauDocumentValue:
-        JSON.stringify(
-          this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.aÉtéCréé
-            ? this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.attestation
-            : this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer.attestation,
-        ) !== JSON.stringify(props.attestation),
+      estUnNouveauDocumentValue: estUnNouveauDocument,
     },
   });
 }

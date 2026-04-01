@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@select
 Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:
@@ -11,7 +12,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières mises à jour |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*/garanties-financieres            |
@@ -60,7 +61,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date de constitution | 2025-01-01               |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF | consignation |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
 
     Scénario: Un admin modifie des garanties financières actuelles avec le type exemption
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
@@ -69,7 +70,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF              | exemption  |
             | date de constitution | 2024-01-01 |
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
 
     Plan du Scénario: Impossible de modifier des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné des garanties financières actuelles pour le projet lauréat avec :

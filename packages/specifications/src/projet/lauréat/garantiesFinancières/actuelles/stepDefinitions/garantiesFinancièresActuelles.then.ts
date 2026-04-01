@@ -11,7 +11,7 @@ import { waitForExpect, expectFileContent } from '#helpers';
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 
 Alors(
-  'les garanties financières actuelles devraient être consultables pour le projet lauréat',
+  'les garanties financières actuelles devraient être consultables',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
@@ -44,7 +44,7 @@ Alors(
 );
 
 Alors(
-  `les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat`,
+  `les garanties financières actuelles ne devraient pas être consultables`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -62,7 +62,7 @@ Alors(
 );
 
 Alors(
-  `un historique des garanties financières devrait être consultable pour le projet lauréat avec :`,
+  `un historique des garanties financières devrait être consultable avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

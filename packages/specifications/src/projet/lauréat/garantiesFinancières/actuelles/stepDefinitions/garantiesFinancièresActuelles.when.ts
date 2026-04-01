@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture.js';
+import { ModifierGarantiesFinancièresProps } from '../fixtures/modifierGarantiesFinancières.fixture.js';
 
 import {
   enregistrerAttestation,
@@ -54,7 +54,8 @@ Quand(
         dateÉchéance,
         dateConstitution,
         attestation,
-      } satisfies EnregistrerGarantiesFinancièresProps);
+        estUnNouveauDocument: false,
+      } satisfies ModifierGarantiesFinancièresProps);
     } catch (e) {
       this.error = e as Error;
     }

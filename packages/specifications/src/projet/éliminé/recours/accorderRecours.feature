@@ -12,7 +12,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et le projet lauréat devrait être consultable
-        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
+        Et les garanties financières actuelles ne devraient pas être consultables
         Et le projet éliminé ne devrait plus être consultable
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
@@ -44,7 +44,7 @@ Fonctionnalité: Accorder la demande de recours d'un projet éliminé
         Et le projet éliminé ne devrait plus être consultable
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
-        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
+        Et les garanties financières actuelles ne devraient pas être consultables
 
     Scénario: Impossible d'accorder le recours d'un projet éliminé si le recours a déjà été accordé
         Etant donné une demande de recours accordée pour le projet éliminé

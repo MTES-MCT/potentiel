@@ -12,7 +12,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Quand l'utilisateur dreal valide le dépôt de garanties financières
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières validées |
@@ -28,16 +28,16 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Etant donné des garanties financières actuelles pour le projet lauréat
         Et un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
+        Alors les garanties financières actuelles devraient être consultables
+        Et un historique des garanties financières devrait être consultable avec :
             | raison | modification des garanties financières |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
         Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Et un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
+        Alors les garanties financières actuelles devraient être consultables
+        Et un historique des garanties financières devrait être consultable avec :
             | type GF         | avec-date-échéance                              |
             | date d'échéance | 2024-07-17                                      |
             | statut          | échu                                            |

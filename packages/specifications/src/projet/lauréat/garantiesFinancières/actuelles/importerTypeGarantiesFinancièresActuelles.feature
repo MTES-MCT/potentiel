@@ -9,7 +9,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date d'échéance      | <date d'échéance>      |
             | date de constitution | <date de constitution> |
         Quand le DGEC validateur notifie la candidature lauréate
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
 
         Exemples:
             | type GF                   | AO                       | date d'échéance | date de constitution |
@@ -23,7 +23,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
         Quand le DGEC validateur notifie la candidature lauréate
-        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Alors les garanties financières actuelles devraient être consultables
         Et les garanties financières actuelles du projet sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
