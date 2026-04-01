@@ -9,5 +9,6 @@ export type ModifierDemandeComplèteOptions = {
   rôle: Role.ValueType;
   modifiéeLe: DateTime.ValueType;
   modifiéePar: Email.ValueType;
-  formatAccuséRéception?: string;
+  accuséRéception: { format: string };
+  estUnNouveauDocument: boolean;
 };

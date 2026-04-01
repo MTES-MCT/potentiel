@@ -2,7 +2,7 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { expect } from 'chai';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -125,12 +125,9 @@ Alors(
 
 export function vérifierDossierRaccordement(
   this: PotentielWorld,
-  identifiantProjet: IdentifiantProjet.ValueType,
   dossierRaccordement: Option.Type<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>,
 ): asserts dossierRaccordement is Lauréat.Raccordement.ConsulterDossierRaccordementReadModel {
-  const { dossier: expectedDossier } = mapToPlainObject(
-    this.raccordementWorld.mapToExpected(identifiantProjet),
-  );
+  const { dossier: expectedDossier } = mapToPlainObject(this.raccordementWorld.mapToExpected());
   const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
 
   if (Option.isSome(actualDossierRaccordement)) {

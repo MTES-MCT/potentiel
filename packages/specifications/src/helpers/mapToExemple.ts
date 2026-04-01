@@ -2,7 +2,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 /** map qui décrit comment sont représentés les champs dans les exemples des spécifications */
 export type FieldToExempleMapper<TMap extends Record<string, unknown>> = {
-  [FieldName in keyof TMap]: TMap[FieldName] extends string | undefined
+  [FieldName in keyof TMap]?: TMap[FieldName] extends string | undefined
     ? [exempleName: string, transformer?: (value: string) => TMap[FieldName] | undefined]
     : [exempleName: string, transformer: (value: string) => TMap[FieldName] | undefined];
 };

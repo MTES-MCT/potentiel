@@ -7,11 +7,12 @@ import { AbstractFixture } from '../../../fixture.js';
 
 import { PièceJustificative } from './transmettrePropositionTechniqueEtFinancière.fixture.js';
 
-interface ModifierPropositionTechniqueEtFinancière {
+export type ModifierPropositionTechniqueEtFinancière = {
   dateSignature: string;
   référenceDossier: string;
-  propositionTechniqueEtFinancièreSignée?: PièceJustificative;
-}
+  propositionTechniqueEtFinancièreSignée: PièceJustificative;
+  estUnNouveauDocument: boolean;
+};
 
 export class ModifierPropositionTechniqueEtFinancièreFixture
   extends AbstractFixture<ModifierPropositionTechniqueEtFinancière>
@@ -36,6 +37,10 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
   get référenceDossier(): string {
     return this.#référenceDossier;
   }
+  #estUnNouveauDocument!: boolean;
+  get estUnNouveauDocument(): boolean {
+    return this.#estUnNouveauDocument;
+  }
 
   créer(
     partialFixture: Partial<Readonly<ModifierPropositionTechniqueEtFinancière>> & {
@@ -45,32 +50,18 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
   ): Readonly<ModifierPropositionTechniqueEtFinancière> {
     const fixture = {
       dateSignature: faker.date.recent().toISOString(),
-      propositionTechniqueEtFinancièreSignée: {
-        format: faker.potentiel.fileFormat(),
-        content: faker.word.words(),
-      },
+      propositionTechniqueEtFinancièreSignée: faker.potentiel.document(),
+      estUnNouveauDocument: true,
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
     this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
-    this.#identifiantProjet = fixture.identifiantProjet;
+    this.#estUnNouveauDocument = fixture.estUnNouveauDocument;
     this.aÉtéCréé = true;
     return fixture;
-  }
-
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<ModifierPropositionTechniqueEtFinancière> = {};
-    const dateSignature = exemple['La date de signature'];
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    if (dateSignature) {
-      values.dateSignature = new Date(dateSignature).toISOString();
-    }
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    return values;
   }
 
   mapToExpected(référenceDossier?: string) {

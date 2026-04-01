@@ -17,12 +17,13 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
     dateQualificationValue: string;
     référenceDossierRaccordementValue: string;
     rôleValue: string;
-    accuséRéceptionValue?: {
+    accuséRéceptionValue: {
       content: ReadableStream;
       format: string;
     };
     modifiéeLeValue: string;
     modifiéeParValue: string;
+    estUnNouveauDocumentValue: boolean;
   }
 >;
 
@@ -35,6 +36,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     rôleValue,
     modifiéeLeValue,
     modifiéeParValue,
+    estUnNouveauDocumentValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
@@ -50,33 +52,32 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
 
     const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
-    if (accuséRéceptionValue) {
-      const accuséRéception = DocumentRaccordement.accuséRéception({
-        identifiantProjet: identifiantProjetValue,
-        référence: référenceDossierRaccordementValue,
-        dateQualification: dateQualificationValue,
-        accuséRéception: accuséRéceptionValue,
-      });
+    const accuséRéception = DocumentRaccordement.accuséRéception({
+      identifiantProjet: identifiantProjetValue,
+      référence: référenceDossierRaccordementValue,
+      dateQualification: dateQualificationValue,
+      accuséRéception: accuséRéceptionValue,
+    });
 
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: accuséRéceptionValue.content,
-          documentProjet: accuséRéception,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: accuséRéceptionValue.content,
+        documentProjet: accuséRéception,
+      },
+    });
 
     await mediator.send<ModifierDemandeComplèteRaccordementCommand>({
       type: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
-        formatAccuséRéception: accuséRéceptionValue?.format,
+        accuséRéception: accuséRéceptionValue,
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,
         modifiéeLe,
         modifiéePar,
+        estUnNouveauDocument: estUnNouveauDocumentValue,
       },
     });
   };

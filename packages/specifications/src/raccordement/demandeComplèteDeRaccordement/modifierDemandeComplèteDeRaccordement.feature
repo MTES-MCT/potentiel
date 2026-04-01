@@ -66,9 +66,16 @@ Fonctionnalité: Modifier une DCR
             | le porteur |
             | la dreal   |
 
+    Plan du scénario: Modifier seulement la date de qualification d'une DCR, mais pas l'accusé de réception
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Quand le porteur modifie la demande complète de raccordement avec :
+            | Le document a été modifié ? | non |
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: Impossible de modifier une DCR sans apporter de modification
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Quand le porteur modifie la demande complète de raccordement sans apporter de modification
+        Quand le porteur modifie la demande complète de raccordement avec les mêmes valeurs
         Alors le porteur devrait être informé que "Aucune modification n'a été apportée à la demande complète de raccordement"
 
     Scénario: Impossible de modifier une DCR pour un projet sans dossier de raccordement

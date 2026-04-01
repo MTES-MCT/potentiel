@@ -590,7 +590,8 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierPropositionTechniqueEtFinancière({
     dateSignature,
     référenceDossierRaccordement,
-    formatPropositionTechniqueEtFinancièreSignée,
+    propositionTechniqueEtFinancièreSignée: { format },
+    estUnNouveauDocument,
     rôle,
     modifiéeLe,
     modifiéePar,
@@ -610,7 +611,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (
       dossier.référence.estÉgaleÀ(référenceDossierRaccordement) &&
-      !formatPropositionTechniqueEtFinancièreSignée &&
+      !estUnNouveauDocument &&
       Option.isSome(dossier.propositionTechniqueEtFinancière.dateSignature) &&
       dateSignature.estÉgaleÀ(dossier.propositionTechniqueEtFinancière.dateSignature)
     ) {
@@ -643,11 +644,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateSignature: dateSignature.formatter(),
         référenceDossierRaccordement: référenceDossierRaccordement.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        propositionTechniqueEtFinancièreSignée: formatPropositionTechniqueEtFinancièreSignée
-          ? {
-              format: formatPropositionTechniqueEtFinancièreSignée,
-            }
-          : undefined,
+        propositionTechniqueEtFinancièreSignée: { format },
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },
@@ -832,7 +829,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     rôle,
     modifiéeLe,
     modifiéePar,
-    formatAccuséRéception,
+    accuséRéception: { format },
+    estUnNouveauDocument,
   }: ModifierDemandeComplèteOptions) {
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
@@ -851,7 +849,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      !formatAccuséRéception &&
+      !estUnNouveauDocument &&
       Option.isSome(dossier.demandeComplèteRaccordement.dateQualification) &&
       dateQualification.estÉgaleÀ(dossier.demandeComplèteRaccordement.dateQualification)
     ) {
@@ -886,11 +884,7 @@ export class RaccordementAggregate extends AbstractAggregate<
         dateQualification: dateQualification.formatter(),
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
-        accuséRéception: formatAccuséRéception
-          ? {
-              format: formatAccuséRéception,
-            }
-          : undefined,
+        accuséRéception: { format },
       },
     };
 

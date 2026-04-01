@@ -5,7 +5,6 @@ import { assert } from 'chai';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Document } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { waitForExpect } from '#helpers';
@@ -36,8 +35,8 @@ Alors(
           },
         });
 
-      vérifierRaccordement.call(this, identifiantProjet, raccordement);
-      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
+      vérifierRaccordement.call(this, raccordement);
+      vérifierDossierRaccordement.call(this, dossierRaccordement);
 
       assert(Option.isSome(dossierRaccordement), 'dossierRaccordement is undefined');
       assert(
@@ -72,11 +71,10 @@ Alors(
 
 function vérifierRaccordement(
   this: PotentielWorld,
-  identifiantProjet: IdentifiantProjet.ValueType,
   raccordement: Option.Type<Lauréat.Raccordement.ConsulterRaccordementReadModel>,
 ) {
   const { raccordement: expectedRaccordement } = mapToPlainObject(
-    this.raccordementWorld.mapToExpected(identifiantProjet),
+    this.raccordementWorld.mapToExpected(),
   );
   const actualRaccordement = mapToPlainObject(raccordement);
 

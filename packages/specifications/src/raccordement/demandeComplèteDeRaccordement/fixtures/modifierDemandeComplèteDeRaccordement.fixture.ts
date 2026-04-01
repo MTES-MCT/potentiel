@@ -7,11 +7,12 @@ import { AbstractFixture } from '../../../fixture.js';
 
 import { PièceJustificative } from './transmettreDemandeComplèteDeRaccordement.fixture.js';
 
-export interface ModifierDemandeComplèteRaccordement {
+export type ModifierDemandeComplèteRaccordement = {
   dateQualification: string;
   référenceDossier: string;
-  accuséRéception?: PièceJustificative;
-}
+  accuséRéception: PièceJustificative;
+  estUnNouveauDocument: boolean;
+};
 
 export class ModifierDemandeComplèteRaccordementFixture
   extends AbstractFixture<ModifierDemandeComplèteRaccordement>
@@ -38,6 +39,11 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#identifiantProjet;
   }
 
+  #estUnNouveauDocument!: boolean;
+  get estUnNouveauDocument(): boolean {
+    return this.#estUnNouveauDocument;
+  }
+
   créer(
     partialFixture: Partial<Readonly<ModifierDemandeComplèteRaccordement>> & {
       identifiantProjet: string;
@@ -50,12 +56,14 @@ export class ModifierDemandeComplèteRaccordementFixture
         format: faker.potentiel.fileFormat(),
         content: faker.word.words(),
       },
+      estUnNouveauDocument: true,
       ...partialFixture,
     };
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
     this.#accuséRéception = fixture.accuséRéception;
+    this.#estUnNouveauDocument = fixture.estUnNouveauDocument;
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
