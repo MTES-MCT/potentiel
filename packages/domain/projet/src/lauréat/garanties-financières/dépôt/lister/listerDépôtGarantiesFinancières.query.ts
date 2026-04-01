@@ -11,7 +11,7 @@ import {
   GetScopeProjetUtilisateur,
   IdentifiantProjet,
 } from '../../../../index.js';
-import { TypeDocumentGarantiesFinancières } from '../../index.js';
+import { DocumentGarantiesFinancières } from '../../index.js';
 
 type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -119,12 +119,11 @@ const mapToReadModel = ({
       ? DateTime.convertirEnValueType(dépôt.dateÉchéance)
       : undefined,
     dateConstitution: DateTime.convertirEnValueType(dépôt.dateConstitution),
-    attestation: DocumentProjet.convertirEnValueType(
+    attestation: DocumentGarantiesFinancières.attestationSoumise({
       identifiantProjet,
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      dépôt.dateConstitution,
-      dépôt.attestation.format,
-    ),
+      dateConstitution: dépôt.dateConstitution,
+      attestation: dépôt.attestation,
+    }),
     soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),

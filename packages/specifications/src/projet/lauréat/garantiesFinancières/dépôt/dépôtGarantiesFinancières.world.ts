@@ -1,4 +1,3 @@
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
@@ -48,11 +47,16 @@ export class DépôtGarantiesFinancièresWorld {
       };
 
     if (this.valider.aÉtéCréé && dépôt.document) {
-      dépôt.document = DocumentProjet.bind({
-        ...dépôt.document,
-        typeDocument:
-          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-      });
+      const { identifiantProjet, dateCréation, format } = dépôt.document;
+
+      dépôt.document =
+        Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle({
+          identifiantProjet,
+          dateConstitution: dateCréation,
+          attestation: {
+            format,
+          },
+        });
     }
 
     return {

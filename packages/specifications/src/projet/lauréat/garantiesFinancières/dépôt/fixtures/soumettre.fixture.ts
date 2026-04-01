@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
@@ -90,6 +89,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     | Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel
     | undefined {
     if (!this.aÉtéCréé) return undefined;
+
     const garantiesFinancières =
       Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: this.type,
@@ -105,12 +105,12 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
           .identifiantProjet,
       garantiesFinancières,
       soumisLe: DateTime.convertirEnValueType(this.soumisLe),
-      document: DocumentProjet.convertirEnValueType(
-        this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-        Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-        this.dateConstitution,
-        this.attestation.format,
-      ),
+      document: Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationSoumise({
+        identifiantProjet:
+          this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+        dateConstitution: this.dateConstitution,
+        attestation: { format: this.attestation.format },
+      }),
       dernièreMiseÀJour: {
         date: DateTime.convertirEnValueType(this.soumisLe),
         par: Email.convertirEnValueType(this.soumisPar),

@@ -2,11 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import {
-  DocumentProjet,
-  EnregistrerDocumentProjetCommand,
-} from '../../../../document-projet/index.js';
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../../index.js';
+import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { GarantiesFinancières, DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 
 import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command.js';
@@ -48,12 +45,11 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
       },
     });
 
-    const documentProjet = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      dateConstitutionValue,
-      attestationValue.format,
-    );
+    const attestation = DocumentGarantiesFinancières.attestationSoumise({
+      identifiantProjet: identifiantProjetValue,
+      dateConstitution: dateConstitutionValue,
+      attestation: { format: attestationValue.format },
+    });
 
     const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
     const soumisPar = Email.convertirEnValueType(soumisParValue);
@@ -62,7 +58,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
-        documentProjet,
+        documentProjet: attestation,
       },
     });
 
