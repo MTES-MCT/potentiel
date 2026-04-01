@@ -8,11 +8,12 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
-            | type GF         | <type GF actuel>           |
-            | date d'échéance | <date d'échéance actuelle> |
+            | type GF         | <type GF>         |
+            | date d'échéance | <date d'échéance> |
         Quand le porteur modifie le dépôt de garanties financières avec :
-            | type GF         | <nouveau type GF>          |
-            | date d'échéance | <nouvelle date d'échéance> |
+            | type GF                     | <nouveau type GF>          |
+            | date d'échéance             | <nouvelle date d'échéance> |
+            | Le document a été modifié ? | <nouveau document>         |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et un email a été envoyé à la dreal avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de validation modifiées |
@@ -20,13 +21,13 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Et aucun email n'a été envoyé au porteur
 
         Exemples:
-            | type GF actuel            | date d'échéance actuelle | nouveau type GF           | nouvelle date d'échéance |
-            | avec-date-échéance        | 2027-12-01               | consignation              |                          |
-            | avec-date-échéance        | 2027-12-01               | six-mois-après-achèvement |                          |
-            | consignation              |                          | avec-date-échéance        | 2027-12-01               |
-            | consignation              |                          | six-mois-après-achèvement |                          |
-            | six-mois-après-achèvement |                          | consignation              |                          |
-            | six-mois-après-achèvement |                          | avec-date-échéance        | 2027-12-01               |
+            | type GF                   | date d'échéance | nouveau type GF           | nouvelle date d'échéance | nouveau document |
+            | avec-date-échéance        | 2027-12-01      | consignation              |                          | oui              |
+            | avec-date-échéance        | 2027-12-01      | six-mois-après-achèvement |                          | non              |
+            | consignation              |                 | avec-date-échéance        | 2027-12-01               | oui              |
+            | consignation              |                 | six-mois-après-achèvement |                          | non              |
+            | six-mois-après-achèvement |                 | consignation              |                          | oui              |
+            | six-mois-après-achèvement |                 | avec-date-échéance        | 2027-12-01               | non              |
 
     Scénario: Un porteur modifie un dépôt de garanties financières avec un type exemption
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
@@ -76,3 +77,15 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF | exemption |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
+
+    Scénario: Impossible de modifier un dépôt de garanties financières sans modification
+        Etant donné un dépôt de garanties financières avec :
+            | type GF | <type GF actuel> |
+        Quand le porteur modifie le dépôt de garanties financières avec les mêmes valeurs
+        Alors l'utilisateur devrait être informé que "Le dépôt de garanties financières n'a pas été modifié"
+
+        Exemples:
+            | type GF actuel            |
+            | avec-date-échéance        |
+            | consignation              |
+            | six-mois-après-achèvement |

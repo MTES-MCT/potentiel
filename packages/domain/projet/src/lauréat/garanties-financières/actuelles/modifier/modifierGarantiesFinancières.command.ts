@@ -12,6 +12,7 @@ export type ModifierGarantiesFinancièresCommand = Message<
     garantiesFinancières: GarantiesFinancières.ValueType;
     modifiéPar: Email.ValueType;
     modifiéLe: DateTime.ValueType;
+    estUnNouveauDocument: boolean;
   }
 >;
 
@@ -23,6 +24,7 @@ export const registerModifierGarantiesFinancièresCommand = (
     garantiesFinancières,
     modifiéLe,
     modifiéPar,
+    estUnNouveauDocument,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -30,6 +32,7 @@ export const registerModifierGarantiesFinancièresCommand = (
       garantiesFinancières,
       modifiéLe,
       modifiéPar,
+      estUnNouveauDocument,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);

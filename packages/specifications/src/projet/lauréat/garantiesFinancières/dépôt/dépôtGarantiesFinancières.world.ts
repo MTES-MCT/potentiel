@@ -4,15 +4,19 @@ import {
   mapToExemple,
   FieldToExempleMapper,
   mapDateTime,
+  mapBoolean,
 } from '../../../../helpers/mapToExemple.js';
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
 
-import { ModifierDépôtGarantiesFinancièresFixture } from './fixtures/modifier.fixture.js';
+import {
+  ModifierDépôtGarantiesFinancièresFixture,
+  ModifierDépôtGarantiesFinancièresProps,
+} from './fixtures/modifierDépôt.fixture.js';
+import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/validerDépôt.fixture.js';
 import {
   SoumettreDépôtGarantiesFinancièresFixture,
   SoumettreDépôtGarantiesFinancièresProps,
-} from './fixtures/soumettre.fixture.js';
-import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/valider.fixture.js';
+} from './fixtures/soumettreDépôt.fixture.js';
 
 export class DépôtGarantiesFinancièresWorld {
   readonly soumettre: SoumettreDépôtGarantiesFinancièresFixture;
@@ -25,15 +29,14 @@ export class DépôtGarantiesFinancièresWorld {
     this.valider = new ValiderDépôtGarantiesFinancièresFixture(this);
   }
 
-  mapExempleToUseCaseData(
-    exemple: Record<string, string>,
-  ): SoumettreDépôtGarantiesFinancièresProps {
-    const dépôtMap: FieldToExempleMapper<SoumettreDépôtGarantiesFinancièresProps> = {
+  mapExempleToUseCaseData(exemple: Record<string, string>) {
+    const dépôtMap: FieldToExempleMapper<
+      SoumettreDépôtGarantiesFinancièresProps & ModifierDépôtGarantiesFinancièresProps
+    > = {
       type: ['type GF'],
       dateConstitution: ['date de constitution', mapDateTime],
       dateÉchéance: ["date d'échéance", mapDateTime],
-      // TODO inutile, à supprimer une fois tous les tests GF passés en fixtures
-      soumisLe: ['date de soumission', mapDateTime],
+      estUnNouveauDocument: ['Le document a été modifié ?', mapBoolean],
     };
     return mapToExemple(exemple, dépôtMap);
   }

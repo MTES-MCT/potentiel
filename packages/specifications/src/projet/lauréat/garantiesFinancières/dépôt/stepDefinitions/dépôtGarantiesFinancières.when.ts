@@ -4,9 +4,9 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world.js';
-import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture.js';
-import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture.js';
+import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/validerDépôt.fixture.js';
 import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
+import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettreDépôt.fixture.js';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet lauréat',
@@ -47,6 +47,25 @@ Quand(
         this.lauréatWorld.identifiantProjet,
         this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapExempleToUseCaseData(exemple),
       );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur modifie le dépôt de garanties financières avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    const props: SoumettreDépôtGarantiesFinancièresProps = {
+      type: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.type,
+      dateÉchéance: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateÉchéance,
+      dateConstitution:
+        this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.dateConstitution,
+      attestation: this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.attestation,
+    };
+
+    try {
+      await modifierDépôt.call(this, this.lauréatWorld.identifiantProjet, props);
     } catch (error) {
       this.error = error as Error;
     }
@@ -111,10 +130,10 @@ export async function modifierDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
+  const { attestation, dateConstitution, modifiéLe, modifiéPar, type, dateÉchéance } =
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
       ...props,
-      soumisPar: this.utilisateurWorld.porteurFixture.email,
+      modifiéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
   await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
@@ -125,9 +144,12 @@ export async function modifierDépôt(
         typeValue: type,
         dateÉchéanceValue: dateÉchéance,
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
-        modifiéLeValue: new Date(soumisLe).toISOString(),
-        modifiéParValue: soumisPar,
+        modifiéLeValue: new Date(modifiéLe).toISOString(),
+        modifiéParValue: modifiéPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
+        estUnNouveauDocumentValue:
+          JSON.stringify(props.attestation) !==
+          JSON.stringify(this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.attestation),
       },
     },
   );
@@ -142,6 +164,7 @@ export async function validerDépôtEnCours(
     validéPar: this.utilisateurWorld.drealFixture.email,
     ...props,
   });
+
   await mediator.send<Lauréat.GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
     data: {

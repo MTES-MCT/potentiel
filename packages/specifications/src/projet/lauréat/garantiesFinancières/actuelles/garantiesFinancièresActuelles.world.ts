@@ -4,6 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
 import {
   FieldToExempleMapper,
+  mapBoolean,
   mapDateTime,
   mapToExemple,
 } from '../../../../helpers/mapToExemple.js';
@@ -12,7 +13,10 @@ import {
   EnregistrerGarantiesFinancièresFixture,
   EnregistrerGarantiesFinancièresProps,
 } from './fixtures/enregistrerGarantiesFinancières.fixture.js';
-import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture.js';
+import {
+  ModifierGarantiesFinancièresFixture,
+  ModifierGarantiesFinancièresProps,
+} from './fixtures/modifierGarantiesFinancières.fixture.js';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture.js';
 import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture.js';
 import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture.js';
@@ -32,11 +36,14 @@ export class GarantiesFinancièresActuellesWorld {
     this.importer = new ImporterGarantiesFinancièresFixture(this);
   }
 
-  mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
-    const garantiesFinancièresMap: FieldToExempleMapper<EnregistrerGarantiesFinancièresProps> = {
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const garantiesFinancièresMap: FieldToExempleMapper<
+      EnregistrerGarantiesFinancièresProps & ModifierGarantiesFinancièresProps
+    > = {
       type: ['type GF'],
       dateConstitution: ['date de constitution', mapDateTime],
       dateÉchéance: ["date d'échéance", mapDateTime],
+      estUnNouveauDocument: ['Le document a été modifié ?', mapBoolean],
     };
 
     return mapToExemple(exemple, garantiesFinancièresMap);
@@ -112,6 +119,7 @@ export class GarantiesFinancièresActuellesWorld {
 
     return gfReadModel;
   }
+
   mapToAttestation() {
     const lastAction = [this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)

@@ -21,6 +21,7 @@ export type ModifierGarantiesFinancièresUseCase = Message<
     dateConstitutionValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
+    estUnNouveauDocumentValue: boolean;
   }
 >;
 
@@ -33,6 +34,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     typeValue,
     dateÉchéanceValue,
     modifiéParValue,
+    estUnNouveauDocumentValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
@@ -68,6 +70,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
         garantiesFinancières,
         modifiéLe,
         modifiéPar,
+        estUnNouveauDocument: estUnNouveauDocumentValue,
       },
     });
   };

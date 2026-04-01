@@ -6,4 +6,5 @@ export type ModifierDépôtOptions = {
   garantiesFinancières: GarantiesFinancières.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
+  estUnNouveauDocument: boolean;
 };

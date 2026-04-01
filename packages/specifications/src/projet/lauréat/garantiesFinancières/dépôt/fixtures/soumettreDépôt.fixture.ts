@@ -5,20 +5,19 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { PièceJustificative } from '#helpers';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture.js';
+import { AbstractFixture } from '../../../../../fixture.js';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world.js';
 
 export interface SoumettreDépôtGarantiesFinancières {
-  readonly type: string;
-  readonly dateConstitution: string;
-  readonly dateÉchéance: string | undefined;
-  readonly soumisLe: string;
-  readonly soumisPar: string;
-  readonly attestation: PièceJustificative;
+  type: string;
+  dateConstitution: string;
+  dateÉchéance: string | undefined;
+  soumisLe: string;
+  soumisPar: string;
+  attestation: PièceJustificative;
 }
 
-export type SoumettreDépôtGarantiesFinancièresProps =
-  DeepPartial<SoumettreDépôtGarantiesFinancières>;
+export type SoumettreDépôtGarantiesFinancièresProps = Partial<SoumettreDépôtGarantiesFinancières>;
 
 export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixture<SoumettreDépôtGarantiesFinancières> {
   #type!: string;
@@ -42,9 +41,8 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return this.#soumisPar;
   }
 
-  #attestation!: SoumettreDépôtGarantiesFinancières['attestation'];
-
-  get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
+  #attestation!: PièceJustificative;
+  get attestation(): PièceJustificative {
     return this.#attestation;
   }
 
@@ -69,9 +67,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       soumisLe: new Date().toISOString(),
       soumisPar: faker.internet.email(),
       dateConstitution: faker.date.recent().toISOString(),
-      ...partialData,
       attestation: faker.potentiel.document(),
+      ...partialData,
     };
+
     this.#type = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;

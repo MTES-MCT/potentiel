@@ -13,7 +13,6 @@ Fonctionnalité: Achever une tâche
             | format               | application/pdf       |
             | contenu fichier      | le contenu du fichier |
             | date de constitution | 2023-06-01            |
-            | date de soumission   | 2023-10-01            |
             | soumis par           | porteur@test.test     |
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
 

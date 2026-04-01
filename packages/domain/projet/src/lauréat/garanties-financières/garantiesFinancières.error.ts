@@ -44,6 +44,12 @@ export class GarantiesFinancièresDéjàLevéesError extends InvalidOperationErr
   }
 }
 
+export class GarantiesFinancièresNonModifiéesError extends InvalidOperationError {
+  constructor() {
+    super("Les garanties financières n'ont pas été modifiées");
+  }
+}
+
 export class GarantiesFinancièresActuellesDéjàExistantesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);
@@ -59,6 +65,12 @@ export class AttestationGarantiesFinancièresDéjàExistanteError extends Invali
 export class AttestationEtDateGarantiesFinancièresRequisesError extends InvalidOperationError {
   constructor() {
     super(`L'attestation et la date de prise d'effet des garanties financières sont requises`);
+  }
+}
+
+export class DépôtNonModifiéError extends InvalidOperationError {
+  constructor() {
+    super("Le dépôt de garanties financières n'a pas été modifié");
   }
 }
 

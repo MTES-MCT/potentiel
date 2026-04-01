@@ -24,6 +24,7 @@ export class DemanderGarantiesFinancièresFixture extends AbstractFixture<Demand
   get dateLimiteSoumission() {
     return this.#dateLimiteSoumission;
   }
+
   #enregistréLe!: string;
   get enregistréLe() {
     return this.#enregistréLe;
