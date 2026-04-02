@@ -36,20 +36,34 @@ export class SeedFilesCommand extends Command {
     }
 
     const events = await executeSelect<Event>(selectEventsWithFiles);
+    const stats = {
+      existant: 0,
+      généré: 0,
+      'event-non-géré': 0,
+      'format-non-géré': 0,
+    };
 
     const unhandledEvents = new Set<string>();
     for (const event of events) {
       if (!isEventWithDocument(event)) {
         console.log(`type ${event.type} non géré`);
         unhandledEvents.add(event.type);
+        stats['event-non-géré']++;
         continue;
       }
       const documentOuArray = mapToDocumentProjet(event);
-      if (!documentOuArray) {
+
+      const documents = Array.isArray(documentOuArray)
+        ? documentOuArray
+        : documentOuArray
+          ? [documentOuArray]
+          : [];
+
+      if (documents.length === 0) {
         console.log(`document non défini pour ${event.type}`);
+        stats['event-non-géré']++;
         continue;
       }
-      const documents = Array.isArray(documentOuArray) ? documentOuArray : [documentOuArray];
 
       for (const document of documents) {
         const key = document.formatter();
@@ -57,18 +71,31 @@ export class SeedFilesCommand extends Command {
 
         if (exists) {
           console.log(`document ${key} déjà présent, pas de génération`);
+          stats.existant++;
           continue;
         }
+
+        if (document.format !== 'application/pdf') {
+          console.warn(
+            `Le format ${document.format} n'est pas supporté, pas de génération pour ${key}`,
+          );
+          stats['format-non-géré']++;
+          continue;
+        }
+
         console.log(`génération du document ${key} pour l'événement ${event.type}`);
 
         const stream = await générerDocumentPdf(event);
         await upload(key, stream);
+        stats.généré++;
       }
     }
     if (unhandledEvents.size > 0) {
       console.warn(`Il reste ${unhandledEvents.size} types d'événements à gérer`);
       console.log(unhandledEvents);
     }
+    console.log('Statistiques :');
+    console.table(stats);
   }
 }
 
