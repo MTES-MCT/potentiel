@@ -102,9 +102,6 @@ type EventWithDocument =
   | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent
   | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV3
   | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent
-  | Lauréat.Délai.DélaiDemandéEvent
-  | Lauréat.Délai.DélaiAccordéEvent
-  | Lauréat.Délai.DemandeDélaiCorrigéeEvent
   | Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent
   | Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent
   | Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent
@@ -300,6 +297,7 @@ export const générerDocumentPdf = async (event: Event) => {
   const marginTop = 200;
 
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const helveticaObliqueFont = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
   // Start drawing from the top with margin
   const startY = page.getHeight() - marginTop;
@@ -328,7 +326,16 @@ export const générerDocumentPdf = async (event: Event) => {
     });
   });
 
-  page.drawText('Document automatiquement généré', { x: marginX, y: page.getHeight() });
+  const infoText = 'Document automatiquement généré';
+  page.drawText(infoText, {
+    x: Math.max(
+      marginX,
+      page.getWidth() / 2 - helveticaObliqueFont.widthOfTextAtSize(infoText, textSize / 2) / 2,
+    ),
+    y: page.getHeight() - 30,
+    size: textSize / 2,
+    font: helveticaObliqueFont,
+  });
 
   const pdfBytes = await pdfDoc.save();
 
