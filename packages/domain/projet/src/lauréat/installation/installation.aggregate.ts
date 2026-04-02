@@ -5,11 +5,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypologieInstallation } from '../../candidature/index.js';
 import { Candidature, Lauréat } from '../../index.js';
-import {
-  DispositifDeStockageNonAttenduError,
-  InstallateurNonAttenduError,
-  TypologieInstallationNonAttendueError,
-} from '../../candidature/candidature.error.js';
+import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
 
 import {
   ChangementInstallateurEnregistréEvent,
@@ -215,7 +211,7 @@ export class InstallationAggregate extends AbstractAggregate<
       this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (!champsSupplémentaireTypologieInstallation) {
-      throw new TypologieInstallationNonAttendueError();
+      throw new ChampNonAttenduError('typologie du projet');
     }
 
     const actuel = this.#typologieInstallation;
@@ -242,7 +238,7 @@ export class InstallationAggregate extends AbstractAggregate<
       this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (!champsSupplémentairedispositifDeStockage) {
-      throw new DispositifDeStockageNonAttenduError();
+      throw new ChampNonAttenduError('dispositif de stockage');
     }
 
     if (this.#dispositifDeStockage && modification.estÉgaleÀ(this.#dispositifDeStockage)) {
@@ -255,7 +251,7 @@ export class InstallationAggregate extends AbstractAggregate<
       this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (!champsSupplémentaireInstallateur) {
-      throw new InstallateurNonAttenduError();
+      throw new ChampNonAttenduError('installateur');
     }
 
     if (this.#installateur === installateur) {

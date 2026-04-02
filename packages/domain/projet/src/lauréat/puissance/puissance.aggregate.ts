@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { PuissanceDeSiteNonAttendueError } from '../../candidature/candidature.error.js';
+import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
 
 import {
   AutoritéCompétente,
@@ -416,7 +416,7 @@ export class PuissanceAggregate extends AbstractAggregate<
   ) {
     if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
       if (puissanceDeSite !== undefined) {
-        throw new PuissanceDeSiteNonAttendueError();
+        throw new ChampNonAttenduError('puissance de site');
       }
       if (this.#puissance === puissance) {
         throw new PuissanceIdentiqueError();

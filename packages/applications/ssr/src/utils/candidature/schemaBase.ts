@@ -91,7 +91,7 @@ export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<st
 
 /**
  * @param field Le champ validé
- * @param referenceField Le champs dont dépend la validation de `field`
+ * @param referenceField Le champ dont dépend la validation de `field`
  * @param expectedValue la valeur de `referenceField` pour laquelle `field` est requis
  */
 export const conditionalRequiredError = (

@@ -25,11 +25,14 @@ import { ImporterCandidatureOptions } from './importer/importerCandidature.optio
 import * as TypeTechnologie from './typeTechnologie.valueType.js';
 import {
   AttestationNonGénéréeError,
+  AutorisationRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
   CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
+  ChampNonAttenduError,
+  ChampsRequisError,
   DateAutorisationError,
   FonctionManquanteError,
   NomManquantError,
@@ -38,8 +41,6 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
-  ChampsRequisError,
-  ChampsNonAttenduError,
 } from './candidature.error.js';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
 import {
@@ -365,37 +366,70 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    const champsSupplémentaires = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
+    const {
+      coefficientKChoisi,
+      puissanceDeSite,
+      autorisation,
+      installateur,
+      dispositifDeStockage,
+      natureDeLExploitation,
+      typologieInstallation,
+    } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
-    for (const champs of AppelOffre.champsCandidature) {
-      // Cas spécifique de structure spécifique pour le champs autorisation
-      if (champs == 'autorisation') {
-        if (
-          (champsSupplémentaires[champs] === 'requis' && !dépôt.autorisation?.date) ||
-          !dépôt.autorisation?.numéro
-        ) {
-          throw new ChampsRequisError(champs);
-        }
+    if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
+      throw new ChampsRequisError('choix du coefficient K');
+    }
 
-        if (
-          !champsSupplémentaires[champs] &&
-          (dépôt.autorisation?.date || dépôt.autorisation?.numéro)
-        ) {
-          throw new ChampsNonAttenduError(champs);
-        }
-      } else {
-        if (
-          champsSupplémentaires[champs] === 'requis' &&
-          (dépôt[champs] === undefined ||
-            dépôt[champs] === '' ||
-            (Array.isArray(dépôt[champs]) && dépôt[champs].length === 0))
-        ) {
-          throw new ChampsRequisError(champs);
-        }
-        if (!champsSupplémentaires[champs] && dépôt[champs] !== undefined) {
-          throw new ChampsNonAttenduError(champs);
-        }
-      }
+    if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
+      throw new ChampNonAttenduError('choix du coefficient K');
+    }
+
+    if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
+      throw new ChampsRequisError('puissance de site');
+    }
+
+    if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
+      throw new ChampNonAttenduError('puissance de site');
+    }
+
+    if (installateur === 'requis' && !dépôt.installateur) {
+      throw new ChampsRequisError('installateur');
+    }
+
+    if (!installateur && !!dépôt.installateur) {
+      throw new ChampNonAttenduError('installateur');
+    }
+
+    if (typologieInstallation === 'requis' && dépôt.typologieInstallation?.length === undefined) {
+      throw new ChampsRequisError('typologie installation');
+    }
+
+    if (!typologieInstallation && !!dépôt.typologieInstallation) {
+      throw new ChampNonAttenduError('typologie installation');
+    }
+
+    if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
+      throw new ChampsRequisError("nature de l'exploitation");
+    }
+
+    if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
+      throw new ChampNonAttenduError("nature de l'exploitation");
+    }
+
+    if (autorisation === 'requis' && (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)) {
+      throw new AutorisationRequiseError();
+    }
+
+    if (dépôt.autorisation?.date.estDansLeFutur()) {
+      throw new DateAutorisationError();
+    }
+
+    if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
+      throw new ChampsRequisError('dispositif de stockage');
+    }
+
+    if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
+      throw new ChampNonAttenduError('dispositif de stockage');
     }
   }
 
