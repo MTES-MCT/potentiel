@@ -7,11 +7,11 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
 import { demanderMainlevéeAction, DemanderMainlevéeFormKeys } from './demanderMainlevée.action';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 type DemanderMainlevéeFormProps = {
   identifiantProjet: string;
@@ -47,12 +47,12 @@ export const DemanderMainlevéeForm = ({
           onValidationError: setValidationErrors,
           children: (
             <>
-              {/* Temporaire : le document va devenir modifiable, et on aura besoin de la clé de l'attestation */}
-              {!attestationAchèvement && actions.includes('achèvement.enregistrerAttestation') && (
+              {actions.includes('achèvement.enregistrerAttestation') && (
                 <UploadNewOrModifyExistingDocument
                   name="attestationConformite"
                   multiple
                   required
+                  documentKeys={attestationAchèvement ? [attestationAchèvement] : []}
                   label="Attestation de conformité et rapport associé"
                   hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
                   state={validationErrors['attestationConformite'] ? 'error' : 'default'}
@@ -60,7 +60,11 @@ export const DemanderMainlevéeForm = ({
                   formats={['pdf']}
                 />
               )}
-
+              <input
+                type="hidden"
+                name="attestationConformiteDejaPresente"
+                value={(!!attestationAchèvement).toString()}
+              />
               <p className="mt-3">
                 Êtes-vous sûr de vouloir demander la mainlevée de vos garanties financières ?
               </p>
