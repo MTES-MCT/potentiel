@@ -1,5 +1,5 @@
-import { Command } from '@oclif/core';
-import { PDFDocument, StandardFonts } from 'pdf-lib';
+import { Command, Flags } from '@oclif/core';
+import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -29,7 +29,11 @@ and type not in (${eventsToIgnore.map((s) => `'${s}'`).join(',')});`;
 export class SeedFilesCommand extends Command {
   static override description =
     'Génère un faux document PDF pour chaque document manquant, en se basant sur les événements présents en DB';
+  static flags = {
+    force: Flags.boolean(),
+  };
   async run() {
+    const { flags } = await this.parse(SeedFilesCommand);
     if (process.env.NODE_ENV === 'production') {
       console.error('Cette commande ne doit pas être lancée en production');
       process.exit(1);
@@ -69,7 +73,7 @@ export class SeedFilesCommand extends Command {
         const key = document.formatter();
         const exists = await fileExists(key);
 
-        if (exists) {
+        if (exists && !flags.force) {
           console.log(`document ${key} déjà présent, pas de génération`);
           stats.existant++;
           continue;
@@ -85,7 +89,7 @@ export class SeedFilesCommand extends Command {
 
         console.log(`génération du document ${key} pour l'événement ${event.type}`);
 
-        const stream = await générerDocumentPdf(event);
+        const stream = await générerDocumentPdf(event, document.typeDocument);
         await upload(key, stream);
         stats.généré++;
       }
@@ -315,56 +319,54 @@ const isEventWithDocument = (event: Event): event is EventWithDocument & Event =
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapToDocumentProjet = (event: EventWithDocument) => map[event.type](event.payload as any);
 
-export const générerDocumentPdf = async (event: Event) => {
+export const générerDocumentPdf = async (event: Event, typeDocument: string) => {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();
 
-  const textSize = 20;
+  const textSize = 14;
+  const titleTextSize = 20;
   const marginX = 50;
-  const marginTop = 200;
+  const marginTop = 160;
 
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const helveticaObliqueFont = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
   // Start drawing from the top with margin
-  const startY = page.getHeight() - marginTop;
+  let startY = page.getHeight() - marginTop;
 
-  const title = event.type.replace(/-V\d$/, '').replace(/([a-z])([A-Z])/g, '$1 $2');
-  const textWidth = helveticaFont.widthOfTextAtSize(title, textSize);
-  page.drawText(title, {
-    x: Math.max(marginX, page.getWidth() / 2 - textWidth / 2),
-    y: startY,
-    size: textSize,
-    font: helveticaFont,
+  type DrawProps = { font?: PDFFont; size?: number; position?: 'left' | 'center' };
+  const drawText = (
+    text: string,
+    { font = helveticaFont, size = textSize, position = 'left' }: DrawProps = {},
+  ) => {
+    const textWidth = font.widthOfTextAtSize(text, size);
+    page.drawText(text, {
+      x: position === 'center' ? Math.max(marginX, page.getWidth() / 2 - textWidth / 2) : marginX,
+      y: startY,
+      size,
+      font,
+    });
+    // Move down for the next line
+    startY -= size + 10;
+  };
+
+  drawText('Document automatiquement généré', {
+    position: 'center',
+    font: helveticaObliqueFont,
+    size: titleTextSize * 0.6,
+  });
+  drawText(event.type.replace(/-V\d$/, '').replace(/([a-z])([A-Z])/g, '$1 $2'), {
+    position: 'center',
+    size: titleTextSize,
+  });
+  drawText(typeDocument.replace(/-V\d$/, '').replace(/([a-z])([A-Z])/g, '$1 $2'), {
+    position: 'center',
+    size: titleTextSize * 0.8,
   });
 
   const content = JSON.stringify(event, null, 2);
-  content.split('\n').forEach((line, index) => {
-    const textSize = 14;
-    const lineHeight = textSize * 1.2;
-    const x = marginX;
-    const y = startY - (index + 2) * lineHeight;
-
-    page.drawText(line, {
-      x: Math.max(marginX, x),
-      y,
-      size: textSize,
-      font: helveticaFont,
-    });
-  });
-
-  const infoText = 'Document automatiquement généré';
-  page.drawText(infoText, {
-    x: Math.max(
-      marginX,
-      page.getWidth() / 2 - helveticaObliqueFont.widthOfTextAtSize(infoText, textSize / 2) / 2,
-    ),
-    y: page.getHeight() - 30,
-    size: textSize / 2,
-    font: helveticaObliqueFont,
-  });
+  content.split('\n').forEach((l) => drawText(l));
 
   const pdfBytes = await pdfDoc.save();
-
   return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' }).stream();
 };
