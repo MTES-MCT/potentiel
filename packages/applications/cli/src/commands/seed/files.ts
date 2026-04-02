@@ -98,8 +98,8 @@ type EventWithDocument =
   | Lauréat.NatureDeLExploitation.ChangementNatureDeLExploitationEnregistréEvent
   | Lauréat.ChangementNomProjetEnregistréEvent
   | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
-  | Lauréat.Achèvement.AttestationConformitéModifiéeEvent
   | Lauréat.Achèvement.AttestationConformitéEnregistréeEvent
+  | Lauréat.Achèvement.AchèvementModifiéEvent
   | Éliminé.Recours.RecoursDemandéEvent
   | Éliminé.Recours.RecoursAccordéEvent;
 
@@ -159,7 +159,7 @@ const map: DocumentRecord = {
     }),
     Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
   ],
-  'AttestationConformitéModifiée-V1': (event) => [
+  'AchèvementModifié-V1': (event) => [
     Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
       ...event,
       enregistréLe: event.date,
