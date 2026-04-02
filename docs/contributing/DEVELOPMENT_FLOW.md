@@ -130,6 +130,8 @@ Le script `.database/scripts/restore-test-env-db.sh` permet une remise à zéro 
 scalingo run --app XXX .database/scripts/restore-test-env-db.sh
 ```
 
+Par ailleurs, la commande `potentiel-cli seed files` permet de générer les documents "manquants" dans l'environnement, et ainsi éviter des erreurs liées à l'absence de ces documents lors des tests.
+
 ## <a id="deploiement"></a> Déploiement
 
 Le projet potentiel suit la stratégie de branche de release : [Release Flow](http://releaseflow.org/).
