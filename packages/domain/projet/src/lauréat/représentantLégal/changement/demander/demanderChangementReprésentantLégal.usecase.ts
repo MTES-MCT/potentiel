@@ -41,7 +41,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
     );
     const pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
-      enregistréeLe: dateDemandeValue,
+      demandéLe: dateDemandeValue,
       pièceJustificative: { format: pièceJustificativeValue.format },
     });
 

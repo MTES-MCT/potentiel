@@ -5,5 +5,5 @@ export const pièceJustificative = DocumentProjet.documentFactory({
   domaine,
   typeDocument: 'pièce-justificative',
   nomChampDocument: 'pièceJustificative',
-  nomChampDate: 'enregistréeLe',
+  nomChampDate: 'enregistréLe',
 });

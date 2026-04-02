@@ -3,43 +3,62 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
+
+// Pour ces évènements, soit le document n'est pas pertinent, soit il s'agit d'un faux positif (ex: Raccordement)
+const eventsToIgnore = [
+  'LauréatNotifié-V1',
+  'LauréatNotifié-V2',
+  'ÉliminéNotifié-V1',
+  'CandidatureNotifiée-V1',
+  'CandidatureNotifiée-V2',
+  'CandidatureNotifiée-V3',
+  'GestionnaireRéseauAjouté-V1',
+  'GestionnaireRéseauAjouté-V2',
+  'GestionnaireRéseauModifié-V1',
+  'GestionnaireRéseauModifié-V2',
+];
 
 const selectEventsWithFiles = `
 select *
 from event_store.event_stream
 where payload::text ~ '"format"'
-and stream_id = 'abandon|PPE2 - Bâtiment#4##test-numero-cre-176'
-and type not in ('GestionnaireRéseauAjouté-V1','GestionnaireRéseauAjouté-V2',
-'LauréatNotifié-V1','LauréatNotifié-V2', 'ÉliminéNotifié-V1');`;
+and type not in (${eventsToIgnore.map((s) => `'${s}'`).join(',')});`;
 
 export class SeedFilesCommand extends Command {
   async run() {
     const events = await executeSelect<Event>(selectEventsWithFiles);
 
+    const todo = new Set<string>();
     for (const event of events) {
       if (!isEventWithDocument(event)) {
         console.log(`type ${event.type} non géré`);
+        todo.add(event.type);
         continue;
       }
-      const document = mapToDocumentProjet(event);
-      if (!document) {
+      const documentOuArray = mapToDocumentProjet(event);
+      if (!documentOuArray) {
         console.log(`document non défini pour ${event.type}`);
         continue;
       }
-      const key = document.formatter();
-      const exists = await fileExists(key);
+      const documents = Array.isArray(documentOuArray) ? documentOuArray : [documentOuArray];
 
-      if (exists) {
-        console.log(`document ${key} déjà présent, pas de génération`);
-        continue;
+      for (const document of documents) {
+        const key = document.formatter();
+        const exists = await fileExists(key);
+
+        if (exists) {
+          console.log(`document ${key} déjà présent, pas de génération`);
+          continue;
+        }
+        console.log(`génération du document ${key} pour l'événement ${event.type}`);
+
+        const stream = await générerDocumentPdf(event);
+        await upload(key, stream);
       }
-      console.log(`génération du document ${key} pour l'événement ${event.type}`);
-
-      const stream = await générerDocumentPdf(event);
-      await upload(key, stream);
     }
+    console.log(todo);
   }
 }
 
@@ -49,14 +68,55 @@ type EventWithDocument =
   | Lauréat.Abandon.AbandonAccordéEvent
   | Lauréat.Abandon.AbandonRejetéEvent
   | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
-  | Lauréat.Producteur.ChangementProducteurEnregistréEvent;
-// | Lauréat.Producteur.ProducteurModifiéEvent;
+  | Lauréat.Producteur.ChangementProducteurEnregistréEvent
+  | Lauréat.Producteur.ProducteurModifiéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent
+  | Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent
+  | Lauréat.Puissance.ChangementPuissanceDemandéEvent
+  | Lauréat.Puissance.ChangementPuissanceRejetéEvent
+  | Lauréat.Puissance.ChangementPuissanceAccordéEvent
+  | Lauréat.Puissance.ChangementPuissanceEnregistréEvent
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV2
+  | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
+  | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1
+  | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV2
+  | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV2
+  | Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent
+  | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV3
+  | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent
+  | Lauréat.Délai.DélaiDemandéEvent
+  | Lauréat.Délai.DélaiAccordéEvent
+  | Lauréat.Délai.DemandeDélaiCorrigéeEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent
+  | Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent
+  | Lauréat.Installation.ChangementInstallateurEnregistréEvent
+  | Lauréat.Installation.TypologieInstallationModifiéeEvent
+  | Lauréat.NatureDeLExploitation.ChangementNatureDeLExploitationEnregistréEvent
+  | Lauréat.ChangementNomProjetEnregistréEvent
+  | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
+  | Lauréat.Achèvement.AttestationConformitéModifiéeEvent
+  | Lauréat.Achèvement.AttestationConformitéEnregistréeEvent
+  | Éliminé.Recours.RecoursDemandéEvent
+  | Éliminé.Recours.RecoursAccordéEvent;
 
 type DocumentRecord<K extends EventWithDocument['type'] = EventWithDocument['type']> = {
   [P in K]: (
     payload: Extract<EventWithDocument, { type: P }>['payload'],
-  ) => DocumentProjet.ValueType | undefined;
+  ) => DocumentProjet.ValueType | DocumentProjet.ValueType[] | undefined;
 };
+
+const mapProperty =
+  <TPayload extends object, TKey extends string>(
+    cb: (event: TPayload) => DocumentProjet.ValueType | undefined,
+    key1: keyof TPayload,
+    key2: TKey,
+  ) =>
+  (payload: Record<TKey, string>) =>
+    cb({ ...payload, [key1]: payload[key2] } as TPayload);
 
 const map: DocumentRecord = {
   // Abandon
@@ -67,7 +127,115 @@ const map: DocumentRecord = {
   'AbandonRejeté-V1': Lauréat.Abandon.DocumentAbandon.abandonRejeté,
   // Producteur
   'ChangementProducteurEnregistré-V1': Lauréat.Producteur.DocumentProducteur.pièceJustificative,
-  // 'ProducteurModifié-V1': Lauréat.Producteur.DocumentProducteur.pièceJustificative,
+  'ProducteurModifié-V1': mapProperty(
+    Lauréat.Producteur.DocumentProducteur.pièceJustificative,
+    'enregistréLe',
+    'modifiéLe',
+  ),
+  // Actionnaire
+  'ChangementActionnaireDemandé-V1': Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative,
+  'ChangementActionnaireEnregistré-V1': mapProperty(
+    Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative,
+    'demandéLe',
+    'enregistréLe',
+  ),
+  // Fournisseur
+  'ChangementFournisseurEnregistré-V1': Lauréat.Fournisseur.DocumentFournisseur.pièceJustificative,
+  // Puissance
+  'ChangementPuissanceDemandé-V1': Lauréat.Puissance.DocumentPuissance.pièceJustificative,
+  'ChangementPuissanceRejeté-V1': Lauréat.Puissance.DocumentPuissance.changementRejeté,
+  'ChangementPuissanceAccordé-V1': Lauréat.Puissance.DocumentPuissance.changementAccordé,
+  'ChangementPuissanceEnregistré-V1': mapProperty(
+    Lauréat.Puissance.DocumentPuissance.pièceJustificative,
+    'demandéLe',
+    'enregistréLe',
+  ),
+
+  // Achèvement
+  'AttestationConformitéTransmise-V1': (event) => [
+    Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
+  ],
+  'AttestationConformitéModifiée-V1': (event) => [
+    Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+      ...event,
+      enregistréLe: event.date,
+    }),
+    Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
+  ],
+  'AttestationConformitéEnregistrée-V1': mapProperty(
+    Lauréat.Achèvement.DocumentAchèvement.attestationConformité,
+    'enregistréLe',
+    'enregistréeLe',
+  ),
+  // Raccordement
+  'DemandeComplèteDeRaccordementTransmise-V2': ({ dateQualification, ...event }) =>
+    dateQualification &&
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+  'DemandeComplèteDeRaccordementTransmise-V3': ({ dateQualification, ...event }) =>
+    dateQualification &&
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+  'DemandeComplèteRaccordementModifiée-V3':
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception,
+  'DemandeComplèteRaccordementModifiée-V4':
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception,
+  'PropositionTechniqueEtFinancièreTransmise-V1':
+    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+  'PropositionTechniqueEtFinancièreTransmise-V2':
+    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+  'PropositionTechniqueEtFinancièreTransmise-V3':
+    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+  'PropositionTechniqueEtFinancièreModifiée-V2':
+    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+  'PropositionTechniqueEtFinancièreModifiée-V3':
+    Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière,
+  // Délai
+  'DélaiDemandé-V1': Lauréat.Délai.DocumentDélai.pièceJustificative,
+  'DélaiAccordé-V1': Lauréat.Délai.DocumentDélai.demandeAccordée,
+  'DemandeDélaiCorrigée-V1': mapProperty(
+    Lauréat.Délai.DocumentDélai.pièceJustificative,
+    'demandéLe',
+    'dateDemande',
+  ),
+  // Représentant légal
+  'ChangementReprésentantLégalEnregistré-V1': mapProperty(
+    Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative,
+    'demandéLe',
+    'enregistréLe',
+  ),
+  'ChangementReprésentantLégalDemandé-V1':
+    Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative,
+  'ChangementReprésentantLégalCorrigé-V1': mapProperty(
+    Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative,
+    'demandéLe',
+    'corrigéLe',
+  ),
+  // Installation & Nature de l'exploitation
+  'ChangementDispositifDeStockageEnregistré-V1':
+    Lauréat.Installation.DocumentDispositifDeStockage.pièceJustificative,
+  'ChangementInstallateurEnregistré-V1':
+    Lauréat.Installation.DocumentInstallateur.pièceJustificative,
+  'TypologieInstallationModifiée-V1':
+    Lauréat.Installation.DocumentTypologieInstallation.pièceJustificative,
+  'ChangementNatureDeLExploitationEnregistré-V1':
+    Lauréat.NatureDeLExploitation.DocumentNatureDeLExploitation.pièceJustificative,
+  'ChangementNomProjetEnregistré-V1': Lauréat.DocumentNomProjet.pièceJustificative,
+  // Garanties Financières
+  // 'AttestationGarantiesFinancièresEnregistrée-V1':,
+  // 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
+  // 'DépôtGarantiesFinancièresSoumis-V1',
+  // 'DépôtGarantiesFinancièresEnCoursValidé-V2',
+  // 'DateAchèvementTransmise-V1',
+  // 'GarantiesFinancièresModifiées-V1',
+  // 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+  // 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+  // 'GarantiesFinancièresEnregistrées-V1'
+  // Recours
+  'RecoursDemandé-V1': Éliminé.Recours.DocumentRecours.pièceJustificative,
+  'RecoursAccordé-V1': Éliminé.Recours.DocumentRecours.recoursAccordé,
 };
 
 const isEventWithDocument = (event: Event): event is EventWithDocument & Event => event.type in map;

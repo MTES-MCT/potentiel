@@ -62,7 +62,7 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
       propositionTechniqueEtFinancièreSignée:
         Lauréat.Raccordement.DocumentRaccordement.propositionTechniqueEtFinancière({
           identifiantProjet: this.#identifiantProjet,
-          référence: référenceDossier ?? this.#référenceDossier,
+          référenceDossierRaccordement: référenceDossier ?? this.#référenceDossier,
           dateSignature: this.#dateSignature,
           propositionTechniqueEtFinancièreSignée: this.#propositionTechniqueEtFinancièreSignée,
         }),

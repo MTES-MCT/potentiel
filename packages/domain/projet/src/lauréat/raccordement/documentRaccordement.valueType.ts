@@ -22,7 +22,7 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
 
 export const accuséRéception = DocumentProjet.documentFactory({
   domaine,
-  nomCléDocument: 'référence',
+  nomCléDocument: 'référenceDossierRaccordement',
   typeDocument: typeAccuséRéception,
   nomChampDocument: 'accuséRéception',
   nomChampDate: 'dateQualification',
@@ -30,7 +30,7 @@ export const accuséRéception = DocumentProjet.documentFactory({
 
 export const propositionTechniqueEtFinancière = DocumentProjet.documentFactory({
   domaine,
-  nomCléDocument: 'référence',
+  nomCléDocument: 'référenceDossierRaccordement',
   typeDocument: typePropositionTechniqueEtFinancière,
   nomChampDocument: 'propositionTechniqueEtFinancièreSignée',
   nomChampDate: 'dateSignature',

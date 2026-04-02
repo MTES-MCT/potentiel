@@ -454,7 +454,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
       pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet,
-        enregistréeLe: demandéLe,
+        demandéLe,
         pièceJustificative: { format },
       }),
     };
@@ -471,7 +471,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
           this.#demande.pièceJustificative = DocumentChangementReprésentantLégal.pièceJustificative(
             {
               identifiantProjet,
-              enregistréeLe: this.#demande.demandéLe.formatter(),
+              demandéLe: this.#demande.demandéLe.formatter(),
               pièceJustificative: { format: pièceJustificative.format },
             },
           );
@@ -529,7 +529,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
       pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet,
-        enregistréeLe: enregistréLe,
+        demandéLe: enregistréLe,
         pièceJustificative: { format },
       }),
     };

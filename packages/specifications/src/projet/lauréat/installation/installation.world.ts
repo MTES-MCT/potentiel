@@ -118,7 +118,7 @@ export class InstallationWorld {
         installateur: this.#enregistrerChangementInstallateurFixture.installateur,
         pièceJustificative: Lauréat.Installation.DocumentInstallateur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),
-          enregistréeLe: this.#enregistrerChangementInstallateurFixture.enregistréLe,
+          enregistréLe: this.#enregistrerChangementInstallateurFixture.enregistréLe,
           pièceJustificative: {
             format: this.#enregistrerChangementInstallateurFixture.pièceJustificative?.format,
           },

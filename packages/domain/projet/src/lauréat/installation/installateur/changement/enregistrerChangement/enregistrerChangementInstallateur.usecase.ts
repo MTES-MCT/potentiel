@@ -37,7 +37,7 @@ export const registerEnregistrerChangementInstallateurUseCase = () => {
     const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
     const pièceJustificative = DocumentInstallateur.pièceJustificative({
       identifiantProjet: identifiantProjetValue,
-      enregistréeLe: dateChangementValue,
+      enregistréLe: dateChangementValue,
       pièceJustificative: {
         format: pièceJustificativeValue.format,
       },

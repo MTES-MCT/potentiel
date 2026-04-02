@@ -98,7 +98,7 @@ const mapToReadModel: MapToReadModel = ({
       ),
       pièceJustificative: ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
         identifiantProjet: identifiantProjet.formatter(),
-        enregistréeLe: demande.demandéLe,
+        demandéLe: demande.demandéLe,
         pièceJustificative: { format: demande.pièceJustificative.format },
       }),
       demandéeLe: DateTime.convertirEnValueType(demande.demandéLe),
