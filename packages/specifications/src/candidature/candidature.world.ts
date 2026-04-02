@@ -1,6 +1,5 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { mapToExemple } from '../helpers/mapToExemple.js';
@@ -66,10 +65,6 @@ export class CandidatureWorld {
     const miseÀJourLe = this.#corrigerCandidature.aÉtéCréé
       ? this.corrigerCandidature.corrigéLe
       : this.importerCandidature.importéLe;
-    const détailsMisÀJourLe =
-      this.#corrigerCandidature.aÉtéCréé && this.#corrigerCandidature.détailsValue
-        ? this.corrigerCandidature.corrigéLe
-        : this.importerCandidature.importéLe;
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       this.importerCandidature.identifiantProjet,
@@ -86,12 +81,6 @@ export class CandidatureWorld {
       dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
 
       instruction: Candidature.Instruction.convertirEnValueType(instructionValue),
-      détailsImport: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        'candidature/import',
-        détailsMisÀJourLe,
-        'application/json',
-      ),
       identifiantProjet,
       miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
 

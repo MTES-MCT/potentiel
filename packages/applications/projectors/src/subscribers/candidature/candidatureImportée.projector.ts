@@ -41,7 +41,6 @@ export const mapToCandidatureToUpsert = ({
     estNotifiée: false,
     notification: undefined,
     miseÀJourLe: payload.importéLe,
-    détailsMisÀJourLe: payload.importéLe,
     technologieCalculée: technologie.formatter(),
     unitéPuissance: Candidature.UnitéPuissance.déterminer({
       appelOffres,

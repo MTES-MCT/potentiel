@@ -71,13 +71,6 @@ export const mapToCandidatureToUpsert = ({
     estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
     notification,
     miseÀJourLe: payload.corrigéLe,
-    détailsMisÀJourLe: payload.détailsMisÀJour
-      ? payload.corrigéLe
-      : Option.isSome(candidature)
-        ? candidature.détailsMisÀJourLe
-        : // ce cas est théoriquement impossible,
-          // on ne peut pas avoir de correction sur une candidature non importée
-          payload.corrigéLe,
     technologieCalculée: technologie.formatter(),
     unitéPuissance: Candidature.UnitéPuissance.déterminer({
       appelOffres,

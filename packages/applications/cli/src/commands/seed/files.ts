@@ -3,23 +3,23 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
 
 // Pour ces évènements, soit le document n'est pas pertinent, soit il s'agit d'un faux positif (ex: Raccordement)
 const eventsToIgnore = [
+  // document identique à CandidatureNotifiée-V1
   'LauréatNotifié-V1',
   'LauréatNotifié-V2',
   'ÉliminéNotifié-V1',
-  'CandidatureNotifiée-V1',
-  'CandidatureNotifiée-V2',
-  'CandidatureNotifiée-V3',
+  // le champ "format" ne concerne pas un document
   'GestionnaireRéseauAjouté-V1',
   'GestionnaireRéseauAjouté-V2',
   'GestionnaireRéseauModifié-V1',
   'GestionnaireRéseauModifié-V2',
 ];
 
+// Retrouver tous les évènements avec un champ "format"
 const selectEventsWithFiles = `
 select *
 from event_store.event_stream
@@ -27,7 +27,14 @@ where payload::text ~ '"format"'
 and type not in (${eventsToIgnore.map((s) => `'${s}'`).join(',')});`;
 
 export class SeedFilesCommand extends Command {
+  static override description =
+    'Génère un faux document PDF pour chaque document manquant, en se basant sur les événements présents en DB';
   async run() {
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Cette commande ne doit pas être lancée en production');
+      process.exit(1);
+    }
+
     const events = await executeSelect<Event>(selectEventsWithFiles);
 
     const unhandledEvents = new Set<string>();
@@ -66,16 +73,22 @@ export class SeedFilesCommand extends Command {
 }
 
 type EventWithDocument =
+  | Candidature.CandidatureNotifiéeEvent
+  | Candidature.CandidatureNotifiéeEventV1
+  | Candidature.CandidatureNotifiéeEventV2
   | Lauréat.Abandon.AbandonDemandéEventV1
   | Lauréat.Abandon.AbandonDemandéEvent
   | Lauréat.Abandon.AbandonAccordéEvent
   | Lauréat.Abandon.AbandonRejetéEvent
   | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
-  | Lauréat.Producteur.ChangementProducteurEnregistréEvent
-  | Lauréat.Producteur.ProducteurModifiéEvent
   | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
   | Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent
+  | Lauréat.Délai.DélaiDemandéEvent
+  | Lauréat.Délai.DélaiAccordéEvent
+  | Lauréat.Délai.DemandeDélaiCorrigéeEvent
   | Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent
+  | Lauréat.Producteur.ChangementProducteurEnregistréEvent
+  | Lauréat.Producteur.ProducteurModifiéEvent
   | Lauréat.Puissance.ChangementPuissanceDemandéEvent
   | Lauréat.Puissance.ChangementPuissanceRejetéEvent
   | Lauréat.Puissance.ChangementPuissanceAccordéEvent
@@ -142,6 +155,22 @@ const map: DocumentRecord = {
     Lauréat.Producteur.DocumentProducteur.pièceJustificative,
     'enregistréLe',
     'modifiéLe',
+  ),
+  // Candidature
+  'CandidatureNotifiée-V1': mapProperty(
+    Candidature.DocumentCandidature.attestationDésignation,
+    'généréeLe',
+    'notifiéeLe',
+  ),
+  'CandidatureNotifiée-V2': mapProperty(
+    Candidature.DocumentCandidature.attestationDésignation,
+    'généréeLe',
+    'notifiéeLe',
+  ),
+  'CandidatureNotifiée-V3': mapProperty(
+    Candidature.DocumentCandidature.attestationDésignation,
+    'généréeLe',
+    'notifiéeLe',
   ),
   // Actionnaire
   'ChangementActionnaireDemandé-V1': Lauréat.Actionnaire.DocumentActionnaire.pièceJustificative,
