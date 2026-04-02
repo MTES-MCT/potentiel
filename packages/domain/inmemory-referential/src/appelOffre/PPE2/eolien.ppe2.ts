@@ -127,6 +127,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     coefficientKChoisi: 'requis',
     autorisation: 'requis',
     dispositifDeStockage: 'optionnel',
+    installateur: 'optionnel',
     natureDeLExploitation: 'requis',
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
