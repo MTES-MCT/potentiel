@@ -63,7 +63,7 @@ export default async function CandidatureLayout({
                 </div>
               }
               dateDésignation={notification ? notification.notifiéeLe.formatter() : Option.none}
-              utilisateurDgec={rôle.estDGEC()}
+              utilisateurPeutCopier={rôle.estDGEC() || rôle.estDreal()}
             />
           }
         >

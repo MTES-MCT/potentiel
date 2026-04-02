@@ -42,7 +42,7 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = ({
         }
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
-        utilisateurDgec={rôle.estDGEC()}
+        utilisateurPeutCopier={rôle.estDGEC() || rôle.estDreal()}
       />
     );
   });
