@@ -7,7 +7,7 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import {
-  mapToAttestationConformitéModifiéeTimelineItemProps,
+  mapToAchèvementModifiéTimelineItemProps,
   mapToAttestationConformitéTransmiseTimelineItemProps,
   mapToDateAchèvementPrévisionnelCalculéeProps,
   mapToDateAchèvementTransmiseTimelineItemProps,
@@ -29,10 +29,7 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       { type: 'AttestationConformitéEnregistrée-V1' },
       mapToAttestationConformitéEnregistréeTimelineItemProps,
     )
-    .with(
-      { type: 'AttestationConformitéModifiée-V1' },
-      mapToAttestationConformitéModifiéeTimelineItemProps,
-    )
+    .with({ type: 'AchèvementModifié-V1' }, mapToAchèvementModifiéTimelineItemProps)
     .with(
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',

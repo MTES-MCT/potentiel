@@ -12,8 +12,8 @@ import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from '.
 
 import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option.js';
 import { EnregistrerAttestationConformitéOptions } from './enregistrer/enregistrerAttestationConformité.option.js';
-import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
-import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option.js';
+import { AchèvementModifiéEvent } from './modifier/modifierAchèvement.event.js';
+import { ModifierAchèvementOptions } from './modifier/modifierAchèvement.option.js';
 import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event.js';
 import { AchèvementEvent, AttestationConformitéEnregistréeEvent } from './achèvement.event.js';
 import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event.js';
@@ -177,14 +177,14 @@ export class AchèvementAggregate extends AbstractAggregate<
     });
   }
 
-  async modifierAttestationConformité({
+  async modifierAchèvement({
     identifiantProjet,
     identifiantUtilisateur,
     attestation,
     date,
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant,
-  }: ModifierAttestationConformitéOptions) {
+  }: ModifierAchèvementOptions) {
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();
     }
@@ -204,8 +204,8 @@ export class AchèvementAggregate extends AbstractAggregate<
       throw new AttestationDeConformitéNonModifiéeError();
     }
 
-    const event: AttestationConformitéModifiéeEvent = {
-      type: 'AttestationConformitéModifiée-V1',
+    const event: AchèvementModifiéEvent = {
+      type: 'AchèvementModifié-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         attestation,
@@ -329,10 +329,7 @@ export class AchèvementAggregate extends AbstractAggregate<
         { type: 'AttestationConformitéTransmise-V1' },
         this.applyAttestationConformitéTransmiseV1.bind(this),
       )
-      .with(
-        { type: 'AttestationConformitéModifiée-V1' },
-        this.applyAttestationConformitéModifiéeV1.bind(this),
-      )
+      .with({ type: 'AchèvementModifié-V1' }, this.applyAchèvementModifiéV1.bind(this))
       .with(
         { type: 'DateAchèvementPrévisionnelCalculée-V1' },
         this.applyDateAchèvementPrévisionnelCalculéeV1.bind(this),
@@ -354,9 +351,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#attestationConformitéTransmise = true;
   }
 
-  private applyAttestationConformitéModifiéeV1({
+  private applyAchèvementModifiéV1({
     payload: { dateTransmissionAuCocontractant, attestation },
-  }: AttestationConformitéModifiéeEvent) {
+  }: AchèvementModifiéEvent) {
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);
     if (attestation) {
       this.#attestationConformitéTransmise = true;

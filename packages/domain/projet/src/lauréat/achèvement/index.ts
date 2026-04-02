@@ -7,7 +7,7 @@ import {
   ListerProjetAvecAchevementATransmettreQuery,
   ListerProjetAvecAchevementATransmettreReadModel,
 } from './lister/listerProjetAvecAchevementATransmettre.query.js';
-import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
+import { ModifierAchèvementUseCase } from './modifier/modifierAchèvement.usecase.js';
 import { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
 import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
@@ -16,13 +16,13 @@ import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDate
 export type AchèvementUseCase =
   | EnregistrerAttestationConformitéUseCase
   | TransmettreAttestationConformitéUseCase
-  | ModifierAttestationConformitéUseCase
+  | ModifierAchèvementUseCase
   | TransmettreDateAchèvementUseCase;
 
 export type {
   EnregistrerAttestationConformitéUseCase,
   TransmettreAttestationConformitéUseCase,
-  ModifierAttestationConformitéUseCase,
+  ModifierAchèvementUseCase,
   TransmettreDateAchèvementUseCase,
 };
 

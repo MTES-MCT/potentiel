@@ -20,13 +20,11 @@ import {
   TransmettreAttestationConformitéFormKeys,
 } from './attestation-conformite:transmettre/transmettreAttestationConformité.action';
 import {
-  modifierAttestationConformitéAction,
-  ModifierAttestationConformitéFormKeys,
-} from './attestation-conformite:modifier/modifierAttestationConformité.action';
+  modifierAchèvementAction,
+  ModifierAchèvementFormKeys,
+} from './modifier/modifierAchèvement.action';
 
-type Action =
-  | typeof transmettreAttestationConformitéAction
-  | typeof modifierAttestationConformitéAction;
+type Action = typeof transmettreAttestationConformitéAction | typeof modifierAchèvementAction;
 
 export type AttestationConformitéFormProps = {
   identifiantProjet: string;
@@ -55,9 +53,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
   estUneModification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<
-      ModifierAttestationConformitéFormKeys | TransmettreAttestationConformitéFormKeys
-    >
+    ValidationErrors<ModifierAchèvementFormKeys | TransmettreAttestationConformitéFormKeys>
   >({});
 
   return (

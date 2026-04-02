@@ -12,10 +12,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import {
-  ModifierAttestationConformitéPage,
-  ModifierAttestationConformitéPageProps,
-} from './modifierAttestationConformité.page';
+import { ModifierAchèvementPage, ModifierAchèvementPageProps } from './ModifierAchèvement.page';
 
 export const metadata: Metadata = {
   title: `Modifier l'attestation de conformité - Potentiel`,
@@ -25,8 +22,8 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>(
-        'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.ModifierAchèvementUseCase>(
+        'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       );
 
       const identifiantProjet = decodeParameter(identifiant);
@@ -44,7 +41,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const props = mapToProps(projet.identifiantProjet, achèvement, projet.notifiéLe);
       return (
-        <ModifierAttestationConformitéPage
+        <ModifierAchèvementPage
           identifiantProjet={props.identifiantProjet}
           attestationConformité={props.attestationConformité}
           dateTransmissionAuCocontractant={props.dateTransmissionAuCocontractant}
@@ -60,7 +57,7 @@ type MapToProps = (
   identifiantProjet: IdentifiantProjet.ValueType,
   achèvement: Lauréat.Achèvement.ConsulterAchèvementAchevéReadModel,
   notifiéLe: DateTime.ValueType,
-) => ModifierAttestationConformitéPageProps;
+) => ModifierAchèvementPageProps;
 const mapToProps: MapToProps = (
   identifiantProjet,
   { attestation, preuveTransmissionAuCocontractant, dateAchèvementRéel },

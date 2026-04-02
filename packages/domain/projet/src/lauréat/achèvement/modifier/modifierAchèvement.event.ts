@@ -3,8 +3,8 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../../../index.js';
 
-export type AttestationConformitéModifiéeEvent = DomainEvent<
-  'AttestationConformitéModifiée-V1',
+export type AchèvementModifiéEvent = DomainEvent<
+  'AchèvementModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     dateTransmissionAuCocontractant: DateTime.RawType;

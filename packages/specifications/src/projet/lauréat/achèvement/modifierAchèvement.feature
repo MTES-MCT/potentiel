@@ -1,6 +1,6 @@
 # language: fr
 @achèvement
-Fonctionnalité: Modifier une attestation de conformité
+Fonctionnalité: Modifier un achèvement
 
     Contexte:
         Etant donné le projet lauréat "Centrale PV"

@@ -25,7 +25,7 @@ const schema = zod.object({
   dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
-export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;
+export type ModifierAchèvementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
@@ -39,8 +39,8 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
-      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+    await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
       data: {
         identifiantProjetValue: identifiantProjet,
         attestationValue:
@@ -65,4 +65,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const modifierAttestationConformitéAction = formAction(action, schema);
+export const modifierAchèvementAction = formAction(action, schema);
