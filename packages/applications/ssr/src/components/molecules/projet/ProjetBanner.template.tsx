@@ -16,7 +16,7 @@ export type ProjetBannerProps = {
   localité?: { commune: string; département: string; région: string };
   dateDésignation: Option.Type<Iso8601DateTime>;
   identifiantProjet: IdentifiantProjet.ValueType;
-  utilisateurDgec: boolean;
+  utilisateurPeutCopier: boolean;
 };
 
 export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
@@ -26,9 +26,9 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
   localité,
   dateDésignation,
   identifiantProjet,
-  utilisateurDgec,
+  utilisateurPeutCopier,
 }) => {
-  const displayCopyButton = utilisateurDgec || process.env.APPLICATION_STAGE !== 'production';
+  const displayCopyButton = utilisateurPeutCopier || process.env.APPLICATION_STAGE !== 'production';
 
   return (
     <aside>
