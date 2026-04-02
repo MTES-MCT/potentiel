@@ -30,11 +30,11 @@ export class SeedFilesCommand extends Command {
   async run() {
     const events = await executeSelect<Event>(selectEventsWithFiles);
 
-    const todo = new Set<string>();
+    const unhandledEvents = new Set<string>();
     for (const event of events) {
       if (!isEventWithDocument(event)) {
         console.log(`type ${event.type} non géré`);
-        todo.add(event.type);
+        unhandledEvents.add(event.type);
         continue;
       }
       const documentOuArray = mapToDocumentProjet(event);
@@ -58,7 +58,10 @@ export class SeedFilesCommand extends Command {
         await upload(key, stream);
       }
     }
-    console.log(todo);
+    if (unhandledEvents.size > 0) {
+      console.warn(`Il reste ${unhandledEvents.size} types d'événements à gérer`);
+      console.log(unhandledEvents);
+    }
   }
 }
 
@@ -97,6 +100,14 @@ type EventWithDocument =
   | Lauréat.Installation.TypologieInstallationModifiéeEvent
   | Lauréat.NatureDeLExploitation.ChangementNatureDeLExploitationEnregistréEvent
   | Lauréat.ChangementNomProjetEnregistréEvent
+  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
+  | Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent
   | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
   | Lauréat.Achèvement.AttestationConformitéEnregistréeEvent
   | Lauréat.Achèvement.AchèvementModifiéEvent
@@ -171,6 +182,7 @@ const map: DocumentRecord = {
     'enregistréLe',
     'enregistréeLe',
   ),
+
   // Raccordement
   'DemandeComplèteDeRaccordementTransmise-V2': ({ dateQualification, ...event }) =>
     dateQualification &&
@@ -224,15 +236,22 @@ const map: DocumentRecord = {
     Lauréat.NatureDeLExploitation.DocumentNatureDeLExploitation.pièceJustificative,
   'ChangementNomProjetEnregistré-V1': Lauréat.DocumentNomProjet.pièceJustificative,
   // Garanties Financières
-  // 'AttestationGarantiesFinancièresEnregistrée-V1':,
-  // 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
-  // 'DépôtGarantiesFinancièresSoumis-V1',
-  // 'DépôtGarantiesFinancièresEnCoursValidé-V2',
-  // 'DateAchèvementTransmise-V1',
-  // 'GarantiesFinancièresModifiées-V1',
-  // 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-  // 'DépôtGarantiesFinancièresEnCoursModifié-V1',
-  // 'GarantiesFinancièresEnregistrées-V1'
+  'AttestationGarantiesFinancièresEnregistrée-V1':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle,
+  'GarantiesFinancièresEnregistrées-V1':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle,
+  'GarantiesFinancièresModifiées-V1':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle,
+  'DépôtGarantiesFinancièresEnCoursModifié-V1':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationSoumise,
+  'DépôtGarantiesFinancièresSoumis-V1':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationSoumise,
+  'DépôtGarantiesFinancièresEnCoursValidé-V2':
+    Lauréat.GarantiesFinancières.DocumentGarantiesFinancières.attestationActuelle,
+  'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
+    Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée,
+  'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+    Lauréat.GarantiesFinancières.DocumentMainlevée.demandeRejetée,
   // Recours
   'RecoursDemandé-V1': Éliminé.Recours.DocumentRecours.pièceJustificative,
   'RecoursAccordé-V1': Éliminé.Recours.DocumentRecours.recoursAccordé,
