@@ -3,7 +3,8 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -13,9 +14,11 @@ import {
   enregistrerChangementInstallateurAction,
   EnregistrerChangementInstallateurFormKeys,
 } from './enregistrerChangementInstallateur.action';
-import { EnregistrerChangementInstallateurPageProps } from './EnregistrerChangementInstallateur.page';
 
-export type EnregistrerChangementInstallateurFormProps = EnregistrerChangementInstallateurPageProps;
+export type EnregistrerChangementInstallateurFormProps = PlainType<{
+  identifiantProjet: IdentifiantProjet.ValueType;
+  installateur?: Lauréat.Installation.ConsulterInstallateurReadModel['installateur'];
+}>;
 
 export const EnregistrerChangementInstallateurForm: FC<
   EnregistrerChangementInstallateurFormProps
