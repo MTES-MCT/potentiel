@@ -1,2 +1,2 @@
-export * from './motifMainlevéeLabels';
+export * from './getMotifMainlevéeLabel';
 export * from './statutMainlevéeLabels';

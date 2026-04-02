@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
+import { getMotifMainlevéeLabel } from '../../../(mainlevée)/_helpers';
+
 export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent,
 ): TimelineItemProps => {
@@ -13,7 +15,7 @@ export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
     actor: demandéPar,
     details: (
       <div>
-        Motif : <span className="font-semibold">{motif}</span>
+        Motif : <span className="font-semibold">{getMotifMainlevéeLabel(motif)}</span>
       </div>
     ),
   };

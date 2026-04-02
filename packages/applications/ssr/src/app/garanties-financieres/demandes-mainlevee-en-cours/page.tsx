@@ -9,8 +9,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import {
-  convertMotifMainlevéeForView,
-  convertStatutMainlevéeForView,
+  getMotifMainlevéeLabel,
+  getStatutMainlevéeLabel,
 } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
@@ -91,7 +91,7 @@ export default async function Page({ searchParams }: PageProps) {
           options: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts
             .toSorted((a, b) => a.localeCompare(b))
             .map((statut) => ({
-              label: convertStatutMainlevéeForView(statut),
+              label: getStatutMainlevéeLabel(statut),
               value: statut,
             })),
         },
@@ -99,7 +99,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Motif de mainlevée',
           searchParamKey: 'motif',
           options: motifMainlevée.map((motif) => ({
-            label: convertMotifMainlevéeForView(motif),
+            label: getMotifMainlevéeLabel(motif),
             value: motif,
           })),
         },

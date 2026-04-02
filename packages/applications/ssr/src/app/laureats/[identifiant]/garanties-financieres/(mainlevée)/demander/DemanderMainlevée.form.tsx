@@ -7,11 +7,11 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
 import { demanderMainlevéeAction, DemanderMainlevéeFormKeys } from './demanderMainlevée.action';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 type DemanderMainlevéeFormProps = {
   identifiantProjet: string;

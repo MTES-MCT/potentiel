@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { convertStatutMainlevéeForView } from './_helpers';
+import { getStatutMainlevéeLabel } from './_helpers';
 
 const convertStatutMainlevéeToBadgeSeverity: Record<
   Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType,
@@ -20,6 +20,6 @@ export const StatutMainlevéeBadge: FC<{
   statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
 }> = ({ statut }) => (
   <Badge small noIcon severity={convertStatutMainlevéeToBadgeSeverity[statut]}>
-    {convertStatutMainlevéeForView(statut)}
+    {getStatutMainlevéeLabel(statut)}
   </Badge>
 );
