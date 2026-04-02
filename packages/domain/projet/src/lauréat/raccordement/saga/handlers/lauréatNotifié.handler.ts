@@ -27,6 +27,7 @@ export const handleLauréatNotifié = async ({
       identifiantProjet,
     },
   });
+
   if (Option.isNone(candidature)) {
     throw new Error('Candidature non trouvée');
   }

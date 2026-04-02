@@ -1,38 +1,39 @@
 import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { Champs, RepetitionChamp } from '../../graphql/index.js';
+import { Champs } from '../../graphql/index.js';
+
+import { findRepetitionChamp } from './utils.js';
 
 export const getRaccordements = (champs: Champs) => {
-  const LABEL_BLOC_RACCORDEMENT = 'Raccordement';
-  const LABEL_CHAMP_RÉFÉRENCE = 'Référence du raccordement';
-  const LABEL_CHAMP_DATE = "Date de l'accusé de réception";
+  const références: Candidature.Dépôt.RawType['raccordements'] = [];
 
-  const raccordements: Candidature.Dépôt.RawType['raccordements'] = [];
+  const raccordements = findRepetitionChamp(
+    champs,
+    ' Pour chaque référence de raccordement, ajouter un bloc contenant les informations correspondantes',
+  );
 
-  const blocsRaccordement = champs.find(
-    (champ) =>
-      champ.__typename === 'RepetitionChamp' &&
-      champ.label.trim().toLowerCase() === LABEL_BLOC_RACCORDEMENT.trim().toLowerCase(),
-  ) as RepetitionChamp | undefined;
+  if (!raccordements?.rows) return;
 
-  if (!blocsRaccordement?.rows) return;
-
-  blocsRaccordement.rows.forEach((bloc) => {
-    const raccordement = Object.fromEntries(
-      bloc.champs.map((champ) => [champ.label, champ.stringValue]),
+  for (const raccordement of raccordements.rows) {
+    const raccordementObject = Object.fromEntries(
+      raccordement.champs.map((champ) => [champ.label, champ.stringValue]),
     );
 
-    const référence = raccordement[LABEL_CHAMP_RÉFÉRENCE];
-    const date = raccordement[LABEL_CHAMP_DATE];
+    const estEnedis =
+      raccordementObject['Est-ce que la demande de raccordement est faite sur le réseau Enedis ?'];
+    const référence = raccordementObject['Référence du dossier de raccordement'];
+    const dateDeLAccuséRéception =
+      raccordementObject[`Date de l'accusé de réception de la demande de raccordement`];
 
-    if (référence && date) {
-      raccordements.push({
-        référence: référence.trim(),
-        dateQualification: DateTime.convertirEnValueType(date).formatter(),
+    if (référence && dateDeLAccuséRéception) {
+      références.push({
+        estEnedis: estEnedis === 'Oui',
+        référence,
+        dateQualification: DateTime.convertirEnValueType(dateDeLAccuséRéception).formatter(),
       });
     }
-  });
+  }
 
-  return raccordements;
+  return références;
 };
