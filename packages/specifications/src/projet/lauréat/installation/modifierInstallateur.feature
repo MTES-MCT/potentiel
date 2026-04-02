@@ -57,4 +57,4 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 11              |
         Quand le DGEC validateur modifie l'installateur du projet lauréat
-        Alors l'utilisateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"

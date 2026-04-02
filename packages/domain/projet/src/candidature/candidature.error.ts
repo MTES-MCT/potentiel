@@ -73,60 +73,6 @@ export class NomManquantError extends InvalidOperationError {
   }
 }
 
-export class ChoixCoefficientKRequisError extends InvalidOperationError {
-  constructor() {
-    super(`Le choix du coefficient K est requis pour cette période`);
-  }
-}
-
-export class ChoixCoefficientKNonAttenduError extends InvalidOperationError {
-  constructor() {
-    super(`Le choix du coefficient K ne peut être renseigné pour cette période`);
-  }
-}
-
-export class PuissanceDeSiteRequiseError extends InvalidOperationError {
-  constructor() {
-    super(`La puissance de site est requise pour cet appel d'offres`);
-  }
-}
-
-export class PuissanceDeSiteNonAttendueError extends InvalidOperationError {
-  constructor() {
-    super(`La puissance de site ne peut être renseignée pour cet appel d'offres`);
-  }
-}
-
-export class InstallateurRequisError extends InvalidOperationError {
-  constructor() {
-    super(`L'installateur est requis pour cet appel d'offres`);
-  }
-}
-
-export class InstallateurNonAttenduError extends InvalidOperationError {
-  constructor() {
-    super(`L'installateur ne peut être renseigné pour cet appel d'offres`);
-  }
-}
-
-export class TypologieInstallationNonAttendueError extends InvalidOperationError {
-  constructor() {
-    super(`La typologie du projet ne peut être renseignée pour cet appel d'offres`);
-  }
-}
-
-export class NatureDeLExploitationRequiseError extends InvalidOperationError {
-  constructor() {
-    super(`La nature de l'exploitation est requise pour cet appel d'offres`);
-  }
-}
-
-export class NatureDeLExploitationNonAttendueError extends InvalidOperationError {
-  constructor() {
-    super(`La nature de l'exploitation ne peut être renseignée pour cet appel d'offres`);
-  }
-}
-
 export class TechnologieRequiseError extends InvalidOperationError {
   constructor() {
     super("Une technologie est requise pour cet appel d'offres");
@@ -151,26 +97,14 @@ export class DateAutorisationError extends InvalidOperationError {
   }
 }
 
-export class DispositifDeStockageRequisError extends InvalidOperationError {
-  constructor() {
-    super("Le dispositif de stockage est requis pour cet appel d'offres");
-  }
-}
-
-export class DispositifDeStockageNonAttenduError extends InvalidOperationError {
-  constructor() {
-    super("Le dispositif de stockage n'est pas attendu pour cet appel d'offres");
-  }
-}
-
 export class ChampsRequisError extends InvalidOperationError {
   constructor(champs: string) {
-    super(`Le champs ${champs} est requis pour cet appel d'offres`);
+    super(`Le champ ${champs} est requis pour cet appel d'offres`);
   }
 }
 
-export class ChampsNonAttenduError extends InvalidOperationError {
+export class ChampNonAttenduError extends InvalidOperationError {
   constructor(champs: string) {
-    super(`Le champs ${champs} n'est pas attendu pour cet appel d'offres`);
+    super(`Le champ ${champs} ne peut être renseigné pour cet appel d'offres`);
   }
 }

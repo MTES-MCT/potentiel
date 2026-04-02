@@ -435,7 +435,7 @@ describe('Schema candidature CSV', () => {
         expected: 'undefined',
         code: 'invalid_type',
         path: ['notifiedOn'],
-        message: 'Le champs notifiedOn ne peut pas être présent',
+        message: 'Le champ notifiedOn ne peut pas être présent',
       });
     });
 
