@@ -11,11 +11,11 @@ Fonctionnalité: Modifier une attestation de conformité
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur modifie l'attestation de conformité
         Alors l'achèvement du projet devrait être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'attestation de conformité |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*                                           |
 
-    # Et un email a été envoyé à la dreal avec :
-    #     | sujet      | Potentiel - Du boulodrome de Marseille - Transmission de l'attestation de conformité et de la preuve de transmission |
-    #     | nom_projet | Du boulodrome de Marseille                                                                                           |
-    #     | url        | https://potentiel.beta.gouv.fr/laureats/.*                                                                           |
     Scénario: Impossible de modifier une attestation de conformité si le projet n'est pas achevé
         Quand le porteur modifie l'attestation de conformité
         Alors le porteur devrait être informé que "Le projet n'est pas achevé"
