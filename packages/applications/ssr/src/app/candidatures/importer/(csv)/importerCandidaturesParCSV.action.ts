@@ -105,6 +105,7 @@ const action: FormAction<FormState, typeof schema> = async (
               dateConstitutionGf: undefined, // non supporté dans le CSV
               attestationConstitutionGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
+              raccordements: [],
             },
             instructionValue: line,
             détailsValue: rawLine,

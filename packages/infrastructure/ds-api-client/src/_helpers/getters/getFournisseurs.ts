@@ -1,38 +1,18 @@
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { Champs, RepetitionChamp } from '../../graphql/index.js';
+import { Champs } from '../../graphql/index.js';
+
+import { findMultipleDropDownListChamp, findRepetitionChamp, findTextChamp } from './utils.js';
 
 export const getFournisseurs = (champs: Champs) => {
   const fournisseurs: Candidature.Dépôt.RawType['fournisseurs'] = [];
-
-  const normalizeLabel = (label: string) => label.trim().toLowerCase();
-
-  const findRepetitionChamp = (label: string): RepetitionChamp | undefined =>
-    champs.find(
-      (champ) =>
-        champ.__typename === 'RepetitionChamp' &&
-        normalizeLabel(champ.label) === normalizeLabel(label),
-    ) as RepetitionChamp | undefined;
-
-  const findTextChamp = (label: string) =>
-    champs.find(
-      (champ) =>
-        champ.__typename === 'TextChamp' && normalizeLabel(champ.label) === normalizeLabel(label),
-    );
-
-  const findMultipleDropDownListChamp = (label: string) =>
-    champs.find(
-      (champ) =>
-        champ.__typename === 'MultipleDropDownListChamp' &&
-        normalizeLabel(champ.label) === normalizeLabel(label),
-    );
 
   const addFournisseurs = (
     typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType,
     partialChampLabel: string,
     blocLabel: string,
   ) => {
-    const groupeDeFournisseurs = findRepetitionChamp(blocLabel);
+    const groupeDeFournisseurs = findRepetitionChamp(champs, blocLabel);
     if (!groupeDeFournisseurs?.rows) return;
 
     groupeDeFournisseurs.rows.forEach((fournisseur) => {
@@ -64,8 +44,8 @@ export const getFournisseurs = (champs: Champs) => {
   );
 
   // Dispositif de stockage
-  const stockageNom = findTextChamp('Stockage - Nom du fabricant');
-  const stockagePays = findMultipleDropDownListChamp('Stockage - Pays de fabrication');
+  const stockageNom = findTextChamp(champs, 'Stockage - Nom du fabricant');
+  const stockagePays = findMultipleDropDownListChamp(champs, 'Stockage - Pays de fabrication');
   if (stockageNom?.stringValue && stockagePays?.stringValue) {
     fournisseurs.push({
       typeFournisseur: 'dispositif-de-stockage',
