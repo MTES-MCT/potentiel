@@ -110,7 +110,7 @@ export const documentFactory =
     payload[nomChampDocument] &&
     bind({
       identifiantProjet: payload.identifiantProjet,
-      typeDocument: `${domaine}/${typeDocument}`,
+      typeDocument: domaine ? `${domaine}/${typeDocument}` : typeDocument,
       cléDocument: nomCléDocument ? payload[nomCléDocument as keyof typeof payload] : undefined,
       dateCréation: payload[nomChampDate],
       format: payload[nomChampDocument].format,

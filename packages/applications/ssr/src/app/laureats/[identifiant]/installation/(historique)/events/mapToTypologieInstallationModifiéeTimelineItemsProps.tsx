@@ -24,7 +24,7 @@ export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
     file: pièceJustificative && {
       document: Lauréat.Installation.DocumentTypologieInstallation.pièceJustificative({
         identifiantProjet,
-        enregistréLe: modifiéeLe,
+        modifiéeLe,
         pièceJustificative,
       }),
       ariaLabel: `Télécharger le justificatif de la modification de typologie du projet en date du ${formatDateToText(modifiéeLe)}`,

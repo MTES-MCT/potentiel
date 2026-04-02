@@ -94,19 +94,15 @@ const mapToReadModel = ({
       ? DocumentAchèvement.attestationConformité({
           identifiantProjet,
           enregistréLe: attestationConformité.transmiseLe,
-          'attestation-conformite': {
-            format: attestationConformité.format,
-          },
+          attestation: attestationConformité,
         })
       : Option.none,
     dateAchèvementRéel: DateTime.convertirEnValueType(dateAchèvementRéel),
     preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
       ? DocumentAchèvement.preuveTransmissionAttestationConformité({
           identifiantProjet,
-          enregistréLe: preuveTransmissionAuCocontractant.transmiseLe,
-          'preuve-transmission-attestation-conformite': {
-            format: preuveTransmissionAuCocontractant.format,
-          },
+          dateTransmissionAuCocontractant: preuveTransmissionAuCocontractant.transmiseLe,
+          preuveTransmissionAuCocontractant,
         })
       : Option.none,
     misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),

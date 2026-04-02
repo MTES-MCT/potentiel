@@ -90,7 +90,7 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => {
     statut: StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
     pièceJustificative: DocumentChangementReprésentantLégal.pièceJustificative({
       identifiantProjet: identifiantProjet.formatter(),
-      enregistréeLe: demande.demandéLe,
+      demandéLe: demande.demandéLe,
       pièceJustificative: { format: demande.pièceJustificative.format },
     }),
   };

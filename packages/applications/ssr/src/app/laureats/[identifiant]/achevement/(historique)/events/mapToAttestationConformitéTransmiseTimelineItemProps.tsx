@@ -9,28 +9,24 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
 ): TimelineItemProps => {
   const {
     identifiantProjet,
-    attestation: { format },
+    attestation,
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
   } = event.payload;
 
-  const attestation = Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
+  const attestationConformité = Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
     identifiantProjet,
     enregistréLe: date,
-    'attestation-conformite': {
-      format,
-    },
+    attestation,
   });
 
   const preuveTransmission =
     Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
       identifiantProjet,
-      enregistréLe: dateTransmissionAuCocontractant,
-      'preuve-transmission-attestation-conformite': {
-        format: preuveTransmissionAuCocontractant.format,
-      },
+      dateTransmissionAuCocontractant,
+      preuveTransmissionAuCocontractant,
     });
 
   return {
@@ -41,7 +37,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
       <div className="flex flex-col gap-2">
         <TimelineItemFile
           label="Télécharger l'attestation de conformité"
-          document={attestation}
+          document={attestationConformité}
           ariaLabel={`Télécharger l'attestation de conformité du projet achevé le ${formatDateToText(date)}`}
         />
         <TimelineItemFile

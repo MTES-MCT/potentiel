@@ -84,7 +84,7 @@ export const mapToReadModel = ({
         : undefined,
       accuséRéception: DocumentRaccordement.accuséRéception({
         identifiantProjet,
-        référence,
+        référenceDossierRaccordement: référence,
         // Initialement dans le legacy certaines DCR n'avait pas de date de qualification.
         // Lorsque le domaine raccordement a été migré, l'optionalité de la date a été conservée.
         // Par la suite, le domain Document a été introduit pour harmoniser la gestion des documents
@@ -106,7 +106,7 @@ export const mapToReadModel = ({
           propositionTechniqueEtFinancièreSignée:
             DocumentRaccordement.propositionTechniqueEtFinancière({
               identifiantProjet,
-              référence,
+              référenceDossierRaccordement: référence,
               dateSignature: propositionTechniqueEtFinancière.dateSignature,
               propositionTechniqueEtFinancièreSignée:
                 propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée,

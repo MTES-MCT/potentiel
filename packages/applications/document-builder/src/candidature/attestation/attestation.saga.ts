@@ -5,7 +5,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, DocumentProjet, Document, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, Document, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate.js';
 
@@ -88,13 +88,11 @@ export const register = () => {
             return;
           }
 
-          const attestation = DocumentProjet.convertirEnValueType(
+          const attestation = Candidature.DocumentCandidature.attestationDésignation({
             identifiantProjet,
-            'attestation',
-            notifiéLe,
-            format,
-          );
-
+            généréeLe: notifiéLe,
+            attestation: { format },
+          });
           await mediator.send<Document.EnregistrerDocumentProjetCommand>({
             type: 'Document.Command.EnregistrerDocumentProjet',
             data: {
@@ -149,12 +147,11 @@ export const register = () => {
           return;
         }
 
-        const attestation = DocumentProjet.convertirEnValueType(
+        const attestation = Candidature.DocumentCandidature.attestationDésignation({
           identifiantProjet,
-          'attestation',
-          payload.corrigéLe,
-          format,
-        );
+          généréeLe: payload.corrigéLe,
+          attestation: { format },
+        });
 
         await mediator.send<Document.EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',

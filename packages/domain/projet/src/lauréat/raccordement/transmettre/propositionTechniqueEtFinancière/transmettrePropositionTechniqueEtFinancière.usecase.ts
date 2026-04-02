@@ -36,7 +36,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
     const propositionTechniqueEtFinancièreSignée =
       DocumentRaccordement.propositionTechniqueEtFinancière({
         identifiantProjet: identifiantProjetValue,
-        référence: référenceDossierRaccordementValue,
+        référenceDossierRaccordement: référenceDossierRaccordementValue,
         dateSignature: dateSignatureValue,
         propositionTechniqueEtFinancièreSignée: { format },
       });

@@ -36,7 +36,7 @@ export const registerModifierTypologieInstallationUseCase = () => {
     const pièceJustificative = pièceJustificativeValue
       ? DocumentTypologieInstallation.pièceJustificative({
           identifiantProjet: identifiantProjetValue,
-          enregistréLe: dateModificationValue,
+          modifiéeLe: dateModificationValue,
           pièceJustificative: pièceJustificativeValue,
         })
       : undefined;

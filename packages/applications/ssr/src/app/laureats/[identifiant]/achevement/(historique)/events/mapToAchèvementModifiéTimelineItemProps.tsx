@@ -20,19 +20,15 @@ export const mapToAchèvementModifiéTimelineItemProps = (
     ? Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
         identifiantProjet,
         enregistréLe: date,
-        'attestation-conformite': {
-          format: attestation.format,
-        },
+        attestation,
       })
     : undefined;
 
   const preuveTransmission = preuveTransmissionAuCocontractant
     ? Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
         identifiantProjet,
-        enregistréLe: dateTransmissionAuCocontractant,
-        'preuve-transmission-attestation-conformite': {
-          format: preuveTransmissionAuCocontractant.format,
-        },
+        dateTransmissionAuCocontractant,
+        preuveTransmissionAuCocontractant,
       })
     : undefined;
 

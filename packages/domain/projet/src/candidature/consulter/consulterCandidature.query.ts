@@ -7,7 +7,13 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance } from '../index.js';
+import {
+  DocumentCandidature,
+  Dépôt,
+  Instruction,
+  TypeTechnologie,
+  UnitéPuissance,
+} from '../index.js';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -15,8 +21,6 @@ export type ConsulterCandidatureReadModel = {
   instruction: Instruction.ValueType;
 
   miseÀJourLe: DateTime.ValueType;
-
-  détailsImport: DocumentProjet.ValueType;
 
   notification?: {
     notifiéeLe: DateTime.ValueType;
@@ -61,7 +65,7 @@ type MapToReadModel = (
 ) => ConsulterCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatureReadModel => {
-  const { identifiantProjet, miseÀJourLe, détailsMisÀJourLe, notification } = candidature;
+  const { identifiantProjet, miseÀJourLe, notification } = candidature;
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
 
@@ -70,24 +74,17 @@ export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatur
 
     miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
 
-    détailsImport: DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      'candidature/import',
-      détailsMisÀJourLe,
-      'application/json',
-    ),
     notification: notification && {
       notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
       notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
       validateur: notification.validateur,
       attestation:
         notification.attestation &&
-        DocumentProjet.convertirEnValueType(
+        DocumentCandidature.attestationDésignation({
           identifiantProjet,
-          'attestation',
-          notification.attestation.généréeLe,
-          notification.attestation.format,
-        ),
+          généréeLe: notification.attestation.généréeLe,
+          attestation: notification.attestation,
+        }),
     },
     technologie: TypeTechnologie.convertirEnValueType(candidature.technologieCalculée),
     unitéPuissance: UnitéPuissance.convertirEnValueType(candidature.unitéPuissance),

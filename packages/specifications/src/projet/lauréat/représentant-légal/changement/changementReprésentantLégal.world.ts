@@ -75,7 +75,7 @@ export class ChangementReprésentantLégalWorld {
         pièceJustificative:
           Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
             identifiantProjet: identifiantProjet.formatter(),
-            enregistréeLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+            demandéLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
             pièceJustificative: {
               format:
                 this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative!
@@ -93,7 +93,7 @@ export class ChangementReprésentantLégalWorld {
       expected.demande.pièceJustificative =
         Lauréat.ReprésentantLégal.DocumentChangementReprésentantLégal.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),
-          enregistréeLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+          demandéLe: this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
           pièceJustificative: {
             format: this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
           },

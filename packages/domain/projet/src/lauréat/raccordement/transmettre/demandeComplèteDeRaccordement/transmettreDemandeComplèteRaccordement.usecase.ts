@@ -52,7 +52,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     if (accuséRéceptionValue) {
       const accuséRéception = DocumentRaccordement.accuséRéception({
         identifiantProjet: identifiantProjetValue,
-        référence: référenceDossierValue,
+        référenceDossierRaccordement: référenceDossierValue,
         dateQualification: dateQualificationValue,
         accuséRéception: accuséRéceptionValue,
       });
