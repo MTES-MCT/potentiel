@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -38,14 +37,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      if (Option.isNone(installateurActuel)) {
-        return notFound();
-      }
-
       return (
         <ModifierInstallateurPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          installateur={installateurActuel.installateur}
+          installateur={
+            Option.isSome(installateurActuel)
+              ? mapToPlainObject(installateurActuel.installateur)
+              : undefined
+          }
         />
       );
     }),

@@ -21,6 +21,7 @@ export type ModifierDispositifDeStockageFormProps = PlainType<{
   identifiantProjet: IdentifiantProjet.ValueType;
   dispositifDeStockage?: Lauréat.Installation.ConsulterDispositifDeStockageReadModel['dispositifDeStockage'];
 }>;
+
 export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFormProps> = ({
   identifiantProjet,
   dispositifDeStockage,
