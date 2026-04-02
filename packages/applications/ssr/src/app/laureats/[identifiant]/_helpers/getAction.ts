@@ -32,6 +32,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
   const règlesChangement = cahierDesCharges.getRèglesChangements(domain);
   const règlesModification = cahierDesCharges.getRèglesModification(domain);
   const champsSupplémentairesAO = cahierDesCharges.getChampsSupplémentaires();
+
   if (champSupplémentaire && !champsSupplémentairesAO[champSupplémentaire]) {
     return;
   }

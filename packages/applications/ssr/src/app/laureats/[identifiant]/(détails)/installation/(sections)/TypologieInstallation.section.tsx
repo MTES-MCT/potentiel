@@ -34,26 +34,19 @@ export const TypologieInstallationSection = ({
 
       const installation = await getInstallationInfos(identifiantProjet.formatter());
 
-      if (!installation) {
-        return (
-          <Section title={sectionTitle}>
-            <span>Champ non renseigné</span>
-          </Section>
-        );
-      }
-
       const action = await getAction({
         identifiantProjet,
         rôle,
         domain: 'typologieInstallation',
       });
 
-      const { typologieInstallation } = installation;
-      const value = mapToPlainObject(typologieInstallation);
+      const value = installation?.typologieInstallation
+        ? mapToPlainObject(installation.typologieInstallation)
+        : undefined;
 
       return (
         <Section title={sectionTitle}>
-          {value.length ? (
+          {value?.length ? (
             <div>
               <DétailTypologieInstallation typologieInstallation={value} />
             </div>

@@ -1,4 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   updateOneProjection,
   upsertProjection,
@@ -14,20 +15,34 @@ export const changementDispositifDeStockageEnregistréProjector = async ({
     pièceJustificative,
   },
 }: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent) => {
-  await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+  const installationActuelle = await findProjection<Lauréat.Installation.InstallationEntity>(
     `installation|${identifiantProjet}`,
-    {
-      dispositifDeStockage: dispositifDeStockage.installationAvecDispositifDeStockage
-        ? dispositifDeStockage
-        : {
-            installationAvecDispositifDeStockage: false,
-            capacitéDuDispositifDeStockageEnKWh: undefined,
-            puissanceDuDispositifDeStockageEnKW: undefined,
-          },
-      miseÀJourLe: enregistréLe,
-      identifiantProjet,
-    },
   );
+
+  const payload = {
+    dispositifDeStockage: dispositifDeStockage.installationAvecDispositifDeStockage
+      ? dispositifDeStockage
+      : {
+          installationAvecDispositifDeStockage: false,
+          capacitéDuDispositifDeStockageEnKWh: undefined,
+          puissanceDuDispositifDeStockageEnKW: undefined,
+        },
+    miseÀJourLe: enregistréLe,
+    identifiantProjet,
+  };
+
+  if (!installationActuelle) {
+    // Pour ce champs "supplémentaire", la modification peut être une initialisation de la valeur
+    await upsertProjection<Lauréat.Installation.InstallationEntity>(
+      `installation|${identifiantProjet}`,
+      payload,
+    );
+  } else {
+    await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+      `installation|${identifiantProjet}`,
+      payload,
+    );
+  }
 
   await upsertProjection<Lauréat.Installation.ChangementDispositifDeStockageEntity>(
     `changement-dispositif-de-stockage|${identifiantProjet}#${enregistréLe}`,

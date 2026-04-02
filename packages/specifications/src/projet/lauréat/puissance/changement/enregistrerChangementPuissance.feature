@@ -185,4 +185,4 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.1 |
             | puissance de site | 1.1 |
-        Alors l'utilisateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"
+        Alors l'utilisateur devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"

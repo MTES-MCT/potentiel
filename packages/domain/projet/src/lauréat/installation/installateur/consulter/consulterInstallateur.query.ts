@@ -36,7 +36,10 @@ export const registerConsulterInstallateurQuery = ({ find }: ConsulterInstallate
   mediator.register('Lauréat.Installation.Query.ConsulterInstallateur', handler);
 };
 
-export const mapToReadModel = ({ identifiantProjet, installateur }: InstallationEntity) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  installateur,
-});
+export const mapToReadModel = ({ identifiantProjet, installateur }: InstallationEntity) =>
+  installateur
+    ? {
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        installateur,
+      }
+    : Option.none;

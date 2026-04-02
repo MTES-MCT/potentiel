@@ -1,15 +1,35 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const installateurModifiéProjector = async ({
   payload: { identifiantProjet, installateur, modifiéLe },
 }: Lauréat.Installation.InstallateurModifiéEvent) => {
-  await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+  const installationActuelle = await findProjection<Lauréat.Installation.InstallationEntity>(
     `installation|${identifiantProjet}`,
-    {
-      identifiantProjet,
-      installateur,
-      miseÀJourLe: modifiéLe,
-    },
   );
+
+  if (!installationActuelle) {
+    // Pour ce champs "supplémentaire", la modification peut être une initialisation de la valeur
+    await upsertProjection<Lauréat.Installation.InstallationEntity>(
+      `installation|${identifiantProjet}`,
+      {
+        installateur,
+        miseÀJourLe: modifiéLe,
+        identifiantProjet,
+      },
+    );
+  } else {
+    await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+      `installation|${identifiantProjet}`,
+      {
+        installateur,
+        miseÀJourLe: modifiéLe,
+        identifiantProjet,
+      },
+    );
+  }
 };

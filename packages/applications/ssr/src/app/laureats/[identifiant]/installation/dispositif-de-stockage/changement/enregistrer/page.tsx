@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -37,20 +36,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-      if (Option.isNone(actuel)) {
-        return notFound();
-      }
-
       await vérifierQueLeCahierDesChargesPermetUnChangement(
-        actuel.identifiantProjet,
+        identifiantProjet,
         'information-enregistrée',
         'dispositifDeStockage',
       );
 
       return (
         <EnregistrerChangementDispositifDeStockagePage
-          identifiantProjet={mapToPlainObject(actuel.identifiantProjet)}
-          dispositifDeStockage={mapToPlainObject(actuel.dispositifDeStockage)}
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          dispositifDeStockage={
+            Option.isSome(actuel) ? mapToPlainObject(actuel.dispositifDeStockage) : undefined
+          }
         />
       );
     }),

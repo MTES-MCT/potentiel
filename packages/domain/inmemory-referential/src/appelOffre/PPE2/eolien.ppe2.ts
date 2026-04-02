@@ -109,7 +109,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dreal',
     },
-    installateur: {},
+    installateur: { informationEnregistrée: true },
     dispositifDeStockage: { informationEnregistrée: true },
   },
   modification: {
@@ -117,6 +117,14 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     natureDeLExploitation: { modificationAdmin: true },
     dispositifDeStockage: { modificationAdmin: true },
     typologieInstallation: { modificationAdmin: true },
+  },
+  // viovio test
+  champsSupplémentaires: {
+    coefficientKChoisi: 'requis',
+    autorisation: 'requis',
+    dispositifDeStockage: 'optionnel',
+    installateur: 'optionnel',
+    natureDeLExploitation: 'requis',
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

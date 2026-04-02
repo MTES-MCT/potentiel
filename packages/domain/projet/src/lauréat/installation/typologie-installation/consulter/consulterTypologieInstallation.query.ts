@@ -41,10 +41,12 @@ export const registerConsulterTypologieInstallationQuery = ({
   mediator.register('Lauréat.Installation.Query.ConsulterTypologieInstallation', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  typologieInstallation,
-}: InstallationEntity) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  typologieInstallation: typologieInstallation.map(TypologieInstallation.convertirEnValueType),
-});
+export const mapToReadModel = ({ identifiantProjet, typologieInstallation }: InstallationEntity) =>
+  typologieInstallation
+    ? {
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        typologieInstallation: typologieInstallation.map(
+          TypologieInstallation.convertirEnValueType,
+        ),
+      }
+    : Option.none;

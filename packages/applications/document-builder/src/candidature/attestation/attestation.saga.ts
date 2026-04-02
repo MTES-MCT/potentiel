@@ -105,7 +105,7 @@ export const register = () => {
         },
       )
       .with({ type: 'CandidatureCorrigée-V2' }, async ({ payload }) => {
-        // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
+        // la correction d'une candidature ne peut pas modifier le champ notification ou validateur
         // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {
           logger.info(`L'attestation ne sera pas régénérée car la candidature n'est pas notifiée`, {

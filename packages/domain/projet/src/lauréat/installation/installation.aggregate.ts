@@ -5,11 +5,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypologieInstallation } from '../../candidature/index.js';
 import { Candidature, Lauréat } from '../../index.js';
-import {
-  DispositifDeStockageNonAttenduError,
-  InstallateurNonAttenduError,
-  TypologieInstallationNonAttendueError,
-} from '../../candidature/candidature.error.js';
+import { ChampNonAttenduError } from '../../candidature/candidature.error.js';
 
 import {
   ChangementInstallateurEnregistréEvent,
@@ -88,17 +84,7 @@ export class InstallationAggregate extends AbstractAggregate<
     pièceJustificative,
   }: ModifierInstallateurOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-
-    const { installateur: champsSupplémentaireInstallateur } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentaireInstallateur) {
-      throw new InstallateurNonAttenduError();
-    }
-
-    if (this.#installateur === installateur) {
-      throw new InstallateurIdentiqueError();
-    }
+    this.vérifierSiMiseÀJourInstallateurPossible(installateur);
 
     const event: InstallateurModifiéEvent = {
       type: 'InstallateurModifié-V1',
@@ -123,14 +109,6 @@ export class InstallationAggregate extends AbstractAggregate<
     raison,
   }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-
-    const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentaireTypologieInstallation) {
-      throw new TypologieInstallationNonAttendueError();
-    }
-
     this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
 
     const event: TypologieInstallationModifiéeEvent = {
@@ -155,6 +133,7 @@ export class InstallationAggregate extends AbstractAggregate<
     raison,
     pièceJustificative,
   }: ModifierDispositifDeStockageOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
     this.vérifierSiMiseÀJourDispositifDeStockagePossible(dispositifDeStockage);
 
     const event: DispositifDeStockageModifiéEvent = {
@@ -208,9 +187,7 @@ export class InstallationAggregate extends AbstractAggregate<
     raison,
   }: EnregistrerChangementInstallateurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'installateur');
-    if (this.#installateur === installateur) {
-      throw new InstallateurIdentiqueError();
-    }
+    this.vérifierSiMiseÀJourInstallateurPossible(installateur);
 
     const event: ChangementInstallateurEnregistréEvent = {
       type: 'ChangementInstallateurEnregistré-V1',
@@ -230,6 +207,13 @@ export class InstallationAggregate extends AbstractAggregate<
   private vérifierQueModificationTypologieInstallationEstPossible = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
+    const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentaireTypologieInstallation) {
+      throw new ChampNonAttenduError('typologie du projet');
+    }
+
     const actuel = this.#typologieInstallation;
 
     if (
@@ -254,11 +238,24 @@ export class InstallationAggregate extends AbstractAggregate<
       this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (!champsSupplémentairedispositifDeStockage) {
-      throw new DispositifDeStockageNonAttenduError();
+      throw new ChampNonAttenduError('dispositif de stockage');
     }
 
     if (this.#dispositifDeStockage && modification.estÉgaleÀ(this.#dispositifDeStockage)) {
       throw new DispositifDeStockageIdentiqueError();
+    }
+  };
+
+  private vérifierSiMiseÀJourInstallateurPossible = (installateur: string) => {
+    const { installateur: champsSupplémentaireInstallateur } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentaireInstallateur) {
+      throw new ChampNonAttenduError('installateur');
+    }
+
+    if (this.#installateur === installateur) {
+      throw new InstallateurIdentiqueError();
     }
   };
 

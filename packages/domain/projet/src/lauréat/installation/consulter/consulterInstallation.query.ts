@@ -9,8 +9,8 @@ import { DispositifDeStockage, InstallationEntity } from '../index.js';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  installateur: string;
-  typologieInstallation: TypologieInstallation.ValueType[];
+  installateur?: string;
+  typologieInstallation?: TypologieInstallation.ValueType[];
   dispositifDeStockage?: DispositifDeStockage.ValueType;
 };
 
@@ -47,9 +47,9 @@ export const mapToReadModel = ({
 }: InstallationEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   installateur,
-  typologieInstallation: typologieInstallation.map((typologie) =>
-    TypologieInstallation.convertirEnValueType(typologie),
-  ),
+  typologieInstallation:
+    typologieInstallation &&
+    typologieInstallation.map((typologie) => TypologieInstallation.convertirEnValueType(typologie)),
   dispositifDeStockage:
     dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
 });
