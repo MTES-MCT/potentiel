@@ -61,7 +61,7 @@ export class RejeterMainlevéeFixture
         courrierRejet: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeRejetée({
           identifiantProjet: identifiantProjet.formatter(),
           rejetéLe: rejetéLe.formatter(),
-          reponseSignée: {
+          réponseSignée: {
             format: this.#courrierRejet.format,
           },
         }),

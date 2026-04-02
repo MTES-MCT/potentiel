@@ -63,7 +63,7 @@ export class AccorderMainlevéeFixture
         courrierAccord: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée({
           identifiantProjet: identifiantProjet.formatter(),
           accordéLe: accordéeLe.formatter(),
-          reponseSignée: {
+          réponseSignée: {
             format: this.#courrierAccord.format,
           },
         }),

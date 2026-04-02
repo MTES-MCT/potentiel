@@ -97,7 +97,7 @@ const mapToReadModel = (
         courrierAccord: DocumentMainlevée.demandeAccordée({
           identifiantProjet: mainlevée.identifiantProjet,
           accordéLe: mainlevée.accord.accordéeLe,
-          reponseSignée: mainlevée.accord.courrierAccord,
+          réponseSignée: mainlevée.accord.courrierAccord,
         }),
       }
     : undefined,

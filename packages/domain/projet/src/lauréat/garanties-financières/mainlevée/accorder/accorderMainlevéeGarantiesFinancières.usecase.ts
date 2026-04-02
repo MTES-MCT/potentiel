@@ -34,7 +34,7 @@ export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
     const réponseSignée = DocumentMainlevée.demandeAccordée({
       identifiantProjet: identifiantProjetValue,
       accordéLe: accordéLeValue,
-      reponseSignée: {
+      réponseSignée: {
         format,
       },
     });

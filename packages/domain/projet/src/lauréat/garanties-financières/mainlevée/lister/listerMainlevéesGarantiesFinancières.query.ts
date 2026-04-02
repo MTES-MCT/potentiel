@@ -145,7 +145,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
         courrierAccord: DocumentMainlevée.demandeAccordée({
           identifiantProjet: mainlevée.identifiantProjet,
           accordéLe: mainlevée.accord.accordéeLe,
-          reponseSignée: mainlevée.accord.courrierAccord,
+          réponseSignée: mainlevée.accord.courrierAccord,
         }),
       }
     : undefined,
@@ -156,7 +156,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
         courrierRejet: DocumentMainlevée.demandeRejetée({
           identifiantProjet: mainlevée.identifiantProjet,
           rejetéLe: mainlevée.rejet.rejetéLe,
-          reponseSignée: mainlevée.rejet.courrierRejet,
+          réponseSignée: mainlevée.rejet.courrierRejet,
         }),
       }
     : undefined,

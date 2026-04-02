@@ -34,7 +34,7 @@ export const registerRejeterMainlevéeGarantiesFinancièresUseCase = () => {
     const réponseSignée = DocumentMainlevée.demandeRejetée({
       identifiantProjet: identifiantProjetValue,
       rejetéLe: rejetéLeValue,
-      reponseSignée: {
+      réponseSignée: {
         format,
       },
     });
