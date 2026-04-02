@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { PièceJustificative } from '#helpers';
 
@@ -61,12 +60,13 @@ export class AccorderMainlevéeFixture
       accord: {
         accordéeLe,
         accordéePar,
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
-          accordéeLe.formatter(),
-          this.#courrierAccord.format,
-        ),
+        courrierAccord: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée({
+          identifiantProjet: identifiantProjet.formatter(),
+          accordéLe: accordéeLe.formatter(),
+          réponseSignée: {
+            format: this.#courrierAccord.format,
+          },
+        }),
       },
       dernièreMiseÀJour: {
         date: accordéeLe,

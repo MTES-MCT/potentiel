@@ -2,7 +2,6 @@ import { faker } from '@faker-js/faker';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { PièceJustificative } from '#helpers';
 
@@ -59,12 +58,13 @@ export class RejeterMainlevéeFixture
       rejet: {
         rejetéLe,
         rejetéPar,
-        courrierRejet: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeRejetéeValueType.formatter(),
-          rejetéLe.formatter(),
-          this.#courrierRejet.format,
-        ),
+        courrierRejet: Lauréat.GarantiesFinancières.DocumentMainlevée.demandeRejetée({
+          identifiantProjet: identifiantProjet.formatter(),
+          rejetéLe: rejetéLe.formatter(),
+          réponseSignée: {
+            format: this.#courrierRejet.format,
+          },
+        }),
       },
       dernièreMiseÀJour: {
         date: rejetéLe,

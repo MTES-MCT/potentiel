@@ -26,7 +26,7 @@ export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valu
 
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType.js';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType.js';
-export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType.js';
+export * as DocumentMainlevée from './mainlevée/documentMainlevée.valueType.js';
 
 export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType.js';
 

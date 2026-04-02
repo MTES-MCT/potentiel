@@ -1,5 +1,4 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -7,18 +6,10 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
 ): TimelineItemProps => {
-  const {
-    accordéLe,
-    accordéPar,
-    identifiantProjet,
-    réponseSignée: { format },
-  } = event.payload;
+  const { accordéLe, accordéPar } = event.payload;
 
-  const réponseSignée = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
-    accordéLe,
-    format,
+  const réponseSignée = Lauréat.GarantiesFinancières.DocumentMainlevée.demandeAccordée(
+    event.payload,
   );
 
   return {
