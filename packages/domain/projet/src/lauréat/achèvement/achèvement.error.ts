@@ -55,3 +55,15 @@ export class AttestationConformitéDéjàEnregistréeError extends InvalidOperat
     super(`Une attestation de conformité est déjà présente pour ce projet`);
   }
 }
+
+export class AttestationConformitéNonTransmiseError extends InvalidOperationError {
+  constructor() {
+    super(`L'attestation de conformité n'est pas transmise`);
+  }
+}
+
+export class MainlevéeAccordéeError extends InvalidOperationError {
+  constructor() {
+    super(`La mainlevée des garanties financières est accordée`);
+  }
+}

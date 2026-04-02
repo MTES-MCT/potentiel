@@ -20,15 +20,19 @@ import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèv
 import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option.js';
 import {
   AttestationConformitéDéjàEnregistréeError,
+  AttestationConformitéNonTransmiseError,
   AttestationDeConformitéNonModifiéeError,
   DateAchèvementAntérieureÀDateNotificationError,
   DateAchèvementDansLeFuturError,
   DateDeTransmissionAuCoContractantFuturError,
+  MainlevéeAccordéeError,
   ProjetDéjàAchevéError,
   ProjetNonAchevéError,
 } from './achèvement.error.js';
 import { TransmettreDateAchèvementOptions } from './transmettre/transmettreDateAchèvement.option.js';
 import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
+import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option.js';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -41,6 +45,10 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   get lauréat() {
     return this.parent;
+  }
+
+  private get identifiantProjet() {
+    return this.lauréat.projet.identifiantProjet;
   }
 
   get délaiRéalisationEnMois() {
@@ -134,7 +142,6 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   async transmettreAttestationConformité({
-    identifiantProjet,
     identifiantUtilisateur,
     attestation,
     date,
@@ -156,10 +163,10 @@ export class AchèvementAggregate extends AbstractAggregate<
     const event: AttestationConformitéTransmiseEvent = {
       type: 'AttestationConformitéTransmise-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        attestation,
+        identifiantProjet: this.identifiantProjet.formatter(),
+        attestation: { format: attestation.format },
         dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
-        preuveTransmissionAuCocontractant,
+        preuveTransmissionAuCocontractant: { format: preuveTransmissionAuCocontractant.format },
         date: date.formatter(),
         utilisateur: identifiantUtilisateur.formatter(),
       },
@@ -177,8 +184,37 @@ export class AchèvementAggregate extends AbstractAggregate<
     });
   }
 
+  async modifierAttestationConformité({
+    attestation,
+    modifiéeLe,
+    modifiéePar,
+  }: ModifierAttestationConformitéOptions) {
+    if (!this.estAchevé) {
+      throw new ProjetNonAchevéError();
+    }
+
+    if (!this.attestationConformitéTransmise) {
+      throw new AttestationConformitéNonTransmiseError();
+    }
+
+    if (this.lauréat.garantiesFinancières.estLevé) {
+      throw new MainlevéeAccordéeError();
+    }
+
+    const event: AttestationConformitéModifiéeEvent = {
+      type: 'AttestationConformitéModifiée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        attestation: { format: attestation.format },
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async modifierAchèvement({
-    identifiantProjet,
     identifiantUtilisateur,
     attestation,
     date,
@@ -207,10 +243,12 @@ export class AchèvementAggregate extends AbstractAggregate<
     const event: AchèvementModifiéEvent = {
       type: 'AchèvementModifié-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        attestation,
+        identifiantProjet: this.identifiantProjet.formatter(),
+        attestation: attestation ? { format: attestation.format } : undefined,
         dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
-        preuveTransmissionAuCocontractant,
+        preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractant
+          ? { format: preuveTransmissionAuCocontractant.format }
+          : undefined,
         date: date.formatter(),
         utilisateur: identifiantUtilisateur.formatter(),
       },
@@ -220,7 +258,6 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   async enregistrerAttestationConformité({
-    identifiantProjet,
     attestationConformité: { format },
     enregistréeLe,
     enregistréePar,
@@ -236,7 +273,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     const event: AttestationConformitéEnregistréeEvent = {
       type: 'AttestationConformitéEnregistrée-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         attestationConformité: { format },
         enregistréeLe: enregistréeLe.formatter(),
         enregistréePar: enregistréePar.formatter(),
@@ -339,6 +376,10 @@ export class AchèvementAggregate extends AbstractAggregate<
         { type: 'AttestationConformitéEnregistrée-V1' },
         this.applyAttestationConformitéEnregistréeV1.bind(this),
       )
+      .with(
+        { type: 'AttestationConformitéModifiée-V1' },
+        this.applyAttestationConformitéModifiéeV1.bind(this),
+      )
       .exhaustive();
   }
 
@@ -363,6 +404,8 @@ export class AchèvementAggregate extends AbstractAggregate<
   private applyAttestationConformitéEnregistréeV1(_: AttestationConformitéEnregistréeEvent) {
     this.#attestationConformitéTransmise = true;
   }
+
+  private applyAttestationConformitéModifiéeV1(_: AttestationConformitéModifiéeEvent) {}
 
   private applyDateAchèvementPrévisionnelCalculéeV1({
     payload: { date },

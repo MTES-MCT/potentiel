@@ -1,19 +1,16 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+
+import { PièceJustificative } from '#helpers';
 
 import { AbstractFixture } from '../../../../fixture.js';
 import { LauréatWorld } from '../../lauréat.world.js';
 
-interface TransmettreAttestationConformitéDocument {
-  readonly content: string;
-  readonly format: string;
-}
-
 interface TransmettreAttestationConformité {
-  readonly attestation: TransmettreAttestationConformitéDocument;
-  readonly preuve: TransmettreAttestationConformitéDocument;
+  readonly attestation: PièceJustificative;
+  readonly preuve: PièceJustificative;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
   readonly utilisateur: string;
@@ -86,10 +83,10 @@ export class TransmettreAttestationConformitéFixture
     return fixture;
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected() {
     return {
       attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
         attestation: {
           format: this.attestation.format,
@@ -99,8 +96,10 @@ export class TransmettreAttestationConformitéFixture
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
       preuveTransmissionAuCocontractant:
         Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
-          identifiantProjet: identifiantProjet.formatter(),
-          dateTransmissionAuCocontractant: this.dateTransmissionAuCocontractant,
+          identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+          dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
+            this.dateTransmissionAuCocontractant,
+          ).formatter(),
           preuveTransmissionAuCocontractant: this.preuve,
         }),
       misÀJourLe: DateTime.convertirEnValueType(this.date),

@@ -71,8 +71,31 @@ Quand(
   },
 );
 
+Quand(`le porteur modifie l'attestation de conformité`, async function (this: PotentielWorld) {
+  try {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { attestation, modifiéeLe, modifiéePar } =
+      this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
+        modifiéePar: this.utilisateurWorld.porteurFixture.email,
+      });
+
+    await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        attestationValue: convertFixtureFileToReadableStream(attestation),
+        modifiéeLeValue: modifiéeLe,
+        modifiéeParValue: modifiéePar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
+
 Quand(
-  "l'admin modifie l'attestation de conformité pour le projet lauréat sans attestation de conformité transmise",
+  "l'admin modifie l'achèvement réel du projet sans attestation de conformité",
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
@@ -100,42 +123,39 @@ Quand(
   },
 );
 
-Quand(
-  "l'admin modifie l'attestation de conformité pour le projet lauréat",
-  async function (this: PotentielWorld) {
-    try {
-      const { identifiantProjet } = this.lauréatWorld;
+Quand("l'admin modifie l'achèvement réel du projet", async function (this: PotentielWorld) {
+  try {
+    const { identifiantProjet } = this.lauréatWorld;
 
-      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
-        this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-          utilisateur: this.utilisateurWorld.adminFixture.email,
-        });
-
-      await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
-          dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
-          dateValue: date,
-          preuveTransmissionAuCocontractantValue:
-            preuve && convertFixtureFileToReadableStream(preuve),
-          utilisateurValue: utilisateur,
-        },
+    const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
+      this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
+        utilisateur: this.utilisateurWorld.adminFixture.email,
       });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
+
+    await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
+      type: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        attestationValue: attestation && convertFixtureFileToReadableStream(attestation),
+        dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
+        dateValue: date,
+        preuveTransmissionAuCocontractantValue:
+          preuve && convertFixtureFileToReadableStream(preuve),
+        utilisateurValue: utilisateur,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
 Quand(
-  "l'admin modifie l'attestation de conformité pour le projet lauréat avec les mêmes valeurs",
+  "l'admin modifie l'achèvement réel du projet avec les mêmes valeurs",
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet);
+      const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected();
       assert(achèvement.estAchevé, 'impossible de mofidier si non achevé');
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
@@ -165,7 +185,7 @@ Quand(
 );
 
 Quand(
-  "l'admin modifie l'attestation de conformité pour le projet lauréat avec :",
+  "l'admin modifie l'achèvement réel du projet avec :",
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {

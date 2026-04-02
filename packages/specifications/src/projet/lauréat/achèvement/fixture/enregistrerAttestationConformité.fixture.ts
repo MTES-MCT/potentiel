@@ -1,19 +1,16 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+
+import { PièceJustificative } from '#helpers';
 
 import { AbstractFixture } from '../../../../fixture.js';
 import { LauréatWorld } from '../../lauréat.world.js';
 
-interface EnregistrerAttestationConformitéDocument {
-  readonly content: string;
-  readonly format: string;
-}
-
 interface EnregistrerAttestationConformité {
-  readonly attestation: EnregistrerAttestationConformitéDocument;
+  readonly attestation: PièceJustificative;
   readonly enregistréeLe: string;
   readonly enregistréePar: string;
 }
@@ -63,11 +60,11 @@ export class EnregistrerAttestationConformitéFixture
     return fixture;
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected() {
     return {
       attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
-        identifiantProjet: identifiantProjet.formatter(),
-        enregistréLe: DateTime.convertirEnValueType(this.enregistréeLe).formatter(),
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        enregistréLe: this.enregistréeLe,
         attestation: this.attestation,
       }),
 
