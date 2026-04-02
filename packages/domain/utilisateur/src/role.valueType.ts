@@ -254,6 +254,7 @@ const référencielPermissions = {
           'Lauréat.Achèvement.Command.EnregistrerAttestationConformité',
         modifierAchèvement: 'Lauréat.Achèvement.Command.ModifierAchèvement',
         transmettreDateAchèvement: 'Lauréat.Achèvement.Command.TransmettreDateAchèvement',
+        modifierAttestationConformité: 'Lauréat.Achèvement.Command.ModifierAttestationConformité',
       },
       useCase: {
         transmettreAttestationConformité:
@@ -262,6 +263,7 @@ const référencielPermissions = {
           'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
         modifierAchèvement: 'Lauréat.Achèvement.UseCase.ModifierAchèvement',
         transmettreDateAchèvement: 'Lauréat.Achèvement.UseCase.TransmettreDateAchèvement',
+        modifierAttestationConformité: 'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
       },
       query: {
         consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
@@ -947,6 +949,11 @@ const policies = {
       référencielPermissions.lauréat.achèvement.useCase.enregistrerAttestationConformité,
       référencielPermissions.lauréat.achèvement.command.enregistrerAttestationConformité,
       référencielPermissions.document.command.enregister,
+    ],
+    modifierAttestation: [
+      référencielPermissions.lauréat.achèvement.useCase.modifierAttestationConformité,
+      référencielPermissions.lauréat.achèvement.command.modifierAttestationConformité,
+      référencielPermissions.document.command.corriger,
     ],
     transmettreDate: [
       référencielPermissions.lauréat.achèvement.useCase.transmettreDateAchèvement,
@@ -2038,6 +2045,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Attestation conformité
   'achèvement.transmettreAttestation',
   'achèvement.enregistrerAttestation',
+  'achèvement.modifierAttestation',
 
   // Candidature
   'candidature.attestation.télécharger',

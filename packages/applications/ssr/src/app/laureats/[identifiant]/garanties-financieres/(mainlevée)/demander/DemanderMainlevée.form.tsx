@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
+import { KeepOrEditDocument } from '@/components/atoms/form/document/KeepOrEditDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
@@ -47,12 +47,12 @@ export const DemanderMainlevéeForm = ({
           onValidationError: setValidationErrors,
           children: (
             <>
-              {/* Temporaire : le document va devenir modifiable, et on aura besoin de la clé de l'attestation */}
-              {!attestationAchèvement && actions.includes('achèvement.enregistrerAttestation') && (
-                <UploadDocument
+              {actions.includes('achèvement.enregistrerAttestation') && (
+                <KeepOrEditDocument
                   name="attestationConformite"
                   multiple
                   required
+                  documentKeys={attestationAchèvement ? [attestationAchèvement] : []}
                   label="Attestation de conformité et rapport associé"
                   hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
                   state={validationErrors['attestationConformite'] ? 'error' : 'default'}
@@ -60,7 +60,11 @@ export const DemanderMainlevéeForm = ({
                   formats={['pdf']}
                 />
               )}
-
+              <input
+                type="hidden"
+                name="attestationConformiteDejaPresente"
+                value={(!!attestationAchèvement).toString()}
+              />
               <p className="mt-3">
                 Êtes-vous sûr de vouloir demander la mainlevée de vos garanties financières ?
               </p>
