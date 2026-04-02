@@ -14,6 +14,7 @@ export const setupAchèvement = async () => {
     name: 'projector',
     eventType: [
       'AttestationConformitéTransmise-V1',
+      'AttestationConformitéModifiée-V1',
       'AchèvementModifié-V1',
       'DateAchèvementPrévisionnelCalculée-V1',
       'DateAchèvementTransmise-V1',

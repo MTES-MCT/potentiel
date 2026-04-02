@@ -3,11 +3,13 @@ import { AchèvementModifiéEvent } from './modifier/modifierAchèvement.event.j
 import { AttestationConformitéEnregistréeEvent } from './enregistrer/enregistrerAttestationConformité.event.js';
 import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event.js';
 import { DateAchèvementTransmiseEvent } from './transmettre/transmettreDateAchèvement.event.js';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event.js';
 
 export type AchèvementEvent =
   | AttestationConformitéTransmiseEvent
-  | AchèvementModifiéEvent
   | AttestationConformitéEnregistréeEvent
+  | AttestationConformitéModifiéeEvent
+  | AchèvementModifiéEvent
   | DateAchèvementPrévisionnelCalculéeEvent
   | DateAchèvementTransmiseEvent;
 
@@ -17,4 +19,5 @@ export type {
   AttestationConformitéEnregistréeEvent,
   DateAchèvementPrévisionnelCalculéeEvent,
   DateAchèvementTransmiseEvent,
+  AttestationConformitéModifiéeEvent,
 };

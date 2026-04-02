@@ -16,6 +16,8 @@ import { registerTransmettreAttestationConformitéCommand } from './transmettre/
 import { registerTransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
 import { registerTransmettreDateAchèvementCommand } from './transmettre/transmettreDateAchèvement.command.js';
 import { registerTransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
+import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command.js';
+import { registerModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
 
 export type AchèvementCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -33,6 +35,9 @@ export const registerAchèvementUseCases = (dependencies: AchèvementCommandDepe
 
   registerEnregistrerAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
   registerEnregistrerAttestationConformitéUseCase();
+
+  registerModifierAttestationConformitéCommand(dependencies.getProjetAggregateRoot);
+  registerModifierAttestationConformitéUseCase();
 };
 
 export type AchèvementQueryDependencies = ConsulterAchèvementDependencies &
