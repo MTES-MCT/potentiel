@@ -1,10 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib';
+import z from 'zod';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Candidature, DocumentProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
+
+import { appSchema, dbSchema, s3Schema } from '#helpers';
 
 // Pour ces évènements, soit le document n'est pas pertinent, soit il s'agit d'un faux positif (ex: Raccordement)
 const eventsToIgnore = [
@@ -26,6 +29,12 @@ from event_store.event_stream
 where payload::text ~ '"format"'
 and type not in (${eventsToIgnore.map((s) => `'${s}'`).join(',')});`;
 
+const envSchema = z.object({
+  ...dbSchema.shape,
+  ...appSchema.shape,
+  ...s3Schema.shape,
+});
+
 export class SeedFilesCommand extends Command {
   static override description =
     'Génère un faux document PDF pour chaque document manquant, en se basant sur les événements présents en DB';
@@ -33,8 +42,10 @@ export class SeedFilesCommand extends Command {
     force: Flags.boolean(),
   };
   async run() {
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+
     const { flags } = await this.parse(SeedFilesCommand);
-    if (process.env.NODE_ENV === 'production') {
+    if (APPLICATION_STAGE === 'production') {
       console.error('Cette commande ne doit pas être lancée en production');
       process.exit(1);
     }
