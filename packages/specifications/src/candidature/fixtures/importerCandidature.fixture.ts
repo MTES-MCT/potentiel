@@ -150,6 +150,7 @@ const créerDépôt = (
   const référentielPériode = appelsOffreData
     .find((ao) => ao.id === appelOffre)
     ?.periodes.find((p) => p.id === période);
+
   const champsSupplémentaires = {
     ...aoData?.champsSupplémentaires,
     ...référentielPériode?.champsSupplémentaires,
@@ -205,7 +206,9 @@ const créerDépôt = (
       dépôt.autorisation,
       champsSupplémentaires?.autorisation === 'requis',
     ),
-    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
+    typologieInstallation: champsSupplémentaires?.typologieInstallation
+      ? [{ typologie: 'bâtiment.neuf' }]
+      : [],
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,

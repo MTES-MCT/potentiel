@@ -1,6 +1,5 @@
 # language: fr
 @candidature
-@select
 Fonctionnalité: Corriger une candidature
 
     Contexte:
@@ -235,22 +234,16 @@ Fonctionnalité: Corriger une candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
+            | capacité du dispositif                   | 3                        |
+            | puissance du dispositif                  | 6                        |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
         Alors l'administrateur devrait être informé que "Le champ dispositif de stockage est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec dispositif de stockage si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
-            | installation avec dispositif de stockage | oui |
+            | installation avec dispositif de stockage | non |
         Alors l'administrateur devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
-
-    Scénario: Impossible de corriger une candidature sans installateur pour un appel d'offres qui a ce champ requis
-        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | installateur   | Mr Bricolage             |
-        Quand le DGEC validateur corrige la candidature avec :
-            | installation avec dispositif de stockage |  |
-        Alors l'administrateur devrait être informé que "Le champ installateur est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :

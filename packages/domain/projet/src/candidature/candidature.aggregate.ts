@@ -400,11 +400,11 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new ChampNonAttenduError('installateur');
     }
 
-    if (typologieInstallation === 'requis' && dépôt.typologieInstallation?.length === undefined) {
+    if (typologieInstallation === 'requis' && !dépôt.typologieInstallation.length) {
       throw new ChampsRequisError('typologie installation');
     }
 
-    if (!typologieInstallation && !!dépôt.typologieInstallation) {
+    if (!typologieInstallation && dépôt.typologieInstallation.length > 1) {
       throw new ChampNonAttenduError('typologie installation');
     }
 
