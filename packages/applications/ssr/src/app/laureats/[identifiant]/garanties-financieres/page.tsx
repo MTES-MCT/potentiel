@@ -13,8 +13,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerLauréat, getPériodeAppelOffres } from '@/app/_helpers';
 
-import { getAchèvement } from '../_helpers';
-
 import {
   ActionGarantiesFinancières,
   DétailsGarantiesFinancièresPage,
@@ -91,8 +89,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           })
         : Option.none;
 
-      const achèvement = await getAchèvement(identifiantProjet.formatter());
-
       const data = {
         statut,
         actuelles,
@@ -103,7 +99,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffres,
         mainlevéesRejetées,
         archivesGarantiesFinancières,
-        achèvement,
       };
       const { infos, actions } = mapToActionsAndInfos(data);
       const props = mapToProps(data);
@@ -117,11 +112,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           archivesGarantiesFinancières={props.archivesGarantiesFinancières}
           mainlevée={props.mainlevée}
           mainlevéesRejetées={props.mainlevéesRejetées}
-          motifMainlevée={props.motifMainlevée}
           appelOffres={props.appelOffres}
           actions={actions}
           infos={infos}
-          attestationAchèvement={props.attestationAchèvement}
         />
       );
     }),
@@ -138,7 +131,6 @@ type Props = {
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
-  achèvement: Lauréat.Achèvement.ConsulterAchèvementReadModel;
 };
 
 const mapToActionsAndInfos = ({
@@ -147,7 +139,6 @@ const mapToActionsAndInfos = ({
   actuelles,
   dépôtEnCours,
   mainlevée,
-  achèvement,
 }: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
   const actions: ActionGarantiesFinancières[] = [];
   const infos: DétailsGarantiesFinancièresPageProps['infos'] = [];
@@ -155,7 +146,6 @@ const mapToActionsAndInfos = ({
   const estAchevé = statut.estAchevé();
   const estAbandonné = statut.estAbandonné();
   const estAchevéOuAbandonné = estAchevé || estAbandonné;
-  const aUnDépôtEnCours = Option.isSome(dépôtEnCours);
 
   if (Option.isSome(mainlevée)) {
     if (mainlevée.statut.estDemandé()) {
@@ -173,9 +163,6 @@ const mapToActionsAndInfos = ({
       actions.push('garantiesFinancières.actuelles.enregistrer');
     } else if (!actuelles.garantiesFinancières.estExemption()) {
       const estConstitué = actuelles.garantiesFinancières.estConstitué();
-      const gfConstituéeEtSansDépôt = !aUnDépôtEnCours && estConstitué;
-      const achèvementPossible = !estAbandonné && !estAchevé && gfConstituéeEtSansDépôt;
-      const mainlevéePossible = estAchevéOuAbandonné && gfConstituéeEtSansDépôt;
 
       actions.push('garantiesFinancières.actuelles.modifier');
       if (!estConstitué) {
@@ -186,18 +173,8 @@ const mapToActionsAndInfos = ({
         if (utilisateur.rôle.estDreal()) {
           infos.push('échues');
         }
-      } else if (mainlevéePossible) {
-        actions.push('garantiesFinancières.mainlevée.demander');
-        if (achèvement.estAchevé) {
-          actions.push('achèvement.enregistrerAttestation');
-        }
       } else {
-        if (utilisateur.rôle.aLaPermission('garantiesFinancières.mainlevée.demander')) {
-          infos.push('conditions-demande-mainlevée');
-        }
-        if (achèvementPossible) {
-          actions.push('achèvement.transmettreAttestation');
-        }
+        actions.push('garantiesFinancières.mainlevée.demander');
       }
     }
 
@@ -229,10 +206,8 @@ const mapToProps = ({
   mainlevée,
   mainlevéesRejetées,
   archivesGarantiesFinancières,
-  statut,
   accès,
   appelOffres,
-  achèvement,
 }: Props) => {
   return {
     actuelles: mapToPlainObject(actuelles),
@@ -240,16 +215,9 @@ const mapToProps = ({
     mainlevée: mapToPlainObject(mainlevée),
     mainlevéesRejetées: mainlevéesRejetées.items.map(mapToPlainObject),
     archivesGarantiesFinancières: archivesGarantiesFinancières.map(mapToPlainObject),
-    motifMainlevée: statut.estAchevé()
-      ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAchevé
-      : Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAbandonné,
     contactPorteurs: Option.match(accès)
       .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.map((porteur) => porteur.email))
       .none(() => []),
     appelOffres: mapToPlainObject(appelOffres),
-    attestationAchèvement:
-      achèvement.estAchevé && Option.isSome(achèvement.attestation)
-        ? achèvement.attestation.formatter()
-        : undefined,
   } satisfies Partial<DétailsGarantiesFinancièresPageProps>;
 };

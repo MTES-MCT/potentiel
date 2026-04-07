@@ -51,27 +51,28 @@ export const GarantiesFinancièresDétails = ({
         ) : (
           <>
             <div>
-              <span>
-                Le projet dispose actuellement de garanties financières validées
-                {actuelles.garantiesFinancières.constitution?.date && (
-                  <span>
-                    , constituées le{' '}
-                    <FormattedDate date={actuelles.garantiesFinancières.constitution.date.date} />
-                  </span>
-                )}
-                {actuelles.garantiesFinancières.type.type !== 'type-inconnu' && (
-                  <span>
-                    , {getGarantiesFinancièresLabel(actuelles.garantiesFinancières.type.type)}
-                  </span>
-                )}
-                {actuelles.dateÉchéance && (
-                  <span>
-                    {' '}
-                    au <FormattedDate date={actuelles.dateÉchéance} />
-                  </span>
-                )}
-                .
+              Le projet dispose actuellement de garanties financières{' '}
+              <span className="font-semibold">
+                {getStatutGarantiesFinancièresLabel(actuelles.statut.statut)}
               </span>
+              {actuelles.garantiesFinancières.constitution?.date && (
+                <span>
+                  , constituées le{' '}
+                  <FormattedDate date={actuelles.garantiesFinancières.constitution.date.date} />
+                </span>
+              )}
+              {actuelles.garantiesFinancières.type.type !== 'type-inconnu' && (
+                <span>
+                  , {getGarantiesFinancièresLabel(actuelles.garantiesFinancières.type.type)}
+                </span>
+              )}
+              {actuelles.dateÉchéance && (
+                <span>
+                  {' '}
+                  au <FormattedDate date={actuelles.dateÉchéance} />
+                </span>
+              )}
+              .
             </div>
             {!actuelles?.document && (
               <Notice
@@ -112,6 +113,16 @@ export const GarantiesFinancièresDétails = ({
     </>
   );
 };
+
+const getStatutGarantiesFinancièresLabel = (
+  type: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.RawType,
+) =>
+  match(type)
+    .with('validé', () => 'validées')
+    .with('levé', () => 'levées')
+    .with('échu', () => 'échues')
+    .with('non-déposé', () => 'non déposées')
+    .exhaustive();
 
 const getGarantiesFinancièresLabel = (type?: Candidature.TypeGarantiesFinancières.RawType) =>
   match(type)

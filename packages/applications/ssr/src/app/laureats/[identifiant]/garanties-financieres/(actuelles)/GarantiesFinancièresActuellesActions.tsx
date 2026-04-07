@@ -1,22 +1,19 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { CopyButton } from '@/components/molecules/CopyButton';
 
 import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
-import { DemanderMainlevéeForm } from '../(mainlevée)/demander/DemanderMainlevée.form';
 
 type GarantiesFinancièresActuellesActionsProps = {
   actions: DétailsGarantiesFinancièresPageProps['actions'];
   infos: DétailsGarantiesFinancièresPageProps['infos'];
   identifiantProjet: string;
   contactPorteurs: string[];
-  motif?: PlainType<Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType>;
   typeGfActuelles?: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
-  attestationAchèvement: DocumentProjet.RawType | undefined;
 };
 
 export const GarantiesFinancièresActuellesActions = ({
@@ -24,9 +21,7 @@ export const GarantiesFinancièresActuellesActions = ({
   actions,
   infos,
   contactPorteurs,
-  motif,
   typeGfActuelles,
-  attestationAchèvement,
 }: GarantiesFinancièresActuellesActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     <div className="flex flex-col gap-4">
@@ -60,13 +55,14 @@ export const GarantiesFinancièresActuellesActions = ({
               : "l'attestation de constitution"}
           </Button>
         )}
-        {actions.includes('garantiesFinancières.mainlevée.demander') && motif && (
-          <DemanderMainlevéeForm
-            identifiantProjet={identifiantProjet}
-            motif={motif.motif}
-            actions={actions}
-            attestationAchèvement={attestationAchèvement}
-          />
+        {actions.includes('garantiesFinancières.mainlevée.demander') && (
+          <Button
+            linkProps={{
+              href: Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
+            }}
+          >
+            Demander la mainlevée des garanties financières
+          </Button>
         )}
       </div>
     </div>

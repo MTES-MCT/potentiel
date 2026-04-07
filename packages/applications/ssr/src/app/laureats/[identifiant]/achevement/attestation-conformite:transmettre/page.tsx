@@ -15,7 +15,7 @@ import { récuperérerGarantiesFinancièresActuelles } from '../../garanties-fin
 import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,
-} from './transmettreAttestationConformité.page';
+} from './TransmettreAttestationConformité.page';
 
 export const metadata: Metadata = {
   title: `Transmettre l'attestation de conformité - Potentiel`,
