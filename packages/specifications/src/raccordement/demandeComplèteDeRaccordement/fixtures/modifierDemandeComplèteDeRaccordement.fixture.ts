@@ -73,7 +73,7 @@ export class ModifierDemandeComplèteRaccordementFixture
     return {
       accuséRéception: Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
         identifiantProjet: this.identifiantProjet,
-        référence: référenceDossier ?? this.référenceDossier,
+        référenceDossierRaccordement: référenceDossier ?? this.référenceDossier,
         dateQualification: this.#dateQualification,
         accuséRéception: this.accuséRéception,
       }),

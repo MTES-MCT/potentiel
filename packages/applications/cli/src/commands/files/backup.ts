@@ -6,12 +6,11 @@ import { bulkhead } from 'cockatiel';
 import { action } from '@oclif/core/ux';
 
 import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+
+import { s3Schema } from '#helpers';
 const configSchema = z.object({
   // Source
-  S3_BUCKET: z.string(),
-  S3_ENDPOINT: z.string(),
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
+  ...s3Schema.shape,
   // Destination
   S3_BACKUP_BUCKET: z.string(),
   S3_BACKUP_ENDPOINT: z.string(),

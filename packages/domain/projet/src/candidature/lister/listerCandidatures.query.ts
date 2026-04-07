@@ -7,7 +7,13 @@ import { CandidatureEntity } from '../candidature.entity.js';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query.js';
 import * as StatutCandidature from '../statutCandidature.valueType.js';
 import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '../index.js';
+import {
+  DocumentCandidature,
+  Dépôt,
+  Localité,
+  TypeActionnariat,
+  UnitéPuissance,
+} from '../index.js';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -130,12 +136,11 @@ export const mapToReadModel = ({
   estNotifiée,
   ...(estNotifiée &&
     notification.attestation && {
-      attestation: DocumentProjet.convertirEnValueType(
+      attestation: DocumentCandidature.attestationDésignation({
         identifiantProjet,
-        'attestation',
-        notification.attestation.généréeLe,
-        notification.attestation.format,
-      ),
+        généréeLe: notification.attestation.généréeLe,
+        attestation: notification.attestation,
+      }),
     }),
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
   typeActionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,

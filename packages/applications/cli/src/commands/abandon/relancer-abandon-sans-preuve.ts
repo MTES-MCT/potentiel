@@ -6,10 +6,13 @@ import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { appSchema, dbSchema } from '#helpers';
+
 const envSchema = z.object({
-  APPLICATION_STAGE: z.string(),
-  DATABASE_CONNECTION_STRING: z.string().url(),
+  ...dbSchema.shape,
+  ...appSchema.shape,
 });
+
 export class Relancer extends Command {
   static monitoringSlug = 'relance-abandon-sans-preuve';
 

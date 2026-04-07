@@ -65,7 +65,7 @@ export const mapToReadModel = (result: ChangementInstallateurEntity) => {
       raison: result.changement.raison,
       pièceJustificative: DocumentInstallateur.pièceJustificative({
         identifiantProjet: result.identifiantProjet,
-        enregistréeLe: result.changement.enregistréLe,
+        enregistréLe: result.changement.enregistréLe,
         pièceJustificative: {
           format: result.changement.pièceJustificative?.format,
         },

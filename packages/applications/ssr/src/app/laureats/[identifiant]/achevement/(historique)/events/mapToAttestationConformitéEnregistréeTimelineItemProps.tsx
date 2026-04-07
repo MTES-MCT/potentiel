@@ -15,9 +15,7 @@ export const mapToAttestationConformitéEnregistréeTimelineItemProps = (
   const attestation = Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
     identifiantProjet,
     enregistréLe: enregistréeLe,
-    'attestation-conformite': {
-      format,
-    },
+    attestation: { format },
   });
 
   return {

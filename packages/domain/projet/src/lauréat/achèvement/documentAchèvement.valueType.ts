@@ -5,13 +5,13 @@ const domaine = 'achevement';
 export const attestationConformité = DocumentProjet.documentFactory({
   domaine,
   typeDocument: 'attestation-conformite',
-  nomChampDocument: 'attestation-conformite',
+  nomChampDocument: 'attestation',
   nomChampDate: 'enregistréLe',
 });
 
 export const preuveTransmissionAttestationConformité = DocumentProjet.documentFactory({
   domaine,
   typeDocument: 'preuve-transmission-attestation-conformite',
-  nomChampDocument: 'preuve-transmission-attestation-conformite',
-  nomChampDate: 'enregistréLe',
+  nomChampDocument: 'preuveTransmissionAuCocontractant',
+  nomChampDate: 'dateTransmissionAuCocontractant',
 });

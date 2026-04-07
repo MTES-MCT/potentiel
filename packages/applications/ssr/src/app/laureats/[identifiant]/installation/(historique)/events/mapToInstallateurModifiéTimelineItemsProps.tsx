@@ -16,7 +16,7 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
     file: pièceJustificative && {
       document: Lauréat.Installation.DocumentInstallateur.pièceJustificative({
         identifiantProjet,
-        enregistréeLe: modifiéLe,
+        enregistréLe: modifiéLe,
         pièceJustificative: {
           format: pièceJustificative.format,
         },

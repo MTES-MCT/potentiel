@@ -68,9 +68,7 @@ export class EnregistrerAttestationConformitéFixture
       attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
         identifiantProjet: identifiantProjet.formatter(),
         enregistréLe: DateTime.convertirEnValueType(this.enregistréeLe).formatter(),
-        'attestation-conformite': {
-          format: this.attestation.format,
-        },
+        attestation: this.attestation,
       }),
 
       preuveTransmissionAuCocontractant: Option.none,

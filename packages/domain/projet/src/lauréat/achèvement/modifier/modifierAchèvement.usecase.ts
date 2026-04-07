@@ -40,9 +40,7 @@ export const registerModifierAchèvementUseCase = () => {
       ? DocumentAchèvement.attestationConformité({
           identifiantProjet: identifiantProjet.formatter(),
           enregistréLe: DateTime.convertirEnValueType(dateValue).formatter(),
-          'attestation-conformite': {
-            format: attestationValue.format,
-          },
+          attestation: attestationValue,
         })
       : undefined;
     const dateTransmissionAuCocontractant = DateTime.convertirEnValueType(
@@ -51,10 +49,8 @@ export const registerModifierAchèvementUseCase = () => {
     const preuveTransmissionAuCocontractant = preuveTransmissionAuCocontractantValue
       ? DocumentAchèvement.preuveTransmissionAttestationConformité({
           identifiantProjet: identifiantProjet.formatter(),
-          enregistréLe: dateTransmissionAuCocontractant.formatter(),
-          'preuve-transmission-attestation-conformite': {
-            format: preuveTransmissionAuCocontractantValue.format,
-          },
+          dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
+          preuveTransmissionAuCocontractant: preuveTransmissionAuCocontractantValue,
         })
       : undefined;
 

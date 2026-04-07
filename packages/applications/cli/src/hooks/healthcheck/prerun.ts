@@ -1,7 +1,7 @@
 import { Hook } from '@oclif/core';
 import z from 'zod';
 
-import { getHealthcheckClient } from '../../helpers/healthcheck.js';
+import { getHealthcheckClient } from '#helpers';
 
 import { CommandWithHealthcheckClient } from './finally.js';
 

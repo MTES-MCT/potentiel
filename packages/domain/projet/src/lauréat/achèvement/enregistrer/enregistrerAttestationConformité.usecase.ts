@@ -35,9 +35,7 @@ export const registerEnregistrerAttestationConformitéUseCase = () => {
     const attestation = DocumentAchèvement.attestationConformité({
       identifiantProjet: identifiantProjet.formatter(),
       enregistréLe: enregistréeLe.formatter(),
-      'attestation-conformite': {
-        format: attestationConformitéValue.format,
-      },
+      attestation: attestationConformitéValue,
     });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({

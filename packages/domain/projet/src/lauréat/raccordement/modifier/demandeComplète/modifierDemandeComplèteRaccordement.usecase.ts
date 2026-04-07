@@ -54,7 +54,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
 
     const accuséRéception = DocumentRaccordement.accuséRéception({
       identifiantProjet: identifiantProjetValue,
-      référence: référenceDossierRaccordementValue,
+      référenceDossierRaccordement: référenceDossierRaccordementValue,
       dateQualification: dateQualificationValue,
       accuséRéception: accuséRéceptionValue,
     });

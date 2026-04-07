@@ -5,8 +5,7 @@ import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { MattermostTransport } from '../../helpers/monitoring/mattermost.js';
-import { reportCronStatus } from '../../helpers/monitoring/sentry.js';
+import { MattermostTransport, reportCronStatus } from '#helpers/monitoring';
 
 export class PendingAcknowlegement extends Command {
   static description = 'Checks that there are no overdue pending_acknowledgement in the database';

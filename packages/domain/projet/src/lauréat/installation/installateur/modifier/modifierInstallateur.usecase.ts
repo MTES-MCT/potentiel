@@ -35,7 +35,7 @@ export const registerModifierInstallateurUseCase = () => {
     const pièceJustificative = pièceJustificativeValue
       ? DocumentInstallateur.pièceJustificative({
           identifiantProjet: identifiantProjetValue,
-          enregistréeLe: dateModificationValue,
+          enregistréLe: dateModificationValue,
           pièceJustificative: {
             format: pièceJustificativeValue.format,
           },
