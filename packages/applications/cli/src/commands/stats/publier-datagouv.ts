@@ -67,6 +67,7 @@ export class PublierDatagouvStats extends Command {
         'periode',
         'famille',
         'statut_projet',
+        'region_projet',
         'departement_projet',
         'type_actionnariat',
         'date_de_notification',
