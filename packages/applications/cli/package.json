@@ -9,6 +9,10 @@
     "build": "tsc",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
+  "imports": {
+    "#helpers": "./dist/helpers/index.js",
+    "#helpers/*": "./dist/helpers/*/index.js"
+  },
   "oclif": {
     "bin": "potentiel-cli",
     "commands": "./dist/commands",

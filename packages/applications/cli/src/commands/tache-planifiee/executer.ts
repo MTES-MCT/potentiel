@@ -13,9 +13,11 @@ import {
 import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
+import { appSchema, dbSchema } from '#helpers';
+
 const envSchema = z.object({
-  APPLICATION_STAGE: z.string(),
-  DATABASE_CONNECTION_STRING: z.string().url(),
+  ...dbSchema.shape,
+  ...appSchema.shape,
 });
 
 export class Executer extends Command {

@@ -1,6 +1,6 @@
 import { Hook } from '@oclif/core';
 
-import { HealthcheckClient } from '../../helpers/healthcheck.js';
+import { HealthcheckClient } from '#helpers';
 
 export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckClient };
 

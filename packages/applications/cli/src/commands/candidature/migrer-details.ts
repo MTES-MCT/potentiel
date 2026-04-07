@@ -1,5 +1,5 @@
 import { Command, Flags } from '@oclif/core';
-import * as z from 'zod';
+import z from 'zod';
 
 import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -8,12 +8,11 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-const configSchema = z.object({
-  S3_BUCKET: z.string(),
-  S3_ENDPOINT: z.string(),
-  AWS_ACCESS_KEY_ID: z.string(),
-  AWS_SECRET_ACCESS_KEY: z.string(),
-  DATABASE_CONNECTION_STRING: z.url(),
+import { dbSchema, s3Schema } from '#helpers';
+
+const envSchema = z.object({
+  ...dbSchema.shape,
+  ...s3Schema.shape,
 });
 
 const valuesToStrip = ['', 'N/A', '#N/A', '0'];
@@ -106,7 +105,7 @@ export class RecupererFichiersDetailsCommand extends Command {
   async init() {
     this.#logger = getLogger();
 
-    configSchema.parse(process.env);
+    envSchema.parse(process.env);
 
     Document.registerDocumentProjetQueries({
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
