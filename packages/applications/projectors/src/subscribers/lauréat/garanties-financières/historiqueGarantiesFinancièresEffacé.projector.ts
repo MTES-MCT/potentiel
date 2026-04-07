@@ -1,6 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const historiqueGarantiesFinancièresEffacéProjector = async ({
@@ -35,6 +35,7 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
     {
       identifiantProjet,
       actuelles: undefined,
+      dépôt: undefined,
       archives,
       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.nonDéposé.statut,
       dernièreMiseÀJour: {
@@ -42,9 +43,5 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
         par: undefined,
       },
     },
-  );
-
-  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${identifiantProjet}`,
   );
 };

@@ -12,14 +12,16 @@ export const dépôtGarantiesFinancièresEnCoursModifiéProjector = async ({
     modifiéPar,
   },
 }: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent) => {
-  await updateOneProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
       dépôt: {
         type,
-        dateConstitution,
-        attestation,
+        constitution: {
+          date: dateConstitution,
+          attestation,
+        },
         dateÉchéance,
         dernièreMiseÀJour: {
           date: modifiéLe,

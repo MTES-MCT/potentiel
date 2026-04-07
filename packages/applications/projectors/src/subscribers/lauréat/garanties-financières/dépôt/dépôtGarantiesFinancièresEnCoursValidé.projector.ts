@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
@@ -42,15 +42,8 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
   const garantiesFinancières = await match(event)
     .returnType<Promise<Omit<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity, 'type'>>>()
     .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' }, async ({ payload }) => {
-      const dépôtExistant =
-        await findProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-          `depot-en-cours-garanties-financieres|${payload.identifiantProjet}`,
-        );
-
-      if (Option.isNone(dépôtExistant)) {
-        throw new Error(
-          `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
-        );
+      if (Option.isNone(entityToUpsert) || !entityToUpsert.dépôt) {
+        throw new Error('Pas de dépôt en cours de garanties financières à valider');
       }
 
       return {
@@ -58,11 +51,12 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         statut: 'validé',
         actuelles: {
           ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-            dépôtExistant.dépôt,
+            entityToUpsert.dépôt,
           ).formatter(),
           validéLe: payload.validéLe,
         },
-        soumisLe: DateTime.convertirEnValueType(dépôtExistant.dépôt.soumisLe).formatter(),
+        dépôt: undefined,
+        soumisLe: DateTime.convertirEnValueType(entityToUpsert.dépôt.soumisLe).formatter(),
         archives,
         dernièreMiseÀJour: {
           date: payload.validéLe,
@@ -79,6 +73,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         ).formatter(),
         validéLe: payload.validéLe,
       },
+      dépôt: undefined,
       soumisLe: payload.soumisLe,
       validéLe: payload.validéLe,
       dernièreMiseÀJour: {
@@ -92,9 +87,5 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
   await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${event.payload.identifiantProjet}`,
     garantiesFinancières,
-  );
-
-  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${event.payload.identifiantProjet}`,
   );
 };

@@ -36,5 +36,15 @@ export type GarantiesFinancièresEntity = Entity<
     };
 
     archives: ArchiveGarantiesFinancières[];
+
+    dépôt?: GarantiesFinancières.RawType & {
+      constitution: NonNullable<GarantiesFinancières.RawType['constitution']>;
+      soumisLe: DateTime.RawType;
+      soumisPar: Email.RawType;
+      dernièreMiseÀJour: {
+        date: DateTime.RawType;
+        par: Email.RawType;
+      };
+    };
   }
 >;

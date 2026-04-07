@@ -1,12 +1,27 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const dépôtGarantiesFinancièresEnCoursSuppriméProjector = async ({
   payload: { identifiantProjet },
 }:
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent) => {
-  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+  const existingProjection =
+    await findProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+      `garanties-financieres|${identifiantProjet}`,
+    );
+
+  if (Option.isNone(existingProjection) || !existingProjection.dépôt) {
+    throw new Error('Pas de dépôt en cours de garanties financières à supprimer');
+  }
+
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
+    {
+      ...existingProjection,
+      dépôt: undefined,
+    },
   );
 };
