@@ -4,6 +4,7 @@ import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const typologieInstallationModifiéeProjector = async ({
   payload: { identifiantProjet, typologieInstallation, modifiéeLe },
@@ -18,7 +19,7 @@ export const typologieInstallationModifiéeProjector = async ({
     miseÀJourLe: modifiéeLe,
   };
 
-  if (!installationActuelle) {
+  if (Option.isNone(installationActuelle)) {
     // Pour ce champs "supplémentaire", la modification peut être une initialisation de la valeur
     await upsertProjection<Lauréat.Installation.InstallationEntity>(
       `installation|${identifiantProjet}`,

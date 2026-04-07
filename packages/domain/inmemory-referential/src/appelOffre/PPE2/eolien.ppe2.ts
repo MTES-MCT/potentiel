@@ -122,7 +122,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       typologieInstallation: true,
     },
   },
-  // viovio test
+  // viovio test - TODO: à supprimer
   champsSupplémentaires: {
     coefficientKChoisi: 'requis',
     autorisation: 'requis',
