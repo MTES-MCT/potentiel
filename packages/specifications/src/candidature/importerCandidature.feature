@@ -60,7 +60,6 @@ Fonctionnalité: Importer une candidature
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
 
-    # typologie installation ajouter le cas de test
     Scénario: Importer une candidature sans technologie si l'AO a une seule technologie
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut         | classé     |

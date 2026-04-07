@@ -224,7 +224,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
     this.vérifierChampsSupplémentaires(candidature);
-    this.vérifierAutorisation(candidature);
+    this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
@@ -404,7 +404,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new ChampsRequisError('typologie installation');
     }
 
-    if (!typologieInstallation && dépôt.typologieInstallation.length > 1) {
+    if (!typologieInstallation && dépôt.typologieInstallation.length > 0) {
       throw new ChampNonAttenduError('typologie installation');
     }
 
@@ -433,7 +433,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierAutorisation({ dépôt }: CandidatureBehaviorOptions) {
+  private vérifierDateAutorisation({ dépôt }: CandidatureBehaviorOptions) {
     if (dépôt.autorisation?.date.estDansLeFutur()) {
       throw new DateAutorisationError();
     }
