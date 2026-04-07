@@ -2,7 +2,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { getAction, getInstallateurInfos } from '@/app/laureats/[identifiant]/_helpers';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Section } from '@/components/atoms/menu/Section';
@@ -30,7 +30,7 @@ export const InstallateurSection = ({
         return null;
       }
 
-      const installation = await getInstallationInfos(identifiantProjet.formatter());
+      const installateur = await getInstallateurInfos(identifiantProjet.formatter());
 
       const action = await getAction({
         identifiantProjet,
@@ -38,13 +38,11 @@ export const InstallateurSection = ({
         domain: 'installateur',
       });
 
-      const value = installation?.installateur
-        ? mapToPlainObject(installation.installateur)
-        : undefined;
+      const value = installateur ? mapToPlainObject(installateur) : undefined;
 
       return (
         <Section title={sectionTitle}>
-          <div className="m-0">{value || 'Champ non renseigné'}</div>
+          <div className="m-0">{value?.installateur || 'Champ non renseigné'}</div>
           {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}
         </Section>
       );
