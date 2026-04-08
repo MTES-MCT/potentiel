@@ -134,16 +134,6 @@ export type RèglesDemandes = {
   modification: Record<DomainesConcernésParChangement, Modification>;
 };
 
-type PartialRèglesDemandes = {
-  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
-  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
-};
-
-type PartialRèglesCDC = {
-  changement?: Partial<RèglesDemandesChangement>;
-  modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
-};
-
 // Courriers
 export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
 export type DonnéesCourriersRéponse = {
@@ -171,7 +161,10 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  demandes?: PartialRèglesCDC;
+  demandes?: {
+    changement?: Partial<RèglesDemandesChangement>;
+    modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+  };
 };
 
 // Technologies
@@ -268,7 +261,7 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
 /**
  * Ces champs ne sont pas actifs pour tous les AOs/Périodes.
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
- * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, modification PP...) ou pas
+ * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, changement PP...)
  **/
 export type ChampCandidature =
   | 'puissanceALaPointe'
@@ -313,7 +306,10 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
-  demandes?: PartialRèglesDemandes;
+  demandes?: {
+    changement?: Partial<RèglesDemandesChangement> | 'indisponible';
+    modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+  };
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.

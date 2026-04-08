@@ -114,8 +114,8 @@ export const candidatureCsvHeadersMapping = {
   natureDeLExploitation: "Nature de l'exploitation",
   tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
   tauxPrévisionnelACC: "Taux d'autoconsommation collective (ACC) prévisionnel",
-  dateDAutorisation: "Date d'obtention de l'autorisation",
-  numéroDAutorisation: "Numéro de l'autorisation",
+  dateDAutorisation: "date d'obtention de l'autorisation",
+  numéroDAutorisation: "numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
 } as const;
 
