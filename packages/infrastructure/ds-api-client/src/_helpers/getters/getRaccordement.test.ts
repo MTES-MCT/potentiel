@@ -3,131 +3,75 @@ import { describe, test } from 'node:test';
 import { expect } from 'chai';
 
 import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { Champs } from '../../graphql/index.js';
 
-import { getFournisseurs } from './getFournisseurs.js';
+import { getRaccordements } from './getRaccordements.js';
 
-// TODO: ajouter des tests pour les raccordements une fois que la fonction getRaccordements est implémentée
-describe(`Projet avec fournisseurs`, () => {
-  test(`Doit retourner les fournisseurs au format du dépôt de candidature`, () => {
+describe(`Projet avec raccordement`, () => {
+  test(`Doit retourner les raccordements au format du dépôt de candidature`, () => {
     const champs: Champs = [
       {
         id: '1',
-        champDescriptorId: 'TEST1',
+        champDescriptorId: '1',
         __typename: 'RepetitionChamp',
         label:
-          'Pour chaque fabricant de dispositif de production, ajouter un bloc contenant les informations du fabricant:',
+          'Pour chaque référence de raccordement, ajouter un bloc contenant les informations correspondantes',
         stringValue: '',
-        updatedAt: '2026-03-12T11:44:39+01:00',
+        updatedAt: '2026-04-07T14:25:10+02:00',
         prefilled: false,
         rows: [
           {
             champs: [
               {
-                __typename: 'TextChamp',
-                label: 'Dispositif de production - Nom du fabricant',
-                stringValue: 'nom fabricant 1',
+                __typename: 'CheckboxChamp',
+                label: 'Est-ce que la demande de raccordement est faite sur le réseau Enedis ?',
+                stringValue: 'true',
               },
               {
                 __typename: 'TextChamp',
-                label: 'Dispositif de production - Référence commerciale du fabricant',
-                stringValue: 'ref 1',
+                label: 'Référence du dossier de raccordement',
+                stringValue: 'RAC-XXX-25-999999 ',
               },
               {
-                __typename: 'MultipleDropDownListChamp',
-                label: 'Dispositif de production - Pays de fabrication',
-                stringValue: 'CHILI, CHINE',
+                __typename: 'DateChamp',
+                label: "Date de l'accusé de réception de la demande de raccordement",
+                stringValue: '01 avril 2026',
               },
             ],
           },
           {
             champs: [
               {
-                __typename: 'TextChamp',
-                label: 'Dispositif de production - Nom du fabricant',
-                stringValue: 'nom fabricant 2',
+                __typename: 'CheckboxChamp',
+                label: 'Est-ce que la demande de raccordement est faite sur le réseau Enedis ?',
+                stringValue: 'false',
               },
               {
                 __typename: 'TextChamp',
-                label: 'Dispositif de production - Référence commerciale du fabricant',
-                stringValue: 'ref 2',
+                label: 'Référence du dossier de raccordement',
+                stringValue: 'test',
               },
               {
-                __typename: 'MultipleDropDownListChamp',
-                label: 'Dispositif de production - Pays de fabrication',
-                stringValue: 'FRANCE',
+                __typename: 'DateChamp',
+                label: "Date de l'accusé de réception de la demande de raccordement",
+                stringValue: '31 mars 2026',
               },
             ],
           },
         ],
-      },
-      {
-        id: '3',
-        champDescriptorId: 'TEST3',
-        __typename: 'RepetitionChamp',
-        label:
-          'Pour chaque poste de conversion, ajouter un bloc contenant les informations du poste de conversion:',
-        stringValue: '',
-        updatedAt: '2026-03-12T11:44:39+01:00',
-        prefilled: false,
-        rows: [
-          {
-            champs: [
-              {
-                __typename: 'TextChamp',
-                label: 'Poste de conversion - Nom du fabricant',
-                stringValue: 'nom fabricant 3',
-              },
-              {
-                __typename: 'MultipleDropDownListChamp',
-                label: 'Poste de conversion - Pays de fabrication',
-                stringValue: 'ÎLES COOK',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: '3',
-        champDescriptorId: 'TEST3',
-        __typename: 'TextChamp',
-        label: 'Stockage - Nom du fabricant',
-        stringValue: 'nom fabricant 4',
-        updatedAt: '2026-03-12T14:40:54+01:00',
-        prefilled: false,
-      },
-      {
-        id: '4',
-        champDescriptorId: 'TEST4',
-        __typename: 'MultipleDropDownListChamp',
-        label: 'Stockage - Pays de fabrication',
-        stringValue: 'ANTIGUA-ET-BARBUDA',
-        updatedAt: '2026-03-12T11:42:17+01:00',
-        prefilled: false,
       },
     ];
-    const actual = getFournisseurs(champs);
-    const expected: Candidature.Dépôt.RawType['fournisseurs'] = [
+    const actual = getRaccordements(champs);
+    const expected: Candidature.Dépôt.RawType['raccordements'] = [
       {
-        typeFournisseur: 'dispositif-de-production',
-        nomDuFabricant: 'nom fabricant 1',
-        lieuDeFabrication: 'CHILI, CHINE',
+        référence: 'RAC-XXX-25-999999',
+        dateQualification: DateTime.convertirEnValueType(new Date('2026-04-01')).formatter(),
       },
       {
-        typeFournisseur: 'dispositif-de-production',
-        nomDuFabricant: 'nom fabricant 2',
-        lieuDeFabrication: 'FRANCE',
-      },
-      {
-        typeFournisseur: 'poste-conversion',
-        nomDuFabricant: 'nom fabricant 3',
-        lieuDeFabrication: 'ÎLES COOK',
-      },
-      {
-        typeFournisseur: 'dispositif-de-stockage',
-        nomDuFabricant: 'nom fabricant 4',
-        lieuDeFabrication: 'ANTIGUA-ET-BARBUDA',
+        référence: 'test',
+        dateQualification: DateTime.convertirEnValueType(new Date('2026-03-31')).formatter(),
       },
     ];
     expect(actual).to.deep.equal(expected);

@@ -31,7 +31,12 @@ export const getRaccordements = (champs: Champs) => {
       références.push({
         référence: référence.trim(),
         dateQualification: DateTime.convertirEnValueType(
-          parse(dateDeLAccuséRéception, 'dd MMMM yyyy', new Date(), { locale: fr }),
+          (() => {
+            const parsed = parse(dateDeLAccuséRéception, 'dd MMMM yyyy', new Date(), {
+              locale: fr,
+            });
+            return new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
+          })(),
         ).formatter(),
       });
     }
