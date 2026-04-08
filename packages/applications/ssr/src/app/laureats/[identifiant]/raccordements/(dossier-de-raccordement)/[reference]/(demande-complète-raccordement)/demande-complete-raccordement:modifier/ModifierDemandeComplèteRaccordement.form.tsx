@@ -4,11 +4,17 @@ import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { ValidationErrors } from '@/utils/formAction';
+
+import {
+  GestionnaireRéseauSelect,
+  GestionnaireRéseauSelectProps,
+} from '../../../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 
 import {
   modifierDemandeComplèteRaccordementAction,
@@ -28,7 +34,7 @@ export type ModifierDemandeComplèteRaccordementFormProps = {
       accuséRéception?: string;
     };
   };
-  gestionnaireRéseauActuel: {
+  gestionnaireRéseauActuel?: {
     identifiantGestionnaireRéseau: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement?: {
@@ -37,6 +43,8 @@ export type ModifierDemandeComplèteRaccordementFormProps = {
       expressionReguliere: string;
     };
   };
+
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierDemandeComplèteRaccordementForm: FC<
@@ -48,12 +56,22 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     référence,
     demandeComplèteRaccordement: { accuséRéception, dateQualification },
   },
+  listeGestionnairesRéseau,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierDemandeComplèteRaccordementFormKeys>
   >({});
 
-  const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseauActuel;
+  const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
+    useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau);
+
+  const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
+    ? listeGestionnairesRéseau.find(
+        (gestionnaire) =>
+          gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
+          selectedIdentifiantGestionnaireRéseau,
+      )?.aideSaisieRéférenceDossierRaccordement
+    : undefined;
 
   return (
     <Form
@@ -73,11 +91,30 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
 
       <div>
         Gestionnaire réseau :{' '}
-        <strong>
-          {gestionnaireRéseauActuel.raisonSociale} (
-          {gestionnaireRéseauActuel.identifiantGestionnaireRéseau})
-        </strong>
+        {gestionnaireRéseauActuel ? (
+          <strong>
+            {gestionnaireRéseauActuel.raisonSociale} (
+            {gestionnaireRéseauActuel.identifiantGestionnaireRéseau})
+          </strong>
+        ) : (
+          <span>non renseigné</span>
+        )}
       </div>
+
+      {!gestionnaireRéseauActuel && (
+        <GestionnaireRéseauSelect
+          id="identifiantGestionnaireReseau"
+          name="identifiantGestionnaireReseau"
+          label="Gestionnaire de réseau"
+          listeGestionnairesRéseau={listeGestionnairesRéseau}
+          gestionnaireRéseauActuel={Option.none}
+          state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
+          onGestionnaireRéseauSelected={(identifiantGestionnaireRéseau) =>
+            setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
+          }
+        />
+      )}
 
       {référence.canEdit ? (
         <Input
@@ -86,12 +123,12 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
           hintText={
             aideSaisieRéférenceDossierRaccordement && (
               <>
-                {aideSaisieRéférenceDossierRaccordement.format !== '' && (
+                {!Option.isNone(aideSaisieRéférenceDossierRaccordement.format) && (
                   <div className="m-0">
                     Format attendu : {aideSaisieRéférenceDossierRaccordement.format}
                   </div>
                 )}
-                {aideSaisieRéférenceDossierRaccordement.légende !== '' && (
+                {!Option.isNone(aideSaisieRéférenceDossierRaccordement.légende) && (
                   <div className="m-0 italic">
                     Exemple : {aideSaisieRéférenceDossierRaccordement.légende}
                   </div>
@@ -109,7 +146,11 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               : `Renseigner l'identifiant`,
             required: true,
             defaultValue: référence.value ?? '',
-            pattern: aideSaisieRéférenceDossierRaccordement?.expressionReguliere || undefined,
+            pattern:
+              aideSaisieRéférenceDossierRaccordement &&
+              !Option.isNone(aideSaisieRéférenceDossierRaccordement.expressionReguliere)
+                ? aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression
+                : undefined,
           }}
         />
       ) : (

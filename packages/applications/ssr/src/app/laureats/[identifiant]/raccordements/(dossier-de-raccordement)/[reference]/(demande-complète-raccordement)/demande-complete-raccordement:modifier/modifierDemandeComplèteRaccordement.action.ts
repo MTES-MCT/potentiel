@@ -22,6 +22,7 @@ const schema = zod.object({
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   accuseReceptionDocumentSelection: documentSelectionSchema.optional(),
+  identifiantGestionnaireReseau: zod.string().optional(),
 });
 
 export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
@@ -36,9 +37,23 @@ const action: FormAction<FormState, typeof schema> = async (
     dateQualificationActuelle,
     referenceDossierRaccordement,
     referenceDossierRaccordementActuelle,
+    identifiantGestionnaireReseau,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    if (identifiantGestionnaireReseau) {
+      await mediator.send<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+        type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+          rôleValue: utilisateur.rôle.nom,
+          modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          modifiéLeValue: new Date().toISOString(),
+        },
+      });
+    }
+
     if (referenceDossierRaccordement !== referenceDossierRaccordementActuelle) {
       await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',

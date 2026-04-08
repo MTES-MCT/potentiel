@@ -7,6 +7,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -57,9 +59,11 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
-      if (Option.isNone(gestionnaireRéseau)) {
-        return notFound();
-      }
+      const gestionnairesRéseau =
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+          data: {},
+        });
 
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
@@ -77,9 +81,10 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const props = mapToProps({
         role: utilisateur.rôle,
         période,
-        gestionnaireRéseau,
+        gestionnaireRéseau: Option.isSome(gestionnaireRéseau) ? gestionnaireRéseau : undefined,
         identifiantProjet,
         dossierRaccordement,
+        gestionnairesRéseau,
       });
 
       return (
@@ -88,6 +93,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           raccordement={props.raccordement}
           gestionnaireRéseauActuel={props.gestionnaireRéseauActuel}
           delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
+          listeGestionnairesRéseau={props.listeGestionnairesRéseau}
         />
       );
     }),
@@ -97,21 +103,19 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 type MapToProps = (args: {
   période: AppelOffre.Periode;
   role: Role.ValueType;
-  gestionnaireRéseau: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
+  gestionnaireRéseau?: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;
+  gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
   role,
   période,
-  gestionnaireRéseau: {
-    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
-    identifiantGestionnaireRéseau,
-    raisonSociale,
-  },
+  gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
+  gestionnairesRéseau,
 }) => {
   const canEdit =
     role.estDGEC() ||
@@ -133,18 +137,20 @@ const mapToProps: MapToProps = ({
       },
     },
     delaiDemandeDeRaccordementEnMois: période.delaiDcrEnMois,
-    gestionnaireRéseauActuel: {
-      identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: raisonSociale,
+    gestionnaireRéseauActuel: gestionnaireRéseau && {
+      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
+      raisonSociale: gestionnaireRéseau.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        expressionReguliere: expressionReguliere.formatter(),
-        format: Option.match(format)
+        expressionReguliere:
+          gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
+        format: Option.match(gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format)
           .some((f) => f)
           .none(() => ''),
-        légende: Option.match(légende)
+        légende: Option.match(gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende)
           .some((l) => l)
           .none(() => ''),
       },
     },
+    listeGestionnairesRéseau: mapToPlainObject(gestionnairesRéseau.items),
   };
 };
