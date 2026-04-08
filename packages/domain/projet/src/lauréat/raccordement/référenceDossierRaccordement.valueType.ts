@@ -6,7 +6,6 @@ export type ValueType = ReadonlyValueType<{
   référence: string;
   formatter(): RawType;
 }>;
-
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
   return {

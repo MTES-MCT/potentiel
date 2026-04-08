@@ -9,7 +9,7 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    dateQualification?: DateTime.ValueType;
+    dateQualification: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
     formatAccuséRéception?: string;
     transmisePar: Email.ValueType;

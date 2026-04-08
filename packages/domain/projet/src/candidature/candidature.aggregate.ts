@@ -558,7 +558,6 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.#dépôt = Dépôt.convertirEnValueType({
       fournisseurs: [],
       typologieInstallation: [],
-      raccordements: [],
       ...payload,
     });
     this.#instruction = Instruction.convertirEnValueType(payload);

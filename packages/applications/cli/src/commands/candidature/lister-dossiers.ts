@@ -21,7 +21,6 @@ export class ListerDossiersCandidatureCommand extends Command {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
       const dossiers = await getDémarcheAvecDossiers(args.démarche);
-
       console.log(dossiers);
 
       if (Option.isNone(dossiers)) {

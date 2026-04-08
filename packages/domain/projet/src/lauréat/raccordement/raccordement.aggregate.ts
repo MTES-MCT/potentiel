@@ -698,7 +698,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new RéférenceDossierRaccordementDéjàExistantePourLeProjetError();
     }
 
-    if (dateQualification?.estDansLeFutur()) {
+    if (dateQualification.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
 
