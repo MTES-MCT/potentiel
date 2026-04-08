@@ -80,8 +80,8 @@ export const autorisationExempleMap: FieldToExempleMapper<{
   numéro: string;
   date: DateTime.RawType;
 }> = {
-  date: [`date d'obtention de l'autorisation`, mapDateTime],
-  numéro: [`numéro de l'autorisation`],
+  date: [`Date d'obtention de l'autorisation`, mapDateTime],
+  numéro: [`Numéro de l'autorisation`],
 };
 
 export const formatAttestationGFExempleMap: FieldToExempleMapper<{

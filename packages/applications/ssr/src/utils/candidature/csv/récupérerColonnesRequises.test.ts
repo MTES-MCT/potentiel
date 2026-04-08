@@ -49,8 +49,8 @@ test(`Récupérer les colonnes requises de candidature csv sans champs suppléme
 test(`Récupérer les colonnes requises de candidature csv avec champs supplémentaires`, () => {
   const colonnesChampsSupplémentaires = [
     'indexation_k',
-    "date d'obtention de l'autorisation",
-    "numéro de l'autorisation",
+    "Date d'obtention de l'autorisation",
+    "Numéro de l'autorisation",
   ];
 
   const actual = récupérerColonnesRequises({
