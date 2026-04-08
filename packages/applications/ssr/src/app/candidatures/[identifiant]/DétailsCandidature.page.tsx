@@ -154,7 +154,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 </Field>
               )}
               {dépôt.coefficientKChoisi !== undefined && (
-                <Field name="Coefficient K choisi">
+                <Field name="Coefficient K">
                   <span>{dépôt.coefficientKChoisi ? 'Oui' : 'Non'}</span>
                 </Field>
               )}

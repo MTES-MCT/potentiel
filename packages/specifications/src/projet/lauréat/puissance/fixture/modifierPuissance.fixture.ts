@@ -47,7 +47,7 @@ export class ModifierPuissanceFixture
     const fixture = {
       puissance: faker.number.int({ min: 1 }),
       puissanceDeSite:
-        aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+        aoData?.champsSupplémentaires?.puissanceDeSite?.type === 'requis'
           ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       dateModification: faker.date.recent().toISOString(),

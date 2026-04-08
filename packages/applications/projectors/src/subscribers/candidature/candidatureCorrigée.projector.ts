@@ -1,10 +1,10 @@
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { getAppelOffres } from './_helpers/getAppelOffres.js';
+import { getAppelOffres, getPériodeAndFamille } from './_helpers/getAppelOffres.js';
 
 export const candidatureCorrigéeProjector = async ({
   payload,
@@ -61,6 +61,15 @@ export const mapToCandidatureToUpsert = ({
     projet: payload,
   });
 
+  const { période, famille } = getPériodeAndFamille(identifiantProjet, appelOffres);
+  const cahierDesCharges = CahierDesCharges.bind({
+    appelOffre: appelOffres,
+    période,
+    famille,
+    technologie: technologie.type,
+    cahierDesChargesModificatif: undefined,
+  });
+
   return {
     identifiantProjet: identifiantProjet.formatter(),
     appelOffre: identifiantProjet.appelOffre,
@@ -77,5 +86,11 @@ export const mapToCandidatureToUpsert = ({
       période: identifiantProjet.période,
       technologie: technologie.formatter(),
     }).formatter(),
+    coefficientKChoisi: (() => {
+      const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
+      return champCoefficientK?.type === 'défaut'
+        ? champCoefficientK.valeurParDéfaut
+        : payload.coefficientKChoisi;
+    })(),
   };
 };

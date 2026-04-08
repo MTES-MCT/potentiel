@@ -67,16 +67,17 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
               step: 'any',
             }}
           />
-          {infosCahierDesChargesPuissanceDeSite && (
+          {(infosCahierDesChargesPuissanceDeSite?.type === 'requis' ||
+            infosCahierDesChargesPuissanceDeSite?.type === 'optionnel') && (
             <Input
               state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['puissanceDeSite']}
-              label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite === 'optionnel' ? '(optionnel)' : ''}`}
+              label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite?.type === 'optionnel' ? '(optionnel)' : ''}`}
               nativeInputProps={{
                 name: 'puissanceDeSite',
                 defaultValue: puissanceDeSite,
-                'aria-required': infosCahierDesChargesPuissanceDeSite === 'requis',
-                required: infosCahierDesChargesPuissanceDeSite === 'requis',
+                'aria-required': infosCahierDesChargesPuissanceDeSite?.type === 'requis',
+                required: infosCahierDesChargesPuissanceDeSite?.type === 'requis',
                 type: 'number',
                 inputMode: 'decimal',
                 pattern: '[0-9]+([.][0-9]+)?',

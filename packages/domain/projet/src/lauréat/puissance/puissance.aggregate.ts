@@ -423,13 +423,15 @@ export class PuissanceAggregate extends AbstractAggregate<
       }
     }
 
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite?.type === 'requis') {
       if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
         throw new ModificationPuissanceDeSiteRequiseError();
       }
     }
 
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
+    if (
+      this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite?.type === 'optionnel'
+    ) {
       if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
         throw new ModificationPuissanceDeSiteRequiseError();
       }

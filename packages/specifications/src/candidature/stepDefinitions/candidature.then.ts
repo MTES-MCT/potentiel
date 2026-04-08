@@ -36,7 +36,12 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
 
     // mapToExpected utilise le ValueType Dépôt, donc une erreur dans ce valueType pourrait ne pas être détectée dans ce test.
     // on compare donc aussi les valeurs des champs du dépôt
-    shallowCompareObject(expectedDépôtValue, candidature.dépôt.formatter());
+    // cas particulier du coefficientKChoisi, dont la valeur est déterminé dans le projecteur
+    const coefficientKChoisi = actual.dépôt.coefficientKChoisi;
+    shallowCompareObject(
+      { ...expectedDépôtValue, coefficientKChoisi },
+      candidature.dépôt.formatter(),
+    );
   });
 });
 

@@ -367,66 +367,92 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    const {
-      coefficientKChoisi,
-      puissanceDeSite,
-      autorisation,
-      installateur,
-      dispositifDeStockage,
-      natureDeLExploitation,
-      typologieInstallation,
-    } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('coefficientKChoisi') &&
+      dépôt.coefficientKChoisi === undefined
+    ) {
       throw new ChampRequisError('choix du coefficient K');
     }
 
-    if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('coefficientKChoisi') &&
+      dépôt.coefficientKChoisi !== undefined
+    ) {
       throw new ChampNonAttenduError('choix du coefficient K');
     }
 
-    if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('puissanceDeSite') &&
+      dépôt.puissanceDeSite === undefined
+    ) {
       throw new ChampRequisError('puissance de site');
     }
 
-    if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('puissanceDeSite') &&
+      dépôt.puissanceDeSite !== undefined
+    ) {
       throw new ChampNonAttenduError('puissance de site');
     }
 
-    if (installateur === 'requis' && !dépôt.installateur) {
+    if (this.projet.cahierDesChargesActuel.estChampRequis('installateur') && !dépôt.installateur) {
       throw new ChampRequisError('installateur');
     }
 
-    if (!installateur && !!dépôt.installateur) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('installateur') &&
+      !!dépôt.installateur
+    ) {
       throw new ChampNonAttenduError('installateur');
     }
 
-    if (typologieInstallation === 'requis' && !dépôt.typologieInstallation.length) {
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('typologieInstallation') &&
+      !dépôt.typologieInstallation.length
+    ) {
       throw new ChampRequisError('typologie installation');
     }
 
-    if (!typologieInstallation && dépôt.typologieInstallation.length > 0) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('typologieInstallation') &&
+      dépôt.typologieInstallation.length > 0
+    ) {
       throw new ChampNonAttenduError('typologie installation');
     }
 
-    if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('natureDeLExploitation') &&
+      dépôt.natureDeLExploitation === undefined
+    ) {
       throw new ChampRequisError("nature de l'exploitation");
     }
 
-    if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('natureDeLExploitation') &&
+      !!dépôt.natureDeLExploitation
+    ) {
       throw new ChampNonAttenduError("nature de l'exploitation");
     }
 
-    if (autorisation === 'requis' && (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)) {
-      throw new AutorisationRequiseError();
-    }
-
-    if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('dispositifDeStockage') &&
+      dépôt.dispositifDeStockage === undefined
+    ) {
       throw new ChampRequisError('dispositif de stockage');
     }
 
-    if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
+    if (
+      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('dispositifDeStockage') &&
+      dépôt.dispositifDeStockage !== undefined
+    ) {
       throw new ChampNonAttenduError('dispositif de stockage');
+    }
+
+    if (
+      this.projet.cahierDesChargesActuel.estChampRequis('autorisation') &&
+      (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)
+    ) {
+      throw new AutorisationRequiseError();
     }
   }
 

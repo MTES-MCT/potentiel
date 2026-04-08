@@ -122,12 +122,10 @@ Fonctionnalité: Corriger une candidature
 
     Scénario: Impossible de corriger une candidature sans choix du coefficient K si la période le propose
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | statut         | classé          |
-            | appel d'offres | PPE2 - Bâtiment |
-            | période        | 10              |
-            | famille        |                 |
+            | statut         | classé                   |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le DGEC validateur corrige la candidature avec :
-            | coefficient K choisi |  |
+            | coefficient K |  |
         Alors la dgec devrait être informé que "Le champ choix du coefficient K est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec choix du coefficient K si la période ne le propose pas
@@ -135,9 +133,8 @@ Fonctionnalité: Corriger une candidature
             | statut         | classé          |
             | appel d'offres | PPE2 - Bâtiment |
             | période        | 9               |
-            | famille        |                 |
         Quand le DGEC validateur corrige la candidature avec :
-            | coefficient K choisi | oui |
+            | coefficient K | oui |
         Alors la dgec devrait être informé que "Le champ choix du coefficient K ne peut être renseigné pour cet appel d'offres"
 
     # champs spécifiques à l'appel d'offres simplifié - début

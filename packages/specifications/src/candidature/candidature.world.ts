@@ -1,4 +1,4 @@
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
@@ -75,13 +75,34 @@ export class CandidatureWorld {
 
     const appelOffres = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre);
     const période = appelOffres?.periodes.find((p) => p.id === identifiantProjet.période);
+    const famille = période?.familles?.find((f) => f.id === identifiantProjet.famille);
 
     if (!appelOffres || !période) {
       throw new Error('AO ou période inconnue');
     }
 
+    const technologie = Candidature.TypeTechnologie.déterminer({
+      appelOffre: appelOffres,
+      projet: dépôtValue,
+    });
+
+    const cahierDesCharges = CahierDesCharges.bind({
+      appelOffre: appelOffres,
+      période,
+      famille,
+      technologie: technologie.type,
+      cahierDesChargesModificatif: undefined,
+    });
+
+    const coefficientKChoisi = (() => {
+      const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
+      return champCoefficientK?.type === 'défaut'
+        ? champCoefficientK.valeurParDéfaut
+        : dépôtValue.coefficientKChoisi;
+    })();
+
     const expected: Candidature.ConsulterCandidatureReadModel = {
-      dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
+      dépôt: Candidature.Dépôt.convertirEnValueType({ ...dépôtValue, coefficientKChoisi }),
 
       instruction: Candidature.Instruction.convertirEnValueType(instructionValue),
       identifiantProjet,
@@ -94,10 +115,7 @@ export class CandidatureWorld {
           dépôtValue.technologie,
         ).formatter(),
       }),
-      technologie: Candidature.TypeTechnologie.déterminer({
-        appelOffre: appelOffres,
-        projet: dépôtValue,
-      }),
+      technologie,
     };
 
     return expected;

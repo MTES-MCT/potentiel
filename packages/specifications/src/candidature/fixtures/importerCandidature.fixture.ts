@@ -186,10 +186,12 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
     coefficientKChoisi:
-      champsSupplémentaires?.coefficientKChoisi === 'requis' ? faker.datatype.boolean() : undefined,
+      champsSupplémentaires?.coefficientKChoisi?.type === 'requis'
+        ? faker.datatype.boolean()
+        : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
-      champsSupplémentaires?.puissanceDeSite === 'requis'
+      champsSupplémentaires?.puissanceDeSite?.type === 'requis'
         ? faker.number.int({ min: 1, max: 100 })
         : undefined,
     fournisseurs: [
@@ -204,7 +206,7 @@ const créerDépôt = (
     localité,
     autorisation: getAutorisationFixture(
       dépôt.autorisation,
-      champsSupplémentaires?.autorisation === 'requis',
+      champsSupplémentaires?.autorisation?.type === 'requis',
     ),
     typologieInstallation: champsSupplémentaires?.typologieInstallation
       ? [{ typologie: 'bâtiment.neuf' }]
@@ -214,20 +216,16 @@ const créerDépôt = (
       : undefined,
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
-      champsSupplémentaires?.dispositifDeStockage === 'requis',
+      champsSupplémentaires?.dispositifDeStockage?.type === 'requis',
     ),
     natureDeLExploitation: getNatureDeLExploitationFixture(
       dépôt.natureDeLExploitation,
-      champsSupplémentaires?.natureDeLExploitation === 'requis',
+      champsSupplémentaires?.natureDeLExploitation?.type === 'requis',
     ),
     raccordements: dépôt.raccordements?.every((r) => r?.référence && r.dateQualification)
       ? (dépôt.raccordements as Candidature.Dépôt.RawType['raccordements'])
       : undefined,
   };
-
-  if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {
-    dépôtValue.coefficientKChoisi = faker.datatype.boolean();
-  }
 
   return dépôtValue;
 };

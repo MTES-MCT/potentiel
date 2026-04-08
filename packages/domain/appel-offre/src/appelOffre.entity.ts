@@ -165,6 +165,7 @@ export type CahierDesChargesModifié = {
     changement?: Partial<RèglesMiseÀJourPorteur>;
     modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
   };
+  champsSupplémentaires?: ChampsSupplémentairesCandidature;
 };
 
 // Technologies
@@ -283,8 +284,13 @@ export type ChampCandidature =
   // CRE4 ZNI
   | 'territoireProjet';
 
+type TypeChampSupplémentaire =
+  | { type: 'requis' }
+  | { type: 'optionnel' }
+  | { type: 'défaut'; valeurParDéfaut: boolean };
+
 export type ChampsSupplémentairesCandidature = Partial<
-  Record<ChampCandidature, 'requis' | 'optionnel'>
+  Record<ChampCandidature, TypeChampSupplémentaire>
 >;
 
 export type Periode = {

@@ -107,6 +107,11 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
     changement: 'indisponible',
     modification: defaultModifications,
   },
+  champsSupplémentaires: {
+    puissanceALaPointe: { type: 'optionnel' },
+    territoireProjet: { type: 'requis' },
+    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+  },
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',
   paragrapheDelaiDerogatoire: '6.4',
@@ -165,10 +170,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
 `,
     },
-  },
-  champsSupplémentaires: {
-    territoireProjet: 'requis',
-    puissanceALaPointe: 'optionnel',
   },
   periodes: [
     {

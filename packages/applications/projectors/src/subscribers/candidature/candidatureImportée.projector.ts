@@ -1,15 +1,13 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Candidature, CahierDesCharges } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getAppelOffres } from './_helpers/getAppelOffres.js';
+import { getAppelOffres, getPériodeAndFamille } from './_helpers/getAppelOffres.js';
 
 export const candidatureImportéeProjector = async ({
   payload,
 }: Candidature.CandidatureImportéeEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
-  const appelOffres = await getAppelOffres(identifiantProjet);
-  const candidatureToUpsert = mapToCandidatureToUpsert({ appelOffres, identifiantProjet, payload });
+  const candidatureToUpsert = await mapToCandidatureToUpsert({ identifiantProjet, payload });
 
   await upsertProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,
@@ -17,18 +15,26 @@ export const candidatureImportéeProjector = async ({
   );
 };
 
-export const mapToCandidatureToUpsert = ({
+export const mapToCandidatureToUpsert = async ({
   identifiantProjet,
   payload,
-  appelOffres,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: Candidature.CandidatureImportéeEvent['payload'];
-  appelOffres: AppelOffre.AppelOffreReadModel;
-}): Omit<Candidature.CandidatureEntity, 'type'> => {
+}): Promise<Omit<Candidature.CandidatureEntity, 'type'>> => {
+  const appelOffres = getAppelOffres(identifiantProjet);
+  const { période, famille } = getPériodeAndFamille(identifiantProjet, appelOffres);
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,
     projet: payload,
+  });
+
+  const cahierDesCharges = CahierDesCharges.bind({
+    appelOffre: appelOffres,
+    période,
+    famille,
+    technologie: technologie.type,
+    cahierDesChargesModificatif: undefined,
   });
 
   return {
@@ -47,5 +53,12 @@ export const mapToCandidatureToUpsert = ({
       période: identifiantProjet.période,
       technologie: technologie.formatter(),
     }).formatter(),
+    // champs supplémentaire pouvant avoir une valeur par défaut, non présente dans le payload de l'événement
+    coefficientKChoisi: (() => {
+      const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
+      return champCoefficientK?.type === 'défaut'
+        ? champCoefficientK.valeurParDéfaut
+        : payload.coefficientKChoisi;
+    })(),
   };
 };

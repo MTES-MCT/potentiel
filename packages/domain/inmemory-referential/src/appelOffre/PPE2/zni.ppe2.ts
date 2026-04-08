@@ -3,8 +3,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
-  coefficientKChoisi: 'requis' as const,
-  typologieInstallation: 'optionnel' as const,
+  coefficientKChoisi: { type: 'optionnel' as const },
+  typologieInstallation: { type: 'optionnel' as const },
 };
 
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
@@ -63,6 +63,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
+  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
@@ -113,7 +114,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat s’est engagé au Financement Collectif ou à la Gouvernance Partagée du projet prévu au 3.2.7, il est de sa responsabilité́ de s’assurer du respect de son engagement.`,
     },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
   periodes: [
     {
       id: '1',
@@ -141,8 +141,11 @@ du paragraphe 2.6.`,
       ],
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      champsSupplémentaires: {},
       miseÀJour: { modification: defaultModifications },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '2',
@@ -170,8 +173,11 @@ du paragraphe 2.6.`,
       ],
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      champsSupplémentaires: {},
       miseÀJour: { modification: defaultModifications },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '3',
@@ -199,8 +205,11 @@ du paragraphe 2.6.`,
       ],
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      champsSupplémentaires: {},
       miseÀJour: { modification: defaultModifications },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '4',

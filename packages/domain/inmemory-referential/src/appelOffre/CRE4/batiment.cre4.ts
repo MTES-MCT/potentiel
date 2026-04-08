@@ -105,6 +105,9 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
     changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
     modification: defaultModifications,
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+  },
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
