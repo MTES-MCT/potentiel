@@ -33,6 +33,13 @@ const minimumValues = {
   dateConstitutionGf: '01/01/2024',
   typologieInstallation: [],
   raccordements: [{ dateQualification: '01/01/2024', référence: 'RF' }],
+  fournisseurs: [
+    {
+      typeFournisseur: 'module-ou-films',
+      nomDuFabricant: 'FAB',
+      lieuDeFabrication: 'Allemagne',
+    },
+  ],
 };
 
 const expectedMinimumValues = {

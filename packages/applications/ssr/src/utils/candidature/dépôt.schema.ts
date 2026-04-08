@@ -204,6 +204,15 @@ export const dépôtSchema = z
         }),
       )
       .optional(),
+    fournisseurs: z
+      .array(
+        z.object({
+          typeFournisseur: z.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseur),
+          nomDuFabricant: z.string(),
+          lieuDeFabrication: z.string(),
+        }),
+      )
+      .optional(),
   })
   // Garanties financières et date d'échéance
   .superRefine((data, ctx) => {

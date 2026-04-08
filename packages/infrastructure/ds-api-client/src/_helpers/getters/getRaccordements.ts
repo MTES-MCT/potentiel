@@ -29,7 +29,7 @@ export const getRaccordements = (champs: Champs) => {
 
     if (référence && dateDeLAccuséRéception) {
       références.push({
-        référence,
+        référence: référence.trim(),
         dateQualification: DateTime.convertirEnValueType(
           parse(dateDeLAccuséRéception, 'dd MMMM yyyy', new Date(), { locale: fr }),
         ).formatter(),
