@@ -170,7 +170,6 @@ Fonctionnalité: Importer une candidature
             | type de nature de l'exploitation |                          |
         Alors l'administrateur devrait être informé que "Le champ nature de l'exploitation est requis pour cet appel d'offres"
 
-    @select
     Scénario: Impossible d'importer une candidature sans autorisation pour un appel d'offres qui a ces champs requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                     | PPE2 - Petit PV Bâtiment |
