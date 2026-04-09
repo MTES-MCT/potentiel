@@ -17,14 +17,14 @@ export type ValueType = {
    **/
   changementEstDisponible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParMiseÀJour,
   ): boolean;
   /**
    * Applique les règles de @see ValueType.changementEstDisponible, en émettant une erreur si le changement n'est pas disponible.
    **/
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParMiseÀJour,
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
   getDélaiRéalisationEnMois(): number;
@@ -33,9 +33,9 @@ export type ValueType = {
     domaine: AppelOffre.DomainesCourriersRéponse,
   ): AppelOffre.DonnéesCourriersRéponse;
   doitChoisirUnCahierDesChargesModificatif(): boolean;
-  getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParChangement>(
+  getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParMiseÀJour>(
     domaine: TDomain,
-  ): AppelOffre.RèglesMiseÀJourChangement[TDomain];
+  ): AppelOffre.RèglesMiseÀJourPorteur[TDomain];
   getRèglesModification<TDomain extends keyof AppelOffre.RèglesMiseÀJour['modification']>(
     domaine: TDomain,
   ): boolean;
@@ -58,7 +58,7 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: AppelOffre.RèglesMiseÀJourChangement = {
+    const changementIndisponible: AppelOffre.RèglesMiseÀJourPorteur = {
       nomProjet: {},
       abandon: {},
       actionnaire: {},

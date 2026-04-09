@@ -42,7 +42,7 @@ const changementsCDCModifié = {
   },
   installateur: {},
   dispositifDeStockage: {},
-} satisfies AppelOffre.RèglesMiseÀJourChangement;
+} satisfies AppelOffre.RèglesMiseÀJourPorteur;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',

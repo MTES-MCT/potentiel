@@ -105,7 +105,7 @@ type ChangementReprésentantLégal =
       instructionAutomatique: 'accord' | 'rejet';
     };
 
-export type RèglesMiseÀJourChangement = {
+export type RèglesMiseÀJourPorteur = {
   actionnaire: ChangementActionnaire;
   fournisseur: Changement;
   délai: DemandeAvecAutoritéCompétente;
@@ -122,7 +122,7 @@ export type RèglesMiseÀJourChangement = {
   typologieInstallation: Changement;
 };
 
-export type DomainesConcernésParChangement = keyof RèglesMiseÀJourChangement;
+export type DomainesConcernésParMiseÀJour = keyof RèglesMiseÀJourPorteur;
 
 type Modification = boolean | undefined;
 
@@ -130,8 +130,8 @@ type Modification = boolean | undefined;
  * "indisponible" indique que les projets de la période ne peuvent pas faire l'objet de mise à jour par le porteur dans Potentiel sans choisir un CDC modificatif.
  **/
 export type RèglesMiseÀJour = {
-  changement: RèglesMiseÀJourChangement | 'indisponible';
-  modification: Record<DomainesConcernésParChangement, Modification>;
+  changement: RèglesMiseÀJourPorteur | 'indisponible';
+  modification: Record<DomainesConcernésParMiseÀJour, Modification>;
 };
 
 // Courriers
@@ -162,8 +162,8 @@ export type CahierDesChargesModifié = {
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
   miseÀJour?: {
-    changement?: Partial<RèglesMiseÀJourChangement>;
-    modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+    changement?: Partial<RèglesMiseÀJourPorteur>;
+    modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
   };
 };
 
@@ -307,8 +307,8 @@ export type Periode = {
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
   miseÀJour?: {
-    changement?: Partial<RèglesMiseÀJourChangement> | 'indisponible';
-    modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
+    changement?: Partial<RèglesMiseÀJourPorteur> | 'indisponible';
+    modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
   };
   addendums?: {
     /**

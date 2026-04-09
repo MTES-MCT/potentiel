@@ -12,7 +12,7 @@ type OptionsChangement = {
 type TypeChangement = 'modifier' | 'demanderChangement' | 'enregistrerChangement';
 
 export type MapChangements = Record<
-  AppelOffre.DomainesConcernésParChangement,
+  AppelOffre.DomainesConcernésParMiseÀJour,
   Partial<Record<TypeChangement, OptionsChangement>> & {
     champSupplémentaire?: AppelOffre.ChampCandidature;
   }
