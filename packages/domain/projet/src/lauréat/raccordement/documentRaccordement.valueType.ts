@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 import { DocumentProjet, DossierProjet } from '#document-projet';
 
 const domaine = 'raccordement';
@@ -9,13 +11,11 @@ export const dossierProjetRaccordement = (identifiantProjet: string, référence
   return {
     accuséRéception: DossierProjet.convertirEnValueType({
       identifiantProjet,
-      cléDocument: référence,
-      typeDocument: `${domaine}/${typeAccuséRéception}`,
+      typeDocument: join(domaine, référence, typeAccuséRéception),
     }),
     propositionTechniqueEtFinancière: DossierProjet.convertirEnValueType({
       identifiantProjet,
-      cléDocument: référence,
-      typeDocument: `${domaine}/${typePropositionTechniqueEtFinancière}`,
+      typeDocument: join(domaine, référence, typePropositionTechniqueEtFinancière),
     }),
   };
 };
