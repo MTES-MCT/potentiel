@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { ActionGarantiesFinancières } from '../../DétailsGarantiesFinancières.page';
 
@@ -49,7 +49,7 @@ export const DemanderMainlevéeForm = ({
             <>
               {/* Temporaire : le document va devenir modifiable, et on aura besoin de la clé de l'attestation */}
               {!attestationAchèvement && actions.includes('achèvement.enregistrerAttestation') && (
-                <UploadDocument
+                <UploadNewOrModifyExistingDocument
                   name="attestationConformite"
                   multiple
                   required
