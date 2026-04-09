@@ -11,8 +11,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getGarantiesFinancières } from '../../_helpers';
 
-import { DétailsDépôtGarantiesFinancièresPage } from './DétailsDépôtGarantiesFinancièresPage';
-import { ActionDépôtGarantiesFinancières } from './DépôtGarantiesFinancièresActions';
+import {
+  ActionDépôtGarantiesFinancières,
+  DétailsDépôtGarantiesFinancièresPage,
+} from './DétailsDépôtGarantiesFinancièresPage';
 
 export const metadata: Metadata = {
   title: 'Détail du dépôt des garanties financières - Potentiel',

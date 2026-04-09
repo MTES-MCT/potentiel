@@ -18,7 +18,7 @@ import {
 type AccorderDemandeMainlevéeProps = {
   identifiantProjet: string;
 };
-
+// TODO que faire de ca ?
 export const AccorderDemandeMainlevée = ({ identifiantProjet }: AccorderDemandeMainlevéeProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [validationErrors, setValidationErrors] = useState<
@@ -27,7 +27,7 @@ export const AccorderDemandeMainlevée = ({ identifiantProjet }: AccorderDemande
 
   return (
     <>
-      <Button priority="primary" onClick={() => setIsOpen(true)}>
+      <Button priority="primary" className="block w-1/2" onClick={() => setIsOpen(true)}>
         Accorder
       </Button>
 

@@ -2,11 +2,22 @@
 
 import { FC } from 'react';
 import clsx from 'clsx';
-import Button from '@codegouvfr/react-dsfr/Button';
+import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import { LinkProps } from 'next/link';
 
 import { Heading2 } from '../atoms/headings';
+import { ConfirmationAction, ConfirmationActionProps } from '../molecules/ConfirmationModal';
 
-type PageTemplateProps = {
+type LinkActionProps = {
+  label: string;
+  linkProps: LinkProps;
+  buttonProps?: ButtonProps.Common &
+    (Omit<ButtonProps.WithIcon, 'children'> | Omit<ButtonProps.WithoutIcon, 'children'>);
+};
+
+export type ActionProps = LinkActionProps | ConfirmationActionProps;
+
+export type ActionsListPageTemplateProps = {
   className?: string;
 } & (
   | {
@@ -17,15 +28,11 @@ type PageTemplateProps = {
   | {
       children?: never;
       actionsListLength?: never;
-      actions: {
-        label: string;
-        href: string;
-        title?: string;
-      }[];
+      actions: ActionProps[];
     }
 );
 
-export const ActionsList: FC<PageTemplateProps> = ({
+export const ActionsList: FC<ActionsListPageTemplateProps> = ({
   children,
   actionsListLength,
   className,
@@ -41,12 +48,27 @@ export const ActionsList: FC<PageTemplateProps> = ({
     <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>
       <Heading2>Actions</Heading2>
       {actions
-        ? actions.map(({ href, label, title }) => (
-            <Button key={href} title={title} linkProps={{ href }} className="font-semibold">
-              {label}
-            </Button>
-          ))
+        ? actions.map((action) =>
+            'linkProps' in action ? (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <LinkAction key={action.label} {...action} linkProps={action.linkProps} />
+            ) : (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <ConfirmationAction key={action.label} {...action} />
+            ),
+          )
         : children}
     </div>
   );
 };
+
+const LinkAction = ({ label, linkProps, buttonProps }: LinkActionProps) => (
+  <Button
+    linkProps={linkProps}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...buttonProps}
+    className={clsx('block w-1/2 text-center', buttonProps?.className)}
+  >
+    {label}
+  </Button>
+);

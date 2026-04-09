@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -6,13 +8,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading2 } from '@/components/atoms/headings';
-import { ActionsList } from '@/components/templates/ActionsList.template';
+import { Heading1 } from '@/components/atoms/headings';
+import { ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 
 import { ArchivesGarantiesFinancières } from './(archives)/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
-import { AlerteGarantiesFinancières } from './components/AlerteGarantiesFinancières';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actions = [
@@ -81,17 +81,22 @@ const actionsEtAlertesList: Record<ActionGarantiesFinancières, ActionOuAlerte> 
     href: Routes.GarantiesFinancières.demandeMainlevée.demander,
   },
   ['garantiesFinancières.mainlevée.consulter']: {
-    type: 'action',
+    type: 'alerte',
     title: 'Mainlevée en cours',
-    // description: 'Une demande de mainlevée des garanties financières est en cours.',
-    label: 'Consulter la mainlevée',
-    href: Routes.GarantiesFinancières.demandeMainlevée.détails,
+    description: 'Une demande de mainlevée des garanties financières est en cours.',
+    action: {
+      label: 'Consulter la mainlevée',
+      href: Routes.GarantiesFinancières.demandeMainlevée.détails,
+    },
   },
   ['garantiesFinancières.dépôt.consulter']: {
-    type: 'action',
-    title: 'Consulter le dépôt de nouvelles garanties financières',
-    label: 'Consulter le dépôt',
-    href: Routes.GarantiesFinancières.dépôt.détails,
+    type: 'alerte',
+    title: 'Dépôt à traiter',
+    description: 'Un dépôt de nouvelles garanties financières a été soumis et doit être traité.',
+    action: {
+      label: 'Consulter le dépôt',
+      href: Routes.GarantiesFinancières.dépôt.détails,
+    },
   },
 };
 
@@ -119,57 +124,60 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   actions,
   archivesGarantiesFinancières,
 }) => (
-  <ColumnPageTemplate
-    heading={<Heading2>Détail des garanties financières</Heading2>}
-    leftColumn={{
-      children: (
-        <>
-          {alerteList
-            .filter(({ key }) => actions.includes(key))
-            .map(({ title, description, action }) => (
-              <AlerteGarantiesFinancières
-                key={title}
-                title={title}
-                description={description}
-                action={{ label: action.label, href: action.href(identifiantProjet) }}
-              />
-            ))}
+  <ActionsPageTemplate
+    heading={<Heading1>Détail des garanties financières</Heading1>}
+    actions={actionList
+      .filter(({ key }) => actions.includes(key))
+      .map(({ href, label, title }) => ({
+        label,
+        buttonProps: { title },
+        linkProps: { href: href(identifiantProjet) },
+      }))}
+  >
+    <div className="flex flex-col gap-4">
+      {alerteList
+        .filter(({ key }) => actions.includes(key))
+        .map(({ title, description, action }) => (
+          <Notice
+            key={title}
+            severity="info"
+            title={title}
+            description={description}
+            link={{
+              linkProps: { href: action.href(identifiantProjet), target: '_self' },
+              text: action.label,
+            }}
+          />
+        ))}
 
-          {/* <p>
+      {/* <p>
             La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le
             ou les porteurs dont voici la ou les adresses emails :
             <br />
             <CopyButton textToCopy={contactPorteurs.join(',')} />
           </p> */}
 
-          {Option.isSome(actuelles) && (
-            <GarantiesFinancières
-              garantiesFinancières={actuelles.garantiesFinancières}
-              document={actuelles.document}
-              soumisLe={actuelles.soumisLe}
-              validéLe={actuelles.validéLe}
-              peutModifier={actions.includes('garantiesFinancières.actuelles.modifier')}
-            />
-          )}
-
-          {archivesGarantiesFinancières.length > 0 && (
-            <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
-          )}
-        </>
-      ),
-    }}
-    rightColumn={{
-      children: (
-        <ActionsList
-          actions={actionList
-            .filter(({ key }) => actions.includes(key))
-            .map(({ href, label, title }) => ({
-              label,
-              title,
-              href: href(identifiantProjet),
-            }))}
+      {Option.isSome(actuelles) && (
+        <GarantiesFinancières
+          garantiesFinancières={actuelles.garantiesFinancières}
+          document={actuelles.document}
+          soumisLe={actuelles.soumisLe}
+          validéLe={actuelles.validéLe}
+          peutModifier={actions.includes('garantiesFinancières.actuelles.modifier')}
         />
-      ),
-    }}
-  />
+      )}
+
+      {archivesGarantiesFinancières.length > 0 && (
+        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
+      )}
+
+      <Button
+        linkProps={{ href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet) }}
+        priority="secondary"
+        iconId="fr-icon-arrow-left-line"
+      >
+        Retour au projet
+      </Button>
+    </div>
+  </ActionsPageTemplate>
 );
