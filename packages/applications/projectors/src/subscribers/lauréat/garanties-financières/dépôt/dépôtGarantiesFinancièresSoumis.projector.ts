@@ -32,6 +32,10 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
           par: soumisPar,
         },
       },
+      enAttente: {
+        dateLimiteSoumission: undefined,
+        motif: undefined,
+      },
     },
   );
 };

@@ -14,6 +14,7 @@ export const garantiesFinancièresDemandéesProjector = async ({
     dateLimiteSoumission,
   };
   const dernièreMiseÀJour = { date: demandéLe };
+
   // dans le cas d'une échéance, on garde les données existantes, dont le statut
   if (motif === 'échéance-garanties-financières-actuelles') {
     await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
@@ -35,6 +36,7 @@ export const garantiesFinancièresDemandéesProjector = async ({
     );
     return;
   }
+
   // dans les autres cas, il s'agit d'une initialisation des garanties financières.
   await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
