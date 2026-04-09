@@ -62,7 +62,7 @@ export class ModifierAttestationConformitéFixture
       attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         enregistréLe: this.modifiéeLe,
-        'attestation-conformite': this.attestation,
+        attestation: this.attestation,
       }),
       misÀJourLe: DateTime.convertirEnValueType(this.modifiéeLe),
       misÀJourPar: Email.convertirEnValueType(this.modifiéePar),

@@ -32,7 +32,7 @@ export const registerModifierAttestationConformitéUseCase = () => {
     const attestation = DocumentAchèvement.attestationConformité({
       identifiantProjet: identifiantProjet.formatter(),
       enregistréLe: modifiéeLeValue,
-      'attestation-conformite': attestationValue,
+      attestation: attestationValue,
     });
 
     const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
