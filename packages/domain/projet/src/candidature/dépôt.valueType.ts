@@ -225,7 +225,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
-      raccordements: this.raccordements?.map((r) => r.formatter()) ?? [],
+      raccordements: this.raccordements?.map((r) => r.formatter()),
     };
   },
 });
