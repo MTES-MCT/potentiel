@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
+import { Heading1 } from '@/components/atoms/headings';
 
 import {
   EnregistrerAttestationGarantiesFinancièresForm,
@@ -15,7 +15,7 @@ export const EnregistrerAttestationGarantiesFinancièresPage: FC<
 > = ({ identifiantProjet, garantiesFinancièresActuelles }) => {
   return (
     <>
-      <TitrePageGarantiesFinancières title="Enregistrer l'attestation des garanties financières" />
+      <Heading1>Enregistrer l'attestation des garanties financières</Heading1>
       <EnregistrerAttestationGarantiesFinancièresForm
         identifiantProjet={identifiantProjet}
         garantiesFinancièresActuelles={garantiesFinancièresActuelles}

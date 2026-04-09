@@ -19,7 +19,7 @@ import {
 import {
   modifierDépôtGarantiesFinancièresAction,
   ModifierDépôtGarantiesFinancièresFormKeys,
-} from '../depot:modifier/modifierDépôtGarantiesFinancières.action';
+} from '../modifier/modifierDépôtGarantiesFinancières.action';
 
 import {
   soumettreDépôtGarantiesFinancièresAction,

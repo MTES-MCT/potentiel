@@ -4,21 +4,15 @@ import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Routes } from '@potentiel-applications/routes';
 
-import { GarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/components/GarantiesFinancières';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
-import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
-import { TitrePageGarantiesFinancières } from './components/TitrePageGarantiesFinancières';
-import { MainlevéeEnCours } from './(mainlevée)/MainlevéeEnCours';
-import { InfoBoxSoumettreDépôtGarantiesFinancières } from './(dépôt)/depot:soumettre/InfoBoxSoumettreDépôtGarantiesFinancières';
-import { StatutGarantiesFinancièresBadge } from './StatutGarantiesFinancièresBadge';
-import { GarantiesFinancièresActuellesActions } from './(actuelles)/GarantiesFinancièresActuellesActions';
-import { DépôtGarantiesFinancièresActions } from './(dépôt)/DépôtGarantiesFinancièresActions';
-import { SectionGarantiesFinancières } from './SectionGarantiesFinancières';
-import { HistoriqueMainlevéeRejetée } from './(mainlevée)/(historique-main-levée-rejetée)/HistoriqueMainlevéeRejetée';
 import { ArchivesGarantiesFinancières } from './(archives)/ArchivesGarantiesFinancières';
+import { GarantiesFinancières } from './components/GarantiesFinancières';
+import { AlerteGarantiesFinancières } from './components/AlerteGarantiesFinancières';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actions = [
@@ -26,128 +20,156 @@ const actions = [
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.mainlevée.demander',
-  'garantiesFinancières.mainlevée.annuler',
-  'garantiesFinancières.mainlevée.démarrerInstruction',
-  'garantiesFinancières.mainlevée.accorder',
-  'garantiesFinancières.mainlevée.rejeter',
+  'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.dépôt.soumettre',
-  'garantiesFinancières.dépôt.modifier',
-  'garantiesFinancières.dépôt.valider',
-  'garantiesFinancières.dépôt.supprimer',
+  'garantiesFinancières.dépôt.consulter',
 ] satisfies Role.Policy[];
 export type ActionGarantiesFinancières = (typeof actions)[number];
 
 export type DétailsGarantiesFinancièresPageProps = {
   identifiantProjet: string;
-  contactPorteurs: string[];
   actuelles: PlainType<
     Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>
   >;
-  dépôtEnCours: Option.Type<
-    PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>
-  >;
   archivesGarantiesFinancières: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
-  mainlevée: Option.Type<
-    PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>
-  >;
-  mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
-  appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
   actions: ActionGarantiesFinancières[];
-  infos: ('échues' | 'date-échéance-dépôt-passée')[];
 };
+
+type Action = {
+  label: string;
+  title: string;
+  href: (identifiantProjet: string) => string;
+};
+
+type Alerte = {
+  title: string;
+  description: string;
+  action: { label: string; href: (identifiantProjet: string) => string };
+};
+
+type ActionOuAlerte = ({ type: 'action' } & Action) | ({ type: 'alerte' } & Alerte);
+
+const actionsEtAlertesList: Record<ActionGarantiesFinancières, ActionOuAlerte> = {
+  ['garantiesFinancières.dépôt.soumettre']: {
+    type: 'action',
+    label: 'Soumettre',
+    title: 'Soumettre un dépôt de garanties financières',
+    href: Routes.GarantiesFinancières.dépôt.soumettre,
+  },
+  'garantiesFinancières.actuelles.enregistrer': {
+    type: 'action',
+    label: 'Enregistrer',
+    title: 'Enregistrer des garanties financières',
+    href: Routes.GarantiesFinancières.actuelles.enregistrer,
+  },
+  ['garantiesFinancières.actuelles.modifier']: {
+    type: 'action',
+    label: 'Modifier',
+    title: 'Modifier les garanties financières actuelles',
+    href: Routes.GarantiesFinancières.actuelles.modifier,
+  },
+  ['garantiesFinancières.actuelles.enregistrerAttestation']: {
+    type: 'action',
+    label: `Enregistrer l'attestation de constitution`,
+    title: "Enregistrer l'attestation de constitution des garanties financières",
+    href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation,
+  },
+  ['garantiesFinancières.mainlevée.demander']: {
+    type: 'action',
+    label: 'Demander la mainlevée',
+    title: 'Demander la mainlevée des garanties financières',
+    href: Routes.GarantiesFinancières.demandeMainlevée.demander,
+  },
+  ['garantiesFinancières.mainlevée.consulter']: {
+    type: 'action',
+    title: 'Mainlevée en cours',
+    // description: 'Une demande de mainlevée des garanties financières est en cours.',
+    label: 'Consulter la mainlevée',
+    href: Routes.GarantiesFinancières.demandeMainlevée.détails,
+  },
+  ['garantiesFinancières.dépôt.consulter']: {
+    type: 'action',
+    title: 'Consulter le dépôt de nouvelles garanties financières',
+    label: 'Consulter le dépôt',
+    href: Routes.GarantiesFinancières.dépôt.détails,
+  },
+};
+
+const actionList = Object.entries(actionsEtAlertesList)
+  .filter(([, actionOuAlerte]) => actionOuAlerte.type === 'action')
+  .map(([key, action]) => ({ key: key as ActionGarantiesFinancières, ...(action as Action) }));
+
+const alerteList = Object.entries(actionsEtAlertesList)
+  .filter(([, actionOuAlerte]) => actionOuAlerte.type === 'alerte')
+  .map(([key, action]) => ({ key: key as ActionGarantiesFinancières, ...(action as Alerte) }));
+
+// aucuneGarantieFinancière: {
+//   title: 'Garanties financières manquantes',
+//   description: `Aucune garanties financières n'ont été trouvées pour ce projet.`,
+//   action: {
+//     label: 'Soumettre des garanties financières',
+//     href: Routes.GarantiesFinancières.dépôt.soumettre,
+//   },
+// },
+// };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
   identifiantProjet,
   actuelles,
-  dépôtEnCours,
   actions,
-  infos,
-  mainlevée,
-  mainlevéesRejetées,
-  appelOffres,
-  contactPorteurs,
   archivesGarantiesFinancières,
 }) => (
-  <>
-    <TitrePageGarantiesFinancières title="Détail des garanties financières" />
-    <>
-      <div className="flex flex-col lg:flex-row gap-4">
-        {Option.isSome(actuelles) && (
-          <SectionGarantiesFinancières>
+  <ColumnPageTemplate
+    heading={<Heading2>Détail des garanties financières</Heading2>}
+    leftColumn={{
+      children: (
+        <>
+          {alerteList
+            .filter(({ key }) => actions.includes(key))
+            .map(({ title, description, action }) => (
+              <AlerteGarantiesFinancières
+                key={title}
+                title={title}
+                description={description}
+                action={{ label: action.label, href: action.href(identifiantProjet) }}
+              />
+            ))}
+
+          {/* <p>
+            La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le
+            ou les porteurs dont voici la ou les adresses emails :
+            <br />
+            <CopyButton textToCopy={contactPorteurs.join(',')} />
+          </p> */}
+
+          {Option.isSome(actuelles) && (
             <GarantiesFinancières
-              title="Garanties financières actuelles"
               garantiesFinancières={actuelles.garantiesFinancières}
-              dernièreMiseÀJour={actuelles.dernièreMiseÀJour}
               document={actuelles.document}
               soumisLe={actuelles.soumisLe}
               validéLe={actuelles.validéLe}
-              statutBadge={<StatutGarantiesFinancièresBadge statut={actuelles.statut.statut} />}
-              actions={actions}
+              peutModifier={actions.includes('garantiesFinancières.actuelles.modifier')}
             />
-            <GarantiesFinancièresActuellesActions
-              actions={actions}
-              infos={infos}
-              identifiantProjet={identifiantProjet}
-              contactPorteurs={contactPorteurs}
-              typeGfActuelles={actuelles.garantiesFinancières}
-            />
-          </SectionGarantiesFinancières>
-        )}
-        {Option.isSome(dépôtEnCours) && (
-          <SectionGarantiesFinancières>
-            <GarantiesFinancières
-              title="Garanties financières à traiter"
-              garantiesFinancières={dépôtEnCours.garantiesFinancières}
-              dernièreMiseÀJour={dépôtEnCours.dernièreMiseÀJour}
-              document={dépôtEnCours.document}
-              actions={actions}
-            />
+          )}
 
-            <DépôtGarantiesFinancièresActions
-              identifiantProjet={identifiantProjet}
-              actions={actions}
-              infos={infos}
-            />
-          </SectionGarantiesFinancières>
-        )}
-      </div>
-      {(Option.isSome(mainlevée) || mainlevéesRejetées.length > 0) && (
-        <SectionGarantiesFinancières
-          colorVariant={
-            Option.match(mainlevée)
-              .some(({ statut }) => statut.statut === 'accordé')
-              .none(() => false)
-              ? 'success'
-              : 'info'
-          }
-        >
-          <Heading2>Mainlevée des garanties financières</Heading2>
-          <div className="flex flex-col lg:flex-row gap-4">
-            {Option.isSome(mainlevée) && (
-              <MainlevéeEnCours
-                mainlevée={mainlevée}
-                actions={actions}
-                urlAppelOffre={appelOffres.cahiersDesChargesUrl}
-              />
-            )}
-            {mainlevéesRejetées.length > 0 && (
-              <HistoriqueMainlevéeRejetée mainlevéesRejetées={mainlevéesRejetées} />
-            )}
-          </div>
-        </SectionGarantiesFinancières>
-      )}
-      {Option.isNone(dépôtEnCours) && Option.isNone(actuelles) && (
-        <GarantiesFinancièresManquantes identifiantProjet={identifiantProjet} actions={actions} />
-      )}
-
-      {archivesGarantiesFinancières.length > 0 && (
-        <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
-      )}
-
-      {actions.includes('garantiesFinancières.dépôt.soumettre') &&
-        (Option.isSome(dépôtEnCours) || Option.isSome(actuelles)) && (
-          <InfoBoxSoumettreDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />
-        )}
-    </>
-  </>
+          {archivesGarantiesFinancières.length > 0 && (
+            <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
+          )}
+        </>
+      ),
+    }}
+    rightColumn={{
+      children: (
+        <ActionsList
+          actions={actionList
+            .filter(({ key }) => actions.includes(key))
+            .map(({ href, label, title }) => ({
+              label,
+              title,
+              href: href(identifiantProjet),
+            }))}
+        />
+      ),
+    }}
+  />
 );

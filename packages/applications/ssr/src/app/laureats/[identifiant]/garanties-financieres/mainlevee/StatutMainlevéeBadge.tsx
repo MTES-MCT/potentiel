@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getStatutMainlevéeLabel } from './_helpers';
+import { getStatutMainlevéeLabel } from '../_helpers/statutMainlevéeLabels';
 
 const convertStatutMainlevéeToBadgeSeverity: Record<
   Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType,

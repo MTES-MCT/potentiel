@@ -1,10 +1,11 @@
 import { FC } from 'react';
 
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
+import { Heading1 } from '@/components/atoms/headings';
+
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
-} from '../../(dépôt)/depot:soumettre/SoumettreDépôtGarantiesFinancières.form';
+} from '../../depot/soumettre/SoumettreDépôtGarantiesFinancières.form';
 
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
@@ -18,7 +19,7 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
   typesGarantiesFinancières,
 }) => (
   <>
-    <TitrePageGarantiesFinancières title="Enregistrer des garanties financières" />
+    <Heading1>Enregistrer des garanties financières</Heading1>
 
     <SoumettreDépôtGarantiesFinancièresForm
       identifiantProjet={identifiantProjet}

@@ -18,9 +18,7 @@ export const ValiderDépôtGarantiesFinancièresForm = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)}>
-        Valider
-      </Button>
+      <Button onClick={() => setIsOpen(true)}>Valider</Button>
 
       <ModalWithForm
         id="valider-gf"

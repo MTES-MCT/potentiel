@@ -6,10 +6,9 @@ import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/projet';
 
-import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
-import { FormattedDate } from '@/components//atoms/FormattedDate';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
@@ -17,24 +16,7 @@ export type HistoriqueMainlevéeRejetéeProps = {
 
 export const HistoriqueMainlevéeRejetée: FC<HistoriqueMainlevéeRejetéeProps> = ({
   mainlevéesRejetées,
-}) => {
-  const nombreDeMainlevéesRejetées = mainlevéesRejetées.length;
-
-  const items = mainlevéesRejetées.map(mapToItem);
-
-  return (
-    <div className="p-3 flex-1 flex flex-col items-start">
-      <Heading3>Historique des mainlevées rejetées</Heading3>
-      <div className="text-xs italic">
-        {nombreDeMainlevéesRejetées} mainlevée{nombreDeMainlevéesRejetées > 1 && 's'} rejetée
-        {nombreDeMainlevéesRejetées > 1 && 's'}
-      </div>
-      <div className="mt-3">
-        <Timeline items={items} />
-      </div>
-    </div>
-  );
-};
+}) => <Timeline items={mainlevéesRejetées.map(mapToItem)} />;
 
 const mapToItem = ({
   rejet,

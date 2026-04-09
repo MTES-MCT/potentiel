@@ -60,7 +60,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | sujet       | Potentiel - Du boulodrome de Marseille - Échéance des garanties financières dans 3 mois |
             | nom_projet  | Du boulodrome de Marseille                                                              |
             | nombre_mois | 3                                                                                       |
-            | url         | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot:soumettre      |
+            | url         | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot/soumettre      |
         Et un email a été envoyé à la dreal avec :
             | sujet       | Potentiel - Du boulodrome de Marseille - Échéance des garanties financières dans 3 mois |
             | nom_projet  | Du boulodrome de Marseille                                                              |

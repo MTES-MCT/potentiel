@@ -12,10 +12,12 @@ type ListerEnAttenteFilters = {
 };
 
 export const dépôt = {
+  détails: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot`,
   soumettre: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:soumettre`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot/soumettre`,
   modifier: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:modifier`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot/modifier`,
   lister: withFilters(`/garanties-financieres/depots-en-cours`),
 };
 
@@ -33,6 +35,8 @@ export const actuelles = {
 export const demandeMainlevée = {
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee/demander`,
+  détails: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee`,
   lister: withFilters<ListerMainlevéesFilters>(
     `/garanties-financieres/demandes-mainlevee-en-cours`,
   ),

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
+import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import { GarantiesFinancièresFormInputsProps } from '../../GarantiesFinancièresFormInputs';
 
 import { SoumettreDépôtGarantiesFinancièresForm } from './SoumettreDépôtGarantiesFinancières.form';
@@ -18,7 +18,7 @@ export const SoumettreDépôtGarantiesFinancièresPage: FC<
   SoumettreDépôtGarantiesFinancièresProps
 > = ({ identifiantProjet, typesGarantiesFinancières }) => (
   <ColumnPageTemplate
-    heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
+    heading={<Heading1>Soumettre des garanties financières</Heading1>}
     leftColumn={{
       children: (
         <SoumettreDépôtGarantiesFinancièresForm

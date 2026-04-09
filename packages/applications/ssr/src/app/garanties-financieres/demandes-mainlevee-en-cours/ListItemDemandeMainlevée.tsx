@@ -6,10 +6,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
+import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
+import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
 
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;
@@ -40,7 +40,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
     actions={
       <Button
         linkProps={{
-          href: Routes.GarantiesFinancières.détail(identifiantProjet),
+          href: Routes.GarantiesFinancières.demandeMainlevée.détails(identifiantProjet),
           'aria-label': `voir le détail des garanties financières du projet ${nomProjet}`,
         }}
       >

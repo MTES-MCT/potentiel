@@ -3,11 +3,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
-
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { getStatutMainlevéeLabel } from '../_helpers';
+import { getStatutMainlevéeLabel } from '../../_helpers/statutMainlevéeLabels';
 
 import { passerDemandeMainlevéeEnInstructionAction } from './passerDemandeMainlevéeEnInstruction.action';
 
@@ -40,12 +38,7 @@ export const PasserDemandeMainlevéeEnInstruction = ({
                 Êtes-vous sûr de vouloir démarrer l'instruction de la demande de mainlevée ?
               </p>
               <span className="italic">
-                Cela passera son statut en "
-                {getStatutMainlevéeLabel(
-                  Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction
-                    .statut,
-                )}
-                " ?
+                Cela passera son statut en "{getStatutMainlevéeLabel('en-instruction')}" ?
               </span>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>

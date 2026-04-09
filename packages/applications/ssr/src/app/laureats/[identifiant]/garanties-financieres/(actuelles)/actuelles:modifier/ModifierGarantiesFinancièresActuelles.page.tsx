@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
+import { Heading1 } from '@/components/atoms/headings';
 
 import {
   ModifierGarantiesFinancièresActuellesForm,
@@ -14,7 +14,7 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
   ModifierGarantiesFinancièresActuellesPageProps
 > = ({ actuelles, typesGarantiesFinancières }) => (
   <>
-    <TitrePageGarantiesFinancières title="Modifier les garanties financières actuelles" />
+    <Heading1>Modifier les garanties financières actuelles</Heading1>
     <ModifierGarantiesFinancièresActuellesForm
       typesGarantiesFinancières={typesGarantiesFinancières}
       actuelles={actuelles}

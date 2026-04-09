@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
+import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
-} from '../depot:soumettre/SoumettreDépôtGarantiesFinancières.form';
+} from '../soumettre/SoumettreDépôtGarantiesFinancières.form';
 
 import { modifierDépôtGarantiesFinancièresAction } from './modifierDépôtGarantiesFinancières.action';
 
@@ -23,9 +23,7 @@ export const ModifierDépôtGarantiesFinancièresPage: FC<
   ModifierDépôtGarantiesFinancièresPageProps
 > = ({ identifiantProjet, typesGarantiesFinancières, dépôt, showWarning }) => (
   <ColumnPageTemplate
-    heading={
-      <TitrePageGarantiesFinancières title="Modifier des garanties financières en attente de validation" />
-    }
+    heading={<Heading1>Modifier des garanties financières en attente de validation</Heading1>}
     leftColumn={{
       children: (
         <>
