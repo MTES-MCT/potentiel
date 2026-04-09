@@ -85,11 +85,9 @@ export type CandidatureEntity = Entity<
     // Calculée à partir de la technologie et de l'appel d'offres
     unitéPuissance: UnitéPuissance.RawType;
     dispositifDeStockage?: DispositifDeStockage.RawType;
-    raccordements:
-      | Array<{
-          référence: Raccordement.RéférenceDossierRaccordement.RawType;
-          dateQualification: DateTime.RawType;
-        }>
-      | undefined;
+    raccordements?: Array<{
+      référence: Raccordement.RéférenceDossierRaccordement.RawType;
+      dateQualification: DateTime.RawType;
+    }>;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;
