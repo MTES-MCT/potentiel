@@ -4,6 +4,8 @@ import { mediator } from 'mediateur';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
+import { mapDateTime } from '#helpers';
+
 import { PotentielWorld } from '../../potentiel.world.js';
 import { DeepPartial } from '../../fixture.js';
 
@@ -31,6 +33,26 @@ EtantDonné(
   `la candidature lauréate {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, { nomProjet, statut: 'classé' });
+  },
+);
+
+EtantDonné(
+  `la candidature lauréate {string} importée avec ses données de raccordement avec :`,
+  async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'classé',
+      dépôt: {
+        raccordements: [
+          {
+            référence: exemple['réference raccordement'],
+            dateQualification: mapDateTime(exemple['date qualification raccordement']),
+          },
+        ],
+      },
+    });
   },
 );
 
