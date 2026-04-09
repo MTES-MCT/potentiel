@@ -7,13 +7,13 @@ import { demanderMainlevéeAction } from './demanderMainlevée.action';
 export type DemanderMainlevéeFormProps = {
   identifiantProjet: string;
   motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
-  disabled: boolean;
+  prérequisComplétés: boolean;
 };
 
 export const DemanderMainlevéeForm = ({
   identifiantProjet,
   motif,
-  disabled,
+  prérequisComplétés,
 }: DemanderMainlevéeFormProps) => {
   return (
     <Form
@@ -21,7 +21,7 @@ export const DemanderMainlevéeForm = ({
       omitMandatoryFieldsLegend
       actionButtons={{
         submitLabel: 'Demander',
-        submitDisabled: disabled,
+        submitDisabled: !prérequisComplétés,
         secondaryAction: {
           type: 'back',
         },

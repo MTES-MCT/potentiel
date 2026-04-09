@@ -27,16 +27,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         attestationConstitutionTransmise: !!actuelles?.document,
         pasDeDépôtEnCours: !dépôt,
         projetAchevéOuAbandonné: lauréat.statut.estAbandonné() || lauréat.statut.estAchevé(),
-        attestationConformitéTransmise:
-          lauréat.statut.estAbandonné() ||
-          (achèvement.estAchevé && Option.isSome(achèvement.attestation)),
+        attestationConformitéTransmise: achèvement.estAchevé
+          ? Option.isSome(achèvement.attestation)
+          : undefined,
       };
+
       return (
         <DemanderMainlevéePage
           identifiantProjet={identifiantProjet}
           motif={lauréat.statut.estAchevé() ? 'projet-achevé' : 'projet-abandonné'}
           prérequis={prérequis}
-          disabled={Object.values(prérequis).some((prérequis) => !prérequis)}
+          prérequisComplétés={Object.values(prérequis).every((prérequis) => prérequis)}
         />
       );
     }),

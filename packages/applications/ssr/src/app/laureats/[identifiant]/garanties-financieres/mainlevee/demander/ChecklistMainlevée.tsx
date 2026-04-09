@@ -1,9 +1,10 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 import Link from 'next/link';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { fr } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
+import Success from '@codegouvfr/react-dsfr/picto/Success';
+import Error from '@codegouvfr/react-dsfr/picto/Error';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -34,7 +35,6 @@ const prérequisMainlevée = {
       lien: Routes.Achèvement.transmettreAttestationConformité,
     },
   },
-  // NB : cas particulier si le projet est achevé. Par simplicité, on passera "true" en cas d'abandon
   attestationConformitéTransmise: {
     label: "L'attestation de conformité est transmise dans Potentiel",
     action: {
@@ -44,12 +44,15 @@ const prérequisMainlevée = {
   },
 };
 
-export type InfoBoxMainlevéeProps = {
+export type ChecklistMainlevéeProps = {
   identifiantProjet: string;
-  prérequis: Record<keyof typeof prérequisMainlevée, boolean>;
+  prérequis: Partial<Record<keyof typeof prérequisMainlevée, boolean>>;
 };
 
-export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProjet, prérequis }) => (
+export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
+  identifiantProjet,
+  prérequis,
+}) => (
   <Alert
     severity="info"
     small
@@ -60,23 +63,19 @@ export const InfoBoxMainlevée: FC<InfoBoxMainlevéeProps> = ({ identifiantProje
         <ul className="list-none cursor-default list-inside my-2 ">
           {Object.entries(prérequisMainlevée).map(([key, { label, action }]) => {
             const complété = prérequis[key as keyof typeof prérequisMainlevée];
+            if (complété === undefined) {
+              return null;
+            }
             return (
-              <li key={key} className={clsx('flex flex-row gap-3', { 'line-through': complété })}>
-                <Checkbox
-                  options={[
-                    {
-                      label: label,
-                      nativeInputProps: {
-                        checked: complété,
-                        readOnly: true,
-                        'aria-label': complété
-                          ? 'Ce prérequis est rempli'
-                          : "L'action reste à compléter",
-                      },
-                    },
-                  ]}
-                  small
-                />
+              <li
+                key={key}
+                className={'flex flex-row items-center gap-3'}
+                aria-label={complété ? 'Ce prérequis est rempli' : "L'action reste à compléter"}
+              >
+                <span aria-hidden>
+                  {complété ? <Success fontSize="medium" /> : <Error fontSize="medium" />}
+                </span>
+                <span className={clsx({ 'line-through': complété })}>{label}</span>
                 {!complété && action && (
                   <Link
                     href={action.lien(identifiantProjet)}

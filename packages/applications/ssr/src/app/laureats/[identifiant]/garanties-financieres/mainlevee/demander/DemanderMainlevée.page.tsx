@@ -1,25 +1,29 @@
 import { Heading1 } from '@/components/atoms/headings';
 
 import { DemanderMainlevéeForm, DemanderMainlevéeFormProps } from './DemanderMainlevée.form';
-import { InfoBoxMainlevée, InfoBoxMainlevéeProps } from './InfoBoxMainlevée';
+import { ChecklistMainlevée, ChecklistMainlevéeProps } from './ChecklistMainlevée';
 
-export type DemanderMainlevéePageProps = DemanderMainlevéeFormProps & InfoBoxMainlevéeProps;
+export type DemanderMainlevéePageProps = DemanderMainlevéeFormProps & ChecklistMainlevéeProps;
 export const DemanderMainlevéePage = ({
   identifiantProjet,
   motif,
   prérequis,
-  disabled,
+  prérequisComplétés,
 }: DemanderMainlevéePageProps) => (
   <>
     <Heading1>Demander la mainlevée des garanties financières</Heading1>
     <div className="my-6">
-      <InfoBoxMainlevée identifiantProjet={identifiantProjet} prérequis={prérequis} />
+      {prérequisComplétés ? (
+        <p>Êtes-vous sûr de vouloir demander la mainlevée des garanties financières ?</p>
+      ) : (
+        <ChecklistMainlevée identifiantProjet={identifiantProjet} prérequis={prérequis} />
+      )}
     </div>
 
     <DemanderMainlevéeForm
       identifiantProjet={identifiantProjet}
       motif={motif}
-      disabled={disabled}
+      prérequisComplétés={prérequisComplétés}
     />
   </>
 );
