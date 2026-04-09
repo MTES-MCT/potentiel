@@ -20,7 +20,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -149,7 +149,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           représentantLégal: {
             demande: true,
@@ -189,7 +189,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           représentantLégal: {
             demande: true,
@@ -229,7 +229,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           représentantLégal: {
             demande: true,
@@ -267,7 +267,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,

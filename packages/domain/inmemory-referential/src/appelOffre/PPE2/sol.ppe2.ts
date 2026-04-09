@@ -34,7 +34,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 `,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       puissance: {
         demande: true,
@@ -71,7 +71,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -199,7 +199,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       typeImport: 'csv',
       champsSupplémentaires: {},
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -238,7 +238,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         modification: defaultModifications,
         changement: {
           abandon: {
@@ -273,7 +273,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -319,7 +319,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -365,7 +365,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -411,7 +411,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -457,7 +457,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -501,7 +501,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,

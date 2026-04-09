@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export const defaultModifications: AppelOffre.RèglesDemandes['modification'] = {
+export const defaultModifications: AppelOffre.RèglesMiseÀJour['modification'] = {
   siteDeProduction: true,
   représentantLégal: true,
   actionnaire: true,

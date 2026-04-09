@@ -44,7 +44,7 @@ const changementsCDCModifié = {
   },
   installateur: {},
   dispositifDeStockage: {},
-} satisfies AppelOffre.RèglesDemandesChangement;
+} satisfies AppelOffre.RèglesMiseÀJourChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -57,7 +57,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: changementsCDCModifié,
   },
 };
@@ -91,7 +91,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       ...changementsCDCModifié,
       puissance: {
@@ -123,7 +123,7 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
-  demandes: {
+  miseÀJour: {
     changement: 'indisponible',
     modification: defaultModifications,
   },

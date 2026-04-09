@@ -27,7 +27,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.3 et au 7.1, pour la mise en service peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -73,7 +73,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -200,7 +200,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -235,7 +235,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -276,7 +276,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -311,7 +311,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -357,7 +357,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -403,7 +403,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -449,7 +449,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -498,7 +498,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -545,7 +545,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -596,7 +596,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,
@@ -643,7 +643,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         coefficientKChoisi: 'requis',
       },
       typeImport: 'csv',
-      demandes: {
+      miseÀJour: {
         changement: {
           abandon: {
             demande: true,

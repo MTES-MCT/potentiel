@@ -13,7 +13,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
       max: new Date('2024-09-30').toISOString(),
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       puissance: {
         demande: true,
@@ -37,7 +37,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   shortTitle: 'Eolien',
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},

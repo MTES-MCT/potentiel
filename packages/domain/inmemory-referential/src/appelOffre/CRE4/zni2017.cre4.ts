@@ -44,7 +44,7 @@ const changementsCDCModifié = {
   },
   installateur: {},
   dispositifDeStockage: {},
-} satisfies AppelOffre.RèglesDemandesChangement;
+} satisfies AppelOffre.RèglesMiseÀJourChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -57,7 +57,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: changementsCDCModifié,
   },
 };
@@ -75,7 +75,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       ...changementsCDCModifié,
       puissance: {
@@ -103,7 +103,7 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 36,
-  demandes: {
+  miseÀJour: {
     changement: 'indisponible',
     modification: defaultModifications,
   },

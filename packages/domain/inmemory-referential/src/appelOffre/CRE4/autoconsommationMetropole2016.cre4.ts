@@ -13,7 +13,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -70,7 +70,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  demandes: {
+  miseÀJour: {
     changement: 'indisponible',
     modification: defaultModifications,
   },

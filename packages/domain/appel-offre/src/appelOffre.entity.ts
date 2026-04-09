@@ -105,7 +105,7 @@ type ChangementReprésentantLégal =
       instructionAutomatique: 'accord' | 'rejet';
     };
 
-export type RèglesDemandesChangement = {
+export type RèglesMiseÀJourChangement = {
   actionnaire: ChangementActionnaire;
   fournisseur: Changement;
   délai: DemandeAvecAutoritéCompétente;
@@ -122,15 +122,15 @@ export type RèglesDemandesChangement = {
   typologieInstallation: Changement;
 };
 
-export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
+export type DomainesConcernésParChangement = keyof RèglesMiseÀJourChangement;
 
 type Modification = boolean | undefined;
 
 /**
- * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
+ * "indisponible" indique que les projets de la période ne peuvent pas faire l'objet de mise à jour par le porteur dans Potentiel sans choisir un CDC modificatif.
  **/
-export type RèglesDemandes = {
-  changement: RèglesDemandesChangement | 'indisponible';
+export type RèglesMiseÀJour = {
+  changement: RèglesMiseÀJourChangement | 'indisponible';
   modification: Record<DomainesConcernésParChangement, Modification>;
 };
 
@@ -161,8 +161,8 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  demandes?: {
-    changement?: Partial<RèglesDemandesChangement>;
+  miseÀJour?: {
+    changement?: Partial<RèglesMiseÀJourChangement>;
     modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
   };
 };
@@ -306,8 +306,8 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
-  demandes?: {
-    changement?: Partial<RèglesDemandesChangement> | 'indisponible';
+  miseÀJour?: {
+    changement?: Partial<RèglesMiseÀJourChangement> | 'indisponible';
     modification?: Partial<Record<DomainesConcernésParChangement, Modification>>;
   };
   addendums?: {
@@ -367,7 +367,7 @@ export type AppelOffreReadModel = {
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
-  demandes: RèglesDemandes;
+  miseÀJour: RèglesMiseÀJour;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

@@ -35,8 +35,8 @@ export type ValueType = {
   doitChoisirUnCahierDesChargesModificatif(): boolean;
   getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParChangement>(
     domaine: TDomain,
-  ): AppelOffre.RèglesDemandesChangement[TDomain];
-  getRèglesModification<TDomain extends keyof AppelOffre.RèglesDemandes['modification']>(
+  ): AppelOffre.RèglesMiseÀJourChangement[TDomain];
+  getRèglesModification<TDomain extends keyof AppelOffre.RèglesMiseÀJour['modification']>(
     domaine: TDomain,
   ): boolean;
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
@@ -58,7 +58,7 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
+    const changementIndisponible: AppelOffre.RèglesMiseÀJourChangement = {
       nomProjet: {},
       abandon: {},
       actionnaire: {},
@@ -76,22 +76,22 @@ export const bind = ({
     };
 
     const règlesChangement = {
-      ...(this.appelOffre.demandes.changement === 'indisponible'
+      ...(this.appelOffre.miseÀJour.changement === 'indisponible'
         ? changementIndisponible
-        : this.appelOffre.demandes.changement),
-      ...(this.période.demandes?.changement === 'indisponible'
+        : this.appelOffre.miseÀJour.changement),
+      ...(this.période.miseÀJour?.changement === 'indisponible'
         ? changementIndisponible
-        : this.période.demandes?.changement),
-      ...this.cahierDesChargesModificatif?.demandes?.changement,
+        : this.période.miseÀJour?.changement),
+      ...this.cahierDesChargesModificatif?.miseÀJour?.changement,
     };
     return règlesChangement[domaine];
   },
 
   getRèglesModification(domaine) {
     const règlesModification = {
-      ...this.appelOffre.demandes.modification,
-      ...this.période.demandes?.modification,
-      ...this.cahierDesChargesModificatif?.demandes?.modification,
+      ...this.appelOffre.miseÀJour.modification,
+      ...this.période.miseÀJour?.modification,
+      ...this.cahierDesChargesModificatif?.miseÀJour?.modification,
     };
 
     return !!règlesModification[domaine];
@@ -122,7 +122,7 @@ export const bind = ({
   },
 
   doitChoisirUnCahierDesChargesModificatif() {
-    const changement = this.période.demandes?.changement ?? this.appelOffre.demandes.changement;
+    const changement = this.période.miseÀJour?.changement ?? this.appelOffre.miseÀJour.changement;
     return this.cahierDesChargesModificatif === undefined && changement === 'indisponible';
   },
 

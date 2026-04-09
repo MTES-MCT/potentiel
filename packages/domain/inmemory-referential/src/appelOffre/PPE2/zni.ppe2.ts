@@ -19,7 +19,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
-  demandes: {
+  miseÀJour: {
     changement: {
       nomProjet: {},
       natureDeLExploitation: {},
@@ -142,7 +142,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      demandes: { modification: defaultModifications },
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '2',
@@ -171,7 +171,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      demandes: { modification: defaultModifications },
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '3',
@@ -200,7 +200,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      demandes: { modification: defaultModifications },
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '4',
