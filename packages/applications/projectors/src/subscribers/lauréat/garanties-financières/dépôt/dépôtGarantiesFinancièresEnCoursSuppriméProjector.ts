@@ -13,7 +13,7 @@ export const dépôtGarantiesFinancièresEnCoursSuppriméProjector = async ({
       `garanties-financieres|${identifiantProjet}`,
     );
 
-  if (Option.isNone(existingProjection) || !existingProjection.dépôt) {
+  if (Option.isNone(existingProjection)) {
     throw new Error('Pas de dépôt en cours de garanties financières à supprimer');
   }
 
