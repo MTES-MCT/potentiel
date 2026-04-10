@@ -44,7 +44,7 @@ const changementsCDCModifié = {
   },
   installateur: {},
   dispositifDeStockage: {},
-} satisfies AppelOffre.RèglesDemandesChangement;
+} satisfies AppelOffre.RèglesMiseÀJourPorteur;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -57,7 +57,9 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCDCModifié,
+  miseÀJour: {
+    changement: changementsCDCModifié,
+  },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -73,15 +75,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
     },
   },
-  changement: {
-    ...changementsCDCModifié,
-    puissance: {
-      ...changementsCDCModifié.puissance,
-      ratios: {
-        min: changementsCDCModifié.puissance.ratios.min,
-        max: 1.4,
+  miseÀJour: {
+    changement: {
+      ...changementsCDCModifié,
+      puissance: {
+        ...changementsCDCModifié.puissance,
+        ratios: {
+          min: changementsCDCModifié.puissance.ratios.min,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée)   et  que  la  Puissance  modifiée  soit inférieure  au  plafond  de  puissance  de  la  famille  dans  laquelle entre l’offre.`,
       },
-      paragrapheAlerte: `Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée)   et  que  la  Puissance  modifiée  soit inférieure  au  plafond  de  puissance  de  la  famille  dans  laquelle entre l’offre.`,
     },
   },
 };
@@ -99,8 +103,10 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 36,
-  changement: 'indisponible',
-  modification: defaultModifications,
+  miseÀJour: {
+    changement: 'indisponible',
+    modification: defaultModifications,
+  },
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',
   paragrapheDelaiDerogatoire: '6.4',

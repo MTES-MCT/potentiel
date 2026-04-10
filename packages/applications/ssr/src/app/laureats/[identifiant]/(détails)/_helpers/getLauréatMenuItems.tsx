@@ -20,7 +20,7 @@ type GetLauréatMenuItemsProps = {
   utilisateur: Utilisateur.ValueType;
 };
 
-const domainesMap: Record<AppelOffre.DomainesConcernésParChangement, boolean> = {
+const domainesMap: Record<AppelOffre.DomainesConcernésParMiseÀJour, boolean> = {
   abandon: true,
   actionnaire: true,
   délai: true,
@@ -37,7 +37,7 @@ const domainesMap: Record<AppelOffre.DomainesConcernésParChangement, boolean> =
   // non utilisé pour lauréat
   recours: false,
 };
-const domaines = Object.keys(domainesMap) as AppelOffre.DomainesConcernésParChangement[];
+const domaines = Object.keys(domainesMap) as AppelOffre.DomainesConcernésParMiseÀJour[];
 
 export const getLauréatMenuItems = async ({
   identifiantProjet,
@@ -48,7 +48,7 @@ export const getLauréatMenuItems = async ({
   const linkToSection = (text: string, path: string) =>
     link(text, `${Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())}/${path}`);
 
-  const linkToAction = async (domain: AppelOffre.DomainesConcernésParChangement) => {
+  const linkToAction = async (domain: AppelOffre.DomainesConcernésParMiseÀJour) => {
     const nécessiteInstruction =
       domain === 'actionnaire'
         ? await changementActionnaireNécessiteInstruction(

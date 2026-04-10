@@ -105,7 +105,7 @@ type ChangementReprésentantLégal =
       instructionAutomatique: 'accord' | 'rejet';
     };
 
-export type RèglesDemandesChangement = {
+export type RèglesMiseÀJourPorteur = {
   actionnaire: ChangementActionnaire;
   fournisseur: Changement;
   délai: DemandeAvecAutoritéCompétente;
@@ -122,13 +122,17 @@ export type RèglesDemandesChangement = {
   typologieInstallation: Changement;
 };
 
-export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
+export type DomainesConcernésParMiseÀJour = keyof RèglesMiseÀJourPorteur;
 
-type Modification = {
-  modificationAdmin?: boolean;
+type Modification = boolean | undefined;
+
+/**
+ * "indisponible" indique que les projets de la période ne peuvent pas faire l'objet de mise à jour par le porteur dans Potentiel sans choisir un CDC modificatif.
+ **/
+export type RèglesMiseÀJour = {
+  changement: RèglesMiseÀJourPorteur | 'indisponible';
+  modification: Record<DomainesConcernésParMiseÀJour, Modification>;
 };
-
-export type RèglesModification = Record<DomainesConcernésParChangement, Modification>;
 
 // Courriers
 export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
@@ -157,8 +161,10 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  changement?: Partial<RèglesDemandesChangement>;
-  modification?: Partial<RèglesModification>;
+  miseÀJour?: {
+    changement?: Partial<RèglesMiseÀJourPorteur>;
+    modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
+  };
 };
 
 // Technologies
@@ -255,29 +261,27 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
 /**
  * Ces champs ne sont pas actifs pour tous les AOs/Périodes.
  * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
+ * Ils peuvent faire l'objet d'un "cycle de vie" dans lauréat (modification admin, changement PP...)
  **/
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const champsCandidature = [
-  'puissanceALaPointe',
+export type ChampCandidature =
+  | 'puissanceALaPointe'
   /**
    * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
    * Cette information est utilisée par le Cocontractant.
    */
-  'coefficientKChoisi',
+  | 'coefficientKChoisi'
   /**
    * puissance du projet (P) + autres installations sur le même site d'implantation (Q)
    * puissance de site = P + Q
    */
-  'puissanceDeSite',
-  'autorisation',
-  'installateur',
-  'dispositifDeStockage',
-  'natureDeLExploitation',
-  'typologieInstallation',
+  | 'puissanceDeSite'
+  | 'autorisation'
+  | 'installateur'
+  | 'dispositifDeStockage'
+  | 'natureDeLExploitation'
+  | 'typologieInstallation'
   // CRE4 ZNI
-  'territoireProjet',
-] as const;
-export type ChampCandidature = (typeof champsCandidature)[number];
+  | 'territoireProjet';
 
 export type ChampsSupplémentairesCandidature = Partial<
   Record<ChampCandidature, 'requis' | 'optionnel'>
@@ -302,11 +306,10 @@ export type Periode = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
-  /**
-   * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   **/
-  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
-  modification?: Partial<RèglesModification>;
+  miseÀJour?: {
+    changement?: Partial<RèglesMiseÀJourPorteur> | 'indisponible';
+    modification?: Partial<Record<DomainesConcernésParMiseÀJour, Modification>>;
+  };
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -364,11 +367,7 @@ export type AppelOffreReadModel = {
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
-  /**
-   * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   **/
-  changement: RèglesDemandesChangement | 'indisponible';
-  modification: RèglesModification;
+  miseÀJour: RèglesMiseÀJour;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

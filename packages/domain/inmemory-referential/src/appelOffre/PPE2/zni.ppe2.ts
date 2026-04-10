@@ -19,48 +19,50 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
-  changement: {
-    nomProjet: {},
-    natureDeLExploitation: {},
-    typologieInstallation: {},
-    siteDeProduction: {},
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-      autoritéCompétente: 'dreal',
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-      ratios: {
-        min: 0.9,
-        max: 1.1,
+  miseÀJour: {
+    changement: {
+      nomProjet: {},
+      natureDeLExploitation: {},
+      typologieInstallation: {},
+      siteDeProduction: {},
+      représentantLégal: {
+        demande: true,
+        instructionAutomatique: 'accord',
       },
+      actionnaire: {
+        informationEnregistrée: true,
+      },
+      fournisseur: {
+        informationEnregistrée: true,
+      },
+      délai: {
+        demande: true,
+        autoritéCompétente: 'dreal',
+      },
+      producteur: {
+        informationEnregistrée: true,
+      },
+      puissance: {
+        informationEnregistrée: true,
+        demande: true,
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
+      recours: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      abandon: {
+        demande: true,
+        autoritéCompétente: 'dgec',
+      },
+      installateur: {},
+      dispositifDeStockage: {},
     },
-    recours: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    abandon: {
-      demande: true,
-      autoritéCompétente: 'dgec',
-    },
-    installateur: {},
-    dispositifDeStockage: {},
+    modification: { ...defaultModifications, typologieInstallation: true },
   },
-  modification: { ...defaultModifications, typologieInstallation: { modificationAdmin: true } },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
@@ -140,7 +142,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      modification: defaultModifications,
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '2',
@@ -169,7 +171,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      modification: defaultModifications,
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '3',
@@ -198,7 +200,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
       champsSupplémentaires: {},
-      modification: defaultModifications,
+      miseÀJour: { modification: defaultModifications },
     },
     {
       id: '4',

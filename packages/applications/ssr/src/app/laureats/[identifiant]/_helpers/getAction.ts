@@ -7,7 +7,7 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 import { mapChangements } from './mapChangements';
 
-type Props<TDomain extends AppelOffre.DomainesConcernésParChangement> = {
+type Props<TDomain extends AppelOffre.DomainesConcernésParMiseÀJour> = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: Role.ValueType;
   domain: TDomain;
@@ -15,7 +15,7 @@ type Props<TDomain extends AppelOffre.DomainesConcernésParChangement> = {
   nécessiteInstruction?: boolean;
 };
 
-export const getAction = async <TDomain extends AppelOffre.DomainesConcernésParChangement>({
+export const getAction = async <TDomain extends AppelOffre.DomainesConcernésParMiseÀJour>({
   identifiantProjet,
   rôle,
   domain,

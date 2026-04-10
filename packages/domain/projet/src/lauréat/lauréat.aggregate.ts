@@ -540,7 +540,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParMiseÀJour,
   ) {
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();

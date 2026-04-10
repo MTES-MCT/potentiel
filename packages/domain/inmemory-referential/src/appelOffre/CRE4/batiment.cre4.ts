@@ -44,7 +44,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   installateur: {},
   dispositifDeStockage: {},
-} satisfies AppelOffre.RèglesDemandesChangement;
+} satisfies AppelOffre.RèglesMiseÀJourPorteur;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -57,7 +57,9 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
+  miseÀJour: {
+    changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
+  },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -71,15 +73,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  changement: {
-    ...changementsCdcModifiéOuApplicablesAPartirDeP13,
-    puissance: {
-      ...changementsCdcModifiéOuApplicablesAPartirDeP13.puissance,
-      ratios: {
-        min: changementsCdcModifiéOuApplicablesAPartirDeP13.puissance.ratios.min,
-        max: 1.4,
+  miseÀJour: {
+    changement: {
+      ...changementsCdcModifiéOuApplicablesAPartirDeP13,
+      puissance: {
+        ...changementsCdcModifiéOuApplicablesAPartirDeP13.puissance,
+        ratios: {
+          min: changementsCdcModifiéOuApplicablesAPartirDeP13.puissance.ratios.min,
+          max: 1.4,
+        },
+        paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
       },
-      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
     },
   },
 };
@@ -97,8 +101,10 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 20,
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
-  modification: defaultModifications,
+  miseÀJour: {
+    changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
+    modification: defaultModifications,
+  },
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -209,7 +215,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -264,7 +272,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -319,7 +329,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -374,7 +386,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -429,7 +443,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -484,7 +500,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -539,7 +557,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -594,7 +614,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -649,7 +671,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -704,7 +728,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -759,7 +785,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {
@@ -814,7 +842,9 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: 'indisponible',
+      miseÀJour: {
+        changement: 'indisponible',
+      },
       typeImport: 'csv',
     },
     {

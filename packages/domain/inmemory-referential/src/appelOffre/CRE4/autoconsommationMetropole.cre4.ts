@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
-const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
+const changementsCDCModifié: AppelOffre.RèglesMiseÀJourPorteur = {
   nomProjet: {},
   natureDeLExploitation: {},
   typologieInstallation: {},
@@ -55,7 +55,9 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCDCModifié,
+  miseÀJour: {
+    changement: changementsCDCModifié,
+  },
 };
 
 export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
@@ -70,8 +72,10 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-auto',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  changement: 'indisponible',
-  modification: defaultModifications,
+  miseÀJour: {
+    changement: 'indisponible',
+    modification: defaultModifications,
+  },
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',

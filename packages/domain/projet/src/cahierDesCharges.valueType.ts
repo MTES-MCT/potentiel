@@ -17,14 +17,14 @@ export type ValueType = {
    **/
   changementEstDisponible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParMiseÀJour,
   ): boolean;
   /**
    * Applique les règles de @see ValueType.changementEstDisponible, en émettant une erreur si le changement n'est pas disponible.
    **/
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParMiseÀJour,
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
   getDélaiRéalisationEnMois(): number;
@@ -33,10 +33,10 @@ export type ValueType = {
     domaine: AppelOffre.DomainesCourriersRéponse,
   ): AppelOffre.DonnéesCourriersRéponse;
   doitChoisirUnCahierDesChargesModificatif(): boolean;
-  getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParChangement>(
+  getRèglesChangements<TDomain extends AppelOffre.DomainesConcernésParMiseÀJour>(
     domaine: TDomain,
-  ): AppelOffre.RèglesDemandesChangement[TDomain];
-  getRèglesModification<TDomain extends keyof AppelOffre.RèglesModification>(
+  ): AppelOffre.RèglesMiseÀJourPorteur[TDomain];
+  getRèglesModification<TDomain extends keyof AppelOffre.RèglesMiseÀJour['modification']>(
     domaine: TDomain,
   ): boolean;
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
@@ -58,7 +58,7 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
+    const changementIndisponible: AppelOffre.RèglesMiseÀJourPorteur = {
       nomProjet: {},
       abandon: {},
       actionnaire: {},
@@ -76,25 +76,25 @@ export const bind = ({
     };
 
     const règlesChangement = {
-      ...(this.appelOffre.changement === 'indisponible'
+      ...(this.appelOffre.miseÀJour.changement === 'indisponible'
         ? changementIndisponible
-        : this.appelOffre.changement),
-      ...(this.période.changement === 'indisponible'
+        : this.appelOffre.miseÀJour.changement),
+      ...(this.période.miseÀJour?.changement === 'indisponible'
         ? changementIndisponible
-        : this.période.changement),
-      ...this.cahierDesChargesModificatif?.changement,
+        : this.période.miseÀJour?.changement),
+      ...this.cahierDesChargesModificatif?.miseÀJour?.changement,
     };
     return règlesChangement[domaine];
   },
 
   getRèglesModification(domaine) {
     const règlesModification = {
-      ...this.appelOffre.modification,
-      ...this.période.modification,
-      ...this.cahierDesChargesModificatif?.modification,
+      ...this.appelOffre.miseÀJour.modification,
+      ...this.période.miseÀJour?.modification,
+      ...this.cahierDesChargesModificatif?.miseÀJour?.modification,
     };
 
-    return !!règlesModification[domaine].modificationAdmin;
+    return !!règlesModification[domaine];
   },
 
   getAutoritéCompétente(domaine) {
@@ -122,7 +122,7 @@ export const bind = ({
   },
 
   doitChoisirUnCahierDesChargesModificatif() {
-    const changement = this.période.changement ?? this.appelOffre.changement;
+    const changement = this.période.miseÀJour?.changement ?? this.appelOffre.miseÀJour.changement;
     return this.cahierDesChargesModificatif === undefined && changement === 'indisponible';
   },
 

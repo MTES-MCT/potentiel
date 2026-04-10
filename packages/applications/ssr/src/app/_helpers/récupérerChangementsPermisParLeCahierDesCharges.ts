@@ -5,7 +5,7 @@ import { getCahierDesCharges } from './getCahierDesCharges';
 
 export const récupérerChangementsPermisParLeCahierDesCharges = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  domaine: AppelOffre.DomainesConcernésParChangement,
+  domaine: AppelOffre.DomainesConcernésParMiseÀJour,
 ) => {
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
   return {
