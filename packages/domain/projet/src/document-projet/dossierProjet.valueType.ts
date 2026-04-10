@@ -14,30 +14,19 @@ export type ValueType = ReadonlyValueType<{
 type Payload = {
   identifiantProjet: string;
   typeDocument: string;
-  cléDocument?: string;
 };
 
 export const convertirEnValueType = ({
   identifiantProjet: identifiantProjetValue,
   typeDocument: typeDocumentValue,
-  cléDocument: cléDocumentValue,
 }: Payload): ValueType => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
   estValide(typeDocumentValue);
-  if (cléDocumentValue) {
-    estValide(cléDocumentValue);
-  }
 
   return {
     formatter() {
-      const parts: string[] = [identifiantProjet.formatter()];
-
-      if (cléDocumentValue) {
-        parts.push(cléDocumentValue);
-      }
-      parts.push(typeDocumentValue);
-      return join(...parts) as RawType;
+      return join(identifiantProjet.formatter(), typeDocumentValue) as RawType;
     },
     estÉgaleÀ(valueType: ValueType) {
       return this.formatter() === valueType.formatter();

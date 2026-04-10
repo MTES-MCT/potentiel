@@ -123,7 +123,6 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         {multiple && <> Plusieurs fichiers possibles</>}
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
-      <input className="hidden" name={`${name}DocumentSelection`} value="edit_document" />
 
       <div className="flex flex-row mt-3 gap-3 items-center">
         <input
