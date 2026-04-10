@@ -1,3 +1,5 @@
+import { join } from 'path';
+
 import { DocumentProjet, DossierProjet } from '#document-projet';
 
 const domaine = 'garanties-financieres';
@@ -8,11 +10,11 @@ const typeAttestationActuelle = 'attestation-garanties-financieres';
 export const dossierProjetGarantiesFinancières = (identifiantProjet: string) => ({
   attestationGarantiesFinancièresDépôt: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: `${domaine}/${typeAttestationSoumise}`,
+    typeDocument: join(domaine, typeAttestationSoumise),
   }),
   attestationGarantiesFinancières: DossierProjet.convertirEnValueType({
     identifiantProjet,
-    typeDocument: `${domaine}/${typeAttestationActuelle}`,
+    typeDocument: join(domaine, typeAttestationActuelle),
   }),
 });
 

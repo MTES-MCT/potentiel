@@ -15,7 +15,6 @@ export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}
 export type ValueType = Readonly<{
   identifiantProjet: string;
   typeDocument: string;
-  cléDocument?: string;
   dateCréation: string;
   format: string;
   formatter(): RawType;
@@ -25,7 +24,6 @@ export const bind = ({
   dateCréation,
   format,
   identifiantProjet,
-  cléDocument,
   typeDocument,
 }: PlainType<ValueType>): ValueType => {
   const extensionFichier = extension(format);
@@ -34,7 +32,6 @@ export const bind = ({
   const dossierProjet = DossierProjet.convertirEnValueType({
     identifiantProjet,
     typeDocument,
-    cléDocument,
   });
 
   return {
@@ -42,7 +39,6 @@ export const bind = ({
     dateCréation: DateTime.convertirEnValueType(dateCréation).formatter(),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
     typeDocument,
-    cléDocument,
     formatter() {
       /**
        * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
@@ -110,8 +106,9 @@ export const documentFactory =
     payload[nomChampDocument] &&
     bind({
       identifiantProjet: payload.identifiantProjet,
-      typeDocument: `${domaine}/${typeDocument}`,
-      cléDocument: nomCléDocument ? payload[nomCléDocument as keyof typeof payload] : undefined,
+      typeDocument: nomCléDocument
+        ? join(domaine, payload[nomCléDocument as keyof typeof payload], typeDocument)
+        : join(domaine, typeDocument),
       dateCréation: payload[nomChampDate],
       format: payload[nomChampDocument].format,
     });
