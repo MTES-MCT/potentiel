@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>(
-        'Lauréat.Achèvement.UseCase.TransmettreAttestationConformité',
+      utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>(
+        'Lauréat.Achèvement.UseCase.ModifierAttestationConformité',
       );
       utilisateur.rôle.peutExécuterMessage<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
         'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
