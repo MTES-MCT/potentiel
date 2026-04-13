@@ -16,9 +16,7 @@ export type DossierAccessor<
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
   getRepetitionChamps: (
     nom: TKey,
-  ) =>
-    | Array<{ champs: Array<{ __typename: string; stringValue: string; label: string }> }>
-    | undefined;
+  ) => Extract<ChampFragmentFragment, { __typename: 'RepetitionChamp' }>['rows'] | undefined;
 };
 
 /**
