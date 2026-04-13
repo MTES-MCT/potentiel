@@ -13,14 +13,11 @@ describe(`Projet avec raccordement`, () => {
   test(`Doit retourner les raccordements au format du dépôt de candidature`, () => {
     const champs: Champs = [
       {
-        id: '1',
-        champDescriptorId: '1',
         __typename: 'RepetitionChamp',
         label:
           'Pour chaque référence de raccordement, ajouter un bloc contenant les informations correspondantes',
         stringValue: '',
-        updatedAt: '2026-04-07T14:25:10+02:00',
-        prefilled: false,
+
         rows: [
           {
             champs: [
@@ -38,6 +35,7 @@ describe(`Projet avec raccordement`, () => {
                 __typename: 'DateChamp',
                 label: "Date de l'accusé de réception de la demande de raccordement",
                 stringValue: '01 avril 2026',
+                date: '2026-04-01T00:00:00.000Z',
               },
             ],
           },
@@ -57,6 +55,7 @@ describe(`Projet avec raccordement`, () => {
                 __typename: 'DateChamp',
                 label: "Date de l'accusé de réception de la demande de raccordement",
                 stringValue: '31 mars 2026',
+                date: '2026-03-31T00:00:00.000Z',
               },
             ],
           },

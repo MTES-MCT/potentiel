@@ -1,44 +1,29 @@
-import { parse } from 'date-fns';
-import { fr } from 'date-fns/locale';
-
 import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
-import { Champs } from '../../graphql/index.js';
-
-import { findRepetitionChamp } from './utils.js';
+import { Champs, createDossierAccessor } from '../../graphql/index.js';
 
 export const getRaccordements = (champs: Champs) => {
-  const références: Candidature.Dépôt.RawType['raccordements'] = [];
+  const références: Candidature.RaccordementDépôt.RawType[] = [];
+  const accessor = createDossierAccessor(champs, {
+    raccordements:
+      'Pour chaque référence de raccordement, ajouter un bloc contenant les informations correspondantes',
+  });
 
-  const raccordements = findRepetitionChamp(
-    champs,
-    ' Pour chaque référence de raccordement, ajouter un bloc contenant les informations correspondantes',
-  );
+  const raccordements = accessor.getRepetitionChamps('raccordements');
 
-  if (!raccordements?.rows) return;
+  if (!raccordements) return;
 
-  for (const raccordement of raccordements.rows) {
-    const raccordementObject = Object.fromEntries(
-      raccordement.champs.map((champ) => [champ.label, champ.stringValue]),
-    );
+  for (const { champs } of raccordements) {
+    const raccordementAccessor = createDossierAccessor(champs, {
+      référence: 'Référence du dossier de raccordement',
+      dateQualification: `Date de l'accusé de réception de la demande de raccordement`,
+    });
 
-    const référence = raccordementObject['Référence du dossier de raccordement'];
-    const dateDeLAccuséRéception =
-      raccordementObject[`Date de l'accusé de réception de la demande de raccordement`];
+    const référence = raccordementAccessor.getStringValue('référence')?.trim();
+    const dateQualification = raccordementAccessor.getDateValue('dateQualification');
 
-    if (référence && dateDeLAccuséRéception) {
-      références.push({
-        référence: référence.trim(),
-        dateQualification: DateTime.convertirEnValueType(
-          (() => {
-            const parsed = parse(dateDeLAccuséRéception, 'dd MMMM yyyy', new Date(), {
-              locale: fr,
-            });
-            return new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
-          })(),
-        ).formatter(),
-      });
+    if (référence && dateQualification) {
+      références.push({ référence, dateQualification });
     }
   }
 

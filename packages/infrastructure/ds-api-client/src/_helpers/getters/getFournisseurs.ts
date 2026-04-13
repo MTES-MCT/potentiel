@@ -1,56 +1,58 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs } from '../../graphql/index.js';
-
-import { findMultipleDropDownListChamp, findRepetitionChamp, findTextChamp } from './utils.js';
+import { Champs, createDossierAccessor } from '../../graphql/index.js';
 
 export const getFournisseurs = (champs: Champs) => {
   const fournisseurs: Candidature.Dépôt.RawType['fournisseurs'] = [];
 
-  const addFournisseurs = (
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType,
-    partialChampLabel: string,
-    blocLabel: string,
-  ) => {
-    const groupeDeFournisseurs = findRepetitionChamp(champs, blocLabel);
-    if (!groupeDeFournisseurs?.rows) return;
-
-    groupeDeFournisseurs.rows.forEach((fournisseur) => {
-      const fournisseurObject = Object.fromEntries(
-        fournisseur.champs.map((champ) => [champ.label, champ.stringValue]),
-      );
-
-      const nomDuFabricant = fournisseurObject[`${partialChampLabel} - Nom du fabricant`];
-      const lieuDeFabrication = fournisseurObject[`${partialChampLabel} - Pays de fabrication`];
-
-      if (nomDuFabricant && lieuDeFabrication) {
-        fournisseurs.push({ typeFournisseur, nomDuFabricant, lieuDeFabrication });
-      }
-    });
-  };
+  const rootAccessor = createDossierAccessor(champs, {
+    dispositifDeProduction:
+      'Pour chaque fabricant de dispositif de production, ajouter un bloc contenant les informations du fabricant:',
+    posteDeConversion:
+      'Pour chaque poste de conversion, ajouter un bloc contenant les informations du poste de conversion:',
+    dispositifDeStockage_nom: 'Stockage - Nom du fabricant',
+    dispositifDeStockage_pays: 'Stockage - Pays de fabrication',
+  });
 
   // Dispositif de production
-  addFournisseurs(
-    'dispositif-de-production',
-    'Dispositif de production',
-    'Pour chaque fabricant de dispositif de production, ajouter un bloc contenant les informations du fabricant:',
-  );
+  for (const { champs } of rootAccessor.getRepetitionChamps('dispositifDeProduction') ?? []) {
+    const accessor = createDossierAccessor(champs, {
+      nomDuFabricant: 'Dispositif de production - Nom du fabricant',
+      lieuDeFabrication: 'Dispositif de production - Pays de fabrication',
+    });
+    const nomDuFabricant = accessor.getStringValue('nomDuFabricant');
+    const lieuDeFabrication = accessor.getStringValue('lieuDeFabrication');
+    if (nomDuFabricant && lieuDeFabrication) {
+      fournisseurs.push({
+        typeFournisseur: 'dispositif-de-production',
+        nomDuFabricant,
+        lieuDeFabrication,
+      });
+    }
+  }
 
   // Poste de conversion
-  addFournisseurs(
-    'poste-conversion',
-    'Poste de conversion',
-    'Pour chaque poste de conversion, ajouter un bloc contenant les informations du poste de conversion:',
-  );
+  for (const { champs } of rootAccessor.getRepetitionChamps('posteDeConversion') ?? []) {
+    const accessor = createDossierAccessor(champs, {
+      nomDuFabricant: 'Poste de conversion - Nom du fabricant',
+      lieuDeFabrication: 'Poste de conversion - Pays de fabrication',
+    });
+    const nomDuFabricant = accessor.getStringValue('nomDuFabricant');
+    const lieuDeFabrication = accessor.getStringValue('lieuDeFabrication');
+    if (nomDuFabricant && lieuDeFabrication) {
+      fournisseurs.push({ typeFournisseur: 'poste-conversion', nomDuFabricant, lieuDeFabrication });
+    }
+  }
 
   // Dispositif de stockage
-  const stockageNom = findTextChamp(champs, 'Stockage - Nom du fabricant');
-  const stockagePays = findMultipleDropDownListChamp(champs, 'Stockage - Pays de fabrication');
-  if (stockageNom?.stringValue && stockagePays?.stringValue) {
+  const stockageNom = rootAccessor.getStringValue('dispositifDeStockage_nom');
+  const stockagePays = rootAccessor.getStringValue('dispositifDeStockage_pays');
+
+  if (stockageNom && stockagePays) {
     fournisseurs.push({
       typeFournisseur: 'dispositif-de-stockage',
-      nomDuFabricant: stockageNom.stringValue,
-      lieuDeFabrication: stockagePays.stringValue,
+      nomDuFabricant: stockageNom,
+      lieuDeFabrication: stockagePays,
     });
   }
 
