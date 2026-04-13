@@ -128,7 +128,7 @@ const mapToAction: MapToAction = (
 ) => {
   const actions: ExportPageProps['actions'] = [];
 
-  if (utilisateur.rôle.aLaPermission('raccordement.listerDossierRaccordement')) {
+  if (utilisateur.rôle.aLaPermission('raccordement.exporterDossierRaccordement')) {
     actions.push({
       type: 'exporter-raccordement',
       label: 'Dossiers de raccordement',

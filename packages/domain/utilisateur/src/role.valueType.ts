@@ -1153,6 +1153,7 @@ const policies = {
       référencielPermissions.appelOffre.query.lister,
       référencielPermissions.réseau.gestionnaire.query.lister,
     ],
+    exporterDossierRaccordement: [],
     consulter: [
       référencielPermissions.lauréat.raccordement.query.consulter,
       référencielPermissions.lauréat.raccordement.query.consulterNombre,
@@ -1641,6 +1642,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.dossier.supprimer-après-mise-en-service',
   'raccordement.dossier.supprimer-après-achèvement',
   'raccordement.listerDossierRaccordement',
+  'raccordement.exporterDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.archives.lister',
@@ -1788,6 +1790,7 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'raccordement.listerDossierRaccordement',
+  'raccordement.exporterDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
@@ -1871,6 +1874,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'raccordement.listerDossierRaccordement',
+  'raccordement.exporterDossierRaccordement',
   'raccordement.demande-complète-raccordement.transmettre',
   'raccordement.demande-complète-raccordement.modifier',
   'raccordement.proposition-technique-et-financière.transmettre',
@@ -2178,6 +2182,7 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'raccordement.listerDossierRaccordement',
+  'raccordement.exporterDossierRaccordement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
