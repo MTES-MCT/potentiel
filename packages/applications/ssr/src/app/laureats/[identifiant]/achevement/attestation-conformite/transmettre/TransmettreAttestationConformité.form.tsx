@@ -11,7 +11,7 @@ import {
   DateAchèvementForm,
   DateAchèvementFormProps,
   PreuveTransmissionAuCocontractantFormInput,
-} from '../AttestationConformité.inputs';
+} from '../../AttestationConformité.inputs';
 
 import {
   transmettreAttestationConformitéAction,

@@ -4,7 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
+import { InfoBoxAttestationConformité } from '../../InfoAttestationConformité';
 
 import {
   TransmettreAttestationConformitéForm,

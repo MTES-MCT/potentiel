@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { AttestationConformitéFormInput } from '../AttestationConformité.inputs';
+import { AttestationConformitéFormInput } from '../../AttestationConformité.inputs';
 
 import {
   modifierAttestationConformitéAction,

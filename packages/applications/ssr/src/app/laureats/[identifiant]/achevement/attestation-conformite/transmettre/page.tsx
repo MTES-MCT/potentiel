@@ -10,7 +10,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { récuperérerGarantiesFinancièresActuelles } from '../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
+import { récuperérerGarantiesFinancièresActuelles } from '../../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
 
 import {
   TransmettreAttestationConformitéPage,
