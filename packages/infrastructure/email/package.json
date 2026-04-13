@@ -14,7 +14,6 @@
     "nodemailer": "8.0.5"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
-    "@types/nodemailer": "7.0.4"
+    "@potentiel-config/tsconfig": "*"
   }
 }
