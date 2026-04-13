@@ -192,6 +192,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
     this.vérifierChampsSupplémentaires(candidature);
+    this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
