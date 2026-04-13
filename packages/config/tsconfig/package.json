@@ -2,6 +2,7 @@
   "name": "@potentiel-config/tsconfig",
   "private": true,
   "devDependencies": {
-    "@tsconfig/node24": "24.0.1"
+    "@tsconfig/node24": "24.0.1",
+    "@types/node": "^25.6.0"
   }
 }
