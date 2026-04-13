@@ -420,10 +420,6 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new AutorisationRequiseError();
     }
 
-    if (dépôt.autorisation?.date.estDansLeFutur()) {
-      throw new DateAutorisationError();
-    }
-
     if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
       throw new ChampsRequisError('dispositif de stockage');
     }
