@@ -15,6 +15,7 @@ import { applySearchParams } from '@/app/_helpers';
 
 import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
+import { callbackURLSchema } from './zod/auth';
 
 const normalizeFormKeys = <T extends Record<string, unknown>>(data: T): T =>
   Object.fromEntries(
@@ -27,7 +28,7 @@ const normalizeFormKeys = <T extends Record<string, unknown>>(data: T): T =>
 export type ActionResult = {
   successMessage: string;
   link?: {
-    href: string;
+    url: string;
     label: string;
   };
   errors: Array<{
@@ -130,6 +131,19 @@ export const formAction =
         ? await schema.parseAsync(unflatten(dataReducedNormalized))
         : unflatten(dataReducedNormalized);
       const result = await action(previousState, data as zod.infer<TSchema>);
+
+      // Si le formulaire contient un champ "retour" valide, on redirige vers cette url en priorité.
+      const parsedRetour = zod
+        .object({ retour: callbackURLSchema })
+        .safeParse(dataReducedNormalized);
+
+      if (result.status === 'success' && parsedRetour.success) {
+        result.redirection = {
+          url: parsedRetour.data.retour,
+          message: result.result?.successMessage,
+          linkUrl: result.result?.link,
+        };
+      }
 
       if (result.status === 'success' && result.redirection) {
         /**

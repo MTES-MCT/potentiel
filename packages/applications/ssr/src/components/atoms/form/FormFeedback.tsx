@@ -39,7 +39,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
                     <p>{successMessage}</p>
                     {link && (
                       <p>
-                        <Link href={link.href}>{link.label}</Link>
+                        <Link href={link.url}>{link.label}</Link>
                       </p>
                     )}
                   </div>

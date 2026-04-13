@@ -78,7 +78,7 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
                 <span className={clsx({ 'line-through': complété })}>{label}</span>
                 {!complété && action && (
                   <Link
-                    href={action.lien(identifiantProjet)}
+                    href={`${action.lien(identifiantProjet)}?retour=${encodeURIComponent(Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet))}`}
                     className={fr.cx('fr-link', 'fr-link--icon-right')}
                   >
                     {action.label}
