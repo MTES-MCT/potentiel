@@ -11,9 +11,10 @@
   },
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
-    "nodemailer": "8.0.5"
+    "nodemailer": "8.0.4"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/nodemailer": "7.0.4"
   }
 }
