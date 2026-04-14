@@ -14,6 +14,7 @@ import {
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -159,37 +160,40 @@ export default async function Page({ searchParams }: PageProps) {
             })
           : { items: [] };
 
-      const getMailToAction = async (): Promise<
-        UtilisateurListPageProps['mailtoAction'] | undefined
-      > => {
-        if (!role || role === Role.porteur.nom) {
-          return undefined;
+      const getActions = async (): Promise<UtilisateurListPageProps['actions']> => {
+        const actions: Array<UtilisateurListPageProps['actions'][number]> = [
+          {
+            label: 'Inviter un utilisateur',
+            href: Routes.Utilisateur.inviter,
+          },
+        ];
+        if (role && role !== Role.porteur.nom) {
+          const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
+            type: 'Utilisateur.Query.ListerUtilisateurs',
+            data: {
+              roles: [Role.convertirEnValueType(role).nom],
+              identifiantUtilisateur,
+              identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+              région: region,
+              zni,
+              actif,
+            },
+          });
+          actions.push({
+            label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
+            href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
+            iconId: 'fr-icon-mail-line',
+          });
         }
 
-        const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
-          type: 'Utilisateur.Query.ListerUtilisateurs',
-          data: {
-            roles: [Role.convertirEnValueType(role).nom],
-            identifiantUtilisateur,
-            identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
-            région: region,
-            zni,
-            actif,
-          },
-        });
-
-        return {
-          label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
-          href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
-          iconId: 'fr-icon-mail-line',
-        };
+        return actions;
       };
 
       return (
         <UtilisateurListPage
           filters={filters}
           list={mapToListProps(utilisateurs, gestionnairesRéseau.items, utilisateur)}
-          mailtoAction={await getMailToAction()}
+          actions={await getActions()}
         />
       );
     }),
