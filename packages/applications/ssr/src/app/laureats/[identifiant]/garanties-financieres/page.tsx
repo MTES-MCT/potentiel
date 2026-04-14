@@ -3,17 +3,15 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerLauréat, getPériodeAppelOffres } from '@/app/_helpers';
 
 import {
-  ActionGarantiesFinancières,
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
@@ -32,9 +30,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      const { statut } = await récupérerLauréat(identifiantProjet.formatter());
-
-      const { appelOffres } = await getPériodeAppelOffres(identifiantProjet.formatter());
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
       const actuelles = await récuperérerGarantiesFinancièresActuelles(
@@ -69,24 +64,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      const accès = utilisateur.rôle.aLaPermission('accès.consulter')
-        ? await mediator.send<Accès.ConsulterAccèsQuery>({
-            type: 'Projet.Accès.Query.ConsulterAccès',
-            data: { identifiantProjet: identifiantProjet.formatter() },
-          })
-        : Option.none;
-
-      const data = {
-        statut,
+      const actions = mapToActionsAndAlertes({
         actuelles,
         dépôtEnCours,
         mainlevée,
         utilisateur,
-        accès,
-        appelOffres,
-        archivesGarantiesFinancières,
-      };
-      const { actions } = mapToActionsAndAlertes(data);
+      });
 
       return (
         <DétailsGarantiesFinancièresPage
@@ -112,15 +95,15 @@ const mapToActionsAndAlertes = ({
   actuelles,
   dépôtEnCours,
   mainlevée,
-}: MapToActionsAndAlertesProps): Pick<DétailsGarantiesFinancièresPageProps, 'actions'> => {
-  const actions: ActionGarantiesFinancières[] = [];
+}: MapToActionsAndAlertesProps): DétailsGarantiesFinancièresPageProps['actions'] => {
+  const actions: DétailsGarantiesFinancièresPageProps['actions'] = [];
 
   if (Option.isSome(mainlevée)) {
-    return { actions: ['garantiesFinancières.mainlevée.consulter'] };
+    return ['garantiesFinancières.mainlevée.consulter'];
   }
 
   if (Option.isSome(actuelles) && actuelles.garantiesFinancières.estExemption()) {
-    return { actions: [] };
+    return [];
   }
 
   if (Option.isNone(actuelles)) {
@@ -144,5 +127,5 @@ const mapToActionsAndAlertes = ({
     actions.push('garantiesFinancières.dépôt.consulter');
   }
 
-  return { actions: actions.filter((action) => utilisateur.rôle.aLaPermission(action)) };
+  return actions.filter((action) => utilisateur.rôle.aLaPermission(action));
 };
