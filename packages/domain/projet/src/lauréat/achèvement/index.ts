@@ -11,19 +11,14 @@ import { ModifierAchèvementUseCase } from './modifier/modifierAchèvement.useca
 import { EnregistrerAttestationConformitéUseCase } from './enregistrer/enregistrerAttestationConformité.usecase.js';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase.js';
 import { TransmettreDateAchèvementUseCase } from './transmettre/transmettreDateAchèvement.usecase.js';
-
-// UseCases
-export type AchèvementUseCase =
-  | EnregistrerAttestationConformitéUseCase
-  | TransmettreAttestationConformitéUseCase
-  | ModifierAchèvementUseCase
-  | TransmettreDateAchèvementUseCase;
+import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase.js';
 
 export type {
   EnregistrerAttestationConformitéUseCase,
   TransmettreAttestationConformitéUseCase,
   ModifierAchèvementUseCase,
   TransmettreDateAchèvementUseCase,
+  ModifierAttestationConformitéUseCase,
 };
 
 // Query

@@ -1,19 +1,16 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+
+import { PièceJustificative } from '#helpers';
 
 import { AbstractFixture } from '../../../../fixture.js';
 import { LauréatWorld } from '../../lauréat.world.js';
 
-interface ModifierAchèvementDocument {
-  readonly content: string;
-  readonly format: string;
-}
-
 interface ModifierAchèvement {
-  readonly attestation?: ModifierAchèvementDocument;
-  readonly preuve?: ModifierAchèvementDocument;
+  readonly attestation?: PièceJustificative;
+  readonly preuve?: PièceJustificative;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
   readonly utilisateur: string;
@@ -84,21 +81,21 @@ export class ModifierAchèvementFixture
     return fixture;
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected() {
     return {
       dateAchèvementRéel: DateTime.convertirEnValueType(this.dateTransmissionAuCocontractant),
 
       ...(this.attestation && {
         attestation: Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
-          identifiantProjet: identifiantProjet.formatter(),
-          enregistréLe: DateTime.convertirEnValueType(this.date).formatter(),
+          identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+          enregistréLe: this.date,
           attestation: this.attestation,
         }),
       }),
       ...(this.preuve && {
         preuveTransmissionAuCocontractant:
           Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité({
-            identifiantProjet: identifiantProjet.formatter(),
+            identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
             dateTransmissionAuCocontractant: this.dateTransmissionAuCocontractant,
             preuveTransmissionAuCocontractant: this.preuve,
           }),

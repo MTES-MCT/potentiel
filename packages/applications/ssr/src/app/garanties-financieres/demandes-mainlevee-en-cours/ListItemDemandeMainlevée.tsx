@@ -9,14 +9,14 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-import { convertMotifMainlevéeForView } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
+import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
 
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;
   identifiantProjet: string;
   statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
   misÀJourLe: Iso8601DateTime;
-  motif: string;
+  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
   nomProjet: string;
 };
 
@@ -51,8 +51,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
     <ul className="text-sm">
       <li>
         <span>
-          Motif :{' '}
-          <span className="font-semibold capitalize">{convertMotifMainlevéeForView(motif)}</span>
+          Motif : <span className="font-semibold capitalize">{getMotifMainlevéeLabel(motif)}</span>
         </span>
       </li>
       <li>

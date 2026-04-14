@@ -7,7 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { convertStatutMainlevéeForView } from '../_helpers';
+import { getStatutMainlevéeLabel } from '../_helpers';
 
 import { passerDemandeMainlevéeEnInstructionAction } from './passerDemandeMainlevéeEnInstruction.action';
 
@@ -41,7 +41,7 @@ export const PasserDemandeMainlevéeEnInstruction = ({
               </p>
               <span className="italic">
                 Cela passera son statut en "
-                {convertStatutMainlevéeForView(
+                {getStatutMainlevéeLabel(
                   Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction
                     .statut,
                 )}

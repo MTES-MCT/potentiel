@@ -14,6 +14,7 @@ export const setupAchèvement = async () => {
     name: 'projector',
     eventType: [
       'AttestationConformitéTransmise-V1',
+      'AttestationConformitéModifiée-V1',
       'AchèvementModifié-V1',
       'DateAchèvementPrévisionnelCalculée-V1',
       'DateAchèvementTransmise-V1',
@@ -29,7 +30,11 @@ export const setupAchèvement = async () => {
     AchèvementNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['AttestationConformitéTransmise-V1', 'DateAchèvementTransmise-V1'],
+    eventType: [
+      'AttestationConformitéTransmise-V1',
+      'DateAchèvementTransmise-V1',
+      'AttestationConformitéModifiée-V1',
+    ],
     messageType: 'System.Notification.Lauréat.Achèvement',
   });
 

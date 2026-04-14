@@ -2,12 +2,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 
-import { getAchèvement, getLauréatInfos } from '../../_helpers';
+import { getAchèvement, getGarantiesFinancières, getLauréatInfos } from '../../_helpers';
 
 import { AchèvementDétails } from './AchèvementDétails';
 
@@ -52,6 +53,7 @@ const getAchèvementData = async (
   rôle: Role.ValueType,
 ) => {
   const achèvement = await getAchèvement(identifiantProjet);
+  const gf = await getGarantiesFinancières(identifiantProjet);
 
   const actions: { label: string; url: string; permission: Role.Policy }[] = [];
 
@@ -61,6 +63,22 @@ const getAchèvementData = async (
       label: "Modifier les informations d'achèvement du projet",
       url: Routes.Achèvement.modifierAchèvement(identifiantProjet),
     });
+
+    if (!gf.actuelles?.statut.estLevé()) {
+      if (Option.isNone(achèvement.attestation)) {
+        actions.push({
+          permission: 'achèvement.enregistrerAttestation',
+          label: "Enregistrer l'attestation de conformité",
+          url: Routes.Achèvement.enregistrerAttestationConformité(identifiantProjet),
+        });
+      } else {
+        actions.push({
+          permission: 'achèvement.modifierAttestation',
+          label: "Modifier l'attestation de conformité",
+          url: Routes.Achèvement.modifierAttestationConformité(identifiantProjet),
+        });
+      }
+    }
   } else {
     actions.push({
       permission: 'achèvement.transmettreAttestation',

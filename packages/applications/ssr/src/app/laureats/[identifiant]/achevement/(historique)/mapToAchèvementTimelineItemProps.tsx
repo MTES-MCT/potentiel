@@ -13,6 +13,7 @@ import {
   mapToDateAchèvementTransmiseTimelineItemProps,
 } from './events';
 import { mapToAttestationConformitéEnregistréeTimelineItemProps } from './events/mapToAttestationConformitéEnregistréeTimelineItemProps';
+import { mapToAttestationConformitéModifiéeTimelineItemProps } from './events/mapToAttestationConformitéModifiéeTimelineItemProps';
 
 type MapToAchèvementTimelineItemProps = (
   readmodel: Lauréat.HistoriqueAchèvementProjetListItemReadModel,
@@ -24,6 +25,10 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
     .with(
       { type: 'AttestationConformitéTransmise-V1' },
       mapToAttestationConformitéTransmiseTimelineItemProps,
+    )
+    .with(
+      { type: 'AttestationConformitéModifiée-V1' },
+      mapToAttestationConformitéModifiéeTimelineItemProps,
     )
     .with(
       { type: 'AttestationConformitéEnregistrée-V1' },

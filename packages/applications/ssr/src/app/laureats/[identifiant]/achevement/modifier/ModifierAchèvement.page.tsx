@@ -2,22 +2,9 @@ import { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 
-import {
-  AttestationConformitéForm,
-  type AttestationConformitéFormProps,
-} from '../AttestationConformité.form';
-import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
+import { ModifierAchèvementForm, ModifierAchèvementFormProps } from './ModifierAchèvement.form';
 
-import { modifierAchèvementAction } from './modifierAchèvement.action';
-
-export type ModifierAchèvementPageProps = Pick<
-  AttestationConformitéFormProps,
-  | 'identifiantProjet'
-  | 'dateTransmissionAuCocontractant'
-  | 'attestationConformité'
-  | 'preuveTransmissionAuCocontractant'
-  | 'lauréatNotifiéLe'
->;
+export type ModifierAchèvementPageProps = ModifierAchèvementFormProps;
 
 export const ModifierAchèvementPage: FC<ModifierAchèvementPageProps> = ({
   identifiantProjet,
@@ -27,17 +14,12 @@ export const ModifierAchèvementPage: FC<ModifierAchèvementPageProps> = ({
   lauréatNotifiéLe,
 }) => (
   <>
-    <Heading1>Modifier l'attestation de conformité du projet</Heading1>
-    <InfoBoxAttestationConformité />
-    <AttestationConformitéForm
+    <Heading1>Modifier l'achèvement du projet</Heading1>
+    <ModifierAchèvementForm
       identifiantProjet={identifiantProjet}
-      action={modifierAchèvementAction}
-      submitLabel="Modifier"
       dateTransmissionAuCocontractant={dateTransmissionAuCocontractant}
       attestationConformité={attestationConformité}
       preuveTransmissionAuCocontractant={preuveTransmissionAuCocontractant}
-      estUneModification={true}
-      demanderMainlevée={{ visible: false, canBeDone: false }}
       lauréatNotifiéLe={lauréatNotifiéLe}
     />
   </>

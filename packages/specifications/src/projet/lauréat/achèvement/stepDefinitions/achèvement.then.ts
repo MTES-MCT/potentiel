@@ -25,9 +25,7 @@ Alors(`l'achèvement du projet devrait être consultable`, async function (this:
     assert(Option.isSome(achèvement), 'Non trouvé');
     assert(achèvement.estAchevé, 'Non achevé');
     const actual = mapToPlainObject(achèvement);
-    const expected = mapToPlainObject(
-      this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet),
-    );
+    const expected = mapToPlainObject(this.lauréatWorld.achèvementWorld.mapToExpected());
 
     actual.should.be.deep.equal(expected);
 

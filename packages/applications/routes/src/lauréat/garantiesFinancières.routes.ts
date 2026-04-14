@@ -31,6 +31,8 @@ export const actuelles = {
 };
 
 export const demandeMainlevée = {
+  demander: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee/demander`,
   lister: withFilters<ListerMainlevéesFilters>(
     `/garanties-financieres/demandes-mainlevee-en-cours`,
   ),

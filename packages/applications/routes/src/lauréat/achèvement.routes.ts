@@ -1,10 +1,16 @@
 import { encodeParameter } from '../encodeParameter.js';
 
 export const transmettreDateAchèvement = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/achevement/date-achevement:transmettre`;
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/date-achevement/transmettre`;
 
 export const transmettreAttestationConformité = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite:transmettre`;
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite/transmettre`;
+
+export const enregistrerAttestationConformité = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite/enregistrer`;
+
+export const modifierAttestationConformité = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/achevement/attestation-conformite/modifier`;
 
 export const modifierAchèvement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/achevement/modifier`;

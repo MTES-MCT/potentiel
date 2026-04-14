@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -9,7 +9,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/components/GarantiesFinancières';
 import { Heading2 } from '@/components/atoms/headings';
 
-import { InfoBoxMainlevée } from './(mainlevée)/InfoBoxMainlevée';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 import { TitrePageGarantiesFinancières } from './components/TitrePageGarantiesFinancières';
 import { MainlevéeEnCours } from './(mainlevée)/MainlevéeEnCours';
@@ -35,8 +34,6 @@ const actions = [
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.supprimer',
-  'achèvement.transmettreAttestation',
-  'achèvement.enregistrerAttestation',
 ] satisfies Role.Policy[];
 export type ActionGarantiesFinancières = (typeof actions)[number];
 
@@ -54,11 +51,9 @@ export type DétailsGarantiesFinancièresPageProps = {
     PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>
   >;
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];
-  motifMainlevée?: PlainType<Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType>;
   appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
-  attestationAchèvement?: DocumentProjet.RawType;
   actions: ActionGarantiesFinancières[];
-  infos: ('conditions-demande-mainlevée' | 'échues' | 'date-échéance-dépôt-passée')[];
+  infos: ('échues' | 'date-échéance-dépôt-passée')[];
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
@@ -71,9 +66,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   mainlevéesRejetées,
   appelOffres,
   contactPorteurs,
-  motifMainlevée,
   archivesGarantiesFinancières,
-  attestationAchèvement,
 }) => (
   <>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
@@ -96,9 +89,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               infos={infos}
               identifiantProjet={identifiantProjet}
               contactPorteurs={contactPorteurs}
-              motif={motifMainlevée}
               typeGfActuelles={actuelles.garantiesFinancières}
-              attestationAchèvement={attestationAchèvement}
             />
           </SectionGarantiesFinancières>
         )}
@@ -152,9 +143,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       {archivesGarantiesFinancières.length > 0 && (
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )}
-      {infos.includes('conditions-demande-mainlevée') && (
-        <InfoBoxMainlevée identifiantProjet={identifiantProjet} actions={actions} />
-      )}
+
       {actions.includes('garantiesFinancières.dépôt.soumettre') &&
         (Option.isSome(dépôtEnCours) || Option.isSome(actuelles)) && (
           <InfoBoxSoumettreDépôtGarantiesFinancières identifiantProjet={identifiantProjet} />

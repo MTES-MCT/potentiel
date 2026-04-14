@@ -8,38 +8,16 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   motif: zod.enum(['projet-abandonné', 'projet-achevé']),
-
-  // Pas nécessaire en cas d'abandon, dans l'autre cas, l'erreur est gérée dans le front et dans le domaine
-  attestationConformite: manyDocuments({
-    acceptedFileTypes: ['application/pdf'],
-    optional: true,
-  }).optional(),
 });
 
 export type DemanderMainlevéeFormKeys = keyof zod.infer<typeof schema>;
 
-const action: FormAction<FormState, typeof schema> = async (
-  _,
-  { identifiantProjet, motif, attestationConformite },
-) =>
+const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet, motif }) =>
   withUtilisateur(async (utilisateur) => {
-    if (attestationConformite) {
-      await mediator.send<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>({
-        type: 'Lauréat.Achèvement.UseCase.EnregistrerAttestationConformité',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          attestationConformitéValue: attestationConformite,
-          enregistréeParValue: utilisateur.identifiantUtilisateur.formatter(),
-          enregistréeLeValue: new Date().toISOString(),
-        },
-      });
-    }
-
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
       data: {

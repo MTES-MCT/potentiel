@@ -4,18 +4,14 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
+import { InfoBoxAttestationConformité } from '../../InfoAttestationConformité';
+
 import {
-  AttestationConformitéForm,
-  AttestationConformitéFormProps,
-} from '../AttestationConformité.form';
-import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
+  TransmettreAttestationConformitéForm,
+  TransmettreAttestationConformitéFormProps,
+} from './TransmettreAttestationConformité.form';
 
-import { transmettreAttestationConformitéAction } from './transmettreAttestationConformité.action';
-
-export type TransmettreAttestationConformitéPageProps = Pick<
-  AttestationConformitéFormProps,
-  'demanderMainlevée' | 'identifiantProjet' | 'lauréatNotifiéLe'
->;
+export type TransmettreAttestationConformitéPageProps = TransmettreAttestationConformitéFormProps;
 
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
@@ -24,11 +20,9 @@ export const TransmettreAttestationConformitéPage: FC<
     heading={<Heading1>Transmettre l'attestation de conformité du projet</Heading1>}
     leftColumn={{
       children: (
-        <AttestationConformitéForm
-          identifiantProjet={identifiantProjet}
-          action={transmettreAttestationConformitéAction}
-          submitLabel="Transmettre"
+        <TransmettreAttestationConformitéForm
           demanderMainlevée={demanderMainlevée}
+          identifiantProjet={identifiantProjet}
           lauréatNotifiéLe={lauréatNotifiéLe}
         />
       ),

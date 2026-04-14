@@ -10,12 +10,12 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { récuperérerGarantiesFinancièresActuelles } from '../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
+import { récuperérerGarantiesFinancièresActuelles } from '../../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
 
 import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,
-} from './transmettreAttestationConformité.page';
+} from './TransmettreAttestationConformité.page';
 
 export const metadata: Metadata = {
   title: `Transmettre l'attestation de conformité - Potentiel`,

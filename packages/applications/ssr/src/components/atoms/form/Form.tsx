@@ -2,7 +2,7 @@
 
 import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
 
@@ -43,6 +43,8 @@ export const Form: FC<FormProps> = ({
 }) => {
   const [csrfToken, setCsrfToken] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const retourUrl = searchParams.get('retour');
 
   useEffect(() => {
     const fetchCSRFToken = async () => {
@@ -75,6 +77,13 @@ export const Form: FC<FormProps> = ({
     // eslint-disable-next-line react/no-unknown-property
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
       <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
+      {retourUrl && (
+        <input
+          type="hidden"
+          name="retour"
+          value={new URL(retourUrl, window.location.origin).toString()}
+        />
+      )}
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
       <FormFeedback formState={state} />
 

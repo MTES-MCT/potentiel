@@ -235,7 +235,7 @@ const action: FormAction<FormState, typeof schema> = async (
         link:
           success > 0
             ? {
-                href: Routes.Candidature.lister({
+                url: Routes.Candidature.lister({
                   appelOffre,
                   période: periode,
                   estNotifié: false,
