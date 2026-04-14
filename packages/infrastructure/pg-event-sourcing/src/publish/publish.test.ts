@@ -88,4 +88,22 @@ describe(`publish`, () => {
     actual1.payload.should.be.deep.equal(event.payload);
     actual1.created_at.should.be.equal(event.created_at);
   });
+
+  it(`Lorsqu'on publie un événement avec une version spécifique,
+    alors l'événement devrait être présent dans le stream avec la version spécifiée`, async () => {
+    const event: PublishEvent = {
+      type: 'Un-événement-métier-est-survenu',
+      payload: { test: 'propriété-test' },
+      version: 42,
+    };
+    await publish(streamId, event);
+
+    const actual = await loadFromStream({ streamId });
+    actual.length.should.be.equal(1);
+    const [actual1] = actual;
+
+    actual1.type.should.be.equal(event.type);
+    actual1.payload.should.be.deep.equal(event.payload);
+    actual1.version.should.be.equal(event.version);
+  });
 });

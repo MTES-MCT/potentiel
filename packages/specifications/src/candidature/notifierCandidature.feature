@@ -78,3 +78,8 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et la candidature lauréate "Du boulodrome de Paris"
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le DGEC validateur devrait être informé que "Le nom de l'utilisateur doit être précisé pour cette opération"
+
+    # Cette fonctionnalité n'est pas implémentée car les GF soumises après candidature n'existent que pour CRE4
+    @NotImplemented
+    Scénario: Une notification pour un projet dont les GFs sont à fournir après candidature doit avoir une demande de GF
+

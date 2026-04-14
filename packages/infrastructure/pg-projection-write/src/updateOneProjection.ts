@@ -8,6 +8,19 @@ import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
 
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 
+type AllKeys<T> = T extends unknown ? keyof T : never;
+type ValueOf<T, K> = T extends unknown ? (K extends keyof T ? T[K] : never) : never;
+/**
+ * Recursively transforms a type so all leaf values become `undefined`.
+ * Handles union types by collecting keys from all branches.
+ * Useful with `satisfies` to ensure all fields are explicitly reset to `undefined`.
+ */
+export type DeepUndefined<T> = {
+  [K in AllKeys<T>]-?: NonNullable<ValueOf<T, K>> extends Record<string, unknown>
+    ? DeepUndefined<NonNullable<ValueOf<T, K>>>
+    : undefined;
+};
+
 export const updateOneProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
   readModel: DeepPartial<Omit<TProjection, 'type'>>,

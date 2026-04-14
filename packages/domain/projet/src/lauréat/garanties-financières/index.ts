@@ -11,7 +11,6 @@ export type * from './en-attente/garantiesFinancièresEnAttente.queries.js';
 
 // Entities
 export type * from './garantiesFinancières.entity.js';
-export type * from './dépôt/dépôtGarantiesFinancières.entity.js';
 export type * from './mainlevée/mainlevéeGarantiesFinancières.entity.js';
 
 // Events

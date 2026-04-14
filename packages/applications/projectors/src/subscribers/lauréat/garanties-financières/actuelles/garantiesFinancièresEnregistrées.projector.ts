@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
+  DeepUndefined,
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
@@ -52,7 +53,9 @@ export const garantiesFinancièresEnregistréesProjector = async ({
         enAttente: {
           dateLimiteSoumission: undefined,
           motif: undefined,
-        },
+        } satisfies DeepUndefined<
+          Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['enAttente']
+        >,
       },
     );
   }

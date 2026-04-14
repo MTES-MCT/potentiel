@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { DeepUndefined, updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const dépôtGarantiesFinancièresSoumisProjector = async ({
   payload: {
@@ -12,21 +12,32 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
     soumisPar,
   },
 }: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent) => {
-  await upsertProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
-    `depot-en-cours-garanties-financieres|${identifiantProjet}`,
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
       dépôt: {
-        type,
-        dateÉchéance,
-        dateConstitution,
-        attestation,
+        ...Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+          type,
+          dateÉchéance,
+        }).formatter(),
+        constitution: {
+          date: dateConstitution,
+          attestation,
+        },
         soumisLe,
+        soumisPar,
         dernièreMiseÀJour: {
           date: soumisLe,
           par: soumisPar,
         },
       },
+      enAttente: {
+        dateLimiteSoumission: undefined,
+        motif: undefined,
+      } satisfies DeepUndefined<
+        Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['enAttente']
+      >,
     },
   );
 };

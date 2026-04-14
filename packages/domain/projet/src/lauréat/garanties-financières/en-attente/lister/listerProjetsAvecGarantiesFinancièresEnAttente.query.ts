@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
 import {
-  DépôtGarantiesFinancièresEntity,
   GarantiesFinancièresEntity,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
@@ -68,10 +67,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<
-      GarantiesFinancièresEntity,
-      [LauréatEntity, LeftJoin<DépôtGarantiesFinancièresEntity>]
-    >('garanties-financieres', {
+    } = await list<GarantiesFinancièresEntity, [LauréatEntity]>('garanties-financieres', {
       orderBy: { dernièreMiseÀJour: { date: 'descending' } },
       range,
       where: {
@@ -84,6 +80,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         enAttente: {
           motif: Where.equal(motif) ?? Where.notEqualNull(),
         },
+        dépôt: { soumisLe: Where.equalNull() },
       },
       join: [
         {
@@ -101,14 +98,6 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
               région: Where.matchAny(scope.régions),
             },
             statut: Where.equal(statut),
-          },
-        },
-        {
-          entity: 'depot-en-cours-garanties-financieres',
-          on: 'identifiantProjet',
-          type: 'left',
-          where: {
-            dépôt: { type: Where.equalNull() },
           },
         },
       ],
