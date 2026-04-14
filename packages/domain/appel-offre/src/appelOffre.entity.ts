@@ -283,8 +283,6 @@ export type ChampCandidature =
   // CRE4 ZNI
   | 'territoireProjet';
 
-// export type ChampCandidature = (typeof champsCandidature)[number];
-
 export type ChampsSupplémentairesCandidature = Partial<
   Record<ChampCandidature, 'requis' | 'optionnel'>
 >;

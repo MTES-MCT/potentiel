@@ -32,7 +32,7 @@ import {
   CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
   ChampNonAttenduError,
-  ChampsRequisError,
+  ChampRequisError,
   DateAutorisationError,
   FonctionManquanteError,
   NomManquantError,
@@ -378,7 +378,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
-      throw new ChampsRequisError('choix du coefficient K');
+      throw new ChampRequisError('choix du coefficient K');
     }
 
     if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
@@ -386,7 +386,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
-      throw new ChampsRequisError('puissance de site');
+      throw new ChampRequisError('puissance de site');
     }
 
     if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
@@ -394,7 +394,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (installateur === 'requis' && !dépôt.installateur) {
-      throw new ChampsRequisError('installateur');
+      throw new ChampRequisError('installateur');
     }
 
     if (!installateur && !!dépôt.installateur) {
@@ -402,7 +402,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (typologieInstallation === 'requis' && !dépôt.typologieInstallation.length) {
-      throw new ChampsRequisError('typologie installation');
+      throw new ChampRequisError('typologie installation');
     }
 
     if (!typologieInstallation && dépôt.typologieInstallation.length > 0) {
@@ -410,7 +410,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
-      throw new ChampsRequisError("nature de l'exploitation");
+      throw new ChampRequisError("nature de l'exploitation");
     }
 
     if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
@@ -422,7 +422,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
-      throw new ChampsRequisError('dispositif de stockage');
+      throw new ChampRequisError('dispositif de stockage');
     }
 
     if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {

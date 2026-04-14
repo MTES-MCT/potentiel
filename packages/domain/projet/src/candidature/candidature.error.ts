@@ -97,14 +97,14 @@ export class DateAutorisationError extends InvalidOperationError {
   }
 }
 
-export class ChampsRequisError extends InvalidOperationError {
-  constructor(champs: string) {
-    super(`Le champ ${champs} est requis pour cet appel d'offres`);
+export class ChampRequisError extends InvalidOperationError {
+  constructor(champ: string) {
+    super(`Le champ ${champ} est requis pour cet appel d'offres`);
   }
 }
 
 export class ChampNonAttenduError extends InvalidOperationError {
-  constructor(champs: string) {
-    super(`Le champ ${champs} ne peut être renseigné pour cet appel d'offres`);
+  constructor(champ: string) {
+    super(`Le champ ${champ} ne peut être renseigné pour cet appel d'offres`);
   }
 }
