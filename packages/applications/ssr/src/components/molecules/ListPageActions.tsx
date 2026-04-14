@@ -8,11 +8,11 @@ type LinkActionProps = {
   href: string;
   iconId?: FrIconClassName | RiIconClassName;
 };
-type ListActionProps = {
+export type ListPageActionsProps = {
   actions: ReadonlyArray<LinkActionProps>;
 };
 
-export const ListAction = ({ actions }: ListActionProps) => (
+export const ListPageActions = ({ actions }: ListPageActionsProps) => (
   <div className="mb-4 flex flex-col">
     {actions.map((a) => (
       <Link
