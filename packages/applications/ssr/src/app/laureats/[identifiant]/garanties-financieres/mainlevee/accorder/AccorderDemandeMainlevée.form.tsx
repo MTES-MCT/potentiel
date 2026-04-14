@@ -18,7 +18,7 @@ import {
 type AccorderDemandeMainlevéeProps = {
   identifiantProjet: string;
 };
-// TODO que faire de ca ?
+
 export const AccorderDemandeMainlevée = ({ identifiantProjet }: AccorderDemandeMainlevéeProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [validationErrors, setValidationErrors] = useState<

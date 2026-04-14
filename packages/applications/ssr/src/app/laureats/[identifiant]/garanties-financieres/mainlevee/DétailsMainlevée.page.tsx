@@ -13,9 +13,8 @@ import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/p
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Heading1 } from '@/components/atoms/headings';
-import { ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
-import { ActionProps } from '@/components/templates/ActionsList.template';
+import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
+import { ConfirmationAction } from '@/components/molecules/ConfirmationAction';
 
 import { GarantiesFinancières } from '../components/GarantiesFinancières';
 import { getStatutMainlevéeLabel } from '../_helpers/statutMainlevéeLabels';
@@ -29,7 +28,8 @@ import {
 import { HistoriqueMainlevéeRejetée } from './HistoriqueMainlevéeRejetée';
 import { annulerDemandeMainlevéeGarantiesFinancièresAction } from './annuler/annulerDemandeMainlevée.action';
 import { passerDemandeMainlevéeEnInstructionAction } from './passerEnInstruction/passerDemandeMainlevéeEnInstruction.action';
-import { accorderDemandeMainlevéeAction } from './accorder/accorderDemandeMainlevée.action';
+import { RejeterDemandeMainlevéeForm } from './rejeter/RejeterDemandeMainlevée.form';
+import { AccorderDemandeMainlevée } from './accorder/AccorderDemandeMainlevée.form';
 
 export type DétailsMainlevéePageProps = MainlevéeEnCoursProps &
   ActionsMainlevéeProps & {
@@ -49,85 +49,56 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
 }) => {
   const identifiantProjet = IdentifiantProjet.bind(mainlevée.identifiantProjet).formatter();
 
-  const actionList: (ActionProps & {
-    permission: ActionMainlevée;
-  })[] = [
-    {
-      permission: 'garantiesFinancières.mainlevée.annuler',
-      label: 'Annuler',
-      action: annulerDemandeMainlevéeGarantiesFinancièresAction,
-      confirmation: {
-        title: 'Annuler la demande de mainlevée des garanties financières',
-        description:
-          'Êtes-vous sûr de vouloir annuler votre demande de mainlevée de vos garanties financières ?',
-      },
-      formValues: { identifiantProjet },
-      id: 'annuler-demande-mainlevée-gf',
-    },
-    {
-      permission: 'garantiesFinancières.mainlevée.démarrerInstruction',
-      label: "Démarrer l'instruction",
-      action: passerDemandeMainlevéeEnInstructionAction,
-      confirmation: {
-        title: "Démarrer l'instruction de la demande de mainlevée des garanties financières",
-        description: (
-          <>
-            <p>
-              Êtes-vous sûr de vouloir démarrer l'instruction de votre demande de mainlevée de vos
-              garanties financières ?
-            </p>
-            <span className="italic">
-              Cela passera son statut en "{getStatutMainlevéeLabel('en-instruction')}" ?
-            </span>
-          </>
-        ),
-      },
-      formValues: { identifiantProjet },
-      id: 'démarrer-instruction-demande-mainlevée-gf',
-    },
-    {
-      permission: 'garantiesFinancières.mainlevée.accorder',
-      label: 'Accorder',
-      action: accorderDemandeMainlevéeAction,
-      confirmation: {
-        title: 'Accorder la mainlevée des garanties financières',
-        description: (
-          <>
-            <p>Êtes-vous sûr de vouloir accorder la mainlevée de ces garanties financières ?</p>
-          </>
-        ),
-      },
-      formValues: { identifiantProjet },
-      id: 'accorder-demande-mainlevée-gf',
-    },
-    // {
-    //   label: '',
-    // },
-    //   {actions.includes('garantiesFinancières.mainlevée.annuler') && (
-    //   <AnnulerDemandeMainlevée identifiantProjet={identifiantProjetStr} />
-    // )}
-    // {actions.includes('garantiesFinancières.mainlevée.démarrerInstruction') && (
-    //   <PasserDemandeMainlevéeEnInstruction identifiantProjet={identifiantProjetStr} />
-    // )}
-    // {actions.includes('garantiesFinancières.mainlevée.accorder') && (
-    //   <AccorderDemandeMainlevée identifiantProjet={identifiantProjetStr} />
-    // )}
-    // {actions.includes('garantiesFinancières.mainlevée.rejeter') && (
-    //   <RejeterDemandeMainlevéeForm identifiantProjet={identifiantProjetStr} />
-    // )}
-  ];
+  const actionMap: ActionMap<ActionMainlevée> = {
+    'garantiesFinancières.mainlevée.annuler': () => (
+      <ConfirmationAction
+        label="Annuler"
+        action={annulerDemandeMainlevéeGarantiesFinancièresAction}
+        confirmation={{
+          title: 'Annuler la demande de mainlevée des garanties financières',
+          description:
+            'Êtes-vous sûr de vouloir annuler votre demande de mainlevée de vos garanties financières ?',
+        }}
+        formValues={{ identifiantProjet }}
+        id="annuler-demande-mainlevée-gf"
+      />
+    ),
+    'garantiesFinancières.mainlevée.démarrerInstruction': () => (
+      <ConfirmationAction
+        label="Démarrer l'instruction"
+        action={passerDemandeMainlevéeEnInstructionAction}
+        confirmation={{
+          title: "Démarrer l'instruction de la demande de mainlevée des garanties financières",
+          description: (
+            <>
+              <p>
+                Êtes-vous sûr de vouloir démarrer l'instruction de votre demande de mainlevée de vos
+                garanties financières ?
+              </p>
+              <span className="italic">
+                Cela passera son statut en "{getStatutMainlevéeLabel('en-instruction')}" ?
+              </span>
+            </>
+          ),
+        }}
+        formValues={{ identifiantProjet }}
+        id="démarrer-instruction-demande-mainlevée-gf"
+      />
+    ),
+    'garantiesFinancières.mainlevée.accorder': () => (
+      <AccorderDemandeMainlevée identifiantProjet={identifiantProjet} />
+    ),
+    'garantiesFinancières.mainlevée.rejeter': () => (
+      <RejeterDemandeMainlevéeForm identifiantProjet={identifiantProjet} />
+    ),
+  };
 
   return (
-    <ActionsPageTemplate
-      heading={
-        <div className="flex flex-row items-center gap-4">
-          <Heading1>Mainlevée des garanties financières</Heading1>
-          <div className="shrink-0">
-            <StatutDemandeBadge statut={mainlevée.statut.statut} />
-          </div>
-        </div>
-      }
-      actions={actionList.filter(({ permission }) => actions.includes(permission))}
+    <ActionsPageTemplate<ActionMainlevée>
+      heading="Mainlevée des garanties financières"
+      badge={<StatutDemandeBadge statut={mainlevée.statut.statut} />}
+      actions={actions}
+      actionMap={actionMap}
     >
       <div className="mb-4">
         {Option.isSome(mainlevée) && <MainlevéeEnCours mainlevée={mainlevée} />}
