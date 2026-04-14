@@ -15,7 +15,7 @@ Fonctionnalité: Modifier une attestation de conformité
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'attestation de conformité |
             | nom_projet | Du boulodrome de Marseille                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                                           |
-        Et un email a été envoyé à au porteur avec :
+        Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Modification de l'attestation de conformité |
             | nom_projet | Du boulodrome de Marseille                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*                                           |
