@@ -204,7 +204,7 @@ Fonctionnalité: Importer une candidature
             | installateur   | M. Bricolage    |
         Alors l'administrateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
 
-    # Ce cas n'existe pas en production pour le moment
+    # Ce cas n'existe pas dans le référentiel AO à date (avril 2026)
     @NotImplemented
     Scénario: Impossible d'importer une candidature sans installateur pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
