@@ -1,5 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { DeepUndefined, updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const dépôtGarantiesFinancièresEnCoursSuppriméProjector = async ({
   payload: { identifiantProjet },
@@ -24,7 +24,7 @@ export const dépôtGarantiesFinancièresEnCoursSuppriméProjector = async ({
           par: undefined,
         },
         type: undefined,
-      },
+      } satisfies DeepUndefined<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['dépôt']>,
     },
   );
 };

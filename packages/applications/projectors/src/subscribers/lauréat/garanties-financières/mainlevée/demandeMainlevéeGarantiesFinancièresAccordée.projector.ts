@@ -1,6 +1,7 @@
 import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import {
+  DeepUndefined,
   updateManyProjections,
   updateOneProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
@@ -37,7 +38,9 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
       enAttente: {
         dateLimiteSoumission: undefined,
         motif: undefined,
-      },
+      } satisfies DeepUndefined<
+        Lauréat.GarantiesFinancières.GarantiesFinancièresEntity['enAttente']
+      >,
       dernièreMiseÀJour: {
         date: accordéLe,
         par: accordéPar,
