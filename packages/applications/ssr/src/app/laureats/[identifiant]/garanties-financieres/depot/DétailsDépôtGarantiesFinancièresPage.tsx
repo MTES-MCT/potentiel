@@ -19,7 +19,7 @@ import { GarantiesFinancières } from '../components/GarantiesFinancières';
 import { validerDépôtGarantiesFinancièresAction } from './valider/validerDépôtGarantiesFinancières.action';
 import { supprimerDépôtGarantiesFinancièresAction } from './supprimer/supprimerDépôtGarantiesFinancières.action';
 
-type ActionDépôtGarantiesFinancières = Actions<
+export type ActionDépôtGarantiesFinancières = Actions<
   | 'garantiesFinancières.dépôt.valider'
   | 'garantiesFinancières.dépôt.supprimer'
   | 'garantiesFinancières.dépôt.modifier'
