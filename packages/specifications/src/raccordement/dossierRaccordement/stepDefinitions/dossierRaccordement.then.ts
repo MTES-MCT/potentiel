@@ -34,28 +34,6 @@ Alors(
 );
 
 Alors(
-  `le dossier référencé {string} est consultable dans la liste des dossiers de raccordement du projet lauréat`,
-  async function (this: PotentielWorld, ref: string) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await waitForExpect(async () => {
-      const actual = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-      if (Option.isNone(actual)) {
-        throw new Error('Raccordement inconnu');
-      }
-
-      actual.dossiers.map((d) => d.référence.formatter()).should.contain(ref);
-    });
-  },
-);
-
-Alors(
   'le projet lauréat devrait avoir {int} dossiers de raccordement',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
     const { identifiantProjet } = this.lauréatWorld;

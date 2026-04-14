@@ -108,3 +108,8 @@ export const natureDeLExploitationExempleMap: FieldToExempleMapper<{
   ],
   tauxPrévisionnelACI: ['taux prévisionnel aci', mapNumber],
 };
+
+export const raccordementExempleMap: FieldToExempleMapper<Candidature.RaccordementDépôt.RawType> = {
+  référence: ['réference raccordement'],
+  dateQualification: ['date qualification raccordement', mapDateTime],
+};

@@ -57,11 +57,11 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier une candidature importée avec ses données de raccordement
-        Etant donné la candidature lauréate "Eolien 2000" importée avec ses données de raccordement avec :
+        Etant donné la candidature lauréate "Eolien 2000" avec :
             | réference raccordement          | ref-dossier |
             | date qualification raccordement | 01/12/2025  |
         Quand le DGEC validateur notifie la candidature lauréate
-        Alors le dossier référencé "ref-dossier" est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Notifier un candidat éliminé

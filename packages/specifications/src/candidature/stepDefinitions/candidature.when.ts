@@ -101,6 +101,14 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     changedValues.dépôt.natureDeLExploitation.tauxPrévisionnelACI ??
     this.candidatureWorld.importerCandidature.dépôtValue.natureDeLExploitation?.tauxPrévisionnelACI;
 
+  const référenceRaccordement =
+    changedValues.dépôt.raccordements?.[0]?.référence ??
+    this.candidatureWorld.importerCandidature.dépôtValue.raccordements?.[0]?.référence;
+
+  const dateQualificationRaccordement =
+    changedValues.dépôt.raccordements?.[0]?.dateQualification ??
+    this.candidatureWorld.importerCandidature.dépôtValue.raccordements?.[0]?.dateQualification;
+
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
@@ -134,6 +142,15 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
         attestationConstitutionGf: attestationConstitutionGf.format
           ? { format: attestationConstitutionGf.format }
           : undefined,
+        raccordements:
+          référenceRaccordement && dateQualificationRaccordement
+            ? [
+                {
+                  référence: référenceRaccordement,
+                  dateQualification: dateQualificationRaccordement,
+                },
+              ]
+            : undefined,
       },
       instructionValue: {
         ...this.candidatureWorld.importerCandidature.instructionValue,

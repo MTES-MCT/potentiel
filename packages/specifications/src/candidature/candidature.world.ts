@@ -15,6 +15,7 @@ import {
   instructionExempleMap,
   localitéExempleMap,
   natureDeLExploitationExempleMap,
+  raccordementExempleMap,
 } from './candidature.exempleMap.js';
 
 export class CandidatureWorld {
@@ -43,6 +44,7 @@ export class CandidatureWorld {
     const attestationConstitutionGf = mapToExemple(exemple, formatAttestationGFExempleMap);
     const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
     const natureDeLExploitation = mapToExemple(exemple, natureDeLExploitationExempleMap);
+    const raccordement = mapToExemple(exemple, raccordementExempleMap);
 
     return {
       identifiantProjet,
@@ -53,6 +55,7 @@ export class CandidatureWorld {
         attestationConstitutionGf,
         dispositifDeStockage,
         natureDeLExploitation,
+        raccordements: raccordement ? [raccordement] : undefined,
       },
       instruction,
     };

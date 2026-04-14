@@ -114,6 +114,14 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
+  if (candidature.dépôtValue.raccordements) {
+    this.raccordementWorld.demandeComplèteDeRaccordement.importerFixture.créer({
+      identifiantProjet: candidature.identifiantProjet,
+      référenceDossier: candidature.dépôtValue.raccordements[0].référence,
+      dateQualification: candidature.dépôtValue.raccordements[0].dateQualification,
+    });
+  }
+
   await mediator.send<Candidature.NotifierCandidatureUseCase>({
     type: 'Candidature.UseCase.NotifierCandidature',
     data: {
