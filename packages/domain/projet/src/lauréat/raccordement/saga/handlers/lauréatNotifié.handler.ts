@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Email } from '@potentiel-domain/common';
 
@@ -62,6 +63,11 @@ export const handleLauréatNotifié = async ({
         });
       } catch (error) {
         if (error instanceof FormatRéférenceDossierRaccordementInvalideError) {
+          const logger = getLogger();
+          logger.warn(`Format référence dossier raccordement invalide`, {
+            identifiantProjet,
+            référenceDossierRaccordement: raccordement.référence,
+          });
           continue;
         } else {
           throw error;
