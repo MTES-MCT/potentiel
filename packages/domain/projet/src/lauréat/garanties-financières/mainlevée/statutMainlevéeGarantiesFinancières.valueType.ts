@@ -19,7 +19,6 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   estEnInstruction: () => boolean;
   estRejeté: () => boolean;
   estAccordé: () => boolean;
-  estEnCours: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -42,9 +41,6 @@ export const bind = <Type extends RawType = RawType>({
     },
     estAccordé() {
       return this.statut === 'accordé';
-    },
-    estEnCours() {
-      return this.estDemandé() || this.estEnInstruction();
     },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
