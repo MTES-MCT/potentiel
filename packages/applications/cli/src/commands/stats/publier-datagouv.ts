@@ -98,7 +98,7 @@ export class PublierDatagouvStats extends Command {
     const fileName = 'projets_enr_appels_offres_en_france.csv';
 
     const form = new FormData();
-    form.append('file', new Blob([buffer]), fileName);
+    form.append('file', new Blob([new Uint8Array(buffer)]), fileName);
     form.append('title', fileName);
     form.append('format', 'csv');
     form.append('type', 'main');

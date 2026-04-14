@@ -54,7 +54,6 @@
     "mediateur": "0.3.0",
     "next": "14.2.35",
     "next-swagger-doc": "0.4.1",
-    "nodemailer": "8.0.5",
     "pg": "8.16.3",
     "rate-limiter-flexible": "6.2.1",
     "react": "18.3.1",
@@ -65,7 +64,6 @@
     "zod": "4.1.9"
   },
   "devDependencies": {
-    "@types/node": "20.17.30",
     "@types/pg": "8.15.5",
     "@types/react": "18.3.20",
     "@types/react-dom": "18.3.6",
