@@ -59,11 +59,12 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
-      const gestionnairesRéseau =
-        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-          data: {},
-        });
+      const listeGestionnairesRéseau = Option.isSome(gestionnaireRéseau)
+        ? undefined
+        : await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+            type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+            data: {},
+          });
 
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
@@ -84,7 +85,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         gestionnaireRéseau: Option.isSome(gestionnaireRéseau) ? gestionnaireRéseau : undefined,
         identifiantProjet,
         dossierRaccordement,
-        gestionnairesRéseau,
+        listeGestionnairesRéseau: listeGestionnairesRéseau,
       });
 
       return (
@@ -106,7 +107,7 @@ type MapToProps = (args: {
   gestionnaireRéseau?: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;
-  gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
+  listeGestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel | undefined;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -115,7 +116,7 @@ const mapToProps: MapToProps = ({
   gestionnaireRéseau,
   dossierRaccordement,
   identifiantProjet,
-  gestionnairesRéseau,
+  listeGestionnairesRéseau: gestionnairesRéseau,
 }) => {
   const canEdit =
     role.estDGEC() ||
@@ -151,6 +152,6 @@ const mapToProps: MapToProps = ({
           .none(() => ''),
       },
     },
-    listeGestionnairesRéseau: mapToPlainObject(gestionnairesRéseau.items),
+    listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),
   };
 };

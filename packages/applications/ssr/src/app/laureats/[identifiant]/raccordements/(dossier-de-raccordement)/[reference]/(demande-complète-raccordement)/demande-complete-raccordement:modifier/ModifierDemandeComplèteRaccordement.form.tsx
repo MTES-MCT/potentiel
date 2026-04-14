@@ -44,7 +44,7 @@ export type ModifierDemandeComplèteRaccordementFormProps = {
     };
   };
 
-  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
+  listeGestionnairesRéseau?: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierDemandeComplèteRaccordementForm: FC<
@@ -66,7 +66,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     useState<string | undefined>(gestionnaireRéseauActuel?.identifiantGestionnaireRéseau);
 
   const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
-    ? listeGestionnairesRéseau.find(
+    ? listeGestionnairesRéseau?.find(
         (gestionnaire) =>
           gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
           selectedIdentifiantGestionnaireRéseau,
@@ -101,7 +101,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         )}
       </div>
 
-      {!gestionnaireRéseauActuel && (
+      {!gestionnaireRéseauActuel && listeGestionnairesRéseau && (
         <GestionnaireRéseauSelect
           id="identifiantGestionnaireReseau"
           name="identifiantGestionnaireReseau"
