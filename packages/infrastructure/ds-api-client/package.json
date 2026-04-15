@@ -10,7 +10,7 @@
     "prebuild": "npm run codegen",
     "build": "npm run prebuild && tsc",
     "codegen": "graphql-codegen-esm --config codegen.ts",
-    "test": "tsx --test src/**/*.test.ts",
+    "test": "npm run build && tsx --test src/**/*.test.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
