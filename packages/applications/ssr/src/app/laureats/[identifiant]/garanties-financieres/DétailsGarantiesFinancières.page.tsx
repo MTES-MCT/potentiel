@@ -51,7 +51,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   const actionMap: ActionMap<ActionGarantiesFinancières> = {
     ['garantiesFinancières.dépôt.soumettre']: () => (
       <LinkAction
-        label="Soumettre"
+        label="Soumettre de nouvelles garanties financières"
         buttonProps={{ title: 'Soumettre un dépôt de garanties financières' }}
         linkProps={{ href: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet) }}
       />

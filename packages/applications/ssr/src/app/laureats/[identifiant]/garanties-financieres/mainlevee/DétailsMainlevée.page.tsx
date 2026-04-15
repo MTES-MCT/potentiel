@@ -72,7 +72,7 @@ export const DétailsMainlevéePage: FC<DétailsMainlevéePageProps> = ({
           description: (
             <>
               <p>
-                Êtes-vous sûr de vouloir démarrer l'instruction de votre demande de mainlevée de vos
+                Êtes-vous sûr de vouloir démarrer l'instruction de la demande de mainlevée de vos
                 garanties financières ?
               </p>
               <span className="italic">

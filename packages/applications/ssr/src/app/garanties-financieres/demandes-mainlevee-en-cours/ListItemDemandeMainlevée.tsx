@@ -41,7 +41,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
       <Button
         linkProps={{
           href: Routes.GarantiesFinancières.demandeMainlevée.détails(identifiantProjet),
-          'aria-label': `voir le détail des garanties financières du projet ${nomProjet}`,
+          'aria-label': `voir le détail de la mainlevée des garanties financières du projet ${nomProjet}`,
         }}
       >
         Consulter

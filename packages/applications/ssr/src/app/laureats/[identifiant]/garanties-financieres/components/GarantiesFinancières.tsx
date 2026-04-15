@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -32,11 +33,14 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
   return (
     <div className="text-base flex flex-col gap-2">
       {gf.type.estInconnu() ? (
-        <span className="font-semibold italic">
-          {peutModifier
-            ? 'Type de garanties financières manquant'
-            : `Type à compléter par l'autorité instructrice compétente`}
-        </span>
+        <Notice
+          severity="warning"
+          title={
+            peutModifier
+              ? 'Type de garanties financières manquant'
+              : `Type à compléter par l'autorité instructrice compétente`
+          }
+        />
       ) : (
         <div>
           Type :{' '}
@@ -44,11 +48,6 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
             {getGarantiesFinancièresTypeLabel(gf.type.formatter())}
           </span>
         </div>
-      )}
-      {!gf.estConstitué() && (
-        <span className="font-semibold italic">
-          {getGarantiesFinancièresAttestationLabel(gf.type.type)} manquante
-        </span>
       )}
 
       {gf.estAvecDateÉchéance() && (
@@ -73,6 +72,13 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
         <div>
           Soumis le : <FormattedDate className="font-semibold" date={soumisLe.date} />
         </div>
+      )}
+
+      {!gf.estConstitué() && (
+        <Notice
+          severity="warning"
+          title={`${getGarantiesFinancièresAttestationLabel(gf.type.type)} manquante`}
+        />
       )}
       {document && (
         <DownloadDocument
