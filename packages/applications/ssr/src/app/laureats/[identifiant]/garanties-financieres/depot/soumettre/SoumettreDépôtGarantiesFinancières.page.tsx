@@ -4,7 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { GarantiesFinancièresFormInputsProps } from '../../GarantiesFinancièresFormInputs';
+import { GarantiesFinancièresFormInputsProps } from '../../components/GarantiesFinancièresFormInputs';
 
 import { SoumettreDépôtGarantiesFinancièresForm } from './SoumettreDépôtGarantiesFinancières.form';
 import { soumettreDépôtGarantiesFinancièresAction } from './soumettreDépôtGarantiesFinancières.action';
