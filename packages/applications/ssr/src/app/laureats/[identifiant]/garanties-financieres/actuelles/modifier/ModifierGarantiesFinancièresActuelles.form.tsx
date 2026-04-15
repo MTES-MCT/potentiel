@@ -11,7 +11,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   GarantiesFinancièresFormInputs,
   GarantiesFinancièresFormInputsProps,
-} from '../../GarantiesFinancièresFormInputs';
+} from '../../components/GarantiesFinancièresFormInputs';
 
 import {
   modifierGarantiesFinancièresActuellesAction,

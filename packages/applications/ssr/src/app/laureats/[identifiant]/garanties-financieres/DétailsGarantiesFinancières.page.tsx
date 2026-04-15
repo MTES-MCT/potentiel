@@ -12,9 +12,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 import { LinkAction } from '@/components/molecules/LinkAction';
 
-import { ArchivesGarantiesFinancières } from './(archives)/ArchivesGarantiesFinancières';
+import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
-import { StatutGarantiesFinancièresBadge } from './StatutGarantiesFinancièresBadge';
+import { StatutGarantiesFinancièresBadge } from './components/StatutGarantiesFinancièresBadge';
 
 const actionsGarantiesFinancières = [
   'garantiesFinancières.actuelles.enregistrer',
