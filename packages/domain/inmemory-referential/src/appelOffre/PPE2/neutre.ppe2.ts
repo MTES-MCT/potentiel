@@ -163,7 +163,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         modification: defaultModifications,
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+        coefficientKChoisi: { type: 'défaut', valeur: false },
         typologieInstallation: undefined,
       },
     },
@@ -206,7 +206,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         modification: defaultModifications,
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         typologieInstallation: undefined,
       },
     },
@@ -249,7 +249,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         modification: defaultModifications,
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         typologieInstallation: undefined,
       },
     },

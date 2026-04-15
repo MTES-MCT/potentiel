@@ -110,7 +110,7 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     modification: { ...defaultModifications, typologieInstallation: true },
   },
   champsSupplémentaires: {
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
     typologieInstallation: { type: 'optionnel' },
   },
   délaiRéalisationEnMois: 30,

@@ -115,7 +115,7 @@ const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
     changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
   },
   champsSupplémentaires: {
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+    coefficientKChoisi: { type: 'défaut', valeur: true },
   },
 };
 
@@ -129,7 +129,7 @@ const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
     changement: CDCModifié07022023.miseÀJour?.changement,
   },
   champsSupplémentaires: {
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+    coefficientKChoisi: { type: 'défaut', valeur: true },
   },
 };
 
@@ -153,7 +153,7 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   champsSupplémentaires: {
     puissanceALaPointe: { type: 'optionnel' },
     territoireProjet: { type: 'requis' },
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',

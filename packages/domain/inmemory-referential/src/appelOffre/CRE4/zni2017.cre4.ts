@@ -110,7 +110,7 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   champsSupplémentaires: {
     puissanceALaPointe: { type: 'optionnel' },
     territoireProjet: { type: 'requis' },
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',

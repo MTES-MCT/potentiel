@@ -97,7 +97,7 @@ export class CandidatureWorld {
     const coefficientKChoisi = (() => {
       const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
       return champCoefficientK?.type === 'défaut'
-        ? champCoefficientK.valeurParDéfaut
+        ? champCoefficientK.valeur
         : dépôtValue.coefficientKChoisi;
     })();
 

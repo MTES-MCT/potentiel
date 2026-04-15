@@ -84,7 +84,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     modification: defaultModifications,
   },
   champsSupplémentaires: {
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',

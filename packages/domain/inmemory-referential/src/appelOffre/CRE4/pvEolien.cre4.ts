@@ -101,7 +101,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
     modification: defaultModifications,
   },
   champsSupplémentaires: {
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,

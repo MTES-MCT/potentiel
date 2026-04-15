@@ -84,7 +84,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   champsSupplémentaires: {
     typologieInstallation: { type: 'optionnel' },
-    coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   miseÀJour: {
     changement: {

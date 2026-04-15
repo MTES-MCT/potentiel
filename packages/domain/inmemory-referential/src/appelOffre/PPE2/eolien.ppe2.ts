@@ -212,7 +212,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+        coefficientKChoisi: { type: 'défaut', valeur: false },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -262,7 +262,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: false },
+        coefficientKChoisi: { type: 'défaut', valeur: false },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -307,7 +307,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -344,7 +344,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -381,7 +381,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -418,7 +418,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -455,7 +455,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -491,7 +491,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
@@ -525,7 +525,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'défaut', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'défaut', valeur: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,
