@@ -1,7 +1,8 @@
-import { IdentifiantProjet, Candidature, CahierDesCharges } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { getAppelOffres, getPériodeAndFamille } from './_helpers/getAppelOffres.js';
+import { getAppelOffres } from './_helpers/getAppelOffres.js';
+import { getCoefficientK } from './_helpers/getCoefficientK.js';
 
 export const candidatureImportéeProjector = async ({
   payload,
@@ -23,19 +24,18 @@ export const mapToCandidatureToUpsert = async ({
   payload: Candidature.CandidatureImportéeEvent['payload'];
 }): Promise<Omit<Candidature.CandidatureEntity, 'type'>> => {
   const appelOffres = getAppelOffres(identifiantProjet);
-  const { période, famille } = getPériodeAndFamille(identifiantProjet, appelOffres);
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,
     projet: payload,
   });
 
-  const cahierDesCharges = CahierDesCharges.bind({
-    appelOffre: appelOffres,
-    période,
-    famille,
-    technologie: technologie.type,
-    cahierDesChargesModificatif: undefined,
-  });
+  // champs supplémentaire pouvant avoir une valeur par défaut, non présente dans le payload de l'événement
+  const coefficientKChoisi = getCoefficientK(
+    appelOffres,
+    identifiantProjet,
+    technologie,
+    payload.coefficientKChoisi,
+  );
 
   return {
     identifiantProjet: payload.identifiantProjet,
@@ -53,12 +53,6 @@ export const mapToCandidatureToUpsert = async ({
       période: identifiantProjet.période,
       technologie: technologie.formatter(),
     }).formatter(),
-    // champs supplémentaire pouvant avoir une valeur par défaut, non présente dans le payload de l'événement
-    coefficientKChoisi: (() => {
-      const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
-      return champCoefficientK?.type === 'défaut'
-        ? champCoefficientK.valeur
-        : payload.coefficientKChoisi;
-    })(),
+    coefficientKChoisi,
   };
 };
