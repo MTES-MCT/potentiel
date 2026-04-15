@@ -4,11 +4,19 @@ const { withSentryConfig } = require('@sentry/nextjs');
 const nextConfig = {
   experimental: { webpackBuildWorker: true },
   poweredByHeader: false,
-  async rewrites() {
+  async redirects() {
     return [
       {
         source: '/projet/:guid/details.html',
         destination: '/legacy/:guid',
+        permanent: true,
+      },
+      // Redirection pour les anciens chemins d'accès aux garanties financières
+      // à supprimer ~octobre 2026
+      {
+        source: '/laureats/:identifiant/garanties-financieres/depot:soumettre',
+        destination: '/laureats/:identifiant/garanties-financieres/depot/soumettre',
+        permanent: true,
       },
     ];
   },
