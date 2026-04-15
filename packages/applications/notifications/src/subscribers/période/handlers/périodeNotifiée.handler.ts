@@ -35,9 +35,9 @@ export const handlePériodeNotifiée = async ({
 
   const zones = [
     ...new Set(
-      candidatures.items.map((candidature) => Zone.déterminer(candidature.localité.région)),
+      candidatures.items.map((candidature) => Zone.déterminer(candidature.localité.région).nom),
     ),
-  ].map((zone) => zone.nom);
+  ];
 
   const cocontractantRecipients = await listerCocontractantRecipients(zones);
 
