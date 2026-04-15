@@ -17,7 +17,5 @@ export type PériodeNotifiéeEvent = DomainEvent<
 
     identifiantLauréats: ReadonlyArray<IdentifiantProjet.RawType>;
     identifiantÉliminés: ReadonlyArray<IdentifiantProjet.RawType>;
-
-    zonesLauréatEtÉliminés?: Array<string>;
   }
 >;

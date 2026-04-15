@@ -6,5 +6,4 @@ export type NotifierPériodeOptions = {
   notifiéePar: Email.ValueType;
   identifiantLauréats: ReadonlyArray<IdentifiantProjet.ValueType>;
   identifiantÉliminés: ReadonlyArray<IdentifiantProjet.ValueType>;
-  zonesLauréatEtÉliminés?: Array<string>;
 };

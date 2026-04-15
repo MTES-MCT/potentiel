@@ -30,7 +30,6 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
     identifiantÉliminés,
     notifiéeLe,
     notifiéePar,
-    zonesLauréatEtÉliminés,
   }: NotifierPériodeOptions) {
     const event: PériodeNotifiéeEvent = {
       type: 'PériodeNotifiée-V1',
@@ -46,7 +45,6 @@ export class PériodeAggregate extends AbstractAggregate<PériodeEvent, 'périod
         identifiantÉliminés: identifiantÉliminés.map((identifiantÉliminé) =>
           identifiantÉliminé.formatter(),
         ),
-        zonesLauréatEtÉliminés,
       },
     };
 
