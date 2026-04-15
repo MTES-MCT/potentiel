@@ -191,6 +191,17 @@ export const getInstallationInfos = cache(async (identifiantProjet: Props) => {
   return Option.isSome(installation) ? installation : undefined;
 });
 
+export const getInstallateurInfos = cache(async (identifiantProjet: Props) => {
+  const installateur = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
+    type: 'Lauréat.Installation.Query.ConsulterInstallateur',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  return Option.isSome(installateur) ? installateur : undefined;
+});
+
 export const getDemandeDélaiEnCoursInfos = async (
   identifiantProjet: IdentifiantProjet.RawType,
   emailUtilisateur: Email.RawType,

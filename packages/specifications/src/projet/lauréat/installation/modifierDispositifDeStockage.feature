@@ -84,4 +84,4 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | appel d'offres | PPE2 - Bâtiment |
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
             | installation avec dispositif de stockage | non |
-        Alors l'utilisateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
+        Alors l'utilisateur devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"

@@ -74,6 +74,7 @@ function estValide(value: {
   if (isInvalidWithDispositifDeStockage) {
     throw new InstallationAvecDispositifDeStockageError();
   }
+
   if (isInvalidWithoutDispositifDeStockage) {
     throw new InstallationSansDispositifDeStockageInvalidError();
   }

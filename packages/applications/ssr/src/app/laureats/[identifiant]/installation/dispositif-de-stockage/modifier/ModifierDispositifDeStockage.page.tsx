@@ -7,7 +7,7 @@ import {
   ModifierDispositifDeStockageFormProps,
 } from './ModifierDispositifDeStockage.form';
 
-export type ModifierDispositifDeStockagePageProps = ModifierDispositifDeStockageFormProps;
+type ModifierDispositifDeStockagePageProps = ModifierDispositifDeStockageFormProps;
 
 export const ModifierDispositifDeStockagePage: FC<ModifierDispositifDeStockagePageProps> = ({
   identifiantProjet,

@@ -128,7 +128,7 @@ Fonctionnalité: Corriger une candidature
             | famille        |                 |
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi |  |
-        Alors l'administrateur devrait être informé que "Le choix du coefficient K est requis pour cette période"
+        Alors l'administrateur devrait être informé que "Le champ choix du coefficient K est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec choix du coefficient K si la période ne le propose pas
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -138,7 +138,7 @@ Fonctionnalité: Corriger une candidature
             | famille        |                 |
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi | oui |
-        Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
+        Alors l'administrateur devrait être informé que "Le champ choix du coefficient K ne peut être renseigné pour cet appel d'offres"
 
     # champs spécifiques à l'appel d'offres simplifié - début
     Scénario: Corriger la puissance de site d'une candidature pour un appel d'offres qui a ce champ
@@ -194,22 +194,22 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 100                      |
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site |  |
-        Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le champ puissance de site est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec une puissance de site si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
-        Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Inc |
-        Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |
-        Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le champ nature de l'exploitation ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans autorisation si l'appel d'offres a ces champs requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -234,9 +234,21 @@ Fonctionnalité: Corriger une candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
+            | capacité du dispositif                   | 3                        |
+            | puissance du dispositif                  | 6                        |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
-        Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le champ dispositif de stockage est requis pour cet appel d'offres"
+
+    Scénario: Impossible de corriger une candidature avec dispositif de stockage si l'appel d'offres ne le propose pas
+        Quand le DGEC validateur corrige la candidature avec :
+            | installation avec dispositif de stockage | non |
+        Alors l'administrateur devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
+
+    Scénario: Impossible de corriger une candidature avec installateur si l'appel d'offres ne le propose pas
+        Quand le DGEC validateur corrige la candidature avec :
+            | installateur | Mr Bricolage |
+        Alors l'administrateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
 
 
 # champs spécifiques à l'appel d'offres simplifié - fin

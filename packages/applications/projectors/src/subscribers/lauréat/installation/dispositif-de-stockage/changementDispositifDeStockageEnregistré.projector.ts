@@ -1,8 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import {
-  updateOneProjection,
-  upsertProjection,
-} from '@potentiel-infrastructure/pg-projection-write';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const changementDispositifDeStockageEnregistréProjector = async ({
   payload: {
@@ -14,9 +13,15 @@ export const changementDispositifDeStockageEnregistréProjector = async ({
     pièceJustificative,
   },
 }: Lauréat.Installation.ChangementDispositifDeStockageEnregistréEvent) => {
-  await updateOneProjection<Lauréat.Installation.InstallationEntity>(
+  const installationActuelle = await findProjection<Lauréat.Installation.InstallationEntity>(
+    `installation|${identifiantProjet}`,
+  );
+
+  await upsertProjection<Lauréat.Installation.InstallationEntity>(
     `installation|${identifiantProjet}`,
     {
+      // Pour ce champ supplémentaire, la modification peut être une initialisation de la valeur
+      ...(Option.isSome(installationActuelle) ? installationActuelle : {}),
       dispositifDeStockage: dispositifDeStockage.installationAvecDispositifDeStockage
         ? dispositifDeStockage
         : {

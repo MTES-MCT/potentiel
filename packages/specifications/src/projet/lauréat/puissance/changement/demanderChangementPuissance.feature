@@ -166,4 +166,4 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1.1 |
             | puissance de site | 100 |
-        Alors l'utilisateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"
+        Alors l'utilisateur devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"

@@ -1,14 +1,13 @@
 import { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-
 import { Heading1 } from '@/components/atoms/headings';
 
-import { EnregistrerChangementInstallateurForm } from './EnregistrerChangementInstallateur.form';
+import {
+  EnregistrerChangementInstallateurForm,
+  EnregistrerChangementInstallateurFormProps,
+} from './EnregistrerChangementInstallateur.form';
 
-export type EnregistrerChangementInstallateurPageProps =
-  PlainType<Lauréat.Installation.ConsulterInstallateurReadModel>;
+type EnregistrerChangementInstallateurPageProps = EnregistrerChangementInstallateurFormProps;
 
 export const EnregistrerChangementInstallateurPage: FC<
   EnregistrerChangementInstallateurPageProps

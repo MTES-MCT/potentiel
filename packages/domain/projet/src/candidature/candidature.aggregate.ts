@@ -31,19 +31,11 @@ import {
   CandidatureNonModifiéeError,
   CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
-  ChoixCoefficientKNonAttenduError,
-  ChoixCoefficientKRequisError,
+  ChampNonAttenduError,
+  ChampRequisError,
   DateAutorisationError,
   FonctionManquanteError,
-  InstallateurNonAttenduError,
-  InstallateurRequisError,
-  DispositifDeStockageNonAttenduError,
-  DispositifDeStockageRequisError,
-  NatureDeLExploitationNonAttendueError,
-  NatureDeLExploitationRequiseError,
   NomManquantError,
-  PuissanceDeSiteNonAttendueError,
-  PuissanceDeSiteRequiseError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
   TechnologieIndisponibleError,
@@ -199,7 +191,8 @@ export class CandidatureAggregate extends AbstractAggregate<
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
-    this.vérifierChampSupplémentaires(candidature);
+    this.vérifierChampsSupplémentaires(candidature);
+    this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
@@ -231,7 +224,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierQueLeStatutEstModifiable(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
-    this.vérifierChampSupplémentaires(candidature);
+    this.vérifierChampsSupplémentaires(candidature);
+    this.vérifierDateAutorisation(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
@@ -372,7 +366,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierChampSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
+  private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
     const {
       coefficientKChoisi,
       puissanceDeSite,
@@ -380,54 +374,65 @@ export class CandidatureAggregate extends AbstractAggregate<
       installateur,
       dispositifDeStockage,
       natureDeLExploitation,
+      typologieInstallation,
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
-      throw new ChoixCoefficientKRequisError();
+      throw new ChampRequisError('choix du coefficient K');
     }
 
     if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
-      throw new ChoixCoefficientKNonAttenduError();
+      throw new ChampNonAttenduError('choix du coefficient K');
     }
 
     if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
-      throw new PuissanceDeSiteRequiseError();
+      throw new ChampRequisError('puissance de site');
     }
 
     if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
-      throw new PuissanceDeSiteNonAttendueError();
+      throw new ChampNonAttenduError('puissance de site');
     }
 
-    if (installateur === 'requis' && dépôt.installateur === undefined) {
-      throw new InstallateurRequisError();
+    if (installateur === 'requis' && !dépôt.installateur) {
+      throw new ChampRequisError('installateur');
     }
 
     if (!installateur && !!dépôt.installateur) {
-      throw new InstallateurNonAttenduError();
+      throw new ChampNonAttenduError('installateur');
+    }
+
+    if (typologieInstallation === 'requis' && !dépôt.typologieInstallation.length) {
+      throw new ChampRequisError('typologie installation');
+    }
+
+    if (!typologieInstallation && dépôt.typologieInstallation.length > 0) {
+      throw new ChampNonAttenduError('typologie installation');
     }
 
     if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
-      throw new NatureDeLExploitationRequiseError();
+      throw new ChampRequisError("nature de l'exploitation");
     }
 
     if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
-      throw new NatureDeLExploitationNonAttendueError();
+      throw new ChampNonAttenduError("nature de l'exploitation");
     }
 
     if (autorisation === 'requis' && (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)) {
       throw new AutorisationRequiseError();
     }
 
-    if (dépôt.autorisation?.date.estDansLeFutur()) {
-      throw new DateAutorisationError();
-    }
-
     if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
-      throw new DispositifDeStockageRequisError();
+      throw new ChampRequisError('dispositif de stockage');
     }
 
     if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
-      throw new DispositifDeStockageNonAttenduError();
+      throw new ChampNonAttenduError('dispositif de stockage');
+    }
+  }
+
+  private vérifierDateAutorisation({ dépôt }: CandidatureBehaviorOptions) {
+    if (dépôt.autorisation?.date.estDansLeFutur()) {
+      throw new DateAutorisationError();
     }
   }
 

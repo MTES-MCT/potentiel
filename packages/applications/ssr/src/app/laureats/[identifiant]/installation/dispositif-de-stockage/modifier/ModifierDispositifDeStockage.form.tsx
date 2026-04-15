@@ -17,8 +17,10 @@ import {
   ModifierDispositifDeStockageFormKeys,
 } from './modifierDispositifDeStockage.action';
 
-export type ModifierDispositifDeStockageFormProps =
-  PlainType<Lauréat.Installation.ConsulterDispositifDeStockageReadModel>;
+export type ModifierDispositifDeStockageFormProps = PlainType<{
+  identifiantProjet: IdentifiantProjet.ValueType;
+  dispositifDeStockage?: Lauréat.Installation.ConsulterDispositifDeStockageReadModel['dispositifDeStockage'];
+}>;
 
 export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFormProps> = ({
   identifiantProjet,
@@ -28,7 +30,7 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
     ValidationErrors<ModifierDispositifDeStockageFormKeys>
   >({});
   const [installationAvecDispositifDeStockage, setInstallationAvecDispositifDeStockage] = useState(
-    dispositifDeStockage.installationAvecDispositifDeStockage,
+    dispositifDeStockage?.installationAvecDispositifDeStockage,
   );
 
   return (
@@ -55,7 +57,7 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
         label="Installation couplée à un dispositif de stockage"
         nativeSelectProps={{
           name: 'installationAvecDispositifDeStockage',
-          defaultValue: dispositifDeStockage.installationAvecDispositifDeStockage
+          defaultValue: dispositifDeStockage?.installationAvecDispositifDeStockage
             ? 'true'
             : 'false',
           required: true,
@@ -77,7 +79,7 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
             className="w-fit"
             nativeInputProps={{
               name: 'capaciteDuDispositifDeStockageEnKWh',
-              defaultValue: dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh,
+              defaultValue: dispositifDeStockage?.capacitéDuDispositifDeStockageEnKWh,
               required: true,
               'aria-required': true,
               disabled: !installationAvecDispositifDeStockage,
@@ -94,7 +96,7 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
             className="w-fit"
             nativeInputProps={{
               name: 'puissanceDuDispositifDeStockageEnKW',
-              defaultValue: dispositifDeStockage.puissanceDuDispositifDeStockageEnKW,
+              defaultValue: dispositifDeStockage?.puissanceDuDispositifDeStockageEnKW,
               required: true,
               'aria-required': true,
               disabled: !installationAvecDispositifDeStockage,

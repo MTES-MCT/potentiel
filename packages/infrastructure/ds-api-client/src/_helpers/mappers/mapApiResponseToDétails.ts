@@ -11,7 +11,7 @@ export const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) =
   return champs.reduce(
     (prev, curr) => {
       if (prev[curr.label]) {
-        logger.warn(`le champs ${curr.label} existe déjà`);
+        logger.warn(`le champ ${curr.label} existe déjà`);
         return prev;
       }
       if (curr.__typename === 'DateChamp') {

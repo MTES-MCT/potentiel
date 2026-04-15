@@ -7,7 +7,7 @@ import {
   ModifierInstallateurFormProps,
 } from './ModifierInstallateur.form';
 
-export type ModifierInstallateurPageProps = ModifierInstallateurFormProps;
+type ModifierInstallateurPageProps = ModifierInstallateurFormProps;
 
 export const ModifierInstallateurPage: FC<ModifierInstallateurPageProps> = ({
   identifiantProjet,

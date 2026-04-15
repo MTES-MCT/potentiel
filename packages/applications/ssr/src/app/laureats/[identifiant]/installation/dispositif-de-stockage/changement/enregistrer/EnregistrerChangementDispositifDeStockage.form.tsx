@@ -4,7 +4,8 @@ import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -14,10 +15,11 @@ import {
   enregistrerChangementDispositifDeStockageAction,
   EnregistrerChangementDispositifDeStockageFormKeys,
 } from './enregistrerChangementDispositifDeStockage.action';
-import { EnregistrerChangementDispositifDeStockagePageProps } from './EnregistrerChangementDispositifDeStockage.page';
 
-export type EnregistrerChangementDispositifDeStockageFormProps =
-  EnregistrerChangementDispositifDeStockagePageProps;
+export type EnregistrerChangementDispositifDeStockageFormProps = PlainType<{
+  identifiantProjet: IdentifiantProjet.ValueType;
+  dispositifDeStockage?: Lauréat.Installation.ConsulterDispositifDeStockageReadModel['dispositifDeStockage'];
+}>;
 
 export const EnregistrerChangementDispositifDeStockageForm: FC<
   EnregistrerChangementDispositifDeStockageFormProps
@@ -27,7 +29,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
   >({});
 
   const [installationAvecDispositifDeStockage, setInstallationAvecDispositifDeStockage] = useState(
-    dispositifDeStockage.installationAvecDispositifDeStockage,
+    dispositifDeStockage?.installationAvecDispositifDeStockage,
   );
 
   return (
@@ -54,7 +56,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
           label="Installation couplée à un dispositif de stockage"
           nativeSelectProps={{
             name: 'installationAvecDispositifDeStockage',
-            defaultValue: dispositifDeStockage.installationAvecDispositifDeStockage
+            defaultValue: dispositifDeStockage?.installationAvecDispositifDeStockage
               ? 'true'
               : 'false',
             required: true,
@@ -76,7 +78,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
               className="w-fit"
               nativeInputProps={{
                 name: 'capaciteDuDispositifDeStockageEnKWh',
-                defaultValue: dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh,
+                defaultValue: dispositifDeStockage?.capacitéDuDispositifDeStockageEnKWh,
                 required: true,
                 'aria-required': true,
                 disabled: !installationAvecDispositifDeStockage,
@@ -94,7 +96,7 @@ export const EnregistrerChangementDispositifDeStockageForm: FC<
               className="w-fit"
               nativeInputProps={{
                 name: 'puissanceDuDispositifDeStockageEnKW',
-                defaultValue: dispositifDeStockage.puissanceDuDispositifDeStockageEnKW,
+                defaultValue: dispositifDeStockage?.puissanceDuDispositifDeStockageEnKW,
                 required: true,
                 'aria-required': true,
                 disabled: !installationAvecDispositifDeStockage,
