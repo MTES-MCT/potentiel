@@ -1,6 +1,6 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs, createDossierAccessor } from '../../graphql/index.js';
+import { Champs, createDossierAccessor } from '../../graphql/accessor.js';
 
 export const getFournisseurs = (champs: Champs) => {
   const fournisseurs: Candidature.Dépôt.RawType['fournisseurs'] = [];

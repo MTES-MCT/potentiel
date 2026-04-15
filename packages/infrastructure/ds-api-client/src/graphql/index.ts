@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { GetDossierQuery, getSdk } from './client.js';
+import { type GetDossierQuery, getSdk } from './client.js';
 
 export type * from './client.js';
 export * from './accessor.js';
