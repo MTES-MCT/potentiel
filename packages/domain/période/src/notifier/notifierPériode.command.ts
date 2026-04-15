@@ -102,6 +102,7 @@ export const registerNotifierPériodeCommand = (
       `période|${identifiantPériode.formatter()}`,
       undefined,
     );
+
     await période.notifier({
       notifiéeLe,
       notifiéePar,

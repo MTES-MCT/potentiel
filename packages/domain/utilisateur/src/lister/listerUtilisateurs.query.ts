@@ -24,7 +24,7 @@ export type ListerUtilisateursQuery = Message<
     roles?: Array<string>;
     identifiantGestionnaireRéseau?: string;
     région?: string;
-    zone?: string;
+    zones?: Array<string>;
     zni?: boolean;
     actif?: boolean;
   } & (
@@ -52,7 +52,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     identifiantsUtilisateur,
     identifiantGestionnaireRéseau,
     région,
-    zone,
+    zones,
     zni,
     actif,
   }) => {
@@ -73,10 +73,10 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
               rôle: Where.equal('grd'),
               identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
             }
-          : zone
+          : zones?.length
             ? {
                 rôle: Where.equal('cocontractant'),
-                zone: Where.equal(Zone.convertirEnValueType(zone).nom),
+                zone: Where.matchAny(zones?.map((z) => Zone.convertirEnValueType(z).nom)),
               }
             : {
                 rôle: (roles

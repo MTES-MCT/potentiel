@@ -68,7 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
           range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
           identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           région: region,
-          zone,
+          zones: zone ? [zone] : undefined,
           zni,
           actif,
         },

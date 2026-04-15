@@ -1,7 +1,10 @@
-import { Période } from '@potentiel-domain/periode';
-import { Role } from '@potentiel-domain/utilisateur';
+import { mediator } from 'mediateur';
 
-import { getBaseUrl } from '#helpers';
+import { Période } from '@potentiel-domain/periode';
+import { Role, Zone } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/projet';
+
+import { getBaseUrl, listerCocontractantRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 import { listerRecipients } from '#helpers';
 
@@ -15,7 +18,6 @@ export const handlePériodeNotifiée = async ({
     roles: [
       Role.admin.nom,
       Role.dreal.nom,
-      Role.cocontractant.nom,
       Role.ademe.nom,
       Role.caisseDesDépôts.nom,
       Role.cre.nom,
@@ -23,7 +25,23 @@ export const handlePériodeNotifiée = async ({
     ],
   });
 
-  for (const email of utilisateursAutresQuePorteurs) {
+  const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      appelOffre: [identifiantPériodeValueType.appelOffre],
+      période: identifiantPériodeValueType.période,
+    },
+  });
+
+  const zones = [
+    ...new Set(
+      candidatures.items.map((candidature) => Zone.déterminer(candidature.localité.région).nom),
+    ),
+  ];
+
+  const cocontractantRecipients = await listerCocontractantRecipients(zones);
+
+  for (const email of [...utilisateursAutresQuePorteurs, ...cocontractantRecipients]) {
     await sendEmail({
       key: 'période/notifier',
       recipients: [email],
