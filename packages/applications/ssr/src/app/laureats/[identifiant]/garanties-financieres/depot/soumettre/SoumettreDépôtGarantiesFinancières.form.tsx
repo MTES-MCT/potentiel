@@ -15,7 +15,7 @@ import {
 import {
   enregistrerGarantiesFinancièresAction,
   EnregistrerGarantiesFinancièresFormKeys,
-} from '../../(actuelles)/actuelles:enregistrer/enregistrerGarantiesFinancières.action';
+} from '../../actuelles/enregistrer/enregistrerGarantiesFinancières.action';
 import {
   modifierDépôtGarantiesFinancièresAction,
   ModifierDépôtGarantiesFinancièresFormKeys,
