@@ -245,7 +245,7 @@ export class InstallationAggregate extends AbstractAggregate<
   };
 
   private vérifierSiMiseÀJourInstallateurPossible = (installateur: string) => {
-    if (this.lauréat.parent.cahierDesChargesActuel.estChampRequisOuOptionnel('installateur')) {
+    if (!this.lauréat.parent.cahierDesChargesActuel.estChampRequisOuOptionnel('installateur')) {
       throw new ChampNonAttenduError('installateur');
     }
 
