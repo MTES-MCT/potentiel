@@ -1,12 +1,13 @@
 import { Période } from '@potentiel-domain/periode';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl } from '#helpers';
+import { getBaseUrl, listerCocontractantRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 import { listerRecipients } from '#helpers';
 
+// viovio
 export const handlePériodeNotifiée = async ({
-  payload: { identifiantPériode, notifiéeLe },
+  payload: { identifiantPériode, notifiéeLe, zonesLauréatEtÉliminés },
 }: Période.PériodeNotifiéeEvent) => {
   const identifiantPériodeValueType =
     Période.IdentifiantPériode.convertirEnValueType(identifiantPériode);
@@ -15,7 +16,6 @@ export const handlePériodeNotifiée = async ({
     roles: [
       Role.admin.nom,
       Role.dreal.nom,
-      Role.cocontractant.nom,
       Role.ademe.nom,
       Role.caisseDesDépôts.nom,
       Role.cre.nom,
@@ -23,7 +23,14 @@ export const handlePériodeNotifiée = async ({
     ],
   });
 
-  for (const email of utilisateursAutresQuePorteurs) {
+  // si aucune zone n'est spécifiée, on envoie à tous les cocontractants
+  const cocontractantRecipients = zonesLauréatEtÉliminés
+    ? await listerCocontractantRecipients(zonesLauréatEtÉliminés)
+    : await listerRecipients({
+        roles: [Role.cocontractant.nom],
+      });
+
+  for (const email of [...utilisateursAutresQuePorteurs, ...cocontractantRecipients]) {
     await sendEmail({
       key: 'période/notifier',
       recipients: [email],

@@ -1,5 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Zone } from '@potentiel-domain/utilisateur';
 
 import {
   getBaseUrl,
@@ -17,7 +18,9 @@ export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.Abando
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
-  const cocontractantsRecipients = await listerCocontractantRecipients(projet.région);
+  const cocontractantsRecipients = await listerCocontractantRecipients([
+    Zone.déterminer(projet.région).nom,
+  ]);
 
   const values = {
     nom_projet: projet.nom,

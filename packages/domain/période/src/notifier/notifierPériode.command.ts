@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Accès, GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { InviterPorteurUseCase, Zone } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
 
@@ -34,6 +34,7 @@ export const registerNotifierPériodeCommand = (
   }) => {
     const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
     const identifiantÉliminés: Array<IdentifiantProjet.ValueType> = [];
+    const zonesLauréatEtÉliminés: Array<string> = [];
 
     const porteursAInviter: Record<Email.RawType, IdentifiantProjet.RawType[]> = {};
 
@@ -58,6 +59,12 @@ export const registerNotifierPériodeCommand = (
 
         if (projet.candidature.statut?.estÉliminé()) {
           identifiantÉliminés.push(identifiantCandidature);
+        }
+
+        const zone = Zone.déterminer(projet.candidature.dépôt.localité.région);
+
+        if (!zonesLauréatEtÉliminés.includes(zone.formatter())) {
+          zonesLauréatEtÉliminés.push(zone.nom);
         }
 
         const emailPorteur = projet.candidature.emailContact.formatter();
@@ -102,11 +109,13 @@ export const registerNotifierPériodeCommand = (
       `période|${identifiantPériode.formatter()}`,
       undefined,
     );
+
     await période.notifier({
       notifiéeLe,
       notifiéePar,
       identifiantLauréats,
       identifiantÉliminés,
+      zonesLauréatEtÉliminés,
     });
   };
 
