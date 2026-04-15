@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
+import { DateTime } from '@potentiel-domain/common';
 
 import {
   booleanSchema,
@@ -193,6 +194,25 @@ export const dépôtSchema = z
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
+    raccordements: z
+      .array(
+        z.object({
+          référence: z.string(),
+          dateQualification: z
+            .string()
+            .transform((val) => DateTime.convertirEnValueType(new Date(val)).formatter()),
+        }),
+      )
+      .optional(),
+    fournisseurs: z
+      .array(
+        z.object({
+          typeFournisseur: z.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseur),
+          nomDuFabricant: z.string(),
+          lieuDeFabrication: z.string(),
+        }),
+      )
+      .optional(),
   })
   // Garanties financières et date d'échéance
   .superRefine((data, ctx) => {

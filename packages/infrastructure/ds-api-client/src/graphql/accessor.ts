@@ -1,6 +1,6 @@
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { AddressFragmentFragment, ChampFragmentFragment, GetDossierQuery } from './client.js';
+import type { AddressFragmentFragment, ChampFragmentFragment, GetDossierQuery } from './client.js';
 
 export type Champs = GetDossierQuery['dossier']['champs'];
 
@@ -14,6 +14,9 @@ export type DossierAccessor<
   getBooleanValue: (nom: TKey) => boolean | undefined;
   getUrlPièceJustificativeValue: (nom: TKey) => Array<{ url: string; contentType: string }>;
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
+  getRepetitionChamps: (
+    nom: TKey,
+  ) => Extract<ChampFragmentFragment, { __typename: 'RepetitionChamp' }>['rows'] | undefined;
 };
 
 /**
@@ -22,10 +25,11 @@ export type DossierAccessor<
  * @param descriptors la liste des champs de la démarche
  */
 export const createDossierAccessor = <
+  TChamps extends Array<{ __typename: string; label: string }>,
   TColonnes extends Record<string, string>,
   TKey extends keyof TColonnes = keyof TColonnes,
 >(
-  champs: Champs,
+  champs: TChamps,
   colonnesMap: TColonnes,
 ): DossierAccessor<TColonnes, TKey> => {
   const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
@@ -46,7 +50,8 @@ export const createDossierAccessor = <
   };
 
   return {
-    getStringValue: (nom) => getChampValue(nom, ['TextChamp'])?.stringValue ?? undefined,
+    getStringValue: (nom) =>
+      getChampValue(nom, ['TextChamp', 'MultipleDropDownListChamp'])?.stringValue ?? undefined,
 
     getNumberValue: (nom) => {
       const val = getChampValue(nom, ['DecimalNumberChamp', 'IntegerNumberChamp']);
@@ -79,6 +84,7 @@ export const createDossierAccessor = <
     },
 
     getAdresse: (nom) => getChampValue(nom, ['AddressChamp'])?.address ?? undefined,
+    getRepetitionChamps: (nom) => getChampValue(nom, ['RepetitionChamp'])?.rows,
   };
 };
 

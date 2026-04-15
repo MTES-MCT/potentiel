@@ -9,6 +9,7 @@ import * as HistoriqueAbandon from '../historiqueAbandon.valueType.js';
 import { IdentifiantProjet, Lauréat } from '../../index.js';
 import { Fournisseur } from '../../lauréat/fournisseur/index.js';
 import { TypologieInstallation } from '../index.js';
+import { Raccordement } from '../../lauréat/index.js';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -53,6 +54,10 @@ type CandidatureImportéeEventPayload = {
   puissanceDeSite?: number;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
+  raccordements?: Array<{
+    référence: Raccordement.RéférenceDossierRaccordement.RawType;
+    dateQualification: DateTime.RawType;
+  }>;
 };
 
 /**

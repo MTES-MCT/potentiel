@@ -9,6 +9,7 @@ import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitatio
 import {
   HistoriqueAbandon,
   Localité,
+  RaccordementDépôt,
   TypeActionnariat,
   TypeGarantiesFinancières,
   TypeTechnologie,
@@ -50,6 +51,7 @@ export type RawType = {
         tauxPrévisionnelACC?: number;
       }
     | undefined;
+  raccordements: Array<RaccordementDépôt.RawType> | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -84,6 +86,7 @@ export type ValueType = ReadonlyValueType<{
         tauxPrévisionnelACC?: number;
       }
     | undefined;
+  raccordements: Array<RaccordementDépôt.ValueType> | undefined;
 
   formatter(): RawType;
 }>;
@@ -134,6 +137,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         tauxPrévisionnelACC: plain.natureDeLExploitation.tauxPrévisionnelACC,
       }
     : undefined,
+  raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
 
   estÉgaleÀ(valueType) {
     return (
@@ -169,7 +173,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
-      )
+      ) &&
+      areEqualArrays(valueType.raccordements, this.raccordements)
     );
   },
   formatter() {
@@ -220,6 +225,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             tauxPrévisionnelACC: this.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
+      raccordements: this.raccordements?.map((r) => r.formatter()),
     };
   },
 });
@@ -292,6 +298,14 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           tauxPrévisionnelACC: raw.natureDeLExploitation.tauxPrévisionnelACC,
         })
       : undefined,
+    raccordements: raw.raccordements?.map((raccordement) =>
+      mapToPlainObject({
+        référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+          raccordement.référence,
+        ),
+        dateQualification: DateTime.convertirEnValueType(raccordement.dateQualification),
+      }),
+    ),
   });
 
 const bindOptional = <TValue, TValueType>(
@@ -305,6 +319,9 @@ const areEqual = <TValueType extends ReadonlyValueType<unknown>>(
 ) => (v1 === undefined ? v2 === undefined : v2 !== undefined && v1.estÉgaleÀ(v2));
 
 const areEqualArrays = <TValueType extends ReadonlyValueType<unknown>>(
-  v1: TValueType[],
-  v2: TValueType[],
-) => v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
+  v1: TValueType[] | undefined,
+  v2: TValueType[] | undefined,
+) =>
+  v1 === undefined
+    ? v2 === undefined
+    : v2 !== undefined && v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));

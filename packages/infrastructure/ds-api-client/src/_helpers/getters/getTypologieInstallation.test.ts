@@ -3,24 +3,15 @@ import { describe, test } from 'node:test';
 import { expect } from 'chai';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { Champs } from '../../graphql/index.js';
 
 import { getTypologieInstallation } from './getTypologieInstallation.js';
 
-const baseChamp = {
-  id: '1',
-  champDescriptorId: 'TEST',
-  prefilled: false,
-  updatedAt: DateTime.now().formatter(),
-};
-
 describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment neuf`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment neuf',
@@ -37,7 +28,6 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment stabulation`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Stabulation visant à loger du bétail ',
@@ -54,7 +44,6 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment existant avec rénovation de toiture`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment existant avec rénovation de toiture',
@@ -71,7 +60,6 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment existant sans rénovation de toiture`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment existant sans rénovation de toiture',
@@ -88,13 +76,11 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment serre`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Serre agricole ',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Préciser les éléments sous la serre',
         stringValue: 'les éléments...',
@@ -113,8 +99,6 @@ describe(`Projet avec typologie "Ombrière"`, () => {
   test(`Doit récupérer la typologie d'installation pour un projet "ombrière sur parking"`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
-        updatedAt: DateTime.now().formatter(),
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Ombrière)',
         stringValue: 'Ombrière sur parking',
@@ -131,13 +115,11 @@ describe(`Projet avec typologie "Ombrière"`, () => {
   test(`Doit récupérer la typologie d'installation pour un projet "ombrière autre"`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Ombrière)',
         stringValue: 'Ombrière autre',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: "Préciser les éléments sous l'ombrière",
         stringValue: 'les éléments...',
@@ -154,13 +136,11 @@ describe(`Projet avec typologie "Ombrière"`, () => {
   test(`Doit récupérer la typologie d'installation pour un projet "Ombrière mixte (sur parking et autre)"`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Ombrière)',
         stringValue: 'Ombrière mixte (sur parking et autre)',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: "Préciser les éléments sous l'ombrière",
         stringValue: 'les éléments...',
@@ -179,25 +159,21 @@ describe(`Projet avec typologie "Mixte"`, () => {
   test(`Doit récupérer la typologie d'installation pour un projet "mixte"`, () => {
     const data: Champs = [
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Ombrière)',
         stringValue: 'Ombrière autre',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: "Préciser les éléments sous l'ombrière",
         stringValue: 'les éléments...',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Serre agricole',
       },
       {
-        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Préciser les éléments sous la serre',
         stringValue: 'éléments sous serre',

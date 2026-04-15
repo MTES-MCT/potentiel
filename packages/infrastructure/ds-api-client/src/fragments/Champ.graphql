@@ -1,11 +1,7 @@
-fragment ChampFragment on Champ {
-  id
-  champDescriptorId
+fragment BasicChampFragment on Champ {
   __typename
   label
   stringValue
-  updatedAt
-  prefilled
   ... on DateChamp {
     date
   }
@@ -25,13 +21,14 @@ fragment ChampFragment on Champ {
       ...AddressFragment
     }
   }
+}
 
+fragment ChampFragment on Champ {
+  ...BasicChampFragment
   ... on RepetitionChamp {
     rows {
       champs {
-        __typename
-        label
-        stringValue
+        ...BasicChampFragment
       }
     }
   }

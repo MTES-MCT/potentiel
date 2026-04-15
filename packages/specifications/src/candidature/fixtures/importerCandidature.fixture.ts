@@ -220,6 +220,9 @@ const créerDépôt = (
       dépôt.natureDeLExploitation,
       champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
+    raccordements: dépôt.raccordements?.every((r) => r?.référence && r.dateQualification)
+      ? (dépôt.raccordements as Candidature.Dépôt.RawType['raccordements'])
+      : undefined,
   };
 
   if (champsSupplémentaires?.coefficientKChoisi && !('coefficientKChoisi' in dépôt)) {

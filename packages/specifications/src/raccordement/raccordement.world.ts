@@ -23,7 +23,9 @@ export class RaccordementWorld {
   get référenceDossier() {
     return this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
-      : this.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier;
+      : this.demandeComplèteDeRaccordement.importerFixture.aÉtéCréé
+        ? this.demandeComplèteDeRaccordement.importerFixture.référenceDossier
+        : this.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier;
   }
 
   #identifiantGestionnaireRéseau!: string;

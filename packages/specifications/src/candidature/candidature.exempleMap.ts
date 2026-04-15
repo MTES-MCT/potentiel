@@ -22,6 +22,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'dispositifDeStockage'
     | 'natureDeLExploitation'
     | 'puissanceProjetInitial'
+    | 'raccordements'
   >
 > = {
   typeGarantiesFinancières: [
@@ -106,4 +107,9 @@ export const natureDeLExploitationExempleMap: FieldToExempleMapper<{
     mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
   ],
   tauxPrévisionnelACI: ['taux prévisionnel aci', mapNumber],
+};
+
+export const raccordementExempleMap: FieldToExempleMapper<Candidature.RaccordementDépôt.RawType> = {
+  référence: ['réference raccordement'],
+  dateQualification: ['date qualification raccordement', mapDateTime],
 };

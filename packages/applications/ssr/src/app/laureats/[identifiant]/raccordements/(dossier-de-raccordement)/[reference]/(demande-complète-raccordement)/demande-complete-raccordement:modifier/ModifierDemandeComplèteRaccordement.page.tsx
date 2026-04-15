@@ -26,6 +26,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
   raccordement,
   gestionnaireRéseauActuel,
   delaiDemandeDeRaccordementEnMois,
+  listeGestionnairesRéseau,
 }) => (
   <ColumnPageTemplate
     heading={<TitrePageRaccordement />}
@@ -35,6 +36,7 @@ export const ModifierDemandeComplèteRaccordementPage: FC<
           identifiantProjet={identifiantProjet}
           gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           raccordement={raccordement}
+          listeGestionnairesRéseau={listeGestionnairesRéseau}
         />
       ),
     }}

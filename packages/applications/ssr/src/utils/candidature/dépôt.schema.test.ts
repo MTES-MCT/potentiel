@@ -32,6 +32,14 @@ const minimumValues = {
   dateÉchéanceGf: '01/01/2025',
   dateConstitutionGf: '01/01/2024',
   typologieInstallation: [],
+  raccordements: [{ dateQualification: '01/01/2024', référence: 'RF' }],
+  fournisseurs: [
+    {
+      typeFournisseur: 'module-ou-films',
+      nomDuFabricant: 'FAB',
+      lieuDeFabrication: 'Allemagne',
+    },
+  ],
 };
 
 const expectedMinimumValues = {
@@ -42,6 +50,12 @@ const expectedMinimumValues = {
   evaluationCarboneSimplifiée: 100,
   dateÉchéanceGf: new Date(minimumValues.dateÉchéanceGf).toISOString(),
   dateConstitutionGf: new Date(minimumValues.dateConstitutionGf).toISOString(),
+  raccordements: [
+    {
+      dateQualification: new Date(minimumValues.raccordements[0].dateQualification).toISOString(),
+      référence: 'RF',
+    },
+  ],
 };
 
 describe('Schéma dépôt', () => {

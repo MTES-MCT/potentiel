@@ -10,6 +10,7 @@ import { DispositifDeStockage } from '../lauréat/installation/index.js';
 import {
   HistoriqueAbandon,
   Localité,
+  RaccordementDépôt,
   StatutCandidature,
   TypeActionnariat,
   TypeGarantiesFinancières,
@@ -84,5 +85,6 @@ export type CandidatureEntity = Entity<
     // Calculée à partir de la technologie et de l'appel d'offres
     unitéPuissance: UnitéPuissance.RawType;
     dispositifDeStockage?: DispositifDeStockage.RawType;
+    raccordements?: Array<RaccordementDépôt.RawType>;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

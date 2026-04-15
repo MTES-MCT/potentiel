@@ -7,3 +7,6 @@ export * from './getTypeNatureDeLExploitation.js';
 export * from './getTypologieInstallation.js';
 export * from './getDispositifDeStockage.js';
 export * from './getFournisseurs.js';
+export * from './getRaccordements.js';
+export * from './getNatureDeLExploitation.js';
+export * from './getTypeActionnariat.js';

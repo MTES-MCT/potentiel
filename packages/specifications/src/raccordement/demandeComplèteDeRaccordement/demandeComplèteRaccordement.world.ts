@@ -1,5 +1,6 @@
 import { mapBoolean, mapDateTime, mapToExemple } from '#helpers';
 
+import { ImporterDemandeComplèteRaccordementFixture } from './fixtures/importerDemandeComplèteDeRaccordement.fixture.js';
 import {
   ModifierDemandeComplèteRaccordement,
   ModifierDemandeComplèteRaccordementFixture,
@@ -12,11 +13,13 @@ import {
 export class DemandeComplèteRaccordementWorld {
   readonly transmettreFixture = new TransmettreDemandeComplèteRaccordementFixture();
   readonly modifierFixture = new ModifierDemandeComplèteRaccordementFixture();
+  readonly importerFixture = new ImporterDemandeComplèteRaccordementFixture();
 
   mapToExpected(nouvelleRéférenceDossier: string | undefined) {
     return (
       this.modifierFixture.mapToExpected(nouvelleRéférenceDossier) ??
-      this.transmettreFixture.mapToExpected(nouvelleRéférenceDossier)
+      this.transmettreFixture.mapToExpected(nouvelleRéférenceDossier) ??
+      this.importerFixture.mapToExpected(nouvelleRéférenceDossier)
     );
   }
 
