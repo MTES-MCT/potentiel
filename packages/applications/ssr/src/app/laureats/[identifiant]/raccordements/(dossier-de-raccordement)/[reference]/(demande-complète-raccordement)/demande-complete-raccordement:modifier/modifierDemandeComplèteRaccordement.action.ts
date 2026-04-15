@@ -21,7 +21,7 @@ const schema = zod.object({
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
   accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  accuseReceptionDocumentSelection: documentSelectionSchema,
+  accuseReceptionDocumentSelection: documentSelectionSchema.optional(),
 });
 
 export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (
       }
     }
 
-    const estUnNouveauDocumentValue = accuseReceptionDocumentSelection === 'edit_document';
+    const estUnNouveauDocumentValue = accuseReceptionDocumentSelection !== 'keep_existing_document';
 
     await mediator.send<Lauréat.Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
