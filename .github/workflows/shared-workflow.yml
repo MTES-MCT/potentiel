@@ -45,6 +45,7 @@ jobs:
             .turbo
             packages/*/dist
             packages/*/*/dist
+            packages/infrastructure/ds-api-client/src/graphql/
           key: ${{ runner.os }}-turbo-${{ github.sha }}
 
   lint:
