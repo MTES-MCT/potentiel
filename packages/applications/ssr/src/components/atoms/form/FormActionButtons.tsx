@@ -31,6 +31,7 @@ export const FormActionButtons = ({
       {secondaryAction ? (
         secondaryAction.type === 'back' ? (
           <Button
+            type="button"
             onClick={() => router.back()}
             priority="secondary"
             iconId="fr-icon-arrow-left-line"
