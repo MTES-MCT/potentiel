@@ -63,7 +63,7 @@ export const registerNotifierPériodeCommand = (
 
         const zone = Zone.déterminer(projet.candidature.dépôt.localité.région);
 
-        if (!zonesLauréatEtÉliminés.includes(zone.formatter())) {
+        if (!zonesLauréatEtÉliminés.includes(zone.nom)) {
           zonesLauréatEtÉliminés.push(zone.nom);
         }
 
