@@ -367,89 +367,79 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierChampsSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    if (
-      this.projet.cahierDesChargesActuel.estChampRequis('coefficientKChoisi') &&
-      dépôt.coefficientKChoisi === undefined
-    ) {
+    const cdcActuel = this.projet.cahierDesChargesActuel;
+
+    if (cdcActuel.estChampRequis('coefficientKChoisi') && dépôt.coefficientKChoisi === undefined) {
       throw new ChampRequisError('choix du coefficient K');
     }
 
     if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('coefficientKChoisi') &&
+      !cdcActuel.estChampRequisOuOptionnel('coefficientKChoisi') &&
       dépôt.coefficientKChoisi !== undefined
     ) {
       throw new ChampNonAttenduError('choix du coefficient K');
     }
 
-    if (
-      this.projet.cahierDesChargesActuel.estChampRequis('puissanceDeSite') &&
-      dépôt.puissanceDeSite === undefined
-    ) {
+    if (cdcActuel.estChampRequis('puissanceDeSite') && dépôt.puissanceDeSite === undefined) {
       throw new ChampRequisError('puissance de site');
     }
 
     if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('puissanceDeSite') &&
+      !cdcActuel.estChampRequisOuOptionnel('puissanceDeSite') &&
       dépôt.puissanceDeSite !== undefined
     ) {
       throw new ChampNonAttenduError('puissance de site');
     }
 
-    if (this.projet.cahierDesChargesActuel.estChampRequis('installateur') && !dépôt.installateur) {
+    if (cdcActuel.estChampRequis('installateur') && !dépôt.installateur) {
       throw new ChampRequisError('installateur');
     }
 
-    if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('installateur') &&
-      !!dépôt.installateur
-    ) {
+    if (!cdcActuel.estChampRequisOuOptionnel('installateur') && !!dépôt.installateur) {
       throw new ChampNonAttenduError('installateur');
     }
 
-    if (
-      this.projet.cahierDesChargesActuel.estChampRequis('typologieInstallation') &&
-      !dépôt.typologieInstallation.length
-    ) {
+    if (cdcActuel.estChampRequis('typologieInstallation') && !dépôt.typologieInstallation.length) {
       throw new ChampRequisError('typologie installation');
     }
 
     if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('typologieInstallation') &&
+      !cdcActuel.estChampRequisOuOptionnel('typologieInstallation') &&
       dépôt.typologieInstallation.length > 0
     ) {
       throw new ChampNonAttenduError('typologie installation');
     }
 
     if (
-      this.projet.cahierDesChargesActuel.estChampRequis('natureDeLExploitation') &&
+      cdcActuel.estChampRequis('natureDeLExploitation') &&
       dépôt.natureDeLExploitation === undefined
     ) {
       throw new ChampRequisError("nature de l'exploitation");
     }
 
     if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('natureDeLExploitation') &&
+      !cdcActuel.estChampRequisOuOptionnel('natureDeLExploitation') &&
       !!dépôt.natureDeLExploitation
     ) {
       throw new ChampNonAttenduError("nature de l'exploitation");
     }
 
     if (
-      this.projet.cahierDesChargesActuel.estChampRequis('dispositifDeStockage') &&
+      cdcActuel.estChampRequis('dispositifDeStockage') &&
       dépôt.dispositifDeStockage === undefined
     ) {
       throw new ChampRequisError('dispositif de stockage');
     }
 
     if (
-      !this.projet.cahierDesChargesActuel.estChampRequisOuOptionnel('dispositifDeStockage') &&
+      !cdcActuel.estChampRequisOuOptionnel('dispositifDeStockage') &&
       dépôt.dispositifDeStockage !== undefined
     ) {
       throw new ChampNonAttenduError('dispositif de stockage');
     }
 
     if (
-      this.projet.cahierDesChargesActuel.estChampRequis('autorisation') &&
+      cdcActuel.estChampRequis('autorisation') &&
       (!dépôt.autorisation?.date || !dépôt.autorisation?.numéro)
     ) {
       throw new AutorisationRequiseError();
