@@ -131,7 +131,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
     installateur: { type: 'optionnel' },
     dispositifDeStockage: { type: 'requis' },
     natureDeLExploitation: { type: 'requis' },
-    coefficientKChoisi: { type: 'optionnel', valeurParDéfaut: false },
+    coefficientKChoisi: { type: 'requis' },
     typologieInstallation: { type: 'requis' },
   },
   periodes: [

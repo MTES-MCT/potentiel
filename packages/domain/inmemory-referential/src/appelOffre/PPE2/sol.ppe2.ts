@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP8 = {
-  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
+  coefficientKChoisi: { type: 'requis' as const },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {

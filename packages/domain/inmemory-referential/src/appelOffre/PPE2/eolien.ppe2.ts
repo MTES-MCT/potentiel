@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP11 = {
-  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
+  coefficientKChoisi: { type: 'requis' as const },
   autorisation: { type: 'requis' as const },
   dispositifDeStockage: { type: 'optionnel' as const },
   natureDeLExploitation: { type: 'requis' as const },
@@ -548,7 +548,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'optionnel', valeurParDéfaut: true },
+        coefficientKChoisi: { type: 'requis' },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,

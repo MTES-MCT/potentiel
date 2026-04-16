@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
-  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
+  coefficientKChoisi: { type: 'requis' as const },
 };
 
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
