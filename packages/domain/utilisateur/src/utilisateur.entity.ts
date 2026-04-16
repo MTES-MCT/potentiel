@@ -11,7 +11,7 @@ type Common = {
 };
 
 type UtilisateurGénérique = {
-  rôle: 'dgec' | 'ademe' | 'caisse-des-dépôts' | 'cre';
+  rôle: 'admin' | 'dgec' | 'ademe' | 'caisse-des-dépôts' | 'cre';
 };
 
 type UtilisateurDgecValidateur = {

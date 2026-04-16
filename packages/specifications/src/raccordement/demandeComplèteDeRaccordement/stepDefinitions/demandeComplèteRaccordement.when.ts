@@ -73,7 +73,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'utilisateur dgec) modifie la demande complète de raccordement$/,
+  /(le porteur|la dreal|la dgec) modifie la demande complète de raccordement$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -91,7 +91,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'utilisateur dgec) modifie la demande complète de raccordement avec :/,
+  /(le porteur|la dreal|la dgec) modifie la demande complète de raccordement avec :/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
@@ -138,7 +138,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'utilisateur dgec) modifie la référence de la demande complète de raccordement pour le projet lauréat$/,
+  /(le porteur|la dreal|la dgec) modifie la référence de la demande complète de raccordement pour le projet lauréat$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -156,7 +156,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'utilisateur dgec) modifie la référence de la demande complète de raccordement pour le projet lauréat avec :/,
+  /(le porteur|la dreal|la dgec) modifie la référence de la demande complète de raccordement pour le projet lauréat avec :/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;

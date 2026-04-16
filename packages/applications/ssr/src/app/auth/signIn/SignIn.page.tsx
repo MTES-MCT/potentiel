@@ -36,7 +36,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="ProConnect"
               provider={providers.proconnect}
-              profiles={{ porteurs: true, dreal: true, dgec: true, autres: true }}
+              profiles={{ porteurs: true, dreal: true, admin: true, dgec: true, autres: true }}
               description={"Connectez-vous facilement à l'aide de votre adresse professionnelle"}
               action={
                 <ProConnectButton
@@ -53,7 +53,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Lien magique"
               provider={providers['magic-link']}
-              profiles={{ porteurs: true, dreal: false, dgec: false, autres: true }}
+              profiles={{ porteurs: true, dreal: true, admin: true, dgec: true, autres: true }}
               description={
                 "Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
               }
@@ -73,7 +73,7 @@ export default function SignInPage({ providers, callbackUrl, forceProConnect }: 
             <AuthTile
               title="Mot de passe"
               provider={providers.keycloak}
-              profiles={{ porteurs: true, dreal: false, dgec: false, autres: true }}
+              profiles={{ porteurs: true, dreal: false, dgec: false, admin: true, autres: true }}
               description={
                 "Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
               }

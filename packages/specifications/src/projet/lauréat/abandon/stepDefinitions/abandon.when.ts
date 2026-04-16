@@ -187,7 +187,7 @@ Quand(
 
       const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.dgec.nom;
 
-      if (rôleUtilisateur === 'un nouvel utilisateur DGEC') {
+      if (rôleUtilisateur === 'un nouvel la dgec') {
         this.utilisateurWorld.dgecFixture.créer();
       }
 

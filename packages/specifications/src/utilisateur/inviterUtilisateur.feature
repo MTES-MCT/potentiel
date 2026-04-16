@@ -6,7 +6,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
     Plan du scénario: Inviter un utilisateur avec accès global
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "<Rôle>"
+        Quand la dgec invite un utilisateur avec le rôle "<Rôle>"
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
@@ -20,19 +20,19 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | cre   |
 
     Scénario: Inviter un DGEC validateur
-        Quand un utilisateur dgec invite un dgec validateur
+        Quand la dgec invite un dgec validateur
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet | Invitation à suivre les projets sur Potentiel |
             | url   | https://potentiel.beta.gouv.fr/laureats       |
-        Et un email a été envoyé à l'utilisateur dgec avec :
+        Et un email a été envoyé à la dgec avec :
             | sujet | Nouvel utilisateur DGEC Validateur sur Potentiel |
             | url   | https://potentiel.beta.gouv.fr/utilisateurs      |
             | email | dgec-validateur.*@.*                             |
 
     Scénario: Inviter une dreal
-        Quand un utilisateur dgec invite une dreal pour la région du projet
+        Quand la dgec invite une dreal pour la région du projet
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
@@ -42,7 +42,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Scénario: Inviter un gestionnaire de réseau
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
-        Quand un utilisateur dgec invite un gestionnaire de réseau attribué au raccordement du projet lauréat
+        Quand la dgec invite un gestionnaire de réseau attribué au raccordement du projet lauréat
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet | Invitation à suivre les projets sur Potentiel        |
@@ -51,7 +51,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Scénario: Inviter un Cocontractant
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | région | <Région> |
-        Quand un utilisateur dgec invite un Cocontractant pour la zone du projet
+        Quand la dgec invite un Cocontractant pour la zone du projet
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet | Invitation à suivre les projets sur Potentiel |
@@ -69,45 +69,45 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | type GF | consignation |
         Et le projet lauréat "Du boulodrome de Montauban" avec :
             | type GF | six-mois-après-achèvement |
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "caisse-des-dépôts"
+        Quand la dgec invite un utilisateur avec le rôle "caisse-des-dépôts"
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat "Du boulodrome de Marseille"
         Mais l'utilisateur invité n'a pas accès au projet lauréat "Du boulodrome de Montauban"
 
     Scénario: Impossible d'inviter un utilisateur déjà invité
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "admin"
-        Et un utilisateur dgec réinvite le même utilisateur
+        Quand la dgec invite un utilisateur avec le rôle "admin"
+        Et la dgec réinvite le même utilisateur
         Alors l'utilisateur devrait être informé que "L'utilisateur existe déjà"
 
     Scénario: Impossible d'inviter un porteur
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "porteur-projet"
+        Quand la dgec invite un utilisateur avec le rôle "porteur-projet"
         Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un porteur sans projet"
 
     Scénario: Impossible d'inviter un visiteur
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "visiteur"
+        Quand la dgec invite un utilisateur avec le rôle "visiteur"
         Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un visiteur"
 
     Scénario: Impossible d'inviter une dreal sans région
-        Quand un utilisateur dgec invite un utilisateur avec :
+        Quand la dgec invite un utilisateur avec :
             | rôle   | dreal |
             | région |       |
         Alors l'utilisateur devrait être informé que "La région est obligatoire pour un utilisateur dreal"
 
     Scénario: Impossible d'inviter un grd sans identifiant
-        Quand un utilisateur dgec invite un utilisateur avec :
+        Quand la dgec invite un utilisateur avec :
             | rôle                | grd |
             | gestionnaire réseau |     |
         Alors l'utilisateur devrait être informé que "L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd"
 
     Scénario: Impossible d'inviter un dgec-validateur sans fonction
-        Quand un utilisateur dgec invite un utilisateur avec :
+        Quand la dgec invite un utilisateur avec :
             | rôle        | dgec-validateur |
             | fonction    |                 |
             | nom complet | un nom          |
         Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
 
     Scénario: Impossible d'inviter un dgec-validateur sans nom
-        Quand un utilisateur dgec invite un utilisateur avec :
+        Quand la dgec invite un utilisateur avec :
             | rôle        | dgec-validateur |
             | fonction    | une fonction    |
             | nom complet |                 |
@@ -116,19 +116,19 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Scénario: Une dreal n'a accès qu'aux projets de sa région
         Etant donné le projet lauréat "Du boulodrome de Toulon" avec :
             | région | Occitanie |
-        Quand un utilisateur dgec invite une dreal pour la région "Auvergne-Rhône-Alpes"
+        Quand la dgec invite une dreal pour la région "Auvergne-Rhône-Alpes"
         Alors l'utilisateur invité n'a pas accès au projet lauréat
 
     Scénario: Un gestionnaire de réseau n'a accès qu'aux projets qu'il raccorde
         Etant donné le gestionnaire de réseau "Enedis"
         Et le gestionnaire de réseau "Arc Energies Maurienne"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
-        Quand un utilisateur dgec invite le gestionnaire de réseau "Arc Energies Maurienne"
+        Quand la dgec invite le gestionnaire de réseau "Arc Energies Maurienne"
         Alors l'utilisateur invité n'a pas accès au projet lauréat
 
     Plan du scénario: Les utilisateurs hors CRE et DGEC n'ont pas accès aux projets avant notification
         Etant donné la candidature lauréate "Du boulodrome de Toulouse"
-        Quand un utilisateur dgec invite un utilisateur avec le rôle "<Rôle>"
+        Quand la dgec invite un utilisateur avec le rôle "<Rôle>"
         Alors l'utilisateur invité n'a pas accès à la candidature
 
         Exemples:
@@ -141,7 +141,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Scénario: Un Cocontractant n'a accès qu'aux projets de sa zone
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | région | <Région> |
-        Quand un utilisateur dgec invite un Cocontractant pour la zone "<Zone>"
+        Quand la dgec invite un Cocontractant pour la zone "<Zone>"
         Alors l'utilisateur invité n'a pas accès au projet lauréat
 
         Exemples:
@@ -158,7 +158,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | région | Provence-Alpes-Côte d'Azur |
         Etant donné le projet lauréat "Plage de Fort-de-France" avec :
             | région | Martinique |
-        Quand un utilisateur dgec invite un utilisateur avec le rôle déprécié "acheteur-obligé"
+        Quand la dgec invite un utilisateur avec le rôle déprécié "acheteur-obligé"
         Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat "Du boulodrome de Marseille"
         Mais l'utilisateur invité n'a pas accès au projet lauréat "Plage de Fort-de-France"

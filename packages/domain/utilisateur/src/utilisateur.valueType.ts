@@ -38,6 +38,7 @@ type CocontractantValueType = CommonValueType & {
 type AutresRolesValueType = CommonValueType & {
   rôle:
     | typeof Role.ademe
+    | typeof Role.admin
     | typeof Role.dgec
     | typeof Role.caisseDesDépôts
     | typeof Role.cre
@@ -49,7 +50,10 @@ export type RolePorteurPayload = {
   rôle: Extract<Role.RawType, 'porteur-projet'>;
 };
 export type RôleGlobalPayload = {
-  rôle: Extract<Role.RawType, 'dgec' | 'ademe' | 'caisse-des-dépôts' | 'cre' | 'visiteur'>;
+  rôle: Extract<
+    Role.RawType,
+    'admin' | 'dgec' | 'ademe' | 'caisse-des-dépôts' | 'cre' | 'visiteur'
+  >;
 };
 
 export type RôleDgecValidateurPayload = {
@@ -149,6 +153,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
   return match(plain)
     .returnType<ValueType>()
     .with({ rôle: { nom: 'ademe' } }, (): ValueType<'ademe'> => common(Role.ademe))
+    .with({ rôle: { nom: 'admin' } }, (): ValueType<'admin'> => common(Role.admin))
     .with({ rôle: { nom: 'dgec' } }, (): ValueType<'dgec'> => common(Role.dgec))
     .with(
       { rôle: { nom: 'caisse-des-dépôts' } },
@@ -268,6 +273,7 @@ export const convertirEnValueType = ({
   return match(rôle)
     .returnType<ValueType>()
     .with({ nom: 'ademe' }, () => bind({ rôle: Role.ademe, identifiantUtilisateur }))
+    .with({ nom: 'admin' }, () => bind({ rôle: Role.admin, identifiantUtilisateur }))
     .with({ nom: 'dgec' }, () => bind({ rôle: Role.dgec, identifiantUtilisateur }))
     .with({ nom: 'caisse-des-dépôts' }, () =>
       bind({ rôle: Role.caisseDesDépôts, identifiantUtilisateur }),

@@ -92,7 +92,7 @@ Quand(`un porteur réclame la candidature lauréate`, async function (this: Pote
 });
 
 Quand(
-  "un utilisateur dgec retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
+  "la dgec retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
@@ -113,7 +113,7 @@ Quand('un porteur retire ses accès au projet lauréat', async function (this: P
 });
 
 Quand(
-  'un utilisateur dgec remplace le porteur sur le projet lauréat avec :',
+  'la dgec remplace le porteur sur le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { email } = this.accèsWorld.remplacerAccèsProjet.créer({

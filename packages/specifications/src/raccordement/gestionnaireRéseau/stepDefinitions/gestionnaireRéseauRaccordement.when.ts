@@ -66,7 +66,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'utilisateur dgec) modifie le gestionnaire de réseau du projet avec :/,
+  /(le porteur|la dreal|la dgec) modifie le gestionnaire de réseau du projet avec :/,
   async function (this: PotentielWorld, rôleString: RôleUtilisateur, datatable: DataTable) {
     const exemples = datatable.rowsHash();
 

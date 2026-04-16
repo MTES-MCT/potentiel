@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getBaseUrl, listerAdminEtValidateursRecipients } from '#helpers';
+import { getBaseUrl, listerDgecEtValidateursRecipients } from '#helpers';
 import { EmailPayload, sendEmail } from '#sendEmail';
 
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
@@ -33,7 +33,15 @@ export async function handleUtilisateurInvité({
       values: { url: urlPageProjets },
     }))
     .with(
-      P.union('cocontractant', 'caisse-des-dépôts', 'ademe', 'dgec-validateur', 'cre', 'dgec'),
+      P.union(
+        'cocontractant',
+        'caisse-des-dépôts',
+        'ademe',
+        'dgec-validateur',
+        'cre',
+        'dgec',
+        'admin',
+      ),
       () => ({
         key: 'utilisateur/inviter_partenaire',
         recipients: [identifiantUtilisateur],
@@ -50,7 +58,7 @@ export async function handleUtilisateurInvité({
   await sendEmail(payload);
 
   if (rôle === 'dgec-validateur') {
-    const recipients = await listerAdminEtValidateursRecipients();
+    const recipients = await listerDgecEtValidateursRecipients();
     const teamRecipients = listerTeamRecipients();
 
     for (const recipient of recipients.concat(teamRecipients)) {

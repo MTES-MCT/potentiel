@@ -7,8 +7,8 @@ import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  /(le gestionnaire de réseau|l'utilisateur dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
-  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | "l'utilisateur dgec") {
+  /(le gestionnaire de réseau|la dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | 'la dgec') {
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
@@ -32,10 +32,10 @@ Quand(
 );
 
 Quand(
-  /(le gestionnaire de réseau|l'utilisateur dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  /(le gestionnaire de réseau|la dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
   async function (
     this: PotentielWorld,
-    rôle: 'le gestionnaire de réseau' | "l'utilisateur dgec",
+    rôle: 'le gestionnaire de réseau' | 'la dgec',
     datatable: DataTable,
   ) {
     const { identifiantProjet } = this.lauréatWorld;
@@ -62,7 +62,7 @@ Quand(
 );
 
 Quand(
-  /l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  /la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -82,7 +82,7 @@ Quand(
 );
 
 Quand(
-  /l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  /la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -105,7 +105,7 @@ Quand(
 );
 
 Quand(
-  /l'utilisateur dgec supprime la mise en service du dossier de raccordement$/,
+  /la dgec supprime la mise en service du dossier de raccordement$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -115,7 +115,7 @@ Quand(
 );
 
 Quand(
-  /l'utilisateur dgec supprime la mise en service du dossier de raccordement avec :$/,
+  /la dgec supprime la mise en service du dossier de raccordement avec :$/,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 

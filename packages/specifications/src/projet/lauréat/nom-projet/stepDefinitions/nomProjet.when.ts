@@ -6,7 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
-Quand('un utilisateur dgec modifie le nom du projet', async function (this: PotentielWorld) {
+Quand('la dgec modifie le nom du projet', async function (this: PotentielWorld) {
   try {
     const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =
       this.lauréatWorld.modifierNomProjetFixture.créer({
@@ -31,7 +31,7 @@ Quand('un utilisateur dgec modifie le nom du projet', async function (this: Pote
 });
 
 Quand(
-  'un utilisateur dgec modifie le nom du projet avec la même valeur',
+  'la dgec modifie le nom du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
       const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =

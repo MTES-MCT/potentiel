@@ -7,13 +7,13 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  /(le porteur|l'utilisateur dgec) supprime le dossier de raccordement pour le projet lauréat$/,
-  async function (this: PotentielWorld, rôle: 'le porteur' | "l'utilisateur dgec") {
+  /(le porteur|la dgec) supprime le dossier de raccordement pour le projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le porteur' | 'la dgec') {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
     const { suppriméParValue, rôleValue } = match(rôle)
-      .with("l'utilisateur dgec", () => ({
+      .with('la dgec', () => ({
         suppriméParValue: this.utilisateurWorld.dgecFixture.email,
         rôleValue: this.utilisateurWorld.dgecFixture.role,
       }))
@@ -41,16 +41,12 @@ Quand(
 );
 
 Quand(
-  /(le porteur|l'utilisateur dgec) supprime le dossier de raccordement pour le projet lauréat avec :$/,
-  async function (
-    this: PotentielWorld,
-    rôle: 'le porteur' | "l'utilisateur dgec",
-    datatable: DataTable,
-  ) {
+  /(le porteur|la dgec) supprime le dossier de raccordement pour le projet lauréat avec :$/,
+  async function (this: PotentielWorld, rôle: 'le porteur' | 'la dgec', datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
     const { suppriméParValue, rôleValue } = match(rôle)
-      .with("l'utilisateur dgec", () => ({
+      .with('la dgec', () => ({
         suppriméParValue: this.utilisateurWorld.dgecFixture.email,
         rôleValue: this.utilisateurWorld.dgecFixture.role,
       }))

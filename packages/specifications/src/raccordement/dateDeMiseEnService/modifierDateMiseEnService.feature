@@ -16,7 +16,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2025-01-01         |
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2024-10-10         |
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -36,7 +36,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000034 |
             | La date de mise en service              | 2023-01-01         |
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
             | La date de mise en service              | 2022-01-01         |
         Alors le raccordement du projet lauréat devrait être en service avec :
@@ -54,7 +54,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000034 |
             | La date de mise en service              | 2022-01-01         |
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
             | La date de mise en service              | 2025-01-01         |
         Alors le raccordement du projet lauréat devrait être en service avec :
@@ -62,38 +62,38 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
             | La date de mise en service              | 2025-01-01         |
 
     Scénario: Impossible de modifier une date de mise en service pour un projet sans dossier de raccordement
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000040 |
-        Alors l'utilisateur dgec devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
+        Alors la dgec devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
     Scénario: Impossible de modifier une date de mise en service pour un projet sans date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat
-        Alors l'utilisateur dgec devrait être informé que "Le dossier de raccordement n'est pas en service"
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors la dgec devrait être informé que "Le dossier de raccordement n'est pas en service"
 
     Scénario: Impossible de modifier une date de mise en service pour un dossier n'étant pas référencé dans le raccordement du projet
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000056 |
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000057 |
             | La date de mise en service              | 2022-01-01         |
-        Alors l'utilisateur dgec devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
+        Alors la dgec devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
     Scénario: Impossible de modifier une date de mise en service dans le futur
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2999-03-27 |
-        Alors l'utilisateur dgec devrait être informé que "La date ne peut pas être une date future"
+        Alors la dgec devrait être informé que "La date ne peut pas être une date future"
 
     Scénario: Impossible de modifier une date de mise en service antérieure à la date de notification du projet
         Etant donné le projet lauréat "Du boulodrome de Lille" avec :
             | date notification | 2022-10-26 |
         Et une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
-        Alors l'utilisateur dgec devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"
+        Alors la dgec devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"
 
     Scénario: Impossible de modifier une date de mise en service avec une valeur identique à la date déjà transmise
         Etant donné le projet lauréat "Du boulodrome de Lille" avec :
@@ -101,6 +101,6 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Et une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
-        Quand l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors le gestionnaire de réseau devrait être informé que "Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement"

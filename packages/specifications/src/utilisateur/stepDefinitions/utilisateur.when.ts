@@ -21,14 +21,14 @@ import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture.js'
 import { getPayloadForRôle } from './utilisateur.given.js';
 
 Quand(
-  /le porteur invite (un autre porteur|l'utilisateur dgec) sur le projet (lauréat|éliminé)/,
+  /le porteur invite (un autre porteur|la dgec) sur le projet (lauréat|éliminé)/,
   async function (
     this: PotentielWorld,
-    utilisateurInvité: 'un autre porteur' | "l'utilisateur dgec",
+    utilisateurInvité: 'un autre porteur' | 'la dgec',
     statutProjet: 'lauréat' | 'éliminé',
   ) {
     const { email: porteurInvité } =
-      utilisateurInvité === "l'utilisateur dgec"
+      utilisateurInvité === 'la dgec'
         ? this.utilisateurWorld.dgecFixture
         : this.utilisateurWorld.inviterPorteur.aÉtéCréé
           ? this.utilisateurWorld.inviterPorteur
@@ -43,14 +43,14 @@ Quand(
 );
 
 Quand(
-  'un utilisateur dgec invite un utilisateur avec le rôle {string}',
+  'la dgec invite un utilisateur avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, rôle));
   },
 );
 
 Quand(
-  'un utilisateur dgec invite un utilisateur avec :',
+  'la dgec invite un utilisateur avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
     await inviterUtilisateur.call(this, this.utilisateurWorld.mapExempleToFixtureData(exemple));
@@ -58,7 +58,7 @@ Quand(
 );
 
 Quand(
-  'un utilisateur dgec invite un utilisateur avec le rôle déprécié {string}',
+  'la dgec invite un utilisateur avec le rôle déprécié {string}',
   async function (this: PotentielWorld, rôleDéprécié: 'acheteur-obligé') {
     const rôleMap = {
       'acheteur-obligé': Role.cocontractant.nom,
@@ -86,13 +86,13 @@ Quand(
   },
 );
 
-Quand(`un utilisateur dgec désactive l'utilisateur`, async function (this: PotentielWorld) {
+Quand(`la dgec désactive l'utilisateur`, async function (this: PotentielWorld) {
   await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
   });
 });
 
-Quand(`un utilisateur dgec désactive le porteur du projet`, async function (this: PotentielWorld) {
+Quand(`la dgec désactive le porteur du projet`, async function (this: PotentielWorld) {
   await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
   });
@@ -105,36 +105,33 @@ Quand(`l'utilisateur désactive son propre compte`, async function (this: Potent
   });
 });
 
-Quand(`un utilisateur dgec réactive l'utilisateur`, async function (this: PotentielWorld) {
+Quand(`la dgec réactive l'utilisateur`, async function (this: PotentielWorld) {
   await réactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
   });
 });
 
-Quand(`un utilisateur dgec réactive le porteur du projet`, async function (this: PotentielWorld) {
+Quand(`la dgec réactive le porteur du projet`, async function (this: PotentielWorld) {
   await réactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
   });
 });
 
-Quand('un utilisateur dgec réinvite le même utilisateur', async function (this: PotentielWorld) {
+Quand('la dgec réinvite le même utilisateur', async function (this: PotentielWorld) {
   const { email, rôle } = this.utilisateurWorld.inviterUtilisateur;
   await inviterUtilisateur.call(this, { email, rôle });
 });
 
-Quand('un utilisateur dgec invite un dgec validateur', async function (this: PotentielWorld) {
+Quand('la dgec invite un dgec validateur', async function (this: PotentielWorld) {
   await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.dgecValidateur.nom));
 });
 
-Quand(
-  'un utilisateur dgec invite une dreal pour la région du projet',
-  async function (this: PotentielWorld) {
-    await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.dreal.nom));
-  },
-);
+Quand('la dgec invite une dreal pour la région du projet', async function (this: PotentielWorld) {
+  await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.dreal.nom));
+});
 
 Quand(
-  'un utilisateur dgec invite une dreal pour la région {string}',
+  'la dgec invite une dreal pour la région {string}',
   async function (this: PotentielWorld, région: string) {
     await inviterUtilisateur.call(this, {
       ...getPayloadForRôle.call(this, Role.dreal.nom),
@@ -145,7 +142,7 @@ Quand(
 );
 
 Quand(
-  'un utilisateur dgec invite un Cocontractant pour la zone {string}',
+  'la dgec invite un Cocontractant pour la zone {string}',
   async function (this: PotentielWorld, zone: string) {
     await inviterUtilisateur.call(this, {
       rôle: Role.cocontractant.nom,
@@ -155,21 +152,21 @@ Quand(
 );
 
 Quand(
-  'un utilisateur dgec invite un Cocontractant pour la zone du projet',
+  'la dgec invite un Cocontractant pour la zone du projet',
   async function (this: PotentielWorld) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.cocontractant.nom));
   },
 );
 
 Quand(
-  'un utilisateur dgec invite un gestionnaire de réseau attribué au raccordement du projet lauréat',
+  'la dgec invite un gestionnaire de réseau attribué au raccordement du projet lauréat',
   async function (this: PotentielWorld) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.grd.nom));
   },
 );
 
 Quand(
-  'un utilisateur dgec invite le gestionnaire de réseau {string}',
+  'la dgec invite le gestionnaire de réseau {string}',
   async function (this: PotentielWorld, grd: string) {
     await inviterUtilisateur.call(this, {
       ...getPayloadForRôle.call(this, Role.grd.nom),
@@ -181,14 +178,14 @@ Quand(
 );
 
 Quand(
-  "un utilisateur dgec modifie le rôle de l'utilisateur en {string}",
+  "la dgec modifie le rôle de l'utilisateur en {string}",
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, getPayloadForRôle.call(this, nouveauRôle));
   },
 );
 
 Quand(
-  "un utilisateur dgec modifie le rôle de l'utilisateur avec :",
+  "la dgec modifie le rôle de l'utilisateur avec :",
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
     await modifierRôleUtilisateur.call(
@@ -199,7 +196,7 @@ Quand(
 );
 
 Quand(
-  'un utilisateur dgec modifie le rôle du porteur en {string}',
+  'la dgec modifie le rôle du porteur en {string}',
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, {
       rôle: nouveauRôle,
@@ -209,7 +206,7 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur dgec modifie son propre rôle en {string}`,
+  `la dgec modifie son propre rôle en {string}`,
   async function (this: PotentielWorld, nouveauRôle: string) {
     await modifierRôleUtilisateur.call(this, {
       rôle: nouveauRôle,
@@ -219,7 +216,7 @@ Quand(
 );
 
 Quand(
-  `un utilisateur dgec modifie le rôle de l'utilisateur avec les même valeurs`,
+  `la dgec modifie le rôle de l'utilisateur avec les même valeurs`,
   async function (this: PotentielWorld) {
     await modifierRôleUtilisateur.call(this, {
       rôle: this.utilisateurWorld.inviterUtilisateur.rôle,

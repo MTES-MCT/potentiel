@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import {
@@ -98,9 +98,9 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           : identifiantProjetPourCaisseDesDépôts,
       };
     })
-    .with({ rôle: 'dgec' }, async () => filters)
-    .with({ rôle: 'dgec-validateur' }, async () => filters)
-    .with({ rôle: 'cre' }, async () => filters)
-    .with({ rôle: 'ademe' }, async () => filters)
+    .with(
+      { rôle: P.union('dgec', 'admin', 'dgec-validateur', 'cre', 'ademe') },
+      async () => filters,
+    )
     .exhaustive();
 };

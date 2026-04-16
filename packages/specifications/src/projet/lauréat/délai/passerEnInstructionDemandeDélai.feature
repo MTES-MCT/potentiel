@@ -46,7 +46,7 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Quand la dreal passe en instruction la demande de délai pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
 
-    Scénario: Impossible de passer en instruction une demande de délai d'un projet lauréat dont l'autorité compétente est la DGEC pour un utilisateur DREAL
+    Scénario: Impossible de passer en instruction une demande de délai d'un projet lauréat dont l'autorité compétente est la dgec pour un utilisateur DREAL
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
             | appel d'offres | Eolien |
         Et une demande de délai en cours pour le projet lauréat

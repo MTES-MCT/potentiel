@@ -21,4 +21,4 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
         Quand le DGEC validateur ajoute un gestionnaire de réseau avec le même code EIC
             | Code EIC       | 17X100A100A0001B        |
             | Raison sociale | Un nouveau gestionnaire |
-        Alors l'utilisateur dgec devrait être informé que "Le gestionnaire de réseau existe déjà"
+        Alors la dgec devrait être informé que "Le gestionnaire de réseau existe déjà"

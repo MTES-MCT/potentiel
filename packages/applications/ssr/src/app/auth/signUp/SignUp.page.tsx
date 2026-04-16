@@ -49,7 +49,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
             <AuthTile
               title="ProConnect"
               provider={providers.proconnect}
-              profiles={{ porteurs: true, dreal: false, dgec: false, autres: false }}
+              profiles={{ porteurs: true, admin: false, dreal: false, dgec: false, autres: false }}
               description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
               action={
                 <ProConnectButton
@@ -69,7 +69,7 @@ export default function SignUpPage({ providers, callbackUrl, error }: SignUpPage
             <AuthTile
               title="Lien magique"
               provider={providers['magic-link']}
-              profiles={{ porteurs: true, dreal: false, dgec: false, autres: false }}
+              profiles={{ porteurs: true, admin: false, dreal: false, dgec: false, autres: false }}
               description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
               action={
                 <MagicLinkForm

@@ -9,7 +9,7 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Modifier le nom d'un projet lauréat
-        Quand un utilisateur dgec modifie le nom du projet
+        Quand la dgec modifie le nom du projet
         Alors le projet lauréat devrait être consultable
         Et un email a été envoyé au porteur avec :
             | sujet | Potentiel - Du boulodrome de Marseille - Modification du nom du projet |
@@ -20,9 +20,9 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
 
     Scénario: Modifier le nom d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
-        Quand un utilisateur dgec modifie le nom du projet
+        Quand la dgec modifie le nom du projet
         Alors le projet lauréat devrait être consultable
 
     Scénario: Impossible de modifier un lauréat sans modification
-        Quand un utilisateur dgec modifie le nom du projet avec la même valeur
+        Quand la dgec modifie le nom du projet avec la même valeur
         Alors l'utilisateur devrait être informé que "Les informations du projet n'ont pas été modifiées"

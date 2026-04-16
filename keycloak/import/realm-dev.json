@@ -520,7 +520,30 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "users": [
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd1",
+      "id": "4e2636e4-8f89-401d-baaa-b398fd5a02fa",
+      "createdTimestamp": 1684921663742,
+      "username": "admin@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "Test",
+      "email": "admin@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel", "admin"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "ea6f69e8-0bff-4ffd-a8c8-733516a1d6e5",
       "createdTimestamp": 1684921663742,
       "username": "dgec@test.test",
       "enabled": true,
@@ -543,7 +566,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd2",
+      "id": "2ec0f3f6-4501-4d49-b0a1-8eb144d00fd2",
       "createdTimestamp": 1684921663742,
       "username": "porteur@test.test",
       "enabled": true,
@@ -566,7 +589,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd3",
+      "id": "84314da0-a421-4ffb-9dc7-3008abecbad8",
       "createdTimestamp": 1684921663742,
       "username": "dreal@test.test",
       "enabled": true,
@@ -589,7 +612,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-1391-b93c-09e11d8aebd3",
+      "id": "69b6ceda-9740-434a-93ba-6d8c7df6802b",
       "createdTimestamp": 1684921663742,
       "username": "dreal-naq@test.test",
       "enabled": true,
@@ -612,7 +635,7 @@
       "groups": []
     },
     {
-      "id": "101c65df-7c7f-1391-b63c-09e11d8aebd3",
+      "id": "7b093547-fbe7-4603-b652-e697d3e01b00",
       "createdTimestamp": 1684921663742,
       "username": "dreal-occ@test.test",
       "enabled": true,
@@ -635,7 +658,7 @@
       "groups": []
     },
     {
-      "id": "101c65df-7c7f-1391-b63c-09e12d8aebd3",
+      "id": "20bc0616-087e-46f7-bdfe-bb3725b3ef7b",
       "createdTimestamp": 1684921663742,
       "username": "dreal-aura@test.test",
       "enabled": true,
@@ -658,7 +681,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd4",
+      "id": "e1b04102-40b3-462a-96c3-28b78edb5908",
       "createdTimestamp": 1684921663742,
       "username": "ademe@test.test",
       "enabled": true,
@@ -681,7 +704,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd5",
+      "id": "cf34db9e-8584-4fdf-9ee2-7cc7d6ff598e",
       "createdTimestamp": 1684921663742,
       "username": "ao@test.test",
       "enabled": true,
@@ -704,7 +727,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd6",
+      "id": "282e7fc7-cbb8-4c96-a4b5-9b889c9e44ef",
       "createdTimestamp": 1684921663742,
       "username": "dgec-validateur@test.test",
       "enabled": true,
@@ -727,7 +750,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd7",
+      "id": "c386bd0a-0c5a-4228-af83-a5c92d49a1bf",
       "createdTimestamp": 1684921663742,
       "username": "cre@test.test",
       "enabled": true,
@@ -750,7 +773,7 @@
       "groups": []
     },
     {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd8",
+      "id": "d9e6b4d0-fec6-41c7-bdce-a270284dfa50",
       "createdTimestamp": 1684921663742,
       "username": "caissedesdepots@test.test",
       "enabled": true,
@@ -773,7 +796,7 @@
       "groups": []
     },
     {
-      "id": "dc21fdc6-f917-4412-8d68-2755763d2f75",
+      "id": "df7b6598-24a4-4fa2-badc-cd89deac7350",
       "createdTimestamp": 1684921663742,
       "username": "grd@test.test",
       "enabled": true,
@@ -796,7 +819,7 @@
       "groups": ["/GestionnairesRéseau/17X100A100A0001A"]
     },
     {
-      "id": "c16130dd-13be-4a22-8a50-293a2b3cdafc",
+      "id": "1cbaede3-edf4-44de-935a-d6dc77707ddf",
       "username": "service-account-integration-grd-enedis",
       "lastName": "Integration GRD Enedis",
       "email": "integration-grd-enedis@clients",
@@ -812,7 +835,7 @@
       "groups": ["/GestionnairesRéseau/17X100A100A0001A"]
     },
     {
-      "id": "fcc8922a-7e2a-4290-957f-70b7398c4503",
+      "id": "f6c31731-a3cd-4833-9723-f1b88ce81788",
       "username": "service-account-integration-cocontractant-edf",
       "lastName": "Integration cocontractant Edf",
       "email": "integration-cocontractant-edf@clients",
@@ -828,7 +851,7 @@
       "groups": []
     },
     {
-      "id": "040f309c-4974-4ff5-b75e-611a41a3107e",
+      "id": "927b223a-1c9b-4e02-acac-04dc3abc88dd",
       "createdTimestamp": 1684921663742,
       "username": "cocontractant@test.test",
       "enabled": true,
@@ -850,7 +873,7 @@
       "notBefore": 0
     },
     {
-      "id": "d7c62c53-daa1-4f31-ac3f-d08cb0f26207",
+      "id": "0c17437e-c611-4358-8a14-07da600bd002",
       "createdTimestamp": 1684921663742,
       "username": "cocontractant+zni@test.test",
       "enabled": true,
@@ -872,7 +895,7 @@
       "notBefore": 0
     },
     {
-      "id": "2264e0be-201e-46a2-a1dd-86126dd4902a",
+      "id": "1d3b15de-99e3-43f4-bccf-bbdedb8bb701",
       "createdTimestamp": 1684921663742,
       "username": "cocontractant+mayotte@test.test",
       "enabled": true,

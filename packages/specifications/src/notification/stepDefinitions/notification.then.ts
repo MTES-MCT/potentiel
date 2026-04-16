@@ -61,6 +61,13 @@ Alors(
 Alors(
   'un email a été envoyé à la dgec avec :',
   async function (this: PotentielWorld, data: DataTable) {
+    const exemple = data.rowsHash();
+
+    if (exemple['email']) {
+      await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.dgecFixture.email, data);
+      return;
+    }
+
     const { appelOffre: identifiantAppelOffre } = this.éliminéWorld.notifierEliminéFixture.aÉtéCréé
       ? this.éliminéWorld.identifiantProjet
       : this.lauréatWorld.identifiantProjet;
@@ -126,13 +133,6 @@ Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld)
   await sleep(200);
   this.notificationWorld.vérifierToutesNotificationsPointées();
 });
-
-Alors(
-  `un email a été envoyé à l'utilisateur dgec avec :`,
-  async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.dgecFixture.email, data);
-  },
-);
 
 Alors(
   'un email a été envoyé au Cocontractant avec :',

@@ -120,7 +120,7 @@ Quand(
 );
 
 Quand(
-  /(.*)utilisateur dgec passe en instruction le recours pour le projet éliminé/,
+  /(.*)la dgec passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
       const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');

@@ -16,22 +16,22 @@ Fonctionnalité: Modifier une DCR
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
         Exemples:
-            | role               |
-            | le porteur         |
-            | la dreal           |
-            | l'utilisateur dgec |
+            | role       |
+            | le porteur |
+            | la dreal   |
+            | la dgec    |
 
-    Scénario: un utilisateur dgec modifie une DCR pour un projet en service
+    Scénario: la dgec modifie une DCR pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'utilisateur dgec modifie la demande complète de raccordement
+        Quand la dgec modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Scénario: un utilisateur dgec modifie une DCR pour un projet achevé
+    Scénario: la dgec modifie une DCR pour un projet achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
-        Quand l'utilisateur dgec modifie la demande complète de raccordement
+        Quand la dgec modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 

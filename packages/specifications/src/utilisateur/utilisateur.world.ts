@@ -4,7 +4,7 @@ import { PotentielWorld } from '../potentiel.world.js';
 import { PorteurFixture } from './fixtures/porteur.fixture.js';
 import { ValidateurFixture } from './fixtures/validateur.fixture.js';
 import { DREALFixture } from './fixtures/dreal.fixture.js';
-import { DgecFixture } from './fixtures/dgec.js';
+import { DGECFixture } from './fixtures/dgec.fixture.js';
 import { GRDFixture } from './fixtures/grd.fixture.js';
 import {
   InviterUtilisateurFixture,
@@ -46,7 +46,7 @@ export class UtilisateurWorld {
     return this.#grdFixture;
   }
 
-  #dgecFixture: DgecFixture;
+  #dgecFixture: DGECFixture;
 
   get dgecFixture() {
     return this.#dgecFixture;
@@ -82,7 +82,7 @@ export class UtilisateurWorld {
     this.#drealFixture = new DREALFixture('dreal');
     this.#cocontractantFixture = new CocontractantFixture('cocontractant');
     this.#grdFixture = new GRDFixture('grd');
-    this.#dgecFixture = new DgecFixture('dgec');
+    this.#dgecFixture = new DGECFixture('dgec');
     this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
     this.#inviterPorteur = new InviterPorteurFixture();

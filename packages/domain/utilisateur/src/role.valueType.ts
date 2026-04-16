@@ -3,6 +3,7 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error.js';
 
 export const roles = [
+  'admin',
   'porteur-projet',
   'dreal',
   'cocontractant',
@@ -26,6 +27,7 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
     typeMessage: TMessageType['type'],
   ): void;
   aLaPermission(value: Policy): boolean;
+  estAdmin(): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
   estPorteur(): boolean;
@@ -61,6 +63,9 @@ export const bind = <TRole extends RawType = RawType>({
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
     },
+    estAdmin() {
+      return this.nom === 'admin';
+    },
     estDGEC() {
       return this.nom === 'dgec' || this.nom === 'dgec-validateur';
     },
@@ -94,6 +99,7 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+export const admin = convertirEnValueType<'admin'>('admin');
 export const porteur = convertirEnValueType<'porteur-projet'>('porteur-projet');
 export const dgec = convertirEnValueType<'dgec'>('dgec');
 export const ademe = convertirEnValueType<'ademe'>('ademe');
@@ -1562,6 +1568,45 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'éliminé.lister',
 ];
 
+const instructionPolicies: Array<Policy> = [
+  // Abandon
+  'abandon.accorder',
+  'abandon.rejeter',
+  'abandon.demander-confirmation',
+  'abandon.passer-en-instruction',
+
+  // Recours
+  'recours.accorder',
+  'recours.rejeter',
+  'recours.passer-en-instruction',
+
+  // Raccordement
+  'raccordement.date-mise-en-service.transmettre',
+  'raccordement.date-mise-en-service.modifier',
+  'raccordement.date-mise-en-service.supprimer',
+
+  // Garanties financières
+  'garantiesFinancières.dépôt.valider',
+
+  // Représentant légal
+  'représentantLégal.accorderChangement',
+  'représentantLégal.rejeterChangement',
+
+  // Actionnaire
+  'actionnaire.accorderChangement',
+  'actionnaire.rejeterChangement',
+
+  // Puissance
+  'puissance.accorderChangement',
+  'puissance.rejeterChangement',
+
+  // Délai
+  'délai.passerDemandeEnInstruction',
+  'délai.reprendreInstructionDemande',
+  'délai.rejeterDemande',
+  'délai.accorderDemande',
+];
+
 // En attendant d'avoir des gateways qui groupent les query
 const pageProjetPolicies: Policy[] = [
   ...commonPolicies,
@@ -1606,6 +1651,8 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
+  ...instructionPolicies,
+
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -1613,16 +1660,9 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // Abandon
   'abandon.lister.demandes',
-  'abandon.accorder',
-  'abandon.rejeter',
-  'abandon.demander-confirmation',
-  'abandon.passer-en-instruction',
 
   // Recours
   'recours.consulter.liste',
-  'recours.accorder',
-  'recours.rejeter',
-  'recours.passer-en-instruction',
 
   // Gestionnaire réseau
   'réseau.gestionnaire.lister',
@@ -1641,9 +1681,6 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'raccordement.proposition-technique-et-financière.modifier',
   'raccordement.proposition-technique-et-financière.modifier-après-mise-en-service',
   'raccordement.proposition-technique-et-financière.modifier-après-achèvement',
-  'raccordement.date-mise-en-service.transmettre',
-  'raccordement.date-mise-en-service.modifier',
-  'raccordement.date-mise-en-service.supprimer',
   'raccordement.référence-dossier.modifier',
   'raccordement.dossier.supprimer',
   'raccordement.dossier.supprimer-après-mise-en-service',
@@ -1655,7 +1692,6 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.archives.lister',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
-  'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.modifier',
@@ -1687,16 +1723,12 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.modifier',
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
-  'représentantLégal.accorderChangement',
-  'représentantLégal.rejeterChangement',
 
   // Actionnaire
   'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
   'actionnaire.listerChangement',
-  'actionnaire.accorderChangement',
-  'actionnaire.rejeterChangement',
 
   // Lauréat
   'lauréat.modifier',
@@ -1724,8 +1756,6 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   // Puissance
   'puissance.modifier',
   'puissance.consulterChangement',
-  'puissance.accorderChangement',
-  'puissance.rejeterChangement',
   'puissance.listerChangement',
 
   // Producteur
@@ -1743,10 +1773,6 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemandes',
-  'délai.passerDemandeEnInstruction',
-  'délai.reprendreInstructionDemande',
-  'délai.rejeterDemande',
-  'délai.accorderDemande',
 
   // installation
   'installation.installateur.modifier',
@@ -1781,6 +1807,10 @@ const dgecValidateurPolicies: ReadonlyArray<Policy> = [
   // Période
   'période.notifier',
 ];
+
+const adminPolicies: ReadonlyArray<Policy> = dgecPolicies.filter((policy) =>
+  policy === 'candidature.importer' || instructionPolicies.includes(policy) ? false : true,
+);
 
 const crePolicies: ReadonlyArray<Policy> = [
   // Projet
@@ -2247,6 +2277,7 @@ const ademePolicies: ReadonlyArray<Policy> = [
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
+  admin: adminPolicies,
   dgec: dgecPolicies,
   cocontractant: cocontractantPolicies,
   ademe: ademePolicies,
