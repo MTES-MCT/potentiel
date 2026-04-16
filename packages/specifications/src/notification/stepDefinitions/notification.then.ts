@@ -128,9 +128,9 @@ Alors(/^aucun .*email n'a été envoyé$/, async function (this: PotentielWorld)
 });
 
 Alors(
-  `un email a été envoyé à l'administrateur avec :`,
+  `un email a été envoyé à l'utilisateur dgec avec :`,
   async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.dgecFixture.email, data);
   },
 );
 

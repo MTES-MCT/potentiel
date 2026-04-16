@@ -7,12 +7,12 @@ import { PotentielWorld } from '../../../potentiel.world.js';
 import { convertFixtureFileToReadableStream } from '../../../helpers/index.js';
 
 Quand(
-  'un administrateur modifie le site de production du projet',
+  'un utilisateur dgec modifie le site de production du projet',
   async function (this: PotentielWorld) {
     try {
       const { modifiéLe, modifiéPar, localité, pièceJustificative, raison } =
         this.lauréatWorld.modifierSiteDeProductionFixture.créer({
-          modifiéPar: this.utilisateurWorld.adminFixture.email,
+          modifiéPar: this.utilisateurWorld.dgecFixture.email,
         });
 
       await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
@@ -33,13 +33,13 @@ Quand(
 );
 
 Quand(
-  'un administrateur modifie le site de production du projet avec la même valeur',
+  'un utilisateur dgec modifie le site de production du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
       const { modifiéLe, modifiéPar, localité, raison, pièceJustificative } =
         this.lauréatWorld.modifierSiteDeProductionFixture.créer({
           localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
-          modifiéPar: this.utilisateurWorld.adminFixture.email,
+          modifiéPar: this.utilisateurWorld.dgecFixture.email,
         });
 
       await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({

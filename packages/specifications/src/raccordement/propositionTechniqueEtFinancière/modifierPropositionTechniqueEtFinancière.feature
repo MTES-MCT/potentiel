@@ -16,24 +16,24 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
         Exemples:
-            | role             |
-            | le porteur       |
-            | la dreal         |
-            | l'administrateur |
+            | role               |
+            | le porteur         |
+            | la dreal           |
+            | l'utilisateur dgec |
 
-    Scénario: Un administrateur modifie la PTF pour un projet en service
+    Scénario: un utilisateur dgec modifie la PTF pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'administrateur modifie la proposition technique et financière
+        Quand l'utilisateur dgec modifie la proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Scénario: Un administrateur modifie la PTF d'un projet achevé
+    Scénario: un utilisateur dgec modifie la PTF d'un projet achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
-        Quand l'administrateur modifie la proposition technique et financière
+        Quand l'utilisateur dgec modifie la proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
@@ -78,7 +78,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand le porteur modifie la proposition technique et financière
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
-    Plan du scénario: Impossible pour un rôle non administrateur de modifier une PTF si le projet est déjà en service
+    Plan du scénario: Impossible pour un rôle non utilisateur dgec de modifier une PTF si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
@@ -90,7 +90,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | le porteur |
             | la dreal   |
 
-    Plan du scénario: Impossible pour un rôle non administrateur de modifier une proposition technique et financière si le projet est achevé
+    Plan du scénario: Impossible pour un rôle non utilisateur dgec de modifier une proposition technique et financière si le projet est achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat

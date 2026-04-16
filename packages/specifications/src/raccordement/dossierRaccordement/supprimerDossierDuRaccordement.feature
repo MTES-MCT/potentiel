@@ -16,14 +16,14 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
-    Scénario: Un administrateur supprime un dossier du raccordement ayant une date de mise en service
+    Scénario: un utilisateur dgec supprime un dossier du raccordement ayant une date de mise en service
         Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Quand l'utilisateur dgec supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
-    Scénario: Un administrateur supprime un dossier du raccordement pour un projet achevé
+    Scénario: un utilisateur dgec supprime un dossier du raccordement pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Quand l'utilisateur dgec supprime le dossier de raccordement pour le projet lauréat
         Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
 
     Scénario: Un porteur supprime le dernier dossier du raccordement d'un projet
@@ -56,7 +56,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
             | La date de mise en service              | 2025-01-01         |
-        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat avec :
+        Quand l'utilisateur dgec supprime le dossier de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
         Alors le raccordement du projet lauréat devrait être en service avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
@@ -64,7 +64,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
 
     Scénario: Supprimer le dossier (avec la date de mise en service la plus tardive) doit supprimer la mise en service du raccordement si pas d'autres dossiers
         Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'administrateur supprime le dossier de raccordement pour le projet lauréat
+        Quand l'utilisateur dgec supprime le dossier de raccordement pour le projet lauréat
         Alors il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
 
     Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet

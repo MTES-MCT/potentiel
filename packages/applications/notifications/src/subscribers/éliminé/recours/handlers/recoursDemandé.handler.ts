@@ -9,7 +9,7 @@ export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.Recou
 
   const { appelOffre, période } = projet.identifiantProjet;
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
+  const dgecRecipients = await listerDgecRecipients(projet.identifiantProjet);
 
   const values = {
     nom_projet: projet.nom,
@@ -19,7 +19,7 @@ export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.Recou
     url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
   };
 
-  for (const recipients of [porteursRecipients, adminRecipients]) {
+  for (const recipients of [porteursRecipients, dgecRecipients]) {
     await sendEmail({
       key: 'recours/demander',
       recipients,

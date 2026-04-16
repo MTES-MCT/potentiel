@@ -25,7 +25,7 @@ Fonctionnalité: Importer une candidature (garanties financières)
             | période        | 1               |
             | famille        |                 |
             | type GF        |                 |
-        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offres ou famille"
+        Alors l'utilisateur dgec devrait être informé que "Les garanties financières sont requises pour cet appel d'offres ou famille"
 
     Scénario: Impossible d'importer une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est manquante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -34,7 +34,7 @@ Fonctionnalité: Importer une candidature (garanties financières)
             | période        | 1                  |
             | famille        |                    |
             | type GF        | avec-date-échéance |
-        Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
+        Alors l'utilisateur dgec devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible d'importer une candidature classée avec une date d'échéance pour un type de GF qui n'en attend pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -44,11 +44,11 @@ Fonctionnalité: Importer une candidature (garanties financières)
             | famille         |                           |
             | type GF         | six-mois-après-achèvement |
             | date d'échéance | 2024-01-01                |
-        Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
+        Alors l'utilisateur dgec devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible d'importer une candidature avec un type de garanties financières non disponible dans l'appel d'offres
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut         | classé          |
             | appel d'offres | PPE2 - Bâtiment |
             | type GF        | exemption       |
-        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

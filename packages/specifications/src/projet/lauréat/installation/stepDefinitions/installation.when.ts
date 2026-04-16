@@ -88,7 +88,7 @@ Quand(
     try {
       await modifierDispositifDeStockage.call(
         this,
-        this.utilisateurWorld.adminFixture.email,
+        this.utilisateurWorld.dgecFixture.email,
         dispositifDeStockage,
       );
     } catch (error) {
@@ -162,7 +162,7 @@ async function modifierInstallateur(
 ) {
   const { modifiéLe, modifiéPar, installateur, pièceJustificative, raison } =
     this.lauréatWorld.installationWorld.modifierInstallateurFixture.créer({
-      modifiéPar: this.utilisateurWorld.adminFixture.email,
+      modifiéPar: this.utilisateurWorld.dgecFixture.email,
       ...(installateurValue && { installateur: installateurValue }),
     });
 
@@ -186,7 +186,7 @@ export async function modifierTypologieInstallation(
 ) {
   const { modifiéeLe, modifiéePar, typologieInstallation, raison, pièceJustificative } =
     this.lauréatWorld.installationWorld.modifierTypologieInstallationFixture.créer({
-      modifiéePar: this.utilisateurWorld.adminFixture.email,
+      modifiéePar: this.utilisateurWorld.dgecFixture.email,
       ...(value && { typologieInstallation: value }),
     });
 
@@ -245,7 +245,7 @@ async function enregistrerChangementInstallateur(
 ) {
   const { enregistréLe, enregistréPar, installateur, pièceJustificative, raison } =
     this.lauréatWorld.installationWorld.enregistrerChangementInstallateurFixture.créer({
-      enregistréPar: this.utilisateurWorld.adminFixture.email,
+      enregistréPar: this.utilisateurWorld.dgecFixture.email,
       ...(installateurValue && { installateur: installateurValue }),
     });
 

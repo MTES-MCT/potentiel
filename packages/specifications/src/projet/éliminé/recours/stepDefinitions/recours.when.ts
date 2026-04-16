@@ -120,17 +120,17 @@ Quand(
 );
 
 Quand(
-  /(.*)administrateur passe en instruction le recours pour le projet éliminé/,
+  /(.*)utilisateur dgec passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
       const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
       if (estUnNouvelAdmin) {
-        this.utilisateurWorld.adminFixture.créer();
+        this.utilisateurWorld.dgecFixture.créer();
       }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =
         this.éliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
-          passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+          passéEnInstructionPar: this.utilisateurWorld.dgecFixture.email,
         });
 
       await mediator.send<Éliminé.Recours.RecoursUseCase>({

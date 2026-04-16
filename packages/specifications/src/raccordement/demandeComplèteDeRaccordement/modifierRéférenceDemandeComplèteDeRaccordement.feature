@@ -24,10 +24,10 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | Enedis DDD                |
             | OUE-RP-2022-000033        |
 
-    Scénario: Modifier en tant qu'administrateur la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
+    Scénario: Modifier en tant qu'utilisateur dgec la référence d'une demande complète de raccordement pour un dossier ayant déjà une date de mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand l'administrateur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Quand l'utilisateur dgec modifie la référence de la demande complète de raccordement pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 

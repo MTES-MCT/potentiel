@@ -15,7 +15,7 @@ export const handleAbandonDemandé = async ({
   const projet = await getLauréat(payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
-  const adminRecipients = await listerRecipientsAutoritéInstructrice({
+  const dgecRecipients = await listerRecipientsAutoritéInstructrice({
     identifiantProjet: projet.identifiantProjet,
     région: projet.région,
     domain: 'abandon',
@@ -35,7 +35,7 @@ export const handleAbandonDemandé = async ({
     values,
   });
 
-  for (const recipient of adminRecipients) {
+  for (const recipient of dgecRecipients) {
     await sendEmail({
       key: 'abandon/demander',
       recipients: [recipient],

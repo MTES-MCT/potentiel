@@ -16,7 +16,7 @@ export const handlePériodeNotifiée = async ({
 
   const utilisateursAutresQuePorteurs = await listerRecipients({
     roles: [
-      Role.admin.nom,
+      Role.dgec.nom,
       Role.dreal.nom,
       Role.ademe.nom,
       Role.caisseDesDépôts.nom,

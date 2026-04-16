@@ -1,7 +1,7 @@
 import { Role } from '@potentiel-domain/utilisateur';
 
 export const roleToLabel: Record<Role.RawType, string> = {
-  admin: 'Admin',
+  dgec: 'DGEC',
   'porteur-projet': 'Porteur de projet',
   dreal: 'DREAL',
   cocontractant: 'Cocontractant',

@@ -28,7 +28,7 @@ Quand(
     try {
       await modifierPuissance.call(
         this,
-        this.utilisateurWorld.adminFixture.email,
+        this.utilisateurWorld.dgecFixture.email,
         'lauréat',
         exemple['ratio puissance'],
         exemple['ratio puissance de site'],

@@ -9,7 +9,7 @@ Fonctionnalité: Réactiver un utilisateur
 
     Plan du scénario: Réactiver un utilisateur désactivé (hors Porteur de projet)
         Etant donné un utilisateur désactivé avec le rôle "<Rôle>"
-        Quand un administrateur réactive l'utilisateur
+        Quand un utilisateur dgec réactive l'utilisateur
         Alors l'utilisateur devrait être actif
 
         Exemples:
@@ -25,10 +25,10 @@ Fonctionnalité: Réactiver un utilisateur
 
     Scénario: Réactiver un porteur de projet
         Etant donné le porteur du projet désactivé
-        Quand un administrateur réactive le porteur du projet
+        Quand un utilisateur dgec réactive le porteur du projet
         Alors le porteur devrait être actif
 
     Scénario: Impossible de réactiver un utilisateur déjà actif
         Etant donné un utilisateur invité avec le rôle "admin"
-        Quand un administrateur réactive l'utilisateur
+        Quand un utilisateur dgec réactive l'utilisateur
         Alors l'utilisateur devrait être informé que "L'utilisateur est déjà actif"

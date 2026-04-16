@@ -27,7 +27,7 @@ import { AbandonRejetéEvent } from './demande/rejeter/rejeterAbandon.event.js';
 import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
 import { DemanderOptions } from './demande/demander/demanderAbandon.option.js';
 import {
-  AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError,
+  AbandonDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
   AbandonPasDansUnContexteDeRecandidatureError,
   AucunAbandonEnCours,
   DateLégaleTransmissionPreuveRecandidatureDépasséeError,
@@ -307,7 +307,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     if (this.#demande?.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
-      throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
+      throw new AbandonDéjàEnInstructionAvecLeMêmeUtilisateurDgecError();
     }
 
     const event: Lauréat.Abandon.AbandonPasséEnInstructionEvent = {

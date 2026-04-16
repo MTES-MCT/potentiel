@@ -20,8 +20,8 @@ import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options
 import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event.js';
 import {
   AucunRecoursEnCours,
-  RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
   ÉliminéInexistantError,
+  RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError,
 } from './recours.error.js';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
@@ -148,7 +148,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
     if (this.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
-      throw new RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError();
+      throw new RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError();
     }
 
     const event: RecoursPasséEnInstructionEvent = {

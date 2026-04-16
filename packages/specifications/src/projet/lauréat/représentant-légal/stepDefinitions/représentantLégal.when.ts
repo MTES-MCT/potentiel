@@ -58,7 +58,7 @@ async function modifierReprésentantLégal(
     type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
     data: {
       identifiantProjetValue: identifiantProjet,
-      identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
+      identifiantUtilisateurValue: this.utilisateurWorld.dgecFixture.email,
       nomReprésentantLégalValue: nomReprésentantLégal,
       typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
       dateModificationValue: dateModification,

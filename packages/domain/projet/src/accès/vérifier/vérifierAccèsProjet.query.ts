@@ -54,7 +54,7 @@ export const registerVérifierAccèsProjetQuery = ({
     const scope = await getScopeProjetUtilisateur(identifiantUtilisateur);
 
     const accèsCandidature = await match(utilisateur.rôle)
-      .with(P.union(Role.dgecValidateur.nom, Role.admin.nom, Role.cre.nom), () => true)
+      .with(P.union(Role.dgecValidateur.nom, Role.dgec.nom, Role.cre.nom), () => true)
       .otherwise(() => estUneCandidatureNotifiée(identifiantProjetValue));
 
     if (!accèsCandidature) {

@@ -10,14 +10,14 @@ import { convertFixtureFileToReadableStream } from '#helpers';
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
-  "un administrateur modifie l'évaluation carbone du projet",
+  "un utilisateur dgec modifie l'évaluation carbone du projet",
   async function (this: PotentielWorld) {
     await modifierÉvaluationCarbone.call(this);
   },
 );
 
 Quand(
-  "un administrateur modifie l'évaluation carbone du projet avec :",
+  "un utilisateur dgec modifie l'évaluation carbone du projet avec :",
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
     await modifierÉvaluationCarbone.call(
@@ -28,7 +28,7 @@ Quand(
 );
 
 Quand(
-  "un administrateur modifie l'évaluation carbone du projet avec la même valeur",
+  "un utilisateur dgec modifie l'évaluation carbone du projet avec la même valeur",
   async function (this: PotentielWorld) {
     const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
       type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
@@ -135,7 +135,7 @@ export async function modifierÉvaluationCarbone(
   try {
     const { modifiéeLe, modifiéePar, évaluationCarbone } =
       this.lauréatWorld.fournisseurWorld.modifierÉvaluationCarbone.créer({
-        modifiéePar: this.utilisateurWorld.adminFixture.email,
+        modifiéePar: this.utilisateurWorld.dgecFixture.email,
         ...values,
       });
     await mediator.send<Lauréat.Fournisseur.ModifierÉvaluationCarboneUseCase>({

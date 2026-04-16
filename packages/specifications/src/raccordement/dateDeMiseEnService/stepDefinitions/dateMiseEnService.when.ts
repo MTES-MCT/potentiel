@@ -7,8 +7,8 @@ import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  /(le gestionnaire de réseau|l'administrateur) transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
-  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | "l'administrateur") {
+  /(le gestionnaire de réseau|l'utilisateur dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le gestionnaire de réseau' | "l'utilisateur dgec") {
     const { identifiantProjet } = this.lauréatWorld;
 
     const { dateMiseEnService, référenceDossier } =
@@ -26,16 +26,16 @@ Quand(
       DateTime.convertirEnValueType(dateMiseEnService).formatter(),
       rôle === 'le gestionnaire de réseau'
         ? this.utilisateurWorld.grdFixture.email
-        : this.utilisateurWorld.adminFixture.email,
+        : this.utilisateurWorld.dgecFixture.email,
     );
   },
 );
 
 Quand(
-  /(le gestionnaire de réseau|l'administrateur) transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  /(le gestionnaire de réseau|l'utilisateur dgec) transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
   async function (
     this: PotentielWorld,
-    rôle: 'le gestionnaire de réseau' | "l'administrateur",
+    rôle: 'le gestionnaire de réseau' | "l'utilisateur dgec",
     datatable: DataTable,
   ) {
     const { identifiantProjet } = this.lauréatWorld;
@@ -56,13 +56,13 @@ Quand(
       dateMiseEnService,
       rôle === 'le gestionnaire de réseau'
         ? this.utilisateurWorld.grdFixture.email
-        : this.utilisateurWorld.adminFixture.email,
+        : this.utilisateurWorld.dgecFixture.email,
     );
   },
 );
 
 Quand(
-  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
+  /l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -82,7 +82,7 @@ Quand(
 );
 
 Quand(
-  /l'administrateur modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
+  /l'utilisateur dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :$/,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -105,7 +105,7 @@ Quand(
 );
 
 Quand(
-  /l'administrateur supprime la mise en service du dossier de raccordement$/,
+  /l'utilisateur dgec supprime la mise en service du dossier de raccordement$/,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -115,7 +115,7 @@ Quand(
 );
 
 Quand(
-  /l'administrateur supprime la mise en service du dossier de raccordement avec :$/,
+  /l'utilisateur dgec supprime la mise en service du dossier de raccordement avec :$/,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -177,7 +177,7 @@ export async function modifierDateMiseEnService(
           ).formatter(),
         dateMiseEnServiceValue: DateTime.convertirEnValueType(dateMiseEnService).formatter(),
         modifiéeLeValue: DateTime.now().formatter(),
-        modifiéeParValue: this.utilisateurWorld.adminFixture.email,
+        modifiéeParValue: this.utilisateurWorld.dgecFixture.email,
       },
     });
   } catch (e) {
@@ -200,7 +200,7 @@ async function supprimerDateMiseEnService(
             référenceDossier,
           ).formatter(),
         suppriméeLeValue: DateTime.now().formatter(),
-        suppriméeParValue: this.utilisateurWorld.adminFixture.email,
+        suppriméeParValue: this.utilisateurWorld.dgecFixture.email,
       },
     });
   } catch (e) {

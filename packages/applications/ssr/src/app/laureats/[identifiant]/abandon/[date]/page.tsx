@@ -104,7 +104,7 @@ const mapToActions = ({
   const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
 
   return match(utilisateur.rôle.nom)
-    .with(P.union('admin', 'dreal'), () => {
+    .with(P.union('dgec', 'dreal'), () => {
       if (demande.recandidature) return actions;
       if (!demande.autoritéCompétente.estCompétent(utilisateur.rôle)) return actions;
 

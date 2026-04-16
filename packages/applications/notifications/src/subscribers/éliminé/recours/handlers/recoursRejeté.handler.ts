@@ -17,11 +17,11 @@ export const handleRecoursRejeté = async ({ payload }: Éliminé.Recours.Recour
   const { appelOffre, période } = projet.identifiantProjet;
 
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
+  const dgecRecipients = await listerDgecRecipients(projet.identifiantProjet);
   const creRecipients = await listerCreRecipients();
   const drealRecipients = await listerDrealsRecipients(projet.région);
 
-  for (const recipients of [porteursRecipients, adminRecipients, creRecipients, drealRecipients]) {
+  for (const recipients of [porteursRecipients, dgecRecipients, creRecipients, drealRecipients]) {
     await sendEmail({
       key: 'recours/rejeter',
       values: {

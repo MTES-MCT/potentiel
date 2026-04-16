@@ -18,7 +18,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Exemples:
             | role                      |
             | le gestionnaire de réseau |
-            | l'administrateur          |
+            | l'utilisateur dgec        |
 
     Scénario: Transmettre une date de mise en service moins tardive que celles des autres dossiers en service d'un projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
@@ -28,7 +28,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | La date de mise en service              | 2025-01-01         |
         Et une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
-        Quand l'administrateur transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand l'utilisateur dgec transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000032 |
             | La date de mise en service              | 2024-10-10         |
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
@@ -44,7 +44,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | La date de mise en service              | 2022-03-27         |
         Et une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-00034 |
-        Quand l'administrateur transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+        Quand l'utilisateur dgec transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service              | 2024-10-10        |
             | La référence du dossier de raccordement | OUE-RP-2022-00034 |
         Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat

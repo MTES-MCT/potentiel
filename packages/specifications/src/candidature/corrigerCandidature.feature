@@ -54,49 +54,49 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
             | doit régénérer attestation | oui  |
-        Alors l'administrateur devrait être informé que "L'attestation d'une candidature non notifiée ne peut pas être régénérée"
+        Alors l'utilisateur dgec devrait être informé que "L'attestation d'une candidature non notifiée ne peut pas être régénérée"
 
     Scénario: Impossible de changer l'AO d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | appel d'offres | x |
-        Alors l'administrateur devrait être informé que "L'appel d'offres spécifié n'existe pas"
+        Alors l'utilisateur dgec devrait être informé que "L'appel d'offres spécifié n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | période | x |
-        Alors l'administrateur devrait être informé que "La période spécifiée de l'appel d'offres n'existe pas"
+        Alors l'utilisateur dgec devrait être informé que "La période spécifiée de l'appel d'offres n'existe pas"
 
     Scénario: Impossible de corriger une candidature avec une famille d'AO inexistante
         Quand le DGEC validateur corrige la candidature avec :
             | famille | x |
-        Alors l'administrateur devrait être informé que "La famille spécifiée de la période de l'appel d'offres n'existe pas"
+        Alors l'utilisateur dgec devrait être informé que "La famille spécifiée de la période de l'appel d'offres n'existe pas"
 
     Scénario: Impossible de changer le numéro CRE d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | numéro CRE | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'utilisateur dgec devrait être informé que "La candidature n'existe pas"
 
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
-        Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
+        Alors l'utilisateur dgec devrait être informé que "La candidature ne contient aucune modification"
 
     Scénario: Impossible de regénérer l'attestation d'une candidature sans modifications
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | doit régénérer attestation | oui |
-        Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
+        Alors l'utilisateur dgec devrait être informé que "La candidature ne contient aucune modification"
 
     Scénario: Impossible de changer le statut d'une candidature lauréate notifiée en éliminée
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | statut | éliminé |
-        Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
+        Alors l'utilisateur dgec devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
 
     Scénario: Impossible de changer le statut d'une candidature éliminée notifiée en lauréate
         Etant donné le projet éliminé "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | statut | classé |
-        Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
+        Alors l'utilisateur dgec devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
 
     Plan du Scénario: Impossible de corriger une candidature avec une technologie non disponible pour l'appel d'offres
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -104,7 +104,7 @@ Fonctionnalité: Corriger une candidature
             | technologie    | N/A             |
         Quand le DGEC validateur corrige la candidature avec :
             | technologie | <Technologie> |
-        Alors l'administrateur devrait être informé que "Cette technologie n'est pas disponible pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Cette technologie n'est pas disponible pour cet appel d'offres"
 
         Exemples:
             | Appel d'offre   | Technologie |
@@ -118,7 +118,7 @@ Fonctionnalité: Corriger une candidature
             | technologie    | pv            |
         Quand le DGEC validateur corrige la candidature avec :
             | technologie | N/A |
-        Alors l'administrateur devrait être informé que "Une technologie est requise pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Une technologie est requise pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans choix du coefficient K si la période le propose
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -128,7 +128,7 @@ Fonctionnalité: Corriger une candidature
             | famille        |                 |
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi |  |
-        Alors l'administrateur devrait être informé que "Le champ choix du coefficient K est requis pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ choix du coefficient K est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec choix du coefficient K si la période ne le propose pas
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -138,7 +138,7 @@ Fonctionnalité: Corriger une candidature
             | famille        |                 |
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi | oui |
-        Alors l'administrateur devrait être informé que "Le champ choix du coefficient K ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ choix du coefficient K ne peut être renseigné pour cet appel d'offres"
 
     # champs spécifiques à l'appel d'offres simplifié - début
     Scénario: Corriger la puissance de site d'une candidature pour un appel d'offres qui a ce champ
@@ -194,22 +194,22 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 100                      |
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site |  |
-        Alors l'administrateur devrait être informé que "Le champ puissance de site est requis pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ puissance de site est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec une puissance de site si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
-        Alors l'administrateur devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ puissance de site ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Inc |
-        Alors l'administrateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |
-        Alors l'administrateur devrait être informé que "Le champ nature de l'exploitation ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ nature de l'exploitation ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans autorisation si l'appel d'offres a ces champs requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -219,7 +219,7 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | numéro de l'autorisation           |  |
             | date d'obtention de l'autorisation |  |
-        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation sont requis pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le numéro et la date d'obtention de l'autorisation sont requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec une date d'obtention de l'autorisation dans le futur
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -228,7 +228,7 @@ Fonctionnalité: Corriger une candidature
             | date d'obtention de l'autorisation | 10/08/2024               |
         Quand le DGEC validateur corrige la candidature avec :
             | date d'obtention de l'autorisation | 10/08/2070 |
-        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation doit être antérieure à la date du jour"
+        Alors l'utilisateur dgec devrait être informé que "La date d'obtention de l'autorisation doit être antérieure à la date du jour"
 
     Scénario: Impossible de corriger une candidature sans dispositif de stockage pour un appel d'offres qui a ce champ requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -238,17 +238,17 @@ Fonctionnalité: Corriger une candidature
             | puissance du dispositif                  | 6                        |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
-        Alors l'administrateur devrait être informé que "Le champ dispositif de stockage est requis pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ dispositif de stockage est requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec dispositif de stockage si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage | non |
-        Alors l'administrateur devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ dispositif de stockage ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Mr Bricolage |
-        Alors l'administrateur devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
+        Alors l'utilisateur dgec devrait être informé que "Le champ installateur ne peut être renseigné pour cet appel d'offres"
 
 
 # champs spécifiques à l'appel d'offres simplifié - fin

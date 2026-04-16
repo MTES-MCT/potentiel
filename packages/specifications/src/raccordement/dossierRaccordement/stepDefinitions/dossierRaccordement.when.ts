@@ -7,15 +7,15 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
-  /(le porteur|l'administrateur) supprime le dossier de raccordement pour le projet lauréat$/,
-  async function (this: PotentielWorld, rôle: 'le porteur' | "l'administrateur") {
+  /(le porteur|l'utilisateur dgec) supprime le dossier de raccordement pour le projet lauréat$/,
+  async function (this: PotentielWorld, rôle: 'le porteur' | "l'utilisateur dgec") {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
 
     const { suppriméParValue, rôleValue } = match(rôle)
-      .with("l'administrateur", () => ({
-        suppriméParValue: this.utilisateurWorld.adminFixture.email,
-        rôleValue: this.utilisateurWorld.adminFixture.role,
+      .with("l'utilisateur dgec", () => ({
+        suppriméParValue: this.utilisateurWorld.dgecFixture.email,
+        rôleValue: this.utilisateurWorld.dgecFixture.role,
       }))
       .with('le porteur', () => ({
         suppriméParValue: this.utilisateurWorld.porteurFixture.email,
@@ -41,18 +41,18 @@ Quand(
 );
 
 Quand(
-  /(le porteur|l'administrateur) supprime le dossier de raccordement pour le projet lauréat avec :$/,
+  /(le porteur|l'utilisateur dgec) supprime le dossier de raccordement pour le projet lauréat avec :$/,
   async function (
     this: PotentielWorld,
-    rôle: 'le porteur' | "l'administrateur",
+    rôle: 'le porteur' | "l'utilisateur dgec",
     datatable: DataTable,
   ) {
     const { identifiantProjet } = this.lauréatWorld;
 
     const { suppriméParValue, rôleValue } = match(rôle)
-      .with("l'administrateur", () => ({
-        suppriméParValue: this.utilisateurWorld.adminFixture.email,
-        rôleValue: this.utilisateurWorld.adminFixture.role,
+      .with("l'utilisateur dgec", () => ({
+        suppriméParValue: this.utilisateurWorld.dgecFixture.email,
+        rôleValue: this.utilisateurWorld.dgecFixture.role,
       }))
       .with('le porteur', () => ({
         suppriméParValue: this.utilisateurWorld.porteurFixture.email,

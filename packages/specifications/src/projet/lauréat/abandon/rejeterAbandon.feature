@@ -8,7 +8,7 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
 
     Scénario: La DGEC rejette la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Demande d'abandon rejetée |
@@ -17,7 +17,7 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
 
     Scénario: La DGEC rejette la demande d'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
 
     Scénario: Une dreal peut rejeter la demande d'abandon d'un projet si elle en a l'autorité
@@ -38,17 +38,17 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
             | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être rejetée
 
     Scénario: Impossible de rejetter une demande d'abandon déjà accordée
         Etant donné une demande d'abandon accordée pour le projet lauréat
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été accordée"
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
+        Alors l'utilisateur dgec devrait être informé que "La demande d'abandon a déjà été accordée"
 
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat sans demande d'abandon
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
-        Alors l'administrateur devrait être informé que "Aucune demande d'abandon n'est en cours"
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
+        Alors l'utilisateur dgec devrait être informé que "Aucune demande d'abandon n'est en cours"
 
     Scénario: Impossible pour une Dreal de rejeter l'abandon si l'autorité compétente est la DGEC
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
@@ -61,5 +61,5 @@ Fonctionnalité: Rejeter la demande d'abandon d'un projet lauréat
 
     Scénario: Impossible de rejetter la demande d'abandon pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
-        Quand l'administrateur rejette la demande d'abandon du projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été annulée"
+        Quand l'utilisateur dgec rejette la demande d'abandon du projet lauréat
+        Alors l'utilisateur dgec devrait être informé que "La demande d'abandon a déjà été annulée"

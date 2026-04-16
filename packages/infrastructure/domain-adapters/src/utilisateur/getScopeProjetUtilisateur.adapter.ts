@@ -98,7 +98,7 @@ export const getScopeProjetUtilisateurAdapter: GetScopeProjetUtilisateur = async
           : identifiantProjetPourCaisseDesDépôts,
       };
     })
-    .with({ rôle: 'admin' }, async () => filters)
+    .with({ rôle: 'dgec' }, async () => filters)
     .with({ rôle: 'dgec-validateur' }, async () => filters)
     .with({ rôle: 'cre' }, async () => filters)
     .with({ rôle: 'ademe' }, async () => filters)

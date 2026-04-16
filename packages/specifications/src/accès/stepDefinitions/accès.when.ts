@@ -92,7 +92,7 @@ Quand(`un porteur réclame la candidature lauréate`, async function (this: Pote
 });
 
 Quand(
-  "un administrateur retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
+  "un utilisateur dgec retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
@@ -113,7 +113,7 @@ Quand('un porteur retire ses accès au projet lauréat', async function (this: P
 });
 
 Quand(
-  'un administrateur remplace le porteur sur le projet lauréat avec :',
+  'un utilisateur dgec remplace le porteur sur le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { email } = this.accèsWorld.remplacerAccèsProjet.créer({
@@ -130,7 +130,7 @@ Quand(
           identifiantUtilisateurValue,
           nouvelIdentifiantUtilisateurValue: email,
           remplacéLeValue: new Date().toISOString(),
-          remplacéParValue: this.utilisateurWorld.adminFixture.email,
+          remplacéParValue: this.utilisateurWorld.dgecFixture.email,
         },
       });
     } catch (error) {
@@ -154,7 +154,7 @@ export async function retirerAccèsProjet(
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: identifiantUtilisateur,
         retiréLeValue: DateTime.now().formatter(),
-        retiréParValue: retiréPar ?? this.utilisateurWorld.adminFixture.email,
+        retiréParValue: retiréPar ?? this.utilisateurWorld.dgecFixture.email,
       },
     });
   } catch (error) {

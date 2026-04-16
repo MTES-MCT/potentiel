@@ -75,7 +75,7 @@ const mapToActions = (props: MapToActionsProps) =>
     .returnType<ReadonlyArray<AvailableRecoursAction>>()
     .with(
       {
-        role: 'admin',
+        role: 'dgec',
         statut: 'demandé',
       },
       {
@@ -86,7 +86,7 @@ const mapToActions = (props: MapToActionsProps) =>
     )
     .with(
       {
-        role: 'admin',
+        role: 'dgec',
         statut: 'en-instruction',
       },
       {

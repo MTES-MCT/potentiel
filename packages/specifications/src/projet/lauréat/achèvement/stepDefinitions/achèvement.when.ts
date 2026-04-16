@@ -102,7 +102,7 @@ Quand(
 
       const { attestation, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-          utilisateur: this.utilisateurWorld.adminFixture.email,
+          utilisateur: this.utilisateurWorld.dgecFixture.email,
           attestation: undefined,
           preuve: undefined,
         });
@@ -129,7 +129,7 @@ Quand("l'admin modifie l'achèvement réel du projet", async function (this: Pot
 
     const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
       this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-        utilisateur: this.utilisateurWorld.adminFixture.email,
+        utilisateur: this.utilisateurWorld.dgecFixture.email,
       });
 
     await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
@@ -159,7 +159,7 @@ Quand(
       assert(achèvement.estAchevé, 'impossible de mofidier si non achevé');
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-          utilisateur: this.utilisateurWorld.adminFixture.email,
+          utilisateur: this.utilisateurWorld.dgecFixture.email,
           // Quand un document n'est pas changé, on transmet undefined au usecase
           attestation: undefined,
           preuve: undefined,
@@ -193,7 +193,7 @@ Quand(
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
-          utilisateur: this.utilisateurWorld.adminFixture.email,
+          utilisateur: this.utilisateurWorld.dgecFixture.email,
           ...(exemple['date transmission au Cocontractant'] && {
             dateTransmissionAuCocontractant: new Date(
               exemple['date transmission au Cocontractant'],

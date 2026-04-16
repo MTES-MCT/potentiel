@@ -142,7 +142,7 @@ EtantDonné(
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const admin = this.utilisateurWorld.adminFixture.créer({});
+  const admin = this.utilisateurWorld.dgecFixture.créer({});
   const cre = this.utilisateurWorld.creFixture.créer();
 
   await inviterUtilisateur.call(this, {

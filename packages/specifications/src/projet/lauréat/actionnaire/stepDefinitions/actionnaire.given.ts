@@ -15,7 +15,7 @@ EtantDonné(
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
   },
 );
@@ -26,7 +26,7 @@ EtantDonné(
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
     await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
@@ -38,7 +38,7 @@ EtantDonné(
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
     await annulerChangementActionnaire.call(this);
   },
@@ -50,7 +50,7 @@ EtantDonné(
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
     await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },

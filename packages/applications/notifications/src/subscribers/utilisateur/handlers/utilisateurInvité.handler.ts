@@ -33,7 +33,7 @@ export async function handleUtilisateurInvité({
       values: { url: urlPageProjets },
     }))
     .with(
-      P.union('cocontractant', 'caisse-des-dépôts', 'ademe', 'dgec-validateur', 'cre', 'admin'),
+      P.union('cocontractant', 'caisse-des-dépôts', 'ademe', 'dgec-validateur', 'cre', 'dgec'),
       () => ({
         key: 'utilisateur/inviter_partenaire',
         recipients: [identifiantUtilisateur],

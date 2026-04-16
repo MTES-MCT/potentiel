@@ -32,8 +32,8 @@ const dgecValidateur: Utilisateur = {
   fonction: '',
 };
 
-const adminDGEC: Utilisateur = {
-  rôle: { nom: 'admin' },
+const dgec: Utilisateur = {
+  rôle: { nom: 'dgec' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
 };
 
@@ -46,7 +46,7 @@ const dreal: Utilisateur = {
 const utilisateursExistants: ReadonlyArray<Utilisateur> = [
   porteurDeProjet,
   porteurDeProjetDésactivé,
-  adminDGEC,
+  dgec,
   dgecValidateur,
   dreal,
 ];
@@ -123,8 +123,8 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
 describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs qui doivent se connecter seulement avec ProConnect`, () => {
   const utilisateursNePouvantPasSeConnecterParEmail = [
     {
-      email: adminDGEC.identifiantUtilisateur.email,
-      typeUtilisateur: 'un administrateur DGEC',
+      email: dgec.identifiantUtilisateur.email,
+      typeUtilisateur: 'un utilisateur DGEC',
     },
     {
       email: dgecValidateur.identifiantUtilisateur.email,

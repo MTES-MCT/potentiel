@@ -6,11 +6,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world.js';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
 
-Quand('un administrateur modifie le nom du projet', async function (this: PotentielWorld) {
+Quand('un utilisateur dgec modifie le nom du projet', async function (this: PotentielWorld) {
   try {
     const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =
       this.lauréatWorld.modifierNomProjetFixture.créer({
-        modifiéPar: this.utilisateurWorld.adminFixture.email,
+        modifiéPar: this.utilisateurWorld.dgecFixture.email,
       });
 
     await mediator.send<Lauréat.ModifierNomProjetUseCase>({
@@ -31,13 +31,13 @@ Quand('un administrateur modifie le nom du projet', async function (this: Potent
 });
 
 Quand(
-  'un administrateur modifie le nom du projet avec la même valeur',
+  'un utilisateur dgec modifie le nom du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
       const { modifiéLe, modifiéPar, nomProjet, raison, pièceJustificative } =
         this.lauréatWorld.modifierNomProjetFixture.créer({
           nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
-          modifiéPar: this.utilisateurWorld.adminFixture.email,
+          modifiéPar: this.utilisateurWorld.dgecFixture.email,
         });
 
       await mediator.send<Lauréat.ModifierNomProjetUseCase>({

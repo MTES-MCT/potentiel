@@ -3,11 +3,11 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error.js';
 
 export const roles = [
-  'admin',
   'porteur-projet',
   'dreal',
   'cocontractant',
   'ademe',
+  'dgec',
   'dgec-validateur',
   'caisse-des-dépôts',
   'cre',
@@ -62,7 +62,7 @@ export const bind = <TRole extends RawType = RawType>({
       }
     },
     estDGEC() {
-      return this.nom === 'admin' || this.nom === 'dgec-validateur';
+      return this.nom === 'dgec' || this.nom === 'dgec-validateur';
     },
     estDreal() {
       return this.nom === 'dreal';
@@ -95,7 +95,7 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const porteur = convertirEnValueType<'porteur-projet'>('porteur-projet');
-export const admin = convertirEnValueType<'admin'>('admin');
+export const dgec = convertirEnValueType<'dgec'>('dgec');
 export const ademe = convertirEnValueType<'ademe'>('ademe');
 export const dgecValidateur = convertirEnValueType<'dgec-validateur'>('dgec-validateur');
 export const dreal = convertirEnValueType<'dreal'>('dreal');
@@ -1602,7 +1602,7 @@ const pageProjetPolicies: Policy[] = [
   'raccordement.consulter',
 ];
 
-const adminPolicies: ReadonlyArray<Policy> = [
+const dgecPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
@@ -1773,7 +1773,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
-  ...adminPolicies,
+  ...dgecPolicies,
 
   // Abandon
   'abandon.preuve-recandidature.accorder',
@@ -2247,7 +2247,7 @@ const ademePolicies: ReadonlyArray<Policy> = [
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
-  admin: adminPolicies,
+  dgec: dgecPolicies,
   cocontractant: cocontractantPolicies,
   ademe: ademePolicies,
   'caisse-des-dépôts': caisseDesDépôtsPolicies,
