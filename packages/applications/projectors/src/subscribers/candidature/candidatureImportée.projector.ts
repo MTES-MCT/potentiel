@@ -23,7 +23,7 @@ export const mapToCandidatureToUpsert = async ({
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: Candidature.CandidatureImportéeEvent['payload'];
 }): Promise<Omit<Candidature.CandidatureEntity, 'type'>> => {
-  const appelOffres = getAppelOffres(identifiantProjet);
+  const appelOffres = await getAppelOffres(identifiantProjet);
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,
     projet: payload,
