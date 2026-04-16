@@ -113,6 +113,10 @@ export const GET = async (request: Request) =>
             value: 'tauxPrévisionnelACI',
             label: 'Taux prévisionnel ACI (%)',
           },
+          {
+            value: 'tauxPrévisionnelACC',
+            label: 'Taux prévisionnel ACC (%)',
+          },
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
