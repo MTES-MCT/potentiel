@@ -7,6 +7,7 @@ import {
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
+import { sendEmail } from '@potentiel-infrastructure/email';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
@@ -15,7 +16,10 @@ import { DateTime } from '@potentiel-domain/common';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
-import { sendEmail } from '@potentiel-applications/notifications';
+import {
+  EnvoyerNotificationCommand,
+  registerNotificationsCommands,
+} from '@potentiel-applications/notifications';
 
 export class NotifierGestionnaireRéseau extends Command {
   static monitoringSlug = 'notification-grd';
@@ -24,6 +28,7 @@ export class NotifierGestionnaireRéseau extends Command {
     'Envoyer un email de notification aux GRDs (sauf Enedis) ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois';
 
   async init() {
+    registerNotificationsCommands({ sendEmail });
     registerRéseauQueries({
       list: listProjection,
       find: findProjection,
@@ -98,12 +103,14 @@ export class NotifierGestionnaireRéseau extends Command {
         logger.warn(`No recipient found for ${gestionnaire.raisonSociale} (${codeEIC})`);
         continue;
       }
-
-      await sendEmail({
-        key: 'lauréat/raccordement/dossiers_en_attente',
-        recipients: recipients.map(({ email }) => email),
-        values: {
-          url: Routes.Raccordement.lister,
+      await mediator.send<EnvoyerNotificationCommand>({
+        type: 'System.Notification.Envoyer',
+        data: {
+          key: 'lauréat/raccordement/dossiers_en_attente',
+          recipients: recipients.map(({ email }) => email),
+          values: {
+            url: process.env.BASE_URL + Routes.Raccordement.lister,
+          },
         },
       });
 
