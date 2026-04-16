@@ -589,6 +589,75 @@
       "groups": []
     },
     {
+      "id": "109c65df-7c7f-1391-b93c-09e11d8aebd3",
+      "createdTimestamp": 1684921663742,
+      "username": "dreal-naq@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Dreal Nouvelle-Aquitaine",
+      "lastName": "Test",
+      "email": "dreal-naq@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel", "dreal"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "101c65df-7c7f-1391-b63c-09e11d8aebd3",
+      "createdTimestamp": 1684921663742,
+      "username": "dreal-occ@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Dreal Occitanie",
+      "lastName": "Test",
+      "email": "dreal-occ@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel", "dreal"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "101c65df-7c7f-1391-b63c-09e12d8aebd3",
+      "createdTimestamp": 1684921663742,
+      "username": "dreal-aura@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Dreal Auvergne-Rhône-Alpes",
+      "lastName": "Test",
+      "email": "dreal-aura@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel", "dreal"],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
       "id": "109c65df-7c7f-4392-b93c-09e11d8aebd4",
       "createdTimestamp": 1684921663742,
       "username": "ademe@test.test",

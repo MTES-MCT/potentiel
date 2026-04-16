@@ -106,6 +106,9 @@ npm run start
 3. Se connecter à l'un des comptes suivants (mot de passe pour tous les comptes : **test**) :
    - admin@test.test
    - dreal@test.test (Ile-de-France)
+   - dreal-naq@test.test
+   - dreal-occ@test.test
+   - dreal-aura@test.test
    - porteur@test.test
    - ademe@test.test
    - ao@test.test
