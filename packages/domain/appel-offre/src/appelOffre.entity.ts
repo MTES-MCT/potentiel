@@ -286,7 +286,7 @@ export type ChampCandidature =
 
 type TypeChampSupplémentaire =
   | { type: 'requis' }
-  | { type: 'optionnel' }
+  | { type: 'optionnel'; valeurParDéfaut?: boolean }
   | { type: 'défaut'; valeur: boolean };
 
 export type ChampsSupplémentairesCandidature = Partial<

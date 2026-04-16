@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
-  coefficientKChoisi: { type: 'optionnel' as const },
+  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
   typologieInstallation: { type: 'optionnel' as const },
 };
 

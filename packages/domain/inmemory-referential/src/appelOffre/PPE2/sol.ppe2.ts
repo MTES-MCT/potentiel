@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP8 = {
-  coefficientKChoisi: { type: 'optionnel' as const },
+  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
   typologieInstallation: { type: 'optionnel' as const },
 };
 
@@ -200,7 +200,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       typeImport: 'csv',
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: false },
-        typologieInstallation: undefined,
       },
       miseÀJour: {
         changement: {
@@ -252,7 +251,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: false },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -290,7 +288,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -339,7 +336,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -388,7 +384,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -437,7 +432,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -486,7 +480,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {

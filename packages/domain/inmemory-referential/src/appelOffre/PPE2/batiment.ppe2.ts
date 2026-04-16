@@ -3,7 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesÀPartirDeP10 = {
-  coefficientKChoisi: { type: 'optionnel' as const },
+  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
   typologieInstallation: { type: 'optionnel' as const },
 };
 
@@ -215,7 +215,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: false },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -253,7 +252,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: false },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -297,7 +295,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: false },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -335,7 +332,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -384,7 +380,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -433,7 +428,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -482,7 +476,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -533,7 +526,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {
@@ -583,7 +575,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       champsSupplémentaires: {
         coefficientKChoisi: { type: 'défaut', valeur: true },
-        typologieInstallation: undefined,
       },
     },
     {

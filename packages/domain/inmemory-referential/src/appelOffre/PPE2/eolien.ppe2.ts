@@ -2,8 +2,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
-const champsSupplémentairesAPartirDeP10 = {
-  coefficientKChoisi: { type: 'requis' as const },
+const champsSupplémentairesAPartirDeP11 = {
+  coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
   autorisation: { type: 'requis' as const },
   dispositifDeStockage: { type: 'optionnel' as const },
   natureDeLExploitation: { type: 'requis' as const },
@@ -129,7 +129,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       typologieInstallation: true,
     },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP10,
+  champsSupplémentaires: champsSupplémentairesAPartirDeP11,
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -548,7 +548,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       champsSupplémentaires: {
-        coefficientKChoisi: { type: 'optionnel' },
+        coefficientKChoisi: { type: 'optionnel', valeurParDéfaut: true },
         autorisation: undefined,
         dispositifDeStockage: undefined,
         natureDeLExploitation: undefined,

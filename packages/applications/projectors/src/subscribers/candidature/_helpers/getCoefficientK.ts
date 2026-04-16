@@ -17,7 +17,11 @@ export const getCoefficientK = (
   });
 
   const champCoefficientK = cahierDesCharges.getChampsSupplémentaires().coefficientKChoisi;
-  return champCoefficientK?.type === 'défaut' ? champCoefficientK.valeur : coefficientKChoisi;
+  return champCoefficientK?.type === 'défaut'
+    ? champCoefficientK.valeur
+    : coefficientKChoisi === undefined && champCoefficientK?.type === 'optionnel'
+      ? champCoefficientK?.valeurParDéfaut
+      : coefficientKChoisi;
 };
 
 const getPériodeAndFamille = (
