@@ -21,6 +21,7 @@ import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInst
 import {
   AucunRecoursEnCours,
   RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
+  ÉliminéInexistantError,
 } from './recours.error.js';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
@@ -96,6 +97,9 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     pièceJustificative,
     raison,
   }: DemanderOptions) {
+    if (!this.éliminé.exists) {
+      throw new ÉliminéInexistantError();
+    }
     this.#statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
     this.éliminé.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
       'demande',

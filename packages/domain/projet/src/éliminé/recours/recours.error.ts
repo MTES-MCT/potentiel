@@ -11,3 +11,9 @@ export class AucunRecoursEnCours extends AggregateNotFoundError {
     super(`Aucun recours n'est en cours`);
   }
 }
+
+export class ÉliminéInexistantError extends AggregateNotFoundError {
+  constructor() {
+    super(`Le projet éliminé n'existe pas`);
+  }
+}

@@ -49,8 +49,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
-    @NotImplemented
     Scénario: Impossible de demander un recours pour un projet éliminé inexistant
         Etant donné le projet lauréat "MIOS"
         Quand le porteur demande le recours pour le projet lauréat
-        Alors le porteur devrait être informé que "Il est impossible de demander un recours pour un projet lauréat"
+        Alors le porteur devrait être informé que "Le projet éliminé n'existe pas"
