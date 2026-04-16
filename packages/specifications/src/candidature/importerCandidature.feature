@@ -109,7 +109,7 @@ Fonctionnalité: Importer une candidature
             | famille        |                             |
         Alors la dgec devrait être informé que "Cette période est obsolète et ne peut être importée"
 
-    Plan du Scénario: Impossible d'importer une candidature avec une technologie non disponible pour l'appel d'offres
+    Scénario: Impossible d'importer une candidature avec une technologie non disponible pour l'appel d'offres
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres | <Appel d'offre> |
             | technologie    | <Technologie>   |
