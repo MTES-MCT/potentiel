@@ -4,7 +4,6 @@ import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
   coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
-  typologieInstallation: { type: 'optionnel' as const },
 };
 
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
@@ -64,7 +63,10 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesAPartirDeP4,
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',

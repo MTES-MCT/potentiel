@@ -4,7 +4,6 @@ import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesÀPartirDeP10 = {
   coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
-  typologieInstallation: { type: 'optionnel' as const },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -122,7 +121,10 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
-  champsSupplémentaires: champsSupplémentairesÀPartirDeP10,
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesÀPartirDeP10,
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',

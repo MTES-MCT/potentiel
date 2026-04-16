@@ -4,7 +4,6 @@ import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP8 = {
   coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
-  typologieInstallation: { type: 'optionnel' as const },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -172,7 +171,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP8,
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesAPartirDeP8,
+  },
   periodes: [
     {
       id: '1',

@@ -4,7 +4,6 @@ import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
   coefficientKChoisi: { type: 'optionnel' as const, valeurParDéfaut: true },
-  typologieInstallation: { type: 'optionnel' as const },
 };
 
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
@@ -63,7 +62,10 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesAPartirDeP4,
+  },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
