@@ -19,7 +19,7 @@ Quand(
           demandéPar: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<Éliminé.Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.DemanderRecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
