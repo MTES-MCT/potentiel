@@ -15,7 +15,7 @@ Fonctionnalité: Demande des garanties financières
         Alors un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de transmission |
             | nom_projet | Du boulodrome de Marseille                                                                |
-            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot:soumettre        |
+            | url        | https://potentiel.beta.gouv.fr/laureats/(.*)/garanties-financieres/depot/soumettre        |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Du boulodrome de Marseille - Garanties financières en attente de transmission |
             | nom_projet | Du boulodrome de Marseille                                                                |

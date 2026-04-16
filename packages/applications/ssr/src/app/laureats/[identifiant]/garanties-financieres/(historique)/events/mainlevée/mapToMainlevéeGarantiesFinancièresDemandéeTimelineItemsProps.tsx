@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { getMotifMainlevéeLabel } from '../../../(mainlevée)/_helpers';
+import { getMotifMainlevéeLabel } from '../../../_helpers/getMotifMainlevéeLabel';
 
 export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
   event: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent,

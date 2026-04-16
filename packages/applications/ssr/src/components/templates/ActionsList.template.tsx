@@ -5,16 +5,25 @@ import clsx from 'clsx';
 
 import { Heading2 } from '../atoms/headings';
 
-type PageTemplateProps = {
+export type ActionsListPageTemplateProps = {
+  className?: string;
   children: React.ReactNode;
   actionsListLength: number;
-  className?: string;
+  actions?: never;
 };
 
-export const ActionsList: FC<PageTemplateProps> = ({ children, actionsListLength, className }) =>
-  actionsListLength === 0 ? null : (
+export const ActionsList: FC<ActionsListPageTemplateProps> = ({
+  children,
+  actionsListLength,
+  className,
+}) => {
+  if (actionsListLength === 0) {
+    return null;
+  }
+  return (
     <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>
-      <Heading2>Actions</Heading2>
+      <Heading2 className="mb-1">Actions</Heading2>
       {children}
     </div>
   );
+};

@@ -1,9 +1,6 @@
 import { FC } from 'react';
 
-import { Routes } from '@potentiel-applications/routes';
-
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { LinkActionProps } from '@/components/atoms/LinkAction';
 
 import { UtilisateurListItem, UtilisateurListItemProps } from './UtilisateurListItem';
 
@@ -15,39 +12,26 @@ export type UtilisateurListPageProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<typeof UtilisateurListItem>['filters'];
-  mailtoAction?: LinkActionProps;
+  actions: ListPageTemplateProps<typeof UtilisateurListItem>['actions'];
 };
 
 export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
   list: { items, currentPage, totalItems, itemsPerPage },
   filters,
-  mailtoAction,
-}) => {
-  const actions: LinkActionProps[] = [
-    {
-      label: 'Inviter un utilisateur',
-      href: Routes.Utilisateur.inviter,
-    },
-  ];
-
-  if (mailtoAction) {
-    actions.push(mailtoAction);
-  }
-
-  return (
-    <ListPageTemplate
-      heading="Utilisateurs"
-      actions={actions}
-      items={items.map((utilisateur) => ({
-        ...utilisateur,
-        key: utilisateur.utilisateur.identifiantUtilisateur.email,
-      }))}
-      currentPage={currentPage}
-      totalItems={totalItems}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={UtilisateurListItem}
-      filters={filters}
-      search={{ label: 'Rechercher par email', params: 'identifiantUtilisateur' }}
-    />
-  );
-};
+  actions,
+}) => (
+  <ListPageTemplate
+    heading="Utilisateurs"
+    actions={actions}
+    items={items.map((utilisateur) => ({
+      ...utilisateur,
+      key: utilisateur.utilisateur.identifiantUtilisateur.email,
+    }))}
+    currentPage={currentPage}
+    totalItems={totalItems}
+    itemsPerPage={itemsPerPage}
+    ItemComponent={UtilisateurListItem}
+    filters={filters}
+    search={{ label: 'Rechercher par email', params: 'identifiantUtilisateur' }}
+  />
+);

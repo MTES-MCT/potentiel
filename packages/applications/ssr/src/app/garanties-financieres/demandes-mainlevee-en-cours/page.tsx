@@ -8,13 +8,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import {
-  getMotifMainlevéeLabel,
-  getStatutMainlevéeLabel,
-} from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { getStatutMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/statutMainlevéeLabels';
+import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
 
 import {
   ListeDemandeMainlevéePage,

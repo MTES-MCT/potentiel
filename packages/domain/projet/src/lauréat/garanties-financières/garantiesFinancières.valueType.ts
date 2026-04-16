@@ -60,6 +60,7 @@ export type ValueType<
   ) & {
     formatter(): RawType;
     estAvecDateÉchéance(): this is ValueType<'avec-date-échéance'>;
+    estÉchu(): boolean;
     estExemption(): this is ValueType<'exemption'>;
     estConstitué(): this is ValueType & {
       constitution: ConsignationValueType;
@@ -82,6 +83,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       );
     },
     constitution,
+    estÉchu() {
+      return false;
+    },
   };
   return match(plain)
     .returnType<ValueType>()
@@ -206,6 +210,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => true,
         estExemption: (): this is ValueType<'exemption'> => false,
         ...common,
+        estÉchu() {
+          return dateÉchéanceValueType.estPassée();
+        },
       };
     })
     .exhaustive();

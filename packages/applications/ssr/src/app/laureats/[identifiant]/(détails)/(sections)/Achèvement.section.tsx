@@ -53,7 +53,9 @@ const getAchèvementData = async (
   rôle: Role.ValueType,
 ) => {
   const achèvement = await getAchèvement(identifiantProjet);
-  const gf = await getGarantiesFinancières(identifiantProjet);
+  const gfActuelles = rôle.aLaPermission('garantiesFinancières.actuelles.consulter')
+    ? (await getGarantiesFinancières(identifiantProjet)).actuelles
+    : undefined;
 
   const actions: { label: string; url: string; permission: Role.Policy }[] = [];
 
@@ -64,7 +66,7 @@ const getAchèvementData = async (
       url: Routes.Achèvement.modifierAchèvement(identifiantProjet),
     });
 
-    if (!gf.actuelles?.statut.estLevé()) {
+    if (!gfActuelles?.statut.estLevé()) {
       if (Option.isNone(achèvement.attestation)) {
         actions.push({
           permission: 'achèvement.enregistrerAttestation',

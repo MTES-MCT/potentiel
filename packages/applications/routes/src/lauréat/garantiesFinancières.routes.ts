@@ -12,27 +12,31 @@ type ListerEnAttenteFilters = {
 };
 
 export const dépôt = {
+  détails: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot`,
   soumettre: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:soumettre`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot/soumettre`,
   modifier: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot:modifier`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/depot/modifier`,
   lister: withFilters(`/garanties-financieres/depots-en-cours`),
 };
 
 export const actuelles = {
   modifier: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles:modifier`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles/modifier`,
   enregistrer: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles:enregistrer`,
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/actuelles/enregistrer`,
   enregistrerAttestation: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(
       identifiantProjet,
-    )}/garanties-financieres/actuelles:enregistrer-attestation`,
+    )}/garanties-financieres/actuelles/enregistrer-attestation`,
 };
 
 export const demandeMainlevée = {
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee/demander`,
+  détails: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/garanties-financieres/mainlevee`,
   lister: withFilters<ListerMainlevéesFilters>(
     `/garanties-financieres/demandes-mainlevee-en-cours`,
   ),

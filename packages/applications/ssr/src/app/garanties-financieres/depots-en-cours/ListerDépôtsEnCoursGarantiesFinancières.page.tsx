@@ -28,9 +28,9 @@ export const ListDépôtsGarantiesFinancièresPage: FC<ListDépôtsGarantiesFina
 }) => (
   <ListPageTemplate
     heading={
-      Role.bind(role).estÉgaleÀ(Role.porteur)
-        ? `Garanties financières à traiter par l'autorité compétente`
-        : 'Garanties financières à traiter'
+      Role.bind(role).aLaPermission('garantiesFinancières.dépôt.valider')
+        ? 'Garanties financières à traiter'
+        : `Garanties financières à traiter par l'autorité compétente`
     }
     actions={[]}
     items={garantiesFinancières.map((gf) => ({
