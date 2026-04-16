@@ -64,12 +64,21 @@ const mapToÉtapesData = ({
   raccordement,
   recours,
 }: GetÉtapesData) => {
-  const étapes: Array<ÉtapeProjet> = [
-    {
-      type: 'designation',
-      date: lauréat.notifiéLe.formatter(),
-    },
-  ];
+  // la "notification" d'un projet lauréat est sa date de recours accordé s'il a fait l'objet d'un recours, sinon sa date de désignation
+  const étapes: Array<ÉtapeProjet> = recours?.dateAccord
+    ? [
+        {
+          type: 'recours',
+          date: recours.dateAccord.formatter(),
+          dateDemande: recours.dateDemande.formatter(),
+        },
+      ]
+    : [
+        {
+          type: 'designation',
+          date: lauréat.notifiéLe.formatter(),
+        },
+      ];
 
   if (abandon?.accordéLe) {
     étapes.push({
@@ -85,14 +94,6 @@ const mapToÉtapesData = ({
     type: 'achèvement-prévisionel',
     date: achèvement.dateAchèvementPrévisionnel.formatter(),
   });
-
-  if (recours?.dateAccord) {
-    étapes.push({
-      type: 'recours',
-      date: recours.dateAccord.formatter(),
-      dateDemande: recours.dateDemande.formatter(),
-    });
-  }
 
   const dateMiseEnService = raccordement?.miseEnService?.date.formatter() ?? undefined;
 
