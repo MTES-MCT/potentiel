@@ -4,7 +4,6 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { GarantiesFinancières } from '../index.js';
 
 import { DocumentProducteur } from './index.js';
 
@@ -86,16 +85,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     });
 
     if (this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
-      // TODO: Il faut attendre un peu ici car sinon l'exécution des projecteurs risque se faire en même temps
-      // et générer des projections avec des données erronées
-      // Idéalement il ne faudrait pas avoir des projecteur qui s'exécute en parallèle
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      await this.lauréat.projet.lauréat.garantiesFinancières.demander({
-        demandéLe: dateChangement,
-        motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
-        dateLimiteSoumission: dateChangement.ajouterNombreDeMois(2),
-      });
+      await this.lauréat.garantiesFinancières.ajouterTâcheEnAttente(dateChangement);
     }
   }
 

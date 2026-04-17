@@ -74,6 +74,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
         validéLe: payload.validéLe,
       },
       dépôt: undefined,
+      enAttente: undefined,
       soumisLe: payload.soumisLe,
       validéLe: payload.validéLe,
       dernièreMiseÀJour: {

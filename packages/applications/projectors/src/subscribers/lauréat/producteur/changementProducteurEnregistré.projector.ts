@@ -7,6 +7,7 @@ import {
 } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 export const changementProducteurEnregistréProjector = async ({
   payload: {
@@ -54,6 +55,18 @@ export const changementProducteurEnregistréProjector = async ({
         enregistréLe,
         raison,
         pièceJustificative,
+      },
+    },
+  );
+
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
+    `garanties-financieres|${identifiantProjet}`,
+    {
+      enAttente: {
+        motif: 'changement-producteur',
+        dateLimiteSoumission: DateTime.convertirEnValueType(enregistréLe)
+          .ajouterNombreDeMois(2)
+          .formatter(),
       },
     },
   );

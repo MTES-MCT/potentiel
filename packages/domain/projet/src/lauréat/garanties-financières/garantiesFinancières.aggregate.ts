@@ -288,6 +288,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
+  async ajouterTâcheEnAttente(dateDemande: DateTime.ValueType) {
+    await this.#tâchePlanifiéeRappelEnAttente.ajouter({
+      àExécuterLe: dateDemande.ajouterNombreDeMois(1),
+    });
+
+    await this.#tâcheDemanderGarantiesFinancières.ajouter();
+  }
+
   async annulerTâchesPlanififées() {
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
@@ -374,11 +382,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
     await this.publish(event);
 
-    await this.#tâchePlanifiéeRappelEnAttente.ajouter({
-      àExécuterLe: demandéLe.ajouterNombreDeMois(1),
-    });
-
-    await this.#tâcheDemanderGarantiesFinancières.ajouter();
+    await this.ajouterTâcheEnAttente(demandéLe);
   }
 
   private applyGarantiesFinancièresDemandéesV1({
@@ -555,11 +559,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.demander({
-      demandéLe: échuLe,
-      dateLimiteSoumission: échuLe.ajouterNombreDeMois(2),
-      motif: MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles,
-    });
+    await this.ajouterTâcheEnAttente(échuLe);
   }
 
   private applyGarantiesFinancièresÉchuesV1(_: GarantiesFinancièresÉchuesEvent) {
