@@ -14,9 +14,17 @@ export type DocumentItem = {
   date?: string;
   url?: string;
   demande?: { url: string };
+  ariaLabel: string;
 };
 
-export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, demande }) => {
+export const DocumentListItem: FC<DocumentItem> = ({
+  type,
+  date,
+  url,
+  format,
+  demande,
+  ariaLabel,
+}) => {
   return (
     <ListItem
       heading={<Heading3>{type}</Heading3>}
@@ -27,6 +35,7 @@ export const DocumentListItem: FC<DocumentItem> = ({ type, date, url, format, de
             url={url}
             format={format}
             label="Télécharger le document"
+            ariaLabel={ariaLabel}
           />
         )
       }
