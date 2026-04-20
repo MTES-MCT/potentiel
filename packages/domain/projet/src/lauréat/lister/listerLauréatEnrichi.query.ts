@@ -80,6 +80,7 @@ export type LauréatEnrichiListItemReadModel = {
     | undefined;
   typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
+  tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
@@ -305,6 +306,7 @@ const mapToReadModel: MapToReadModelProps = ({
         )
       : undefined,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
+    tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
     technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
     diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],

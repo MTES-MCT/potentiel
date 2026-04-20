@@ -496,7 +496,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
-        référence: '🦺REF JOUE À AJOUTER🦺',
+        référence: '2026/S 233003-2026',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
@@ -509,13 +509,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',
         autorisation: 'requis',
-        dispositifDeStockage: 'optionnel',
+        dispositifDeStockage: 'requis',
         natureDeLExploitation: 'requis',
       },
       typeImport: 'démarche-simplifiée',
     },
-    /** à partir de la P11 l'autorité compétente pour les abandons est la dreal,
-     *  plus besoin de redéfinir cete règle au niveau de la période
-     */
   ],
 };
