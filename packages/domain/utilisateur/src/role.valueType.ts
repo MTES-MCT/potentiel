@@ -27,7 +27,6 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
     typeMessage: TMessageType['type'],
   ): void;
   aLaPermission(value: Policy): boolean;
-  estAdmin(): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
   estPorteur(): boolean;
@@ -62,9 +61,6 @@ export const bind = <TRole extends RawType = RawType>({
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
-    },
-    estAdmin() {
-      return this.nom === 'admin';
     },
     estDGEC() {
       return this.nom === 'dgec' || this.nom === 'dgec-validateur';
@@ -1568,45 +1564,6 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'éliminé.lister',
 ];
 
-const instructionPolicies: Array<Policy> = [
-  // Abandon
-  'abandon.accorder',
-  'abandon.rejeter',
-  'abandon.demander-confirmation',
-  'abandon.passer-en-instruction',
-
-  // Recours
-  'recours.accorder',
-  'recours.rejeter',
-  'recours.passer-en-instruction',
-
-  // Raccordement
-  'raccordement.date-mise-en-service.transmettre',
-  'raccordement.date-mise-en-service.modifier',
-  'raccordement.date-mise-en-service.supprimer',
-
-  // Garanties financières
-  'garantiesFinancières.dépôt.valider',
-
-  // Représentant légal
-  'représentantLégal.accorderChangement',
-  'représentantLégal.rejeterChangement',
-
-  // Actionnaire
-  'actionnaire.accorderChangement',
-  'actionnaire.rejeterChangement',
-
-  // Puissance
-  'puissance.accorderChangement',
-  'puissance.rejeterChangement',
-
-  // Délai
-  'délai.passerDemandeEnInstruction',
-  'délai.reprendreInstructionDemande',
-  'délai.rejeterDemande',
-  'délai.accorderDemande',
-];
-
 // En attendant d'avoir des gateways qui groupent les query
 const pageProjetPolicies: Policy[] = [
   ...commonPolicies,
@@ -1647,11 +1604,9 @@ const pageProjetPolicies: Policy[] = [
   'raccordement.consulter',
 ];
 
-const dgecPolicies: ReadonlyArray<Policy> = [
+const adminPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
-
-  ...instructionPolicies,
 
   'projet.accèsDonnées.prix',
 
@@ -1709,7 +1664,6 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   // Candidature
   'candidature.consulter',
   'candidature.consulterDétail',
-  'candidature.importer',
   'candidature.corriger',
   'candidature.lister',
   'candidature.attestation.prévisualiser',
@@ -1798,6 +1752,50 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'éliminé.listerÉliminéEnrichi',
 ];
 
+const dgecPolicies: ReadonlyArray<Policy> = [
+  ...adminPolicies,
+
+  // Abandon
+  'abandon.accorder',
+  'abandon.rejeter',
+  'abandon.demander-confirmation',
+  'abandon.passer-en-instruction',
+
+  // Recours
+  'recours.accorder',
+  'recours.rejeter',
+  'recours.passer-en-instruction',
+
+  // Raccordement
+  'raccordement.date-mise-en-service.transmettre',
+  'raccordement.date-mise-en-service.modifier',
+  'raccordement.date-mise-en-service.supprimer',
+
+  // Garanties financières
+  'garantiesFinancières.dépôt.valider',
+
+  // Représentant légal
+  'représentantLégal.accorderChangement',
+  'représentantLégal.rejeterChangement',
+
+  // Actionnaire
+  'actionnaire.accorderChangement',
+  'actionnaire.rejeterChangement',
+
+  // Puissance
+  'puissance.accorderChangement',
+  'puissance.rejeterChangement',
+
+  // Délai
+  'délai.passerDemandeEnInstruction',
+  'délai.reprendreInstructionDemande',
+  'délai.rejeterDemande',
+  'délai.accorderDemande',
+
+  // Candidature
+  'candidature.importer',
+];
+
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
   ...dgecPolicies,
 
@@ -1807,10 +1805,6 @@ const dgecValidateurPolicies: ReadonlyArray<Policy> = [
   // Période
   'période.notifier',
 ];
-
-const adminPolicies: ReadonlyArray<Policy> = dgecPolicies.filter((policy) =>
-  policy === 'candidature.importer' || instructionPolicies.includes(policy) ? false : true,
-);
 
 const crePolicies: ReadonlyArray<Policy> = [
   // Projet
