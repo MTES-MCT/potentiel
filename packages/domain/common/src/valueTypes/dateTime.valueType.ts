@@ -1,4 +1,4 @@
-import { differenceInDays, addMonths, subMonths, addHours } from 'date-fns';
+import { differenceInDays, addMonths, subMonths, addHours, addMilliseconds } from 'date-fns';
 import { UTCDate } from '@date-fns/utc';
 
 import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
@@ -18,6 +18,7 @@ export type ValueType = ReadonlyValueType<{
   retirerNombreDeJours(nombreDeMois: number): ValueType;
   ajouterNombreDeMois(nombreDeMois: number): ValueType;
   retirerNombreDeMois(nombreDeMois: number): ValueType;
+  ajouterNombreDeMillisecondes(nombreDeMillisecondes: number): ValueType;
   définirHeureÀMidi(): ValueType;
   formatter(): RawType;
   /** Retourne la date au format YYYY-MM-DD */
@@ -100,6 +101,11 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     définirHeureÀMidi() {
       const dateÀMidi = addHours(new Date(this.formatterDate()), 12);
       return convertirEnValueType(dateÀMidi);
+    },
+    ajouterNombreDeMillisecondes(nombreDeMillisecondes) {
+      const utcDate = new UTCDate(this.date);
+      const avecNombreDeMillisecondesAjouté = addMilliseconds(utcDate, nombreDeMillisecondes);
+      return convertirEnValueType(avecNombreDeMillisecondesAjouté);
     },
   };
 };

@@ -7,12 +7,15 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDateAchèvementPrévisionnelCalculéeProps = (
-  event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,
+  event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent & { created_at: string },
 ): TimelineItemProps => {
-  const { date, raison } = event.payload;
+  const {
+    created_at,
+    payload: { date, raison },
+  } = event;
 
   return {
-    date,
+    date: DateTime.convertirEnValueType(created_at).formatter(),
     title: getTitleFromRaison(raison),
     details: (
       <div className="flex flex-col gap-2">
