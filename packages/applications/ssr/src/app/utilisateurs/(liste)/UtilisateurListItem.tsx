@@ -70,6 +70,9 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
       iconId: 'ri-user-forbid-line',
       priority: 'primary',
       onClick: () => setIsOpen(true),
+      nativeButtonProps: {
+        'aria-label': `Désactiver l'utilisateur ${identifiantUtilisateur.email}`,
+      },
     });
   }
   if (actions.includes('réactiver')) {
@@ -78,6 +81,9 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
       iconId: 'ri-user-follow-line',
       priority: 'primary',
       onClick: () => setIsOpen(true),
+      nativeButtonProps: {
+        'aria-label': `Réactiver l'utilisateur ${identifiantUtilisateur.email}`,
+      },
     });
   }
   if (actions.includes('modifier')) {
@@ -87,6 +93,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
       priority: 'secondary',
       linkProps: {
         href: Routes.Utilisateur.modifierRôle(identifiantUtilisateur.email),
+        'aria-label': `Modifier le rôle de l'utilisateur ${identifiantUtilisateur.email}`,
       },
     });
   }

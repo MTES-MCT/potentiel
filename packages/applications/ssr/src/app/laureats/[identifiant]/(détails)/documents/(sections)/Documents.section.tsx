@@ -28,7 +28,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
       const documents: Array<DocumentItem> = [];
 
       // ATTESTATION LAURÉAT
-      const { attestationDésignation } = await getLauréatInfos(identifiantProjet);
+      const { attestationDésignation, nomProjet } = await getLauréatInfos(identifiantProjet);
 
       if (attestationDésignation) {
         documents.push({
@@ -36,6 +36,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           date: attestationDésignation.dateCréation,
           format: attestationDésignation.format,
           url: Routes.Document.télécharger(attestationDésignation.formatter()),
+          ariaLabel: `Télécharger l'attestation de désignation du projet ${nomProjet}`,
         });
       }
 
@@ -45,6 +46,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           type: 'Export des données du projet',
           format: 'csv',
           url: Routes.Lauréat.exporter({ identifiantProjet }),
+          ariaLabel: `Télécharger l'export des données du projet ${nomProjet}`,
         });
       }
 
@@ -78,6 +80,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
                 demandeAbandon.demande.demandéLe.formatter(),
               ),
             },
+            ariaLabel: `Télécharger la réponse de l'accord de la demande d'abandon du projet ${nomProjet}`,
           });
         }
 
@@ -95,6 +98,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
                 demandeAbandon.demande.demandéLe.formatter(),
               ),
             },
+            ariaLabel: `Télécharger la réponse du rejet de la demande d'abandon du projet ${nomProjet}`,
           });
         }
       }
@@ -114,6 +118,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             url: Routes.Document.télécharger(
               garantiesFinancièresActuelles.actuelles?.document.formatter(),
             ),
+            ariaLabel: `Télécharger l'attestation de constitution des garanties financières du projet ${nomProjet}`,
           });
         }
       }
@@ -127,6 +132,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           date: achèvement.attestation.dateCréation,
           format: achèvement.attestation.format,
           url: Routes.Document.télécharger(achèvement.attestation.formatter()),
+          ariaLabel: `Télécharger l'attestation de conformité du projet ${nomProjet}`,
         });
 
         if (Option.isSome(achèvement.preuveTransmissionAuCocontractant)) {
@@ -137,6 +143,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
             url: Routes.Document.télécharger(
               achèvement.preuveTransmissionAuCocontractant.formatter(),
             ),
+            ariaLabel: `Télécharger la preuve de transmission au Cocontractant du projet ${nomProjet}`,
           });
         }
       }

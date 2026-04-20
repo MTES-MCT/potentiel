@@ -79,8 +79,12 @@ const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, 
 
   return (
     <>
-      <Button priority="primary" onClick={() => setIsOpen(true)}>
-        {'Réclamer le projet'}
+      <Button
+        priority="primary"
+        onClick={() => setIsOpen(true)}
+        aria-label={`Réclamer le projet ${nomProjet}`}
+      >
+        Réclamer le projet
       </Button>
 
       <ModalWithForm

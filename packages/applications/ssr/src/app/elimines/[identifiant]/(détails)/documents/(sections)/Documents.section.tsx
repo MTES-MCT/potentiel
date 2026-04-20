@@ -35,6 +35,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
           date: éliminé.attestationDésignation.dateCréation,
           format: éliminé.attestationDésignation.format,
           url: Routes.Document.télécharger(éliminé.attestationDésignation.formatter()),
+          ariaLabel: `Télécharger l'avis de rejet du projet ${éliminé.nomProjet}`,
         });
       }
 
@@ -45,6 +46,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
         url: rôle.aLaPermission('éliminé.listerÉliminéEnrichi')
           ? Routes.Éliminé.exporter({ identifiantProjet })
           : undefined,
+        ariaLabel: `Télécharger l'export des données du projet ${éliminé.nomProjet}`,
       });
 
       const recours = await getRecours(identifiantProjet);
@@ -77,6 +79,7 @@ export const DocumentsSection = ({ identifiantProjet }: DocumentsSectionProps) =
                 demandeRecours.demande.demandéLe.formatter(),
               ),
             },
+            ariaLabel: `Télécharger la réponse du rejet de la demande de recours du projet ${éliminé.nomProjet}`,
           });
         }
       }
