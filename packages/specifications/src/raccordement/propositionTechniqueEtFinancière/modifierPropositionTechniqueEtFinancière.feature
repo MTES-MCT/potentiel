@@ -21,7 +21,7 @@ Fonctionnalité: Modifier une proposition technique et financière
             | la dreal   |
             | la dgec    |
 
-    Scénario: Un la dgec modifie la PTF pour un projet en service
+    Scénario: La dgec modifie la PTF pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
@@ -29,7 +29,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    Scénario: Un la dgec modifie la PTF d'un projet achevé
+    Scénario: La dgec modifie la PTF d'un projet achevé
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
