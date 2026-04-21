@@ -47,12 +47,21 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [CandidatureEntity];
+type LauréatJoins = [CandidatureEntity, AppelOffre.AppelOffreEntity];
 
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
-      join: [{ entity: 'candidature', on: 'identifiantProjet' }],
+      join: [
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
+      ],
     });
 
     if (Option.isNone(lauréat)) {
@@ -71,39 +80,57 @@ type MapToReadModel = (
   candidature: Candidature.ConsulterCandidatureReadModel,
 ) => ConsulterLauréatReadModel;
 
-const mapToReadModel: MapToReadModel = (
-  {
-    identifiantProjet,
-    notifiéLe,
-    notifiéPar,
-    nomProjet,
-    localité: { adresse1, adresse2, codePostal, commune, département, région },
-    statut,
-  },
-  candidature,
-) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  notifiéLe: DateTime.convertirEnValueType(notifiéLe),
-  notifiéPar: Email.convertirEnValueType(notifiéPar),
-  nomProjet,
-  localité: Localité.bind({
-    adresse1,
-    adresse2,
-    codePostal,
-    commune,
-    département,
-    région,
-  }),
-  statut: StatutLauréat.convertirEnValueType(statut),
-  technologie: candidature.technologie,
-  unitéPuissance: candidature.unitéPuissance,
-  emailContact: candidature.dépôt.emailContact,
-  nomCandidat: candidature.dépôt.nomCandidat,
-  prixReference: candidature.dépôt.prixReference,
-  coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
-  attestationDésignation: candidature.instruction.statut.estClassé()
-    ? candidature.notification?.attestation
-    : undefined,
-  autorisation: candidature.dépôt.autorisation,
-  actionnariat: candidature.dépôt.actionnariat,
-});
+const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(lauréat.identifiantProjet),
+    notifiéLe: DateTime.convertirEnValueType(lauréat.notifiéLe),
+    notifiéPar: Email.convertirEnValueType(lauréat.notifiéPar),
+    nomProjet: lauréat.nomProjet,
+    localité: Localité.bind({
+      adresse1: lauréat.localité.adresse1,
+      adresse2: lauréat.localité.adresse2,
+      codePostal: lauréat.localité.codePostal,
+      commune: lauréat.localité.commune,
+      département: lauréat.localité.département,
+      région: lauréat.localité.région,
+    }),
+    statut: StatutLauréat.convertirEnValueType(lauréat.statut),
+    technologie: candidature.technologie,
+    unitéPuissance: candidature.unitéPuissance,
+    emailContact: candidature.dépôt.emailContact,
+    nomCandidat: candidature.dépôt.nomCandidat,
+    prixReference: candidature.dépôt.prixReference,
+    coefficientKChoisi: getCoefficientKChoisiLauréat(lauréat, candidature.dépôt.coefficientKChoisi),
+    attestationDésignation: candidature.instruction.statut.estClassé()
+      ? candidature.notification?.attestation
+      : undefined,
+    autorisation: candidature.dépôt.autorisation,
+    actionnariat: candidature.dépôt.actionnariat,
+  };
+};
+
+const getCoefficientKChoisiLauréat = (
+  lauréat: LauréatEntity & Joined<LauréatJoins>,
+  coefficientKChoisi: Candidature.Dépôt.ValueType['coefficientKChoisi'],
+) => {
+  const période = lauréat['appel-offre'].periodes.find((p) => p.id === lauréat.période);
+
+  if (!période) {
+    return coefficientKChoisi;
+  }
+
+  const ref = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(lauréat.cahierDesCharges);
+
+  // seuls des cdc modifiés peuvent avoir un coefficient K différent du coefficient K choisi lors de la candidature
+  if (ref.type !== 'modifié') {
+    return coefficientKChoisi;
+  }
+
+  const cdcModificatif = période.cahiersDesChargesModifiésDisponibles.find((c) =>
+    ref.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
+  );
+
+  return cdcModificatif?.champsSupplémentaires?.coefficientKChoisi?.type === 'défaut'
+    ? cdcModificatif?.champsSupplémentaires?.coefficientKChoisi.valeur
+    : coefficientKChoisi;
+};
