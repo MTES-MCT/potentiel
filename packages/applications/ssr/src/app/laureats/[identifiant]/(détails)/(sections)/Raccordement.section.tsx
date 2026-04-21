@@ -37,14 +37,12 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         return null;
       }
 
-      const aUnAbandon = abandon?.estAbandonné || abandon?.demandeEnCours;
-
-      const peutConsulterDétailRaccordement =
+      const détailConsultable =
         raccordement.dossiers.length > 0 ||
         rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
       const action =
-        !aUnAbandon && peutConsulterDétailRaccordement
+        !abandon?.demandeEnCours && détailConsultable && !raccordement.désactivé
           ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
@@ -52,7 +50,7 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
           : undefined;
 
       const alertes =
-        rôle.estPorteur() && !abandon?.estAbandonné
+        rôle.estPorteur() && !raccordement.désactivé
           ? getAlertesRaccordement({
               CDC2022Choisi:
                 !!cahierDesCharges.cahierDesChargesModificatif &&

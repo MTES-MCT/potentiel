@@ -10,6 +10,22 @@ import { waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 
+Alors(`le raccordement du projet devrait être désactivé`, async function (this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+  await waitForExpect(async () => {
+    const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    assert(Option.isSome(raccordement), 'Aucun raccordement trouvé pour le projet lauréat');
+
+    expect(raccordement.désactivé).to.be.true;
+  });
+});
+
 Alors(
   `le raccordement du projet lauréat devrait être en service pour le projet lauréat`,
   async function (this: PotentielWorld) {

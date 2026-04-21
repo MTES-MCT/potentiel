@@ -43,7 +43,6 @@ import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/dateMiseE
 import { registerSupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.usecase.js';
 import { registerSupprimerDossierDuRaccordementCommand } from './supprimer/dossier/supprimerDossierDuRaccordement.command.js';
 import { registerSupprimerDossierDuRaccordementUseCase } from './supprimer/dossier/supprimerDossierDuRaccordement.usecase.js';
-import { registerSupprimerRaccordementCommand } from './supprimer/raccordement/supprimerRaccordement.command.js';
 import { registerTransmettreDateMiseEnServiceCommand } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.command.js';
 import { registerTransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase.js';
 import { registerTransmettreDemandeComplèteRaccordementCommand } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
@@ -92,7 +91,6 @@ export const registerRaccordementUseCases = ({
   registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
   registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
-  registerSupprimerRaccordementCommand(getProjetAggregateRoot);
 
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();

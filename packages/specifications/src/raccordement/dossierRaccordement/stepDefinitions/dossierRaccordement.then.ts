@@ -94,31 +94,23 @@ Alors(
 );
 
 Alors(
-  `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
+  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement`,
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } =
-      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
-      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-      expect(Option.isNone(raccordement)).to.be.true;
-
-      const dossierRaccordement =
-        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+      const listeRaccordement =
+        await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            référenceDossierRaccordementValue: référenceDossier,
+            utilisateur: this.utilisateurWorld.adminFixture.email,
           },
         });
 
-      expect(Option.isNone(dossierRaccordement)).to.be.true;
+      const dossierCible = listeRaccordement.items.find(
+        (d) => d.référenceDossier.formatter() === référenceDossier,
+      );
+
+      expect(dossierCible).to.be.undefined;
     });
   },
 );

@@ -10,6 +10,7 @@ import {
   dossierRaccordement,
   gestionnaireRéseau,
   mapToRaccordementSuppriméTimelineItemProps,
+  mapToRaccordementDésactivéTimelineItemProps,
 } from './events';
 
 type MapToRaccordementTimelineItemProps = (
@@ -127,6 +128,12 @@ export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemPr
         type: 'RaccordementSupprimé-V1',
       },
       mapToRaccordementSuppriméTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'RaccordementDésactivé-V1',
+      },
+      mapToRaccordementDésactivéTimelineItemProps,
     )
     /**
      * Ignoré
