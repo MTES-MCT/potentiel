@@ -66,6 +66,7 @@ type DossierRaccordementJoins = [
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
   AchèvementEntity,
+  Raccordement.RaccordementEntity,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -141,6 +142,11 @@ export const registerListerDossierRaccordementQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
+        },
+        {
+          entity: 'raccordement',
+          on: 'identifiantProjet',
+          where: { désactivé: Where.equalNull() },
         },
       ],
       orderBy: {

@@ -14,7 +14,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { récupérerLauréat } from '@/app/_helpers';
 
 import {
   DétailsRaccordementDuProjetPage,
@@ -41,8 +41,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
-
       const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
@@ -50,11 +48,17 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
+      if (Option.isSome(raccordement) && raccordement.désactivé) {
+        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
+      }
+
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
           Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter()),
         );
       }
+
+      const lauréat = await récupérerLauréat(identifiantProjet.formatter());
 
       const lienRetour = utilisateur.estGrd()
         ? {

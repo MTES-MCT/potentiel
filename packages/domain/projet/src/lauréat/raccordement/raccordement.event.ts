@@ -7,8 +7,19 @@ import { IdentifiantProjet } from '../../index.js';
 import { RéférenceDossierRaccordement } from './index.js';
 
 //#region Raccordement projet
+/**
+ *
+ * @deprecated event remplacé par RaccordementDésactivéEvent mais conservé pour la compatibilité dans l'agrégat et le rebuild
+ */
 export type RaccordementSuppriméEvent = DomainEvent<
   'RaccordementSupprimé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
+
+export type RaccordementDésactivéEvent = DomainEvent<
+  'RaccordementDésactivé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
   }
@@ -415,4 +426,5 @@ export type RaccordementEvent =
   | GestionnaireRéseauInconnuAttribuéEvent
   | GestionnaireRéseauAttribuéEvent
   | DossierDuRaccordementSuppriméEvent
-  | RaccordementSuppriméEvent;
+  | RaccordementSuppriméEvent
+  | RaccordementDésactivéEvent;
