@@ -66,6 +66,7 @@ export const register = () => {
         { type: 'GestionnaireRéseauRaccordementModifié-V2' },
         gestionnaireRéseauRaccordementModifiéV2Projector,
       )
+      // Suppression du raccordement
       .with({ type: 'RaccordementSupprimé-V1' }, raccordementSuppriméV1Projector)
 
       // Dossier Raccordement
