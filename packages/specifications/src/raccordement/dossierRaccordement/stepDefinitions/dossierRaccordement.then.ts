@@ -133,7 +133,7 @@ Alors(
         await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
           data: {
-            utilisateur: this.utilisateurWorld.adminFixture.email,
+            utilisateur: this.utilisateurWorld.dgecFixture.email,
           },
         });
 
