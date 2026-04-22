@@ -56,6 +56,44 @@ Alors(
 );
 
 Alors(
+  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+    await waitForExpect(async () => {
+      const raccordementDuProjet =
+        await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      if (Option.isNone(raccordementDuProjet)) {
+        throw new Error('Raccordement inconnu');
+      }
+
+      const dossierCible = raccordementDuProjet.dossiers.find(
+        (d) => d.référence.formatter() === référenceDossier,
+      );
+
+      expect(dossierCible).to.be.undefined;
+
+      const dossierRaccordement =
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            référenceDossierRaccordementValue: référenceDossier,
+          },
+        });
+
+      expect(Option.isNone(dossierRaccordement)).to.be.true;
+    });
+  },
+);
+
+Alors(
   `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
