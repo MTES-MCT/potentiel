@@ -25,7 +25,7 @@ export type RawType = {
   nomReprésentantLégal: string;
   prixReference: number;
   localité: Localité.RawType;
-  coordonnées: Coordonnées.DecimalRawType | undefined;
+  coordonnées: Coordonnées.RawType | undefined;
   historiqueAbandon: HistoriqueAbandon.RawType;
   puissance: number;
   puissanceALaPointe: boolean;
