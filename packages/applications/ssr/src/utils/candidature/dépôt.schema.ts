@@ -47,20 +47,6 @@ export const coordonnéesSchema = z.object({
     .min(-180, 'La longitude doit être comprise entre -180 et 180')
     .max(180, 'La longitude doit être comprise entre -180 et 180'),
 });
-export const coordonnéesStringSchema = z
-  .string()
-  .regex(Candidature.Coordonnées.expressionRégulière.regex())
-  .refine((val) => {
-    if (!val) {
-      return;
-    }
-    try {
-      Candidature.Coordonnées.convertirEnValueType(val);
-    } catch {
-      return false;
-    }
-    return true;
-  });
 
 const dispositifDeStockageSchema = z
   .object({
