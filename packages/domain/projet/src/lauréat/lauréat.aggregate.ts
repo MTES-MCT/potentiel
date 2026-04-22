@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType, mapToPlainObject } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -62,6 +62,7 @@ export class LauréatAggregate extends AbstractAggregate<
 > {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
+  #coordonnées?: Candidature.Coordonnées.ValueType;
   #référenceCahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
 
@@ -261,7 +262,8 @@ export class LauréatAggregate extends AbstractAggregate<
           format,
         },
         nomProjet,
-        localité: mapToPlainObject(localité),
+        localité: localité.formatter(),
+        coordonnées: this.projet.candidature.dépôt.coordonnées?.formatterDecimal(),
       },
     };
 
@@ -360,11 +362,17 @@ export class LauréatAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
     localité,
+    coordonnées,
     raison,
     pièceJustificative,
   }: ModifierSiteDeProductionOptions) {
     this.vérifierQueLeLauréatExiste();
-    if (this.#localité?.estÉgaleÀ(localité)) {
+    if (
+      this.#localité?.estÉgaleÀ(localité) &&
+      (this.#coordonnées === undefined
+        ? coordonnées === undefined
+        : coordonnées !== undefined && this.#coordonnées.estÉgaleÀ(coordonnées))
+    ) {
       throw new LauréatNonModifiéError();
     }
     const event: SiteDeProductionModifiéEvent = {
@@ -374,6 +382,7 @@ export class LauréatAggregate extends AbstractAggregate<
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
         localité: localité.formatter(),
+        coordonnées: coordonnées?.formatterDecimal(),
         pièceJustificative,
         ...(raison ? { raison } : {}),
       },
@@ -590,16 +599,20 @@ export class LauréatAggregate extends AbstractAggregate<
   }
 
   private applyLauréatNotifié({
-    payload: { notifiéLe, localité, nomProjet },
+    payload: { notifiéLe, localité, coordonnées, nomProjet },
   }: LauréatNotifiéEvent) {
     this.#estNotifié = true;
     this.#notifiéLe = DateTime.convertirEnValueType(notifiéLe);
     this.#nomProjet = nomProjet;
     this.#localité = Candidature.Localité.bind(localité);
+    this.#coordonnées = coordonnées ? Candidature.Coordonnées.bind(coordonnées) : undefined;
   }
 
-  private applySitedeProductionModifié({ payload: { localité } }: SiteDeProductionModifiéEvent) {
+  private applySitedeProductionModifié({
+    payload: { localité, coordonnées },
+  }: SiteDeProductionModifiéEvent) {
     this.#localité = Candidature.Localité.bind(localité);
+    this.#coordonnées = coordonnées ? Candidature.Coordonnées.bind(coordonnées) : undefined;
   }
 
   private applyNomProjetModifié({

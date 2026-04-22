@@ -17,6 +17,10 @@ export interface ModifierSiteDeProduction {
     département: string;
     région: string;
   };
+  readonly coordonnées?: {
+    latitude: number;
+    longitude: number;
+  };
   readonly raison: string;
   readonly pièceJustificative: PièceJustificative;
 }
@@ -40,6 +44,12 @@ export class ModifierSiteDeProductionFixture
 
   get localité(): ModifierSiteDeProduction['localité'] {
     return this.#localité;
+  }
+
+  #coordonnées: ModifierSiteDeProduction['coordonnées'];
+
+  get coordonnées(): ModifierSiteDeProduction['coordonnées'] {
+    return this.#coordonnées;
   }
 
   #pièceJustificative!: PièceJustificative;
@@ -69,6 +79,7 @@ export class ModifierSiteDeProductionFixture
     };
 
     this.#localité = fixture.localité;
+    this.#coordonnées = fixture.coordonnées;
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
     this.#pièceJustificative = fixture.pièceJustificative;
@@ -85,6 +96,7 @@ export class ModifierSiteDeProductionFixture
     }
     return {
       localité: Candidature.Localité.bind(this.localité),
+      coordonnées: this.coordonnées ? Candidature.Coordonnées.bind(this.coordonnées) : undefined,
     };
   }
 }

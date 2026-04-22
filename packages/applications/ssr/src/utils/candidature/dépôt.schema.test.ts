@@ -23,6 +23,10 @@ const minimumValues = {
     département: '75',
     région: 'Île-de-France',
   },
+  coordonnées: {
+    latitude: 43.2965,
+    longitude: 5.3698,
+  },
   puissanceALaPointe: 'true',
   evaluationCarboneSimplifiée: '100',
   actionnariat: 'gouvernance-partagée',
@@ -46,6 +50,10 @@ const expectedMinimumValues = {
   ...minimumValues,
   puissance: 100,
   prixReference: 5,
+  coordonnées: {
+    latitude: 43.2965,
+    longitude: 5.3698,
+  },
   puissanceALaPointe: true,
   evaluationCarboneSimplifiée: 100,
   dateÉchéanceGf: new Date(minimumValues.dateÉchéanceGf).toISOString(),
@@ -231,6 +239,49 @@ describe('Schéma dépôt', () => {
         });
         assert(result.success);
         expect(result.data.localité.codePostal).to.deep.equal('03340');
+      });
+    });
+
+    describe('coordonnées', () => {
+      test('accepte des coordonnées décimales', () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          coordonnées: { latitude: 43.2965, longitude: 5.3698 },
+        });
+
+        assert(result.success);
+        expect(result.data.coordonnées).to.deep.equal({
+          latitude: 43.2965,
+          longitude: 5.3698,
+        });
+      });
+
+      test("n'accepte pas une latitude hors bornes", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          coordonnées: { latitude: 91, longitude: 5.3698 },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['coordonnées', 'latitude'],
+          'La latitude doit être comprise entre -90 et 90',
+        );
+      });
+
+      test("n'accepte pas une longitude hors bornes", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          coordonnées: { latitude: 43.2965, longitude: 181 },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['coordonnées', 'longitude'],
+          'La longitude doit être comprise entre -180 et 180',
+        );
       });
     });
   });

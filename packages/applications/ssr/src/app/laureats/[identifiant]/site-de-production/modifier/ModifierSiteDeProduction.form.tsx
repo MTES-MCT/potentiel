@@ -14,6 +14,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
 
 import {
   modifierSiteDeProductionAction,
@@ -26,7 +27,7 @@ export type ModifierSiteDeProductionFormProps = {
 };
 
 export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps> = ({
-  lauréat: { identifiantProjet, localité },
+  lauréat: { identifiantProjet, localité, coordonnées },
   rôle,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -117,6 +118,15 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         {validationErrors['département']}
         <input type="hidden" value={commune.région} name="région" />
         {validationErrors['région']}
+      </div>
+      <div className="flex flex-col gap-2">
+        <CoordonnéesInput
+          label="Coordonées Géodésiques"
+          latitude={coordonnées?.latitude}
+          longitude={coordonnées?.longitude}
+          state={validationErrors['coordonnées'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['coordonnées']}
+        />
       </div>
       <div>
         <Input

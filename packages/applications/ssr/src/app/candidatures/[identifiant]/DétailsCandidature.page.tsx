@@ -40,6 +40,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
   const garantiesFinancières = dépôt.garantiesFinancières
     ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(dépôt.garantiesFinancières)
     : undefined;
+  const dépôtVT = Candidature.Dépôt.bind(dépôt);
   return (
     <ColumnPageTemplate
       heading={<Heading1>Détails de la candidature</Heading1>}
@@ -57,6 +58,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   {dépôt.localité.département}, {dépôt.localité.région}
                 </span>
               </Field>
+              {dépôtVT.coordonnées ? (
+                <Field name="Coordonnées géodésiques">{dépôtVT.coordonnées.formatter()}</Field>
+              ) : null}
               <Field name="Société mère">
                 <span>{dépôt.sociétéMère || 'Non renseignée'}</span>
               </Field>

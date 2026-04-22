@@ -10,14 +10,8 @@ export interface NotifierLauréat {
   readonly nomProjet: string;
   readonly notifiéLe: string;
   readonly notifiéPar: string;
-  readonly localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    région: string;
-    département: string;
-  };
+  readonly localité: Candidature.Localité.RawType;
+  readonly coordonnées?: Candidature.Coordonnées.DecimalRawType;
 }
 
 export type NotifierLauréatProps = Partial<Readonly<NotifierLauréat>> & {
@@ -30,31 +24,33 @@ export class NotifierLauréatFixture
   implements NotifierLauréat
 {
   #identifiantProjet!: string;
-
   get identifiantProjet(): string {
     return this.#identifiantProjet;
   }
-  #nomProjet!: string;
 
+  #nomProjet!: string;
   get nomProjet(): string {
     return this.#nomProjet;
   }
 
   #notifiéLe!: string;
-
   get notifiéLe(): string {
     return this.#notifiéLe;
   }
-  #notifiéPar!: string;
 
+  #notifiéPar!: string;
   get notifiéPar(): string {
     return this.#notifiéPar;
   }
 
   #localité!: NotifierLauréat['localité'];
-
   get localité(): NotifierLauréat['localité'] {
     return this.#localité;
+  }
+
+  #coordonnées!: NotifierLauréat['coordonnées'];
+  get coordonnées(): NotifierLauréat['coordonnées'] {
+    return this.#coordonnées;
   }
 
   créer(partialFixture: NotifierLauréatProps): Readonly<NotifierLauréat> {
@@ -79,6 +75,7 @@ export class NotifierLauréatFixture
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomProjet = fixture.nomProjet;
     this.#localité = fixture.localité;
+    this.#coordonnées = fixture.coordonnées;
     this.#notifiéLe = fixture.notifiéLe;
     this.#notifiéPar = fixture.notifiéPar;
 
@@ -96,6 +93,7 @@ export class NotifierLauréatFixture
       localité: Candidature.Localité.bind(this.localité),
       notifiéLe: DateTime.convertirEnValueType(this.notifiéLe),
       notifiéPar: Email.convertirEnValueType(this.notifiéPar),
+      coordonnées: this.coordonnées ? Candidature.Coordonnées.bind(this.coordonnées) : undefined,
     };
   }
 }

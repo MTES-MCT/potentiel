@@ -64,6 +64,13 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
+    Scénario: Notifier une candidature importée avec ses coordonnées géodésiques
+        Etant donné la candidature lauréate "Au Soleil" avec :
+            | latitude  | 43.2965 |
+            | longitude | 5.3698  |
+        Quand le DGEC validateur notifie la candidature lauréate
+        Alors le projet lauréat devrait être consultable
+
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature éliminée

@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -8,7 +8,7 @@ import { convertFixtureFileToReadableStream } from '../../../helpers/index.js';
 
 Quand('la dgec modifie le site de production du projet', async function (this: PotentielWorld) {
   try {
-    const { modifiéLe, modifiéPar, localité, pièceJustificative, raison } =
+    const { modifiéLe, modifiéPar, localité, coordonnées, pièceJustificative, raison } =
       this.lauréatWorld.modifierSiteDeProductionFixture.créer({
         modifiéPar: this.utilisateurWorld.dgecFixture.email,
       });
@@ -20,6 +20,7 @@ Quand('la dgec modifie le site de production du projet', async function (this: P
         modifiéParValue: modifiéPar,
         modifiéLeValue: modifiéLe,
         localitéValue: localité,
+        coordonnéesValue: coordonnées,
         raisonValue: raison,
         pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
       },
@@ -30,10 +31,70 @@ Quand('la dgec modifie le site de production du projet', async function (this: P
 });
 
 Quand(
+  'la dgec modifie le site de production du projet avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    try {
+      const exemple = table.rowsHash();
+      const { dépôt } = this.candidatureWorld.mapExempleToFixtureValues(exemple);
+      const coordonnéesValue = {
+        ...this.lauréatWorld.notifierLauréatFixture.coordonnées,
+        ...this.lauréatWorld.modifierSiteDeProductionFixture.coordonnées,
+        ...dépôt.coordonnées,
+      };
+      const localitéValue = {
+        ...this.lauréatWorld.notifierLauréatFixture.localité,
+        ...this.lauréatWorld.modifierSiteDeProductionFixture.localité,
+        ...dépôt.localité,
+      };
+      const { modifiéLe, modifiéPar, localité, pièceJustificative, coordonnées, raison } =
+        this.lauréatWorld.modifierSiteDeProductionFixture.créer({
+          localité: localitéValue,
+          coordonnées:
+            coordonnéesValue.latitude !== undefined && coordonnéesValue.longitude !== undefined
+              ? {
+                  latitude: coordonnéesValue.latitude,
+                  longitude: coordonnéesValue.longitude,
+                }
+              : undefined,
+          modifiéLe: new Date().toISOString(),
+          modifiéPar: this.utilisateurWorld.dgecFixture.email,
+        });
+
+      await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+        type: 'Lauréat.UseCase.ModifierSiteDeProduction',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
+          localitéValue: localité,
+          coordonnéesValue: coordonnées,
+          raisonValue: raison,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+        },
+      });
+
+      await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+        type: 'Lauréat.UseCase.ModifierSiteDeProduction',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
+          localitéValue: localité,
+          raisonValue: raison,
+          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   'la dgec modifie le site de production du projet avec la même valeur',
   async function (this: PotentielWorld) {
     try {
-      const { modifiéLe, modifiéPar, localité, raison, pièceJustificative } =
+      const { modifiéLe, modifiéPar, localité, raison, pièceJustificative, coordonnées } =
         this.lauréatWorld.modifierSiteDeProductionFixture.créer({
           localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
           modifiéPar: this.utilisateurWorld.dgecFixture.email,
@@ -46,6 +107,7 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           localitéValue: localité,
+          coordonnéesValue: coordonnées,
           raisonValue: raison,
           pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         },

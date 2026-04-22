@@ -17,6 +17,7 @@ import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
 
 import {
   corrigerCandidatureAction,
@@ -233,6 +234,14 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           defaultValue: candidature.adresse2,
         }}
       />
+      <CoordonnéesInput
+        label="Coordonnées géodésiques"
+        latitude={candidature.coordonnées?.latitude}
+        longitude={candidature.coordonnées?.longitude}
+        state={validationErrors['coordonnées'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['coordonnées']}
+      />
+
       <Select
         state={validationErrors['technologie'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['technologie']}

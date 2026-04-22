@@ -103,6 +103,7 @@ export * as TypeActionnariat from './typeActionnariat.valueType.js';
 export * as HistoriqueAbandon from './historiqueAbandon.valueType.js';
 export * as StatutCandidature from './statutCandidature.valueType.js';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType.js';
+export * as Coordonnées from './coordonnées.valueType.js';
 export * as Localité from './localité.valueType.js';
 export * as UnitéPuissance from './unitéPuissance.valueType.js';
 export * as Dépôt from './dépôt.valueType.js';
