@@ -59,5 +59,9 @@ export type LauréatNotifiéEvent = DomainEvent<
       région: string;
       département: string;
     };
+    coordonnées?: {
+      latitude: number;
+      longitude: number;
+    };
   }
 >;

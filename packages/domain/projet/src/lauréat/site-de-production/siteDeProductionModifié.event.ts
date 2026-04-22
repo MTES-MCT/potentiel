@@ -17,6 +17,10 @@ export type SiteDeProductionModifiéEvent = DomainEvent<
       région: string;
       département: string;
     };
+    coordonnées?: {
+      latitude: number;
+      longitude: number;
+    };
     raison?: string;
     pièceJustificative?: { format: string };
   }

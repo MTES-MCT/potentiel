@@ -37,6 +37,31 @@ const localitéSchema = z.object({
   région: requiredStringSchema,
 });
 
+export const coordonnéesSchema = z.object({
+  latitude: z
+    .number()
+    .min(-90, 'La latitude doit être comprise entre -90 et 90')
+    .max(90, 'La latitude doit être comprise entre -90 et 90'),
+  longitude: z
+    .number()
+    .min(-180, 'La longitude doit être comprise entre -180 et 180')
+    .max(180, 'La longitude doit être comprise entre -180 et 180'),
+});
+export const coordonnéesStringSchema = z
+  .string()
+  .regex(Candidature.Coordonnées.expressionRégulière.regex())
+  .refine((val) => {
+    if (!val) {
+      return;
+    }
+    try {
+      Candidature.Coordonnées.convertirEnValueType(val);
+    } catch {
+      return false;
+    }
+    return true;
+  });
+
 const dispositifDeStockageSchema = z
   .object({
     installationAvecDispositifDeStockage: booleanSchema,
@@ -185,6 +210,7 @@ export const dépôtSchema = z
     autorisation: autorisationSchema,
     installateur: optionalStringSchema,
     localité: localitéSchema,
+    coordonnées: coordonnéesSchema.optional(),
     typologieInstallation: z.array(
       z.object({
         typologie: z.enum(Candidature.TypologieInstallation.typologies),

@@ -26,6 +26,14 @@ Fonctionnalité: Corriger une candidature
         Et le détail de la candidature devrait être consultable
         Et aucun email n'a été envoyé au porteur
 
+    Scénario: Corriger une candidature avec des coordonnées géodésiques
+        Quand le DGEC validateur corrige la candidature avec :
+            | latitude  | 43.2965 |
+            | longitude | 5.3698  |
+        Alors la candidature devrait être consultable
+        Et le détail de la candidature devrait être consultable
+        Et aucun email n'a été envoyé au porteur
+
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
         Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :

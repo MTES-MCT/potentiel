@@ -128,6 +128,7 @@ const action: FormAction<FormState, typeof schema> = async (
             dateConstitutionGf: undefined,
             attestationConstitutionGf: undefined,
             raccordements: undefined,
+            coordonnées: undefined, // TODO
             ...dépôt,
             puissance:
               appelOffre === 'PPE2 - Petit PV Bâtiment'

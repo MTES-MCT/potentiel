@@ -22,6 +22,7 @@ export type ConsulterLauréatReadModel = {
   notifiéPar: Email.ValueType;
   nomProjet: string;
   localité: Localité.ValueType;
+  coordonnées?: Candidature.Coordonnées.ValueType;
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutLauréat.ValueType;
@@ -77,6 +78,7 @@ const mapToReadModel: MapToReadModel = (
     notifiéLe,
     notifiéPar,
     nomProjet,
+    coordonnées,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
     statut,
   },
@@ -94,6 +96,7 @@ const mapToReadModel: MapToReadModel = (
     département,
     région,
   }),
+  coordonnées: coordonnées ? Candidature.Coordonnées.bind(coordonnées) : undefined,
   statut: StatutLauréat.convertirEnValueType(statut),
   technologie: candidature.technologie,
   unitéPuissance: candidature.unitéPuissance,

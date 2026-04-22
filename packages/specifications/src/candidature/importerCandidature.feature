@@ -68,6 +68,12 @@ Fonctionnalité: Importer une candidature
         Alors la candidature devrait être consultable
         Et le détail de la candidature devrait être consultable
 
+    Scénario: Importer une candidature avec des coordonnées géodésiques
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | latitude  | 43.2965 |
+            | longitude | 5.3698  |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |

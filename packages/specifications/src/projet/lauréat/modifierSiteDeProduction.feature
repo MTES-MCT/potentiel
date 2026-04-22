@@ -18,6 +18,12 @@ Fonctionnalité: Modifier le site de production d'un projet lauréat
             | sujet | Potentiel - Du boulodrome de Marseille - Modification du site de production |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
 
+    Scénario: Modifier le site de production d'un projet lauréat avec des coordonnées géodésiques
+        Quand un administrateur modifie le site de production du projet avec :
+            | latitude  | 43.2965 |
+            | longitude | 5.3698  |
+        Alors le projet lauréat devrait être consultable
+
     Scénario: Modifier le site de production d'un projet abandonné
         Etant donné une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
         Quand un administrateur modifie le site de production du projet
