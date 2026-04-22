@@ -31,7 +31,7 @@ const searchParamsSchema = z.object({
   appelOffre: optionalStringArray,
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
-  statutProjet: z.enum(['actif', 'achevé']).optional(),
+  statutProjet: z.enum(['actif', 'achevé', 'abandonné']).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
