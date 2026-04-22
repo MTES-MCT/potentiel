@@ -17,6 +17,7 @@ import {
   getTypeActionnariat,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
+import { getCoordonnées } from '../getters/getCoordonnées.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -152,6 +153,8 @@ export const mapApiResponseToDépôt = ({
     }),
 
     raccordements: getRaccordements(champs),
+
+    coordonnées: getCoordonnées(champs),
 
     // Non disponibles sur Démarches simplifiées
     puissanceALaPointe: undefined,

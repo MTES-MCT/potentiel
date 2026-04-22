@@ -49,10 +49,10 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
     (event: React.ChangeEvent<{ value: string }>) => {
       setter((latOrLong) => {
         return {
-          degrees: 0,
+          degrés: 0,
           minutes: 0,
-          seconds: 0,
-          direction: 'N',
+          secondes: 0,
+          cardinal: 'N' as const,
           ...latOrLong,
           [name]: convert(event.target.value),
         };
@@ -103,12 +103,12 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: latitude?.degrees,
+            value: latitude?.degrés,
             type: 'number',
             pattern: '[0-9]',
             min: 0,
             max: 90,
-            onChange: onChange(setLatitude, 'degrees'),
+            onChange: onChange(setLatitude, 'degrés'),
             onPaste,
             'aria-label': `Degré d'angle de la latitude. Vous pouvez également coller des coordonnées au format décimal ou au format Degré Minute Seconde dans ce champ`,
           }}
@@ -136,14 +136,14 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: latitude?.seconds,
+            value: latitude?.secondes,
             type: 'number',
             pattern: '[0-9]+([.][0-9]+)?',
             inputMode: 'decimal',
             step: 'any',
             min: 0,
             max: 59.999,
-            onChange: onChange(setLatitude, 'seconds'),
+            onChange: onChange(setLatitude, 'secondes'),
             'aria-label': "Secondes d'angle de la latitude",
           }}
           className="flex-1"
@@ -156,9 +156,9 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           ]}
           label=""
           nativeSelectProps={{
-            value: latitude?.direction,
-            onChange: onChange(setLatitude, 'direction', (str) => str),
-            'aria-label': 'Direction de la latitude',
+            value: latitude?.cardinal,
+            onChange: onChange(setLatitude, 'cardinal', (str) => str),
+            'aria-label': 'Cardinal de la latitude',
           }}
           className="flex-1"
           state={props.state}
@@ -172,12 +172,12 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: longitude?.degrees,
+            value: longitude?.degrés,
             type: 'number',
             pattern: '[0-9]',
             min: 0,
             max: 179,
-            onChange: onChange(setLongitude, 'degrees'),
+            onChange: onChange(setLongitude, 'degrés'),
             'aria-label': "Degré d'angle de la longitude",
           }}
           className="flex-1"
@@ -204,14 +204,14 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           stateRelatedMessage={props.stateRelatedMessage}
           label=""
           nativeInputProps={{
-            value: longitude?.seconds,
+            value: longitude?.secondes,
             type: 'number',
             pattern: '[0-9]+([.][0-9]+)?',
             inputMode: 'decimal',
             step: 'any',
             min: 0,
             max: 59.999,
-            onChange: onChange(setLongitude, 'seconds'),
+            onChange: onChange(setLongitude, 'secondes'),
             'aria-label': "Secondes d'angle de la longitude",
           }}
           className="flex-1"
@@ -224,9 +224,9 @@ export const CoordonnéesInput = (props: CoordonnéesInputProps) => {
           ]}
           label=""
           nativeSelectProps={{
-            value: longitude?.direction,
-            onChange: onChange(setLongitude, 'direction', (str) => str),
-            'aria-label': 'Direction de la longitude',
+            value: longitude?.cardinal,
+            onChange: onChange(setLongitude, 'cardinal', (str) => str),
+            'aria-label': 'Cardinal de la longitude',
           }}
           className="flex-1"
           state={props.state}
