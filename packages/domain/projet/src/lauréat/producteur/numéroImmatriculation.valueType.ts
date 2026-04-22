@@ -1,13 +1,17 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type RawType = {
-  siret: string;
-  siren: string;
-};
+export type RawType =
+  | {
+      siret: string;
+      siren: undefined;
+    }
+  | {
+      siren?: string;
+    };
 
 export type ValueType = ReadonlyValueType<{
-  siret: string;
-  siren: string;
+  siret?: string;
+  siren?: string;
   formatter: () => RawType;
 }>;
 
@@ -37,8 +41,8 @@ export const estValideSiren = (value: string): boolean => {
 };
 
 type ConvertirEnValueTypeProps = {
-  siren: string;
-  siret: string;
+  siren?: string;
+  siret?: string;
 };
 
 export const convertirEnValueType = (props: ConvertirEnValueTypeProps) => {
@@ -47,11 +51,11 @@ export const convertirEnValueType = (props: ConvertirEnValueTypeProps) => {
 };
 
 function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
-  if (!estValideSiret(value.siret)) {
+  if (value.siret && !estValideSiret(value.siret)) {
     throw new SiretInvalideError(value.siret);
   }
 
-  if (!estValideSiren(value.siren)) {
+  if (value.siren && !estValideSiren(value.siren)) {
     throw new SirenInvalideError(value.siren);
   }
 }
