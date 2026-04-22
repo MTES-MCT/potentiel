@@ -48,7 +48,6 @@ export const setupRaccordement: SetupProjet = async (dependencies) => {
       'DossierDuRaccordementSupprimé-V2',
       'DateMiseEnServiceSupprimée-V1',
       'RaccordementSupprimé-V1',
-      'RaccordementDésactivé-V1',
     ],
     messageType: 'System.Projector.Lauréat.Raccordement',
   });
