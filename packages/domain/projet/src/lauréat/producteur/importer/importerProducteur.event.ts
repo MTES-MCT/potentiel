@@ -12,3 +12,20 @@ export type ProducteurImportéEvent = DomainEvent<
     importéPar: Email.RawType;
   }
 >;
+
+export type ProducteurImportéV2Event = DomainEvent<
+  'ProducteurImporté-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    producteur: string;
+    importéLe: DateTime.RawType;
+    importéPar: Email.RawType;
+    numéroImmatriculation:
+      | {
+          siret: string;
+        }
+      | {
+          siren?: string;
+        };
+  }
+>;
