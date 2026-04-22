@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
@@ -25,6 +26,7 @@ import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
+import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
@@ -114,6 +116,7 @@ export type ListerLauréatEnrichiDependencies = {
 };
 
 type LauréatEnrichiJoins = [
+  AppelOffre.AppelOffreEntity,
   CandidatureEntity,
   PuissanceEntity,
   ActionnaireEntity,
@@ -154,6 +157,10 @@ export const registerListerLauréatEnrichiQuery = ({
         localité: { région: Where.matchAny(scope.régions) },
       },
       join: [
+        {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
         {
           entity: 'candidature',
           on: 'identifiantProjet',
@@ -231,13 +238,22 @@ const mapToReadModel: MapToReadModelProps = ({
     localité,
     statut,
     puissance: { puissance, puissanceDeSite },
-    candidature: { prixReference, unitéPuissance, actionnariat, coefficientKChoisi, autorisation },
+    candidature: {
+      prixReference,
+      unitéPuissance,
+      actionnariat,
+      coefficientKChoisi,
+      autorisation,
+      technologie,
+    },
     achèvement,
     actionnaire,
     'détail-candidature': détailCandidature,
     installation,
     'nature-de-l-exploitation': natureDeLExploitation,
     raccordement,
+    cahierDesCharges,
+    'appel-offre': appelOffre,
   },
   gestionnaireRéseau,
 }) => {
@@ -280,7 +296,14 @@ const mapToReadModel: MapToReadModelProps = ({
       : undefined,
 
     prixReference,
-    coefficientKChoisi,
+    coefficientKChoisi: getCoefficientKLauréat({
+      identifiantPériode: identifiantProjetValueType.période,
+      identifiantFamille: identifiantProjetValueType.famille,
+      référenceCDC: cahierDesCharges,
+      appelOffre,
+      coefficientKChoisi,
+      technologie: technologie === 'N/A' ? undefined : technologie,
+    }),
     numéroAutorisation: autorisation?.numéro,
 
     puissance,

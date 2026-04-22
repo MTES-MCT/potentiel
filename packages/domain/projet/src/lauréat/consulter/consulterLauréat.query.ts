@@ -15,6 +15,7 @@ import {
   UnitéPuissance,
 } from '../../candidature/index.js';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
+import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -100,37 +101,18 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
     emailContact: candidature.dépôt.emailContact,
     nomCandidat: candidature.dépôt.nomCandidat,
     prixReference: candidature.dépôt.prixReference,
-    coefficientKChoisi: getCoefficientKChoisiLauréat(lauréat, candidature.dépôt.coefficientKChoisi),
+    coefficientKChoisi: getCoefficientKLauréat({
+      identifiantPériode: lauréat.période,
+      identifiantFamille: lauréat.famille,
+      référenceCDC: lauréat.cahierDesCharges,
+      appelOffre: lauréat['appel-offre'],
+      coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
+      technologie: candidature.technologie.type,
+    }),
     attestationDésignation: candidature.instruction.statut.estClassé()
       ? candidature.notification?.attestation
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
   };
-};
-
-const getCoefficientKChoisiLauréat = (
-  lauréat: LauréatEntity & Joined<LauréatJoins>,
-  coefficientKChoisi: Candidature.Dépôt.ValueType['coefficientKChoisi'],
-) => {
-  const période = lauréat['appel-offre'].periodes.find((p) => p.id === lauréat.période);
-
-  if (!période) {
-    return coefficientKChoisi;
-  }
-
-  const ref = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(lauréat.cahierDesCharges);
-
-  // seuls des cdc modifiés peuvent avoir un coefficient K différent du coefficient K choisi lors de la candidature
-  if (ref.type !== 'modifié') {
-    return coefficientKChoisi;
-  }
-
-  const cdcModificatif = période.cahiersDesChargesModifiésDisponibles.find((c) =>
-    ref.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
-  );
-
-  return cdcModificatif?.champsSupplémentaires?.coefficientKChoisi?.type === 'défaut'
-    ? cdcModificatif?.champsSupplémentaires?.coefficientKChoisi.valeur
-    : coefficientKChoisi;
 };
