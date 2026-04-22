@@ -48,17 +48,17 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      if (Option.isSome(raccordement) && raccordement.désactivé) {
-        return redirect(Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter()));
-      }
+      const lauréat = await récupérerLauréat(identifiantProjet.formatter());
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         return redirect(
-          Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter()),
+          lauréat.statut.estAbandonné()
+            ? Routes.Lauréat.détails.tableauDeBord(identifiantProjet.formatter())
+            : Routes.Raccordement.transmettreDemandeComplèteRaccordement(
+                identifiantProjet.formatter(),
+              ),
         );
       }
-
-      const lauréat = await récupérerLauréat(identifiantProjet.formatter());
 
       const lienRetour = utilisateur.estGrd()
         ? {

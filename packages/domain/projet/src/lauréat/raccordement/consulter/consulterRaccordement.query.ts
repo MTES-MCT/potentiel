@@ -27,7 +27,6 @@ export type ConsulterRaccordementReadModel = {
     date: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
   };
-  désactivé?: true;
 };
 
 export type ConsulterRaccordementQuery = Message<
@@ -63,8 +62,8 @@ export const registerConsulterRaccordementQuery = ({
       },
     });
 
-    if (Option.isNone(raccordement)) {
-      return raccordement;
+    if (Option.isNone(raccordement) || raccordement.désactivé) {
+      return Option.none;
     }
 
     const dossiersRaccordement = await list<DossierRaccordementEntity>(`dossier-raccordement`, {
@@ -83,7 +82,6 @@ const mapToReadModel = (
     identifiantGestionnaireRéseau,
     'gestionnaire-réseau': grd,
     miseEnService,
-    désactivé,
   }: RaccordementEntity & Joined<LeftJoin<GestionnaireRéseau.GestionnaireRéseauEntity>>,
   dossiers: ReadonlyArray<DossierRaccordementEntity>,
 ): ConsulterRaccordementReadModel => {
@@ -108,6 +106,5 @@ const mapToReadModel = (
           ),
         }
       : undefined,
-    désactivé,
   };
 };
