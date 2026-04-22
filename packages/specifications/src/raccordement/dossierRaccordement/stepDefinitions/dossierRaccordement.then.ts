@@ -56,28 +56,20 @@ Alors(
 );
 
 Alors(
-  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
+  `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    const { référenceDossier } = this.raccordementWorld;
+    const { référenceDossier } =
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await waitForExpect(async () => {
-      const raccordementDuProjet =
-        await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
-          type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
+      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
-      if (Option.isNone(raccordementDuProjet)) {
-        throw new Error('Raccordement inconnu');
-      }
-
-      const dossierCible = raccordementDuProjet.dossiers.find(
-        (d) => d.référence.formatter() === référenceDossier,
-      );
-
-      expect(dossierCible).to.be.undefined;
+      expect(Option.isNone(raccordement)).to.be.true;
 
       const dossierRaccordement =
         await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
@@ -94,9 +86,10 @@ Alors(
 );
 
 Alors(
-  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement`,
+  `le dossier de raccordement ne devrait plus être consultable dans la liste des dossiers de raccordement`,
   async function (this: PotentielWorld) {
-    const { référenceDossier } = this.raccordementWorld;
+    const { référenceDossier } =
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await waitForExpect(async () => {
       const listeRaccordement =
         await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({

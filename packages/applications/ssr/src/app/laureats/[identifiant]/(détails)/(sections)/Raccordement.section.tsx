@@ -42,28 +42,27 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
       const action =
-        !abandon?.demandeEnCours && détailConsultable && !raccordement.désactivé
+        !abandon?.demandeEnCours && détailConsultable
           ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
 
-      const alertes =
-        rôle.estPorteur() && !raccordement.désactivé
-          ? getAlertesRaccordement({
-              CDC2022Choisi:
-                !!cahierDesCharges.cahierDesChargesModificatif &&
-                cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-              raccordement,
-              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
-                cahierDesCharges.période.delaiDcrEnMois.valeur,
-              ),
-              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
-                !!cahierDesCharges.appelOffre
-                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
-            })
-          : [];
+      const alertes = rôle.estPorteur()
+        ? getAlertesRaccordement({
+            CDC2022Choisi:
+              !!cahierDesCharges.cahierDesChargesModificatif &&
+              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+            raccordement,
+            dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+              cahierDesCharges.période.delaiDcrEnMois.valeur,
+            ),
+            transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
+              !!cahierDesCharges.appelOffre
+                .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+          })
+        : [];
 
       const value = mapToPlainObject(raccordement);
 
