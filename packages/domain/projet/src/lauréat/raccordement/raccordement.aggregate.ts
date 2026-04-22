@@ -40,8 +40,8 @@ import {
   PropositionTechniqueEtFinancièreTransmiseEvent,
   PropositionTechniqueEtFinancièreTransmiseEventV1,
   PropositionTechniqueEtFinancièreTransmiseEventV2,
-  RaccordementDésactivéEvent,
   RaccordementEvent,
+  RaccordementSuppriméEvent,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
 } from './raccordement.event.js';
@@ -97,7 +97,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   'raccordement',
   LauréatAggregate
 > {
-  #désactivé = false;
   #gestionnaireRéseau!: AggregateType<GestionnaireRéseau.GestionnaireRéseauAggregate>;
   #dossiers: Map<string, DossierRaccordement> = new Map();
 
@@ -470,27 +469,19 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.#dossiers.delete(payload.référenceDossier);
   }
 
-  async désactiverRaccordement() {
-    const raccordementDésactivé: RaccordementDésactivéEvent = {
-      type: 'RaccordementDésactivé-V1',
+  async supprimerRaccordement() {
+    const raccordementSupprimé: RaccordementSuppriméEvent = {
+      type: 'RaccordementSupprimé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
       },
     };
 
-    await this.publish(raccordementDésactivé);
+    await this.publish(raccordementSupprimé);
 
     await this.#tâcheTransmettreRéférenceRaccordement.achever();
     await this.#tâcheGestionnaireRéseauInconnuAttribué.achever();
   }
-  private applyRaccordementDésactivéEventV1() {
-    this.#désactivé = true;
-  }
-
-  /**
-   *
-   * @deprecated event remplacé par RaccordementDésactivéEvent mais conservé pour la compatibilité dans l'agrégat et le rebuild
-   */
   private applyRaccordementSuppriméEventV1() {
     this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
     this.#dossiers = new Map();
@@ -1222,7 +1213,6 @@ export class RaccordementAggregate extends AbstractAggregate<
         { type: 'DateMiseEnServiceSupprimée-V1' },
         this.applyDateMiseEnServiceSuppriméeEventV1.bind(this),
       )
-      .with({ type: 'RaccordementDésactivé-V1' }, this.applyRaccordementDésactivéEventV1.bind(this))
       .exhaustive();
   }
 }
