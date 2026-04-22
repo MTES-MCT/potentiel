@@ -19,7 +19,7 @@ Fonctionnalité: Modifier le site de production d'un projet lauréat
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
 
     Scénario: Modifier le site de production d'un projet lauréat avec des coordonnées géodésiques
-        Quand un administrateur modifie le site de production du projet avec :
+        Quand la dgec modifie le site de production du projet avec :
             | latitude  | 43.2965 |
             | longitude | 5.3698  |
         Alors le projet lauréat devrait être consultable
