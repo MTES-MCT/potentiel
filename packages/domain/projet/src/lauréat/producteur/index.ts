@@ -56,6 +56,7 @@ export { registerProducteurQueries, registerProducteurUseCases } from './product
 
 // ValueTypes
 export * as DocumentProducteur from './documentProducteur.valueType.js';
+export * as NuméroImmatriculation from './numéroImmatriculation.valueType.js';
 
 // Entities
 export type * from './producteur.entity.js';
