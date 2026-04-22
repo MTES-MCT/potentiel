@@ -11,7 +11,7 @@ export interface NotifierLauréat {
   readonly notifiéLe: string;
   readonly notifiéPar: string;
   readonly localité: Candidature.Localité.RawType;
-  readonly coordonnées?: Candidature.Coordonnées.DecimalRawType;
+  readonly coordonnées?: Candidature.Coordonnées.RawType;
 }
 
 export type NotifierLauréatProps = Partial<Readonly<NotifierLauréat>> & {

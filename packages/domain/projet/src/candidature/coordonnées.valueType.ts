@@ -4,9 +4,7 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 type LatitudeCardinal = 'N' | 'S';
 type LongitudeCardinal = 'E' | 'O';
 
-export type StringRawType = string; // e.g., "43° 17' 47.4" N, 5° 22' 11.52" E"
-
-export type DecimalRawType = {
+export type RawType = {
   latitude: number;
   longitude: number;
 };
@@ -22,8 +20,8 @@ type DMSRawType = {
 export type ValueType = ReadonlyValueType<{
   latitude: number;
   longitude: number;
-  formatter(): StringRawType;
-  formatterDecimal(): DecimalRawType;
+  formatter(): string;
+  formatterDecimal(): RawType;
   toDMS(): [DMSRawType, DMSRawType];
 }>;
 

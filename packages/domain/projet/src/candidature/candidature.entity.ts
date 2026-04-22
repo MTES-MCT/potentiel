@@ -50,7 +50,7 @@ export type CandidatureEntity = Entity<
     typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
     localité: PlainType<Localité.ValueType>;
-    coordonnées?: Coordonnées.DecimalRawType;
+    coordonnées?: Coordonnées.RawType;
     nomCandidat: string;
     nomReprésentantLégal: string;
     emailContact: string;
