@@ -197,6 +197,8 @@ export class LauréatWorld {
       unitéPuissance,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
 
+    const coefficientKRègles = this.cahierDesCharges.getChampsSupplémentaires()?.coefficientKChoisi;
+
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
@@ -208,7 +210,8 @@ export class LauréatWorld {
       nomCandidat,
       technologie,
       prixReference,
-      coefficientKChoisi,
+      coefficientKChoisi:
+        coefficientKRègles?.type === 'défaut' ? coefficientKRègles.valeur : coefficientKChoisi,
       unitéPuissance,
       statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
         ? Lauréat.StatutLauréat.abandonné

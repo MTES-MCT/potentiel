@@ -48,7 +48,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
   evaluationCarboneSimplifiée: ['évaluation carbone simplifiée', mapNumber],
   puissanceALaPointe: ['puissance à la pointe', mapBoolean],
   obligationDeSolarisation: ['obligation de solarisation', mapOptionalBoolean],
-  coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
+  coefficientKChoisi: ['coefficient K', mapOptionalBoolean],
   puissanceDeSite: ['puissance de site', mapNumber],
   installateur: ['installateur'],
 };

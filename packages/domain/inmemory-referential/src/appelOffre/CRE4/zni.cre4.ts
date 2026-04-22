@@ -114,6 +114,9 @@ const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
   miseÀJour: {
     changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: true },
+  },
 };
 
 const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
@@ -124,6 +127,9 @@ const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
   délaiAnnulationAbandon: CDCModifié07022023.délaiAnnulationAbandon,
   miseÀJour: {
     changement: CDCModifié07022023.miseÀJour?.changement,
+  },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: true },
   },
 };
 
@@ -143,6 +149,11 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   miseÀJour: {
     changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
     modification: defaultModifications,
+  },
+  champsSupplémentaires: {
+    puissanceALaPointe: { type: 'optionnel' },
+    territoireProjet: { type: 'requis' },
+    coefficientKChoisi: { type: 'défaut', valeur: false },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
@@ -202,10 +213,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
 `,
     },
-  },
-  champsSupplémentaires: {
-    puissanceALaPointe: 'optionnel',
-    territoireProjet: 'requis',
   },
   periodes: [
     {

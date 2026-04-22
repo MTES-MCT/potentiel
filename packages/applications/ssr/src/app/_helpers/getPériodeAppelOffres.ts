@@ -18,16 +18,20 @@ export const getPériodeAppelOffres = cache(async (identifiantProjet: Identifian
       identifiantAppelOffre: identifiantProjetValueType.appelOffre,
     },
   });
+
   if (Option.isNone(appelOffres)) {
     logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
-
     return notFound();
   }
+
   const période = appelOffres.periodes.find((p) => p.id === identifiantProjetValueType.période);
+
   if (!période) {
     logger.warn(`Période non trouvée`, { identifiantProjet });
     return notFound();
   }
+
   const famille = période.familles?.find((f) => f.id === identifiantProjetValueType.famille);
+
   return { appelOffres, période, famille };
 });

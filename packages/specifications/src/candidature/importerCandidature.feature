@@ -130,20 +130,20 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Impossible d'importer une candidature avec choix du coefficient K si la période ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut               | classé          |
-            | appel d'offres       | PPE2 - Bâtiment |
-            | période              | 9               |
-            | famille              |                 |
-            | coefficient K choisi | oui             |
+            | statut         | classé          |
+            | appel d'offres | PPE2 - Bâtiment |
+            | période        | 9               |
+            | famille        |                 |
+            | coefficient K  | oui             |
         Alors la dgec devrait être informé que "Le champ choix du coefficient K ne peut être renseigné pour cet appel d'offres"
 
     Scénario: Impossible d'importer une candidature sans choix du coefficient K si la période le propose
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut               | classé          |
-            | appel d'offres       | PPE2 - Bâtiment |
-            | période              | 10              |
-            | famille              |                 |
-            | coefficient K choisi |                 |
+            | statut         | classé          |
+            | appel d'offres | PPE2 - Bâtiment |
+            | période        | 10              |
+            | famille        |                 |
+            | coefficient K  |                 |
         Alors la dgec devrait être informé que "Le champ choix du coefficient K est requis pour cet appel d'offres"
 
     Scénario: Impossible d'importer une candidature sans puissance de site pour un appel d'offres qui a ce champ requis

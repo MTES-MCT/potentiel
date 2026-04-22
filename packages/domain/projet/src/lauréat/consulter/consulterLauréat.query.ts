@@ -15,6 +15,7 @@ import {
   UnitéPuissance,
 } from '../../candidature/index.js';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
+import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -47,12 +48,21 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [CandidatureEntity];
+type LauréatJoins = [CandidatureEntity, AppelOffre.AppelOffreEntity];
 
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
-      join: [{ entity: 'candidature', on: 'identifiantProjet' }],
+      join: [
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
+      ],
     });
 
     if (Option.isNone(lauréat)) {
@@ -71,39 +81,38 @@ type MapToReadModel = (
   candidature: Candidature.ConsulterCandidatureReadModel,
 ) => ConsulterLauréatReadModel;
 
-const mapToReadModel: MapToReadModel = (
-  {
-    identifiantProjet,
-    notifiéLe,
-    notifiéPar,
-    nomProjet,
-    localité: { adresse1, adresse2, codePostal, commune, département, région },
-    statut,
-  },
-  candidature,
-) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  notifiéLe: DateTime.convertirEnValueType(notifiéLe),
-  notifiéPar: Email.convertirEnValueType(notifiéPar),
-  nomProjet,
-  localité: Localité.bind({
-    adresse1,
-    adresse2,
-    codePostal,
-    commune,
-    département,
-    région,
-  }),
-  statut: StatutLauréat.convertirEnValueType(statut),
-  technologie: candidature.technologie,
-  unitéPuissance: candidature.unitéPuissance,
-  emailContact: candidature.dépôt.emailContact,
-  nomCandidat: candidature.dépôt.nomCandidat,
-  prixReference: candidature.dépôt.prixReference,
-  coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
-  attestationDésignation: candidature.instruction.statut.estClassé()
-    ? candidature.notification?.attestation
-    : undefined,
-  autorisation: candidature.dépôt.autorisation,
-  actionnariat: candidature.dépôt.actionnariat,
-});
+const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(lauréat.identifiantProjet),
+    notifiéLe: DateTime.convertirEnValueType(lauréat.notifiéLe),
+    notifiéPar: Email.convertirEnValueType(lauréat.notifiéPar),
+    nomProjet: lauréat.nomProjet,
+    localité: Localité.bind({
+      adresse1: lauréat.localité.adresse1,
+      adresse2: lauréat.localité.adresse2,
+      codePostal: lauréat.localité.codePostal,
+      commune: lauréat.localité.commune,
+      département: lauréat.localité.département,
+      région: lauréat.localité.région,
+    }),
+    statut: StatutLauréat.convertirEnValueType(lauréat.statut),
+    technologie: candidature.technologie,
+    unitéPuissance: candidature.unitéPuissance,
+    emailContact: candidature.dépôt.emailContact,
+    nomCandidat: candidature.dépôt.nomCandidat,
+    prixReference: candidature.dépôt.prixReference,
+    coefficientKChoisi: getCoefficientKLauréat({
+      identifiantPériode: lauréat.période,
+      identifiantFamille: lauréat.famille,
+      référenceCDC: lauréat.cahierDesCharges,
+      appelOffre: lauréat['appel-offre'],
+      coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
+      technologie: candidature.technologie.type,
+    }),
+    attestationDésignation: candidature.instruction.statut.estClassé()
+      ? candidature.notification?.attestation
+      : undefined,
+    autorisation: candidature.dépôt.autorisation,
+    actionnariat: candidature.dépôt.actionnariat,
+  };
+};

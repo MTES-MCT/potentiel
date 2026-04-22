@@ -2,6 +2,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
+const champsSupplémentairesÀPartirDeP10 = {
+  coefficientKChoisi: { type: 'requis' as const },
+};
+
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -117,6 +121,10 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesÀPartirDeP10,
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -144,7 +152,6 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
@@ -174,7 +181,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
-  champsSupplémentaires: { typologieInstallation: 'optionnel' },
   periodes: [
     {
       id: '1',
@@ -209,7 +215,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+      },
     },
     {
       id: '2',
@@ -244,7 +252,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+      },
     },
     {
       id: '3',
@@ -285,7 +295,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+      },
     },
     {
       id: '4',
@@ -320,7 +332,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '5',
@@ -366,7 +380,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '6',
@@ -412,7 +428,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '7',
@@ -458,7 +476,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '8',
@@ -494,7 +514,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
       typeImport: 'csv',
@@ -507,7 +526,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '9',
@@ -554,7 +575,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '10',
@@ -590,11 +613,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-
       addendums: addendumPériode8EtSuivantes,
-      champsSupplémentaires: {
-        coefficientKChoisi: 'requis',
-      },
       typeImport: 'csv',
       miseÀJour: {
         changement: {
@@ -637,11 +656,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-
       addendums: addendumPériode8EtSuivantes,
-      champsSupplémentaires: {
-        coefficientKChoisi: 'requis',
-      },
       typeImport: 'csv',
       miseÀJour: {
         changement: {

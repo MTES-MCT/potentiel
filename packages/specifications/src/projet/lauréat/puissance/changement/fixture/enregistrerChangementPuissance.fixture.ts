@@ -67,7 +67,7 @@ export class EnregistrerChangementPuissanceFixture
       pièceJustificative: faker.potentiel.document(),
       ratioPuissance: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
       puissanceDeSite:
-        aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+        aoData?.champsSupplémentaires?.puissanceDeSite?.type === 'requis'
           ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       ...partialData,

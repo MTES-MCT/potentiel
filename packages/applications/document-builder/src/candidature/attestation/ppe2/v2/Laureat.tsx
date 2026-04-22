@@ -56,13 +56,14 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
           {appelOffre.tarifOuPrimeRetenue} en application des dispositions du chapitre{' '}
           {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
           {formatNumber(project.prixReference)} €/MWh.
-          {project.coefficientKChoisi && (
-            <Text style={{ fontWeight: 'bold' }}>
-              {' '}
-              Conformément à votre choix dans le formulaire de candidature, ce prix de référence T
-              est indexé par l'application du coefficient k défini dans ce même paragraphe.{' '}
-            </Text>
-          )}
+          {project.coefficientKChoisi &&
+            cahierDesCharges.estChampRequisOuOptionnel('coefficientKChoisi') && (
+              <Text style={{ fontWeight: 'bold' }}>
+                {' '}
+                Conformément à votre choix dans le formulaire de candidature, ce prix de référence T
+                est indexé par l'application du coefficient k défini dans ce même paragraphe.{' '}
+              </Text>
+            )}
         </Text>
         <Text style={{ marginTop: 10 }}>
           {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0

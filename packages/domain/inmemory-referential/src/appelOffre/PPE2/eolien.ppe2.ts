@@ -2,6 +2,13 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
+const champsSupplémentairesAPartirDeP11 = {
+  coefficientKChoisi: { type: 'requis' as const },
+  autorisation: { type: 'requis' as const },
+  dispositifDeStockage: { type: 'optionnel' as const },
+  natureDeLExploitation: { type: 'requis' as const },
+};
+
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -122,6 +129,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       typologieInstallation: true,
     },
   },
+  champsSupplémentaires: champsSupplémentairesAPartirDeP11,
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -191,6 +199,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -201,6 +210,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -234,6 +249,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       abandonAvecRecandidature: true,
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -244,6 +260,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -272,6 +294,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -282,6 +305,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -302,6 +331,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -312,6 +342,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -332,6 +368,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -342,6 +379,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -362,6 +405,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -372,6 +416,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -392,6 +442,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           représentantLégal: {
             demande: true,
@@ -402,6 +453,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
     },
@@ -433,6 +490,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           },
         },
       },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
+      },
       typeImport: 'csv',
     },
     {
@@ -453,12 +516,19 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       typeImport: 'csv',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           abandon: {
             demande: true,
             autoritéCompétente: 'dgec',
           },
         },
+      },
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
     },
     {
@@ -478,10 +548,14 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       champsSupplémentaires: {
-        coefficientKChoisi: 'requis',
+        coefficientKChoisi: { type: 'requis' },
+        autorisation: undefined,
+        dispositifDeStockage: undefined,
+        natureDeLExploitation: undefined,
       },
       typeImport: 'csv',
       miseÀJour: {
+        modification: defaultModifications,
         changement: {
           abandon: {
             demande: true,
@@ -506,12 +580,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      champsSupplémentaires: {
-        coefficientKChoisi: 'requis',
-        autorisation: 'requis',
-        dispositifDeStockage: 'requis',
-        natureDeLExploitation: 'requis',
-      },
+      champsSupplémentaires: champsSupplémentairesAPartirDeP11,
       typeImport: 'démarche-simplifiée',
     },
   ],

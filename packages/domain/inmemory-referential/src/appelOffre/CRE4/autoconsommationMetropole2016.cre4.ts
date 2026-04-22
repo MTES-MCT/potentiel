@@ -74,6 +74,9 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
     changement: 'indisponible',
     modification: defaultModifications,
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: false },
+  },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',

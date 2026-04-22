@@ -304,8 +304,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           nativeInputProps={{
             name: 'puissanceDeSite',
             defaultValue: candidature.puissanceDeSite,
-            required: champsSupplémentaires.puissanceDeSite === 'requis',
-            'aria-required': champsSupplémentaires.puissanceDeSite === 'requis',
+            required: champsSupplémentaires.puissanceDeSite.type === 'requis',
+            'aria-required': champsSupplémentaires.puissanceDeSite.type === 'requis',
             type: 'number',
             inputMode: 'decimal',
             pattern: '[0-9]+([.][0-9]+)?',
@@ -410,6 +410,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             required: true,
             'aria-required': true,
           }}
+          disabled={champsSupplémentaires.coefficientKChoisi.type === 'défaut'}
           options={[
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },

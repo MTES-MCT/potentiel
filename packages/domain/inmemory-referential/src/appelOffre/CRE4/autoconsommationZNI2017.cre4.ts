@@ -105,6 +105,9 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
     changement: 'indisponible',
     modification: defaultModifications,
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: false },
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',

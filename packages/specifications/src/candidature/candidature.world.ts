@@ -80,6 +80,11 @@ export class CandidatureWorld {
       throw new Error('AO ou période inconnue');
     }
 
+    const technologie = Candidature.TypeTechnologie.déterminer({
+      appelOffre: appelOffres,
+      projet: dépôtValue,
+    });
+
     const expected: Candidature.ConsulterCandidatureReadModel = {
       dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
 
@@ -94,10 +99,7 @@ export class CandidatureWorld {
           dépôtValue.technologie,
         ).formatter(),
       }),
-      technologie: Candidature.TypeTechnologie.déterminer({
-        appelOffre: appelOffres,
-        projet: dépôtValue,
-      }),
+      technologie,
     };
 
     return expected;

@@ -14,6 +14,11 @@ export const candidatureCorrigéeProjector = async ({
   const candidature = await findProjection<Candidature.CandidatureEntity>(
     `candidature|${identifiantProjet.formatter()}`,
   );
+
+  if (Option.isNone(candidature)) {
+    throw new Error('Candidature non trouvée');
+  }
+
   const appelOffres = await getAppelOffres(identifiantProjet);
 
   if (Option.isNone(appelOffres)) {
@@ -40,12 +45,12 @@ export const mapToCandidatureToUpsert = ({
   appelOffres,
 }: {
   payload: Candidature.CandidatureCorrigéeEvent['payload'];
-  candidature: Option.Type<Candidature.CandidatureEntity>;
+  candidature: Candidature.CandidatureEntity;
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
 }): Omit<Candidature.CandidatureEntity, 'type'> => {
-  const notification: Candidature.CandidatureEntity['notification'] = Option.isSome(candidature)
-    ? payload.doitRégénérerAttestation && candidature.notification
+  const notification: Candidature.CandidatureEntity['notification'] =
+    payload.doitRégénérerAttestation && candidature.notification
       ? {
           ...candidature.notification,
           attestation: candidature.notification.attestation && {
@@ -53,8 +58,7 @@ export const mapToCandidatureToUpsert = ({
             format: candidature.notification.attestation.format,
           },
         }
-      : candidature.notification
-    : undefined;
+      : candidature.notification;
 
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,

@@ -3,8 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { defaultModifications } from '../../constants.js';
 
 const champsSupplémentairesAPartirDeP4 = {
-  coefficientKChoisi: 'requis' as const,
-  typologieInstallation: 'optionnel' as const,
+  coefficientKChoisi: { type: 'requis' as const },
 };
 
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
@@ -64,6 +63,10 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesAPartirDeP4,
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -121,7 +124,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP4,
   periodes: [
     {
       id: '1',
@@ -162,7 +164,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '2',
@@ -202,7 +207,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '3',
@@ -242,7 +250,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+        typologieInstallation: undefined,
+      },
     },
     {
       id: '4',

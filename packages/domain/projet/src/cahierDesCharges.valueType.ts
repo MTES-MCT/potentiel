@@ -41,6 +41,8 @@ export type ValueType = {
   ): boolean;
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
   getChampsSupplémentaires(): AppelOffre.ChampsSupplémentairesCandidature;
+  estChampRequisOuOptionnel(champ: AppelOffre.ChampCandidature): boolean;
+  estChampRequis(champ: AppelOffre.ChampCandidature): boolean;
   getTypesActionnariat(): TypeActionnariat.RawType[];
 };
 
@@ -182,12 +184,28 @@ export const bind = ({
 
     return { dispositions, référenceParagraphe };
   },
+
   getChampsSupplémentaires() {
     return {
       ...this.appelOffre.champsSupplémentaires,
       ...this.période.champsSupplémentaires,
+      ...this.cahierDesChargesModificatif?.champsSupplémentaires,
     };
   },
+
+  estChampRequisOuOptionnel(champ) {
+    const champsSupplémentaires = this.getChampsSupplémentaires();
+    return (
+      champsSupplémentaires[champ]?.type === 'requis' ||
+      champsSupplémentaires[champ]?.type === 'optionnel'
+    );
+  },
+
+  estChampRequis(champ) {
+    const champsSupplémentaires = this.getChampsSupplémentaires();
+    return champsSupplémentaires[champ]?.type === 'requis';
+  },
+
   getTypesActionnariat() {
     return [
       ...(this.appelOffre.cycleAppelOffre === 'PPE2'

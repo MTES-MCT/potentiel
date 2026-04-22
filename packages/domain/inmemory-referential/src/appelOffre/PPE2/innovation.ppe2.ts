@@ -109,6 +109,10 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     },
     modification: { ...defaultModifications, typologieInstallation: true },
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: false },
+    typologieInstallation: { type: 'optionnel' },
+  },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
@@ -166,7 +170,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
-  champsSupplémentaires: { typologieInstallation: 'optionnel' },
   periodes: [
     {
       id: '1',

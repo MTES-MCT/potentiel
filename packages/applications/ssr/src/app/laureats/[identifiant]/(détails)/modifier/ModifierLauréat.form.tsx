@@ -61,9 +61,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   peutRegénérerAttestation,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
-
   const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
-  const champsSupplémentaires = cdcActuel.getChampsSupplémentaires();
 
   return (
     <Form
@@ -229,7 +227,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             required
           />
         </FormRow>
-        {champsSupplémentaires.puissanceALaPointe && (
+        {cdcActuel.estChampRequisOuOptionnel('puissanceALaPointe') && (
           <FormRow>
             <CandidatureSelectField
               candidature={candidature.puissanceALaPointe ? 'true' : 'false'}
@@ -240,12 +238,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Non', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              required={champsSupplémentaires.puissanceALaPointe === 'requis'}
+              required={cdcActuel.estChampRequis('puissanceALaPointe')}
             />
           </FormRow>
         )}
 
-        {champsSupplémentaires.puissanceDeSite && (
+        {cdcActuel.estChampRequisOuOptionnel('puissanceDeSite') && (
           <FormRow>
             <ProjectField
               candidature={candidature.puissanceDeSite ?? 0}
@@ -253,11 +251,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               name="puissanceDeSite"
               lauréat={lauréat.puissanceDeSite.currentValue}
               validationErrors={validationErrors}
-              required={champsSupplémentaires.puissanceDeSite === 'requis'}
+              required={cdcActuel.estChampRequis('puissanceDeSite')}
             />
           </FormRow>
         )}
-        {champsSupplémentaires.autorisation && (
+        {cdcActuel.estChampRequisOuOptionnel('autorisation') && (
           <>
             <FormRow>
               <CandidatureField
@@ -265,7 +263,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 label="Numéro d'autorisation"
                 name="numéroDAutorisation"
                 validationErrors={validationErrors}
-                required={champsSupplémentaires.autorisation === 'requis'}
+                required={cdcActuel.estChampRequis('autorisation')}
               />
             </FormRow>
             <FormRow>
@@ -277,7 +275,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </>
         )}
 
-        {champsSupplémentaires.coefficientKChoisi && (
+        {cdcActuel.estChampRequisOuOptionnel('coefficientKChoisi') && (
           <FormRow>
             <CandidatureSelectField
               candidature={candidature.coefficientKChoisi ? 'true' : 'false'}
@@ -288,7 +286,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Non', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              required={champsSupplémentaires.coefficientKChoisi === 'requis'}
+              required={cdcActuel.estChampRequis('coefficientKChoisi')}
             />
           </FormRow>
         )}

@@ -17,11 +17,15 @@ export const candidatureCorrigéeV1Projector = async ({
     `candidature|${identifiantProjet.formatter()}`,
   );
 
+  if (Option.isNone(candidature)) {
+    throw new Error('Candidature non trouvée');
+  }
+
   const candidatureToUpsert = mapToCandidatureToUpsert({
     payload: {
       ...payload,
-      fournisseurs: Option.isSome(candidature) ? candidature.fournisseurs : [],
-      typologieInstallation: Option.isSome(candidature) ? candidature.typologieInstallation : [],
+      fournisseurs: candidature.fournisseurs,
+      typologieInstallation: candidature.typologieInstallation,
     },
     candidature,
     identifiantProjet,

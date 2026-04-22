@@ -2,9 +2,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { defaultModifications } from '../../constants.js';
 
-const champsSupplémentairesAPartirDeP5 = {
-  coefficientKChoisi: 'requis' as const,
-  typologieInstallation: 'optionnel' as const,
+const champsSupplémentairesAPartirDeP8 = {
+  coefficientKChoisi: { type: 'requis' as const },
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -172,7 +171,10 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 `,
     },
   },
-  champsSupplémentaires: champsSupplémentairesAPartirDeP5,
+  champsSupplémentaires: {
+    typologieInstallation: { type: 'optionnel' as const },
+    ...champsSupplémentairesAPartirDeP8,
+  },
   periodes: [
     {
       id: '1',
@@ -198,7 +200,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       typeImport: 'csv',
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+      },
       miseÀJour: {
         changement: {
           abandon: {
@@ -247,7 +251,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           },
         },
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: false },
+      },
     },
     {
       id: '3',
@@ -282,7 +288,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '4',
@@ -328,7 +336,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '5',
@@ -374,7 +384,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '6',
@@ -420,7 +432,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '7',
@@ -466,7 +480,9 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
         modification: defaultModifications,
       },
-      champsSupplémentaires: {},
+      champsSupplémentaires: {
+        coefficientKChoisi: { type: 'défaut', valeur: true },
+      },
     },
     {
       id: '8',

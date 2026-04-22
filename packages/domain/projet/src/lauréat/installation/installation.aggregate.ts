@@ -207,10 +207,9 @@ export class InstallationAggregate extends AbstractAggregate<
   private vérifierQueModificationTypologieInstallationEstPossible = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
-    const { typologieInstallation: champsSupplémentaireTypologieInstallation } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentaireTypologieInstallation) {
+    if (
+      !this.lauréat.parent.cahierDesChargesActuel.estChampRequisOuOptionnel('typologieInstallation')
+    ) {
       throw new ChampNonAttenduError('typologie du projet');
     }
 
@@ -234,10 +233,9 @@ export class InstallationAggregate extends AbstractAggregate<
   private vérifierSiMiseÀJourDispositifDeStockagePossible = (
     modification: Lauréat.Installation.DispositifDeStockage.ValueType,
   ) => {
-    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentairedispositifDeStockage) {
+    if (
+      !this.lauréat.parent.cahierDesChargesActuel.estChampRequisOuOptionnel('dispositifDeStockage')
+    ) {
       throw new ChampNonAttenduError('dispositif de stockage');
     }
 
@@ -247,10 +245,7 @@ export class InstallationAggregate extends AbstractAggregate<
   };
 
   private vérifierSiMiseÀJourInstallateurPossible = (installateur: string) => {
-    const { installateur: champsSupplémentaireInstallateur } =
-      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
-
-    if (!champsSupplémentaireInstallateur) {
+    if (!this.lauréat.parent.cahierDesChargesActuel.estChampRequisOuOptionnel('installateur')) {
       throw new ChampNonAttenduError('installateur');
     }
 

@@ -73,7 +73,7 @@ export const GET = async (request: Request) =>
           { value: 'unitéPuissance', label: 'Unité de puissance' },
           {
             value: 'coefficientKChoisi',
-            label: 'Coefficient K choisi',
+            label: 'Coefficient K',
           },
 
           {

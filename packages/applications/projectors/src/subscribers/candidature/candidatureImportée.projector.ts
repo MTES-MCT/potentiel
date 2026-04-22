@@ -1,4 +1,3 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -8,8 +7,7 @@ export const candidatureImportéeProjector = async ({
   payload,
 }: Candidature.CandidatureImportéeEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
-  const appelOffres = await getAppelOffres(identifiantProjet);
-  const candidatureToUpsert = mapToCandidatureToUpsert({ appelOffres, identifiantProjet, payload });
+  const candidatureToUpsert = await mapToCandidatureToUpsert({ identifiantProjet, payload });
 
   await upsertProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,
@@ -17,15 +15,14 @@ export const candidatureImportéeProjector = async ({
   );
 };
 
-export const mapToCandidatureToUpsert = ({
+export const mapToCandidatureToUpsert = async ({
   identifiantProjet,
   payload,
-  appelOffres,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   payload: Candidature.CandidatureImportéeEvent['payload'];
-  appelOffres: AppelOffre.AppelOffreReadModel;
-}): Omit<Candidature.CandidatureEntity, 'type'> => {
+}): Promise<Omit<Candidature.CandidatureEntity, 'type'>> => {
+  const appelOffres = await getAppelOffres(identifiantProjet);
   const technologie = Candidature.TypeTechnologie.déterminer({
     appelOffre: appelOffres,
     projet: payload,

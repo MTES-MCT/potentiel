@@ -127,6 +127,9 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
     changement: 'indisponible',
     modification: defaultModifications,
   },
+  champsSupplémentaires: {
+    coefficientKChoisi: { type: 'défaut', valeur: false },
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
