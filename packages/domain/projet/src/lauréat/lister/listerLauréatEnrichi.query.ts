@@ -6,9 +6,10 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity.js';
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
+  Coordonnées,
   Dépôt,
   DétailCandidatureEntity,
   Localité,
@@ -45,6 +46,9 @@ export type LauréatEnrichiListItemReadModel = {
   codePostal: Localité.ValueType['codePostal'];
   département: Localité.ValueType['département'];
   région: Localité.ValueType['région'];
+
+  latitude?: Coordonnées.RawType['latitude'];
+  longitude?: Coordonnées.RawType['longitude'];
 
   actionnaire: Actionnaire.ConsulterActionnaireReadModel['actionnaire'];
 
@@ -166,9 +170,7 @@ export const registerListerLauréatEnrichiQuery = ({
           on: 'identifiantProjet',
           where: {
             actionnariat: Where.matchAny(
-              Candidature.TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(
-                typeActionnariat,
-              ),
+              TypeActionnariat.getTypeActionnariaWhereConditionsForQuery(typeActionnariat),
             ),
           },
         },
@@ -236,6 +238,7 @@ const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     identifiantProjet,
     localité,
+    coordonnées,
     statut,
     puissance: { puissance, puissanceDeSite },
     candidature: {
@@ -273,7 +276,7 @@ const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     statut: statutValueType,
     ...localité,
-
+    ...coordonnées,
     actionnaire: actionnaire.actionnaire.nom,
 
     typeActionnariat: actionnariat

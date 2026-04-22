@@ -60,6 +60,8 @@ export const GET = async (request: Request) =>
           { value: 'codePostal', label: 'Code postal' },
           { value: 'département', label: 'Département' },
           { value: 'région', label: 'Région' },
+          { value: 'latitude', label: 'Latitude' },
+          { value: 'longitude', label: 'Longitude' },
           { value: 'actionnaire', label: 'Actionnaire' },
           { value: 'typeActionnariat', label: "Type d'actionnariat" },
           { value: 'raisonSocialeGestionnaireRéseau', label: 'Gestionnaire réseau' },
@@ -75,7 +77,6 @@ export const GET = async (request: Request) =>
             value: 'coefficientKChoisi',
             label: 'Coefficient K',
           },
-
           {
             value: 'numéroAutorisation',
             label: 'Autorisation',
@@ -128,6 +129,8 @@ export const GET = async (request: Request) =>
           },
         ],
         data: lauréatEnrichiList.items.map((item) => ({
+          latitude: '',
+          longitude: '',
           ...item,
           identifiantProjet: item.identifiantProjet.formatter(),
           statut: item.statut.formatter(),

@@ -54,6 +54,8 @@ export const GET = async (request: Request) =>
           { value: 'codePostal', label: 'Code postal' },
           { value: 'département', label: 'Département' },
           { value: 'région', label: 'Région' },
+          { value: 'latitude', label: 'Latitude' },
+          { value: 'longitude', label: 'Longitude' },
           { value: 'actionnaire', label: 'Actionnaire' },
           { value: 'typeActionnariat', label: "Type d'actionnariat" },
           { value: 'prixReference', label: 'Prix de référence' },
@@ -108,6 +110,8 @@ export const GET = async (request: Request) =>
           },
         ],
         data: éliminéEnrichiList.items.map((item) => ({
+          latitude: '',
+          longitude: '',
           ...item,
           identifiantProjet: item.identifiantProjet.formatter(),
           unitéPuissance: item.unitéPuissance.formatter(),
