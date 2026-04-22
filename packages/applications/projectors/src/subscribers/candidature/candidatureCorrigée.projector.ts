@@ -81,9 +81,5 @@ export const mapToCandidatureToUpsert = ({
       période: identifiantProjet.période,
       technologie: technologie.formatter(),
     }).formatter(),
-    coefficientKChoisi:
-      payload.coefficientKChoisi !== undefined
-        ? payload.coefficientKChoisi
-        : candidature.coefficientKChoisi,
   };
 };

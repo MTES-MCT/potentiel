@@ -2,7 +2,6 @@ import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getAppelOffres } from './_helpers/getAppelOffres.js';
-import { getCoefficientK } from './_helpers/getCoefficientK.js';
 
 export const candidatureImportéeProjector = async ({
   payload,
@@ -29,14 +28,6 @@ export const mapToCandidatureToUpsert = async ({
     projet: payload,
   });
 
-  // champs supplémentaire pouvant avoir une valeur par défaut, non présente dans le payload de l'événement
-  const coefficientKChoisi = getCoefficientK(
-    appelOffres,
-    identifiantProjet,
-    technologie,
-    payload.coefficientKChoisi,
-  );
-
   return {
     identifiantProjet: payload.identifiantProjet,
     appelOffre: identifiantProjet.appelOffre,
@@ -53,6 +44,5 @@ export const mapToCandidatureToUpsert = async ({
       période: identifiantProjet.période,
       technologie: technologie.formatter(),
     }).formatter(),
-    coefficientKChoisi,
   };
 };
