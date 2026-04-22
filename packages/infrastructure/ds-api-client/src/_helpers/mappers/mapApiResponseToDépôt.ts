@@ -92,6 +92,8 @@ export const mapApiResponseToDépôt = ({
       : undefined;
   };
 
+  // viovio
+  // on doit également récupérer le SIREN / SIRET comme un champs à part entière
   return {
     //  1. Renseignements administratifs
     nomCandidat: accessor.getStringValue('nomCandidat'),

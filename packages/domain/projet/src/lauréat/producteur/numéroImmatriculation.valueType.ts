@@ -3,7 +3,6 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 export type RawType =
   | {
       siret: string;
-      siren: undefined;
     }
   | {
       siren?: string;
