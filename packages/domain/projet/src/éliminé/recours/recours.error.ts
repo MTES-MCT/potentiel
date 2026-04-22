@@ -1,8 +1,8 @@
 import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain/core';
 
-export class RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError extends InvalidOperationError {
+export class RecoursDéjàEnInstructionAvecLeMêmeUtilisateurDgecError extends InvalidOperationError {
   constructor() {
-    super('Le recours est déjà en instruction avec le même administrateur');
+    super('Le recours est déjà en instruction avec le même utilisateur dgec');
   }
 }
 

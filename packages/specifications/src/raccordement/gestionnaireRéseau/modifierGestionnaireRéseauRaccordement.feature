@@ -41,9 +41,9 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
-    Scénario: Un administrateur modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
+    Scénario: La dgec modifie le gestionnaire de réseau inconnu d'un raccordement pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Quand l'administrateur modifie le gestionnaire de réseau du projet avec :
+        Quand la dgec modifie le gestionnaire de réseau du projet avec :
             | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 

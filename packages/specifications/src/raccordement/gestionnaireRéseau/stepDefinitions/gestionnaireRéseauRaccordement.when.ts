@@ -7,6 +7,8 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Email } from '@potentiel-domain/common';
 
+import { RôleUtilisateur } from '#helpers';
+
 import { PotentielWorld } from '../../../potentiel.world.js';
 
 Quand(
@@ -64,12 +66,8 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'administrateur) modifie le gestionnaire de réseau du projet avec :/,
-  async function (
-    this: PotentielWorld,
-    rôleString: 'le porteur' | 'la dreal' | "l'administrateur",
-    datatable: DataTable,
-  ) {
+  /(le porteur|la dreal|la dgec) modifie le gestionnaire de réseau du projet avec :/,
+  async function (this: PotentielWorld, rôleString: RôleUtilisateur, datatable: DataTable) {
     const exemples = datatable.rowsHash();
 
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
@@ -89,9 +87,9 @@ Quand(
         rôle: Role.dreal,
         email: Email.convertirEnValueType(this.utilisateurWorld.drealFixture.email),
       }))
-      .with("l'administrateur", () => ({
-        rôle: Role.admin,
-        email: Email.convertirEnValueType(this.utilisateurWorld.adminFixture.email),
+      .with('la dgec', () => ({
+        rôle: Role.dgec,
+        email: Email.convertirEnValueType(this.utilisateurWorld.dgecFixture.email),
       }))
       .exhaustive();
 

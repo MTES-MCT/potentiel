@@ -4,7 +4,7 @@ import { PotentielWorld } from '../potentiel.world.js';
 import { PorteurFixture } from './fixtures/porteur.fixture.js';
 import { ValidateurFixture } from './fixtures/validateur.fixture.js';
 import { DREALFixture } from './fixtures/dreal.fixture.js';
-import { AdminFixture } from './fixtures/admin.fixture.js';
+import { DGECFixture } from './fixtures/dgec.fixture.js';
 import { GRDFixture } from './fixtures/grd.fixture.js';
 import {
   InviterUtilisateurFixture,
@@ -46,10 +46,10 @@ export class UtilisateurWorld {
     return this.#grdFixture;
   }
 
-  #adminFixture: AdminFixture;
+  #dgecFixture: DGECFixture;
 
-  get adminFixture() {
-    return this.#adminFixture;
+  get dgecFixture() {
+    return this.#dgecFixture;
   }
 
   #creFixture: CREFixture;
@@ -82,7 +82,7 @@ export class UtilisateurWorld {
     this.#drealFixture = new DREALFixture('dreal');
     this.#cocontractantFixture = new CocontractantFixture('cocontractant');
     this.#grdFixture = new GRDFixture('grd');
-    this.#adminFixture = new AdminFixture('admin');
+    this.#dgecFixture = new DGECFixture('dgec');
     this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
     this.#inviterPorteur = new InviterPorteurFixture();
@@ -98,8 +98,8 @@ export class UtilisateurWorld {
         return this.drealFixture.email;
       case 'grd':
         return this.grdFixture.email;
-      case 'admin':
-        return this.adminFixture.email;
+      case 'dgec':
+        return this.dgecFixture.email;
       case 'validateur':
         return this.validateurFixture.email;
       case 'cre':

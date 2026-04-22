@@ -51,7 +51,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière$/,
+  /(le porteur|la dreal|la dgec) modifie la proposition technique et financière$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur) {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -69,7 +69,7 @@ Quand(
 );
 
 Quand(
-  /(le porteur|la dreal|l'administrateur) modifie la proposition technique et financière avec :$/,
+  /(le porteur|la dreal|la dgec) modifie la proposition technique et financière avec :$/,
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
 

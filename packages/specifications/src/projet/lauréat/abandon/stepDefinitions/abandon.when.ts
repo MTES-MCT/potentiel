@@ -67,7 +67,7 @@ Quand(
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.dgec.nom;
 
       const { rejetéeLe, rejetéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.rejeterAbandonFixture.créer({
@@ -96,7 +96,7 @@ Quand(
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.dgec.nom;
 
       const { accordéLe, accordéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
@@ -131,7 +131,7 @@ Quand(
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.dgec.nom;
 
       const { confirmationDemandéeLe, confirmationDemandéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.créer({
@@ -185,10 +185,10 @@ Quand(
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.dgec.nom;
 
-      if (rôleUtilisateur === 'un nouvel administrateur') {
-        this.utilisateurWorld.adminFixture.créer();
+      if (rôleUtilisateur === 'un nouvel la dgec') {
+        this.utilisateurWorld.dgecFixture.créer();
       }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =

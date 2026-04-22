@@ -20,7 +20,7 @@ EtantDonné(
       identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
   },
 );
@@ -45,7 +45,7 @@ EtantDonné(
       identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService,
-      this.utilisateurWorld.adminFixture.email,
+      this.utilisateurWorld.dgecFixture.email,
     );
   },
 );

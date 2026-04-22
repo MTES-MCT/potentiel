@@ -16,7 +16,7 @@ type AuthTileProps = {
   description?: ReactNode;
   action?: ReactNode;
   className?: string;
-  profiles: Record<'porteurs' | 'dreal' | 'dgec' | 'autres', boolean>;
+  profiles: Record<'porteurs' | 'dreal' | 'dgec' | 'admin' | 'autres', boolean>;
   provider: ProviderProps;
 };
 
@@ -50,6 +50,7 @@ export function AuthTile({
               'Porteurs de Projet': profiles.porteurs,
               DREAL: profiles.dreal,
               DGEC: profiles.dgec,
+              Admin: profiles.admin,
               'Autres Partenaires*': profiles.autres,
             }}
             title="Profils pouvant se connecter avec ProConnect, la solution d'identité de l'État pour les professionnels"

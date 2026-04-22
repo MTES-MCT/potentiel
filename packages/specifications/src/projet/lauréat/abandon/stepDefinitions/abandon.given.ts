@@ -250,7 +250,7 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { passéEnInstructionLe, passéEnInstructionPar } =
     this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer({
-      passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+      passéEnInstructionPar: this.utilisateurWorld.dgecFixture.email,
     });
 
   await mediator.send<Lauréat.Abandon.PasserEnInstructionAbandonUseCase>({
@@ -267,7 +267,7 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
 async function annulerDemandeAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { annuléeLe, annuléePar } = this.lauréatWorld.abandonWorld.annulerAbandonFixture.créer({
-    annuléePar: this.utilisateurWorld.adminFixture.email,
+    annuléePar: this.utilisateurWorld.dgecFixture.email,
   });
 
   await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({

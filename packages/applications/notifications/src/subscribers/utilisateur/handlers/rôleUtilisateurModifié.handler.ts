@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { RôleUtilisateurModifiéEvent } from '@potentiel-domain/utilisateur';
 
-import { getBaseUrl, listerAdminEtValidateursRecipients } from '#helpers';
+import { getBaseUrl, listerDgecEtValidateursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
@@ -12,7 +12,7 @@ export async function handleRôleUtilisateurModifié({
   if (rôle !== 'dgec-validateur') {
     return;
   }
-  const recipients = await listerAdminEtValidateursRecipients();
+  const recipients = await listerDgecEtValidateursRecipients();
   const teamRecipients = listerTeamRecipients();
 
   for (const recipient of recipients.concat(teamRecipients)) {

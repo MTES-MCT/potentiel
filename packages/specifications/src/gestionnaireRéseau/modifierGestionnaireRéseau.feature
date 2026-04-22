@@ -20,4 +20,4 @@ Fonctionnalité: Modifier un gestionnaire de réseau
         Quand le DGEC validateur modifie les données d'un gestionnaire de réseau inconnu
             | Code EIC       | Code EIC inconnu |
             | Raison sociale | RTE              |
-        Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
+        Alors la dgec devrait être informé que "Le gestionnaire de réseau n'est pas référencé"

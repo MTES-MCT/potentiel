@@ -92,7 +92,7 @@ export async function modifierProducteur(
 ) {
   const { modifiéLe, modifiéPar, producteur, raison } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
-      modifiéPar: this.utilisateurWorld.adminFixture.email,
+      modifiéPar: this.utilisateurWorld.dgecFixture.email,
       ...(producteurValue && { producteur: producteurValue }),
     });
 

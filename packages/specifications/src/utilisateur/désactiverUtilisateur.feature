@@ -10,7 +10,7 @@ Fonctionnalité: Désactiver un utilisateur
 
     Plan du scénario: Désactiver un utilisateur (hors Porteur de projet)
         Etant donné un utilisateur invité avec le rôle "<Rôle>"
-        Quand un administrateur désactive l'utilisateur
+        Quand la dgec désactive l'utilisateur
         Alors l'utilisateur devrait être désactivé
 
         Exemples:
@@ -40,7 +40,7 @@ Fonctionnalité: Désactiver un utilisateur
             | sujet | Potentiel - Notification de la période (.*) de l'appel d'offres (.*) |
 
     Scénario: Désactiver un porteur de projet
-        Quand un administrateur désactive le porteur du projet
+        Quand la dgec désactive le porteur du projet
         Alors le porteur devrait être désactivé
 
     Scénario: Impossible de désactiver son propre compte
@@ -50,5 +50,5 @@ Fonctionnalité: Désactiver un utilisateur
 
     Scénario: Impossible de désactiver un utilisateur déjà désactivé
         Etant donné un utilisateur désactivé avec le rôle "admin"
-        Quand un administrateur désactive l'utilisateur
+        Quand la dgec désactive l'utilisateur
         Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas actif"

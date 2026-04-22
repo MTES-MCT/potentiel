@@ -32,7 +32,7 @@ Fonctionnalité: Inviter un porteur sur un projet
 
     Scénario: Impossible d'inviter un compte non-porteur existant
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le porteur invite l'administrateur sur le projet lauréat
+        Quand le porteur invite la dgec sur le projet lauréat
         Alors l'utilisateur devrait être informé que "L'utilisateur ne peut être invité sur ce projet"
 
     @NotImplemented

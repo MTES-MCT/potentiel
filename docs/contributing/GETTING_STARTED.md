@@ -17,7 +17,6 @@
   - [Metabase local](#metabase-local)
     - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
     - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
-  - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
   - [Tâches récurrentes / CRON](#tâches-récurrentes--cron)
     - [Monitoring des tâches récurrentes](#monitoring-des-tâches-récurrentes)
@@ -115,6 +114,7 @@ npm run start
    - cocontractant@test.test (Métropole)
    - cocontractant+zni@test.test (ZNI)
    - cocontractant+mayotte@test.test (Mayotte)
+   - dgec@test.test
    - dgec-validateur@test.test
    - cre@test.test
    - caissedesdepots@test.test

@@ -128,7 +128,7 @@ export async function modifierGarantiesFinancièresActuelles(
     enregistréPar,
     estUnNouveauDocument,
   } = this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.créer({
-    enregistréPar: this.utilisateurWorld.adminFixture.email,
+    enregistréPar: this.utilisateurWorld.dgecFixture.email,
     ...props,
   });
 

@@ -165,7 +165,7 @@ Alors(
       const administration = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
-          roles: ['dgec-validateur', 'admin', 'dreal'],
+          roles: ['dgec-validateur', 'dgec', 'dreal'],
           actif: true,
         },
       });

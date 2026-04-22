@@ -121,7 +121,7 @@ async function passerDemandeRecoursEnInstruction(this: PotentielWorld) {
 
   const { passéEnInstructionLe, passéEnInstructionPar } =
     this.éliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
-      passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+      passéEnInstructionPar: this.utilisateurWorld.dgecFixture.email,
     });
 
   await mediator.send<Éliminé.Recours.PasserEnInstructionRecoursUseCase>({

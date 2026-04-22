@@ -17,7 +17,7 @@ Quand(
   ) {
     try {
       const { email } = match(rôle)
-        .with('le DGEC validateur', () => this.utilisateurWorld.adminFixture)
+        .with('le DGEC validateur', () => this.utilisateurWorld.dgecFixture)
         .with('la DREAL associée au projet', () => this.utilisateurWorld.drealFixture)
         .exhaustive();
       await modifierActionnaire.call(this, email, statutProjet);
@@ -62,7 +62,7 @@ Quand(
   "le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await modifierActionnaireSansChangement.call(this, this.utilisateurWorld.adminFixture.email);
+      await modifierActionnaireSansChangement.call(this, this.utilisateurWorld.dgecFixture.email);
     } catch (error) {
       this.error = error as Error;
     }

@@ -36,7 +36,7 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Quand la DREAL associée au projet rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-    Scénario: Impossible de rejeter le délai d'un projet lauréat dont l'autorité compétente est la DGEC pour un utilisateur DREAL
+    Scénario: Impossible de rejeter le délai d'un projet lauréat dont l'autorité compétente est la dgec pour un utilisateur DREAL
         Etant donné le projet lauréat legacy "Du boulodrome de Lyon" avec :
             | appel d'offres | Eolien |
         Et une demande de délai en cours pour le projet lauréat

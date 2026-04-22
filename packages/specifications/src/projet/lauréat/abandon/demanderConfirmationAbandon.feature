@@ -8,7 +8,7 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
 
     Scénario: La DGEC demande de confirmer la demande d'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être en attente de confirmation
         Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
@@ -18,7 +18,7 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
 
     Scénario: La DGEC demande de confirmer la demande d'abandon d'un projet lauréat en instruction
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être en attente de confirmation
         Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
 
@@ -37,34 +37,34 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
             | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
         Alors la demande d'abandon du projet lauréat devrait être en attente de confirmation
 
     Scénario: Impossible de demander de confirmer la demande d'abandon d'un projet lauréat si une demande d'abandon a déjà été accordée
         Etant donné une demande d'abandon accordée pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été accordée"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "La demande d'abandon a déjà été accordée"
 
     Scénario: Impossible de demander de confirmer la demande d'abandon d'un projet lauréat si la demande a déjà été rejetée
         Etant donné une demande d'abandon rejetée pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été rejetée"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "La demande d'abandon a déjà été rejetée"
 
     Scénario: Impossible de demander de nouveau de confirmer la demande d'abandon d'un projet lauréat
         Etant donné une confirmation d'abandon demandée pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon est déjà en attente de confirmation"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "La demande d'abandon est déjà en attente de confirmation"
 
     Scénario: Impossible de demander de confirmer une demande d'abandon déjà confirmée
         Etant donné une demande d'abandon confirmée pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été confirmée"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "La demande d'abandon a déjà été confirmée"
 
     Scénario: Impossible de demander de confirmer la demande d'abandon d'un projet lauréat si aucun abandon n'a été demandé
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "Aucune demande d'abandon n'est en cours"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "Aucune demande d'abandon n'est en cours"
 
-    Scénario: Impossible pour une Dreal de demander de confirmer une demande d'abandon si l'autorité compétente est la DGEC
+    Scénario: Impossible pour une Dreal de demander de confirmer une demande d'abandon si l'autorité compétente est la dgec
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Eolien |
             | période        | 8             |
@@ -75,5 +75,5 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
 
     Scénario: Impossible de demander de confirmer une demande d'abando pour un abandon déjà annulé
         Etant donné une demande d'abandon annulée pour le projet lauréat
-        Quand l'administrateur demande une confirmation de la demande d'abandon pour le projet lauréat
-        Alors l'administrateur devrait être informé que "La demande d'abandon a déjà été annulée"
+        Quand la dgec demande une confirmation de la demande d'abandon pour le projet lauréat
+        Alors la dgec devrait être informé que "La demande d'abandon a déjà été annulée"

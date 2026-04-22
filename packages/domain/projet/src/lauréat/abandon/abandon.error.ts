@@ -66,9 +66,9 @@ export class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationErro
   }
 }
 
-export class AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError extends InvalidOperationError {
+export class AbandonDéjàEnInstructionAvecLeMêmeUtilisateurDgecError extends InvalidOperationError {
   constructor() {
-    super("La demande d'abandon est déjà en instruction avec le même administrateur");
+    super("La demande d'abandon est déjà en instruction avec le même utilisateur dgec");
   }
 }
 

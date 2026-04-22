@@ -8,9 +8,9 @@ export const handleRecoursAnnulé = async ({ payload }: Éliminé.Recours.Recour
   const projet = await getÉliminé(payload.identifiantProjet);
   const { appelOffre, période } = projet.identifiantProjet;
   const porteursRecipients = await listerPorteursRecipients(projet.identifiantProjet);
-  const adminRecipients = await listerDgecRecipients(projet.identifiantProjet);
+  const dgecRecipients = await listerDgecRecipients(projet.identifiantProjet);
 
-  for (const recipients of [porteursRecipients, adminRecipients]) {
+  for (const recipients of [porteursRecipients, dgecRecipients]) {
     await sendEmail({
       key: 'recours/annuler',
       recipients,
