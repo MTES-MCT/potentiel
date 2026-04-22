@@ -22,6 +22,7 @@ Alors('le projet lauréat devrait être consultable', async function (this: Pote
 
     const actual = mapToPlainObject(lauréat);
     const expected = mapToPlainObject(this.lauréatWorld.mapToExpected());
+    console.log('expected', expected.coordonnées);
 
     expect(actual).to.deep.eq(expected);
   });

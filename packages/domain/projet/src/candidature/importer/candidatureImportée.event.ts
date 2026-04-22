@@ -32,6 +32,10 @@ type CandidatureImportéeEventPayload = {
     département: string;
     région: string;
   };
+  coordonnées?: {
+    latitude: number;
+    longitude: number;
+  };
   motifÉlimination?: string;
   puissanceALaPointe: boolean;
   puissanceProjetInitial?: number;

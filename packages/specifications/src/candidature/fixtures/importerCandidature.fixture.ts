@@ -225,6 +225,14 @@ const créerDépôt = (
     raccordements: dépôt.raccordements?.every((r) => r?.référence && r.dateQualification)
       ? (dépôt.raccordements as Candidature.Dépôt.RawType['raccordements'])
       : undefined,
+
+    coordonnées:
+      dépôt.coordonnées?.latitude !== undefined && dépôt.coordonnées.longitude !== undefined
+        ? {
+            latitude: dépôt.coordonnées.latitude,
+            longitude: dépôt.coordonnées.longitude,
+          }
+        : undefined,
   };
 
   return dépôtValue;

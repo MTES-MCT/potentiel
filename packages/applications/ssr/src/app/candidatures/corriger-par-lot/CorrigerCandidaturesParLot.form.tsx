@@ -14,7 +14,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   corrigerCandidaturesParLotAction,
   CorrigerCandidaturesParLotFormKeys,
-} from './CorrigerCandidaturesParLot.action';
+} from './corrigerCandidaturesParLot.action';
 
 export type CorrigerCandidaturesParLotFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
