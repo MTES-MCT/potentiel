@@ -17,12 +17,14 @@ export const computePourcentageProjetEnService = async () => {
           (
             (
               SELECT
-                count(DISTINCT p.value ->> 'identifiantProjet')
+                count(DISTINCT d.value ->> 'identifiantProjet')
               FROM
-                domain_views.projection p
+                domain_views.projection d
+                join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
               WHERE
-                p.key LIKE 'dossier-raccordement|%'
-                AND p.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
+                d.key LIKE 'dossier-raccordement|%'
+                AND d.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
+                AND r.value->>'désactivé' IS NULL
             )::decimal / (
               ${getCountProjetsLauréatsNonAbandonnés}
             )::decimal

@@ -28,6 +28,7 @@ export const computePuissanceTotaleMiseEnService = async () => {
                   join domain_views.projection puiss on puiss.key=format('puissance|%s',racc.value->>'identifiantProjet')
               where 
                     racc.key like 'raccordement|%'
+                    and racc.value->>'désactivé' is null
               )
           )
           `,
