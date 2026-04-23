@@ -8,8 +8,11 @@ import { getSessionUser } from '@/auth/getSessionUser';
 export async function withUtilisateur<TResult>(
   action: (Utilisateur: PotentielUtilisateur) => Promise<TResult>,
 ): Promise<TResult> {
-  // const utilisateur = getContext()?.utilisateur;
-  const utilisateur = await getSessionUser({ headers: await headers() });
+  let utilisateur = getContext()?.utilisateur;
+
+  if (!utilisateur) {
+    utilisateur = await getSessionUser({ headers: await headers() });
+  }
   if (!utilisateur) {
     throw new AuthenticationError();
   }
