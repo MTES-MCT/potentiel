@@ -38,6 +38,7 @@ export type LauréatEnrichiListItemReadModel = {
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: Dépôt.ValueType['nomProjet'];
   statut: StatutLauréat.ValueType;
+  PPA?: true;
 
   adresse1: Localité.ValueType['adresse1'];
   adresse2: Localité.ValueType['adresse2'];
@@ -237,6 +238,7 @@ const mapToReadModel: MapToReadModelProps = ({
     identifiantProjet,
     localité,
     statut,
+    PPA,
     puissance: { puissance, puissanceDeSite },
     candidature: {
       prixReference,
@@ -272,6 +274,7 @@ const mapToReadModel: MapToReadModelProps = ({
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
     statut: statutValueType,
+    PPA: PPA ? true : undefined,
     ...localité,
 
     actionnaire: actionnaire.actionnaire.nom,

@@ -15,6 +15,7 @@ type DossierRaccordementCSV = {
   famille: IdentifiantProjet.ValueType['famille'];
   numeroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   statutProjet: Lauréat.StatutLauréat.RawType;
+  PPA: string;
   nomProjet: string;
   referenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType;
   dateDemandeCompleteRaccordement?: string;
@@ -62,6 +63,7 @@ export const GET = async (request: Request) =>
         { label: 'Famille', value: 'famille' },
         { label: 'Numéro CRE', value: 'numeroCRE' },
         { label: 'Statut du projet', value: 'statutProjet' },
+        { label: 'PPA', value: 'PPA' },
         { label: 'Nom projet', value: 'nomProjet' },
         { label: 'Référence dossier', value: 'referenceDossier' },
         { label: 'Date demande complète raccordement', value: 'dateDemandeCompleteRaccordement' },
@@ -82,6 +84,7 @@ export const GET = async (request: Request) =>
         ({
           identifiantProjet,
           statutProjet,
+          PPA,
           nomProjet,
           référenceDossier,
           puissance,
@@ -101,6 +104,7 @@ export const GET = async (request: Request) =>
           nomProjet,
           statutProjet: statutProjet.formatter(),
           referenceDossier: référenceDossier.formatter(),
+          PPA: PPA ? 'Oui' : 'Non',
           dateDemandeCompleteRaccordement: dateDemandeComplèteRaccordement
             ? dateDemandeComplèteRaccordement.date.toLocaleDateString('fr-FR')
             : undefined,
