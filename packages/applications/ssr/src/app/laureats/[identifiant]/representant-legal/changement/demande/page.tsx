@@ -8,10 +8,9 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import { getReprésentantLégalInfos } from '../../../_helpers';
 
-type ProjetPageProps = IdentifiantParameter;
-
 // Page de redirection vers la dernière demande d'actionnaire (demandée, annulée, accordée ou rejetée) du projet
-export default async function ProjetPage({ params: { identifiant } }: ProjetPageProps) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   const identifiantProjet = decodeParameter(identifiant);
 
   const représentantLégal = await getReprésentantLégalInfos(
