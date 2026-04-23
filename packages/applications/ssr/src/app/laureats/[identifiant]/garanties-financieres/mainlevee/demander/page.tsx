@@ -10,7 +10,8 @@ import { getAchèvement, getGarantiesFinancières } from '../../../_helpers';
 
 import { DemanderMainlevéePage, DemanderMainlevéePageProps } from './DemanderMainlevée.page';
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async () => {
       const identifiantProjet = decodeParameter(identifiant);
