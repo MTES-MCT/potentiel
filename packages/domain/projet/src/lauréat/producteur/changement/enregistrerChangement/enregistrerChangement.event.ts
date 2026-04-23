@@ -2,6 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
+import { NuméroImmatriculation } from '../../index.js';
 
 export type ChangementProducteurEnregistréEvent = DomainEvent<
   'ChangementProducteurEnregistré-V1',
@@ -10,6 +11,7 @@ export type ChangementProducteurEnregistréEvent = DomainEvent<
     producteur: string;
     enregistréLe: DateTime.RawType;
     enregistréPar: Email.RawType;
+    numéroImmatriculation?: NuméroImmatriculation.RawType;
     raison?: string;
     pièceJustificative: {
       format: string;

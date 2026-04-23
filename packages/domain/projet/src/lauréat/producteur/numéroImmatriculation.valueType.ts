@@ -14,6 +14,9 @@ export type ValueType = ReadonlyValueType<{
   formatter: () => RawType;
 }>;
 
+// au moins l'un ou l'autre
+// on fait une validation regex ici
+
 export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   estValide({ siret, siren });
   return {

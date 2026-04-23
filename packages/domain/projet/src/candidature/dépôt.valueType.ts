@@ -2,7 +2,7 @@ import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domai
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur/index.js';
-import { GarantiesFinancières } from '../lauréat/index.js';
+import { GarantiesFinancières, Producteur } from '../lauréat/index.js';
 import { Lauréat } from '../index.js';
 import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
 
@@ -52,6 +52,7 @@ export type RawType = {
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.RawType> | undefined;
+  numéroImmatriculation: Producteur.NuméroImmatriculation.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -87,6 +88,7 @@ export type ValueType = ReadonlyValueType<{
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.ValueType> | undefined;
+  numéroImmatriculation: Producteur.NuméroImmatriculation.ValueType | undefined;
 
   formatter(): RawType;
 }>;
@@ -138,6 +140,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
+  numéroImmatriculation: plain.numéroImmatriculation
+    ? Producteur.NuméroImmatriculation.convertirEnValueType(plain.numéroImmatriculation)
+    : undefined,
 
   estÉgaleÀ(valueType) {
     return (
@@ -174,7 +179,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
       ) &&
-      areEqualArrays(valueType.raccordements, this.raccordements)
+      areEqualArrays(valueType.raccordements, this.raccordements) &&
+      areEqual(valueType.numéroImmatriculation, this.numéroImmatriculation)
     );
   },
   formatter() {
@@ -226,6 +232,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       raccordements: this.raccordements?.map((r) => r.formatter()),
+      numéroImmatriculation: this.numéroImmatriculation
+        ? this.numéroImmatriculation.formatter()
+        : undefined,
     };
   },
 });
@@ -306,6 +315,9 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         dateQualification: DateTime.convertirEnValueType(raccordement.dateQualification),
       }),
     ),
+    numéroImmatriculation: raw.numéroImmatriculation
+      ? Producteur.NuméroImmatriculation.convertirEnValueType(raw.numéroImmatriculation)
+      : undefined,
   });
 
 const bindOptional = <TValue, TValueType>(
