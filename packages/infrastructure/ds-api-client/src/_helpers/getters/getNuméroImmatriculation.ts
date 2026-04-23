@@ -14,7 +14,7 @@ export const getNuméroImmatriculation = <TDossier extends Record<string, string
   nomChampsNuméroSIRET,
 }: GetNuméroImmatriculationProps<TDossier>) => {
   const siren = accessor.getStringValue(nomChampsNuméroSIREN);
-  const siret = accessor.getStringValue(nomChampsNuméroSIRET);
+  const siret = accessor.getSIRETValue(nomChampsNuméroSIRET);
 
   if (!siren && !siret) return undefined;
 
