@@ -1,5 +1,4 @@
 # language: fr
-@select
 @lauréat
 @PPA
 Fonctionnalité: L'Administration DGEC ou DREAL signale un état PPA pour un projet lauréat
