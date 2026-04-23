@@ -7,9 +7,9 @@ import { apiAction } from '@/utils/apiAction';
 import { getDashboardRoute } from '@/utils/getDashboardRoute';
 import { getSessionUser } from '@/auth/getSessionUser';
 
-export const GET = async (req: NextRequest) =>
+export const GET = async ({ headers }: NextRequest) =>
   apiAction(async () => {
-    const utilisateur = await getSessionUser(req);
+    const utilisateur = await getSessionUser({ headers });
 
     if (utilisateur) {
       redirect(getDashboardRoute(utilisateur.rôle).lien);
