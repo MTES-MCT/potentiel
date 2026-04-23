@@ -54,6 +54,7 @@ export const GET = async (request: Request) =>
           { value: 'numéroCRE', label: 'Numéro CRE' },
           { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'statut', label: 'Statut du projet' },
+          { value: 'PPA', label: 'PPA' },
           { value: 'adresse1', label: 'Adresse 1' },
           { value: 'adresse2', label: 'Adresse 2' },
           { value: 'commune', label: 'Commune' },
@@ -131,6 +132,7 @@ export const GET = async (request: Request) =>
           ...item,
           identifiantProjet: item.identifiantProjet.formatter(),
           statut: item.statut.formatter(),
+          PPA: item.PPA ? 'Oui' : 'Non',
           unitéPuissance: item.unitéPuissance.formatter(),
           typeActionnariat: item.typeActionnariat?.formatter(),
           dateAchèvementPrévisionnelle: formatDateForDocument(
