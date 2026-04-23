@@ -35,7 +35,6 @@ async function main() {
     setCspHeader(req, res);
 
     if (ignorePaths.some((p) => req.url?.startsWith(p))) {
-      console.log('Ignoring path', req.url);
       return nextHandler(req, res, parsedUrl);
     }
 
@@ -54,14 +53,6 @@ async function main() {
       req,
       res,
       callback: (req, res) => nextHandler(req, res, parsedUrl),
-      // Sentry.withScope((scope) => {
-      //   const utilisateur = getContext()?.utilisateur;
-      //   if (utilisateur) {
-      //     scope.setUser({ email: utilisateur.identifiantUtilisateur.email });
-      //   }
-      //   // Handle incoming HTTP request
-      //   return nextHandler(req, res, parsedUrl);
-      // }),
       getUtilisateur: getSessionUser,
     });
   });
