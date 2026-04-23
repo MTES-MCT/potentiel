@@ -37,6 +37,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
+  PPA: z.enum(['oui', 'non']).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -44,7 +45,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat } =
+      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
       if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
@@ -61,6 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
           famille,
           statut,
           typeActionnariat,
+          PPA: PPA === 'oui' ? true : PPA === 'non' ? false : undefined,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -92,6 +94,14 @@ export default async function Page({ searchParams }: PageProps) {
             value,
           })),
           multiple: true,
+        },
+        {
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'oui' },
+            { label: 'Non', value: 'non' },
+          ],
         },
         {
           label: `Appel d'offres`,
