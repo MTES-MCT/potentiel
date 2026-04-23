@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import { NuméroImmatriculation } from '../../index.js';
 
 export type EnregistrerChangementProducteurCommand = Message<
   'Lauréat.Producteur.Command.EnregistrerChangement',
@@ -12,6 +13,7 @@ export type EnregistrerChangementProducteurCommand = Message<
     producteur: string;
     dateChangement: DateTime.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
+    numéroImmatriculation?: NuméroImmatriculation.ValueType;
     raison?: string;
   }
 >;

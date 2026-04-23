@@ -17,6 +17,9 @@ import { ImporterOptions } from './importer/importerProducteur.option.js';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
 import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error.js';
 
+// viovio
+// voir les cas d'erreur
+
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,
   'producteur',
@@ -53,9 +56,11 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     pièceJustificative,
     raison,
+    numéroImmatriculation,
   }: EnregistrerChangementProducteurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
+    // à adapter ? viovio
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();
     }
@@ -69,6 +74,7 @@ export class ProducteurAggregate extends AbstractAggregate<
         enregistréPar: identifiantUtilisateur.formatter(),
         raison,
         pièceJustificative,
+        numéroImmatriculation: numéroImmatriculation?.formatter(),
       },
     };
 
@@ -105,6 +111,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     raison,
     pièceJustificative,
+    numéroImmatriculation,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
@@ -121,13 +128,19 @@ export class ProducteurAggregate extends AbstractAggregate<
         modifiéPar: identifiantUtilisateur.formatter(),
         raison,
         pièceJustificative,
+        numéroImmatriculation: numéroImmatriculation?.formatter(),
       },
     };
 
     await this.publish(event);
   }
 
-  async importer({ producteur, dateImport, identifiantUtilisateur }: ImporterOptions) {
+  async importer({
+    producteur,
+    dateImport,
+    identifiantUtilisateur,
+    numéroImmatriculation,
+  }: ImporterOptions) {
     if (this.producteur) {
       throw new ProducteurDéjàTransmisError();
     }
@@ -139,6 +152,7 @@ export class ProducteurAggregate extends AbstractAggregate<
         producteur,
         importéLe: dateImport.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
+        numéroImmatriculation: numéroImmatriculation?.formatter(),
       },
     };
 

@@ -173,6 +173,21 @@ const autorisationSchema = z
       : undefined,
   );
 
+const numéroImmatriculationSchema = z
+  .object({
+    siren: z.string().optional(),
+    siret: z.string().optional(),
+  })
+  .optional()
+  .transform((val) =>
+    val?.siren || val?.siret
+      ? {
+          siret: val.siret,
+          siren: val.siret ? val.siret.slice(0, 9) : val.siren,
+        }
+      : undefined,
+  );
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -206,6 +221,7 @@ export const dépôtSchema = z
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
+    numéroImmatriculation: numéroImmatriculationSchema,
     raccordements: z
       .array(
         z.object({

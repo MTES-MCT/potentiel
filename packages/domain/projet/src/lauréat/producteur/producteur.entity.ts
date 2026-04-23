@@ -8,7 +8,7 @@ export type ProducteurEntity = Entity<
   {
     identifiantProjet: string;
     nom: string;
-    numéroImmatriculation: NuméroImmatriculation.RawType;
     miseÀJourLe: DateTime.RawType;
+    numéroImmatriculation?: NuméroImmatriculation.RawType;
   }
 >;

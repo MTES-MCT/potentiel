@@ -8,5 +8,5 @@ export type ImporterOptions = {
   identifiantUtilisateur: Email.ValueType;
   producteur: string;
   dateImport: DateTime.ValueType;
-  numéroImmatriculation: NuméroImmatriculation.ValueType;
+  numéroImmatriculation?: NuméroImmatriculation.ValueType;
 };
