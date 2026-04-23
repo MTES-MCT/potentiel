@@ -74,6 +74,7 @@ const action: FormAction<FormState, typeof schema> = async (
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               coordonnées: mapCsvRowToCoordonnées(rawLine),
               raccordements: undefined,
+              numéroImmatriculation: undefined,
             },
             instructionValue: line,
             détailsValue: rawLine,
