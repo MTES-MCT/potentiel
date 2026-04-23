@@ -321,6 +321,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       tauxPrévisionnelACI,
       tauxPrévisionnelACC,
       natureDeLExploitation,
+      numéroImmatriculation,
       ...val
     }) => {
       return {
@@ -370,6 +371,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 puissanceDuDispositifDeStockageEnKW,
               }
             : undefined,
+        // viovio à transformer
+        numéroImmatriculation,
       };
     },
   );

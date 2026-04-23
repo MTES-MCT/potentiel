@@ -203,7 +203,6 @@ const créerDépôt = (
     ],
     installateur: undefined,
     ...dépôt,
-    // à améliorer viovio
     numéroImmatriculation: {
       siren: faker.string.numeric({ length: 9 }),
     },
