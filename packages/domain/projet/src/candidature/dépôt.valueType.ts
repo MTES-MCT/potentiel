@@ -141,7 +141,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     : undefined,
   raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
   numéroImmatriculation: plain.numéroImmatriculation
-    ? Producteur.NuméroImmatriculation.convertirEnValueType(plain.numéroImmatriculation)
+    ? Producteur.NuméroImmatriculation.bind(plain.numéroImmatriculation)
     : undefined,
 
   estÉgaleÀ(valueType) {
@@ -315,9 +315,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         dateQualification: DateTime.convertirEnValueType(raccordement.dateQualification),
       }),
     ),
-    numéroImmatriculation: raw.numéroImmatriculation
-      ? Producteur.NuméroImmatriculation.convertirEnValueType(raw.numéroImmatriculation)
-      : undefined,
+    numéroImmatriculation: bindOptional(
+      Producteur.NuméroImmatriculation.convertirEnValueType,
+      raw.numéroImmatriculation,
+    ),
   });
 
 const bindOptional = <TValue, TValueType>(

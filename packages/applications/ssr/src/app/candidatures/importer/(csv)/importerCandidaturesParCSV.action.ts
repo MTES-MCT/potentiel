@@ -106,6 +106,8 @@ const action: FormAction<FormState, typeof schema> = async (
               attestationConstitutionGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               raccordements: undefined,
+              // viovio à corriger après
+              numéroImmatriculation: undefined,
             },
             instructionValue: line,
             détailsValue: rawLine,

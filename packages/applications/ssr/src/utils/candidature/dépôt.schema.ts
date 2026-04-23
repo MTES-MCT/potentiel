@@ -168,13 +168,27 @@ const numéroImmatriculationSchema = z
     siret: z.string().optional(),
   })
   .optional()
+  .refine(
+    (val) =>
+      (!val?.siren && !val?.siret) ||
+      (!val?.siren && val?.siret) ||
+      (val?.siren && val?.siret) ||
+      (val?.siren && !val?.siret),
+    {
+      message: `La date et le numéro de l'autorisation doivent être tous les deux renseignés.`,
+    },
+  )
   .transform((val) =>
-    val?.siren || val?.siret
+    val?.siret
       ? {
           siret: val.siret,
-          siren: val.siret ? val.siret.slice(0, 9) : val.siren,
+          siren: val.siret.slice(0, 9),
         }
-      : undefined,
+      : val?.siren
+        ? {
+            siren: val.siren,
+          }
+        : undefined,
   );
 
 export const dépôtSchema = z
