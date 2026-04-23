@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Find, Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -38,23 +38,23 @@ export type ConsulterRaccordementQuery = Message<
 >;
 
 export type ConsulterRaccordementDependencies = {
-  find: Find;
   list: List;
 };
 
-export const registerConsulterRaccordementQuery = ({
-  find,
-  list,
-}: ConsulterRaccordementDependencies) => {
+export const registerConsulterRaccordementQuery = ({ list }: ConsulterRaccordementDependencies) => {
   const handler: MessageHandler<ConsulterRaccordementQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const raccordement = await find<
+    const raccordement = await list<
       RaccordementEntity,
       LeftJoin<GestionnaireRéseau.GestionnaireRéseauEntity>
-    >(`raccordement|${identifiantProjet.formatter()}`, {
+    >(`raccordement`, {
+      where: {
+        identifiantProjet: Where.equal(identifiantProjet.formatter()),
+        désactivé: Where.equalNull(),
+      },
       join: {
         entity: 'gestionnaire-réseau',
         on: 'identifiantGestionnaireRéseau',
@@ -62,7 +62,7 @@ export const registerConsulterRaccordementQuery = ({
       },
     });
 
-    if (Option.isNone(raccordement) || raccordement.désactivé) {
+    if (raccordement.items.length === 0) {
       return Option.none;
     }
 
@@ -70,7 +70,7 @@ export const registerConsulterRaccordementQuery = ({
       where: { identifiantProjet: Where.equal(identifiantProjet.formatter()) },
     });
 
-    return mapToReadModel(raccordement, dossiersRaccordement.items);
+    return mapToReadModel(raccordement.items[0], dossiersRaccordement.items);
   };
 
   mediator.register('Lauréat.Raccordement.Query.ConsulterRaccordement', handler);

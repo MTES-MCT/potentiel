@@ -37,12 +37,12 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         return null;
       }
 
-      const détailConsultable =
+      const détailEstConsultable =
         raccordement.dossiers.length > 0 ||
         rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
       const action =
-        !abandon?.demandeEnCours && détailConsultable
+        !abandon?.demandeEnCours && détailEstConsultable
           ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
