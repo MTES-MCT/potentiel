@@ -12,7 +12,8 @@ import { CopyButton } from '../CopyButton';
 export type ProjetBannerProps = {
   href?: string;
   nom: string;
-  badge: React.ReactNode;
+  statutBadge: React.ReactNode;
+  PPABadge?: React.ReactNode;
   localité?: { commune: string; département: string; région: string };
   dateDésignation: Option.Type<Iso8601DateTime>;
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -21,7 +22,8 @@ export type ProjetBannerProps = {
 
 export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
   href,
-  badge,
+  statutBadge,
+  PPABadge,
   nom,
   localité,
   dateDésignation,
@@ -48,7 +50,8 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
               ) : (
                 <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
               )}
-              <div>{badge}</div>
+              <div>{statutBadge}</div>
+              {PPABadge && <div>{PPABadge}</div>}
               {displayCopyButton && (
                 <CopyButton
                   textToCopy={identifiantProjet.formatter()}

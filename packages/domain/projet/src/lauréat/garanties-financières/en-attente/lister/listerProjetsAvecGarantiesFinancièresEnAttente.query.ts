@@ -21,6 +21,7 @@ export type GarantiesFinancièresEnAttenteListItemReadModel = {
     date: DateTime.ValueType;
   };
   statut: StatutLauréat.ValueType;
+  PPA?: true;
 };
 
 export type ListerGarantiesFinancièresEnAttenteReadModel = {
@@ -121,7 +122,7 @@ type MapToReadModelProps = (
 ) => GarantiesFinancièresEnAttenteListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
-  lauréat: { nomProjet, statut },
+  lauréat: { nomProjet, statut, PPA },
   identifiantProjet,
   enAttente,
   dernièreMiseÀJour: { date },
@@ -134,4 +135,5 @@ const mapToReadModel: MapToReadModelProps = ({
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
+  PPA,
 });

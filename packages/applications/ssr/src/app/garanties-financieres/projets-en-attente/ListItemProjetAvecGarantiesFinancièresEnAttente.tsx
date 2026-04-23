@@ -11,6 +11,7 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/liste/Proj
 import { ListItem } from '@/components/molecules/ListItem';
 import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteActions = 'mise-en-demeure'[];
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = PlainType<
@@ -28,6 +29,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     date: { date: misÀJourLe },
   },
   statut: { statut },
+  PPA,
   motif: { motif },
   dateLimiteSoumission: { date: dateLimiteSoumission },
   actions,
@@ -40,6 +42,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         nomProjet={nomProjet}
         prefix="Projet"
         statutBadge={<StatutLauréatBadge statut={statut} />}
+        PPABadge={PPA ? <PPABadge /> : undefined}
       />
     }
     actions={
