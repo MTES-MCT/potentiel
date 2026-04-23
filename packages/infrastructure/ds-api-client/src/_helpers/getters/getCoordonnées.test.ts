@@ -29,7 +29,7 @@ describe(`Coordonnées`, () => {
       {
         __typename: 'TextChamp',
         label: 'Latitude du barycentre (point cardinal)',
-        stringValue: 'N',
+        stringValue: 'Nord',
       },
       {
         __typename: 'IntegerNumberChamp',
@@ -49,7 +49,7 @@ describe(`Coordonnées`, () => {
       {
         __typename: 'TextChamp',
         label: 'Longitude du barycentre (point cardinal)',
-        stringValue: 'E',
+        stringValue: 'Est',
       },
     ];
     const actual = getCoordonnées(champs);

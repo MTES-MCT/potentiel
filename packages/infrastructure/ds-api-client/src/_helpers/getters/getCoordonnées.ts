@@ -16,17 +16,19 @@ const map = {
 
 export const getCoordonnées = (champs: Champs) => {
   const accessor = createDossierAccessor(champs, map);
+  const latCardinal = accessor.getStringValue('latitude_cardinal');
+  const longCardinal = accessor.getStringValue('longitude_cardinal');
   const latitude = {
     degrés: accessor.getNumberValue('latitude_degrés') ?? -Infinity,
     minutes: accessor.getNumberValue('latitude_minutes') ?? -Infinity,
     secondes: accessor.getNumberValue('latitude_secondes') ?? -Infinity,
-    cardinal: accessor.getStringValue('latitude_cardinal') as 'N' | 'S',
+    cardinal: latCardinal === 'Sud' ? ('S' as const) : ('N' as const),
   };
   const longitude = {
     degrés: accessor.getNumberValue('longitude_degrés') ?? -Infinity,
     minutes: accessor.getNumberValue('longitude_minutes') ?? -Infinity,
     secondes: accessor.getNumberValue('longitude_secondes') ?? -Infinity,
-    cardinal: accessor.getStringValue('longitude_cardinal') as 'E' | 'O',
+    cardinal: longCardinal === 'Ouest' ? ('O' as const) : ('E' as const),
   };
 
   try {
