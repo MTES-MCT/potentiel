@@ -29,6 +29,7 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
   StatutLauréatNonModifiéError,
+  PPADéjàSignaléError,
 } from './lauréat.error.js';
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
 import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
@@ -53,6 +54,8 @@ import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/en
 import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
 import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+import { SignalerPPAOptions } from './PPA/signaler/signalerPPA.option.js';
+import { PPASignaléEvent } from './PPA/signaler/PPASignalé.event.js';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -63,6 +66,7 @@ export class LauréatAggregate extends AbstractAggregate<
   #localité?: Candidature.Localité.ValueType;
   #référenceCahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
+  #estPPA?: true;
 
   get projet() {
     return this.parent;
@@ -500,6 +504,23 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
+  async signalerPPA({ signaléLe, signaléPar }: SignalerPPAOptions) {
+    this.vérifierQueLeLauréatExiste();
+    if (this.#estPPA) {
+      throw new PPADéjàSignaléError();
+    }
+    const event: PPASignaléEvent = {
+      type: 'PPASignalé-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        signaléLe: signaléLe.formatter(),
+        signaléPar: signaléPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   private vérifierQueLeLauréatPeutÊtreNotifié() {
     if (this.#notifiéLe) {
       throw new LauréatDéjàNotifiéError();
@@ -563,6 +584,7 @@ export class LauréatAggregate extends AbstractAggregate<
         this.applyCahierDesChargesChoisi(event),
       )
       .with({ type: 'StatutLauréatModifié-V1' }, (event) => this.applyStatutLauréatModifié(event))
+      .with({ type: 'PPASignalé-V1' }, () => this.applyPPASignalé())
       .exhaustive();
   }
 
@@ -606,5 +628,9 @@ export class LauréatAggregate extends AbstractAggregate<
 
   private applyStatutLauréatModifié({ payload: { statut } }: StatutLauréatModifiéEvent) {
     this.#statut = StatutLauréat.bind({ statut });
+  }
+
+  private applyPPASignalé() {
+    this.#estPPA = true;
   }
 }

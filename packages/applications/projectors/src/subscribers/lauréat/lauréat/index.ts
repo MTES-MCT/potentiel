@@ -12,6 +12,7 @@ import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projec
 import { nomProjetModifiéProjector } from './nomProjetModifié.projector.js';
 import { changementNomProjetEnregistréProjector } from './changementNomProjetEnregistré.projector.js';
 import { StatutLauréatModifiéProjector } from './statutLauréatModifié.projector.js';
+import { PPASignaléProjector } from './PPASignalé.projector.js';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent | RebuildTriggered;
 
@@ -29,6 +30,7 @@ export const register = () => {
       .with({ type: 'CahierDesChargesChoisi-V1' }, cahierDesChargesChoisiProjector)
       .with({ type: 'ChangementNomProjetEnregistré-V1' }, changementNomProjetEnregistréProjector)
       .with({ type: 'StatutLauréatModifié-V1' }, StatutLauréatModifiéProjector)
+      .with({ type: 'PPASignalé-V1' }, PPASignaléProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat', handler);

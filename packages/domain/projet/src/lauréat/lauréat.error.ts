@@ -73,3 +73,9 @@ export class DemandeCorrigéeSansModificationError extends InvalidOperationError
     super('La correction de la demande ne contient aucune modification');
   }
 }
+
+export class PPADéjàSignaléError extends InvalidOperationError {
+  constructor() {
+    super('Le projet est déjà signalé comme PPA');
+  }
+}
