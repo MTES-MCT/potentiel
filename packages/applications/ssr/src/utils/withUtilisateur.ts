@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 
 import { AuthenticationError } from '@potentiel-applications/bootstrap';
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import { PotentielUtilisateur, getContext } from '@potentiel-applications/request-context';
 
 import { getSessionUser } from '@/auth/getSessionUser';
 
