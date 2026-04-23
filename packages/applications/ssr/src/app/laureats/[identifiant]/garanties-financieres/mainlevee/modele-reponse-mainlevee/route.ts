@@ -21,7 +21,7 @@ import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/réc
 
 export const GET = async (
   request: NextRequest,
-  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/modele-reponse-mainlevee'>,
+  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/mainlevee/modele-reponse-mainlevee'>,
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {

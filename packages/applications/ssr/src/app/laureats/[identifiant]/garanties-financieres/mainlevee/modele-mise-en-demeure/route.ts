@@ -20,7 +20,7 @@ import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   _: NextRequest,
-  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/modele-mise-en-demeure'>,
+  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/mainlevee/modele-mise-en-demeure'>,
 ) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
