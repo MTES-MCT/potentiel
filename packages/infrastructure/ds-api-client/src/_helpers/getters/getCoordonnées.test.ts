@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs } from '../../graphql/accessor.js';
+import type { Champs } from '../../graphql/accessor.js';
 
 import { getCoordonnées } from './getCoordonnées.js';
 
