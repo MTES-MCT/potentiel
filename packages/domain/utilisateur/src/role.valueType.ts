@@ -508,10 +508,12 @@ const référencielPermissions = {
     },
     usecase: {
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
+      signalerPPA: 'Lauréat.UseCase.SignalerPPA',
     },
     command: {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
+      signalerPPA: 'Lauréat.Command.SignalerPPA',
     },
     query: {
       consulter: 'Lauréat.Query.ConsulterLauréat',
@@ -1397,6 +1399,11 @@ const policies = {
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
       référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
     ],
+    signalerPPA: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.command.signalerPPA,
+      référencielPermissions.lauréat.usecase.signalerPPA,
+    ],
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
@@ -1794,6 +1801,9 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.importer',
+
+  // Lauréat
+  'lauréat.signalerPPA',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1944,6 +1954,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
   'lauréat.listerLauréatEnrichi',
+  'lauréat.signalerPPA',
 
   // Représentant légal
   'représentantLégal.modifier',
