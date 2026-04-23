@@ -100,6 +100,11 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
+  const signalerPPAOnglet =
+    utilisateur.rôle.aLaPermission('lauréat.signalerPPA') && !lauréat.PPA
+      ? linkToSection('Signaler un PPA', 'PPA/signaler')
+      : undefined;
+
   const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
 
   const demandesEnCoursMenu =
@@ -127,7 +132,12 @@ export const getLauréatMenuItems = async ({
           ? linkToSection('Attestation de conformité', 'achevement/modifier')
           : undefined;
 
-  const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine]
+  const modifications = [
+    modifierLauréatOnglet,
+    achèvementOnglet,
+    signalerPPAOnglet,
+    ...actionsDomaine,
+  ]
     .filter((item) => !!item)
     .toSorted((a, b) => a.text.localeCompare(b.text));
 
