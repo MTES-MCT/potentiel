@@ -26,6 +26,7 @@ type LauréatListItemReadModel = {
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
   statut: StatutLauréat.ValueType;
   typeActionnariat?: Candidature.TypeActionnariat.ValueType;
+  PPA?: true;
 };
 
 export type ListerLauréatReadModel = {
@@ -133,6 +134,7 @@ const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   localité,
   statut,
+  PPA,
   'représentant-légal': représentantLégal,
   producteur,
   puissance,
@@ -163,5 +165,6 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: StatutLauréat.convertirEnValueType(statut),
+    PPA,
   };
 };
