@@ -33,8 +33,14 @@ SELECT proj.value->>'identifiantProjet' AS id,
     WHEN proj.key like 'éliminé|%' THEN 'éliminé'
     ELSE proj.value->>'statut'
   END AS statut,
-  rac.value->>'miseEnService.date' is not null as "enService",
-  CAST(rac.value->>'miseEnService.date' as timestamp) as "dateMiseEnService",
+  CASE
+    WHEN rac.value->>'désactivé' = 'true' THEN 'false'
+    ELSE rac.value->>'miseEnService.date' is not null
+  END AS "enService",
+  CASE
+    WHEN rac.value->>'désactivé' = 'true' THEN null
+    ELSE CAST(rac.value->>'miseEnService.date' as timestamp)
+  END AS "dateMiseEnService",
   cand.value->>'actionnariat' as "typeActionnariat",
   COALESCE(
     four.value->'évaluationCarboneSimplifiée',

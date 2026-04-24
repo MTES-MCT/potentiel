@@ -94,7 +94,7 @@ Alors(
 );
 
 Alors(
-  `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
+  `aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
@@ -119,6 +119,20 @@ Alors(
         });
 
       expect(Option.isNone(dossierRaccordement)).to.be.true;
+
+      const listeRaccordement =
+        await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
+          data: {
+            utilisateur: this.utilisateurWorld.dgecFixture.email,
+          },
+        });
+
+      const dossierCible = listeRaccordement.items.find(
+        (d) => d.référenceDossier.formatter() === référenceDossier,
+      );
+
+      expect(dossierCible).to.be.undefined;
     });
   },
 );
