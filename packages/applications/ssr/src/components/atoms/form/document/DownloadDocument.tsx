@@ -1,7 +1,9 @@
 import { FC } from 'react';
-import { Download } from '@codegouvfr/react-dsfr/Download';
 import { extension } from 'mime-types';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { fr } from '@codegouvfr/react-dsfr';
+
 export type DownloadDocumentProps = {
   className?: string;
   label: string;
@@ -9,6 +11,7 @@ export type DownloadDocumentProps = {
   format: string;
   ariaLabel?: string;
   small?: boolean;
+  download?: boolean;
 };
 
 export const DownloadDocument: FC<DownloadDocumentProps> = ({
@@ -18,19 +21,22 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   format,
   ariaLabel = '',
   small,
+  download,
 }) => (
-  <Download
-    className={clsx('print:hidden', className)}
-    label={label}
-    classes={{
-      link: small ? '!text-sm' : undefined,
-    }}
-    details={(extension(format) || format).toUpperCase()}
-    linkProps={{
-      href: url,
-      target: '_blank',
-      'aria-label': ariaLabel,
-      prefetch: false,
-    }}
-  />
+  <div className={clsx(fr.cx('fr-download'), 'print:hidden', className)}>
+    <Link
+      className={clsx(fr.cx('fr-download__link'), { '!text-sm': small })}
+      href={url}
+      target="_blank"
+      aria-label={ariaLabel}
+      download={download}
+      data-fr-assess-file
+      prefetch={false}
+    >
+      {label}
+      <span className={fr.cx('fr-download__detail')}>
+        {(extension(format) || format).toUpperCase()}
+      </span>
+    </Link>
+  </div>
 );
