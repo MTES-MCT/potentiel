@@ -67,7 +67,7 @@ export async function enregistrerChangementProducteur(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-  const { pièceJustificative, enregistréLe, enregistréPar, producteur } =
+  const { pièceJustificative, enregistréLe, enregistréPar, producteur, siret } =
     this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
       enregistréPar: this.utilisateurWorld.porteurFixture.email,
       ...(producteurValue && { producteur: producteurValue }),
@@ -81,6 +81,7 @@ export async function enregistrerChangementProducteur(
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+      numéroImmatriculationValue: { siret },
     },
   });
 }
@@ -90,7 +91,7 @@ export async function modifierProducteur(
   identifiantProjet: IdentifiantProjet.ValueType,
   producteurValue?: string,
 ) {
-  const { modifiéLe, modifiéPar, producteur, raison } =
+  const { modifiéLe, modifiéPar, producteur, raison, siret } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
       modifiéPar: this.utilisateurWorld.dgecFixture.email,
       ...(producteurValue && { producteur: producteurValue }),
@@ -104,6 +105,7 @@ export async function modifierProducteur(
       identifiantUtilisateurValue: modifiéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       raisonValue: raison,
+      numéroImmatriculationValue: { siret },
     },
   });
 }
