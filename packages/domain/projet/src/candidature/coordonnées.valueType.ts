@@ -94,6 +94,14 @@ export const convertirEnValueType = (value: string): ValueType => {
 
 export const toDecimal = (value: DMSRawType): number => {
   const { degrés, minutes, secondes, cardinal } = value;
+
+  if (degrés < 0 || minutes < 0 || secondes < 0) {
+    throw new CoordonnéesInvalidesError('Les degrés, minutes et secondes doivent être positifs');
+  }
+  if (minutes > 60 || secondes > 60) {
+    throw new CoordonnéesInvalidesError('Les minutes et secondes doivent être inférieurs à 60');
+  }
+
   const sign = cardinal === 'S' || cardinal === 'O' ? -1 : 1;
   const result = sign * (degrés + minutes / 60 + secondes / 3600);
   return Math.round(result * 1000000) / 1000000; // Round to 6 decimal places for high precision
@@ -108,7 +116,7 @@ export const fromDecimal = (value: number): Omit<DMSRawType, 'cardinal'> => {
 };
 
 export class CoordonnéesInvalidesError extends Error {
-  constructor() {
+  constructor(public readonly type?: string) {
     super('Les coordonnées sont invalides');
   }
 }
