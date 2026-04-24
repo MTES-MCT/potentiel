@@ -104,8 +104,9 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
 
   const { notifiéLe, notifiéPar } = this.lauréatWorld.notifier({
     identifiantProjet: identifiantProjetValue,
-    nomProjet: candidature.values.nomProjetValue,
-    localité: candidature.values.localitéValue,
+    nomProjet: candidature.dépôtValue.nomProjet,
+    localité: candidature.dépôtValue.localité,
+    coordonnées: candidature.dépôtValue.coordonnées,
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
     ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
   });

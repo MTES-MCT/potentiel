@@ -7,6 +7,7 @@ import { ÉliminéEntity } from '../éliminé.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
+  Coordonnées,
   Dépôt,
   DétailCandidatureEntity,
   Localité,
@@ -34,6 +35,9 @@ export type ÉliminéEnrichiListItemReadModel = {
   codePostal: Localité.ValueType['codePostal'];
   département: Localité.ValueType['département'];
   région: Localité.ValueType['région'];
+
+  latitude?: Coordonnées.RawType['latitude'];
+  longitude?: Coordonnées.RawType['longitude'];
 
   actionnaire: string;
 
@@ -164,6 +168,7 @@ const mapToReadModel: MapToReadModelProps = ({
   dispositifDeStockage,
   typologieInstallation,
   natureDeLExploitation,
+  coordonnées,
 
   'détail-candidature': détailCandidature,
 }) => {
@@ -181,6 +186,7 @@ const mapToReadModel: MapToReadModelProps = ({
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
     ...localité,
+    ...coordonnées,
 
     actionnaire: sociétéMère,
 

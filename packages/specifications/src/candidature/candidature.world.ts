@@ -8,6 +8,7 @@ import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixtu
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture.js';
 import {
   autorisationExempleMap,
+  coordonnéesExempleMap,
   dispositifDeStockageExempleMap,
   dépôtExempleMap,
   formatAttestationGFExempleMap,
@@ -45,17 +46,19 @@ export class CandidatureWorld {
     const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
     const natureDeLExploitation = mapToExemple(exemple, natureDeLExploitationExempleMap);
     const raccordement = mapToExemple(exemple, raccordementExempleMap);
+    const coordonnées = mapToExemple(exemple, coordonnéesExempleMap);
 
     return {
       identifiantProjet,
       dépôt: {
         ...dépôt,
-        localité,
+        ...(Object.keys(coordonnées).length ? { coordonnées } : {}),
+        ...(Object.keys(localité).length ? { localité } : {}),
         autorisation,
         attestationConstitutionGf,
         dispositifDeStockage,
         natureDeLExploitation,
-        raccordements: raccordement ? [raccordement] : undefined,
+        raccordements: Object.keys(raccordement).length ? [raccordement] : undefined,
       },
       instruction,
     };

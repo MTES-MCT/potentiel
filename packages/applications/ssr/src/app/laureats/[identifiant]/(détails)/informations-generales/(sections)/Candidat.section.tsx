@@ -31,7 +31,11 @@ export const CandidatSection = ({ identifiantProjet }: CandidatSectionProps) =>
 
       return (
         <Section title={sectionTitle}>
-          <CandidatDétails localité={localité} emailContact={lauréat.emailContact.email} />
+          <CandidatDétails
+            localité={localité}
+            emailContact={lauréat.emailContact.email}
+            coordonnées={lauréat.coordonnées}
+          />
         </Section>
       );
     }),

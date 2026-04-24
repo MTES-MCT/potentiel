@@ -5,6 +5,7 @@ export type RawType = string;
 export type ValueType = ReadonlyValueType<{
   expression: string;
   valider(value: string): boolean;
+  regex(): RegExp;
   formatter(): string;
 }>;
 
@@ -17,7 +18,10 @@ export const bind = ({ expression }: PlainType<ValueType>): ValueType => {
       return this.expression === valueType.expression;
     },
     valider(value) {
-      return new RegExp(`^${this.expression}$`).test(value);
+      return this.regex().test(value);
+    },
+    regex() {
+      return new RegExp(`^${this.expression}$`);
     },
     formatter() {
       return this.expression;

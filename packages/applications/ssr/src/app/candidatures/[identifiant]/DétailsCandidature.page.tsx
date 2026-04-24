@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
@@ -40,6 +41,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
   const garantiesFinancières = dépôt.garantiesFinancières
     ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(dépôt.garantiesFinancières)
     : undefined;
+  const dépôtVT = Candidature.Dépôt.bind(dépôt);
   return (
     <ColumnPageTemplate
       heading={<Heading1>Détails de la candidature</Heading1>}
@@ -57,6 +59,22 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   {dépôt.localité.département}, {dépôt.localité.région}
                 </span>
               </Field>
+              {dépôtVT.coordonnées ? (
+                <fieldset>
+                  <div className="flex gap-1">
+                    <legend className="font-bold">Coordonnées géodésiques</legend>
+                    <Link
+                      href={`https://www.openstreetmap.org/?mlat=${dépôtVT.coordonnées.latitude}&mlon=${dépôtVT.coordonnées.longitude}`}
+                      aria-label="Ouvrir la carte aux coordonnées du site de production"
+                      title="Ouvrir la carte aux coordonnées du site de production"
+                      target="_blank"
+                      className="no-underline bg-none "
+                      rel="noopener noreferrer"
+                    />
+                  </div>
+                  <div className="flex flex-col">{dépôtVT.coordonnées.formatter()}</div>
+                </fieldset>
+              ) : null}
               <Field name="Société mère">
                 <span>{dépôt.sociétéMère || 'Non renseignée'}</span>
               </Field>

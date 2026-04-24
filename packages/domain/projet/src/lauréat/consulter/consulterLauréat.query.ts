@@ -23,6 +23,7 @@ export type ConsulterLauréatReadModel = {
   notifiéPar: Email.ValueType;
   nomProjet: string;
   localité: Localité.ValueType;
+  coordonnées?: Candidature.Coordonnées.ValueType;
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutLauréat.ValueType;
@@ -95,6 +96,9 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       département: lauréat.localité.département,
       région: lauréat.localité.région,
     }),
+    coordonnées: lauréat.coordonnées
+      ? Candidature.Coordonnées.bind(lauréat.coordonnées)
+      : undefined,
     statut: StatutLauréat.convertirEnValueType(lauréat.statut),
     technologie: candidature.technologie,
     unitéPuissance: candidature.unitéPuissance,

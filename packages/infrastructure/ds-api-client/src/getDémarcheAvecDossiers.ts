@@ -1,9 +1,8 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getDSApiClient } from './graphql/index.js';
-import { DeepPartial, mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
+import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
 
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
@@ -41,14 +40,8 @@ export const getDémarcheAvecDossiers = async (démarcheId: number) => {
 
         return {
           numeroDS: dossier.number,
-          dépôt: {
-            ...mapApiResponseToDépôt({
-              champs,
-            }),
-          } satisfies DeepPartial<Candidature.Dépôt.RawType>,
-          détails: mapApiResponseToDétails({
-            champs,
-          }),
+          dépôt: mapApiResponseToDépôt({ champs }),
+          détails: mapApiResponseToDétails({ champs }),
         };
       });
   } catch (e) {

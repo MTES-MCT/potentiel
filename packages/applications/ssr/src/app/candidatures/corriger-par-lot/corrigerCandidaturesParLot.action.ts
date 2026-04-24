@@ -18,6 +18,7 @@ import {
   récupérerColonnesRequises,
   récupérerChampsSupplémentaires,
 } from '@/utils/candidature';
+import { mapCsvRowToCoordonnées } from '@/utils/candidature/csv/coordonnéesCsv';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -70,6 +71,7 @@ const action: FormAction<FormState, typeof schema> = async (
               dateConstitutionGf: undefined, // non supporté dans le CSV
               attestationConstitutionGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
+              coordonnées: mapCsvRowToCoordonnées(rawLine),
               raccordements: undefined,
             },
             instructionValue: line,

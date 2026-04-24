@@ -124,6 +124,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       ? candidature.dépôt.autorisation.date.formatter()
       : undefined,
     installateur: candidature.dépôt.installateur,
+    coordonnées: candidature.dépôt.coordonnées?.formatterDecimal(),
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,

@@ -10,7 +10,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { manyDocuments } from '@/utils/zod/document/manyDocuments';
-import { dépôtSchema } from '@/utils/candidature';
+import { coordonnéesSchema, dépôtSchema } from '@/utils/candidature';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -23,6 +23,10 @@ const schema = zod.object({
   département: dépôtSchema.shape.localité.shape.département,
   région: dépôtSchema.shape.localité.shape.région,
   accesAuProjetPerdu: zod.stringbool().optional(),
+  coordonnées: zod
+    .object({ latitude: zod.coerce.number(), longitude: zod.coerce.number() })
+    .pipe(coordonnéesSchema)
+    .optional(),
 });
 export type ModifierSiteDeProductionFormKeys = keyof zod.infer<typeof schema>;
 
@@ -37,6 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (
     commune,
     département,
     région,
+    coordonnées,
     accesAuProjetPerdu,
     piecesJustificatives,
   },
@@ -58,6 +63,7 @@ const action: FormAction<FormState, typeof schema> = async (
         modifiéLeValue: DateTime.now().formatter(),
         raisonValue: raison,
         pièceJustificativeValue: piecesJustificatives,
+        coordonnéesValue: coordonnées,
       },
     });
 
