@@ -38,6 +38,7 @@ export type LauréatEnrichiListItemReadModel = {
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: Dépôt.ValueType['nomProjet'];
   statut: StatutLauréat.ValueType;
+  PPA?: true;
 
   adresse1: Localité.ValueType['adresse1'];
   adresse2: Localité.ValueType['adresse2'];
@@ -106,6 +107,7 @@ export type ListerLauréatEnrichiQuery = Message<
     famille?: string;
     identifiantProjet?: IdentifiantProjet.RawType;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
+    PPA?: boolean;
   },
   ListerLauréatEnrichiReadModel
 >;
@@ -139,6 +141,7 @@ export const registerListerLauréatEnrichiQuery = ({
     identifiantProjet,
     statut,
     typeActionnariat,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantProjets: identifiantProjet && [identifiantProjet],
@@ -155,6 +158,7 @@ export const registerListerLauréatEnrichiQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: Where.matchAny(scope.régions) },
+        PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
       },
       join: [
         {
@@ -237,6 +241,7 @@ const mapToReadModel: MapToReadModelProps = ({
     identifiantProjet,
     localité,
     statut,
+    PPA,
     puissance: { puissance, puissanceDeSite },
     candidature: {
       prixReference,
@@ -272,6 +277,7 @@ const mapToReadModel: MapToReadModelProps = ({
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
     statut: statutValueType,
+    PPA: PPA ? true : undefined,
     ...localité,
 
     actionnaire: actionnaire.actionnaire.nom,

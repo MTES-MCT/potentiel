@@ -28,6 +28,7 @@ export type ProjectListItemProps = {
   evaluationCarboneSimplifiée: number;
   typeActionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   statutBadge?: React.ReactNode;
+  PPABadge?: React.ReactNode;
   actions?: React.ReactNode;
 };
 
@@ -43,6 +44,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
   evaluationCarboneSimplifiée,
   typeActionnariat,
   statutBadge,
+  PPABadge,
   actions,
 }) => (
   <ListItem
@@ -52,6 +54,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
         statutBadge={statutBadge}
         identifiantProjet={identifiantProjet}
         prefix="Projet"
+        PPABadge={PPABadge}
       />
     }
     actions={actions}

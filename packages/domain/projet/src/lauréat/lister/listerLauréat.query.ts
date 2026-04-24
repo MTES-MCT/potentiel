@@ -26,6 +26,7 @@ type LauréatListItemReadModel = {
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
   statut: StatutLauréat.ValueType;
   typeActionnariat?: Candidature.TypeActionnariat.ValueType;
+  PPA?: true;
 };
 
 export type ListerLauréatReadModel = {
@@ -45,6 +46,7 @@ export type ListerLauréatQuery = Message<
     famille?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
     nomProjet?: string;
+    PPA?: boolean;
   },
   ListerLauréatReadModel
 >;
@@ -67,6 +69,7 @@ export const registerListerLauréatQuery = ({
     range,
     statut,
     typeActionnariat,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -86,6 +89,7 @@ export const registerListerLauréatQuery = ({
         famille: Where.equal(famille),
         localité: { région: Where.matchAny(scope.régions) },
         statut: statut?.length ? Where.matchAny(statut) : undefined,
+        PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
       },
       join: [
         {
@@ -133,6 +137,7 @@ const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   localité,
   statut,
+  PPA,
   'représentant-légal': représentantLégal,
   producteur,
   puissance,
@@ -163,5 +168,6 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: StatutLauréat.convertirEnValueType(statut),
+    PPA,
   };
 };

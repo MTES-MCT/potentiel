@@ -11,6 +11,7 @@ export type ProjectListItemHeadingProps = {
   estNotifié?: boolean;
   actionnariat?: Candidature.TypeActionnariat.RawType;
   statutBadge?: React.ReactNode;
+  PPABadge?: React.ReactNode;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
@@ -18,6 +19,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   identifiantProjet,
   prefix,
   statutBadge,
+  PPABadge,
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-col justify-between gap-2 w-full">
@@ -30,6 +32,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
     </div>
     <div className="flex gap-1 md:items-center md:flex-row flex-col">
       {statutBadge && <div className="flex gap-1">{statutBadge}</div>}
+      {PPABadge && <div className="flex gap-1">{PPABadge}</div>}
     </div>
   </div>
 );

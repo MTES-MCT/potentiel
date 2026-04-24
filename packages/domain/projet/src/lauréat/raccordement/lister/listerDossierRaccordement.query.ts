@@ -14,6 +14,7 @@ type DossierRaccordement = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   statutProjet: StatutLauréat.ValueType<'actif' | 'achevé'>;
+  PPA?: true;
   localité: Localité.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   dateMiseEnService?: DateTime.ValueType;
@@ -51,6 +52,7 @@ export type ListerDossierRaccordementQuery = Message<
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
+    PPA?: boolean;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -83,6 +85,7 @@ export const registerListerDossierRaccordementQuery = ({
     typeActionnariat,
     periode,
     famille,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantGestionnaireRéseau,
@@ -115,6 +118,8 @@ export const registerListerDossierRaccordementQuery = ({
               région: Where.matchAny(scope.régions),
             },
             statut: Where.matchAny(statutProjet),
+            PPA:
+              PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
           },
         },
         {
@@ -173,7 +178,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   référence,
   miseEnService,
   demandeComplèteRaccordement,
-  lauréat: { nomProjet, localité, notifiéLe, statut },
+  lauréat: { nomProjet, localité, notifiéLe, statut, PPA },
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance, prixReference },
@@ -204,6 +209,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   prixReference,
   sociétéMère,
   statutProjet: StatutLauréat.convertirEnValueType(statut),
+  PPA: PPA ? true : undefined,
   dateAchèvement: achèvement.réel?.date
     ? DateTime.convertirEnValueType(achèvement.réel.date)
     : undefined,

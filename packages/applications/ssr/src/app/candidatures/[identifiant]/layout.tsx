@@ -56,7 +56,7 @@ export default async function CandidatureLayout({
               href={notification ? Routes.Projet.details(identifiantProjet.formatter()) : undefined}
               nom={dépôt.nomProjet}
               localité={dépôt.localité}
-              badge={
+              statutBadge={
                 <div className="flex gap-2">
                   <StatutCandidatureBadge statut={instruction.statut.statut} />
                   <NotificationBadge estNotifié={!!notification} />

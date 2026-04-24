@@ -69,6 +69,7 @@ export const exporter = (filters: {
   famille?: string;
   statut?: string[];
   typeActionnariat?: string[];
+  PPA?: boolean;
 }) => {
   const searchParams = new URLSearchParams();
 
@@ -93,5 +94,9 @@ export const exporter = (filters: {
       searchParams.append('typeActionnariat', value);
     });
   }
+  if (filters.PPA !== undefined) {
+    searchParams.append('PPA', filters.PPA.toString());
+  }
+
   return `/reseaux/raccordements/exporter${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };

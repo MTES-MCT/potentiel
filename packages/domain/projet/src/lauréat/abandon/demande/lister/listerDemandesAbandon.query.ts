@@ -16,6 +16,7 @@ type DemandeAbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutAbandon.ValueType;
+  PPA?: true;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   dateDemande: DateTime.ValueType;
@@ -38,6 +39,7 @@ export type ListerDemandesAbandonQuery = Message<
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
     autoritéCompétente?: AutoritéCompétente.RawType;
+    PPA?: boolean;
     range: RangeOptions;
   },
   ListerDemandesAbandonReadModel
@@ -61,6 +63,7 @@ export const registerListerDemandesAbandonQuery = ({
     autoritéCompétente,
     utilisateur,
     range,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -87,6 +90,7 @@ export const registerListerDemandesAbandonQuery = ({
           appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
           nomProjet: Where.like(nomProjet),
           localité: { région: Where.matchAny(scope.régions) },
+          PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
         },
       },
     };
@@ -117,5 +121,6 @@ const mapToReadModel = (
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
     dateDemande: DateTime.convertirEnValueType(entity.demande.demandéLe),
+    PPA: entity.lauréat.PPA,
   };
 };

@@ -36,6 +36,7 @@ import {
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query.js';
+import { SignalerPPAUseCase } from './PPA/signaler/signalerPPA.usecase.js';
 
 // Query
 export type LauréatQuery =
@@ -84,12 +85,14 @@ export type LauréatUseCase =
   | ModifierSiteDeProductionUseCase
   | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase
-  | EnregistrerChangementNomProjetUseCase;
+  | EnregistrerChangementNomProjetUseCase
+  | SignalerPPAUseCase;
 export type {
   ModifierSiteDeProductionUseCase,
   ModifierNomProjetUseCase,
   ChoisirCahierDesChargesUseCase,
   EnregistrerChangementNomProjetUseCase,
+  SignalerPPAUseCase,
 };
 
 // Events
@@ -104,6 +107,7 @@ export type { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModif
 export type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
 export type { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
 export type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+export type { PPASignaléEvent } from './PPA/signaler/PPASignalé.event.js';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register.js';

@@ -38,6 +38,7 @@ export const exporter = (filters: {
   statut?: string[];
   identifiantProjet?: string;
   typeActionnariat?: string[];
+  PPA?: boolean;
 }) => {
   const searchParams = new URLSearchParams();
 
@@ -64,6 +65,9 @@ export const exporter = (filters: {
     filters.typeActionnariat.forEach((value) => {
       searchParams.append('typeActionnariat', value);
     });
+  }
+  if (filters.PPA !== undefined) {
+    searchParams.append('PPA', filters.PPA.toString());
   }
   return `/laureats/export${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };

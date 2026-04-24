@@ -26,6 +26,7 @@ export type ConsulterLauréatReadModel = {
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutLauréat.ValueType;
+  PPA?: true;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisation: Candidature.Dépôt.ValueType['autorisation'];
@@ -114,5 +115,6 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
+    ...(lauréat.PPA ? { PPA: true } : {}),
   };
 };
