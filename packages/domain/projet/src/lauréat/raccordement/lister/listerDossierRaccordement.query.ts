@@ -52,6 +52,7 @@ export type ListerDossierRaccordementQuery = Message<
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
+    PPA?: boolean;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -84,6 +85,7 @@ export const registerListerDossierRaccordementQuery = ({
     typeActionnariat,
     periode,
     famille,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantGestionnaireRéseau,
@@ -116,6 +118,8 @@ export const registerListerDossierRaccordementQuery = ({
               région: Where.matchAny(scope.régions),
             },
             statut: Where.matchAny(statutProjet),
+            PPA:
+              PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
           },
         },
         {
