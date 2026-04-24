@@ -38,7 +38,8 @@ Alors(
       const expected = mapToPlainObject(
         this.lauréatWorld.producteurWorld.mapToExpected(
           identifiantProjet,
-          this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+          this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+          this.candidatureWorld.importerCandidature.dépôtValue.numéroImmatriculation,
         ),
       );
 

@@ -198,6 +198,15 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
             </FieldGroup>
             <FieldGroup name="Contact">
               <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>
+              {dépôt.numéroImmatriculation !== undefined && (
+                <Field name="Numéro d'immatriculation">
+                  {dépôt.numéroImmatriculation.siret ? (
+                    <span>Numéro SIRET : {dépôt.numéroImmatriculation.siret}</span>
+                  ) : (
+                    <span>Numéro SIREN : {dépôt.numéroImmatriculation.siren}</span>
+                  )}
+                </Field>
+              )}
               <Field name="Nom du représentant légal">{dépôt.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">
                 <span>

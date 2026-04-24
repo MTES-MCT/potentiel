@@ -28,6 +28,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Technologie\n(dispositif de production)': '',
   "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO":
     '1',
+  'Numéro SIREN ou SIRET*': '784 671 695 00087',
 };
 
 const minimumValuesEliminé: typeof minimumValues = {
@@ -90,6 +91,7 @@ describe('Schema candidature CSV', () => {
       },
       dispositifDeStockage: undefined,
       puissanceProjetInitial: undefined,
+      numéroImmatriculation: '784 671 695 00087',
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -138,6 +140,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
       puissanceProjetInitial: 1,
+      numéroImmatriculation: '784 671 695 00087',
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -177,6 +180,7 @@ describe('Schema candidature CSV', () => {
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
+      numéroImmatriculation: '784 671 695 00087',
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
@@ -367,6 +371,19 @@ describe('Schema candidature CSV', () => {
         message: 'La date a une valeur invalide',
         path: ["Date d'échéance au format JJ/MM/AAAA"],
       });
+    });
+
+    test('Siren ou siret invalide', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        numéroImmatriculation: '12345 67',
+      });
+      assert(!result.success);
+      assertError(
+        result,
+        ['Numéro SIREN ou SIRET*'],
+        'Le champ doit contenir un nombre de caractères valide (14 pour un SIRET, 9 pour un SIREN)',
+      );
     });
   });
 

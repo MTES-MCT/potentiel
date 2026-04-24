@@ -17,6 +17,7 @@ import {
   getTypeActionnariat,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
+import { getNuméroImmatriculation } from '../getters/getNuméroImmatriculation.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -69,6 +70,11 @@ export const mapApiResponseToDépôt = ({
     gouvernancePartagée: "Le projet fait-il l'objet d'un engagement à la gouvernance partagée ?",
     financementCollectif: "Le projet fait-il l'objet d'un engagement au financement collectif ?",
   } satisfies Record<string, string>);
+
+  const accessorNuméroImmatriculation = createDossierAccessor(champs, {
+    numéroSIREN: 'Numéro SIREN du candidat',
+    numéroSIRET: 'Numéro SIRET du candidat',
+  }) satisfies Record<keyof Candidature.Dépôt.RawType['numéroImmatriculation'], string>;
 
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -152,6 +158,12 @@ export const mapApiResponseToDépôt = ({
     }),
 
     raccordements: getRaccordements(champs),
+
+    numéroImmatriculation: getNuméroImmatriculation({
+      accessor: accessorNuméroImmatriculation,
+      nomChampsNuméroSIREN: 'numéroSIREN',
+      nomChampsNuméroSIRET: 'numéroSIRET',
+    }),
 
     // Non disponibles sur Démarches simplifiées
     puissanceALaPointe: undefined,

@@ -16,6 +16,7 @@ export const changementProducteurEnregistréProjector = async ({
     enregistréPar,
     raison,
     pièceJustificative,
+    numéroImmatriculation,
   },
 }: Lauréat.Producteur.ChangementProducteurEnregistréEvent) => {
   const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
@@ -35,11 +36,13 @@ export const changementProducteurEnregistréProjector = async ({
     .some((producteur) => producteur.producteur)
     .none(() => 'Aucun');
 
+  // viovio : à voir si pas de valeur, est ce qu'on écrase ?
   await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
     `producteur|${identifiantProjet}`,
     {
       nom: producteur,
       miseÀJourLe: enregistréLe,
+      numéroImmatriculation,
     },
   );
 

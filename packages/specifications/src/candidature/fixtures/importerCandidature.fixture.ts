@@ -203,6 +203,9 @@ const créerDépôt = (
     ],
     installateur: undefined,
     ...dépôt,
+    numéroImmatriculation: {
+      siren: faker.string.numeric({ length: 9 }),
+    },
     localité,
     autorisation: getAutorisationFixture(
       dépôt.autorisation,

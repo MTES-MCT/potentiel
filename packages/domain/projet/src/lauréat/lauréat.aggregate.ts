@@ -263,6 +263,7 @@ export class LauréatAggregate extends AbstractAggregate<
       dateImport: notifiéLe,
       identifiantUtilisateur: notifiéPar,
       producteur: this.projet.candidature.nomCandidat,
+      numéroImmatriculation: this.projet.candidature.dépôt.numéroImmatriculation,
     });
 
     await this.actionnaire.importer({

@@ -141,6 +141,8 @@ const mapBodyToUseCaseData = (
         dateQualification: r.dateQualification.formatter(),
         référence: r.référence.formatter(),
       })),
+      // viovio à voir à ajouter à la correction de la candidature
+      numéroImmatriculation: previous.dépôt.numéroImmatriculation,
     },
 
     détailsValue: undefined,

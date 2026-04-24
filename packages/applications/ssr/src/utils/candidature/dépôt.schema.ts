@@ -162,6 +162,35 @@ const autorisationSchema = z
       : undefined,
   );
 
+const numéroImmatriculationSchema = z
+  .object({
+    siren: z.string().optional(),
+    siret: z.string().optional(),
+  })
+  .optional()
+  .refine(
+    (val) =>
+      (!val?.siren && !val?.siret) ||
+      (!val?.siren && val?.siret) ||
+      (val?.siren && val?.siret) ||
+      (val?.siren && !val?.siret),
+    {
+      message: `La date et le numéro de l'autorisation doivent être tous les deux renseignés.`,
+    },
+  )
+  .transform((val) =>
+    val?.siret
+      ? {
+          siret: val.siret,
+          siren: val.siret.slice(0, 9),
+        }
+      : val?.siren
+        ? {
+            siren: val.siren,
+          }
+        : undefined,
+  );
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -194,6 +223,7 @@ export const dépôtSchema = z
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
+    numéroImmatriculation: numéroImmatriculationSchema,
     raccordements: z
       .array(
         z.object({

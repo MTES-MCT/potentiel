@@ -37,6 +37,7 @@ import {
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   territoireProjetSchema,
+  numéroImmatriculationCSVSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -117,6 +118,7 @@ export const candidatureCsvHeadersMapping = {
   dateDAutorisation: "Date d'obtention de l'autorisation",
   numéroDAutorisation: "Numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
+  numéroImmatriculation: 'Numéro SIREN ou SIRET*',
 } as const;
 
 export type CsvHeaders = ReadonlyArray<
@@ -171,6 +173,7 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.natureDeLExploitation]: natureDeLExploitationCsvSchema,
     [candidatureCsvHeadersMapping.tauxPrévisionnelACI]: optionalPercentageSchema,
     [candidatureCsvHeadersMapping.tauxPrévisionnelACC]: optionalPercentageSchema,
+    [candidatureCsvHeadersMapping.numéroImmatriculation]: numéroImmatriculationCSVSchema,
     [candidatureCsvHeadersMapping.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
     [candidatureCsvHeadersMapping.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [candidatureCsvHeadersMapping.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
@@ -317,6 +320,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       tauxPrévisionnelACI,
       tauxPrévisionnelACC,
       natureDeLExploitation,
+      numéroImmatriculation,
       ...val
     }) => {
       return {
@@ -366,6 +370,8 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 puissanceDuDispositifDeStockageEnKW,
               }
             : undefined,
+        // viovio à transformer
+        numéroImmatriculation,
       };
     },
   );

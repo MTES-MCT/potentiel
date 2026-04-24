@@ -5,6 +5,7 @@ import { AbstractFixture } from '../../../../fixture.js';
 interface ModifierProducteur {
   readonly modifiéLe: string;
   readonly modifiéPar: string;
+  readonly siret: string;
   readonly producteur: string;
   readonly raison: string;
 }
@@ -31,6 +32,12 @@ export class ModifierProducteurFixture
     return this.#producteur;
   }
 
+  #siret!: string;
+
+  get siret(): string {
+    return this.#siret;
+  }
+
   #raison!: string;
 
   get raison(): string {
@@ -42,6 +49,7 @@ export class ModifierProducteurFixture
       modifiéLe: faker.date.recent().toISOString(),
       modifiéPar: faker.internet.email(),
       producteur: faker.animal.insect(),
+      siret: faker.string.numeric(14),
       raison: faker.company.catchPhrase(),
       ...partialData,
     };
@@ -49,6 +57,7 @@ export class ModifierProducteurFixture
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
     this.#producteur = fixture.producteur;
+    this.#siret = fixture.siret;
     this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;
