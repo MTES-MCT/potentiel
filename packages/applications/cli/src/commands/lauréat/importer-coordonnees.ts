@@ -10,7 +10,8 @@ export class ImporterCoordonneesCommand extends Command {
     projet: Flags.string(),
   };
   async run() {
-    if (process.env.NODE_ENV !== 'production') {
+    // à exécuter manuellement en production
+    if (process.env.NODE_ENV === 'production') {
       await executeQuery(
         `DROP RULE IF EXISTS prevent_update_on_event_stream on event_store.event_stream;`,
       );
@@ -50,17 +51,19 @@ export class ImporterCoordonneesCommand extends Command {
           item.candidature.localité.région,
         );
 
-        if (reverseLongitudeAndLatitude.includes(identifiantProjet) && coordonnées) {
-          const lat = coordonnées.latitude;
-          coordonnées.latitude = coordonnées.longitude;
-          coordonnées.longitude = lat;
-        }
+        if (coordonnées) {
+          if (reverseLongitudeAndLatitude.includes(identifiantProjet)) {
+            const lat = coordonnées.latitude;
+            coordonnées.latitude = coordonnées.longitude;
+            coordonnées.longitude = lat;
+          }
 
-        if (reverseLongitudeCardinal.includes(identifiantProjet) && coordonnées) {
-          coordonnées.longitude = -coordonnées.longitude;
-        }
-        if (reverseLatitudeCardinal.includes(identifiantProjet) && coordonnées) {
-          coordonnées.latitude = -coordonnées.latitude;
+          if (reverseLongitudeCardinal.includes(identifiantProjet)) {
+            coordonnées.longitude = -coordonnées.longitude;
+          }
+          if (reverseLatitudeCardinal.includes(identifiantProjet)) {
+            coordonnées.latitude = -coordonnées.latitude;
+          }
         }
 
         if (items.length === 1) {
@@ -109,23 +112,24 @@ export class ImporterCoordonneesCommand extends Command {
       }
     }
 
+    console.log(stats);
+
     if (process.env.NODE_ENV !== 'production') {
       if (items.length <= 1) {
         await executeQuery(
           `call event_store.rebuild('candidature', $1)`,
           items[0].identifiantProjet,
         );
-        // await executeQuery(`call event_store.rebuild('lauréat', $1)`, items[0].identifiantProjet);
+        await executeQuery(`call event_store.rebuild('lauréat', $1)`, items[0].identifiantProjet);
       } else {
         await executeQuery(`call event_store.rebuild('candidature')`);
-        // await executeQuery(`call event_store.rebuild('lauréat')`);
+        await executeQuery(`call event_store.rebuild('lauréat')`);
       }
     } else {
-      console.log('Now, rebuild candidature and lauréat');
+      console.log('Now, rebuild candidature and lauréat :');
       console.log(`call event_store.rebuild('candidature')`);
       console.log(`call event_store.rebuild('lauréat')`);
     }
-    console.log(stats);
   }
 }
 
@@ -177,6 +181,8 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
       key.match(new RegExp(`${axe}.*\\(${part}\\)`, 'i')),
     )?.[1];
 
+  /** Latitude */
+
   const latitude_degrés = getValue('latitude', 'degrés');
   const latitude_minutes = getValue('latitude', 'minutes');
   let latitude_secondes = getValue('latitude', 'secondes');
@@ -195,6 +201,8 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
   if (!latitude_cardinal) {
     latitude_cardinal = régions[région]?.latitude_cardinal;
   }
+
+  /** Longitude */
 
   const longitude_degrés = getValue('longitude', 'degrés');
   const longitude_minutes = getValue('longitude', 'minutes');
@@ -237,6 +245,7 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
   };
   console.log(latitude, longitude);
 
+  /** Debug des entrées invalides */
   const coords = {
     latitude_degrés,
     latitude_minutes,
@@ -245,10 +254,6 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
     longitude_minutes,
     longitude_secondes,
   };
-
-  if (longitude_degrés === 'N') {
-    return;
-  }
 
   for (const [key, coord] of Object.entries(coords)) {
     if (Number.isNaN(+cleanup(coord))) {
@@ -268,20 +273,6 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
     return;
   }
 
-  // const isAOS = !!rawLine['demarcheId'];
-
-  // if (isAOS) {
-  //   if (Number.isNaN(longitude.degrés)) longitude.degrés = 0;
-  //   if (Number.isNaN(latitude.minutes)) latitude.minutes = 0;
-  // } else {
-  //   if (Object.keys(latitude).length !== 4) {
-  //     console.log(latitude);
-  //   }
-  //   if (Object.keys(longitude).length !== 4) {
-  //     console.log(longitude);
-  //   }
-  // }
-
   try {
     return Candidature.Coordonnées.bind({
       latitude: Candidature.Coordonnées.toDecimal(latitude),
@@ -289,7 +280,6 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
     }).formatterDecimal();
   } catch (e) {
     console.log(e);
-    // console.log(latitude, longitude);
   }
 };
 
