@@ -11,7 +11,11 @@ import { getAbandonInfos } from '../_helpers/getLauréat';
 type ProjetPageProps = IdentifiantParameter;
 
 // Page de redirection vers l'abandon en cours du projet
-export default async function ProjetPage({ params: { identifiant } }: ProjetPageProps) {
+export default async function ProjetPage(props: ProjetPageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   const identifiantProjet = decodeParameter(identifiant);
   const abandon = await getAbandonInfos(
     IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),

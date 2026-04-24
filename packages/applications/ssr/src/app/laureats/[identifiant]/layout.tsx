@@ -13,13 +13,14 @@ import { getLauréatInfos } from './_helpers/getLauréat';
 
 type LayoutProps = {
   children: React.ReactNode;
-  params: { identifiant: string };
+  params: Promise<{ identifiant: string }>;
 };
 
 export async function generateMetadata(
-  { params }: IdentifiantParameter,
+  props: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
+  const params = await props.params;
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
     const lauréat = await getLauréatInfos(
@@ -38,7 +39,13 @@ export async function generateMetadata(
   }
 }
 
-export default function LauréatLayout({ children, params: { identifiant } }: LayoutProps) {
+export default async function LauréatLayout(props: LayoutProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
+  const { children } = props;
+
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
     const projet = await getLauréatInfos(

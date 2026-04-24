@@ -11,7 +11,7 @@ const getIdToken = async (providerId: string) => {
   try {
     const tokens = await auth.api.getAccessToken({
       body: { providerId },
-      headers: headers(),
+      headers: await headers(),
     });
     return tokens.idToken;
   } catch (error) {

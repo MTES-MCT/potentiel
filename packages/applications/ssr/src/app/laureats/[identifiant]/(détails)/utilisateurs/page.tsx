@@ -15,7 +15,11 @@ import { AccèsListPage, AccèsListPageProps } from '@/components/organisms/acc�
 
 type PageProps = IdentifiantParameter;
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const params = await props0.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

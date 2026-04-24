@@ -1,7 +1,4 @@
-// eslint-disable-next-line no-restricted-imports
-import { isNotFoundError } from 'next/dist/client/components/not-found';
-// eslint-disable-next-line no-restricted-imports
-import { isRedirectError } from 'next/dist/client/components/redirect';
+import { unstable_rethrow } from 'next/navigation';
 import z from 'zod';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -18,9 +15,7 @@ export async function withErrorHandling<TResult>(
   try {
     return await action();
   } catch (e) {
-    if (isRedirectError(e) || isNotFoundError(e)) {
-      throw e;
-    }
+    unstable_rethrow(e);
 
     if (e instanceof AuthenticationError) {
       return onAuthenticationError();

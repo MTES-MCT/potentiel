@@ -1,5 +1,3 @@
-import './global.css';
-
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
@@ -11,6 +9,9 @@ import { Header } from '@/components/organisms/header/Header';
 import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
 import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
 
+// Tailwind import must happen after DSFR import.
+import './global.css';
+
 import Providers from './Providers';
 
 export const metadata: Metadata = {
@@ -20,11 +21,7 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-type RootLayoutProps = {
-  children: JSX.Element;
-};
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
   const features = getContext()?.features ?? [];

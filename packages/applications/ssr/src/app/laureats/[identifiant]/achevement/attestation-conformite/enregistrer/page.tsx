@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   description: `Formulaire de transmission de l'attestation de conformité d'un projet achevé`,
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>(

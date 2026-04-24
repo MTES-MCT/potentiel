@@ -20,13 +20,17 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  params: {
+  params: Promise<{
     identifiant: string;
     date: string;
-  };
+  }>;
 };
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, date } = params;
+
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
     const enregistréLe = decodeParameter(date);

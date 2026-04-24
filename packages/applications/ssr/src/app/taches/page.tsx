@@ -43,7 +43,8 @@ const catégoriesTâchesFilters = {
   raccordement: 'Raccordements',
 };
 
-export default async function Page({ searchParams }: IdentifiantParameter & PageProps) {
+export default async function Page(props: IdentifiantParameter & PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle, catégorieTâche, nomProjet } =

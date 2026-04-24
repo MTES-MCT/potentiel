@@ -36,7 +36,8 @@ const searchParamsSchema = z.object({
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const {

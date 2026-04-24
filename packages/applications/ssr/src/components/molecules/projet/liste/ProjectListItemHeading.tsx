@@ -21,9 +21,9 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-col justify-between gap-2 w-full">
-      <h2 className="leading-5">
+      <div className="leading-5">
         {prefix} <span className="font-bold mr-3">{nomProjet}</span>
-      </h2>
+      </div>
       <div className="flex items-center gap-2">
         <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />{' '}
       </div>

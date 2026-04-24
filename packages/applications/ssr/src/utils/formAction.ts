@@ -1,10 +1,6 @@
 import * as zod from 'zod';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-// eslint-disable-next-line no-restricted-imports
-import { isRedirectError } from 'next/dist/client/components/redirect';
-// eslint-disable-next-line no-restricted-imports
-import { isNotFoundError } from 'next/dist/client/components/not-found';
+import { redirect, unstable_rethrow } from 'next/navigation';
 import { unflatten } from 'flat';
 
 import { DomainError } from '@potentiel-domain/core';
@@ -171,9 +167,7 @@ export const formAction =
 
       return result;
     } catch (e) {
-      if (isRedirectError(e) || isNotFoundError(e)) {
-        throw e;
-      }
+      unstable_rethrow(e);
       if (e instanceof ImportCSV.CsvLineValidationError) {
         return {
           status: 'csv-line-error' as const,

@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   description: 'Page de détails des garanties financières',
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

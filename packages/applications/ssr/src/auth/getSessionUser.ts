@@ -1,5 +1,3 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
-
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
@@ -11,13 +9,11 @@ import { getUtilisateurFromEmail } from './getUtilisateurFromEmail';
 import { getLastUsedProvider } from './providers/getLastUsedProvider';
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
 
-export type GetUtilisateur = (
-  req: IncomingMessage,
-  res: ServerResponse,
-) => Promise<PotentielUtilisateur | undefined>;
+export type GetUtilisateur = (props: {
+  headers: Headers;
+}) => Promise<PotentielUtilisateur | undefined>;
 
-export const getSessionUser: GetUtilisateur = async (req) => {
-  const headers = new Headers(req.headers as Record<string, string>);
+export const getSessionUser: GetUtilisateur = async ({ headers }) => {
   const session = await auth.api.getSession({ headers });
 
   if (!session?.user) {

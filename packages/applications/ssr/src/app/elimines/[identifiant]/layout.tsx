@@ -18,9 +18,10 @@ type LayoutProps = IdentifiantParameter & {
 };
 
 export async function generateMetadata(
-  { params }: LayoutProps,
+  props: LayoutProps,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
+  const params = await props.params;
   const identifiantProjet = decodeParameter(params.identifiant);
   try {
     const projet = await getÉliminé(identifiantProjet);
@@ -40,7 +41,13 @@ export async function generateMetadata(
   }
 }
 
-export default async function ÉliminéLayout({ children, params: { identifiant } }: LayoutProps) {
+export default async function ÉliminéLayout(props: LayoutProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
+  const { children } = props;
+
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
     const projet = await getProjetLauréatOuÉliminé(identifiantProjet);

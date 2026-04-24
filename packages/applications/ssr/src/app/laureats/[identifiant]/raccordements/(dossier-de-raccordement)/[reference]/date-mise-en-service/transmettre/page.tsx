@@ -9,7 +9,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -21,10 +20,10 @@ import {
 } from './TransmettreDateMiseEnService.page';
 
 type PageProps = {
-  params: {
-    identifiant: IdentifiantParameter['params']['identifiant'];
+  params: Promise<{
+    identifiant: string;
     reference: string;
-  };
+  }>;
 };
 
 export const metadata: Metadata = {
@@ -32,7 +31,11 @@ export const metadata: Metadata = {
   description: 'Transmettre la date de mise en service',
 };
 
-export default async function Page({ params: { identifiant, reference } }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const params = await props0.params;
+
+  const { identifiant, reference } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(

@@ -17,9 +17,10 @@ import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 type PageProps = IdentifiantParameter;
 
 export async function generateMetadata(
-  { params }: IdentifiantParameter,
+  props: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
+  const params = await props.params;
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
     const candidature = await getCandidature(identifiantProjet);
@@ -33,7 +34,8 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(params.identifiant);

@@ -6,14 +6,17 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat, Éliminé, Document } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { apiAction } from '@/utils/apiAction';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
-export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  _: Request,
+  ctx: RouteContext<'/candidatures/[identifiant]/telecharger-attestation'>,
+) =>
   apiAction(async () => {
+    const { identifiant } = await ctx.params;
     const identifiantProjet = decodeParameter(identifiant);
     const { attestationDésignation, nomProjet } = await getAttestation(identifiantProjet);
 

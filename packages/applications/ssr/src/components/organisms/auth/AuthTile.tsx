@@ -1,6 +1,6 @@
 'use client';
 
-import Tile from '@codegouvfr/react-dsfr/Tile';
+import Tile, { TileProps } from '@codegouvfr/react-dsfr/Tile';
 import { ReactNode } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
@@ -14,7 +14,7 @@ export type ProviderProps = {
 type AuthTileProps = {
   title: ReactNode;
   description?: ReactNode;
-  action?: ReactNode;
+  action?: TileProps['detail'];
   className?: string;
   profiles: Record<'porteurs' | 'dreal' | 'dgec' | 'admin' | 'autres', boolean>;
   provider: ProviderProps;

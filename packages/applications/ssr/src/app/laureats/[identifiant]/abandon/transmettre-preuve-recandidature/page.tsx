@@ -15,7 +15,11 @@ type PageProps = IdentifiantParameter;
  * Cette Page est conservée pour la retrocompatibilité avec les mails préalablement envoyés,
  * et redirige vers le détail de l'abandon où il y a un bouton d'action avec une modale pour transmettre
  */
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   const identifiantProjet = decodeParameter(identifiant);
   const abandon = await getAbandonInfos(
     IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
