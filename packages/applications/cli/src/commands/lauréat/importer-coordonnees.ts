@@ -42,7 +42,7 @@ export class ImporterCoordonneesCommand extends Command {
     for (const item of items) {
       try {
         const identifiantProjet = item.identifiantProjet;
-        if (ignorePériodes.some((p) => identifiantProjet.startsWith(p))) {
+        if (ignorePatterns.some((p) => identifiantProjet.startsWith(p))) {
           stats.nok++;
           continue;
         }
@@ -181,13 +181,17 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
       key.match(new RegExp(`${axe}.*\\(${part}\\)`, 'i')),
     )?.[1];
 
-  /** Latitude */
-
-  const latitude_degrés = getValue('latitude', 'degrés');
-  const latitude_minutes = getValue('latitude', 'minutes');
+  let latitude_degrés = getValue('latitude', 'degrés');
+  let latitude_minutes = getValue('latitude', 'minutes');
   let latitude_secondes = getValue('latitude', 'secondes');
   let latitude_cardinal =
     getValue('latitude', 'cardinal') ?? getValue('latitude', 'point cardinal');
+
+  let longitude_degrés = getValue('longitude', 'degrés');
+  let longitude_minutes = getValue('longitude', 'minutes');
+  let longitude_secondes = getValue('longitude', 'secondes');
+  let longitude_cardinal =
+    getValue('longitude', 'cardinal') ?? getValue('longitude', 'point cardinal');
 
   if (latitude_secondes?.trim().match(/.*[NS]$/)) {
     if (!latitude_cardinal) {
@@ -195,38 +199,48 @@ export const mapCsvRowToCoordonnées = (rawLine: Record<string, string>, région
     }
     latitude_secondes = latitude_secondes.trim().slice(0, -1);
   }
-  if (latitude_degrés?.startsWith('-')) {
-    latitude_cardinal = 'S';
-  }
-  if (!latitude_cardinal) {
-    latitude_cardinal = régions[région]?.latitude_cardinal;
-  }
-
-  /** Longitude */
-
-  const longitude_degrés = getValue('longitude', 'degrés');
-  const longitude_minutes = getValue('longitude', 'minutes');
-  let longitude_secondes = getValue('longitude', 'secondes');
-  let longitude_cardinal =
-    getValue('longitude', 'cardinal') ?? getValue('longitude', 'point cardinal');
-
   if (longitude_secondes?.trim().match(/.*[EWO]$/)) {
     if (!longitude_cardinal) {
       longitude_cardinal = longitude_secondes.trim().slice(-1).replace('W', 'O');
     }
     longitude_secondes = longitude_secondes.trim().slice(0, -1);
   }
+
+  if (latitude_degrés?.startsWith('-')) {
+    latitude_cardinal = 'S';
+  }
   if (longitude_degrés?.startsWith('-')) {
     longitude_cardinal = 'O';
   }
+
+  if (!latitude_cardinal) {
+    latitude_cardinal = régions[région]?.latitude_cardinal;
+  }
   if (!longitude_cardinal) {
     longitude_cardinal = régions[région]?.longitude_cardinal;
+  }
+
+  // mauvaise colonne : les degrés sont dans la colonne des minutes
+  const degréRegex = /(\d)°(.*)/;
+  if (!latitude_degrés && latitude_minutes?.match(degréRegex)) {
+    const [, deg, min] = degréRegex.exec(latitude_minutes) ?? [];
+    latitude_degrés = deg;
+    latitude_minutes = min;
+  }
+
+  if (!longitude_degrés && longitude_minutes?.match(degréRegex)) {
+    const [, deg, min] = degréRegex.exec(longitude_minutes) ?? [];
+    longitude_degrés = deg;
+    longitude_minutes = min;
   }
 
   if (!latitude_degrés && !longitude_degrés) {
     return;
   }
   if (!latitude_cardinal || !longitude_cardinal) {
+    return;
+  }
+  if (longitude_degrés === 'N') {
     return;
   }
 
@@ -380,8 +394,9 @@ const reverseLongitudeAndLatitude = [
   'CRE4 - Bâtiment#10#1#301',
   'Eolien#4##28',
   'Eolien#6##8',
+  'CRE4 - Sol#7#2#15',
 ];
-const reverseLatitudeCardinal = ['PPE2 - Sol#7##66'];
+const reverseLatitudeCardinal = ['PPE2 - Sol#7##66', 'CRE4 - Sol#7#2#15'];
 const reverseLongitudeCardinal = [
   'CRE4 - ZNI#1#1c#25',
   'CRE4 - ZNI#1#1c#26',
@@ -497,6 +512,7 @@ const reverseLongitudeCardinal = [
   'CRE4 - Bâtiment#11#1#112',
   'CRE4 - Bâtiment#11#1#16',
   'CRE4 - Bâtiment#1#1#99',
+  'CRE4 - Bâtiment#12#1#99',
   'CRE4 - Bâtiment#2#1#1027',
   'CRE4 - Bâtiment#2#1#1035',
   'CRE4 - Bâtiment#2#1#126',
@@ -566,6 +582,52 @@ const reverseLongitudeCardinal = [
   'CRE4 - Bâtiment#6#1#187',
   'CRE4 - Bâtiment#6#1#203',
   'CRE4 - Bâtiment#6#1#208',
+  'CRE4 - Autoconsommation métropole#9##45',
+  'PPE2 - Eolien#10##39',
+  'PPE2 - Sol#7##68',
+  'PPE2 - Sol#6##151',
+  'PPE2 - Petit PV Bâtiment#1##26624008',
+  'PPE2 - Bâtiment#4##115',
+  'PPE2 - Sol#6##154',
+  'CRE4 - Bâtiment#12#1#79',
+  'CRE4 - Bâtiment#13#1#155',
+  'PPE2 - Eolien#7##25',
+  'PPE2 - Sol#3##3',
+  'PPE2 - Sol#4##60',
+  'PPE2 - Sol#8##119',
+  'CRE4 - Bâtiment#11#1#611',
+  'PPE2 - Eolien#6##94',
+  'PPE2 - Eolien#7##87',
+
+  'CRE4 - Bâtiment#12#1#87',
+  'CRE4 - Bâtiment#12#1#131',
+  'CRE4 - Bâtiment#12#1#26',
+  'CRE4 - Bâtiment#12#1#28',
+  'CRE4 - Bâtiment#12#1#72',
+  'CRE4 - Bâtiment#12#1#90',
 ];
 
-const ignorePériodes = ['PPE2 - Eolien#3#'];
+const ignorePatterns = [
+  // tous les projets Eolien#3 ont des coordonnées erronées
+  'PPE2 - Eolien#3#',
+
+  // Projets avec des coordonnées incohérentes
+  'PPE2 - Eolien#4##37',
+  'PPE2 - Eolien#10##2',
+  'PPE2 - Sol#8##35',
+  'PPE2 - Neutre#3##210',
+  'PPE2 - Neutre#4##53',
+  'PPE2 - Neutre#4##58',
+  'PPE2 - Neutre#4##214',
+  'PPE2 - Neutre#4##162',
+  'CRE4 - Bâtiment#11#1#718',
+  'CRE4 - Bâtiment#12#1#460',
+  'CRE4 - Bâtiment#2#1#774',
+  'CRE4 - Bâtiment#6#1#198',
+  'CRE4 - Bâtiment#4#1#182',
+  'CRE4 - Bâtiment#4#1#502',
+  'CRE4 - Bâtiment#9#1#209',
+  'CRE4 - Bâtiment#9#1#351',
+  'CRE4 - Innovation#1#2#12',
+  'CRE4 - ZNI#2#2c#14',
+];

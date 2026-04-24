@@ -8,14 +8,14 @@ SELECT cand.VALUE->>'identifiantProjet' AS id,
   cand.VALUE->>'localité.commune' AS commune,
   cand.VALUE->>'localité.région' AS region,
   cand.VALUE->>'localité.département' AS departement,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (cardinal)' AS lat_cardinal,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (degrés)' AS lat_degrés,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (minutes)' AS lat_minutes,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (secondes)' AS lat_secondes,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (cardinal)' AS long_cardinal,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (degrés)' AS long_degrés,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (minutes)' AS long_minutes,
-  detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (secondes)' AS long_secondes
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (degrés)') ||
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (minutes)') || 
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (secondes)') ||
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Latitude (cardinal)') as lat_raw,
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (degrés)') ||
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (minutes)') ||
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (secondes)') || 
+  (detail.value->>'détail.Coordonnées géodésiques WGS84 du barycentre de l''Installation : Longitude (cardinal)') as long_raw
 FROM domain_views.projection cand
   INNER JOIN domain_views.projection detail ON detail.key = format(
     'détail-candidature|%s',
