@@ -94,7 +94,7 @@ Alors(
 );
 
 Alors(
-  `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
+  `aucun raccordement ni dossier de raccordement ne devrait être consultable pour le projet`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
@@ -119,16 +119,7 @@ Alors(
         });
 
       expect(Option.isNone(dossierRaccordement)).to.be.true;
-    });
-  },
-);
 
-Alors(
-  `le dossier de raccordement ne devrait plus être consultable dans la liste des dossiers de raccordement`,
-  async function (this: PotentielWorld) {
-    const { référenceDossier } =
-      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
-    await waitForExpect(async () => {
       const listeRaccordement =
         await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
