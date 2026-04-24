@@ -1,7 +1,15 @@
+import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 import { NextConfig } from 'next';
 
+const maxFileSize = `${fileSizeLimitInMegaBytes}mb`;
+
 const nextConfig: NextConfig = {
-  experimental: {},
+  experimental: {
+    proxyClientMaxBodySize: maxFileSize,
+    serverActions: {
+      bodySizeLimit: maxFileSize,
+    },
+  },
   poweredByHeader: false,
   turbopack: {},
   serverExternalPackages: [
