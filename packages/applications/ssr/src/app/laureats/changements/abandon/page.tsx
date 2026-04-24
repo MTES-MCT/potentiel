@@ -34,6 +34,7 @@ const paramsSchema = z.object({
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Abandon.StatutAbandon.statuts)),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -49,6 +50,7 @@ export default async function Page({ searchParams }: PageProps) {
         statut,
         preuveRecandidatureStatut,
         autorite,
+        PPA,
       } = paramsSchema.parse(searchParams);
 
       const abandons = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
@@ -67,6 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
           preuveRecandidatureStatut,
           nomProjet,
           autoritéCompétente: autorite,
+          PPA: PPA === true ? true : PPA === false ? false : undefined,
         },
       });
 
@@ -87,6 +90,20 @@ export default async function Page({ searchParams }: PageProps) {
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,
             })),
+        },
+        {
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            {
+              label: 'Oui',
+              value: 'true',
+            },
+            {
+              label: 'Non',
+              value: 'false',
+            },
+          ],
         },
         {
           label: `Appel d'offres`,

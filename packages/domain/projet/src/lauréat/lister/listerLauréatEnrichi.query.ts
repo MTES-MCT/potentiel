@@ -107,6 +107,7 @@ export type ListerLauréatEnrichiQuery = Message<
     famille?: string;
     identifiantProjet?: IdentifiantProjet.RawType;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
+    PPA?: boolean;
   },
   ListerLauréatEnrichiReadModel
 >;
@@ -140,6 +141,7 @@ export const registerListerLauréatEnrichiQuery = ({
     identifiantProjet,
     statut,
     typeActionnariat,
+    PPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantProjets: identifiantProjet && [identifiantProjet],
@@ -156,6 +158,7 @@ export const registerListerLauréatEnrichiQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: Where.matchAny(scope.régions) },
+        PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
       },
       join: [
         {

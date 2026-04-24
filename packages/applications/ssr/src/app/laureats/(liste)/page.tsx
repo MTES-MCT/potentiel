@@ -37,7 +37,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
-  PPA: z.enum(['oui', 'non']).optional(),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -62,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
           famille,
           statut,
           typeActionnariat,
-          PPA: PPA === 'oui' ? true : PPA === 'non' ? false : undefined,
+          PPA: PPA === true ? true : PPA === false ? false : undefined,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -99,8 +99,8 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'PPA',
           searchParamKey: 'PPA',
           options: [
-            { label: 'Oui', value: 'oui' },
-            { label: 'Non', value: 'non' },
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
           ],
         },
         {

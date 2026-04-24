@@ -31,6 +31,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
+  PPA: z.stringbool().optional(),
 });
 
 type PageProps = {
@@ -44,7 +45,7 @@ type ParamsType = z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { appelOffre, periode, famille, statut, typeActionnariat } =
+      const { appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
       const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
@@ -71,6 +72,14 @@ export default async function Page({ searchParams }: PageProps) {
             value,
           })),
           multiple: true,
+        },
+        {
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
         },
         {
           label: `Appel d'offres`,
@@ -109,6 +118,7 @@ export default async function Page({ searchParams }: PageProps) {
             famille,
             statut,
             typeActionnariat,
+            PPA,
           })}
           filters={filters}
         />
@@ -124,7 +134,7 @@ type MapToAction = (
 
 const mapToAction: MapToAction = (
   utilisateur,
-  { appelOffre, famille, periode, statut, typeActionnariat },
+  { appelOffre, famille, periode, statut, typeActionnariat, PPA },
 ) => {
   const actions: ExportPageProps['actions'] = [];
 
@@ -138,8 +148,9 @@ const mapToAction: MapToAction = (
         famille,
         statut,
         typeActionnariat,
+        PPA,
       }),
-      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat'],
+      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat', 'PPA'],
       description:
         'Exporter la liste des dossiers de raccordement. Un même projet peut avoir plusieurs dossiers de raccordement.',
     });
@@ -149,8 +160,8 @@ const mapToAction: MapToAction = (
     actions.push({
       type: 'lister-lauréat-enrichi',
       label: 'Projets lauréats',
-      url: Routes.Lauréat.exporter({ appelOffre, periode, famille, statut, typeActionnariat }),
-      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat'],
+      url: Routes.Lauréat.exporter({ appelOffre, periode, famille, statut, typeActionnariat, PPA }),
+      availableFilters: ['appelOffre', 'periode', 'famille', 'statut', 'typeActionnariat', 'PPA'],
       description: 'Exporter la liste des projets lauréats',
     });
   }

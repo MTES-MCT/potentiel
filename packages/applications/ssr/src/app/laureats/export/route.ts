@@ -21,6 +21,7 @@ export const GET = async (request: Request) =>
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
       const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
+      const PPA = searchParams.get('PPA') ?? undefined;
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
@@ -40,6 +41,7 @@ export const GET = async (request: Request) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )
             : undefined,
+          PPA: PPA === 'true' ? true : PPA === 'false' ? false : undefined,
         },
       });
 
@@ -188,6 +190,7 @@ export const GET = async (request: Request) =>
               statut,
               typeActionnariat,
               identifiantProjet,
+              PPA,
             }),
           },
         },
