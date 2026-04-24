@@ -9,6 +9,7 @@ interface EnregistrerChangementProducteur {
   readonly enregistréLe: string;
   readonly enregistréPar: string;
   readonly producteur: string;
+  readonly siret: string;
 }
 
 export class EnregistrerChangementProducteurFixture
@@ -39,6 +40,12 @@ export class EnregistrerChangementProducteurFixture
     return this.#producteur;
   }
 
+  #siret!: string;
+
+  get siret(): string {
+    return this.#siret;
+  }
+
   créer(
     partialData?: Partial<EnregistrerChangementProducteur>,
   ): Readonly<EnregistrerChangementProducteur> {
@@ -47,6 +54,7 @@ export class EnregistrerChangementProducteurFixture
       enregistréPar: faker.internet.email(),
       pièceJustificative: faker.potentiel.document(),
       producteur: faker.animal.insect(),
+      siret: faker.string.numeric(14),
       ...partialData,
     };
 
@@ -54,6 +62,7 @@ export class EnregistrerChangementProducteurFixture
     this.#enregistréPar = fixture.enregistréPar;
     this.#pièceJustificative = fixture.pièceJustificative;
     this.#producteur = fixture.producteur;
+    this.#siret = fixture.siret;
 
     this.aÉtéCréé = true;
     return fixture;

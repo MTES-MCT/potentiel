@@ -21,14 +21,29 @@ export class ProducteurWorld {
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, producteurÀLaCandidature: string) {
+  mapToExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    producteurÀLaCandidature: string,
+    numéroImmatriculationÀLaCandidature:
+      | Lauréat.Producteur.NuméroImmatriculation.RawType
+      | undefined,
+  ) {
+    const référencielFixture = this.#modifierProducteurFixture.aÉtéCréé
+      ? this.#modifierProducteurFixture
+      : this.#enregistrerChangementProducteurFixture.aÉtéCréé
+        ? this.#enregistrerChangementProducteurFixture
+        : undefined;
+
+    const numéro = référencielFixture
+      ? { siret: référencielFixture.siret }
+      : numéroImmatriculationÀLaCandidature;
+
     const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
-      producteur: this.#modifierProducteurFixture.aÉtéCréé
-        ? this.#modifierProducteurFixture.producteur
-        : this.#enregistrerChangementProducteurFixture.aÉtéCréé
-          ? this.#enregistrerChangementProducteurFixture.producteur
-          : producteurÀLaCandidature,
+      producteur: référencielFixture ? référencielFixture.producteur : producteurÀLaCandidature,
+      numéroImmatriculation: numéro
+        ? Lauréat.Producteur.NuméroImmatriculation.convertirEnValueType(numéro)
+        : undefined,
     };
 
     return expected;
