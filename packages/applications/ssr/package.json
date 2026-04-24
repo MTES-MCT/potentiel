@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@codegouvfr/react-dsfr": "1.31.1",
+    "@codegouvfr/react-dsfr": "1.32.0",
     "@edge-csrf/nextjs": "2.5.3-cloudflare-rc1",
     "@emotion/react": "11.14.0",
     "@emotion/server": "11.11.0",
