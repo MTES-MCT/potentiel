@@ -1,5 +1,3 @@
-import './global.css';
-
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
@@ -10,6 +8,9 @@ import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
 import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
 import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
+
+// Tailwind import must happen after DSFR import.
+import './global.css';
 
 import Providers from './Providers';
 
