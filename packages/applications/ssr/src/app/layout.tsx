@@ -30,7 +30,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   const features = getContext()?.features ?? [];
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <html {...getHtmlAttributes({ lang: 'fr' })}>
       <head>
         <DsfrHead

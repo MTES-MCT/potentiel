@@ -33,7 +33,6 @@ export const ConfirmationAction = ({
   return (
     <>
       <Button
-        // eslint-disable-next-line react/jsx-props-no-spreading
         {...buttonProps}
         onClick={() => setIsOpen(true)}
         className={clsx('block w-1/2 align-center', buttonProps?.className)}

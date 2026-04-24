@@ -73,7 +73,6 @@ export const Form: FC<FormProps> = ({
   }, [state.status]);
 
   return (
-    // eslint-disable-next-line react/no-unknown-property
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
       <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {retourUrl && (

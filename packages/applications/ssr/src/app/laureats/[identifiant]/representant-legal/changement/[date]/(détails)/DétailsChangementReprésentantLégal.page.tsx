@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { FC, ReactNode } from 'react';
 import clsx from 'clsx';
 

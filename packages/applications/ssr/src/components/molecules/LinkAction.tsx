@@ -12,7 +12,6 @@ export type LinkActionProps = {
 export const LinkAction = ({ label, linkProps, buttonProps }: LinkActionProps) => (
   <Button
     linkProps={linkProps}
-    // eslint-disable-next-line react/jsx-props-no-spreading
     {...buttonProps}
     className={clsx('block w-1/2 text-center', buttonProps?.className)}
   >

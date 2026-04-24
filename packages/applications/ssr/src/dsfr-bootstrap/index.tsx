@@ -15,7 +15,6 @@ declare module '@codegouvfr/react-dsfr/next-app-router' {
 }
 
 export function DsfrProvider(props: DsfrProviderProps) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <DsfrProviderBase defaultColorScheme={defaultColorScheme} Link={Link} {...props} />;
 }
 
