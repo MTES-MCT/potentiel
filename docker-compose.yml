@@ -16,7 +16,7 @@ services:
     profiles: ['app']
     command: postgres -c 'max_connections=50'
   metabase:
-    image: metabase/metabase:v0.53.3
+    image: metabase/metabase:v0.60.2
     container_name: metabase
     ports:
       - '3615:3000'
@@ -24,8 +24,10 @@ services:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: metabase
       MB_DB_PORT: 5432
-      MB_DB_USER: metabase
-      MB_DB_PASS: password
+      #MB_DB_USER: metabase
+      #MB_DB_PASS: password
+      MB_DB_USER: postgres_admin
+      MB_DB_PASS: postgres_password
       MB_DB_HOST: db
       MB_PASSWORD_COMPLEXITY: weak
       MB_PASSWORD_LENGTH: 4
