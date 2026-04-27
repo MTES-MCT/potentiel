@@ -19,6 +19,18 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée annulée |
             | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |
 
+    Scénario: Annuler une demande de mainlevée si la demande de mainlevée des garanties financières est en instruction
+        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Et des garanties financières actuelles pour le projet lauréat
+        Et une demande de mainlevée de garanties financières en instruction
+        Quand le porteur annule la demande de mainlevée des garanties financières avec :
+            | utilisateur     | porteur@test.test |
+            | date annulation | 2014-05-28        |
+        Alors une demande de mainlevée de garanties financières ne devrait plus être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Marseille - Demande de mainlevée annulée |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                            |
+
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée n'existe pas
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
@@ -44,12 +56,3 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
             | utilisateur     | porteur@test.test |
             | date annulation | 2014-05-28        |
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
-
-    Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est en instruction
-        Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet lauréat
-        Et une demande de mainlevée de garanties financières en instruction
-        Quand le porteur annule la demande de mainlevée des garanties financières avec :
-            | utilisateur     | porteur@test.test |
-            | date annulation | 2014-05-28        |
-        Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en instruction pour ce projet"

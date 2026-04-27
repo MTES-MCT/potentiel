@@ -56,6 +56,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         });
 
       const actions: DétailsMainlevéePageProps['actions'] = [];
+      if (mainlevée.statut.estEnInstruction()) {
+        actions.push('garantiesFinancières.mainlevée.annuler');
+      }
       if (mainlevée.statut.estDemandé()) {
         actions.push('garantiesFinancières.mainlevée.annuler');
         actions.push('garantiesFinancières.mainlevée.démarrerInstruction');

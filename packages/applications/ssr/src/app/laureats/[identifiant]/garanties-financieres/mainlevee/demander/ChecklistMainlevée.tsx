@@ -69,11 +69,15 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
             return (
               <li
                 key={key}
-                className={'flex flex-row items-center gap-3'}
+                className="flex flex-row items-center gap-3"
                 aria-label={complété ? 'Ce prérequis est rempli' : "L'action reste à compléter"}
               >
                 <span aria-hidden>
-                  {complété ? <Success fontSize="medium" /> : <Error fontSize="medium" />}
+                  {complété ? (
+                    <Success fontSize="medium" color="green-emeraude" />
+                  ) : (
+                    <Error fontSize="medium" color="blue-ecume" />
+                  )}
                 </span>
                 <span className={clsx({ 'line-through': complété })}>{label}</span>
                 {!complété && action && (

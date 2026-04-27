@@ -101,14 +101,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
   return (
     <>
       <ListItem
-        actions={
-          <ButtonsGroup
-            buttonsSize="small"
-            buttonsEquisized
-            inlineLayoutWhen="always"
-            buttons={buttons}
-          />
-        }
+        actions={<ButtonsGroup buttonsSize="small" inlineLayoutWhen="always" buttons={buttons} />}
         heading={
           <div className="flex flex-col gap-2">
             <span className="font-bold">{identifiantUtilisateur.email}</span>
