@@ -19,12 +19,14 @@ export const ProducteurDétails = ({ value, action }: ProducteurDétailsProps) =
       {value.numéroImmatriculation !== undefined && (
         <div>
           <Heading6>Numéro d'immmatriculation</Heading6>
-          {value.numéroImmatriculation.siret && (
-            <span>Numéro SIRET : {value.numéroImmatriculation.siret}</span>
-          )}
-          {value.numéroImmatriculation.siren && (
-            <span>Numéro SIREN : {value.numéroImmatriculation.siren}</span>
-          )}
+          <div className="flex flex-col">
+            {value.numéroImmatriculation.siret && (
+              <span>Numéro SIRET : {value.numéroImmatriculation.siret}</span>
+            )}
+            {value.numéroImmatriculation.siren && (
+              <span>Numéro SIREN : {value.numéroImmatriculation.siren}</span>
+            )}
+          </div>
         </div>
       )}
       {action && <TertiaryLink href={action.url}>{action.label}</TertiaryLink>}

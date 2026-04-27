@@ -45,6 +45,7 @@ export default async function Page(props: IdentifiantParameter) {
       return (
         <ModifierProducteurPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
+          numéroImmatriculation={mapToPlainObject(producteurActuel.numéroImmatriculation)}
           producteur={producteurActuel.producteur}
         />
       );

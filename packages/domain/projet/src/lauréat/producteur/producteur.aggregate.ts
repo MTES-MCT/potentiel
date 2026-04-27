@@ -17,9 +17,6 @@ import { ImporterOptions } from './importer/importerProducteur.option.js';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event.js';
 import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error.js';
 
-// viovio
-// voir les cas d'erreur
-
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,
   'producteur',

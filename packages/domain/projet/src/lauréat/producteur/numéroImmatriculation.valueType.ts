@@ -12,7 +12,7 @@ export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   estValide({ siret, siren });
   return {
     siret,
-    siren: siret ? siret.slice(0, 9) : siren,
+    siren: siret ? siret.replace(/ /g, '').slice(0, 9) : siren,
     formatter() {
       return { siret: this.siret, siren: this.siren };
     },
@@ -22,15 +22,15 @@ export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   };
 };
 
-const regexSIRET = /^([0-9]{14})$/;
-const regexSIREN = /^([0-9]{9})$/;
+const regexSIRET = /^\d{14}$/;
+const regexSIREN = /^\d{9}$/;
 
 export const estValideSiret = (value: string): boolean => {
-  return regexSIRET.test(value.trim());
+  return regexSIRET.test(value.replace(/ /g, ''));
 };
 
 export const estValideSiren = (value: string): boolean => {
-  return regexSIREN.test(value.trim());
+  return regexSIREN.test(value.replace(/ /g, ''));
 };
 
 type ConvertirEnValueTypeProps = {
