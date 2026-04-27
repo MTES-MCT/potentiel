@@ -6,10 +6,12 @@ import { mapSelectToValueType } from '../mappers/mapSelectToValueType.js';
 const typeGfMap = {
   Consignation: 'consignation',
   "Garantie financière avec date d'échéance et à renouveler": 'avec-date-échéance',
-  'Garantie bancaire': 'avec-date-échéance',
+  'Garantie bancaire': 'garantie-bancaire',
   "Garantie financière jusqu'à 6 mois après la date d'achèvement": 'six-mois-après-achèvement',
   Exemption: 'exemption',
-} satisfies Partial<Record<string, Candidature.TypeGarantiesFinancières.RawType>>;
+} satisfies Partial<
+  Record<string, Candidature.TypeGarantiesFinancières.RawType | 'garantie-bancaire'>
+>;
 
 export const getTypeGarantiesFinancières = <
   T extends Record<string, string>,
