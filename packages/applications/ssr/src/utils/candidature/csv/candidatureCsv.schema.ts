@@ -372,7 +372,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
               }
             : undefined,
         // viovio à transformer
-        numéroImmatriculation,
+        numéroImmatriculation: numéroImmatriculation ? numéroImmatriculation.trim() : undefined,
       };
     },
   );

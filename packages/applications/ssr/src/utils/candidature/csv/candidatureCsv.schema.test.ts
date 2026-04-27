@@ -91,7 +91,7 @@ describe('Schema candidature CSV', () => {
       },
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: undefined,
-      numéroImmatriculation: '784 671 695 00087',
+      numéroImmatriculation: '78467169500087',
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -140,7 +140,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: 1,
-      numéroImmatriculation: '784 671 695 00087',
+      numéroImmatriculation: '78467169500087',
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -180,7 +180,7 @@ describe('Schema candidature CSV', () => {
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
-      numéroImmatriculation: '784 671 695 00087',
+      numéroImmatriculation: '78467169500087',
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
@@ -376,7 +376,7 @@ describe('Schema candidature CSV', () => {
     test('Siren ou siret invalide', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesClassé,
-        numéroImmatriculation: '12345 67',
+        'Numéro SIREN ou SIRET*': '7v8 467 e51',
       });
       assert(!result.success);
       assertError(

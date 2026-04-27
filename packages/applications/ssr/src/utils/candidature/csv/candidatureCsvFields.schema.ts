@@ -100,9 +100,11 @@ export const natureDeLExploitationCsvSchema = z
   .transform((val) => val || undefined);
 
 // le reste de la validation est gérée par le value type
-export const numéroImmatriculationCSVSchema = optionalStringSchema.refine(
-  (val) => !val || val.trim().length === 9 || val.trim().length === 14,
-  'Le champ doit contenir un nombre de caractères valide (14 pour un SIRET, 9 pour un SIREN)',
-);
+export const numéroImmatriculationCSVSchema = optionalStringSchema
+  .transform((val) => val?.replace(/\D/g, ''))
+  .refine(
+    (val) => !val || val.length === 9 || val.length === 14,
+    'Le champ doit contenir un nombre de caractères valide (14 pour un SIRET, 9 pour un SIREN)',
+  );
 
 export const territoireProjetSchema = optionalStringWithDefaultValueSchema;

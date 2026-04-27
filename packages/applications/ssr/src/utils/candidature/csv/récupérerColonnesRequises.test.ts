@@ -33,6 +33,7 @@ const colonnesCommunes = [
   'Gouvernance partagée (Oui/Non)',
   "Date d'échéance au format JJ/MM/AAAA",
   "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
+  'Numéro SIREN ou SIRET*',
 ];
 
 const champsSupplémentaires: AppelOffre.ChampCandidature[] = [];
@@ -42,6 +43,8 @@ test(`Récupérer les colonnes requises de candidature csv sans champs suppléme
   const actual = récupérerColonnesRequises({
     champsSupplémentaires,
   });
+
+  console.log(actual);
 
   expect(actual).to.have.members(colonnesCommunes);
 });
