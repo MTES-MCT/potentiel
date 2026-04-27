@@ -371,8 +371,16 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 puissanceDuDispositifDeStockageEnKW,
               }
             : undefined,
-        // viovio à transformer
-        numéroImmatriculation: numéroImmatriculation ? numéroImmatriculation.trim() : undefined,
+        numéroImmatriculation: numéroImmatriculation
+          ? numéroImmatriculation.length === 14
+            ? {
+                siret: numéroImmatriculation,
+                siren: numéroImmatriculation.slice(0, 9),
+              }
+            : {
+                siren: numéroImmatriculation,
+              }
+          : undefined,
       };
     },
   );
