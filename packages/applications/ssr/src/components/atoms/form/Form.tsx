@@ -70,7 +70,7 @@ export const Form: FC<FormProps> = ({
     if (onValidationError && state.status === 'validation-error') {
       onValidationError(state.errors);
     }
-  }, [state.status]);
+  }, [state.status, onValidationError, state]);
 
   return (
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>

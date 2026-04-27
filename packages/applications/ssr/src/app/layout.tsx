@@ -69,6 +69,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             {children}
           </main>
           <Footer />
+          {/* eslint-disable-next-line react-hooks/static-components */}
           {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
         </Providers>
       </body>

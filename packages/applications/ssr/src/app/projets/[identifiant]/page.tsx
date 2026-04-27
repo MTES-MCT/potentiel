@@ -5,6 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type ProjetPageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
@@ -17,7 +18,10 @@ export default async function ProjetPage(props: ProjetPageProps) {
 
   const { identifiant } = params;
 
-  const identifiantProjet = decodeParameter(identifiant);
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    decodeParameter(identifiant),
+  ).formatter();
+
   const éliminé = await getÉliminé(identifiantProjet);
 
   if (éliminé) {

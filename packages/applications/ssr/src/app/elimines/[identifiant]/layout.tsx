@@ -22,7 +22,9 @@ export async function generateMetadata(
   _: ResolvingMetadata,
 ): Promise<Metadata> {
   const params = await props.params;
-  const identifiantProjet = decodeParameter(params.identifiant);
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    decodeParameter(params.identifiant),
+  ).formatter();
   try {
     const projet = await getÉliminé(identifiantProjet);
     if (!projet) {
@@ -48,7 +50,10 @@ export default async function ÉliminéLayout(props: LayoutProps) {
   const { children } = props;
 
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      decodeParameter(identifiant),
+    ).formatter();
+
     const projet = await getProjetLauréatOuÉliminé(identifiantProjet);
 
     return (
@@ -84,8 +89,12 @@ type GetProjetLauréatOuÉliminéResult =
     };
 
 // dans le cas d'un recours accordé, le projet devient lauréat
-const getProjetLauréatOuÉliminé = async (
-  identifiantProjet: string,
+type GetProjetLauréatOuÉliminé = (
+  identifiantProjet: IdentifiantProjet.RawType,
+) => Promise<GetProjetLauréatOuÉliminéResult>;
+
+const getProjetLauréatOuÉliminé: GetProjetLauréatOuÉliminé = async (
+  identifiantProjet,
 ): Promise<GetProjetLauréatOuÉliminéResult> => {
   const éliminé = await getÉliminé(identifiantProjet);
 

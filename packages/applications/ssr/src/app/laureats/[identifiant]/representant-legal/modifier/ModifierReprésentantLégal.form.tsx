@@ -73,9 +73,13 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             contexte="modifier"
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
-            onChange={({ typeReprésentantLégal, typeSociété }) =>
-              setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }))
-            }
+            onChange={({ typeReprésentantLégal, typeSociété }) => {
+              setValidationErrors((validationErrors) => ({
+                ...validationErrors,
+                typeRepresentantLegal: undefined,
+              }));
+              setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }));
+            }}
             validationErrors={validationErrors}
           />
         </div>
@@ -114,7 +118,10 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
               required: true,
               'aria-required': true,
               onChange: ({ target: { value } }) => {
-                delete validationErrors.raison;
+                setValidationErrors((validationErrors) => ({
+                  ...validationErrors,
+                  raison: undefined,
+                }));
                 setState((state) => ({ ...state, raison: value }));
               },
             }}
@@ -152,6 +159,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
 

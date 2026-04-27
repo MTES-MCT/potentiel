@@ -61,6 +61,7 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
 
@@ -93,6 +94,11 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
             typeSociété={state.typeSociété}
             validationErrors={validationErrors}
             onChange={({ typeReprésentantLégal, typeSociété }) => {
+              setValidationErrors((validationErrors) => ({
+                ...validationErrors,
+                typeRepresentantLegal: undefined,
+              }));
+
               setState((state) => ({
                 ...state,
                 typeReprésentantLégal,
@@ -123,9 +129,13 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
             validationErrors={validationErrors}
-            onChange={(piècesJustificatives) =>
-              setState((state) => ({ ...state, piècesJustificatives }))
-            }
+            onChange={(piècesJustificatives) => {
+              setValidationErrors((validationErrors) => ({
+                ...validationErrors,
+                piecesJustificatives: undefined,
+              }));
+              setState((state) => ({ ...state, piècesJustificatives }));
+            }}
           />
         </>
       ),
