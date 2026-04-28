@@ -125,7 +125,7 @@ export const GET = async (request: Request) =>
           { value: 'technologieÉolien', label: 'Technologie (éolien)' },
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
-          { value: 'installationRenouvellée', label: 'Installation renouvelée' },
+          { value: 'installationRenouvelée', label: 'Installation renouvelée' },
           { value: 'nombreDAérogénérateurs', label: "Nombre d'aérogénérateurs" },
           {
             value: 'puissanceUnitaireDesAérogénérateurs',

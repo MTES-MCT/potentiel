@@ -68,7 +68,7 @@ export type ÉliminéEnrichiListItemReadModel = {
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
-  installationRenouvellée: string | undefined;
+  installationRenouvelée: string | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
 };
@@ -220,7 +220,7 @@ const mapToReadModel: MapToReadModelProps = ({
     technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
     diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],
     hauteurBoutDePâleEnMètres: détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'],
-    installationRenouvellée: détailCandidature.détail['Installation renouvellée (AO éolien)'],
+    installationRenouvelée: détailCandidature.détail['Installation renouvellée (AO éolien)'],
     nombreDAérogénérateurs: détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"],
     puissanceUnitaireDesAérogénérateurs:
       détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'],
