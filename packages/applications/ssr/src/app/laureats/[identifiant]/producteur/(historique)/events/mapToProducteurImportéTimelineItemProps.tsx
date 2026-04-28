@@ -10,18 +10,18 @@ export const mapToProducteurImportéTimelineItemProps = (
     date: importéLe,
     title: (
       <>
-        Candidature :
+        Candidature
         <div className="flex flex-col gap-2">
           <div>
-            producteur : <span className="font-semibold">{producteur}</span>
+            Nom du producteur : <span className="font-semibold">{producteur}</span>
           </div>
           {numéroImmatriculation && (
             <div className="flex flex-col">
               {numéroImmatriculation.siret && (
-                <span>Numéro SIRET : {numéroImmatriculation.siret}</span>
+                <span className="font-semibold">Numéro SIRET : {numéroImmatriculation.siret}</span>
               )}
               {numéroImmatriculation.siren && (
-                <span>Numéro SIREN : {numéroImmatriculation.siren}</span>
+                <span className="font-semibold">Numéro SIREN : {numéroImmatriculation.siren}</span>
               )}
             </div>
           )}

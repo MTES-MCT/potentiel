@@ -1,6 +1,8 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
+import { NuméroImmatriculation } from '../index.js';
+
 // viovio : voir avec le métier si on veut afficher le siren / siret
 export type ChangementProducteurEntity = Entity<
   'changement-producteur',
@@ -10,8 +12,14 @@ export type ChangementProducteurEntity = Entity<
     changement: {
       enregistréPar: string;
       enregistréLe: DateTime.RawType;
-      ancienProducteur: string;
-      nouveauProducteur: string;
+      ancien: {
+        producteur: string;
+        numéroImmatriculation?: NuméroImmatriculation.RawType;
+      };
+      nouveau: {
+        producteur: string;
+        numéroImmatriculation?: NuméroImmatriculation.RawType;
+      };
       raison?: string;
       pièceJustificative: {
         format: string;

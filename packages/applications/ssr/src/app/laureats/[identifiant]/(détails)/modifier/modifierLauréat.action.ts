@@ -235,7 +235,6 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,
-      //viovio ajouter SIREN
       // champs non éditables
       // soit parce qu'ils ne peuvent changer après la candidature
       // soit parce qu'ils peuvent être modifier au cas par cas mais pas dans ce formulaire pour ne pas l'alourdir

@@ -375,7 +375,6 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           ? numéroImmatriculation.length === 14
             ? {
                 siret: numéroImmatriculation,
-                siren: numéroImmatriculation.slice(0, 9),
               }
             : {
                 siren: numéroImmatriculation,

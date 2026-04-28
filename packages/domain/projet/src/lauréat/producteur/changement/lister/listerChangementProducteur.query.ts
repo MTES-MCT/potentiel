@@ -88,6 +88,6 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   nomProjet: entity.lauréat.nomProjet,
   enregistréLe: DateTime.convertirEnValueType(entity.changement.enregistréLe),
-  ancienProducteur: entity.changement.ancienProducteur,
-  nouveauProducteur: entity.changement.nouveauProducteur,
+  ancienProducteur: entity.changement.ancien.producteur,
+  nouveauProducteur: entity.changement.nouveau.producteur,
 });

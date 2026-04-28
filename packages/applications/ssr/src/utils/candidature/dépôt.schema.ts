@@ -195,7 +195,6 @@ const numéroImmatriculationSchema = z
     val?.siret
       ? {
           siret: val.siret,
-          siren: val.siret.slice(0, 9),
         }
       : val?.siren
         ? {

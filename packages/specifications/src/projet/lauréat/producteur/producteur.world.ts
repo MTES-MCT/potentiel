@@ -49,6 +49,7 @@ export class ProducteurWorld {
     return expected;
   }
 
+  // viovio
   mapChangementToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     ancienProducteur: string,
@@ -66,8 +67,12 @@ export class ProducteurWorld {
         enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
-        nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
-        ancienProducteur,
+        nouveau: {
+          producteur: this.#enregistrerChangementProducteurFixture.producteur,
+        },
+        ancien: {
+          producteur: ancienProducteur,
+        },
         pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),
           enregistréLe: this.#enregistrerChangementProducteurFixture.enregistréLe,

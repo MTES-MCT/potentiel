@@ -28,10 +28,14 @@ type DétailsValeursProducteurProps = {
 const DétailsValeursProducteur: FC<DétailsValeursProducteurProps> = ({ changement }) => (
   <>
     <div>
-      <span className="font-medium">Nouveau producteur</span>: {changement.nouveauProducteur}
+      <span className="font-medium">Nouveau producteur</span>: {changement.nouveau.producteur}
+      <span className="font-medium">Nouveau SIRET</span>:{' '}
+      {changement.nouveau.siret || 'Non renseigné'}
     </div>
     <div>
-      <span className="font-medium">Producteur initial</span>: {changement.ancienProducteur}
+      <span className="font-medium">Producteur initial</span>: {changement.ancien.producteur}
+      <span className="font-medium">SIRET initial</span>:{' '}
+      {changement.ancien.siret || 'Non renseigné'}
     </div>
   </>
 );

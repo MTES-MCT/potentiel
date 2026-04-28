@@ -36,6 +36,10 @@ export const changementProducteurEnregistréProjector = async ({
     .some((producteur) => producteur.producteur)
     .none(() => 'Aucun');
 
+  const ancienNuméroImmatriculation = Option.match(producteurActuel)
+    .some((producteur) => producteur.numéroImmatriculation)
+    .none(() => undefined);
+
   await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
     `producteur|${identifiantProjet}`,
     {
@@ -50,8 +54,18 @@ export const changementProducteurEnregistréProjector = async ({
     {
       identifiantProjet,
       changement: {
-        ancienProducteur,
-        nouveauProducteur: producteur,
+        ancien: {
+          producteur: ancienProducteur,
+          numéroImmatriculation: ancienNuméroImmatriculation,
+        },
+        nouveau: {
+          producteur,
+          numéroImmatriculation: numéroImmatriculation?.siret
+            ? Lauréat.Producteur.NuméroImmatriculation.convertirEnValueType({
+                siret: numéroImmatriculation.siret,
+              })
+            : undefined,
+        },
         enregistréPar,
         enregistréLe,
         raison,

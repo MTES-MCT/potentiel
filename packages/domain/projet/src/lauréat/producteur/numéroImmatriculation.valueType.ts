@@ -1,10 +1,10 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type RawType = { siret?: string; siren: string };
+export type RawType = { siret?: string; siren?: string };
 
 export type ValueType = ReadonlyValueType<{
   siret?: string;
-  siren: string;
+  siren?: string;
   formatter: () => RawType;
 }>;
 
@@ -12,7 +12,7 @@ export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   estValide({ siret, siren });
   return {
     siret: siret ? sanitize(siret) : undefined,
-    siren: siret ? sanitize(siret).slice(0, 9) : sanitize(siren),
+    siren: siret ? sanitize(siret).slice(0, 9) : siren ? sanitize(siren) : undefined,
     formatter() {
       return { siret: this.siret, siren: this.siren };
     },
