@@ -3,12 +3,10 @@ import { Entity } from '@potentiel-domain/entity';
 
 import { NuméroImmatriculation } from '../index.js';
 
-// viovio : voir avec le métier si on veut afficher le siren / siret
 export type ChangementProducteurEntity = Entity<
   'changement-producteur',
   {
     identifiantProjet: string;
-
     changement: {
       enregistréPar: string;
       enregistréLe: DateTime.RawType;

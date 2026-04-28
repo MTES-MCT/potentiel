@@ -48,7 +48,6 @@ Alors(
   },
 );
 
-// viovio devrait pas marcher
 async function vérifierChangementProducteur(this: PotentielWorld, identifiantProjet: string) {
   return waitForExpect(async () => {
     const demandeEnCours =
@@ -68,7 +67,8 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
     const expected = mapToPlainObject(
       this.lauréatWorld.producteurWorld.mapChangementToExpected(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+        this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+        this.candidatureWorld.importerCandidature.dépôtValue.numéroImmatriculation?.siret,
       ),
     );
 

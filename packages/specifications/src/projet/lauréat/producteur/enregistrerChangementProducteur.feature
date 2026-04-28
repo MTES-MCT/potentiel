@@ -2,7 +2,6 @@
 @producteur
 Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
-   @select
     Scénario: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |

@@ -49,10 +49,10 @@ export class ProducteurWorld {
     return expected;
   }
 
-  // viovio
   mapChangementToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     ancienProducteur: string,
+    ancienSIRET?: string,
   ) {
     if (!this.#enregistrerChangementProducteurFixture.aÉtéCréé) {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
@@ -69,9 +69,11 @@ export class ProducteurWorld {
         ),
         nouveau: {
           producteur: this.#enregistrerChangementProducteurFixture.producteur,
+          siret: this.#enregistrerChangementProducteurFixture.siret,
         },
         ancien: {
           producteur: ancienProducteur,
+          siret: ancienSIRET,
         },
         pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),

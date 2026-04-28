@@ -28,9 +28,8 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
         <div>
           Nouveau producteur : <span className="font-semibold">{producteur}</span>
         </div>
-        <div className="flex flex-col">
+        <div>
           <span>Numéro SIRET : {numéroImmatriculation?.siret || 'Non renseigné'}</span>
-          <span>Numéro SIREN : {numéroImmatriculation?.siren || 'Non renseigné'}</span>
         </div>
       </div>
     ),
