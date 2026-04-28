@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getContext, type PotentielUtilisateur, requestContextStorage } from './request-context.js';
+import { type PotentielUtilisateur, requestContextStorage } from './request-context.js';
 
 type GetUtilisateur = (props: { headers: Headers }) => Promise<PotentielUtilisateur | undefined>;
 
@@ -39,11 +39,6 @@ export function runWebWithContext({
         getLogger().warn('Auth failed', { error: e });
       }
       try {
-        console.log(
-          'pre callback',
-          req.url,
-          getContext()?.utilisateur?.identifiantUtilisateur.email,
-        );
         await callback(req, res);
       } finally {
         const duration = Date.now() - start;

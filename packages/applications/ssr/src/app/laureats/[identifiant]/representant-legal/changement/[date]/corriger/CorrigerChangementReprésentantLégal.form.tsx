@@ -65,7 +65,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     !state.typeReprésentantLégal ||
     !state.nomReprésentantLégal ||
     !state.piècesJustificatives.length ||
-    Object.keys(validationErrors).length > 0;
+    Object.values(validationErrors).filter(Boolean).length > 0;
 
   const conditionDésactivationÉtape1 =
     !state.typeReprésentantLégal ||

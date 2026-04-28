@@ -16,7 +16,6 @@ export default eslintTs.config(
     ignores: [
       '**/dist/',
       '**/.storybook',
-      '**/.next',
       '**/potentiel-keycloak',
       '**/*.config.js',
       '**/scripts/*.ts',
