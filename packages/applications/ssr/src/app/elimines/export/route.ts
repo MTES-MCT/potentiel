@@ -107,6 +107,7 @@ export const GET = async (request: Request) =>
           { value: 'diamètreRotorEnMètres', label: 'Diamètre rotor (m)' },
           { value: 'hauteurBoutDePâleEnMètres', label: 'Hauteur bout de pâle (m)' },
           { value: 'installationRenouvelée', label: 'Installation renouvelée' },
+          { value: 'puissanceProjetInitial', label: 'Puissance du projet initial' },
           { value: 'nombreDAérogénérateurs', label: "Nombre d'aérogénérateurs" },
           {
             value: 'puissanceUnitaireDesAérogénérateurs',
