@@ -18,7 +18,7 @@ import {
   UnitéPuissance,
 } from '../../candidature/index.js';
 import { PuissanceEntity } from '../puissance/index.js';
-import { Actionnaire, StatutLauréat } from '../index.js';
+import { Actionnaire, Producteur, StatutLauréat } from '../index.js';
 import { AchèvementEntity } from '../achèvement/index.js';
 import { ActionnaireEntity } from '../actionnaire/index.js';
 import { RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
@@ -29,6 +29,7 @@ import {
 } from '../nature-de-l-exploitation/index.js';
 import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { ProducteurEntity } from '../producteur/producteur.entity.js';
 
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
@@ -51,6 +52,8 @@ export type LauréatEnrichiListItemReadModel = {
 
   latitude?: Coordonnées.RawType['latitude'];
   longitude?: Coordonnées.RawType['longitude'];
+  siren: Producteur.NuméroImmatriculation.ValueType['siren'] | undefined;
+  siret: Producteur.NuméroImmatriculation.ValueType['siret'] | undefined;
 
   actionnaire: Actionnaire.ConsulterActionnaireReadModel['actionnaire'];
 
@@ -129,6 +132,7 @@ type LauréatEnrichiJoins = [
   PuissanceEntity,
   ActionnaireEntity,
   AchèvementEntity,
+  ProducteurEntity,
   DétailCandidatureEntity,
   LeftJoin<RaccordementEntity>,
   LeftJoin<InstallationEntity>,
@@ -190,6 +194,10 @@ export const registerListerLauréatEnrichiQuery = ({
         },
         {
           entity: 'achèvement',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'producteur',
           on: 'identifiantProjet',
         },
         {
@@ -260,6 +268,7 @@ const mapToReadModel: MapToReadModelProps = ({
     coordonnées,
     statut,
     puissance: { puissance, puissanceDeSite },
+    producteur: { numéroImmatriculation },
     candidature: {
       prixReference,
       unitéPuissance,
@@ -300,6 +309,13 @@ const mapToReadModel: MapToReadModelProps = ({
     ...localité,
     ...coordonnées,
     actionnaire: actionnaire.actionnaire.nom,
+
+    siren: numéroImmatriculation
+      ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation).siren
+      : undefined,
+    siret: numéroImmatriculation
+      ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation).siret
+      : undefined,
 
     typeActionnariat: actionnariat
       ? TypeActionnariat.convertirEnValueType(actionnariat)
