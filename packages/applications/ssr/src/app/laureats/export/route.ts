@@ -46,9 +46,6 @@ export const GET = async (request: Request) =>
         },
       });
 
-      console.log('coucou viovio 3');
-      console.log(lauréatEnrichiList);
-
       const csv = await ExportCSV.toCSV<
         Record<keyof Lauréat.LauréatEnrichiListItemReadModel, string | number | undefined>
       >({
