@@ -354,16 +354,25 @@ const mapToReadModel: MapToReadModelProps = ({
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
     tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
-    technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
-    diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],
-    hauteurBoutDePâleEnMètres: détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'],
+    technologieÉolien:
+      détailCandidature.détail['Technologie (AO éolien)'] ??
+      détailCandidature.détail['Technologie'],
+    diamètreRotorEnMètres:
+      détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
+      détailCandidature.détail['Diamètre du rotor'],
+    hauteurBoutDePâleEnMètres:
+      détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'] ??
+      détailCandidature.détail['Hauteur en bout de pale'],
     installationRenouvelée: détailCandidature.détail['Installation renouvellée (AO éolien)']
       ? détailCandidature.détail['Installation renouvellée (AO éolien)']
       : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'true'
         ? 'Oui'
         : 'Non',
-    nombreDAérogénérateurs: détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"],
+    nombreDAérogénérateurs:
+      détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"] ??
+      détailCandidature.détail["Nombre d'aérogénérateurs"],
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'],
+      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'] ??
+      détailCandidature.détail['Puissance unitaire des aérogénérateurs'],
   };
 };
