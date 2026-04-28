@@ -14,6 +14,7 @@ export type EnregistrerChangementProducteurPageProps =
 export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProducteurPageProps> = ({
   identifiantProjet,
   producteur,
+  numéroImmatriculation,
 }) => (
   <>
     <Heading1>Changer de producteur</Heading1>
@@ -22,6 +23,7 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
     <EnregistrerChangementProducteurForm
       identifiantProjet={identifiantProjet}
       producteur={producteur}
+      numéroImmatriculation={numéroImmatriculation}
     />
   </>
 );

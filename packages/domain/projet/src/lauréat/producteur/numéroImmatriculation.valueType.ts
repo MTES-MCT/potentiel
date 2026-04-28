@@ -11,8 +11,8 @@ export type ValueType = ReadonlyValueType<{
 export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   estValide({ siret, siren });
   return {
-    siret,
-    siren: siret ? siret.replace(/ /g, '').slice(0, 9) : siren,
+    siret: siret ? sanitize(siret) : undefined,
+    siren: siret ? sanitize(siret).slice(0, 9) : sanitize(siren),
     formatter() {
       return { siret: this.siret, siren: this.siren };
     },
@@ -56,6 +56,8 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
     throw new SirenInvalideError(value.siren);
   }
 }
+
+const sanitize = (value: string) => value.replace(/ /g, '');
 
 class NuméroImmatriculationInvalideError extends InvalidOperationError {
   constructor() {

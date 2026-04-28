@@ -5,6 +5,10 @@ import { DateTime } from '@potentiel-domain/common';
 export const requiredStringSchema = z.string().trim().min(1);
 
 export const optionalStringSchema = z.string().trim().optional();
+export const optionelStringSchemaWithNumber = optionalStringSchema.transform((value) =>
+  value?.replace(/ /g, ''),
+);
+
 export const optionalStringWithDefaultValueSchema = z
   .string()
   .trim()
