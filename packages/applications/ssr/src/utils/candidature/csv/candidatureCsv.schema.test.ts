@@ -145,7 +145,6 @@ describe('Schema candidature CSV', () => {
     deepEqualWithRichDiff(result.data, expected);
   });
 
-  // viovio fail
   test('Champs optionnels, spécifiques à certains AOs', () => {
     const result = candidatureCsvSchema.safeParse({
       ...minimumValuesClassé,

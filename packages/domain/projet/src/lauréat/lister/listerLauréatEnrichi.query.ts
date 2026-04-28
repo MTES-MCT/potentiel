@@ -158,8 +158,6 @@ export const registerListerLauréatEnrichiQuery = ({
       identifiantProjets: identifiantProjet && [identifiantProjet],
     });
 
-    console.log('viovio coucou');
-
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
@@ -232,8 +230,6 @@ export const registerListerLauréatEnrichiQuery = ({
         },
       ],
     });
-
-    console.log('viovio coucou 2');
 
     const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
       'gestionnaire-réseau',
