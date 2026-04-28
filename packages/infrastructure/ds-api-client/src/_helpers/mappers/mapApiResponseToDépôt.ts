@@ -1,6 +1,4 @@
 import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
 import {
@@ -17,6 +15,7 @@ import {
   getTypeActionnariat,
 } from '../getters/index.js';
 import { DeepPartial } from '../types.js';
+import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -30,6 +29,7 @@ const colonnes = {
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
   typeGarantiesFinancières: "Type de garantie financière d'exécution",
+  dateÉchéanceGf: "Date d'échéance",
 
   localité: 'Adresse postale du site de production',
   historiqueAbandon: "Le projet a-t-il fait l'objet d'une candidature précédemment ?",
@@ -70,27 +70,21 @@ export const mapApiResponseToDépôt = ({
     financementCollectif: "Le projet fait-il l'objet d'un engagement au financement collectif ?",
   } satisfies Record<string, string>);
 
-  const typeGarantiesFinancieres = getTypeGarantiesFinancières(
+  const typeGarantiesFinancières = getTypeGarantiesFinancières(
     accessor,
     'typeGarantiesFinancières',
   );
 
-  const dateConstitutionGarantiesFinancieres = getDateConstitutionGarantiesFinancières(
-    typeGarantiesFinancieres,
+  const dateConstitutionGarantiesFinancières = getDateConstitutionGarantiesFinancières(
+    typeGarantiesFinancières,
     champs,
   );
 
-  const getDateÉchéanceGarantiesFinancières = (date: string) => {
-    const délaiÉchéanceGarantieBancaireEnMois = appelsOffreData.find(
-      (ao) => ao.id === 'PPE2 - Petit PV Bâtiment',
-    )?.garantiesFinancières.délaiÉchéanceGarantieBancaireEnMois;
-
-    return délaiÉchéanceGarantieBancaireEnMois
-      ? DateTime.convertirEnValueType(date)
-          .ajouterNombreDeMois(délaiÉchéanceGarantieBancaireEnMois)
-          .formatter()
-      : undefined;
-  };
+  const dateÉchéanceGarantiesFinancieres = getDateÉchéanceGarantiesFinancières({
+    typeGarantiesFinancières,
+    dateConstitutionGarantiesFinancières,
+    dateÉchéanceGarantiesFinancières: accessor.getDateValue('dateÉchéanceGf'),
+  });
 
   return {
     //  1. Renseignements administratifs
@@ -107,12 +101,13 @@ export const mapApiResponseToDépôt = ({
     prixReference: accessor.getNumberValue('prixReference'),
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
-    typeGarantiesFinancières: typeGarantiesFinancieres,
-    dateConstitutionGf: dateConstitutionGarantiesFinancieres,
-    dateÉchéanceGf:
-      typeGarantiesFinancieres === 'avec-date-échéance' && dateConstitutionGarantiesFinancieres
-        ? getDateÉchéanceGarantiesFinancières(dateConstitutionGarantiesFinancieres)
-        : undefined,
+    typeGarantiesFinancières:
+      typeGarantiesFinancières === 'garantie-bancaire'
+        ? 'avec-date-échéance'
+        : typeGarantiesFinancières,
+    dateConstitutionGf: dateConstitutionGarantiesFinancières,
+    dateÉchéanceGf: dateÉchéanceGarantiesFinancieres,
+
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),

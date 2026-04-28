@@ -22,6 +22,7 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
             url={Routes.Document.télécharger(DocumentProjet.bind(value.attestation).formatter())}
             format="pdf"
             className="mb-0"
+            small
           />
         ) : (
           <span>L'attestation de conformité n'a pas été transmise</span>
@@ -34,6 +35,7 @@ export const AchèvementDétails = ({ value, actions }: AchèvementDétailsProps
           )}
           format="pdf"
           className="mb-0"
+          small
         />
       )}
       {actions.map(({ label, url }) => (

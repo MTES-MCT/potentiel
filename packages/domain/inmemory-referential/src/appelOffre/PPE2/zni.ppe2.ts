@@ -183,7 +183,7 @@ du paragraphe 2.6.`,
     },
     {
       id: '3',
-      title: 'troisème',
+      title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {

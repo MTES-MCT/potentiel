@@ -45,6 +45,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
                     label="Télécharger l'attestation"
                     format="pdf"
                     url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                    small
                   />
                 )}
               </ÉtapeProjet>
