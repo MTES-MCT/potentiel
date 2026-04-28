@@ -173,22 +173,24 @@ const autorisationSchema = z
       : undefined,
   );
 
+export const siretSchema = optionalStringSchema
+  .transform((value) => value?.replace(/ /g, ''))
+  .refine((val) => !val || val.length === 14, {
+    message: `Le numéro SIRET est composé de 14 chiffres.`,
+  });
+
+export const sirenSchema = optionalStringSchema
+  .transform((value) => value?.replace(/ /g, ''))
+  .refine((val) => !val || val.length === 9, {
+    message: `Le numéro SIREN est composé de 9 chiffres.`,
+  });
+
 const numéroImmatriculationSchema = z
   .object({
-    siren: z.string().optional(),
-    siret: z.string().optional(),
+    siren: siretSchema,
+    siret: sirenSchema,
   })
   .optional()
-  .refine(
-    (val) =>
-      (!val?.siren && !val?.siret) ||
-      (!val?.siren && val?.siret) ||
-      (val?.siren && val?.siret) ||
-      (val?.siren && !val?.siret),
-    {
-      message: `La date et le numéro de l'autorisation doivent être tous les deux renseignés.`,
-    },
-  )
   .transform((val) =>
     val?.siret
       ? {

@@ -36,7 +36,6 @@ export const changementProducteurEnregistréProjector = async ({
     .some((producteur) => producteur.producteur)
     .none(() => 'Aucun');
 
-  // viovio : à voir si pas de valeur, est ce qu'on écrase ?
   await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
     `producteur|${identifiantProjet}`,
     {

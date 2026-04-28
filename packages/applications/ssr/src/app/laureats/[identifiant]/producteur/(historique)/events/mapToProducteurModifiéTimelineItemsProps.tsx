@@ -6,8 +6,15 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToProducteurModifiéTimelineItemsProps = (
   event: Lauréat.Producteur.ProducteurModifiéEvent,
 ): TimelineItemProps => {
-  const { modifiéLe, modifiéPar, producteur, pièceJustificative, raison, identifiantProjet } =
-    event.payload;
+  const {
+    modifiéLe,
+    modifiéPar,
+    producteur,
+    pièceJustificative,
+    raison,
+    identifiantProjet,
+    numéroImmatriculation,
+  } = event.payload;
 
   return {
     date: modifiéLe,
@@ -26,6 +33,16 @@ export const mapToProducteurModifiéTimelineItemsProps = (
         <div>
           Nouveau producteur : <span className="font-semibold">{producteur}</span>
         </div>
+        {numéroImmatriculation && (
+          <div className="flex flex-col">
+            {numéroImmatriculation.siret && (
+              <span>Numéro SIRET : {numéroImmatriculation.siret}</span>
+            )}
+            {numéroImmatriculation.siren && (
+              <span>Numéro SIREN : {numéroImmatriculation.siren}</span>
+            )}
+          </div>
+        )}
       </div>
     ),
     reason: raison,

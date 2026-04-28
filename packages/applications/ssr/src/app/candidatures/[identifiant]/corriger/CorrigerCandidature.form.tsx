@@ -136,6 +136,18 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
+        state={validationErrors['siret'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['siret']}
+        label="Numéro SIRET"
+        hintText="Constitué de 14 chiffres"
+        nativeInputProps={{
+          name: 'siret',
+          defaultValue: candidature.siret,
+          required: false,
+          'aria-required': false,
+        }}
+      />
+      <Input
         state={validationErrors['emailContact'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['emailContact']}
         label="Email"

@@ -9,12 +9,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { manyDocuments } from '@/utils/zod/document/manyDocuments';
-import { dépôtSchema, optionelStringSchemaWithNumber } from '@/utils/candidature';
+import { dépôtSchema, optionelStringWithNumberSchema } from '@/utils/candidature';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   producteur: dépôtSchema.shape.nomCandidat,
-  siret: optionelStringSchemaWithNumber,
+  siret: optionelStringWithNumberSchema,
   raison: zod.string().min(1),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],

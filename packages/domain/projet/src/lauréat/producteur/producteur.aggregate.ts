@@ -57,7 +57,6 @@ export class ProducteurAggregate extends AbstractAggregate<
   }: EnregistrerChangementProducteurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
-    // à adapter ? viovio
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();
     }
