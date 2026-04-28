@@ -121,17 +121,15 @@ export const formAction =
         };
       }, {});
 
-      const dataReducedNormalized = normalizeFormKeys(dataReduced);
+      // const dataReducedNormalized = normalizeFormKeys(dataReduced);
 
       const data = schema
-        ? await schema.parseAsync(unflatten(dataReducedNormalized))
-        : unflatten(dataReducedNormalized);
+        ? await schema.parseAsync(unflatten(dataReduced))
+        : unflatten(dataReduced);
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       // Si le formulaire contient un champ "retour" valide, on redirige vers cette url en priorité.
-      const parsedRetour = zod
-        .object({ retour: callbackURLSchema })
-        .safeParse(dataReducedNormalized);
+      const parsedRetour = zod.object({ retour: callbackURLSchema }).safeParse(dataReduced);
 
       if (result.status === 'success' && parsedRetour.success) {
         result.redirection = {

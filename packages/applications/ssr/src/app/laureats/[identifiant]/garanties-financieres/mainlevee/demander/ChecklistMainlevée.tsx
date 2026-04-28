@@ -1,6 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { fr } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
 import Success from '@codegouvfr/react-dsfr/picto/Success';

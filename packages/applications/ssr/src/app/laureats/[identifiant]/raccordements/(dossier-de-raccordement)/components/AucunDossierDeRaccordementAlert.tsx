@@ -1,5 +1,5 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { Routes } from '@potentiel-applications/routes';
 

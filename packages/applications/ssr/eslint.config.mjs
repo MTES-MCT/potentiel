@@ -12,6 +12,17 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'react/no-unescaped-entities': 'off',
       'react-hooks/exhaustive-deps': 'off',
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'next/link',
+              message: 'Importer Link depuis @/components/atoms/LinkNoPrefetch',
+            },
+          ],
+        },
+      ],
     },
   },
   {

@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
+import { bindCahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -37,7 +37,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratio = nouvellePuissance / puissanceInitiale;
   const ratioActuelleNouvelle = nouvellePuissance / puissance;
 
-  const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
+  const cdcActuel = bindCahierDesCharges(cahierDesCharges);
   const ratioCdcActuel = Lauréat.Puissance.RatioChangementPuissance.bind({
     puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
     ratios: cdcActuel.getRatiosChangementPuissance(),

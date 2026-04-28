@@ -1,7 +1,11 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
-import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
+import {
+  bindCahierDesCharges,
+  CahierDesChargesValueType,
+  Candidature,
+} from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -17,14 +21,14 @@ type PageProps = IdentifiantParameter;
 
 export const metadata: Metadata = { title: 'Corriger la candidature' };
 
-export default async function Page(props0: PageProps) {
-  const params = await props0.params;
+export default async function Page(propsPage: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(
         'Candidature.UseCase.CorrigerCandidature',
       );
 
+      const params = await propsPage.params;
       const identifiantProjet = decodeParameter(params.identifiant);
       const candidature = await getCandidature(identifiantProjet);
       const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
@@ -37,7 +41,7 @@ export default async function Page(props0: PageProps) {
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         candidature.identifiantProjet.formatter(),
       );
-      const cahierDesCharges = CahierDesCharges.bind({
+      const cahierDesCharges = bindCahierDesCharges({
         appelOffre: appelOffres,
         période,
         famille,
@@ -66,7 +70,7 @@ export default async function Page(props0: PageProps) {
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
-  cahierDesCharges: CahierDesCharges.ValueType,
+  cahierDesCharges: CahierDesChargesValueType,
 ) => CorrigerCandidaturePageProps;
 
 const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({

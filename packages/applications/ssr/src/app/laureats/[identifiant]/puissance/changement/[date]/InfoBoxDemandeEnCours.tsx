@@ -1,6 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';

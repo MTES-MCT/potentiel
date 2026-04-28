@@ -18,7 +18,10 @@ export * as Document from './document-projet/index.js';
 export { DocumentProjet } from './document-projet/index.js';
 
 // ValueTypes
-export * as CahierDesCharges from './cahierDesCharges.valueType.js';
+// export * as CahierDesCharges from './cahierDesCharges.valueType.js';
+
+export { bind as bindCahierDesCharges } from './cahierDesCharges.valueType.js';
+export type { ValueType as CahierDesChargesValueType } from './cahierDesCharges.valueType.js';
 export * as IdentifiantProjet from './identifiantProjet.valueType.js';
 
 // Sagas

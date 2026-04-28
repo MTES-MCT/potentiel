@@ -1,7 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Joined } from '@potentiel-domain/entity';
 
-import { Candidature, CahierDesCharges } from '../../index.js';
+import { bindCahierDesCharges, Candidature } from '../../index.js';
 
 type Props = {
   identifiantPériode: string;
@@ -35,7 +35,7 @@ export const getCoefficientKLauréat = ({
     cahierDesChargesChoisi.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
   );
 
-  const cdc = CahierDesCharges.bind({
+  const cdc = bindCahierDesCharges({
     appelOffre,
     période,
     famille,

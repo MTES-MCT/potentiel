@@ -27,5 +27,5 @@ const mapToActiveLink = <TLink extends MainNavigationProps.Item>(
 export function NavLinks({ items }: MainNavigationProps) {
   const pathname = usePathname();
 
-  return <MainNavigation items={items.map((item) => mapToActiveLink(item, pathname))} />;
+  return <MainNavigation items={items.map((item) => ({ ...mapToActiveLink(item, pathname) }))} />;
 }
