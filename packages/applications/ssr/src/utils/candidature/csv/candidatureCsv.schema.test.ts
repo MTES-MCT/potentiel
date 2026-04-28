@@ -91,7 +91,7 @@ describe('Schema candidature CSV', () => {
       },
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: undefined,
-      numéroImmatriculation: '78467169500087',
+      numéroImmatriculation: { siret: '78467169500087' },
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -140,11 +140,12 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: 1,
-      numéroImmatriculation: '78467169500087',
+      numéroImmatriculation: { siret: '78467169500087' },
     };
     deepEqualWithRichDiff(result.data, expected);
   });
 
+  // viovio fail
   test('Champs optionnels, spécifiques à certains AOs', () => {
     const result = candidatureCsvSchema.safeParse({
       ...minimumValuesClassé,
@@ -180,7 +181,7 @@ describe('Schema candidature CSV', () => {
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
-      numéroImmatriculation: '78467169500087',
+      numéroImmatriculation: { siret: '78467169500087' },
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',

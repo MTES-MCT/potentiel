@@ -158,6 +158,8 @@ export const registerListerLauréatEnrichiQuery = ({
       identifiantProjets: identifiantProjet && [identifiantProjet],
     });
 
+    console.log('viovio coucou');
+
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
@@ -231,6 +233,8 @@ export const registerListerLauréatEnrichiQuery = ({
       ],
     });
 
+    console.log('viovio coucou 2');
+
     const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
       'gestionnaire-réseau',
       { select: ['raisonSociale', 'codeEIC'] },
@@ -297,6 +301,10 @@ const mapToReadModel: MapToReadModelProps = ({
     ? DispositifDeStockage.convertirEnValueType(installation.dispositifDeStockage)
     : undefined;
 
+  const numéroImmatriculationValueType = numéroImmatriculation
+    ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation)
+    : undefined;
+
   return {
     identifiantProjet: identifiantProjetValueType,
     appelOffre: identifiantProjetValueType.appelOffre,
@@ -310,12 +318,8 @@ const mapToReadModel: MapToReadModelProps = ({
     ...coordonnées,
     actionnaire: actionnaire.actionnaire.nom,
 
-    siren: numéroImmatriculation
-      ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation).siren
-      : undefined,
-    siret: numéroImmatriculation
-      ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation).siret
-      : undefined,
+    siren: numéroImmatriculationValueType ? numéroImmatriculationValueType.siren : undefined,
+    siret: numéroImmatriculationValueType ? numéroImmatriculationValueType.siret : undefined,
 
     typeActionnariat: actionnariat
       ? TypeActionnariat.convertirEnValueType(actionnariat)
