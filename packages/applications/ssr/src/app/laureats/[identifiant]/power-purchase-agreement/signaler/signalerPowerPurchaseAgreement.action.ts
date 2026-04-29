@@ -16,14 +16,6 @@ export type SignalerPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof sche
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) =>
   withUtilisateur(async (utilisateur) => {
-    console.log({
-      type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        signaléLeValue: new Date().toISOString(),
-        signaléParValue: utilisateur.identifiantUtilisateur.formatter(),
-      },
-    });
     await mediator.send<Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementUseCase>({
       type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       data: {

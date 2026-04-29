@@ -226,6 +226,11 @@ export class LauréatAggregate extends AbstractAggregate<
       NatureDeLExploitationAggregate,
       `nature-de-l-exploitation|${this.projet.identifiantProjet.formatter()}`,
     );
+
+    this.#powerPurchaseAgreement = await this.loadAggregate(
+      PowerPurchaseAgreementAggregate,
+      `power-purchase-agreement|${this.projet.identifiantProjet.formatter()}`,
+    );
   }
 
   async loadTâchePlanifiée(typeTâchePlanifiée: string) {

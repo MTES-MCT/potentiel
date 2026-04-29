@@ -24,7 +24,7 @@ export const SignalerPowerPurchaseAgreementForm: FC<SignalerPowerPurchaseAgreeme
   return (
     <>
       <Notice
-        description="Vous pouvez signaler le projet comme étant signataire d'un contrat de vente de gré à gré (PPA)."
+        description="Vous pouvez signaler le projet comme étant signataire d'un contrat de vente de gré à gré (PPA). Cela signifie que le projet est sorti du dispositif de l'appel d'offres."
         title=""
         severity="info"
         className="print:hidden"

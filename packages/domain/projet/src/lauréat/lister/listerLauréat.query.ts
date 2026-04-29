@@ -82,8 +82,6 @@ export const registerListerLauréatQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    console.log('viovio', estPartiEnPPA);
-
     const lauréats = await list<LauréatEntity, JoinedEntities>('lauréat', {
       range,
       orderBy: {
