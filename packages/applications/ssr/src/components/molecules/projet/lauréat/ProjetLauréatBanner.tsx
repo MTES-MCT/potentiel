@@ -10,7 +10,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
 
 import { StatutLauréatBadge } from './StatutLauréatBadge';
-import { PPABadge } from './PPABadge';
 
 export type ProjetLauréatBannerProps = {
   identifiantProjet: string;
@@ -24,12 +23,12 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
   projet,
 }) =>
   withUtilisateur(async ({ rôle }) => {
-    const { nomProjet, localité, notifiéLe, statut, PPA } = projet;
+    const { nomProjet, localité, notifiéLe, statut, estPartiEnPPA } = projet;
 
     return (
       <ProjetBannerTemplate
         statutBadge={<StatutLauréatBadge statut={statut.statut} />}
-        PPABadge={PPA ? <PPABadge /> : undefined}
+        estPartiEnPPA={estPartiEnPPA}
         localité={localité}
         dateDésignation={Option.match(notifiéLe)
           .some((date) => date.date)

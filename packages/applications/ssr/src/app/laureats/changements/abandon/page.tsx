@@ -69,7 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
           preuveRecandidatureStatut,
           nomProjet,
           autoritéCompétente: autorite,
-          PPA: PPA === true ? true : PPA === false ? false : undefined,
+          estPartiEnPPA: PPA,
         },
       });
 

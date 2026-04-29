@@ -18,6 +18,7 @@ const catégoriesToLabelMap = {
   recours: ['Recours', 'ri-scales-3-line'],
   'représentant-légal': ['Représentant légal', DEMANDE_GENERIQUE_ICONE],
   éliminé: ['Éliminé', 'ri-notification-3-line'],
+  'power-purchase-agreement': ['PPA', 'ri-shake-hands-line'],
 } satisfies Record<string, [string, IconProps['id']]>;
 
 type Catégorie = keyof typeof catégoriesToLabelMap;

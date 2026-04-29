@@ -37,7 +37,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
-  estPartiEnPPA: z.stringbool().optional(),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -45,16 +45,8 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const {
-        page,
-        nomProjet,
-        appelOffre,
-        periode,
-        famille,
-        statut,
-        typeActionnariat,
-        estPartiEnPPA,
-      } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
+        paramsSchema.parse(searchParams);
 
       if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
         return redirect(Routes.Projet.details(nomProjet));
@@ -70,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
           famille,
           statut,
           typeActionnariat,
-          estPartiEnPPA,
+          estPartiEnPPA: PPA,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -105,7 +97,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
         {
           label: 'PPA',
-          searchParamKey: 'estPartiEnPPA',
+          searchParamKey: 'PPA',
           options: [
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },

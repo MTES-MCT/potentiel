@@ -12,7 +12,6 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
-import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 
 export type DossierRaccordementListItemProps = PlainType<
   Lauréat.Raccordement.ListerDossierRaccordementReadModel['items'][number]
@@ -28,7 +27,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   puissance,
   statutProjet,
   dateAchèvement,
-  PPA,
+  estPartiEnPPA,
 }) => (
   <ListItem
     heading={
@@ -39,7 +38,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         statutBadge={
           <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
         }
-        PPABadge={PPA ? <PPABadge /> : undefined}
+        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={

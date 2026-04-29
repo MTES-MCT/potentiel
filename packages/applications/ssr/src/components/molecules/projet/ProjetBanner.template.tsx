@@ -9,11 +9,13 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { CopyButton } from '../CopyButton';
 
+import { PPABadge } from './lauréat/PPABadge';
+
 export type ProjetBannerProps = {
   href?: string;
   nom: string;
   statutBadge: React.ReactNode;
-  PPABadge?: React.ReactNode;
+  estPartiEnPPA?: boolean;
   localité?: { commune: string; département: string; région: string };
   dateDésignation: Option.Type<Iso8601DateTime>;
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -23,7 +25,7 @@ export type ProjetBannerProps = {
 export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
   href,
   statutBadge,
-  PPABadge,
+  estPartiEnPPA,
   nom,
   localité,
   dateDésignation,
@@ -51,7 +53,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
                 <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
               )}
               <div>{statutBadge}</div>
-              {PPABadge && <div>{PPABadge}</div>}
+              {estPartiEnPPA && <PPABadge />}
               {displayCopyButton && (
                 <CopyButton
                   textToCopy={identifiantProjet.formatter()}
