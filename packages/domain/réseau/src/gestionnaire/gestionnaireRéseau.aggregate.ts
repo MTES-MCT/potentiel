@@ -7,17 +7,22 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event.js';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
 import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event.js';
-import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error.js';
 import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options.js';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event.js';
 import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options.js';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error.js';
+import {
+  GestionnaireRéseauDéjàExistantError,
+  GestionnaireRéseauInconnuError,
+} from './gestionnaireRéseau.errors.js';
 
 export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,
   'gestionnaire-réseau'
 > {
   #référenceDossierRaccordementExpressionRegulière = ExpressionRegulière.accepteTout;
+
+  raisonSociale!: string;
+  contactEmail!: string;
 
   get identifiantGestionnaireRéseau() {
     return IdentifiantGestionnaireRéseau.convertirEnValueType(this.aggregateId.split('|')[1]);
@@ -68,25 +73,20 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
   }: ModifierOptions) {
     this.vérifierQueLeGestionnaireExiste();
     // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
+
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié-V2',
       payload: {
         codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
-          format: Option.match(format)
-            .some((value) => value)
-            .none(() => ''),
-          légende: Option.match(légende)
-            .some((value) => value)
-            .none(() => ''),
-          expressionReguliere: Option.match(expressionReguliere)
-            .some((value) => value.formatter())
-            .none(() => ExpressionRegulière.accepteTout.formatter()),
+          format: format || '',
+          légende: légende || '',
+          expressionReguliere: expressionReguliere
+            ? expressionReguliere.formatter()
+            : ExpressionRegulière.accepteTout.formatter(),
         },
-        contactEmail: Option.match(contactEmail)
-          .some((value) => value.formatter())
-          .none(() => ''),
+        contactEmail: contactEmail ? contactEmail.formatter() : '',
       },
     };
 

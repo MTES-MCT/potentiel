@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate.js';
@@ -13,11 +12,11 @@ export type ModifierGestionnaireRéseauCommand = Message<
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: {
-      format: Option.Type<string>;
-      légende: Option.Type<string>;
-      expressionReguliere: Option.Type<ExpressionRegulière.ValueType>;
+      format?: string;
+      légende?: string;
+      expressionReguliere?: ExpressionRegulière.ValueType;
     };
-    contactEmail: Option.Type<Email.ValueType>;
+    contactEmail?: Email.ValueType;
   }
 >;
 
