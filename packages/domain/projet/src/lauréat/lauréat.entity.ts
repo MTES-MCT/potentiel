@@ -13,7 +13,6 @@ export type LauréatEntity = Entity<
     notifiéLe: DateTime.RawType;
     notifiéPar: Email.RawType;
     statut: StatutLauréat.RawType;
-    PPA?: true;
     nomProjet: string;
     appelOffre: string;
     période: string;

@@ -23,3 +23,4 @@ export * as AccèsProjector from './subscribers/accès/index.js';
 export * as DélaiProjector from './subscribers/lauréat/délai/registerDélaiProjectors.js';
 export * as InstallationProjector from './subscribers/lauréat/installation/index.js';
 export * as NatureDeLExploitationProjector from './subscribers/lauréat/nature-de-l-exploitation/index.js';
+export * as PowerPurchaseAgreementProjector from './subscribers/lauréat/power-purchase-agreement/index.js';

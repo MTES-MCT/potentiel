@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-export type SignalerPPAOptions = {
+export type SignalerPowerPurchaseAgreementOptions = {
   signaléLe: DateTime.ValueType;
   signaléPar: Email.ValueType;
 };

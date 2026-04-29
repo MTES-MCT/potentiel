@@ -32,7 +32,7 @@ const searchParamsSchema = z.object({
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
   statutProjet: z.enum(['actif', 'achevé']).optional(),
-  PPA: z.stringbool().optional(),
+  estPartiEnPPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
@@ -47,7 +47,7 @@ export default async function Page({ searchParams }: PageProps) {
         page,
         referenceDossier,
         statutProjet,
-        PPA,
+        estPartiEnPPA,
       } = searchParamsSchema.parse(searchParams);
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
@@ -62,7 +62,7 @@ export default async function Page({ searchParams }: PageProps) {
           }),
           référenceDossier: referenceDossier,
           statutProjet: statutProjet ? [statutProjet] : undefined,
-          PPA: PPA === true ? true : PPA === false ? false : undefined,
+          estPartiEnPPA,
         },
       });
 
@@ -91,7 +91,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
         {
           label: 'PPA',
-          searchParamKey: 'PPA',
+          searchParamKey: 'estPartiEnPPA',
           options: [
             {
               label: 'Oui',

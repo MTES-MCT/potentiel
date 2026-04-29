@@ -40,7 +40,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL signale un état PPA pour un pro
     Scénario: Impossible de signaler un état PPA pour un projet lauréat actif déjà signalé comme PPA
         Etant donné le projet lauréat avec un état PPA signalé
         Quand un utilisateur "dgec" signale un état PPA pour le projet "lauréat"
-        Alors l'utilisateur devrait être informé que "Le projet est déjà signalé comme PPA"
+        Alors l'utilisateur devrait être informé que "Le projet est déjà signalé comme étant parti en PPA"
 
     Scénario: Impossible de signaler un état PPA pour un projet non lauréat
         Etant donné le projet éliminé "Du boulodrome de Bordeaux"

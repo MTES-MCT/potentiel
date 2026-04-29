@@ -29,7 +29,6 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
   StatutLauréatNonModifiéError,
-  PPADéjàSignaléError,
 } from './lauréat.error.js';
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
 import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
@@ -48,14 +47,13 @@ import { TâcheAggregate } from './tâche/tâche.aggregate.js';
 import { NotifierOptions } from './notifier/notifierLauréat.option.js';
 import { InstallationAggregate } from './installation/installation.aggregate.js';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
-import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event.js';
-import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option.js';
-import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
-import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
+import { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
+import { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
+import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
 import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
-import { SignalerPPAOptions } from './PPA/signaler/signalerPPA.option.js';
-import { PPASignaléEvent } from './PPA/signaler/PPASignalé.event.js';
+import { PowerPurchaseAgreementAggregate } from './power-purchase-agreement/powerPurchaseAgreement.aggregate.js';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -66,7 +64,6 @@ export class LauréatAggregate extends AbstractAggregate<
   #localité?: Candidature.Localité.ValueType;
   #référenceCahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
-  #estPPA?: true;
 
   get projet() {
     return this.parent;
@@ -105,6 +102,11 @@ export class LauréatAggregate extends AbstractAggregate<
   #achèvement!: AggregateType<AchèvementAggregate>;
   get achèvement() {
     return this.#achèvement;
+  }
+
+  #powerPurchaseAgreement!: AggregateType<PowerPurchaseAgreementAggregate>;
+  get powerPurchaseAgreement() {
+    return this.#powerPurchaseAgreement;
   }
 
   #producteur!: AggregateType<ProducteurAggregate>;
@@ -504,23 +506,6 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  async signalerPPA({ signaléLe, signaléPar }: SignalerPPAOptions) {
-    this.vérifierQueLeLauréatExiste();
-    if (this.#estPPA) {
-      throw new PPADéjàSignaléError();
-    }
-    const event: PPASignaléEvent = {
-      type: 'PPASignalé-V1',
-      payload: {
-        identifiantProjet: this.projet.identifiantProjet.formatter(),
-        signaléLe: signaléLe.formatter(),
-        signaléPar: signaléPar.formatter(),
-      },
-    };
-
-    await this.publish(event);
-  }
-
   private vérifierQueLeLauréatPeutÊtreNotifié() {
     if (this.#notifiéLe) {
       throw new LauréatDéjàNotifiéError();
@@ -584,7 +569,6 @@ export class LauréatAggregate extends AbstractAggregate<
         this.applyCahierDesChargesChoisi(event),
       )
       .with({ type: 'StatutLauréatModifié-V1' }, (event) => this.applyStatutLauréatModifié(event))
-      .with({ type: 'PPASignalé-V1' }, () => this.applyPPASignalé())
       .exhaustive();
   }
 
@@ -628,9 +612,5 @@ export class LauréatAggregate extends AbstractAggregate<
 
   private applyStatutLauréatModifié({ payload: { statut } }: StatutLauréatModifiéEvent) {
     this.#statut = StatutLauréat.bind({ statut });
-  }
-
-  private applyPPASignalé() {
-    this.#estPPA = true;
   }
 }

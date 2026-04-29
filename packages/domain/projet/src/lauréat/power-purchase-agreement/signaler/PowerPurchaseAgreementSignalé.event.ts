@@ -3,8 +3,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
 
-export type PPASignaléEvent = DomainEvent<
-  'PPASignalé-V1',
+export type PowerPurchaseAgreementSignaléEvent = DomainEvent<
+  'PowerPurchaseAgreementSignalé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     signaléLe: DateTime.RawType;

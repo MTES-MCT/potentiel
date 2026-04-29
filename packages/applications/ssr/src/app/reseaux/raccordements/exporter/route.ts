@@ -37,7 +37,7 @@ export const GET = async (request: Request) =>
       const famille = searchParams.get('famille') ?? undefined;
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
-      const PPA = searchParams.get('PPA') ?? undefined;
+      const estPartiEnPPA = searchParams.get('estPartiEnPPA') ?? undefined;
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
@@ -54,7 +54,8 @@ export const GET = async (request: Request) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )
             : undefined,
-          PPA: PPA === 'true' ? true : PPA === 'false' ? false : undefined,
+          estPartiEnPPA:
+            estPartiEnPPA === 'true' ? true : estPartiEnPPA === 'false' ? false : undefined,
         },
       });
 
@@ -86,7 +87,7 @@ export const GET = async (request: Request) =>
         ({
           identifiantProjet,
           statutProjet,
-          PPA,
+          estPartiEnPPA,
           nomProjet,
           référenceDossier,
           puissance,
@@ -106,7 +107,7 @@ export const GET = async (request: Request) =>
           nomProjet,
           statutProjet: statutProjet.formatter(),
           referenceDossier: référenceDossier.formatter(),
-          PPA: PPA ? 'Oui' : 'Non',
+          PPA: estPartiEnPPA ? 'Oui' : 'Non',
           dateDemandeCompleteRaccordement: dateDemandeComplèteRaccordement
             ? dateDemandeComplèteRaccordement.date.toLocaleDateString('fr-FR')
             : undefined,
@@ -145,7 +146,7 @@ export const GET = async (request: Request) =>
               famille,
               statut,
               typeActionnariat,
-              PPA,
+              estPartiEnPPA,
             }),
           },
         },

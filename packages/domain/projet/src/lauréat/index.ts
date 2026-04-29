@@ -17,16 +17,16 @@ import {
 } from './historique/lister/listerHistoriqueProjet.query.js';
 import { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query.js';
-import { EnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
+import { EnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
 import {
   ConsulterChangementNomProjetQuery,
   ConsulterChangementNomProjetReadModel,
-} from './nomProjet/changement/consulter/consulterChangementNomProjet.js';
+} from './nom-projet/changement/consulter/consulterChangementNomProjet.js';
 import {
   ListerChangementNomProjetQuery,
   ListerChangementNomProjetReadModel,
-} from './nomProjet/changement/lister/listerChangementNomProjet.js';
-import { ModifierNomProjetUseCase } from './nomProjet/modifier/modifierNomProjet.usecase.js';
+} from './nom-projet/changement/lister/listerChangementNomProjet.js';
+import { ModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
 import {
   ListerHistoriqueLauréatQuery,
   ListerHistoriqueLauréatReadModel,
@@ -36,7 +36,6 @@ import {
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query.js';
-import { SignalerPPAUseCase } from './PPA/signaler/signalerPPA.usecase.js';
 
 // Query
 export type LauréatQuery =
@@ -85,14 +84,12 @@ export type LauréatUseCase =
   | ModifierSiteDeProductionUseCase
   | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase
-  | EnregistrerChangementNomProjetUseCase
-  | SignalerPPAUseCase;
+  | EnregistrerChangementNomProjetUseCase;
 export type {
   ModifierSiteDeProductionUseCase,
   ModifierNomProjetUseCase,
   ChoisirCahierDesChargesUseCase,
   EnregistrerChangementNomProjetUseCase,
-  SignalerPPAUseCase,
 };
 
 // Events
@@ -103,22 +100,21 @@ export type {
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event.js';
 export type { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
-export type { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event.js';
+export type { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
 export type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
-export type { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+export type { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
 export type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
-export type { PPASignaléEvent } from './PPA/signaler/PPASignalé.event.js';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register.js';
 
 // Entities
 export type { LauréatEntity } from './lauréat.entity.js';
-export type { ChangementNomProjetEntity } from './nomProjet/changement/changementNomProjet.entity.js';
+export type { ChangementNomProjetEntity } from './nom-projet/changement/changementNomProjet.entity.js';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType.js';
-export * as DocumentNomProjet from './nomProjet/changement/documentNomProjet.valueType.js';
+export * as DocumentNomProjet from './nom-projet/changement/documentNomProjet.valueType.js';
 export * as DocumentSiteDeProduction from './documentModificationSiteDeProduction.valueType.js';
 
 export * as Abandon from './abandon/index.js';
@@ -135,3 +131,4 @@ export * as TâchePlanifiée from './tâche-planifiée/index.js';
 export * as Tâche from './tâche/index.js';
 export * as Installation from './installation/index.js';
 export * as NatureDeLExploitation from './nature-de-l-exploitation/index.js';
+export * as PowerPurchaseAgreement from './power-purchase-agreement/index.js';

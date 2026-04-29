@@ -19,6 +19,7 @@ import { setupGarantiesFinancières } from './setupGarantiesFinancière.js';
 import { setupInstallation } from './setupInstallation.js';
 import { setupTâche } from './setupTâche.js';
 import { setupNatureDeLExploitation } from './setupNatureDeLExploitation.js';
+import { setupPowerPurchaseAgreement } from './setupPowerPurchaseAgreement.js';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -36,7 +37,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
       'CahierDesChargesChoisi-V1',
       'ChangementNomProjetEnregistré-V1',
       'StatutLauréatModifié-V1',
-      'PPASignalé-V1',
       'RebuildTriggered',
     ],
     messageType: 'System.Projector.Lauréat',
@@ -99,6 +99,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupTâche = await setupTâche();
   const unsetupInstallation = await setupInstallation();
   const unsetupNatureDeLExploitation = await setupNatureDeLExploitation();
+  const unsetupPowerPurchaseAgreement = await setupPowerPurchaseAgreement();
 
   return async () => {
     await lauréat.clearSubscriptions();
@@ -117,5 +118,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupTâche();
     await unsetupInstallation();
     await unsetupNatureDeLExploitation();
+    await unsetupPowerPurchaseAgreement();
   };
 };
