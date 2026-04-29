@@ -152,7 +152,7 @@ export const registerListerDossierRaccordementQuery = ({
           type: 'left',
           on: 'identifiantProjet',
           where: {
-            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : estPartiEnPPA,
+            estPartiEnPPA: estPartiEnPPA === true ? Where.equal(estPartiEnPPA) : undefined,
           },
         },
       ],

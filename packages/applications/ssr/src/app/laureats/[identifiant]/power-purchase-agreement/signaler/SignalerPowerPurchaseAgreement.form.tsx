@@ -42,7 +42,7 @@ export const SignalerPowerPurchaseAgreementForm: FC<SignalerPowerPurchaseAgreeme
           onClick={() => setIsOpen(true)}
           className="block w-1/2 text-center"
         >
-          Signaler que le projet est parti en PPA
+          Signaler le PPA
         </Button>
       </div>
 

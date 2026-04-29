@@ -30,8 +30,6 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   }: SignalerPowerPurchaseAgreementOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    // Il ne faut pas que le projet soit achevé ?
-
     if (this.#estPartiEnPPA) {
       throw new PowerPurchaseAgreementDéjàSignaléError();
     }
@@ -44,10 +42,6 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
         signaléPar: signaléPar.formatter(),
       },
     };
-
-    // des impacts côté lauréat ?
-    // est abandonné ?
-    // statut lauréat ?
 
     await this.publish(event);
   }

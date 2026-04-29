@@ -98,6 +98,11 @@ import {
     ListerLauréatEnrichiDependencies,
     registerListerLauréatEnrichiQuery,
 } from './lister/listerLauréatEnrichi.query.js';
+import {
+    PowerPurchaseAgreementQueryDependencies,
+    registerPowerPurchaseAgreementQueries,
+    registerPowerPurchaseAgreementUseCases,
+} from './power-purchase-agreement/PowerPurchaseAgreement.register.js';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -118,7 +123,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   TâcheQueryDependencies &
   NatureDeLExploitationQueryDependencies &
   ListerHistoriqueLauréatDependencies &
-  ListerLauréatEnrichiDependencies;
+  ListerLauréatEnrichiDependencies &
+  PowerPurchaseAgreementQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -150,6 +156,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallationUseCases(dependencies);
   registerNatureDeLExploitationUseCases(dependencies);
+  registerPowerPurchaseAgreementUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -176,4 +183,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerInstallationQueries(dependencies);
   registerTâcheQuery(dependencies);
   registerNatureDeLExploitationQueries(dependencies);
+  registerPowerPurchaseAgreementQueries(dependencies);
 };

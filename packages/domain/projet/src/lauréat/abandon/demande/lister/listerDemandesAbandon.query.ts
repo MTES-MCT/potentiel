@@ -101,7 +101,7 @@ export const registerListerDemandesAbandonQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
+            estPartiEnPPA: estPartiEnPPA === true ? Where.equal(estPartiEnPPA) : undefined,
           },
         },
       ],
