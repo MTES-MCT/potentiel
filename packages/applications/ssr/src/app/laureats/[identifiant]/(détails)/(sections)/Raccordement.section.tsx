@@ -37,35 +37,32 @@ export const RaccordementSection = ({ identifiantProjet }: RaccordementSectionPr
         return null;
       }
 
-      const aUnAbandon = abandon?.estAbandonné || abandon?.demandeEnCours;
-
-      const peutConsulterDétailRaccordement =
+      const détailEstConsultable =
         raccordement.dossiers.length > 0 ||
         rôle.aLaPermission('raccordement.demande-complète-raccordement.transmettre');
 
       const action =
-        !aUnAbandon && peutConsulterDétailRaccordement
+        !abandon?.demandeEnCours && détailEstConsultable
           ? {
               label: 'Consulter la page raccordement',
               url: Routes.Raccordement.détail(identifiantProjet),
             }
           : undefined;
 
-      const alertes =
-        rôle.estPorteur() && !abandon?.estAbandonné
-          ? getAlertesRaccordement({
-              CDC2022Choisi:
-                !!cahierDesCharges.cahierDesChargesModificatif &&
-                cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
-              raccordement,
-              dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
-                cahierDesCharges.période.delaiDcrEnMois.valeur,
-              ),
-              transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
-                !!cahierDesCharges.appelOffre
-                  .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
-            })
-          : [];
+      const alertes = rôle.estPorteur()
+        ? getAlertesRaccordement({
+            CDC2022Choisi:
+              !!cahierDesCharges.cahierDesChargesModificatif &&
+              cahierDesCharges.cahierDesChargesModificatif.paruLe === '30/08/2022',
+            raccordement,
+            dcrAttendueAvantLe: lauréat.lauréat.notifiéLe.ajouterNombreDeMois(
+              cahierDesCharges.période.delaiDcrEnMois.valeur,
+            ),
+            transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant:
+              !!cahierDesCharges.appelOffre
+                .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant,
+          })
+        : [];
 
       const value = mapToPlainObject(raccordement);
 

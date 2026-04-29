@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import { Find, Where } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -9,6 +9,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
 import { DocumentProjet, IdentifiantProjet } from '../../../index.js';
 import { DocumentRaccordement } from '../index.js';
+import { Raccordement } from '../../index.js';
 
 export type ConsulterDossierRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -48,8 +49,15 @@ export const registerConsulterDossierRaccordementQuery = ({
     identifiantProjetValue,
     référenceDossierRaccordementValue: référenceDossierRaccordement,
   }) => {
-    const result = await find<DossierRaccordementEntity>(
+    const result = await find<DossierRaccordementEntity, Raccordement.RaccordementEntity>(
       `dossier-raccordement|${identifiantProjetValue}#${référenceDossierRaccordement}`,
+      {
+        join: {
+          entity: 'raccordement',
+          on: 'identifiantProjet',
+          where: { désactivé: Where.equalNull() },
+        },
+      },
     );
 
     if (Option.isNone(result)) {

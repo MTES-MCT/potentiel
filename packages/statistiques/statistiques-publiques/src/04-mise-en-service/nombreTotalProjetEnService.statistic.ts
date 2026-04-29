@@ -12,12 +12,14 @@ export const computeNombreTotalProjetEnService = async () => {
       $1, 
       (
         select 
-            count(distinct p.value->>'identifiantProjet')
+            count(distinct d.value->>'identifiantProjet')
         from
-            domain_views.projection p
+            domain_views.projection d
+            join domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')  
         where 
-            p.key like 'dossier-raccordement|%'
-            and p.value->>'miseEnService.dateMiseEnService' is not null
+            d.key like 'dossier-raccordement|%'
+            and d.value->>'miseEnService.dateMiseEnService' is not null
+            and r.value->>'désactivé' is null
       )
     )
     `,
