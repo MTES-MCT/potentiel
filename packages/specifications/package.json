@@ -33,7 +33,7 @@
     "mime-types": "3.0.2"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "11.3.0",
+    "@cucumber/cucumber": "12.8.2",
     "@cucumber/pretty-formatter": "1.0.1",
     "@potentiel-config/tsconfig": "*"
   }
