@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
@@ -10,7 +10,7 @@ import { PuissanceEntity } from '../puissance/index.js';
 import { ProducteurEntity } from '../producteur/index.js';
 import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
-import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/index.js';
+import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -61,8 +61,8 @@ type JoinedEntities = [
   PuissanceEntity,
   ProducteurEntity,
   ReprésentantLégalEntity,
-  PowerPurchaseAgreementEntity,
   CandidatureEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 
 export const registerListerLauréatQuery = ({
@@ -81,6 +81,8 @@ export const registerListerLauréatQuery = ({
     estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+
+    console.log('viovio', estPartiEnPPA);
 
     const lauréats = await list<LauréatEntity, JoinedEntities>('lauréat', {
       range,
@@ -110,13 +112,6 @@ export const registerListerLauréatQuery = ({
           on: 'identifiantProjet',
         },
         {
-          entity: 'power-purchase-agreement',
-          on: 'identifiantProjet',
-          where: {
-            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
-          },
-        },
-        {
           entity: 'candidature',
           on: 'identifiantProjet',
           where: {
@@ -125,6 +120,14 @@ export const registerListerLauréatQuery = ({
                 typeActionnariat,
               ),
             ),
+          },
+        },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: {
+            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
           },
         },
       ],
@@ -149,9 +152,9 @@ const mapToReadModel: MapToReadModelProps = ({
   localité,
   statut,
   'représentant-légal': représentantLégal,
-  'power-purchase-agreement': { estPartiEnPPA },
   producteur,
   puissance,
+  'power-purchase-agreement': powerPurchaseAgreement,
   candidature: {
     emailContact,
     evaluationCarboneSimplifiée,
@@ -179,6 +182,6 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: StatutLauréat.convertirEnValueType(statut),
-    estPartiEnPPA: estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
   };
 };

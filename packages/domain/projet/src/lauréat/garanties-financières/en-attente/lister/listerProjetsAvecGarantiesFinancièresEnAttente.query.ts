@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
 
 import {
   GarantiesFinancièresEntity,
@@ -49,7 +49,7 @@ export type ListerGarantiesFinancièresEnAttenteDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
-type JoinedEntities = [LauréatEntity, PowerPurchaseAgreementEntity];
+type JoinedEntities = [LauréatEntity, LeftJoin<PowerPurchaseAgreementEntity>];
 
 export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   list,
@@ -107,6 +107,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         {
           entity: 'power-purchase-agreement',
           on: 'identifiantProjet',
+          type: 'left',
         },
       ],
     });
@@ -133,7 +134,7 @@ const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   enAttente,
   dernièreMiseÀJour: { date },
-  'power-purchase-agreement': { estPartiEnPPA },
+  'power-purchase-agreement': powerPurchaseAgreement,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -143,5 +144,5 @@ const mapToReadModel: MapToReadModelProps = ({
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
-  estPartiEnPPA: estPartiEnPPA ? true : undefined,
+  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
 });

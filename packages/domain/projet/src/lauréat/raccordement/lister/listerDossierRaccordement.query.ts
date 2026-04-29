@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -69,7 +69,7 @@ type DossierRaccordementJoins = [
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
   AchèvementEntity,
-  PowerPurchaseAgreementEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -149,6 +149,7 @@ export const registerListerDossierRaccordementQuery = ({
         },
         {
           entity: 'power-purchase-agreement',
+          type: 'left',
           on: 'identifiantProjet',
           where: {
             estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : estPartiEnPPA,
@@ -190,7 +191,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance, prixReference },
   achèvement,
-  'power-purchase-agreement': { estPartiEnPPA },
+  'power-purchase-agreement': powerPurchaseAgreement,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -217,7 +218,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   prixReference,
   sociétéMère,
   statutProjet: StatutLauréat.convertirEnValueType(statut),
-  estPartiEnPPA: estPartiEnPPA ? true : undefined,
+  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
   dateAchèvement: achèvement.réel?.date
     ? DateTime.convertirEnValueType(achèvement.réel.date)
     : undefined,

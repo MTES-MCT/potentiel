@@ -124,11 +124,11 @@ type LauréatEnrichiJoins = [
   PuissanceEntity,
   ActionnaireEntity,
   AchèvementEntity,
-  PowerPurchaseAgreementEntity,
   DétailCandidatureEntity,
   LeftJoin<RaccordementEntity>,
   LeftJoin<InstallationEntity>,
   LeftJoin<NatureDeLExploitationEntity>,
+  LeftJoin<PowerPurchaseAgreementEntity>,
 ];
 
 export const registerListerLauréatEnrichiQuery = ({
@@ -190,13 +190,6 @@ export const registerListerLauréatEnrichiQuery = ({
           on: 'identifiantProjet',
         },
         {
-          entity: 'power-purchase-agreement',
-          on: 'identifiantProjet',
-          where: {
-            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
-          },
-        },
-        {
           entity: 'détail-candidature',
           on: 'identifiantProjet',
         },
@@ -210,6 +203,14 @@ export const registerListerLauréatEnrichiQuery = ({
           entity: 'nature-de-l-exploitation',
           on: 'identifiantProjet',
           type: 'left',
+        },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: {
+            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
+          },
         },
       ],
     });
@@ -259,7 +260,7 @@ const mapToReadModel: MapToReadModelProps = ({
       technologie,
     },
     achèvement,
-    'power-purchase-agreement': { estPartiEnPPA },
+    'power-purchase-agreement': powerPurchaseAgreement,
     actionnaire,
     'détail-candidature': détailCandidature,
     installation,
@@ -285,7 +286,7 @@ const mapToReadModel: MapToReadModelProps = ({
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
     statut: statutValueType,
-    estPartiEnPPA: estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: powerPurchaseAgreement ? true : undefined,
     ...localité,
 
     actionnaire: actionnaire.actionnaire.nom,

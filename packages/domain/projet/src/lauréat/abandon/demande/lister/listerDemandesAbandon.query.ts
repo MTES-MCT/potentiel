@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
@@ -51,7 +51,7 @@ export type ListerDemandesAbandonDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
-type JoinedEntities = [LauréatEntity, PowerPurchaseAgreementEntity];
+type JoinedEntities = [LauréatEntity, LeftJoin<PowerPurchaseAgreementEntity>];
 
 export const registerListerDemandesAbandonQuery = ({
   list,
@@ -99,6 +99,7 @@ export const registerListerDemandesAbandonQuery = ({
         {
           entity: 'power-purchase-agreement',
           on: 'identifiantProjet',
+          type: 'left',
           where: {
             estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
           },
@@ -119,19 +120,24 @@ export const registerListerDemandesAbandonQuery = ({
   mediator.register('Lauréat.Abandon.Query.ListerDemandesAbandon', handler);
 };
 
-const mapToReadModel = (
-  entity: DemandeAbandonEntity & Joined<JoinedEntities>,
-): DemandeAbandonListItemReadModel => {
+const mapToReadModel = ({
+  lauréat,
+  statut,
+  demande,
+  identifiantProjet,
+  miseÀJourLe,
+  'power-purchase-agreement': powerPurchaseAgreement,
+}: DemandeAbandonEntity & Joined<JoinedEntities>): DemandeAbandonListItemReadModel => {
   return {
-    nomProjet: entity.lauréat.nomProjet,
-    statut: StatutAbandon.convertirEnValueType(entity.statut),
-    recandidature: !!entity.demande.recandidature,
-    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-    preuveRecandidatureStatut: entity.demande.recandidature
-      ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
+    nomProjet: lauréat.nomProjet,
+    statut: StatutAbandon.convertirEnValueType(statut),
+    recandidature: !!demande.recandidature,
+    miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    preuveRecandidatureStatut: demande.recandidature
+      ? StatutPreuveRecandidature.convertirEnValueType(demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
-    dateDemande: DateTime.convertirEnValueType(entity.demande.demandéLe),
-    estPartiEnPPA: entity['power-purchase-agreement'].estPartiEnPPA ? true : undefined,
+    dateDemande: DateTime.convertirEnValueType(demande.demandéLe),
+    estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
   };
 };

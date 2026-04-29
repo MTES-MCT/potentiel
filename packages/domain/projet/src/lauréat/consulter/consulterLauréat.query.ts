@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -50,7 +50,11 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [CandidatureEntity, AppelOffre.AppelOffreEntity, PowerPurchaseAgreementEntity];
+type LauréatJoins = [
+  CandidatureEntity,
+  AppelOffre.AppelOffreEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
+];
 
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
@@ -67,6 +71,7 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
         {
           entity: 'power-purchase-agreement',
           on: 'identifiantProjet',
+          type: 'left',
         },
       ],
     });
@@ -120,6 +125,6 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
-    estPartiEnPPA: lauréat['power-purchase-agreement'].estPartiEnPPA ? true : undefined,
+    estPartiEnPPA: lauréat['power-purchase-agreement']?.estPartiEnPPA ? true : undefined,
   };
 };
