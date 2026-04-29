@@ -3,9 +3,9 @@ import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enr
 import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
 import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
 import {
-    LauréatNotifiéEvent,
-    NomEtLocalitéLauréatImportésEvent,
-    LauréatNotifiéV1Event,
+  LauréatNotifiéEvent,
+  NomEtLocalitéLauréatImportésEvent,
+  LauréatNotifiéV1Event,
 } from './notifier/lauréatNotifié.event.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
 
