@@ -1,9 +1,29 @@
-import { ConsulterPowerPurchaseAgreementQuery } from './consulter/consulterPowerPurchaseAgreement.query.js';
+import {
+  ConsulterPowerPurchaseAgreementQuery,
+  ConsulterPowerPurchaseAgreementReadModel,
+} from './consulter/consulterPowerPurchaseAgreement.query.js';
+import {
+  HistoriquePowerPurchaseAgreementProjetListItemReadModel,
+  ListerHistoriquePowerPurchaseAgreementProjetQuery,
+  ListerHistoriquePowerPurchaseAgreementProjetReadModel,
+} from './listerHistorique/listerHistoriquePowerPurchaseAgreementProjet.query.js';
 import { SignalerPowerPurchaseAgreementUseCase } from './signaler/signalerPowerPurchaseAgreement.usecase.js';
 
 // Query
-export type PowerPurchaseAgreementQuery = ConsulterPowerPurchaseAgreementQuery;
-export type { ConsulterPowerPurchaseAgreementQuery };
+export type PowerPurchaseAgreementQuery =
+  | ConsulterPowerPurchaseAgreementQuery
+  | ListerHistoriquePowerPurchaseAgreementProjetQuery;
+export type {
+  ConsulterPowerPurchaseAgreementQuery,
+  ListerHistoriquePowerPurchaseAgreementProjetQuery,
+};
+
+// ReadModel
+export type {
+  ConsulterPowerPurchaseAgreementReadModel,
+  ListerHistoriquePowerPurchaseAgreementProjetReadModel,
+  HistoriquePowerPurchaseAgreementProjetListItemReadModel,
+};
 
 // UseCases
 export type PowerPurchaseAgreementUseCase = SignalerPowerPurchaseAgreementUseCase;

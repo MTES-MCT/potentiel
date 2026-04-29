@@ -2,8 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-export const mapToPPASignaléTimelineItemProps = (
-  event: Lauréat.PPASignaléEvent,
+export const mapToPowerPurchaseAgreementSignaléTimelineItemProps = (
+  event: Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementSignaléEvent,
 ): TimelineItemProps => {
   const { signaléLe, signaléPar } = event.payload;
 

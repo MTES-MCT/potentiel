@@ -7,7 +7,6 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
-import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 
 export type LauréatListItemProps = PlainType<Lauréat.ListerLauréatReadModel['items'][number]>;
 
@@ -23,7 +22,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
   producteur,
   email,
   puissance: { valeur, unité },
-  PPA,
+  estPartiEnPPA,
 }) => (
   <ProjectListItem
     identifiantProjet={identifiantProjet}
@@ -40,7 +39,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
     evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
     typeActionnariat={typeActionnariat}
     statutBadge={<StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statut).formatter()} />}
-    PPABadge={PPA ? <PPABadge /> : undefined}
+    estPartiEnPPA={estPartiEnPPA}
     actions={
       <Button
         className="md:flex ml-auto"

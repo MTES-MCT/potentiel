@@ -9,7 +9,6 @@ import { waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
-// viovio : supprimer l'état dans la query lauréat
 Alors(
   `l'état PPA devrait être consultable pour le projet lauréat`,
   async function (this: PotentielWorld) {

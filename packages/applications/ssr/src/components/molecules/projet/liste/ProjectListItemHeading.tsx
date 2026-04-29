@@ -4,6 +4,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/projet';
 
+import { PPABadge } from '../lauréat/PPABadge';
+
 export type ProjectListItemHeadingProps = {
   nomProjet: string;
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -11,7 +13,7 @@ export type ProjectListItemHeadingProps = {
   estNotifié?: boolean;
   actionnariat?: Candidature.TypeActionnariat.RawType;
   statutBadge?: React.ReactNode;
-  PPABadge?: React.ReactNode;
+  estPartiEnPPA?: true;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
@@ -19,7 +21,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   identifiantProjet,
   prefix,
   statutBadge,
-  PPABadge,
+  estPartiEnPPA,
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-col justify-between gap-2 w-full">
@@ -32,7 +34,11 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
     </div>
     <div className="flex gap-1 md:items-center md:flex-row flex-col">
       {statutBadge && <div className="flex gap-1">{statutBadge}</div>}
-      {PPABadge && <div className="flex gap-1">{PPABadge}</div>}
+      {estPartiEnPPA && (
+        <div className="flex gap-1">
+          <PPABadge />
+        </div>
+      )}
     </div>
   </div>
 );

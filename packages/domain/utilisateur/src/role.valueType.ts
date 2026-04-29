@@ -506,14 +506,20 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Command.EnregistrerChangementNomProjet',
       },
     },
+    powerPurchaseAgreement: {
+      usecase: {
+        signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
+      },
+      command: {
+        signaler: 'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
+      },
+    },
     usecase: {
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
-      signalerPPA: 'Lauréat.UseCase.SignalerPPA',
     },
     command: {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
-      signalerPPA: 'Lauréat.Command.SignalerPPA',
     },
     query: {
       consulter: 'Lauréat.Query.ConsulterLauréat',
@@ -1380,6 +1386,13 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
+  powerPurchaseAgreement: {
+    signaler: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.powerPurchaseAgreement.command.signaler,
+      référencielPermissions.lauréat.powerPurchaseAgreement.usecase.signaler,
+    ],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     lister: [
@@ -1398,11 +1411,6 @@ const policies = {
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
       référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
-    ],
-    signalerPPA: [
-      référencielPermissions.lauréat.query.consulter,
-      référencielPermissions.lauréat.command.signalerPPA,
-      référencielPermissions.lauréat.usecase.signalerPPA,
     ],
   },
   éliminé: {
@@ -1799,11 +1807,11 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'délai.rejeterDemande',
   'délai.accorderDemande',
 
+  // PPA
+  'powerPurchaseAgreement.signaler',
+
   // Candidature
   'candidature.importer',
-
-  // Lauréat
-  'lauréat.signalerPPA',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1954,7 +1962,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'nomProjet.consulterChangement',
   'nomProjet.listerChangement',
   'lauréat.listerLauréatEnrichi',
-  'lauréat.signalerPPA',
 
   // Représentant légal
   'représentantLégal.modifier',
@@ -2022,6 +2029,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'natureDeLExploitation.modifier',
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // PPA
+  'powerPurchaseAgreement.signaler',
 
   // Tâche
   'tâche.consulter',

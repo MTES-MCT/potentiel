@@ -12,7 +12,6 @@ import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNo
 import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToSiteDeProductionModifiéTimelineItemProps';
 import { mapToChangementNomProjetEnregistréTimelineItemProps } from './events/mapToChangementNomProjetEnregistréTimelineItemProps';
 import { mapToNomProjetModifiéTimelineItemProps } from './events/mapToNomProjetModifiéTimelineItemProps';
-import { mapToPPASignaléTimelineItemProps } from './events/mapPPASignaléTimelineItemProps';
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
@@ -63,5 +62,4 @@ export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
       },
       mapToSiteDeProductionModifiéTimelineItemProps,
     )
-    .with({ type: 'PPASignalé-V1' }, mapToPPASignaléTimelineItemProps)
     .exhaustive();
