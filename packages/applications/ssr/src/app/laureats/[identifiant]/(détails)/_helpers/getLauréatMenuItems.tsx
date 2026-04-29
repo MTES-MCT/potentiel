@@ -96,15 +96,6 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Utilisateurs', 'utilisateurs')
     : undefined;
 
-  const achèvementOnglet =
-    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') && lauréat.statut.estActif()
-      ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite/transmettre')
-      : utilisateur.rôle.aLaPermission('achèvement.transmettreDate') && lauréat.statut.estActif()
-        ? linkToSection("Date d'achèvement", 'achevement/date-achevement/transmettre')
-        : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
-          ? linkToSection('Attestation de conformité', 'achevement/modifier')
-          : undefined;
-
   const modifierLauréatOnglet = utilisateur.rôle.aLaPermission('lauréat.modifier')
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
@@ -126,6 +117,24 @@ export const getLauréatMenuItems = async ({
         }
       : undefined;
 
+<<<<<<< HEAD
+=======
+  const aUnAbandonEnCours = demandesEnCours.find((demande) => demande.text === 'Abandon');
+
+  const achèvementOnglet =
+    utilisateur.rôle.aLaPermission('achèvement.transmettreAttestation') &&
+    lauréat.statut.estActif() &&
+    !aUnAbandonEnCours
+      ? linkToSection('Attestation de conformité', 'achevement/attestation-conformite/transmettre')
+      : utilisateur.rôle.aLaPermission('achèvement.transmettreDate') &&
+          lauréat.statut.estActif() &&
+          !aUnAbandonEnCours
+        ? linkToSection("Date d'achèvement", 'achevement/date-achevement/transmettre')
+        : utilisateur.rôle.aLaPermission('achèvement.modifier') && lauréat.statut.estAchevé()
+          ? linkToSection('Attestation de conformité', 'achevement/modifier')
+          : undefined;
+
+>>>>>>> 3cde291dfc5278c1ae088eeaf2d51971315578de
   const modifications = [
     modifierLauréatOnglet,
     achèvementOnglet,

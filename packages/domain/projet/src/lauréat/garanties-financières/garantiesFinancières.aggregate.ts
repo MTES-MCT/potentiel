@@ -80,7 +80,6 @@ import {
   AttestationConformitéManquanteError,
   DépôtDeGarantiesFinancièresÀSupprimerError,
   MainlevéeDéjàAccordéeError,
-  MainlevéeDéjàEnInstructionError,
   MainlevéeDéjàRejetéeError,
   MainlevéeNonTrouvéeError,
   ProjetNonAbandonnéError,
@@ -869,9 +868,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     if (this.#statutMainlevée.estRejeté()) {
       throw new MainlevéeDéjàRejetéeError();
-    }
-    if (this.#statutMainlevée.estEnInstruction()) {
-      throw new MainlevéeDéjàEnInstructionError();
     }
 
     const event: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent = {
