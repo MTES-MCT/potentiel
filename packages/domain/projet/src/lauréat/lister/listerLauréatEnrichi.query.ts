@@ -27,6 +27,7 @@ import {
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
 import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
+import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
@@ -38,7 +39,7 @@ export type LauréatEnrichiListItemReadModel = {
   numéroCRE: IdentifiantProjet.ValueType['numéroCRE'];
   nomProjet: Dépôt.ValueType['nomProjet'];
   statut: StatutLauréat.ValueType;
-  PPA?: true;
+  estPartiEnPPA?: true;
 
   adresse1: Localité.ValueType['adresse1'];
   adresse2: Localité.ValueType['adresse2'];
@@ -107,7 +108,7 @@ export type ListerLauréatEnrichiQuery = Message<
     famille?: string;
     identifiantProjet?: IdentifiantProjet.RawType;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
-    PPA?: boolean;
+    estPartiEnPPA?: boolean;
   },
   ListerLauréatEnrichiReadModel
 >;
@@ -123,6 +124,7 @@ type LauréatEnrichiJoins = [
   PuissanceEntity,
   ActionnaireEntity,
   AchèvementEntity,
+  PowerPurchaseAgreementEntity,
   DétailCandidatureEntity,
   LeftJoin<RaccordementEntity>,
   LeftJoin<InstallationEntity>,
@@ -141,7 +143,7 @@ export const registerListerLauréatEnrichiQuery = ({
     identifiantProjet,
     statut,
     typeActionnariat,
-    PPA,
+    estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantProjets: identifiantProjet && [identifiantProjet],
@@ -158,7 +160,6 @@ export const registerListerLauréatEnrichiQuery = ({
         période: Where.equal(periode),
         famille: Where.equal(famille),
         localité: { région: Where.matchAny(scope.régions) },
-        PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
       },
       join: [
         {
@@ -187,6 +188,13 @@ export const registerListerLauréatEnrichiQuery = ({
         {
           entity: 'achèvement',
           on: 'identifiantProjet',
+        },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          where: {
+            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
+          },
         },
         {
           entity: 'détail-candidature',
@@ -241,7 +249,6 @@ const mapToReadModel: MapToReadModelProps = ({
     identifiantProjet,
     localité,
     statut,
-    PPA,
     puissance: { puissance, puissanceDeSite },
     candidature: {
       prixReference,
@@ -252,6 +259,7 @@ const mapToReadModel: MapToReadModelProps = ({
       technologie,
     },
     achèvement,
+    'power-purchase-agreement': { estPartiEnPPA },
     actionnaire,
     'détail-candidature': détailCandidature,
     installation,
@@ -277,7 +285,7 @@ const mapToReadModel: MapToReadModelProps = ({
     numéroCRE: identifiantProjetValueType.numéroCRE,
     nomProjet,
     statut: statutValueType,
-    PPA: PPA ? true : undefined,
+    estPartiEnPPA: estPartiEnPPA ? true : undefined,
     ...localité,
 
     actionnaire: actionnaire.actionnaire.nom,

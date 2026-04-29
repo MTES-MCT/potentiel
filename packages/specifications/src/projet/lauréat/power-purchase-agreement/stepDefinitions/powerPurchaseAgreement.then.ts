@@ -9,20 +9,21 @@ import { waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
+// viovio : supprimer l'état dans la query lauréat
 Alors(
   `l'état PPA devrait être consultable pour le projet lauréat`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
-      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-        type: 'Lauréat.Query.ConsulterLauréat',
-        data: {
-          identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        },
-      });
+      const powerPurchaseAgreement =
+        await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({
+          type: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
+          data: {
+            identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          },
+        });
 
-      assert(Option.isSome(lauréat), "Le projet lauréat n'existe pas");
-
-      expect(lauréat.PPA).to.be.true;
+      assert(Option.isSome(powerPurchaseAgreement), "Le PPA n'existe pas");
+      expect(powerPurchaseAgreement.estPartiEnPPA).to.be.true;
     });
   },
 );

@@ -98,8 +98,6 @@ import {
     ListerLauréatEnrichiDependencies,
     registerListerLauréatEnrichiQuery,
 } from './lister/listerLauréatEnrichi.query.js';
-import { registerSignalerPPACommand } from './PPA/signaler/signalerPPA.command.js';
-import { registerSignalerPPAUseCase } from './PPA/signaler/signalerPPA.usecase.js';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -135,8 +133,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerModifierNomProjetUseCase();
   registerEnregistrerChangementNomProjetCommand(dependencies.getProjetAggregateRoot);
   registerEnregistrerChangementNomProjetUseCase();
-  registerSignalerPPACommand(dependencies.getProjetAggregateRoot);
-  registerSignalerPPAUseCase();
 
   registerChoisirCahierDesChargesUseCase();
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);

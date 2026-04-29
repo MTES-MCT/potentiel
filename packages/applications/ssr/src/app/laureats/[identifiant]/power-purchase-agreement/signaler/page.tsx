@@ -10,7 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLauréatInfos } from '../../_helpers';
 
-import { SignalerPPAPage } from './SignalerPPA.page';
+import { SignalerPowerPurchaseAgreementPage } from './SignalerPowerPurchaseAgreement.page';
 
 export const metadata: Metadata = {
   title: 'Signaler un PPA - Potentiel',
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.SignalerPPAUseCase>(
-        'Lauréat.UseCase.SignalerPPA',
+      utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>(
+        'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       );
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
@@ -30,7 +30,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
-      return <SignalerPPAPage identifiantProjet={mapToPlainObject(lauréat.identifiantProjet)} />;
+      return (
+        <SignalerPowerPurchaseAgreementPage
+          identifiantProjet={mapToPlainObject(lauréat.identifiantProjet)}
+        />
+      );
     }),
   );
 }

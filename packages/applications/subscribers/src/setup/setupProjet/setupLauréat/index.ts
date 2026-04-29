@@ -37,7 +37,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
       'CahierDesChargesChoisi-V1',
       'ChangementNomProjetEnregistré-V1',
       'StatutLauréatModifié-V1',
-      'PPASignalé-V1',
       'RebuildTriggered',
     ],
     messageType: 'System.Projector.Lauréat',

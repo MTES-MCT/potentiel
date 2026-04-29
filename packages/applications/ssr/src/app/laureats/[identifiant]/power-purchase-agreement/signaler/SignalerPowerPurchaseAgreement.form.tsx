@@ -10,13 +10,15 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { signalerPPAAction } from './signalerPPA.action';
+import { signalerPowerPurchaseAgreementAction } from './signalerPowerPurchaseAgreement.action';
 
-export type SignalerPPAFormProps = {
+export type SignalerPowerPurchaseAgreementFormProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
 };
 
-export const SignalerPPAForm: FC<SignalerPPAFormProps> = ({ identifiantProjet }) => {
+export const SignalerPowerPurchaseAgreementForm: FC<SignalerPowerPurchaseAgreementFormProps> = ({
+  identifiantProjet,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
@@ -40,22 +42,24 @@ export const SignalerPPAForm: FC<SignalerPPAFormProps> = ({ identifiantProjet })
           onClick={() => setIsOpen(true)}
           className="block w-1/2 text-center"
         >
-          Signaler le projet en état de PPA
+          Signaler que le projet est parti en PPA
         </Button>
       </div>
 
       <ModalWithForm
         id="signaler-ppa-modal"
-        title="Signaler le projet en état de PPA"
+        title="Signaler que le projet est parti en PPA"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: signalerPPAAction,
+          action: signalerPowerPurchaseAgreementAction,
           id: 'signaler-ppa-form',
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir signaler ce projet en état de PPA ?</p>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir signaler que ce projet est parti en PPA ?
+              </p>
               <input type={'hidden'} value={idProjet} name="identifiantProjet" />
             </>
           ),

@@ -8,7 +8,6 @@ import {
     LauréatNotifiéV1Event,
 } from './notifier/lauréatNotifié.event.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
-import { PPASignaléEvent } from './PPA/signaler/PPASignalé.event.js';
 
 export type LauréatEvent =
   | LauréatNotifiéEvent
@@ -18,5 +17,4 @@ export type LauréatEvent =
   | NomProjetModifiéEvent
   | CahierDesChargesChoisiEvent
   | ChangementNomProjetEnregistréEvent
-  | StatutLauréatModifiéEvent
-  | PPASignaléEvent;
+  | StatutLauréatModifiéEvent;

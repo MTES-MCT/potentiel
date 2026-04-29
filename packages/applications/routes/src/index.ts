@@ -14,6 +14,7 @@ import {
   GarantiesFinancières,
   Installation,
   NatureDeLExploitation,
+  PowerPurchaseAgreement,
 } from './lauréat/index.js';
 import { Candidature } from './candidature/index.js';
 import { Document } from './document/index.js';
@@ -57,4 +58,5 @@ export const Routes = {
   NatureDeLExploitation,
   Éliminé,
   Export,
+  PowerPurchaseAgreement,
 };

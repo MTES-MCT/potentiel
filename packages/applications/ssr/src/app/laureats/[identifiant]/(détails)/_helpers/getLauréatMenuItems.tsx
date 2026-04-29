@@ -100,9 +100,9 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const signalerPPAOnglet =
-    utilisateur.rôle.aLaPermission('lauréat.signalerPPA') && !lauréat.PPA
-      ? linkToSection('Signaler un PPA', 'PPA/signaler')
+  const powerPurchaseAgreementOnglet =
+    utilisateur.rôle.aLaPermission('lauréat.signalerPPA') && !lauréat.estPartiEnPPA
+      ? linkToSection('Signaler un PPA', 'power-purchase-agreement/signaler')
       : undefined;
 
   const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
@@ -117,8 +117,6 @@ export const getLauréatMenuItems = async ({
         }
       : undefined;
 
-<<<<<<< HEAD
-=======
   const aUnAbandonEnCours = demandesEnCours.find((demande) => demande.text === 'Abandon');
 
   const achèvementOnglet =
@@ -134,11 +132,10 @@ export const getLauréatMenuItems = async ({
           ? linkToSection('Attestation de conformité', 'achevement/modifier')
           : undefined;
 
->>>>>>> 3cde291dfc5278c1ae088eeaf2d51971315578de
   const modifications = [
     modifierLauréatOnglet,
     achèvementOnglet,
-    signalerPPAOnglet,
+    powerPurchaseAgreementOnglet,
     ...actionsDomaine,
   ]
     .filter((item) => !!item)

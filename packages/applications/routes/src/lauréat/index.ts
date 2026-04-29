@@ -14,3 +14,4 @@ export * as Délai from './délai.routes.js';
 export * as GarantiesFinancières from './garantiesFinancières.routes.js';
 export * as Installation from './installation.routes.js';
 export * as NatureDeLExploitation from './natureDeLExploitation.routes.js';
+export * as PowerPurchaseAgreement from './powerPurchaseAgreement.routes.js';

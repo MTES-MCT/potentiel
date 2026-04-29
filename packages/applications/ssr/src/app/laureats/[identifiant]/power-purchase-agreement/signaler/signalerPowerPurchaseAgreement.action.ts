@@ -12,12 +12,12 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
 });
-export type SignalerPPAFormKeys = keyof zod.infer<typeof schema>;
+export type SignalerPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.SignalerPPAUseCase>({
-      type: 'Lauréat.UseCase.SignalerPPA',
+    await mediator.send<Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementUseCase>({
+      type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       data: {
         identifiantProjetValue: identifiantProjet,
         signaléLeValue: new Date().toISOString(),
@@ -29,9 +29,9 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        message: 'Le projet a été signalé en état de PPA',
+        message: 'Il a été signalé que le projet est parti avec un contrat de gré à gré (PPA)',
       },
     };
   });
 
-export const signalerPPAAction = formAction(action, schema);
+export const signalerPowerPurchaseAgreementAction = formAction(action, schema);

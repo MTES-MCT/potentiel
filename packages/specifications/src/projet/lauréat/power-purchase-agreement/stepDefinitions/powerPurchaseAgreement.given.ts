@@ -9,8 +9,8 @@ import { PotentielWorld } from '../../../../potentiel.world.js';
 
 EtantDonné(`le projet lauréat avec un état PPA signalé`, async function (this: PotentielWorld) {
   await waitForExpect(async () => {
-    await mediator.send<Lauréat.SignalerPPAUseCase>({
-      type: 'Lauréat.UseCase.SignalerPPA',
+    await mediator.send<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>({
+      type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         signaléLeValue: new Date().toISOString(),

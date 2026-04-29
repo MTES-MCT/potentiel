@@ -11,12 +11,13 @@ import {
   StatutAbandon,
   StatutPreuveRecandidature,
 } from '../../index.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type DemandeAbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutAbandon.ValueType;
-  PPA?: true;
+  estPartiEnPPA?: true;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   dateDemande: DateTime.ValueType;
@@ -39,7 +40,7 @@ export type ListerDemandesAbandonQuery = Message<
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
     autoritéCompétente?: AutoritéCompétente.RawType;
-    PPA?: boolean;
+    estPartiEnPPA?: boolean;
     range: RangeOptions;
   },
   ListerDemandesAbandonReadModel
@@ -49,6 +50,8 @@ export type ListerDemandesAbandonDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
+
+type JoinedEntities = [LauréatEntity, PowerPurchaseAgreementEntity];
 
 export const registerListerDemandesAbandonQuery = ({
   list,
@@ -63,11 +66,11 @@ export const registerListerDemandesAbandonQuery = ({
     autoritéCompétente,
     utilisateur,
     range,
-    PPA,
+    estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const options: ListOptions<DemandeAbandonEntity, LauréatEntity> = {
+    const options: ListOptions<DemandeAbandonEntity, JoinedEntities> = {
       range,
       orderBy: {
         miseÀJourLe: 'descending',
@@ -83,19 +86,27 @@ export const registerListerDemandesAbandonQuery = ({
           autoritéCompétente: Where.equal(autoritéCompétente),
         },
       },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
-        where: {
-          appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
-          nomProjet: Where.like(nomProjet),
-          localité: { région: Where.matchAny(scope.régions) },
-          PPA: PPA === true ? Where.equal(true) : PPA === false ? Where.notEqual(true) : undefined,
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+            nomProjet: Where.like(nomProjet),
+            localité: { région: Where.matchAny(scope.régions) },
+          },
         },
-      },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          where: {
+            estPartiEnPPA: estPartiEnPPA !== undefined ? Where.equal(estPartiEnPPA) : undefined,
+          },
+        },
+      ],
     };
 
-    const demandesAbandons = await list<DemandeAbandonEntity, LauréatEntity>(
+    const demandesAbandons = await list<DemandeAbandonEntity, JoinedEntities>(
       'demande-abandon',
       options,
     );
@@ -109,7 +120,7 @@ export const registerListerDemandesAbandonQuery = ({
 };
 
 const mapToReadModel = (
-  entity: DemandeAbandonEntity & Joined<LauréatEntity>,
+  entity: DemandeAbandonEntity & Joined<JoinedEntities>,
 ): DemandeAbandonListItemReadModel => {
   return {
     nomProjet: entity.lauréat.nomProjet,
@@ -121,6 +132,6 @@ const mapToReadModel = (
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
     dateDemande: DateTime.convertirEnValueType(entity.demande.demandéLe),
-    PPA: entity.lauréat.PPA,
+    estPartiEnPPA: entity['power-purchase-agreement'].estPartiEnPPA ? true : undefined,
   };
 };

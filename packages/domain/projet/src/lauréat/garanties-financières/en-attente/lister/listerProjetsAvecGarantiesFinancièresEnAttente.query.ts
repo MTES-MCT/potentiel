@@ -11,6 +11,7 @@ import {
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { StatutLauréat } from '../../../index.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -21,7 +22,7 @@ export type GarantiesFinancièresEnAttenteListItemReadModel = {
     date: DateTime.ValueType;
   };
   statut: StatutLauréat.ValueType;
-  PPA?: true;
+  estPartiEnPPA?: true;
 };
 
 export type ListerGarantiesFinancièresEnAttenteReadModel = {
@@ -48,6 +49,8 @@ export type ListerGarantiesFinancièresEnAttenteDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
+type JoinedEntities = [LauréatEntity, PowerPurchaseAgreementEntity];
+
 export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -68,7 +71,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<GarantiesFinancièresEntity, [LauréatEntity]>('garanties-financieres', {
+    } = await list<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
       orderBy: { dernièreMiseÀJour: { date: 'descending' } },
       range,
       where: {
@@ -101,6 +104,10 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
             statut: Where.equal(statut),
           },
         },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+        },
       ],
     });
 
@@ -118,14 +125,15 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: GarantiesFinancièresEntity & Joined<[LauréatEntity]>,
+  args: GarantiesFinancièresEntity & Joined<JoinedEntities>,
 ) => GarantiesFinancièresEnAttenteListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
-  lauréat: { nomProjet, statut, PPA },
+  lauréat: { nomProjet, statut },
   identifiantProjet,
   enAttente,
   dernièreMiseÀJour: { date },
+  'power-purchase-agreement': { estPartiEnPPA },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -135,5 +143,5 @@ const mapToReadModel: MapToReadModelProps = ({
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
-  PPA,
+  estPartiEnPPA: estPartiEnPPA ? true : undefined,
 });
