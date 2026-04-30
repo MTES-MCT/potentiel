@@ -1,4 +1,3 @@
-import { match } from 'ts-pattern';
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
@@ -12,11 +11,11 @@ export type ConsulterGestionnaireRéseauReadModel = Readonly<{
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
-    format: Option.Type<string>;
-    légende: Option.Type<string>;
+    format?: string;
+    légende?: string;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<Email.ValueType>;
+  contactEmail?: Email.ValueType;
 }>;
 
 export type ConsulterGestionnaireRéseauQuery = Message<
@@ -49,7 +48,6 @@ export const registerConsulterGestionnaireRéseauQuery = ({
           légende: '',
         },
         raisonSociale: 'Inconnu',
-        contactEmail: Option.none,
       };
     }
     const result = await find<GestionnaireRéseauEntity>(
@@ -72,19 +70,10 @@ export const mapToReadModel = ({
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
-      format: match(format)
-        .returnType<Option.Type<string>>()
-        .with('', () => Option.none)
-        .otherwise((format) => format),
-      légende: match(légende)
-        .returnType<Option.Type<string>>()
-        .with('', () => Option.none)
-        .otherwise((légende) => légende),
+      format: format === '' ? undefined : format,
+      légende: légende === '' ? undefined : légende,
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail: match(contactEmail)
-      .returnType<Option.Type<Email.ValueType>>()
-      .with('', () => Option.none)
-      .otherwise((email) => Email.convertirEnValueType(email)),
+    contactEmail: contactEmail ? Email.convertirEnValueType(contactEmail) : undefined,
   };
 };

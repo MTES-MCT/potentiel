@@ -2,7 +2,6 @@ import { match, Pattern } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event.js';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
@@ -50,19 +49,13 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
         codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
-          format: Option.match(format)
-            .some((value) => value)
-            .none(() => ''),
-          légende: Option.match(légende)
-            .some((value) => value)
-            .none(() => ''),
-          expressionReguliere: Option.match(expressionReguliere)
-            .some((value) => value.formatter())
-            .none(() => ExpressionRegulière.accepteTout.formatter()),
+          format: format || '',
+          légende: légende || '',
+          expressionReguliere: expressionReguliere
+            ? expressionReguliere.formatter()
+            : ExpressionRegulière.accepteTout.formatter(),
         },
-        contactEmail: Option.match(contactEmail)
-          .some((value) => value.formatter())
-          .none(() => ''),
+        contactEmail: contactEmail ? contactEmail.formatter() : '',
       },
     };
 

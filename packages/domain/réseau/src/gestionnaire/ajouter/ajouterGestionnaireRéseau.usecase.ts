@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 
@@ -36,24 +35,19 @@ export const registerAjouterGestionnaireRéseauUseCase = () => {
       identifiantGestionnaireRéseauValue,
     );
 
-    const format = Option.map(formatValue);
-    const légende = Option.map(légendeValue);
-    const expressionReguliere = Option.map(expressionReguliereValue);
-    const contactEmail = Option.map(contactEmailValue);
-
     await mediator.send<AjouterGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseau,
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: Option.match(expressionReguliere)
-            .some(ExpressionRegulière.convertirEnValueType)
-            .none(),
-          format,
-          légende,
+          expressionReguliere: expressionReguliereValue
+            ? ExpressionRegulière.convertirEnValueType(expressionReguliereValue)
+            : undefined,
+          format: formatValue,
+          légende: légendeValue,
         },
-        contactEmail: Option.match(contactEmail).some(Email.convertirEnValueType).none(),
+        contactEmail: contactEmailValue ? Email.convertirEnValueType(contactEmailValue) : undefined,
       },
     });
   };

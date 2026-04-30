@@ -48,7 +48,48 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur modifie les données d'un gestionnaire de réseau( inconnu)`,
+  'le DGEC validateur ajoute un gestionnaire de réseau avec le même code EIC',
+  async function (this: PotentielWorld) {
+    try {
+      const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
+        this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer({
+          codeEIC: this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.codeEIC,
+        });
+
+      await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
+        type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseauValue: codeEIC,
+          raisonSocialeValue: raisonSociale,
+          aideSaisieRéférenceDossierRaccordementValue: {
+            expressionReguliereValue: expressionReguliere,
+            formatValue: format,
+            légendeValue: légende,
+          },
+          contactEmailValue: contactEmail,
+        },
+      });
+
+      // viovio
+      // à voir pour virer ça
+      this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
+        codeEIC,
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          expressionReguliere,
+          format,
+          légende,
+        },
+        contactEmail,
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `le DGEC validateur modifie le gestionnaire de réseau( inconnu)`,
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const raisonSociale = exemple['Raison sociale'];
@@ -115,3 +156,6 @@ Quand(
     this.gestionnaireRéseauWorld.résultatsValidation.set(référenceÀValider, résultatValidation);
   },
 );
+
+// call ajouter gestionnaire de réseau
+// call modifier gestionnaire de réseau
