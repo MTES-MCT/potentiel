@@ -14,21 +14,25 @@ export const computepourcentageProjetAvecDCRQuiOntUnePTF = async () => {
         SELECT
           (
             SELECT
-              count(distinct p.value->>'identifiantProjet')::decimal
+              count(distinct d.value->>'identifiantProjet')::decimal
             FROM
-              domain_views.projection p
+              domain_views.projection d
+              JOIN domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')
             WHERE
-              p.key LIKE 'dossier-raccordement|%'
-              AND p.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
-              AND p.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
+              r.value->>'désactivé' IS NULL
+              AND d.key LIKE 'dossier-raccordement|%'
+              AND d.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
+              AND d.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
           )::decimal / (
             SELECT
-              count(distinct p.value->>'identifiantProjet')
+              count(distinct d.value->>'identifiantProjet')
             FROM
-              domain_views.projection p
+              domain_views.projection d
+              JOIN domain_views.projection r on r.key = format('raccordement|%s', d.value->>'identifiantProjet')  
             WHERE
-              p.key LIKE 'dossier-raccordement|%'
-              AND p.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
+              r.value->>'désactivé' IS NULL
+              AND d.key LIKE 'dossier-raccordement|%'
+              AND d.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
           )::decimal * 100
     )
   )`,

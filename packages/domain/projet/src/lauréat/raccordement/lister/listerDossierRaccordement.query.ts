@@ -70,6 +70,7 @@ type DossierRaccordementJoins = [
   GestionnaireRéseau.GestionnaireRéseauEntity,
   AchèvementEntity,
   LeftJoin<PowerPurchaseAgreementEntity>,
+  Raccordement.RaccordementEntity,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -159,6 +160,9 @@ export const registerListerDossierRaccordementQuery = ({
                   ? Where.notEqual(true)
                   : undefined,
           },
+          entity: 'raccordement',
+          on: 'identifiantProjet',
+          where: { désactivé: Where.equalNull() },
         },
       ],
       orderBy: {
