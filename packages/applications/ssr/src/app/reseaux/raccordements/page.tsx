@@ -6,6 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -80,6 +81,8 @@ export default async function Page({ searchParams }: PageProps) {
             })
           ).items;
 
+      const { features } = getContext() ?? {};
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -90,20 +93,6 @@ export default async function Page({ searchParams }: PageProps) {
               value,
             }),
           ),
-        },
-        {
-          label: 'PPA',
-          searchParamKey: 'PPA',
-          options: [
-            {
-              label: 'Oui',
-              value: 'true',
-            },
-            {
-              label: 'Non',
-              value: 'false',
-            },
-          ],
         },
         {
           label: `Appel d'offres`,
@@ -139,6 +128,17 @@ export default async function Page({ searchParams }: PageProps) {
           ],
         },
       ];
+
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
 
       const filteredFilters = filters.filter((filter) => filter.options.length);
 

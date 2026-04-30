@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -23,6 +25,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>(
         'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       );
+
+      const { features } = getContext() ?? {};
+
+      if (!features?.includes('PPA')) {
+        return notFound();
+      }
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),

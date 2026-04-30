@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -78,6 +79,8 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
+      const { features } = getContext() ?? {};
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut',
@@ -90,20 +93,6 @@ export default async function Page({ searchParams }: PageProps) {
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,
             })),
-        },
-        {
-          label: 'PPA',
-          searchParamKey: 'PPA',
-          options: [
-            {
-              label: 'Oui',
-              value: 'true',
-            },
-            {
-              label: 'Non',
-              value: 'false',
-            },
-          ],
         },
         {
           label: `Appel d'offres`,
@@ -149,6 +138,17 @@ export default async function Page({ searchParams }: PageProps) {
           })),
         },
       ];
+
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),

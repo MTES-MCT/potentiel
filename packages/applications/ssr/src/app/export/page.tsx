@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import * as z from 'zod';
 import { mediator } from 'mediateur';
 
-import { PotentielUtilisateur } from '@potentiel-applications/request-context';
+import { getContext, PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
@@ -63,6 +63,8 @@ export default async function Page({ searchParams }: PageProps) {
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
+      const { features } = getContext() ?? {};
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -72,14 +74,6 @@ export default async function Page({ searchParams }: PageProps) {
             value,
           })),
           multiple: true,
-        },
-        {
-          label: 'PPA',
-          searchParamKey: 'PPA',
-          options: [
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
-          ],
         },
         {
           label: `Appel d'offres`,
@@ -109,6 +103,17 @@ export default async function Page({ searchParams }: PageProps) {
           multiple: true,
         },
       ];
+
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
 
       return (
         <ExportPage
