@@ -31,7 +31,7 @@ const searchParamsSchema = z.object({
   appelOffre: optionalStringArray,
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
-  statutProjet: z.enum(['actif', 'achevé']).optional(),
+  statutProjet: z.enum(['actif', 'achevé', 'abandonné']).optional(),
   PPA: z.stringbool().optional(),
 });
 
@@ -84,10 +84,12 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut du projet',
           searchParamKey: 'statutProjet',
-          options: (['actif', 'achevé'] satisfies Lauréat.StatutLauréat.RawType[]).map((value) => ({
-            label: getStatutLauréatLabel(value),
-            value,
-          })),
+          options: (['actif', 'achevé', 'abandonné'] satisfies Lauréat.StatutLauréat.RawType[]).map(
+            (value) => ({
+              label: getStatutLauréatLabel(value),
+              value,
+            }),
+          ),
         },
         {
           label: 'PPA',

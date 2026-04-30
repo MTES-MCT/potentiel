@@ -12,5 +12,6 @@ export type RaccordementEntity = Entity<
       date: DateTime.RawType;
       référenceDossierRaccordement: DossierRaccordement['référence'];
     };
+    désactivé?: true;
   }
 >;
