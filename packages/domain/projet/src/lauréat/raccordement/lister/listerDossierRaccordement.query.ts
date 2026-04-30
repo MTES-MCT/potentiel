@@ -160,6 +160,8 @@ export const registerListerDossierRaccordementQuery = ({
                   ? Where.notEqual(true)
                   : undefined,
           },
+        },
+        {
           entity: 'raccordement',
           on: 'identifiantProjet',
           where: { désactivé: Where.equalNull() },
