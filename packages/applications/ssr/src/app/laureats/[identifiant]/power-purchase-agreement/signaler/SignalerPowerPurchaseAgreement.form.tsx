@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Notice from '@codegouvfr/react-dsfr/Notice';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
