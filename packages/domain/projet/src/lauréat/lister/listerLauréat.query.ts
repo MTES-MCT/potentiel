@@ -125,7 +125,12 @@ export const registerListerLauréatQuery = ({
           on: 'identifiantProjet',
           type: 'left',
           where: {
-            estPartiEnPPA: estPartiEnPPA === true ? Where.equal(estPartiEnPPA) : undefined,
+            estPartiEnPPA:
+              estPartiEnPPA === true
+                ? Where.equal(true)
+                : estPartiEnPPA === false
+                  ? Where.notEqual(true)
+                  : undefined,
           },
         },
       ],

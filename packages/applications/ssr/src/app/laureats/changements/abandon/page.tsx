@@ -167,6 +167,7 @@ const mapToListProps = (
       recandidature,
       preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
       dateDemande,
+      estPartiEnPPA,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -175,6 +176,7 @@ const mapToListProps = (
       recandidature,
       preuveRecandidatureStatut,
       dateDemande: dateDemande.formatter(),
+      estPartiEnPPA,
     }),
   );
 

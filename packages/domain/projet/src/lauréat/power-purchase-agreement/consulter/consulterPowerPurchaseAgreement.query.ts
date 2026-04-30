@@ -10,7 +10,6 @@ import { IdentifiantProjet } from '../../../index.js';
 export type ConsulterPowerPurchaseAgreementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   signaléLe: DateTime.ValueType;
-  estPartiEnPPA: boolean;
 };
 
 export type ConsulterPowerPurchaseAgreementQuery = Message<
@@ -54,6 +53,5 @@ const mapToReadModel = (
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     signaléLe: DateTime.convertirEnValueType(result.signaléLe),
-    estPartiEnPPA: result.estPartiEnPPA,
   };
 };

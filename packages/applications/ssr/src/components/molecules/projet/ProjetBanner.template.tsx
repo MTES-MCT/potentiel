@@ -53,7 +53,11 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
                 <p className="text-xl font-bold !text-theme-white mr-2">{nom}</p>
               )}
               <div>{statutBadge}</div>
-              {estPartiEnPPA && <PPABadge />}
+              {estPartiEnPPA && (
+                <div>
+                  <PPABadge />
+                </div>
+              )}
               {displayCopyButton && (
                 <CopyButton
                   textToCopy={identifiantProjet.formatter()}

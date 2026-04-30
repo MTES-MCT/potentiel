@@ -1,6 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -22,7 +22,6 @@ Alors(
         });
 
       assert(Option.isSome(powerPurchaseAgreement), "Le PPA n'existe pas");
-      expect(powerPurchaseAgreement.estPartiEnPPA).to.be.true;
     });
   },
 );

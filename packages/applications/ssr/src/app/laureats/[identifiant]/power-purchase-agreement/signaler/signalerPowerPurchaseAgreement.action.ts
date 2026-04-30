@@ -29,7 +29,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        message: 'Il a été signalé que le projet est parti avec un contrat de gré à gré (PPA)',
+        message:
+          'Il a été signalé que le projet est parti avec un contrat de vente de gré à gré (PPA)',
       },
     };
   });

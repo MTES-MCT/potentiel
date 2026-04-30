@@ -10,6 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
@@ -21,6 +22,7 @@ export type AbandonListItemProps = {
   preuveRecandidatureStatut: Lauréat.Abandon.StatutPreuveRecandidature.RawType;
   dateDemande: string;
   miseÀJourLe: Iso8601DateTime;
+  estPartiEnPPA?: boolean;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
@@ -31,6 +33,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   recandidature,
   preuveRecandidatureStatut,
   dateDemande,
+  estPartiEnPPA,
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
@@ -52,14 +55,17 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    <StatutDemandeBadge statut={statut} small />
-    {recandidature && (
-      <>
-        <Badge noIcon small className="mx-1" severity="info">
-          avec recandidature
-        </Badge>
-        <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
-      </>
-    )}
+    <div className="flex gap-1">
+      <StatutDemandeBadge statut={statut} small />
+      {!estPartiEnPPA && <PPABadge />}
+      {recandidature && (
+        <>
+          <Badge noIcon small severity="info">
+            avec recandidature
+          </Badge>
+          <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
+        </>
+      )}
+    </div>
   </ListItem>
 );
