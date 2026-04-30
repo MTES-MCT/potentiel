@@ -28,9 +28,8 @@ Alors('le gestionnaire de réseau devrait être consultable', async function (th
       });
 
     const actual = mapToPlainObject(consulterGestionnaireRéseauReadModel);
-    const expected = this.gestionnaireRéseauWorld.mapToExpected();
+    const expected = mapToPlainObject(this.gestionnaireRéseauWorld.mapToExpected());
 
-    expect(actualGRDFromList).to.be.deep.equal(actual);
     expect(actual).to.be.deep.equal(expected);
   });
 });

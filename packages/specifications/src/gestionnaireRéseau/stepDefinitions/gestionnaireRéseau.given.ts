@@ -10,6 +10,7 @@ import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
   const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
+
   const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
     this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
 

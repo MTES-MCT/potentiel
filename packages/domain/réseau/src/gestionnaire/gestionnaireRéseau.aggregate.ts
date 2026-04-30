@@ -121,9 +121,15 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
 
   apply({
     payload: {
-      aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+      contactEmail,
+      aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+      raisonSociale,
     },
   }: GestionnaireRéseauEvent): void {
+    this.#contactEmail = contactEmail ? Email.convertirEnValueType(contactEmail) : undefined;
+    this.#format = format;
+    this.#légende = légende;
+    this.raisonSociale = raisonSociale;
     this.#référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
       .with('', () => ExpressionRegulière.accepteTout)
       .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
