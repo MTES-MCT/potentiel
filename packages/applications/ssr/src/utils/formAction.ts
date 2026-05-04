@@ -13,14 +13,6 @@ import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
 import { callbackURLSchema } from './zod/auth';
 
-const normalizeFormKeys = <T extends Record<string, unknown>>(data: T): T =>
-  Object.fromEntries(
-    Object.entries(data).map(([key, value]) => {
-      const decodedKey = decodeURIComponent(escape(key));
-      return [decodedKey, value];
-    }),
-  ) as T;
-
 export type ActionResult = {
   successMessage: string;
   link?: {
@@ -121,17 +113,13 @@ export const formAction =
         };
       }, {});
 
-      const dataReducedNormalized = normalizeFormKeys(dataReduced);
-
       const data = schema
-        ? await schema.parseAsync(unflatten(dataReducedNormalized))
-        : unflatten(dataReducedNormalized);
+        ? await schema.parseAsync(unflatten(dataReduced))
+        : unflatten(dataReduced);
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       // Si le formulaire contient un champ "retour" valide, on redirige vers cette url en priorité.
-      const parsedRetour = zod
-        .object({ retour: callbackURLSchema })
-        .safeParse(dataReducedNormalized);
+      const parsedRetour = zod.object({ retour: callbackURLSchema }).safeParse(dataReduced);
 
       if (result.status === 'success' && parsedRetour.success) {
         result.redirection = {
