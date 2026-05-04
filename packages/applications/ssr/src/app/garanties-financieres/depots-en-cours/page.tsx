@@ -111,9 +111,15 @@ const mapToListProps = ({
   total,
 }: Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresReadModel): ListDépôtsGarantiesFinancièresProps['list'] => {
   const mappedItems = items.map(
-    ({ identifiantProjet, nomProjet, dépôt: { type, dateÉchéance, dernièreMiseÀJour } }) => ({
+    ({
+      identifiantProjet,
+      nomProjet,
+      dépôt: { type, dateÉchéance, dernièreMiseÀJour },
+      estPartiEnPPA,
+    }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
+      estPartiEnPPA,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       type: getGarantiesFinancièresTypeLabel(type.type),
       dateÉchéance: dateÉchéance?.formatter(),

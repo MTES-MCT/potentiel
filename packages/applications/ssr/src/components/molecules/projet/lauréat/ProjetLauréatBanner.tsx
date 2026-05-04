@@ -23,11 +23,12 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
   projet,
 }) =>
   withUtilisateur(async ({ rôle }) => {
-    const { nomProjet, localité, notifiéLe, statut } = projet;
+    const { nomProjet, localité, notifiéLe, statut, estPartiEnPPA } = projet;
 
     return (
       <ProjetBannerTemplate
-        badge={<StatutLauréatBadge statut={statut.statut} />}
+        statutBadge={<StatutLauréatBadge statut={statut.statut} />}
+        estPartiEnPPA={estPartiEnPPA}
         localité={localité}
         dateDésignation={Option.match(notifiéLe)
           .some((date) => date.date)

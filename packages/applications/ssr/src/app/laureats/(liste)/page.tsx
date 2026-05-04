@@ -7,6 +7,7 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -37,6 +38,7 @@ const paramsSchema = z.object({
   periode: z.string().optional(),
   famille: z.string().optional(),
   typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -44,7 +46,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat } =
+      const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =
         paramsSchema.parse(searchParams);
 
       if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
@@ -61,6 +63,7 @@ export default async function Page({ searchParams }: PageProps) {
           famille,
           statut,
           typeActionnariat,
+          estPartiEnPPA: PPA,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -82,6 +85,8 @@ export default async function Page({ searchParams }: PageProps) {
 
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
+
+      const { features } = getContext() ?? {};
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
@@ -121,6 +126,17 @@ export default async function Page({ searchParams }: PageProps) {
           multiple: true,
         },
       ];
+
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
 
       return (
         <LauréatListPage

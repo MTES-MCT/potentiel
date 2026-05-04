@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -9,11 +9,13 @@ import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../..
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
+import { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type DossierRaccordement = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   statutProjet: StatutLauréat.ValueType<'actif' | 'achevé'>;
+  estPartiEnPPA?: true;
   localité: Localité.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   dateMiseEnService?: DateTime.ValueType;
@@ -51,6 +53,7 @@ export type ListerDossierRaccordementQuery = Message<
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<TypeActionnariat.RawType>;
+    estPartiEnPPA?: boolean;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -66,6 +69,7 @@ type DossierRaccordementJoins = [
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
   AchèvementEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
   Raccordement.RaccordementEntity,
 ];
 
@@ -84,6 +88,7 @@ export const registerListerDossierRaccordementQuery = ({
     typeActionnariat,
     periode,
     famille,
+    estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur), {
       identifiantGestionnaireRéseau,
@@ -144,6 +149,19 @@ export const registerListerDossierRaccordementQuery = ({
           on: 'identifiantProjet',
         },
         {
+          entity: 'power-purchase-agreement',
+          type: 'left',
+          on: 'identifiantProjet',
+          where: {
+            estPartiEnPPA:
+              estPartiEnPPA === true
+                ? Where.equal(true)
+                : estPartiEnPPA === false
+                  ? Where.notEqual(true)
+                  : undefined,
+          },
+        },
+        {
           entity: 'raccordement',
           on: 'identifiantProjet',
           where: { désactivé: Where.equalNull() },
@@ -184,6 +202,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance, prixReference },
   achèvement,
+  'power-purchase-agreement': powerPurchaseAgreement,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -210,6 +229,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   prixReference,
   sociétéMère,
   statutProjet: StatutLauréat.convertirEnValueType(statut),
+  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
   dateAchèvement: achèvement.réel?.date
     ? DateTime.convertirEnValueType(achèvement.réel.date)
     : undefined,

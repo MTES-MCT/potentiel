@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -16,6 +16,7 @@ import {
 } from '../../candidature/index.js';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
 import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
+import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -26,6 +27,7 @@ export type ConsulterLauréatReadModel = {
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutLauréat.ValueType;
+  estPartiEnPPA?: true;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisation: Candidature.Dépôt.ValueType['autorisation'];
@@ -48,7 +50,11 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
-type LauréatJoins = [CandidatureEntity, AppelOffre.AppelOffreEntity];
+type LauréatJoins = [
+  CandidatureEntity,
+  AppelOffre.AppelOffreEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
+];
 
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
@@ -61,6 +67,11 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
         {
           entity: 'appel-offre',
           on: 'appelOffre',
+        },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
         },
       ],
     });
@@ -114,5 +125,6 @@ const mapToReadModel: MapToReadModel = (lauréat, candidature) => {
       : undefined,
     autorisation: candidature.dépôt.autorisation,
     actionnariat: candidature.dépôt.actionnariat,
+    estPartiEnPPA: lauréat['power-purchase-agreement']?.estPartiEnPPA ? true : undefined,
   };
 };

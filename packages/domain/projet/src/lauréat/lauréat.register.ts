@@ -84,12 +84,12 @@ import {
   registerInstallationQueries,
   registerInstallationUseCases,
 } from './installation/installation.register.js';
-import { registerEnregistrerChangementNomProjetCommand } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command.js';
-import { registerEnregistrerChangementNomProjetUseCase } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
-import { registerConsulterChangementNomProjetQuery } from './nomProjet/changement/consulter/consulterChangementNomProjet.js';
-import { registerListerChangementNomProjetQuery } from './nomProjet/changement/lister/listerChangementNomProjet.js';
-import { registerModifierNomProjetCommand } from './nomProjet/modifier/modifierNomProjet.command.js';
-import { registerModifierNomProjetUseCase } from './nomProjet/modifier/modifierNomProjet.usecase.js';
+import { registerEnregistrerChangementNomProjetCommand } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.command.js';
+import { registerEnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
+import { registerConsulterChangementNomProjetQuery } from './nom-projet/changement/consulter/consulterChangementNomProjet.js';
+import { registerListerChangementNomProjetQuery } from './nom-projet/changement/lister/listerChangementNomProjet.js';
+import { registerModifierNomProjetCommand } from './nom-projet/modifier/modifierNomProjet.command.js';
+import { registerModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
 import {
   ListerHistoriqueLauréatDependencies,
   registerListerHistoriqueLauréatQuery,
@@ -98,6 +98,11 @@ import {
   ListerLauréatEnrichiDependencies,
   registerListerLauréatEnrichiQuery,
 } from './lister/listerLauréatEnrichi.query.js';
+import {
+  PowerPurchaseAgreementQueryDependencies,
+  registerPowerPurchaseAgreementQueries,
+  registerPowerPurchaseAgreementUseCases,
+} from './power-purchase-agreement/PowerPurchaseAgreement.register.js';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -118,7 +123,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   TâcheQueryDependencies &
   NatureDeLExploitationQueryDependencies &
   ListerHistoriqueLauréatDependencies &
-  ListerLauréatEnrichiDependencies;
+  ListerLauréatEnrichiDependencies &
+  PowerPurchaseAgreementQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -150,6 +156,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallationUseCases(dependencies);
   registerNatureDeLExploitationUseCases(dependencies);
+  registerPowerPurchaseAgreementUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -176,4 +183,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerInstallationQueries(dependencies);
   registerTâcheQuery(dependencies);
   registerNatureDeLExploitationQueries(dependencies);
+  registerPowerPurchaseAgreementQueries(dependencies);
 };

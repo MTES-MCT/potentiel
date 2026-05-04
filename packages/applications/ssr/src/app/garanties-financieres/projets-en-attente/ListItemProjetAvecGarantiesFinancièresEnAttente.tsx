@@ -28,6 +28,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     date: { date: misÀJourLe },
   },
   statut: { statut },
+  estPartiEnPPA,
   motif: { motif },
   dateLimiteSoumission: { date: dateLimiteSoumission },
   actions,
@@ -40,6 +41,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         nomProjet={nomProjet}
         prefix="Projet"
         statutBadge={<StatutLauréatBadge statut={statut} />}
+        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={

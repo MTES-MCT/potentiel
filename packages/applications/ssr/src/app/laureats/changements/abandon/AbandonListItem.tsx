@@ -21,6 +21,7 @@ export type AbandonListItemProps = {
   preuveRecandidatureStatut: Lauréat.Abandon.StatutPreuveRecandidature.RawType;
   dateDemande: string;
   miseÀJourLe: Iso8601DateTime;
+  estPartiEnPPA?: boolean;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
@@ -31,15 +32,19 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   recandidature,
   preuveRecandidatureStatut,
   dateDemande,
+  estPartiEnPPA,
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
     heading={
-      <ProjectListItemHeading
-        nomProjet={nomProjet}
-        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-        prefix="Abandon du projet"
-      />
+      <>
+        <ProjectListItemHeading
+          nomProjet={nomProjet}
+          identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+          prefix="Abandon du projet"
+          estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
+        />
+      </>
     }
     actions={
       <Button
@@ -52,14 +57,16 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    <StatutDemandeBadge statut={statut} small />
-    {recandidature && (
-      <>
-        <Badge noIcon small className="mx-1" severity="info">
-          avec recandidature
-        </Badge>
-        <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
-      </>
-    )}
+    <div className="flex gap-1">
+      <StatutDemandeBadge statut={statut} small />
+      {recandidature && (
+        <>
+          <Badge noIcon small severity="info">
+            avec recandidature
+          </Badge>
+          <StatutPreuveRecandidatureBadge small statut={preuveRecandidatureStatut} />
+        </>
+      )}
+    </div>
   </ListItem>
 );

@@ -6,6 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -32,6 +33,7 @@ const searchParamsSchema = z.object({
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
   statutProjet: z.enum(['actif', 'achevé', 'abandonné']).optional(),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
@@ -46,6 +48,7 @@ export default async function Page({ searchParams }: PageProps) {
         page,
         referenceDossier,
         statutProjet,
+        PPA,
       } = searchParamsSchema.parse(searchParams);
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
@@ -60,6 +63,7 @@ export default async function Page({ searchParams }: PageProps) {
           }),
           référenceDossier: referenceDossier,
           statutProjet: statutProjet ? [statutProjet] : undefined,
+          estPartiEnPPA: PPA,
         },
       });
 
@@ -76,6 +80,8 @@ export default async function Page({ searchParams }: PageProps) {
               data: {},
             })
           ).items;
+
+      const { features } = getContext() ?? {};
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
@@ -122,6 +128,17 @@ export default async function Page({ searchParams }: PageProps) {
           ],
         },
       ];
+
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
 
       const filteredFilters = filters.filter((filter) => filter.options.length);
 

@@ -18,6 +18,7 @@ export type ListItemDemandeMainlevéeProps = {
   misÀJourLe: Iso8601DateTime;
   motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
   nomProjet: string;
+  estPartiEnPPA?: true;
 };
 
 export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
@@ -27,6 +28,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   motif,
   nomProjet,
   statut,
+  estPartiEnPPA,
 }) => (
   <ListItem
     miseÀJourLe={misÀJourLe}
@@ -35,6 +37,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Mainlevée du projet"
         nomProjet={nomProjet}
+        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={

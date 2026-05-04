@@ -47,12 +47,13 @@ import { TâcheAggregate } from './tâche/tâche.aggregate.js';
 import { NotifierOptions } from './notifier/notifierLauréat.option.js';
 import { InstallationAggregate } from './installation/installation.aggregate.js';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
-import { NomProjetModifiéEvent } from './nomProjet/modifier/nomProjetModifié.event.js';
-import { ModifierNomProjetOptions } from './nomProjet/modifier/modifierNomProjet.option.js';
-import { EnregistrerChangementNomProjetOptions } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
-import { ChangementNomProjetEnregistréEvent } from './nomProjet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
+import { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
+import { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
+import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
 import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+import { PowerPurchaseAgreementAggregate } from './power-purchase-agreement/powerPurchaseAgreement.aggregate.js';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -101,6 +102,11 @@ export class LauréatAggregate extends AbstractAggregate<
   #achèvement!: AggregateType<AchèvementAggregate>;
   get achèvement() {
     return this.#achèvement;
+  }
+
+  #powerPurchaseAgreement!: AggregateType<PowerPurchaseAgreementAggregate>;
+  get powerPurchaseAgreement() {
+    return this.#powerPurchaseAgreement;
   }
 
   #producteur!: AggregateType<ProducteurAggregate>;
@@ -219,6 +225,11 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#natureDeLExploitation = await this.loadAggregate(
       NatureDeLExploitationAggregate,
       `nature-de-l-exploitation|${this.projet.identifiantProjet.formatter()}`,
+    );
+
+    this.#powerPurchaseAgreement = await this.loadAggregate(
+      PowerPurchaseAgreementAggregate,
+      `power-purchase-agreement|${this.projet.identifiantProjet.formatter()}`,
     );
   }
 

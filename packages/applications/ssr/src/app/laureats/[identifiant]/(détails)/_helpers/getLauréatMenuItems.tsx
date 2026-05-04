@@ -5,6 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
@@ -100,6 +101,15 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
+  const { features } = getContext() ?? {};
+
+  const powerPurchaseAgreementOnglet =
+    utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') &&
+    !lauréat.estPartiEnPPA &&
+    features?.includes('PPA')
+      ? linkToSection('Signaler un PPA', 'power-purchase-agreement/signaler')
+      : undefined;
+
   const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
 
   const demandesEnCoursMenu =
@@ -127,7 +137,12 @@ export const getLauréatMenuItems = async ({
           ? linkToSection('Attestation de conformité', 'achevement/modifier')
           : undefined;
 
-  const modifications = [modifierLauréatOnglet, achèvementOnglet, ...actionsDomaine]
+  const modifications = [
+    modifierLauréatOnglet,
+    achèvementOnglet,
+    powerPurchaseAgreementOnglet,
+    ...actionsDomaine,
+  ]
     .filter((item) => !!item)
     .toSorted((a, b) => a.text.localeCompare(b.text));
 

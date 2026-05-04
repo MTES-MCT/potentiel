@@ -13,6 +13,7 @@ import { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire/
 import { GarantiesFinancièresEvent } from '../../garanties-financières/index.js';
 import { LauréatEvent } from '../../lauréat.event.js';
 import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur/index.js';
+import { HistoriquePowerPurchaseAgreementProjetListItemReadModel } from '../../power-purchase-agreement/index.js';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance/index.js';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement/index.js';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal/index.js';
@@ -51,7 +52,8 @@ export type HistoriqueListItemReadModels =
   | HistoriqueDélaiProjetListItemReadModel
   | HistoriqueFournisseurProjetListItemReadModel
   | HistoriqueInstallationProjetListItemReadModel
-  | HistoriqueNatureDeLExploitationProjetListItemReadModel;
+  | HistoriqueNatureDeLExploitationProjetListItemReadModel
+  | HistoriquePowerPurchaseAgreementProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 

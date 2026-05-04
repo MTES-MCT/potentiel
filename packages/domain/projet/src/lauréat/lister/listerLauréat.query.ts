@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
@@ -10,6 +10,7 @@ import { PuissanceEntity } from '../puissance/index.js';
 import { ProducteurEntity } from '../producteur/index.js';
 import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
+import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -26,6 +27,7 @@ type LauréatListItemReadModel = {
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
   statut: StatutLauréat.ValueType;
   typeActionnariat?: Candidature.TypeActionnariat.ValueType;
+  estPartiEnPPA?: true;
 };
 
 export type ListerLauréatReadModel = {
@@ -45,6 +47,7 @@ export type ListerLauréatQuery = Message<
     famille?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
     nomProjet?: string;
+    estPartiEnPPA?: boolean;
   },
   ListerLauréatReadModel
 >;
@@ -53,6 +56,14 @@ export type ListerLauréatDependencies = {
   list: List;
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
+
+type JoinedEntities = [
+  PuissanceEntity,
+  ProducteurEntity,
+  ReprésentantLégalEntity,
+  CandidatureEntity,
+  LeftJoin<PowerPurchaseAgreementEntity>,
+];
 
 export const registerListerLauréatQuery = ({
   list,
@@ -67,13 +78,11 @@ export const registerListerLauréatQuery = ({
     range,
     statut,
     typeActionnariat,
+    estPartiEnPPA,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const lauréats = await list<
-      LauréatEntity,
-      [PuissanceEntity, ProducteurEntity, ReprésentantLégalEntity, CandidatureEntity]
-    >('lauréat', {
+    const lauréats = await list<LauréatEntity, JoinedEntities>('lauréat', {
       range,
       orderBy: {
         nomProjet: 'ascending',
@@ -111,6 +120,19 @@ export const registerListerLauréatQuery = ({
             ),
           },
         },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: {
+            estPartiEnPPA:
+              estPartiEnPPA === true
+                ? Where.equal(true)
+                : estPartiEnPPA === false
+                  ? Where.notEqual(true)
+                  : undefined,
+          },
+        },
       ],
     });
 
@@ -124,8 +146,7 @@ export const registerListerLauréatQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: LauréatEntity &
-    Joined<[PuissanceEntity, ProducteurEntity, ReprésentantLégalEntity, CandidatureEntity]>,
+  args: LauréatEntity & Joined<JoinedEntities>,
 ) => LauréatListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -136,6 +157,7 @@ const mapToReadModel: MapToReadModelProps = ({
   'représentant-légal': représentantLégal,
   producteur,
   puissance,
+  'power-purchase-agreement': powerPurchaseAgreement,
   candidature: {
     emailContact,
     evaluationCarboneSimplifiée,
@@ -163,5 +185,6 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: StatutLauréat.convertirEnValueType(statut),
+    estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
   };
 };

@@ -27,6 +27,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   puissance,
   statutProjet,
   dateAchèvement,
+  estPartiEnPPA,
 }) => (
   <ListItem
     heading={
@@ -37,6 +38,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         statutBadge={
           <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
         }
+        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={

@@ -29,6 +29,7 @@ import { mapToDélaiTimelineItemProps } from '../../delai/(historique)/mapToDél
 import { mapToInstallationTimelineItemProps } from '../../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
+import { mapToPowerPurchaseAgreementTimelineItemProps } from '../../power-purchase-agreement/signaler/(historique)/mapToPowerPurchaseAgreementTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 import {
@@ -229,6 +230,7 @@ const mapToTimelineItemProps = ({
       },
       mapToNatureDeLExploitationTimelineItemProps,
     )
+    .with({ category: 'power-purchase-agreement' }, mapToPowerPurchaseAgreementTimelineItemProps)
     .exhaustive(() => undefined);
   if (props) {
     return {

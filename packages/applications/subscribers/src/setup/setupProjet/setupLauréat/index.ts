@@ -19,6 +19,7 @@ import { setupGarantiesFinancières } from './setupGarantiesFinancière.js';
 import { setupInstallation } from './setupInstallation.js';
 import { setupTâche } from './setupTâche.js';
 import { setupNatureDeLExploitation } from './setupNatureDeLExploitation.js';
+import { setupPowerPurchaseAgreement } from './setupPowerPurchaseAgreement.js';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -98,6 +99,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupTâche = await setupTâche();
   const unsetupInstallation = await setupInstallation();
   const unsetupNatureDeLExploitation = await setupNatureDeLExploitation();
+  const unsetupPowerPurchaseAgreement = await setupPowerPurchaseAgreement();
 
   return async () => {
     await lauréat.clearSubscriptions();
@@ -116,5 +118,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupTâche();
     await unsetupInstallation();
     await unsetupNatureDeLExploitation();
+    await unsetupPowerPurchaseAgreement();
   };
 };

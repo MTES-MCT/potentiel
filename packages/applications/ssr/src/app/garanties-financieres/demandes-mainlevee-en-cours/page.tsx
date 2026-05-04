@@ -128,10 +128,20 @@ const mapToListProps = ({
   total,
 }: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
-    ({ appelOffre, demande, dernièreMiseÀJour, identifiantProjet, motif, nomProjet, statut }) => ({
+    ({
+      appelOffre,
+      demande,
+      dernièreMiseÀJour,
+      identifiantProjet,
+      motif,
+      nomProjet,
+      statut,
+      estPartiEnPPA,
+    }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       motif: motif.motif,
       statut: statut.statut,
+      estPartiEnPPA,
       demandéLe: demande.demandéeLe.formatter(),
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),

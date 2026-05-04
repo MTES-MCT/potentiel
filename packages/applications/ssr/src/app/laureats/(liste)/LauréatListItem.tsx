@@ -22,6 +22,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
   producteur,
   email,
   puissance: { valeur, unité },
+  estPartiEnPPA,
 }) => (
   <ProjectListItem
     identifiantProjet={identifiantProjet}
@@ -38,6 +39,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
     evaluationCarboneSimplifiée={evaluationCarboneSimplifiée}
     typeActionnariat={typeActionnariat}
     statutBadge={<StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statut).formatter()} />}
+    estPartiEnPPA={estPartiEnPPA}
     actions={
       <Button
         className="md:flex ml-auto"

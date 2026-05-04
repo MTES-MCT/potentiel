@@ -27,7 +27,7 @@ export const ProjetÉliminéBanner: FC<ProjetÉliminéBannerProps> = ({
 
     return (
       <ProjetBannerTemplate
-        badge={<StatutÉliminéBadge />}
+        statutBadge={<StatutÉliminéBadge />}
         localité={localité}
         dateDésignation={Option.match(notifiéLe)
           .some((date) => date.date)

@@ -21,6 +21,7 @@ export const GET = async (request: Request) =>
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
       const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
+      const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
@@ -40,6 +41,8 @@ export const GET = async (request: Request) =>
                 Candidature.TypeActionnariat.convertirEnValueType(value).formatter(),
               )
             : undefined,
+          estPartiEnPPA:
+            estPartiEnPPA === 'true' ? true : estPartiEnPPA === 'false' ? false : undefined,
         },
       });
 
@@ -54,6 +57,7 @@ export const GET = async (request: Request) =>
           { value: 'numéroCRE', label: 'Numéro CRE' },
           { value: 'nomProjet', label: 'Nom du projet' },
           { value: 'statut', label: 'Statut du projet' },
+          { value: 'estPartiEnPPA', label: 'PPA' },
           { value: 'adresse1', label: 'Adresse 1' },
           { value: 'adresse2', label: 'Adresse 2' },
           { value: 'commune', label: 'Commune' },
@@ -131,6 +135,7 @@ export const GET = async (request: Request) =>
           ...item,
           identifiantProjet: item.identifiantProjet.formatter(),
           statut: item.statut.formatter(),
+          estPartiEnPPA: item.estPartiEnPPA ? 'Oui' : 'Non',
           unitéPuissance: item.unitéPuissance.formatter(),
           typeActionnariat: item.typeActionnariat?.formatter(),
           dateAchèvementPrévisionnelle: formatDateForDocument(
@@ -186,6 +191,7 @@ export const GET = async (request: Request) =>
               statut,
               typeActionnariat,
               identifiantProjet,
+              estPartiEnPPA,
             }),
           },
         },

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
 
 import {
   GarantiesFinancièresEntity,
@@ -11,6 +11,7 @@ import {
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
 import { StatutLauréat } from '../../../index.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -21,6 +22,7 @@ export type GarantiesFinancièresEnAttenteListItemReadModel = {
     date: DateTime.ValueType;
   };
   statut: StatutLauréat.ValueType;
+  estPartiEnPPA?: true;
 };
 
 export type ListerGarantiesFinancièresEnAttenteReadModel = {
@@ -47,6 +49,8 @@ export type ListerGarantiesFinancièresEnAttenteDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
+type JoinedEntities = [LauréatEntity, LeftJoin<PowerPurchaseAgreementEntity>];
+
 export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -67,7 +71,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<GarantiesFinancièresEntity, [LauréatEntity]>('garanties-financieres', {
+    } = await list<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
       orderBy: { dernièreMiseÀJour: { date: 'descending' } },
       range,
       where: {
@@ -100,6 +104,11 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
             statut: Where.equal(statut),
           },
         },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
+        },
       ],
     });
 
@@ -117,7 +126,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: GarantiesFinancièresEntity & Joined<[LauréatEntity]>,
+  args: GarantiesFinancièresEntity & Joined<JoinedEntities>,
 ) => GarantiesFinancièresEnAttenteListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -125,6 +134,7 @@ const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   enAttente,
   dernièreMiseÀJour: { date },
+  'power-purchase-agreement': powerPurchaseAgreement,
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -134,4 +144,5 @@ const mapToReadModel: MapToReadModelProps = ({
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),
   },
+  estPartiEnPPA: powerPurchaseAgreement?.estPartiEnPPA ? true : undefined,
 });

@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -34,6 +35,7 @@ const paramsSchema = z.object({
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Abandon.StatutAbandon.statuts)),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
+  PPA: z.stringbool().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -49,6 +51,7 @@ export default async function Page({ searchParams }: PageProps) {
         statut,
         preuveRecandidatureStatut,
         autorite,
+        PPA,
       } = paramsSchema.parse(searchParams);
 
       const abandons = await mediator.send<Lauréat.Abandon.ListerDemandesAbandonQuery>({
@@ -67,6 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
           preuveRecandidatureStatut,
           nomProjet,
           autoritéCompétente: autorite,
+          estPartiEnPPA: PPA,
         },
       });
 
@@ -74,6 +78,8 @@ export default async function Page({ searchParams }: PageProps) {
         type: 'AppelOffre.Query.ListerAppelOffre',
         data: {},
       });
+
+      const { features } = getContext() ?? {};
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
@@ -133,6 +139,17 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
+      if (features?.includes('PPA')) {
+        filters.push({
+          label: 'PPA',
+          searchParamKey: 'PPA',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
+        });
+      }
+
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),
   );
@@ -150,6 +167,7 @@ const mapToListProps = (
       recandidature,
       preuveRecandidatureStatut: { statut: preuveRecandidatureStatut },
       dateDemande,
+      estPartiEnPPA,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -158,6 +176,7 @@ const mapToListProps = (
       recandidature,
       preuveRecandidatureStatut,
       dateDemande: dateDemande.formatter(),
+      estPartiEnPPA,
     }),
   );
 

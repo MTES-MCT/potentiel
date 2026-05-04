@@ -506,6 +506,14 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Command.EnregistrerChangementNomProjet',
       },
     },
+    powerPurchaseAgreement: {
+      usecase: {
+        signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
+      },
+      command: {
+        signaler: 'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
+      },
+    },
     usecase: {
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
     },
@@ -1378,6 +1386,13 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
+  powerPurchaseAgreement: {
+    signaler: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.powerPurchaseAgreement.command.signaler,
+      référencielPermissions.lauréat.powerPurchaseAgreement.usecase.signaler,
+    ],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     lister: [
@@ -1792,6 +1807,9 @@ const dgecPolicies: ReadonlyArray<Policy> = [
   'délai.rejeterDemande',
   'délai.accorderDemande',
 
+  // PPA
+  'powerPurchaseAgreement.signaler',
+
   // Candidature
   'candidature.importer',
 ];
@@ -2011,6 +2029,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'natureDeLExploitation.modifier',
   'natureDeLExploitation.listerChangement',
   'natureDeLExploitation.consulterChangement',
+
+  // PPA
+  'powerPurchaseAgreement.signaler',
 
   // Tâche
   'tâche.consulter',
