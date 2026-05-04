@@ -30,14 +30,13 @@ Quand('le DGEC validateur ajoute un gestionnaire de réseau', async function (th
 });
 
 Quand(
-  'le DGEC validateur ajoute un gestionnaire de réseau avec:',
-  async function (this: PotentielWorld, table: DataTable) {
-    const exemple = table.rowsHash();
-    const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
-
+  'le DGEC validateur ajoute un gestionnaire de réseau avec un code EIC identique',
+  async function (this: PotentielWorld) {
     try {
       const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
-        this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
+        this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer({
+          codeEIC: this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.codeEIC,
+        });
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',

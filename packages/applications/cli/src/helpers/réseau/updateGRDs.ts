@@ -33,7 +33,7 @@ export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) 
                 gestionnaire.potentielGestionnaire.aideSaisieRéférenceDossierRaccordement.format,
             },
             raisonSocialeValue: gestionnaire.oreGestionnaire.grd,
-            contactEmailValue: gestionnaire.oreGestionnaire.contact || undefined,
+            contactEmailValue: gestionnaire.oreGestionnaire.contact ?? undefined,
           },
         });
       } catch (error) {

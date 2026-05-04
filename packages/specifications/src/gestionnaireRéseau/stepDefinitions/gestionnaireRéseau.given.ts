@@ -99,8 +99,6 @@ EtantDonné(
 
     this.utilisateurWorld.grdFixture.créer({ nom: raisonSociale });
 
-    // viovio
-    // à voir pour virer ça ?
     this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
       codeEIC,
       raisonSociale,
