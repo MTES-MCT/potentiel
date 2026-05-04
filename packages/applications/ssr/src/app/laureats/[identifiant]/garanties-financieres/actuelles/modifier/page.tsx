@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesChargesValueType, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -61,7 +61,7 @@ export default async function Page(props0: IdentifiantParameter) {
 
 type MapToProps = (
   garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
-  cahierDesCharges: CahierDesChargesValueType,
+  cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
 
 const mapToProps: MapToProps = (garantiesFinancières, cahierDesCharges) => ({

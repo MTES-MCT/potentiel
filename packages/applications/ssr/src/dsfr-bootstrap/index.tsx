@@ -4,9 +4,9 @@ import {
   type DsfrProviderProps,
   StartDsfrOnHydration,
 } from '@codegouvfr/react-dsfr/next-app-router';
+import Link from 'next/link';
 
 import { defaultColorScheme } from './defaultColorScheme';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 declare module '@codegouvfr/react-dsfr/next-app-router' {
   interface RegisterLink {

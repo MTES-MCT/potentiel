@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { CahierDesChargesValueType, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -67,7 +67,7 @@ export default async function Page(props0: IdentifiantParameter) {
 type MapToProps = (params: {
   utilisateur: Utilisateur.ValueType;
   dépôt: Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel;
-  cahierDesCharges: CahierDesChargesValueType;
+  cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierDépôtGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({ utilisateur, dépôt, cahierDesCharges }) => ({

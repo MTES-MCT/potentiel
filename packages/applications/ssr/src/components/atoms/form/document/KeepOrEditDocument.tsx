@@ -1,11 +1,11 @@
 import { FC, useState } from 'react';
+import Link from 'next/link';
 import RadioButtons, { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';
-import { Link } from '../../LinkNoPrefetch';
 
 export type KeepOrEditDocumentProps = UploadDocumentProps & {
   label: RadioButtonsProps['legend'];

@@ -1,8 +1,8 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type InfoBoxDemandeEnCoursProps = {
   identifiantProjet: string;

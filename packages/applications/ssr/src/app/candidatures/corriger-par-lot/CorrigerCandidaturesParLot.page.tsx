@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -11,7 +12,6 @@ import {
   CorrigerCandidaturesParLotForm,
   CorrigerCandidaturesParLotFormProps,
 } from './CorrigerCandidaturesParLot.form';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const CorrigerCandidaturesParLotPage: FC<CorrigerCandidaturesParLotFormProps> = ({
   périodes,

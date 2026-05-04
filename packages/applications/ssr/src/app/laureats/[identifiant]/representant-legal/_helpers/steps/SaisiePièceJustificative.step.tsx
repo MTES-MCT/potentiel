@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 
 import { Lauréat } from '@potentiel-domain/projet';
 

@@ -1,14 +1,14 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
-import { CahierDesChargesValueType } from '@potentiel-domain/projet';
+import { CahierDesCharges } from '@potentiel-domain/projet';
 
 import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { formatNumber } from '../../helpers/index.js';
 
 type LaureatProps = {
   project: AttestationPPE2Options;
-  cahierDesCharges: CahierDesChargesValueType;
+  cahierDesCharges: CahierDesCharges.ValueType;
 };
 
 export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {

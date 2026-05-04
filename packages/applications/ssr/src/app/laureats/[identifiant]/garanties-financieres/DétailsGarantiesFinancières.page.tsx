@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';

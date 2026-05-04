@@ -1,10 +1,6 @@
 import { Metadata } from 'next';
 
-import {
-  CahierDesChargesValueType,
-  Candidature,
-  IdentifiantProjet,
-} from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -52,7 +48,7 @@ export default async function Page(props0: IdentifiantParameter) {
 type MapToProps = (args: {
   candidature: Candidature.ConsulterCandidatureReadModel;
   lauréat: GetLauréat;
-  cahierDesCharges: CahierDesChargesValueType;
+  cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierLauréatPageProps;
 
 const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => ({

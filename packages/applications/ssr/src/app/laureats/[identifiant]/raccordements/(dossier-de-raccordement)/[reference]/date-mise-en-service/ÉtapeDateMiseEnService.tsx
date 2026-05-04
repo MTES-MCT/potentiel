@@ -1,4 +1,4 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';

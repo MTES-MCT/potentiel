@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';

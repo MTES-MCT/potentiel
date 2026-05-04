@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 

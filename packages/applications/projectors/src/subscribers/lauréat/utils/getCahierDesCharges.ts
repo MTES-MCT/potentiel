@@ -1,10 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import {
-  IdentifiantProjet,
-  Lauréat,
-  CahierDesChargesValueType,
-  bindCahierDesCharges,
-} from '@potentiel-domain/projet';
+import { IdentifiantProjet, CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -12,7 +7,7 @@ import { getAppelOffres } from '../../candidature/_helpers/getAppelOffres.js';
 
 export const getCahierDesCharges = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-): Promise<CahierDesChargesValueType | undefined> => {
+): Promise<CahierDesCharges.ValueType | undefined> => {
   const lauréat = await findProjection<Lauréat.LauréatEntity>(
     `lauréat|${identifiantProjet.formatter()}`,
     {},
@@ -40,7 +35,7 @@ export const getCahierDesCharges = async (
     cahierDesChargesChoisi.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
   );
 
-  return bindCahierDesCharges({
+  return CahierDesCharges.bind({
     appelOffre: appelOffres,
     période,
     famille,

@@ -3,11 +3,11 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 
 import { FormState } from '@/utils/formAction';
 
 import { FormAlertError } from './FormAlertError';
-import { Link } from '../LinkNoPrefetch';
 
 export type FormFeedbackProps = {
   formState: FormState;

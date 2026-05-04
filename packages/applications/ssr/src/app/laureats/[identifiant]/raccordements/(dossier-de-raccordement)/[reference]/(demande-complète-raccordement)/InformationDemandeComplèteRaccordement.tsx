@@ -1,4 +1,4 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 export type InformationDemandeComplèteRaccordementProps = {

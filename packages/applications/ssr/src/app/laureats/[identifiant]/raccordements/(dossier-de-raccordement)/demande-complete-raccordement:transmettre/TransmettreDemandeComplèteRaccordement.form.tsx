@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ExpressionRegulière } from '@potentiel-domain/common';

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { CahierDesChargesValueType, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Heading1 } from '@/components/atoms/headings';
@@ -10,7 +10,7 @@ import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.f
 
 export type DemanderChangementPuissancePageProps = PlainType<
   Omit<Lauréat.Puissance.ConsulterPuissanceReadModel, 'aUneDemandeEnCours'> & {
-    cahierDesCharges: PlainType<CahierDesChargesValueType>;
+    cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
     volumeRéservé?: PlainType<Lauréat.Puissance.VolumeRéservé.ValueType>;
     infosCahierDesChargesPuissanceDeSite: AppelOffre.ChampsSupplémentairesCandidature['puissanceDeSite'];
   }
