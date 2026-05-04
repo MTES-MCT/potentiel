@@ -1,6 +1,7 @@
 import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
-import { LinkProps } from 'next/link';
+// eslint-disable-next-line no-restricted-imports
+import type { LinkProps } from 'next/link';
 
 export type LinkActionProps = {
   label: string;

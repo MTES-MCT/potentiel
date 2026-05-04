@@ -11,7 +11,7 @@ const eslintConfig = [
     rules: {
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'react/no-unescaped-entities': 'off',
-      'react-hooks/exhaustive-deps': 'off',
+      'react/jsx-props-no-spreading': "error",
       'no-restricted-imports': [
         'error',
         {
@@ -32,6 +32,12 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
+  {
+    files: ["**/components/**/*.tsx"],
+    rules: {
+      'react/jsx-props-no-spreading': 'off',
+    },
+  }
 ];
 
 export default eslintConfig;
