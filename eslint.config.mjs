@@ -65,6 +65,7 @@ export default eslintTs.config(
     rules: {
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-case-declarations': 'off',
       'no-empty': ['error', { allowEmptyCatch: true }],
