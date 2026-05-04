@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../../lauréat.entity.js';
 import {
@@ -11,10 +11,12 @@ import {
   IdentifiantProjet,
 } from '../../../../index.js';
 import { DocumentGarantiesFinancières, GarantiesFinancièresEntity } from '../../index.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
+  estPartiEnPPA?: true;
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
@@ -50,6 +52,8 @@ export type ListerDépôtsGarantiesFinancièresDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
+type JoinedEntities = [LauréatEntity, LeftJoin<PowerPurchaseAgreementEntity>];
+
 export const registerListerDépôtsGarantiesFinancièresQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -67,29 +71,36 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
       items,
       range: { startPosition, endPosition },
       total,
-    } = await list<GarantiesFinancièresEntity, LauréatEntity>('garanties-financieres', {
+    } = await list<GarantiesFinancièresEntity, JoinedEntities>('garanties-financieres', {
       orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
       range,
       where: {
         identifiantProjet: Where.matchAny(scope.identifiantProjets),
         dépôt: { soumisLe: Where.notEqualNull() },
       },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
-        where: {
-          appelOffre: appelOffre?.length
-            ? Where.matchAny(appelOffre)
-            : cycle
-              ? cycle === 'PPE2'
-                ? Where.like('PPE2')
-                : Where.notLike('PPE2')
-              : undefined,
-          localité: {
-            région: Where.matchAny(scope.régions),
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: appelOffre?.length
+              ? Where.matchAny(appelOffre)
+              : cycle
+                ? cycle === 'PPE2'
+                  ? Where.like('PPE2')
+                  : Where.notLike('PPE2')
+                : undefined,
+            localité: {
+              région: Where.matchAny(scope.régions),
+            },
           },
         },
-      },
+        {
+          entity: 'power-purchase-agreement',
+          on: 'identifiantProjet',
+          type: 'left',
+        },
+      ],
     });
 
     return {
@@ -104,16 +115,18 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
   mediator.register('Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières', handler);
 };
 
-type MapToReadModel = (
-  garantiesFinancièresEntity: Joined<LauréatEntity> &
-    GarantiesFinancièresEntity & {
-      dépôt: NonNullable<GarantiesFinancièresEntity['dépôt']>;
-    },
-) => DépôtGarantiesFinancièresListItemReadModel;
-
-const mapToReadModel: MapToReadModel = ({ lauréat, dépôt, identifiantProjet }) => ({
+const mapToReadModel = ({
+  lauréat,
+  dépôt,
+  identifiantProjet,
+  'power-purchase-agreement': PPA,
+}: Joined<JoinedEntities> &
+  GarantiesFinancièresEntity & {
+    dépôt: NonNullable<GarantiesFinancièresEntity['dépôt']>;
+  }): DépôtGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet: lauréat.nomProjet,
+  estPartiEnPPA: PPA?.estPartiEnPPA,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance:

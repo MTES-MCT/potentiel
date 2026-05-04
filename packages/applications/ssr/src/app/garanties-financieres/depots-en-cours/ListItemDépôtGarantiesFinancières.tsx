@@ -15,6 +15,7 @@ export type ListItemDépôtGarantiesFinancièresProps = {
   type: string;
   dateÉchéance?: Iso8601DateTime;
   misÀJourLe: Iso8601DateTime;
+  estPartiEnPPA?: true;
 };
 
 export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFinancièresProps> = ({
@@ -23,6 +24,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
   misÀJourLe,
   type,
   dateÉchéance,
+  estPartiEnPPA,
 }) => (
   <ListItem
     miseÀJourLe={misÀJourLe}
@@ -31,6 +33,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Garanties financières du projet"
+        estPartiEnPPA={estPartiEnPPA}
       />
     }
     actions={

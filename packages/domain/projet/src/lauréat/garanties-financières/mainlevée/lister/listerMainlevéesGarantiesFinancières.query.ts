@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DocumentProjet, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
@@ -11,10 +11,12 @@ import {
   DocumentMainlevée,
 } from '../../index.js';
 import { LauréatEntity } from '../../../index.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
+  estPartiEnPPA?: true;
   motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
   appelOffre: string;
   nomProjet: string;
@@ -63,6 +65,8 @@ export type ListerMainlevéesQueryDependencies = {
   getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
+type JoinedEntities = [LauréatEntity, LeftJoin<PowerPurchaseAgreementEntity>];
+
 export const registerListerMainlevéesQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -86,7 +90,7 @@ export const registerListerMainlevéesQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<MainlevéeGarantiesFinancièresEntity, LauréatEntity>(
+    } = await list<MainlevéeGarantiesFinancièresEntity, JoinedEntities>(
       'mainlevee-garanties-financieres',
       {
         range,
@@ -95,16 +99,23 @@ export const registerListerMainlevéesQuery = ({
           motif: Where.equal(motif),
           statut: Where.matchAny(statut),
         },
-        join: {
-          entity: 'lauréat',
-          on: 'identifiantProjet',
-          where: {
-            appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
-            localité: {
-              région: Where.matchAny(scope.régions),
+        join: [
+          {
+            entity: 'lauréat',
+            on: 'identifiantProjet',
+            where: {
+              appelOffre: appelOffre?.length ? Where.matchAny(appelOffre) : undefined,
+              localité: {
+                région: Where.matchAny(scope.régions),
+              },
             },
           },
-        },
+          {
+            entity: 'power-purchase-agreement',
+            on: 'identifiantProjet',
+            type: 'left',
+          },
+        ],
       },
     );
 
@@ -121,11 +132,12 @@ export const registerListerMainlevéesQuery = ({
 };
 
 const listerMainlevéeGarantiesFinancièresMapToReadModel = (
-  mainlevée: MainlevéeGarantiesFinancièresEntity & Joined<LauréatEntity>,
+  mainlevée: MainlevéeGarantiesFinancièresEntity & Joined<JoinedEntities>,
 ): ListerMainlevéeItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   appelOffre: mainlevée.lauréat.appelOffre,
   nomProjet: mainlevée.lauréat.nomProjet,
+  estPartiEnPPA: mainlevée['power-purchase-agreement']?.estPartiEnPPA,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
