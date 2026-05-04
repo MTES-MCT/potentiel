@@ -24,7 +24,7 @@ const paramsSchema = z.object({
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Liste des périodes' };

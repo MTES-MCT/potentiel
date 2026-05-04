@@ -16,7 +16,7 @@ import { optionalStringArray } from '@/app/_helpers';
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: "Demandes d'abandon" };

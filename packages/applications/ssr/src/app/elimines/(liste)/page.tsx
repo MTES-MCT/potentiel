@@ -20,7 +20,7 @@ import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { ÉliminéListPage } from './ÉliminéList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Projets éliminés' };

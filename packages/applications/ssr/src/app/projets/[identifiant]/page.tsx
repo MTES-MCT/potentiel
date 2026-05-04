@@ -8,7 +8,7 @@ import { getÉliminé } from '@/app/_helpers/getÉliminé';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type ProjetPageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
+  searchParams?: Promise<Record<string, string>>;
 };
 
 // Page de redirection vers la page lauréat ou éliminé

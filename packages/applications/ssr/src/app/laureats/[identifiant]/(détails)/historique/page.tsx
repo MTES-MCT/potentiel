@@ -39,7 +39,7 @@ import {
 } from './_helpers/catégories';
 
 type PageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
+  searchParams?: Promise<Record<string, string>>;
 };
 
 export const metadata: Metadata = { title: 'Historique' };

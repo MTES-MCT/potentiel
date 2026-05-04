@@ -22,7 +22,7 @@ import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { LauréatListPage } from './LauréatList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Projets lauréats' };

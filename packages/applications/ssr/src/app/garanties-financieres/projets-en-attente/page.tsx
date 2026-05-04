@@ -35,7 +35,7 @@ const searchParamsSchema = z.object({
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
-  searchParams?: Partial<Record<SearchParams, string>>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Projets en attente de garanties financières' };

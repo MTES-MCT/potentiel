@@ -16,7 +16,7 @@ import { optionalStringArray } from '@/app/_helpers';
 import { RecoursListPage } from './RecoursList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Demandes de recours' };

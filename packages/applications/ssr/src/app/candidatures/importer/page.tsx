@@ -15,7 +15,7 @@ const paramsSchema = z.object({
 });
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Promise<Record<string, string>>;
 };
 
 export default async function Page(props: PageProps) {

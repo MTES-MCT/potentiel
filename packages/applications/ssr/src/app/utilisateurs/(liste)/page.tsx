@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 };
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: Promise<Record<string, string>>;
 };
 
 const paramsSchema = z.object({

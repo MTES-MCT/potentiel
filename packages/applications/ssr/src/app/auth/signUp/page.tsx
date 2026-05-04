@@ -12,7 +12,7 @@ import { callbackURLSchema } from '@/utils/zod/auth';
 import SignUpPage from './SignUp.page';
 
 type PageProps = {
-  searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 };
 
 const searchParamsSchema = z.object({

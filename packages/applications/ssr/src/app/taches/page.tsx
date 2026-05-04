@@ -29,7 +29,7 @@ const searchParamsSchema = z.object({
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
-  searchParams?: Partial<Record<SearchParams, string>>;
+  searchParams?: Promise<Partial<Record<SearchParams, string>>>;
 };
 
 export const metadata: Metadata = {

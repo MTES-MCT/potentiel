@@ -32,7 +32,7 @@ const paramsSchema = z.object({
 });
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;

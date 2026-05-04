@@ -18,7 +18,7 @@ import {
 } from './ChangementFournisseurList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Changements de fournisseur' };

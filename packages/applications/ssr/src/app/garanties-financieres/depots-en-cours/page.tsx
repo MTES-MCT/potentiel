@@ -21,7 +21,7 @@ import {
 } from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 const searchParamsSchema = z.object({

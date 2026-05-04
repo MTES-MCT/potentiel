@@ -21,7 +21,7 @@ import { instructionSchema } from '../../../utils/candidature';
 import { CandidatureListPage } from './CandidatureList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Candidatures' };

@@ -18,7 +18,7 @@ import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Dossiers de raccordement' };

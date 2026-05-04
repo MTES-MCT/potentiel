@@ -19,7 +19,7 @@ import {
 } from './ChangementActionnaireList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: "Liste des demandes de changement d'actionnaire" };
