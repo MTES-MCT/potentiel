@@ -1,9 +1,9 @@
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import { CahierDesChargesValueType } from '@potentiel-domain/projet';
 
 import { getGarantiesFinancièresTypeLabel } from './_helpers/getGarantiesFinancièresTypeLabel';
 
 export const typesGarantiesFinancièresPourFormulaire = (
-  cahierDesCharges: CahierDesCharges.ValueType,
+  cahierDesCharges: CahierDesChargesValueType,
 ) =>
   cahierDesCharges.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles
     .filter((type) => type !== 'type-inconnu')

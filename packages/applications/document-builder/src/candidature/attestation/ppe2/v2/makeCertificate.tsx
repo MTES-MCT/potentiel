@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import { bindCahierDesCharges } from '@potentiel-domain/projet';
 
 import { Certificate } from '../components/Certificate.js';
 import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
@@ -19,7 +19,7 @@ const makeCertificate = (
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {
-  const cahierDesCharges = CahierDesCharges.bind({
+  const cahierDesCharges = bindCahierDesCharges({
     ...project,
     // pas de CDC modificatif possible à la désignation
     cahierDesChargesModificatif: undefined,
