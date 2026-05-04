@@ -88,6 +88,6 @@ export type CandidatureEntity = Entity<
     unitéPuissance: UnitéPuissance.RawType;
     dispositifDeStockage?: DispositifDeStockage.RawType;
     raccordements?: Array<RaccordementDépôt.RawType>;
-    puissanceProjetInitial?: number;
+    puissanceDuProjetInitial?: number;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

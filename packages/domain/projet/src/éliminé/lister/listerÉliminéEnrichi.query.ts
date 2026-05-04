@@ -70,7 +70,7 @@ export type ÉliminéEnrichiListItemReadModel = {
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
   installationRenouvelée: string | undefined;
-  puissanceProjetInitial: number | undefined;
+  puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
 };
@@ -171,7 +171,7 @@ const mapToReadModel: MapToReadModelProps = ({
   typologieInstallation,
   natureDeLExploitation,
   coordonnées,
-  puissanceProjetInitial,
+  puissanceDuProjetInitial,
 
   'détail-candidature': détailCandidature,
 }) => {
@@ -204,7 +204,7 @@ const mapToReadModel: MapToReadModelProps = ({
     puissance,
     puissanceDeSite,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
-    puissanceProjetInitial,
+    puissanceDuProjetInitial,
 
     installateur,
     installationAvecDispositifDeStockage:

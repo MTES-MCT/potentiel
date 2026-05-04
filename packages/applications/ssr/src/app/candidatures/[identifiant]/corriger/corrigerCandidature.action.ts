@@ -123,8 +123,8 @@ const mapBodyToUseCaseData = (
             }
           : undefined,
       installateur: data.installateur,
-      puissanceProjetInitial: data.puissanceProjetInitial,
       coordonnées: data.coordonnées,
+      puissanceDuProjetInitial: data.puissanceDuProjetInitial,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,

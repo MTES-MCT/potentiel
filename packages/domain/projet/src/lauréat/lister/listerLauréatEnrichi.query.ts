@@ -94,7 +94,7 @@ export type LauréatEnrichiListItemReadModel = {
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
   installationRenouvelée: string | undefined;
-  puissanceProjetInitial: number | undefined;
+  puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
 };
@@ -267,7 +267,7 @@ const mapToReadModel: MapToReadModelProps = ({
       coefficientKChoisi,
       autorisation,
       technologie,
-      puissanceProjetInitial,
+      puissanceDuProjetInitial,
     },
     achèvement,
     'power-purchase-agreement': powerPurchaseAgreement,
@@ -334,7 +334,7 @@ const mapToReadModel: MapToReadModelProps = ({
     puissance,
     puissanceDeSite,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
-    puissanceProjetInitial,
+    puissanceDuProjetInitial,
 
     installateur: installation?.installateur,
     installationAvecDispositifDeStockage:

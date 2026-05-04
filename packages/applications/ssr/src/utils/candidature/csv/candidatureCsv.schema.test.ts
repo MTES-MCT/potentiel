@@ -89,7 +89,7 @@ describe('Schema candidature CSV', () => {
         région: "Provence-Alpes-Côte d'Azur",
       },
       dispositifDeStockage: undefined,
-      puissanceProjetInitial: undefined,
+      puissanceDuProjetInitial: undefined,
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -137,7 +137,7 @@ describe('Schema candidature CSV', () => {
       autorisation: undefined,
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
-      puissanceProjetInitial: 1,
+      puissanceDuProjetInitial: 1,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -219,7 +219,7 @@ describe('Schema candidature CSV', () => {
         capacitéDuDispositifDeStockageEnKWh: 2,
         puissanceDuDispositifDeStockageEnKW: 3,
       },
-      puissanceProjetInitial: 1,
+      puissanceDuProjetInitial: 1,
     };
 
     deepEqualWithRichDiff(result.data, expected);
