@@ -55,7 +55,7 @@ export class GestionnaireRéseauWorld {
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
     return {
-      codeEIC: exemple['Code EIC'],
+      ...(exemple['Code EIC'] ? { codeEIC: exemple['Code EIC'] } : {}),
       raisonSociale: exemple['Raison sociale'],
       expressionReguliere: exemple['Expression régulière'],
     };

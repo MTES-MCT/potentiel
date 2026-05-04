@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -30,13 +30,14 @@ Quand('le DGEC validateur ajoute un gestionnaire de réseau', async function (th
 });
 
 Quand(
-  'le DGEC validateur ajoute un gestionnaire de réseau avec le même code EIC',
-  async function (this: PotentielWorld) {
+  'le DGEC validateur ajoute un gestionnaire de réseau avec:',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
+
     try {
       const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
-        this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer({
-          codeEIC: this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.codeEIC,
-        });
+        this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
 
       await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
         type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -86,11 +87,17 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur modifie le gestionnaire de réseau avec un gestionnaire inconnu`,
-  async function (this: PotentielWorld) {
+  `le DGEC validateur modifie le gestionnaire de réseau avec:`,
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
+
     const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
       this.gestionnaireRéseauWorld.modifierGestionnaireRéseauFixture.créer({
-        codeEIC: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.codeEIC,
+        ...partialFixture,
+        codeEIC: partialFixture.codeEIC
+          ? partialFixture.codeEIC
+          : this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.codeEIC,
       });
 
     try {

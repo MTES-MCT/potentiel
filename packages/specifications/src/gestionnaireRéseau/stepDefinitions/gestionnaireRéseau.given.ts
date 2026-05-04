@@ -7,12 +7,45 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PotentielWorld } from '../../potentiel.world.js';
 import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
 
-EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
-  const exemple = table.rowsHash();
-  const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
+EtantDonné(
+  'un gestionnaire de réseau avec:',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
 
+    const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
+      this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
+
+    await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
+      type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+      data: {
+        identifiantGestionnaireRéseauValue: codeEIC,
+        raisonSocialeValue: raisonSociale,
+        aideSaisieRéférenceDossierRaccordementValue: {
+          expressionReguliereValue: expressionReguliere,
+          formatValue: format,
+          légendeValue: légende,
+        },
+        contactEmailValue: contactEmail,
+      },
+    });
+
+    this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
+      codeEIC,
+      raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        expressionReguliere,
+        format,
+        légende,
+      },
+      contactEmail,
+    });
+  },
+);
+
+EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld) {
   const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
-    this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
+    this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer();
 
   await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
     type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
@@ -28,8 +61,6 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
     },
   });
 
-  // viovio
-  // à voir pour virer ça ?
   this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
     codeEIC,
     raisonSociale,
