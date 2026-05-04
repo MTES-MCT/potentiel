@@ -30,11 +30,7 @@ export const SignalerPowerPurchaseAgreementForm: FC<SignalerPowerPurchaseAgreeme
         >
           Retour
         </Button>
-        <Button
-          priority="primary"
-          onClick={() => setIsOpen(true)}
-          className="block w-1/2 text-center"
-        >
+        <Button priority="primary" onClick={() => setIsOpen(true)} className="block text-center">
           Signaler le PPA
         </Button>
       </div>
