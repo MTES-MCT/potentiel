@@ -37,7 +37,7 @@ export const GET = async (request: Request) =>
       const famille = searchParams.get('famille') ?? undefined;
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
-      const estPartiEnPPA = searchParams.get('estPartiEnPPA') ?? undefined;
+      const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
 
       const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',

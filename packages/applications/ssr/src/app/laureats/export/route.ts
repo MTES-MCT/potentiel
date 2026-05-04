@@ -21,7 +21,7 @@ export const GET = async (request: Request) =>
       const statut = searchParams.getAll('statut') ?? undefined;
       const typeActionnariat = searchParams.getAll('typeActionnariat') ?? undefined;
       const identifiantProjet = searchParams.get('identifiantProjet') ?? undefined;
-      const estPartiEnPPA = searchParams.get('estPartiEnPPA') ?? undefined;
+      const estPartiEnPPA = searchParams.get('PPA') ?? undefined;
 
       const lauréatEnrichiList = await mediator.send<Lauréat.ListerLauréatEnrichiQuery>({
         type: 'Lauréat.Query.ListerLauréatEnrichi',
