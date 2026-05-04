@@ -176,19 +176,19 @@ const autorisationSchema = z
 export const siretSchema = optionalStringSchema
   .transform((value) => value?.replace(/ /g, ''))
   .refine((val) => !val || val.length === 14, {
-    message: `Le numéro SIRET est composé de 14 chiffres.`,
+    message: `Le numéro SIRET doit être composé de 14 chiffres`,
   });
 
 export const sirenSchema = optionalStringSchema
   .transform((value) => value?.replace(/ /g, ''))
   .refine((val) => !val || val.length === 9, {
-    message: `Le numéro SIREN est composé de 9 chiffres.`,
+    message: `Le numéro SIREN doit être composé de 9 chiffres`,
   });
 
 const numéroImmatriculationSchema = z
   .object({
-    siren: siretSchema,
-    siret: sirenSchema,
+    siren: sirenSchema,
+    siret: siretSchema,
   })
   .optional()
   .transform((val) =>

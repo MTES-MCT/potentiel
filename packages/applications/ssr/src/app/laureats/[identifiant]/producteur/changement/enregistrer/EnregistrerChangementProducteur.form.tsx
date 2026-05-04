@@ -59,6 +59,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         <Input
           state={validationErrors['siret'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['siret']}
+          hintText="Constitué de 14 chiffres"
           label="Numéro SIRET"
           nativeInputProps={{
             name: 'siret',

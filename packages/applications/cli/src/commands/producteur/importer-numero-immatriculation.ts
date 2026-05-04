@@ -6,11 +6,11 @@ const query = `
 SELECT
     SPLIT_PART(key, '|', 2) AS identifiantProjet, value->>'détail.Numéro SIREN ou SIRET*' as value
 FROM
-    domain_views.projection
+    domain_views.projection dp
 WHERE
     dp.key LIKE 'détail-candidature%'
     AND dp.value->>'détail.Numéro SIREN ou SIRET*' IS NOT NULL
-    AND dp.value->>'détail.Numéro SIREN ou SIRET*' != '';`;
+    AND dp.value->>'détail.Numéro SIREN ou SIRET*' <> '';`;
 
 export class ImporterSirenEtSiretCommand extends Command {
   async run() {

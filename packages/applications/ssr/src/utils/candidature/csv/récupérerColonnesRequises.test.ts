@@ -44,8 +44,6 @@ test(`Récupérer les colonnes requises de candidature csv sans champs suppléme
     champsSupplémentaires,
   });
 
-  console.log(actual);
-
   expect(actual).to.have.members(colonnesCommunes);
 });
 

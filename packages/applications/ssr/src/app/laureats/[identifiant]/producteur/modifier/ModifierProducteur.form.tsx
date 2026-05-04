@@ -57,6 +57,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
       <Input
         state={validationErrors['siret'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['siret']}
+        hintText="Constitué de 14 chiffres"
         label="Numéro SIRET"
         nativeInputProps={{
           name: 'siret',
