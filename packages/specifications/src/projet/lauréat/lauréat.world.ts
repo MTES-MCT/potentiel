@@ -1,5 +1,5 @@
 import {
-  bindCahierDesCharges,
+  CahierDesCharges,
   Candidature,
   IdentifiantProjet,
   Lauréat,
@@ -147,7 +147,7 @@ export class LauréatWorld {
     const famille = this.identifiantProjet.famille
       ? période.familles.find((f) => f.id === this.identifiantProjet.famille)
       : undefined;
-    return bindCahierDesCharges({
+    return CahierDesCharges.bind({
       appelOffre,
       période,
       cahierDesChargesModificatif,

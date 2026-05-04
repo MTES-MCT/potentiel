@@ -6,7 +6,7 @@ import {
   LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
 
-import { bindCahierDesCharges, IdentifiantProjet } from './index.js';
+import { CahierDesCharges, IdentifiantProjet } from './index.js';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate.js';
 import {
@@ -115,7 +115,7 @@ export class ProjetAggregateRoot {
         this.#lauréat.référenceCahierDesCharges.formatter(),
       );
     }
-    return bindCahierDesCharges({
+    return CahierDesCharges.bind({
       appelOffre: this.appelOffre,
       période: this.période,
       famille: this.famille,

@@ -1,7 +1,7 @@
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
 import { mediator } from 'mediateur';
 
-import { bindCahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
@@ -60,7 +60,7 @@ const getÉliminéActions = async ({
     identifiantProjet.formatter(),
   );
 
-  const cahierDesCharges = bindCahierDesCharges({
+  const cahierDesCharges = CahierDesCharges.bind({
     appelOffre: appelOffres,
     famille,
     période,

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
-import { bindCahierDesCharges, CahierDesChargesValueType, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
@@ -47,7 +47,7 @@ export type ModifierLauréatFormProps = {
     nomProjet: string;
     unitéPuissance: string;
   };
-  cahierDesCharges: PlainType<CahierDesChargesValueType>;
+  cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
   peutRegénérerAttestation: boolean;
 };
 export type FieldValidationErrors =
@@ -61,7 +61,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   peutRegénérerAttestation,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
-  const cdcActuel = bindCahierDesCharges(cahierDesCharges);
+  const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
 
   return (
     <Form
