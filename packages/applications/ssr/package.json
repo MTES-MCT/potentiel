@@ -53,7 +53,6 @@
     "flat": "6.0.1",
     "mediateur": "0.3.0",
     "next": "^16.2.4",
-    "next-swagger-doc": "0.4.1",
     "pg": "8.16.3",
     "rate-limiter-flexible": "6.2.1",
     "react": "19.2.4",
