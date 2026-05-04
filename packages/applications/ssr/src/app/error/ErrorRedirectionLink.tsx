@@ -1,12 +1,12 @@
 'use client';
 
 import { fr } from '@codegouvfr/react-dsfr';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const ErrorRedirectionLink = () => {
   const pathname = usePathname();

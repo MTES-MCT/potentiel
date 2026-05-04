@@ -2,7 +2,6 @@
 
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -13,6 +12,7 @@ import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { authClient } from '@/auth/client';
 import { AuthTile, ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { AuthProvider } from '@/auth/providers/authProvider';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type SignUpPageProps = {
   providers: Partial<Record<AuthProvider, ProviderProps>>;

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
