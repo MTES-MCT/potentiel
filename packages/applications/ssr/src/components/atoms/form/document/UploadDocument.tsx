@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { fr } from '@codegouvfr/react-dsfr';
 
-import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
+import { fileSizeLimitInBytes, fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 
 import { Icon } from '../../Icon';
 
@@ -45,6 +45,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
 
   const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
   const [invalid, setInvalid] = useState(false);
+  const [exceedMaxFileSize, setExceedMaxFileSize] = useState(false);
 
   const browseForFile = () => {
     hiddenFileInput?.current?.click();
@@ -54,9 +55,21 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     const { files } = e.currentTarget;
 
     setInvalid(false);
+    setExceedMaxFileSize(false);
 
     if (!files || Object.keys(files).length === 0) {
       setDocumentFilenames([]);
+      return;
+    }
+
+    const totalSize = Object.values(files).reduce(
+      (total: number, file: File) => total + file.size,
+      0,
+    );
+
+    if (totalSize > fileSizeLimitInBytes) {
+      setInvalid(true);
+      setExceedMaxFileSize(true);
       return;
     }
 
@@ -152,7 +165,10 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
             { [fr.cx('fr-error-text')]: invalid },
           )}
         >
-          {documentFilenames.length === 0 && 'Aucun document sélectionné'}
+          {exceedMaxFileSize &&
+            `Le(s) fichier(s) dépasse(nt) la taille maximale autorisée (
+              ${fileSizeLimitInMegaBytes} Mo)`}
+          {documentFilenames.length === 0 && !exceedMaxFileSize && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
             <div className="flex flex-row items-center gap-2">
               <span
