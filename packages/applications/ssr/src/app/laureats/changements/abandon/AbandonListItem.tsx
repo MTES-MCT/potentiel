@@ -10,7 +10,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { PPABadge } from '@/components/molecules/projet/lauréat/PPABadge';
 
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
@@ -38,11 +37,14 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   <ListItem
     miseÀJourLe={miseÀJourLe}
     heading={
-      <ProjectListItemHeading
-        nomProjet={nomProjet}
-        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-        prefix="Abandon du projet"
-      />
+      <>
+        <ProjectListItemHeading
+          nomProjet={nomProjet}
+          identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+          prefix="Abandon du projet"
+          estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
+        />
+      </>
     }
     actions={
       <Button
@@ -57,7 +59,6 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   >
     <div className="flex gap-1">
       <StatutDemandeBadge statut={statut} small />
-      {!estPartiEnPPA && <PPABadge />}
       {recandidature && (
         <>
           <Badge noIcon small severity="info">
