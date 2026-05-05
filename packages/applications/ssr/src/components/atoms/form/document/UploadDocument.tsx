@@ -167,7 +167,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         >
           {exceedMaxFileSize &&
             `Le(s) fichier(s) dépasse(nt) la taille maximale autorisée (
-              ${fileSizeLimitInMegaBytes} Mo)`}
+              ${fileSizeLimitInMegaBytes} Mo), veuillez ré-essayer`}
           {documentFilenames.length === 0 && !exceedMaxFileSize && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
             <div className="flex flex-row items-center gap-2">
