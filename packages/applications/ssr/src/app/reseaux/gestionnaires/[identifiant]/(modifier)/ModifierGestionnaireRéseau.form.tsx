@@ -28,15 +28,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
     ValidationErrors<ModifierGestionnaireRéseauFormKeys>
   >({});
 
-  // Ici on match bind pour montrer un cas d'utilisation simple vu que c'est
-  // la première mise en place de Option et ValueType en mode Isomorphique.
-  // Utiliser bind uniquement si besoin d'une fonctionnalité avancée du ValueType (exemple: comparaison de date)
-  const contactEmailValue = Option.match(contactEmail)
-    .some((email) => {
-      const emailValueType = Email.bind(email);
-      return emailValueType.formatter();
-    })
-    .none(() => '');
+  const contactEmailValue = contactEmail ? Email.bind(contactEmail).formatter() : '';
 
   const expressionReguliereValue = ExpressionRegulière.bind(expressionReguliere).formatter();
 

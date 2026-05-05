@@ -7,61 +7,56 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PotentielWorld } from '../../potentiel.world.js';
 import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
 
-EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
-  const exemple = table.rowsHash();
-
-  const raisonSociale = exemple['Raison sociale'] ?? 'Une raison sociale';
-  const codeEIC = exemple['Code EIC'] ?? raisonSociale.toUpperCase();
-  const aideSaisieRéférenceDossierRaccordement = {
-    format: exemple['Format'],
-    légende: exemple['Légende'],
-    expressionReguliere: exemple['Expression régulière'],
-  };
-  const contactEmail = exemple['Email de contact'];
-
-  await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
-    type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
-    data: {
-      identifiantGestionnaireRéseauValue: codeEIC,
-      raisonSocialeValue: raisonSociale,
-      aideSaisieRéférenceDossierRaccordementValue: {
-        expressionReguliereValue: aideSaisieRéférenceDossierRaccordement.expressionReguliere,
-        formatValue: aideSaisieRéférenceDossierRaccordement.format,
-        légendeValue: aideSaisieRéférenceDossierRaccordement.légende,
-      },
-      contactEmailValue: contactEmail,
-    },
-  });
-
-  this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
-    codeEIC,
-    raisonSociale,
-    aideSaisieRéférenceDossierRaccordement,
-    contactEmail,
-  });
-});
-
 EtantDonné(
-  'le gestionnaire de réseau {string}',
-  async function (this: PotentielWorld, raisonSociale: string) {
-    const codeEIC = raisonSociale.toUpperCase();
+  'le gestionnaire de réseau avec :',
+  async function (this: PotentielWorld, table: DataTable) {
+    const exemple = table.rowsHash();
+    const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
 
-    await mediator.send<GestionnaireRéseau.GestionnaireRéseauUseCase>({
+    const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
+      this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer(partialFixture);
+
+    await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
       type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
         raisonSocialeValue: raisonSociale,
-        aideSaisieRéférenceDossierRaccordementValue: {},
+        aideSaisieRéférenceDossierRaccordementValue: {
+          expressionReguliereValue: expressionReguliere,
+          formatValue: format,
+          légendeValue: légende,
+        },
+        contactEmailValue: contactEmail,
+      },
+    });
+  },
+);
+
+EtantDonné(
+  'le gestionnaire de réseau {string}',
+  async function (this: PotentielWorld, raisonSocialeValeur: string) {
+    const codeEICValue = raisonSocialeValeur.toUpperCase();
+    const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
+      this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer({
+        codeEIC: codeEICValue,
+        raisonSociale: raisonSocialeValeur,
+      });
+
+    await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
+      type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
+      data: {
+        identifiantGestionnaireRéseauValue: codeEIC,
+        raisonSocialeValue: raisonSociale,
+        contactEmailValue: contactEmail,
+        aideSaisieRéférenceDossierRaccordementValue: {
+          expressionReguliereValue: expressionReguliere,
+          formatValue: format,
+          légendeValue: légende,
+        },
       },
     });
 
     this.utilisateurWorld.grdFixture.créer({ nom: raisonSociale });
-
-    this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {},
-    });
   },
 );
 

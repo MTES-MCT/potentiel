@@ -1,5 +1,6 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Email } from '@potentiel-domain/common';
 
 import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
 
@@ -75,7 +76,9 @@ export class RaccordementWorld {
         gestionnaireRéseau: gestionnaireRéseau
           ? {
               raisonSociale: gestionnaireRéseau.raisonSociale,
-              contactEmail: gestionnaireRéseau.contactEmail,
+              contactEmail: gestionnaireRéseau.contactEmail
+                ? Email.convertirEnValueType(gestionnaireRéseau.contactEmail)
+                : undefined,
             }
           : undefined,
         miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé

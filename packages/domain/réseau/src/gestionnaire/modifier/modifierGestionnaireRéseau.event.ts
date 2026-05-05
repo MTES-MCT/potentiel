@@ -13,6 +13,7 @@ export type GestionnaireRéseauModifiéEventV1 = DomainEvent<
       légende: string;
       expressionReguliere?: string;
     };
+    contactEmail?: string;
   }
 >;
 

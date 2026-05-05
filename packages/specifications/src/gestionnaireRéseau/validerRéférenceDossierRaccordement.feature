@@ -3,7 +3,7 @@
 Fonctionnalité: Valider une référence de dossier de raccordement
 
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement
-        Etant donné un gestionnaire de réseau
+        Etant donné le gestionnaire de réseau avec :
             | Raison sociale       | Enedis                 |
             | Expression régulière | <Expression régulière> |
         Quand on valide la référence de dossier <Référence à valider> pour le gestionnaire de réseau "Enedis"
@@ -24,10 +24,10 @@ Fonctionnalité: Valider une référence de dossier de raccordement
             | ^[^\s\t]*$                        | "ENEDIS"                    | valide           |
 
     Plan du Scénario: Valider/Invalider une référence de dossier de raccordement après modification du gestionnaire de réseau
-        Etant donné un gestionnaire de réseau
+        Etant donné le gestionnaire de réseau avec :
             | Raison sociale       | Enedis |
             | Expression régulière | (.*)   |
-        Quand le DGEC validateur modifie les données d'un gestionnaire de réseau
+        Quand le DGEC validateur modifie le gestionnaire de réseau avec :
             | Raison sociale       | Enedis                 |
             | Expression régulière | <Expression régulière> |
         Et on valide la référence de dossier <Référence à valider> pour le gestionnaire de réseau "Enedis"

@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantGestionnaireRéseau } from '../index.js';
 
@@ -32,11 +31,6 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
     },
     contactEmailValue,
   }) => {
-    const format = Option.map(formatValue);
-    const légende = Option.map(légendeValue);
-    const expressionReguliere = Option.map(expressionReguliereValue);
-    const contactEmail = Option.map(contactEmailValue);
-
     return mediator.send<ModifierGestionnaireRéseauCommand>({
       type: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       data: {
@@ -45,13 +39,13 @@ export const registerModifierGestionnaireRéseauUseCase = () => {
         ),
         raisonSociale: raisonSocialeValue,
         aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: Option.match(expressionReguliere)
-            .some(ExpressionRegulière.convertirEnValueType)
-            .none(),
-          format,
-          légende,
+          expressionReguliere: expressionReguliereValue
+            ? ExpressionRegulière.convertirEnValueType(expressionReguliereValue)
+            : undefined,
+          format: formatValue,
+          légende: légendeValue,
         },
-        contactEmail: Option.match(contactEmail).some(Email.convertirEnValueType).none(),
+        contactEmail: contactEmailValue ? Email.convertirEnValueType(contactEmailValue) : undefined,
       },
     });
   };

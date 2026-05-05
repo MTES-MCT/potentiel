@@ -62,5 +62,6 @@ export const registerListerGestionnaireRéseauQuery = ({
       total,
     };
   };
+
   mediator.register('Réseau.Gestionnaire.Query.ListerGestionnaireRéseau', handler);
 };

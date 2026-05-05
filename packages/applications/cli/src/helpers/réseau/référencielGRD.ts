@@ -1,5 +1,4 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Option } from '@potentiel-libraries/monads';
 import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 
 export type RéférencielGRD = {
@@ -59,9 +58,7 @@ const getGRDsWithDiff = (
       gestionnairesORE.some(({ eic, contact, grd }) => {
         const sameIdentifiant = codeEIC === eic;
         const sameRaisonSociale = raisonSociale === grd;
-        const sameContactEmail = Option.match(contactEmail)
-          .some((value) => value.formatter() === contact)
-          .none(() => !contact);
+        const sameContactEmail = contactEmail ? contactEmail.formatter() === contact : !contact;
 
         return sameIdentifiant && (!sameContactEmail || !sameRaisonSociale);
       }),

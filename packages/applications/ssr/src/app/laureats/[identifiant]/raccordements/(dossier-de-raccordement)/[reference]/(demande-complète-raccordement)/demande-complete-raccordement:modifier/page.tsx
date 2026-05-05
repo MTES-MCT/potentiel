@@ -144,12 +144,8 @@ const mapToProps: MapToProps = ({
       aideSaisieRéférenceDossierRaccordement: {
         expressionReguliere:
           gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
-        format: Option.match(gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format)
-          .some((f) => f)
-          .none(() => ''),
-        légende: Option.match(gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende)
-          .some((l) => l)
-          .none(() => ''),
+        format: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.format || '',
+        légende: gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.légende || '',
       },
     },
     listeGestionnairesRéseau: gestionnairesRéseau && mapToPlainObject(gestionnairesRéseau.items),

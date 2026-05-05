@@ -1,5 +1,4 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
@@ -9,16 +8,8 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { RaccordementEntity } from '../raccordement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
 
-export type ConsulterGestionnaireRéseauRaccordementReadModel = {
-  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement: {
-    format: Option.Type<string>;
-    légende: Option.Type<string>;
-    expressionReguliere: ExpressionRegulière.ValueType;
-  };
-  contactEmail: Option.Type<Email.ValueType>;
-};
+export type ConsulterGestionnaireRéseauRaccordementReadModel =
+  GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel;
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
   'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
@@ -71,19 +62,10 @@ export const mapToReadModel = ({
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
-      format: match(format)
-        .returnType<Option.Type<string>>()
-        .with('', () => Option.none)
-        .otherwise((format) => format),
-      légende: match(légende)
-        .returnType<Option.Type<string>>()
-        .with('', () => Option.none)
-        .otherwise((légende) => légende),
+      format: format === '' ? undefined : format,
+      légende: légende === '' ? undefined : légende,
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
-    contactEmail: match(contactEmail)
-      .returnType<Option.Type<Email.ValueType>>()
-      .with('', () => Option.none)
-      .otherwise((email) => Email.convertirEnValueType(email)),
+    contactEmail: contactEmail ? Email.convertirEnValueType(contactEmail) : undefined,
   };
 };

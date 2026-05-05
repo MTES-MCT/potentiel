@@ -1,23 +1,30 @@
 import { match, Pattern } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { ExpressionRegulière } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event.js';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
 import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event.js';
-import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error.js';
 import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options.js';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event.js';
 import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options.js';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error.js';
+import {
+  GestionnaireRéseauDéjàExistantError,
+  GestionnaireRéseauInconnuError,
+  GestionnaireRéseauNonModifiéError,
+} from './gestionnaireRéseau.errors.js';
 
 export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,
   'gestionnaire-réseau'
 > {
+  raisonSociale!: string;
+
   #référenceDossierRaccordementExpressionRegulière = ExpressionRegulière.accepteTout;
+  #format?: string;
+  #légende?: string;
+  #contactEmail?: Email.ValueType;
 
   get identifiantGestionnaireRéseau() {
     return IdentifiantGestionnaireRéseau.convertirEnValueType(this.aggregateId.split('|')[1]);
@@ -42,19 +49,13 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
         codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
-          format: Option.match(format)
-            .some((value) => value)
-            .none(() => ''),
-          légende: Option.match(légende)
-            .some((value) => value)
-            .none(() => ''),
-          expressionReguliere: Option.match(expressionReguliere)
-            .some((value) => value.formatter())
-            .none(() => ExpressionRegulière.accepteTout.formatter()),
+          format: format || '',
+          légende: légende || '',
+          expressionReguliere: expressionReguliere
+            ? expressionReguliere.formatter()
+            : ExpressionRegulière.accepteTout.formatter(),
         },
-        contactEmail: Option.match(contactEmail)
-          .some((value) => value.formatter())
-          .none(() => ''),
+        contactEmail: contactEmail ? contactEmail.formatter() : '',
       },
     };
 
@@ -67,26 +68,25 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     contactEmail,
   }: ModifierOptions) {
     this.vérifierQueLeGestionnaireExiste();
-    // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
+    this.vérifierQueLaModificationEstPossible({
+      aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
+      raisonSociale,
+      contactEmail,
+    });
+
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié-V2',
       payload: {
         codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
-          format: Option.match(format)
-            .some((value) => value)
-            .none(() => ''),
-          légende: Option.match(légende)
-            .some((value) => value)
-            .none(() => ''),
-          expressionReguliere: Option.match(expressionReguliere)
-            .some((value) => value.formatter())
-            .none(() => ExpressionRegulière.accepteTout.formatter()),
+          format: format || '',
+          légende: légende || '',
+          expressionReguliere: expressionReguliere
+            ? expressionReguliere.formatter()
+            : ExpressionRegulière.accepteTout.formatter(),
         },
-        contactEmail: Option.match(contactEmail)
-          .some((value) => value.formatter())
-          .none(() => ''),
+        contactEmail: contactEmail ? contactEmail.formatter() : '',
       },
     };
 
@@ -99,11 +99,37 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     }
   }
 
+  vérifierQueLaModificationEstPossible({
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
+    raisonSociale,
+    contactEmail,
+  }: ModifierOptions) {
+    if (
+      this.raisonSociale === raisonSociale &&
+      ((!contactEmail && !this.#contactEmail) ||
+        (contactEmail && this.#contactEmail && contactEmail.estÉgaleÀ(this.#contactEmail))) &&
+      format === this.#format &&
+      légende === this.#légende &&
+      ((!expressionReguliere && !this.#référenceDossierRaccordementExpressionRegulière) ||
+        (expressionReguliere &&
+          this.#référenceDossierRaccordementExpressionRegulière &&
+          expressionReguliere.estÉgaleÀ(this.#référenceDossierRaccordementExpressionRegulière)))
+    ) {
+      throw new GestionnaireRéseauNonModifiéError();
+    }
+  }
+
   apply({
     payload: {
-      aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+      contactEmail,
+      aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+      raisonSociale,
     },
   }: GestionnaireRéseauEvent): void {
+    this.#contactEmail = contactEmail ? Email.convertirEnValueType(contactEmail) : undefined;
+    this.#format = format;
+    this.#légende = légende;
+    this.raisonSociale = raisonSociale;
     this.#référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
       .with('', () => ExpressionRegulière.accepteTout)
       .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
