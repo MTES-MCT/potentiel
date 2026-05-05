@@ -71,7 +71,7 @@ class NuméroIdentificationInvalideError extends InvalidOperationError {
 
 class SiretInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le numéro de SIRET ne correspond pas à un format valide (14 chiffres)`, {
+    super(`Le numéro de SIRET n'est pas valide`, {
       value,
     });
   }
@@ -79,7 +79,7 @@ class SiretInvalideError extends InvalidOperationError {
 
 class SirenInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le numéro de SIREN ne correspond pas à un format valide (9 chiffres)`, {
+    super(`Le numéro de SIREN n'est pas valide`, {
       value,
     });
   }
