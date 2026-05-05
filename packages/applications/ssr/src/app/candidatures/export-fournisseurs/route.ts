@@ -19,7 +19,7 @@ type DétailFournisseurCSV = {
   region: string;
   societeMere: string;
   typeActionnariat?: Candidature.TypeActionnariat.RawType;
-} & Candidature.DétailFournisseur;
+} & Candidature.DétailFournisseursCandidatureEntity['fournisseurs'][number];
 
 export const GET = async (request: Request) =>
   apiAction(async () =>

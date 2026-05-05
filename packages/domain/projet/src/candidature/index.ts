@@ -114,6 +114,6 @@ export * as RaccordementDépôt from './raccordementDépôt.valueType.js';
 
 // Type
 export type * from './détail/détailCandidature.valueType.js';
-export { type DétailFournisseur } from './lister/listerDétailsFournisseur.query.js';
+export type * from './lister/listerDétailsFournisseur.query.js';
 
 export * as DocumentCandidature from './documentCandidature.valueType.js';
