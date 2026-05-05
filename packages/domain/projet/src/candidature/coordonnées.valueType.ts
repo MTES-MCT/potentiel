@@ -9,11 +9,11 @@ export type RawType = {
   longitude: number;
 };
 
-// degrés Minutes Secondes (with decimal secondes for precision)
+// DMS = Degrés Minutes Secondes
 type DMSRawType = {
   degrés: number;
   minutes: number;
-  secondes: number; // decimal secondes for full precision
+  secondes: number;
   cardinal: 'N' | 'S' | 'E' | 'O';
 };
 
@@ -44,7 +44,7 @@ export const bind = ({ latitude, longitude }: PlainType<ValueType>): ValueType =
     },
     formatter() {
       const [lat, lon] = this.toDMS();
-      // Format secondes with up to 4 decimal places, removing trailing zeros
+      // Format seconds with up to 4 decimal places, removing trailing zeros
       const formatSecondes = (secondes: number) => {
         const formatted = secondes.toFixed(4).replace(/\.?0+$/, '');
         return formatted;
@@ -99,7 +99,7 @@ export const toDecimal = (value: DMSRawType): number => {
     throw new CoordonnéesInvalidesError('Les degrés, minutes et secondes doivent être positifs');
   }
   if (minutes > 60 || secondes > 60) {
-    throw new CoordonnéesInvalidesError('Les minutes et secondes doivent être inférieurs à 60');
+    throw new CoordonnéesInvalidesError('Les minutes et secondes doivent être inférieures à 60');
   }
 
   const sign = cardinal === 'S' || cardinal === 'O' ? -1 : 1;

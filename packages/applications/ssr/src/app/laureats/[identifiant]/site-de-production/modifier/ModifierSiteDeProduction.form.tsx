@@ -121,7 +121,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
       </div>
       <div className="flex flex-col gap-2">
         <CoordonnéesInput
-          label="Coordonées Géodésiques"
+          label="Coordonnées Géodésiques (optionnel)"
           latitude={coordonnées?.latitude}
           longitude={coordonnées?.longitude}
           state={validationErrors['coordonnées'] ? 'error' : 'default'}

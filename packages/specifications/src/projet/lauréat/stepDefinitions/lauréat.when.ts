@@ -72,18 +72,6 @@ Quand(
           pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
         },
       });
-
-      await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
-        type: 'Lauréat.UseCase.ModifierSiteDeProduction',
-        data: {
-          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-          modifiéParValue: modifiéPar,
-          modifiéLeValue: modifiéLe,
-          localitéValue: localité,
-          raisonValue: raison,
-          pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
-        },
-      });
     } catch (e) {
       this.error = e as Error;
     }

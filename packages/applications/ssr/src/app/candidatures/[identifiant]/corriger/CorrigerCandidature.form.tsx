@@ -235,7 +235,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <CoordonnéesInput
-        label="Coordonnées géodésiques"
+        label="Coordonnées géodésiques (optionnel)"
         latitude={candidature.coordonnées?.latitude}
         longitude={candidature.coordonnées?.longitude}
         state={validationErrors['coordonnées'] ? 'error' : 'default'}

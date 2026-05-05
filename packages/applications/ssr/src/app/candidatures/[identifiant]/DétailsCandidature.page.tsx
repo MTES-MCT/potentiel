@@ -59,22 +59,25 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   {dépôt.localité.département}, {dépôt.localité.région}
                 </span>
               </Field>
-              {dépôtVT.coordonnées ? (
-                <fieldset>
-                  <div className="flex gap-1">
-                    <legend className="font-bold">Coordonnées géodésiques</legend>
+              <fieldset>
+                <div className="flex gap-1">
+                  <legend className="font-bold">Coordonnées géodésiques</legend>
+                  {dépôtVT.coordonnées && (
                     <Link
                       href={`https://www.openstreetmap.org/?mlat=${dépôtVT.coordonnées.latitude}&mlon=${dépôtVT.coordonnées.longitude}`}
-                      aria-label="Ouvrir la carte aux coordonnées du site de production"
-                      title="Ouvrir la carte aux coordonnées du site de production"
+                      aria-label="Ouvrir la carte"
+                      title="Ouvrir la carte"
                       target="_blank"
                       className="no-underline bg-none "
                       rel="noopener noreferrer"
                     />
-                  </div>
-                  <div className="flex flex-col">{dépôtVT.coordonnées.formatter()}</div>
-                </fieldset>
-              ) : null}
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  {dépôtVT.coordonnées?.formatter() ?? 'Non renseignées'}
+                </div>
+              </fieldset>
+
               <Field name="Société mère">
                 <span>{dépôt.sociétéMère || 'Non renseignée'}</span>
               </Field>

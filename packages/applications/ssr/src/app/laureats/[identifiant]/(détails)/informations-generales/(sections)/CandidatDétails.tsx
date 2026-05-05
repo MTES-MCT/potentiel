@@ -24,26 +24,26 @@ export const CandidatDétails = ({ localité, emailContact, coordonnées }: Cand
       <span>
         {localité.value.département} {localité.value.région}
       </span>
+      {coordonnées ? (
+        <span title="Coordonnées géodésiques">
+          {Candidature.Coordonnées.bind(coordonnées).formatter()}
+          <Link
+            href={`https://www.openstreetmap.org/?mlat=${coordonnées.latitude}&mlon=${coordonnées.longitude}`}
+            aria-label="Ouvrir la carte"
+            title="Ouvrir la carte"
+            target="_blank"
+            className="no-underline bg-none ml-2"
+            rel="noopener noreferrer"
+          />
+        </span>
+      ) : (
+        <span className="italic">Coordonnées géodésiques non renseignées</span>
+      )}
       {localité.action && (
         <TertiaryLink href={localité.action.url}>{localité.action.label}</TertiaryLink>
       )}
     </div>
-    {coordonnées && (
-      <div className="flex flex-col gap-1">
-        <div className="flex gap-1">
-          <Heading6>Coordonnées géodésiques</Heading6>
-          <Link
-            href={`https://www.openstreetmap.org/?mlat=${coordonnées.latitude}&mlon=${coordonnées.longitude}`}
-            aria-label="Ouvrir la carte aux coordonnées du site de production"
-            title="Ouvrir la carte aux coordonnées du site de production"
-            target="_blank"
-            className="no-underline bg-none "
-            rel="noopener noreferrer"
-          />
-        </div>
-        <div>{Candidature.Coordonnées.bind(coordonnées).formatter()}</div>
-      </div>
-    )}
+
     <div className="flex flex-col gap-1">
       <Heading6>Adresse email de candidature</Heading6>
       <span>{emailContact}</span>
