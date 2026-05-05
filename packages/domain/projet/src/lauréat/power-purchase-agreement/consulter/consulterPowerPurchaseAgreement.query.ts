@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import { PowerPurchaseAgreementEntity } from '../powerPurchaseAgreement.entity.js';
@@ -10,6 +10,7 @@ import { IdentifiantProjet } from '../../../index.js';
 export type ConsulterPowerPurchaseAgreementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   signaléLe: DateTime.ValueType;
+  signaléPar: Email.ValueType;
 };
 
 export type ConsulterPowerPurchaseAgreementQuery = Message<
@@ -53,5 +54,6 @@ const mapToReadModel = (
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     signaléLe: DateTime.convertirEnValueType(result.signaléLe),
+    signaléPar: Email.convertirEnValueType(result.signaléPar),
   };
 };

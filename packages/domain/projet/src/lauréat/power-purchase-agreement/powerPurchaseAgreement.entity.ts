@@ -1,4 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 export type PowerPurchaseAgreementEntity = Entity<
@@ -6,6 +6,7 @@ export type PowerPurchaseAgreementEntity = Entity<
   {
     identifiantProjet: string;
     signaléLe: DateTime.RawType;
+    signaléPar: Email.RawType;
     estPartiEnPPA: true;
   }
 >;

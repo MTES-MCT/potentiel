@@ -32,15 +32,5 @@ export const setupPowerPurchaseAgreement = async () => {
   //   messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
   // });
 
-  // TODO: historique, dans une autre carte
-  // await powerPurchaseAgreement.setupSubscription<
-  //   HistoriqueProjector.SubscriptionEvent,
-  //   HistoriqueProjector.Execute
-  // >({
-  //   name: 'history',
-  //   eventType: 'all',
-  //   messageType: 'System.Projector.Historique',
-  // });
-
   return powerPurchaseAgreement.clearSubscriptions;
 };
