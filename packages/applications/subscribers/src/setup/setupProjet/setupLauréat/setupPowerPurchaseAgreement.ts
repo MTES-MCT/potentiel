@@ -11,7 +11,11 @@ export const setupPowerPurchaseAgreement = async () => {
     PowerPurchaseAgreementProjector.Execute
   >({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'PowerPurchaseAgreementSignalé-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'PowerPurchaseAgreementSignalé-V1',
+      'PowerPurchaseAgreementAnnulé-V1',
+    ],
     messageType: 'System.Projector.Lauréat.PowerPurchaseAgreement',
   });
 

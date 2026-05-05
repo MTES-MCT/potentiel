@@ -513,9 +513,11 @@ const référencielPermissions = {
     powerPurchaseAgreement: {
       usecase: {
         signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
+        annuler: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
       },
       command: {
         signaler: 'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
+        annuler: 'Lauréat.PowerPurchaseAgreement.Command.AnnulerPowerPurchaseAgreement',
       },
     },
     usecase: {
@@ -1396,6 +1398,11 @@ const policies = {
       référencielPermissions.lauréat.powerPurchaseAgreement.command.signaler,
       référencielPermissions.lauréat.powerPurchaseAgreement.usecase.signaler,
     ],
+    annuler: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.powerPurchaseAgreement.command.annuler,
+      référencielPermissions.lauréat.powerPurchaseAgreement.usecase.annuler,
+    ],
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
@@ -1815,6 +1822,7 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // PPA
   'powerPurchaseAgreement.signaler',
+  'powerPurchaseAgreement.annuler',
 
   // Candidature
   'candidature.importer',
@@ -2042,6 +2050,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // PPA
   'powerPurchaseAgreement.signaler',
+  'powerPurchaseAgreement.annuler',
 
   // Tâche
   'tâche.consulter',
