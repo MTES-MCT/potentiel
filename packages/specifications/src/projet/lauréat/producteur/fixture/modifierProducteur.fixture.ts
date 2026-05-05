@@ -49,7 +49,7 @@ export class ModifierProducteurFixture
       modifiéLe: faker.date.recent().toISOString(),
       modifiéPar: faker.internet.email(),
       producteur: faker.animal.insect(),
-      siret: faker.string.numeric(14),
+      siret: faker.potentiel.numéroIdentification().siret,
       raison: faker.company.catchPhrase(),
       ...partialData,
     };

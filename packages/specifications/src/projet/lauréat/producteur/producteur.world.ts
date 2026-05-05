@@ -24,9 +24,7 @@ export class ProducteurWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     producteurÀLaCandidature: string,
-    numéroIdentificationÀLaCandidature:
-      | Lauréat.Producteur.NuméroIdentification.RawType
-      | undefined,
+    numéroIdentificationÀLaCandidature: Lauréat.Producteur.NuméroIdentification.RawType | undefined,
   ) {
     const référencielFixture = this.#modifierProducteurFixture.aÉtéCréé
       ? this.#modifierProducteurFixture

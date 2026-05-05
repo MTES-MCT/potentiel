@@ -54,7 +54,7 @@ export class EnregistrerChangementProducteurFixture
       enregistréPar: faker.internet.email(),
       pièceJustificative: faker.potentiel.document(),
       producteur: faker.animal.insect(),
-      siret: faker.string.numeric(14),
+      siret: faker.potentiel.numéroIdentification().siret,
       ...partialData,
     };
 

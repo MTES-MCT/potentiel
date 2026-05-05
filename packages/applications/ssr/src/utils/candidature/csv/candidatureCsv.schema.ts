@@ -323,65 +323,63 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       natureDeLExploitation,
       numéroIdentification,
       ...val
-    }) => {
-      return {
-        ...val,
-        localité: getLocalité({
-          adresse1,
-          adresse2: adresse2 ?? '',
-          codePostal,
-          commune,
-        }),
-        typeGarantiesFinancières: typeGarantiesFinancières
-          ? typeGf[Number(typeGarantiesFinancières) - 1]
+    }) => ({
+      ...val,
+      localité: getLocalité({
+        adresse1,
+        adresse2: adresse2 ?? '',
+        codePostal,
+        commune,
+      }),
+      typeGarantiesFinancières: typeGarantiesFinancières
+        ? typeGf[Number(typeGarantiesFinancières) - 1]
+        : undefined,
+      historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
+      technologie: technologie[val.technologie],
+      dateÉchéanceGf: val.dateÉchéanceGf,
+      actionnariat: financementCollectif
+        ? Candidature.TypeActionnariat.financementCollectif.formatter()
+        : gouvernancePartagée
+          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
           : undefined,
-        historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
-        technologie: technologie[val.technologie],
-        dateÉchéanceGf: val.dateÉchéanceGf,
-        actionnariat: financementCollectif
-          ? Candidature.TypeActionnariat.financementCollectif.formatter()
-          : gouvernancePartagée
-            ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
-            : undefined,
-        autorisation:
-          dateDAutorisation && numéroDAutorisation
-            ? {
-                date: dateDAutorisation,
-                numéro: numéroDAutorisation,
-              }
-            : undefined,
-        natureDeLExploitation:
-          natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
-            ? {
-                typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
-                tauxPrévisionnelACI,
-                tauxPrévisionnelACC,
-              }
-            : undefined,
-        typologieInstallation: mapCsvToTypologieInstallation({
-          typologieDeBâtiment,
-          typeInstallationsAgrivoltaïques,
-          élémentsSousOmbrière,
-        }),
-        dispositifDeStockage:
-          installationAvecDispositifDeStockage !== undefined
-            ? {
-                installationAvecDispositifDeStockage,
-                capacitéDuDispositifDeStockageEnKWh,
-                puissanceDuDispositifDeStockageEnKW,
-              }
-            : undefined,
-        numéroIdentification: numéroIdentification
-          ? numéroIdentification.length === 14
-            ? {
-                siret: numéroIdentification,
-              }
-            : {
-                siren: numéroIdentification,
-              }
+      autorisation:
+        dateDAutorisation && numéroDAutorisation
+          ? {
+              date: dateDAutorisation,
+              numéro: numéroDAutorisation,
+            }
           : undefined,
-      };
-    },
+      natureDeLExploitation:
+        natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
+          ? {
+              typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
+              tauxPrévisionnelACI,
+              tauxPrévisionnelACC,
+            }
+          : undefined,
+      typologieInstallation: mapCsvToTypologieInstallation({
+        typologieDeBâtiment,
+        typeInstallationsAgrivoltaïques,
+        élémentsSousOmbrière,
+      }),
+      dispositifDeStockage:
+        installationAvecDispositifDeStockage !== undefined
+          ? {
+              installationAvecDispositifDeStockage,
+              capacitéDuDispositifDeStockageEnKWh,
+              puissanceDuDispositifDeStockageEnKW,
+            }
+          : undefined,
+      numéroIdentification: numéroIdentification
+        ? numéroIdentification.length === 14
+          ? {
+              siret: numéroIdentification,
+            }
+          : {
+              siren: numéroIdentification,
+            }
+        : undefined,
+    }),
   );
 
 export type CandidatureCsvRowShape = z.infer<typeof candidatureCsvRowSchema>;
