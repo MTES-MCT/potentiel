@@ -8,7 +8,7 @@ import { PotentielWorld } from '../../potentiel.world.js';
 import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
 
 EtantDonné(
-  'un gestionnaire de réseau avec:',
+  'un gestionnaire de réseau avec :',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);

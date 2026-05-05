@@ -86,7 +86,7 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur modifie le gestionnaire de réseau avec:`,
+  `le DGEC validateur modifie le gestionnaire de réseau avec :`,
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);

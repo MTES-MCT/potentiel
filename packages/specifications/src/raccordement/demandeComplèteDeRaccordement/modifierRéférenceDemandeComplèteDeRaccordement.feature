@@ -48,7 +48,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
-        Etant donné un gestionnaire de réseau avec:
+        Etant donné un gestionnaire de réseau avec :
             | Code EIC             | 17X0000009352859 |
             | Raison sociale       | RTE              |
             | Expression régulière | ^[a-zA-Z]{3}$    |

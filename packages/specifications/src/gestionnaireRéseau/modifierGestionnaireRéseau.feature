@@ -10,7 +10,7 @@ Fonctionnalité: Modifier un gestionnaire de réseau
         Alors le gestionnaire de réseau devrait être consultable
 
     Scénario: Impossible de modifier un gestionnaire de réseau avec un gestionnaire inconnu
-        Quand le DGEC validateur modifie le gestionnaire de réseau avec:
+        Quand le DGEC validateur modifie le gestionnaire de réseau avec :
             | Code EIC       | inconnu                     |
             | Raison sociale | Gestionnaire réseau inconnu |
         Alors la dgec devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
