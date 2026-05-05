@@ -2,6 +2,7 @@
 
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -26,6 +27,22 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
       }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+
+      <Select
+        state={validationErrors['estPPA'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['estPPA']}
+        id="estPPA"
+        label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
+        nativeSelectProps={{
+          name: 'estPPA',
+          required: true,
+          'aria-required': true,
+        }}
+        options={[
+          { label: 'Oui', value: 'true' },
+          { label: 'Non', value: 'false' },
+        ]}
+      />
 
       <Input
         textArea

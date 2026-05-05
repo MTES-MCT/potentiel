@@ -7,4 +7,5 @@ export type DemanderOptions = {
   identifiantUtilisateur: Email.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   raison: string;
+  PPASignalé?: boolean;
 };

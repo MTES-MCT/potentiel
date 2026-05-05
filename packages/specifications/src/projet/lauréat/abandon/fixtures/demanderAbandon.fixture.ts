@@ -10,6 +10,7 @@ interface DemanderAbandon {
   readonly raison: string;
   readonly recandidature: boolean;
   readonly pièceJustificative?: PièceJustificative;
+  readonly estPPA: boolean;
 }
 
 export class DemanderAbandonFixture
@@ -45,6 +46,12 @@ export class DemanderAbandonFixture
     return this.#recandidature;
   }
 
+  #estPPA!: boolean;
+
+  get estPPA(): boolean {
+    return this.#estPPA;
+  }
+
   #identifiantProjet!: string;
 
   get identifiantProjet(): string {
@@ -59,6 +66,7 @@ export class DemanderAbandonFixture
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
       recandidature: false,
+      estPPA: false,
       ...partialFixture,
     };
 
@@ -67,6 +75,7 @@ export class DemanderAbandonFixture
     this.#raison = fixture.raison;
     this.#recandidature = fixture.recandidature;
     this.#identifiantProjet = fixture.identifiantProjet;
+    this.#estPPA = fixture.estPPA;
 
     if (!fixture.recandidature) {
       fixture.pièceJustificative = faker.potentiel.document();

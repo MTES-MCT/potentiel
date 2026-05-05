@@ -1,5 +1,6 @@
 # language: fr
 @abandon
+@demander-abandon
 Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:
@@ -38,6 +39,21 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à trois mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à deux mois" planifiée pour le projet lauréat
         Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat
+
+    Scénario: Un porteur demande l'abandon d'un projet lauréat en signalant un PPA
+        Etant donné le projet lauréat "Du boulodrome de Rome" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 8          |
+        Et la dreal "Dreal italienne" associée à la région du projet
+        Quand le porteur demande l'abandon pour le projet lauréat en signalant un PPA
+        Alors l'abandon du projet lauréat devrait être demandé
+        Et l'état PPA devrait être consultable pour le projet lauréat
+        Et un email a été envoyé à la dgec avec :
+            | sujet | Potentiel - Du boulodrome de Rome - Signalement PPA |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*          |
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Du boulodrome de Rome - Signalement PPA |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*          |
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat après un rejet
         Etant donné une demande d'abandon rejetée pour le projet lauréat

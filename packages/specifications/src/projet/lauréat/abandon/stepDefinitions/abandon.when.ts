@@ -8,16 +8,17 @@ import { convertFixtureFileToReadableStream } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
-Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (this: PotentielWorld) {
+Quand(`le porteur demande l'abandon pour le projet lauréat`, async function (this: PotentielWorld) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { demandéLe, demandéPar, pièceJustificative, raison } =
+    const { demandéLe, demandéPar, pièceJustificative, raison, estPPA } =
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
         identifiantProjet,
         demandéPar: this.utilisateurWorld.porteurFixture.email,
       });
 
+    // toujours obligatoire
     if (pièceJustificative) {
       await mediator.send<Lauréat.Abandon.DemanderAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
@@ -27,15 +28,47 @@ Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (th
           pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
+          PPASignaléValue: estPPA,
         },
       });
-    } else {
-      throw new Error('FIXTURE : La pièce justificative est désormais obligatoire');
     }
   } catch (error) {
     this.error = error as Error;
   }
 });
+
+Quand(
+  `le porteur demande l'abandon pour le projet lauréat en signalant un PPA`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const { demandéLe, demandéPar, pièceJustificative, raison, estPPA } =
+        this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
+          identifiantProjet,
+          demandéPar: this.utilisateurWorld.porteurFixture.email,
+          estPPA: true,
+        });
+
+      // toujours obligatoire
+      if (pièceJustificative) {
+        await mediator.send<Lauréat.Abandon.DemanderAbandonUseCase>({
+          type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            raisonValue: raison,
+            pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
+            dateDemandeValue: demandéLe,
+            identifiantUtilisateurValue: demandéPar,
+            PPASignaléValue: estPPA,
+          },
+        });
+      }
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 
 Quand(
   `le porteur annule la demande d'abandon pour le projet lauréat`,

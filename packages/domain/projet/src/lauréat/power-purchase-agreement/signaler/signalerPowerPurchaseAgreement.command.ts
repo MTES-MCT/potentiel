@@ -19,7 +19,7 @@ export const registerSignalerPowerPurchaseAgreementCommand = (
   const handler: MessageHandler<SignalerPowerPurchaseAgreementCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
 
-    await projet.lauréat.powerPurchaseAgreement.signalerPowerPurchaseAgreement(payload);
+    await projet.lauréat.powerPurchaseAgreement.signaler(payload);
   };
   mediator.register(
     'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
