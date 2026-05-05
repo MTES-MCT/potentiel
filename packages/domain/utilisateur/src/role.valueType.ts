@@ -511,6 +511,9 @@ const référencielPermissions = {
       },
     },
     powerPurchaseAgreement: {
+      query: {
+        consulter: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
+      },
       usecase: {
         signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
         annuler: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
@@ -1400,6 +1403,7 @@ const policies = {
     ],
     annuler: [
       référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.powerPurchaseAgreement.query.consulter,
       référencielPermissions.lauréat.powerPurchaseAgreement.command.annuler,
       référencielPermissions.lauréat.powerPurchaseAgreement.usecase.annuler,
     ],
