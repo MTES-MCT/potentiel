@@ -96,6 +96,7 @@ export * from './candidature.register.js';
 // Entities
 export type * from './candidature.entity.js';
 export type * from './détail/détailCandidature.entity.js';
+export type * from './détail/détailFournisseursCandidature.entity.js';
 
 // ValueType
 export * as TypeTechnologie from './typeTechnologie.valueType.js';

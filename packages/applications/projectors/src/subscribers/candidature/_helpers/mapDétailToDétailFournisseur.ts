@@ -1,4 +1,4 @@
-import { Candidature } from '../../../../../index.js';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur.js';
 

@@ -1,7 +1,7 @@
-import { TypeFournisseur } from '../../../../../lauréat/fournisseur/index.js';
+import { Lauréat } from '@potentiel-domain/projet';
 
 // Etat actuel des colonnes du CSV
-const champsCsvFournisseur: Record<TypeFournisseur.RawType, string> = {
+const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
   'module-ou-films': 'Modules ou films',
   cellules: 'Cellules',
   'plaquettes-silicium': 'Plaquettes de silicium (wafers)',
@@ -20,7 +20,7 @@ const champsCsvFournisseur: Record<TypeFournisseur.RawType, string> = {
 // mais on l'inverse pour l'utilisation
 const labelCsvToTypeFournisseur = Object.fromEntries(
   Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
-) as Record<string, TypeFournisseur.RawType>;
+) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
 /**
  * Cas particulier pour le découpage des champs "Contenu local Fabrication de composants et assemblage"
@@ -84,7 +84,9 @@ export const mapDétailsToFournisseur = (key: string) => {
   const { field, type, index } = splitDétailsIntoTypeFieldIndex(key);
   if (type && labelCsvToTypeFournisseur[type]) {
     return {
-      type: TypeFournisseur.convertirEnValueType(labelCsvToTypeFournisseur[type]).formatter(),
+      type: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+        labelCsvToTypeFournisseur[type],
+      ).formatter(),
       field: field.trim(),
       index,
     };

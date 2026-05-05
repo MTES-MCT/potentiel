@@ -2,7 +2,7 @@ import test from 'node:test';
 
 import { expect } from 'chai';
 
-import { Candidature } from '../../../../../index.js';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { mapDétailToDétailFournisseur } from './mapDétailToDétailFournisseur.js';
 
