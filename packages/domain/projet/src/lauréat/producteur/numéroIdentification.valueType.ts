@@ -45,7 +45,7 @@ export const convertirEnValueType = (props: ConvertirEnValueTypeProps) => {
 
 function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
   if (!value.siret && !value.siren) {
-    throw new NuméroImmatriculationInvalideError();
+    throw new NuméroIdentificationInvalideError();
   }
 
   if (value.siret && !estValideSiret(value.siret)) {
@@ -59,10 +59,10 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
 
 const sanitize = (value: string) => value.replace(/ /g, '');
 
-class NuméroImmatriculationInvalideError extends InvalidOperationError {
+class NuméroIdentificationInvalideError extends InvalidOperationError {
   constructor() {
     super(
-      `Le numéro d'immatriculation doit comporter au moins un numéro de SIREN ou de SIRET valide`,
+      `Le numéro d'identification doit comporter au moins un numéro de SIREN ou de SIRET valide`,
     );
   }
 }

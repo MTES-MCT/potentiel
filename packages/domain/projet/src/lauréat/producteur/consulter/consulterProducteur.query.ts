@@ -3,13 +3,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { NuméroImmatriculation, ProducteurEntity } from '../index.js';
+import { NuméroIdentification, ProducteurEntity } from '../index.js';
 import { IdentifiantProjet } from '../../../index.js';
 
 export type ConsulterProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   producteur: string;
-  numéroImmatriculation?: NuméroImmatriculation.ValueType;
+  numéroIdentification?: NuméroIdentification.ValueType;
 };
 
 export type ConsulterProducteurQuery = Message<
@@ -40,11 +40,11 @@ export const registerConsulterProducteurQuery = ({ find }: ConsulterProducteurDe
 export const mapToReadModel = ({
   identifiantProjet,
   nom,
-  numéroImmatriculation,
+  numéroIdentification,
 }: ProducteurEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   producteur: nom,
-  numéroImmatriculation: numéroImmatriculation
-    ? NuméroImmatriculation.convertirEnValueType(numéroImmatriculation)
+  numéroIdentification: numéroIdentification
+    ? NuméroIdentification.convertirEnValueType(numéroIdentification)
     : undefined,
 });

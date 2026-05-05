@@ -52,8 +52,9 @@ export type LauréatEnrichiListItemReadModel = {
 
   latitude?: Coordonnées.RawType['latitude'];
   longitude?: Coordonnées.RawType['longitude'];
-  siren: Producteur.NuméroImmatriculation.ValueType['siren'] | undefined;
-  siret: Producteur.NuméroImmatriculation.ValueType['siret'] | undefined;
+
+  siren: Producteur.NuméroIdentification.ValueType['siren'] | undefined;
+  siret: Producteur.NuméroIdentification.ValueType['siret'] | undefined;
 
   actionnaire: Actionnaire.ConsulterActionnaireReadModel['actionnaire'];
 
@@ -268,7 +269,7 @@ const mapToReadModel: MapToReadModelProps = ({
     coordonnées,
     statut,
     puissance: { puissance, puissanceDeSite },
-    producteur: { numéroImmatriculation },
+    producteur: { numéroIdentification },
     candidature: {
       prixReference,
       unitéPuissance,
@@ -297,8 +298,8 @@ const mapToReadModel: MapToReadModelProps = ({
     ? DispositifDeStockage.convertirEnValueType(installation.dispositifDeStockage)
     : undefined;
 
-  const numéroImmatriculationValueType = numéroImmatriculation
-    ? Producteur.NuméroImmatriculation.convertirEnValueType(numéroImmatriculation)
+  const numéroIdentificationValueType = numéroIdentification
+    ? Producteur.NuméroIdentification.convertirEnValueType(numéroIdentification)
     : undefined;
 
   return {
@@ -314,8 +315,8 @@ const mapToReadModel: MapToReadModelProps = ({
     ...coordonnées,
     actionnaire: actionnaire.actionnaire.nom,
 
-    siren: numéroImmatriculationValueType ? numéroImmatriculationValueType.siren : undefined,
-    siret: numéroImmatriculationValueType ? numéroImmatriculationValueType.siret : undefined,
+    siren: numéroIdentificationValueType ? numéroIdentificationValueType.siren : undefined,
+    siret: numéroIdentificationValueType ? numéroIdentificationValueType.siret : undefined,
 
     typeActionnariat: actionnariat
       ? TypeActionnariat.convertirEnValueType(actionnariat)

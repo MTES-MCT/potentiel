@@ -81,7 +81,7 @@ export async function enregistrerChangementProducteur(
       identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
-      numéroImmatriculationValue: { siret },
+      numéroIdentificationValue: { siret },
     },
   });
 }
@@ -105,7 +105,7 @@ export async function modifierProducteur(
       identifiantUtilisateurValue: modifiéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       raisonValue: raison,
-      numéroImmatriculationValue: { siret },
+      numéroIdentificationValue: { siret },
     },
   });
 }

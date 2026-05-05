@@ -39,7 +39,7 @@ Alors(
         this.lauréatWorld.producteurWorld.mapToExpected(
           identifiantProjet,
           this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
-          this.candidatureWorld.importerCandidature.dépôtValue.numéroImmatriculation,
+          this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification,
         ),
       );
 
@@ -68,7 +68,7 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
       this.lauréatWorld.producteurWorld.mapChangementToExpected(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
         this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
-        this.candidatureWorld.importerCandidature.dépôtValue.numéroImmatriculation?.siret,
+        this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
       ),
     );
 

@@ -19,7 +19,7 @@ export type ModifierProducteurFormProps =
 export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
   identifiantProjet,
   producteur,
-  numéroImmatriculation,
+  numéroIdentification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierProducteurFormKeys>
@@ -61,7 +61,7 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         label="Numéro SIRET"
         nativeInputProps={{
           name: 'siret',
-          defaultValue: numéroImmatriculation?.siret,
+          defaultValue: numéroIdentification?.siret,
           required: false,
           'aria-required': false,
         }}

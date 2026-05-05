@@ -44,7 +44,7 @@ const minimumValues = {
       lieuDeFabrication: 'Allemagne',
     },
   ],
-  numéroImmatriculation: {
+  numéroIdentification: {
     siret: '31340109300155',
   },
 };
@@ -292,13 +292,13 @@ describe('Schéma dépôt', () => {
       test("n'accepte pas un numéro SIRET invalide", () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
-          numéroImmatriculation: { siret: 'e1234d56f' },
+          numéroIdentification: { siret: 'e1234d56f' },
         });
 
         assert(result.error);
         assertError(
           result,
-          ['numéroImmatriculation', 'siret'],
+          ['numéroIdentification', 'siret'],
           'Le numéro SIRET doit être composé de 14 chiffres',
         );
       });
@@ -306,13 +306,13 @@ describe('Schéma dépôt', () => {
       test("n'accepte pas un numéro SIREN invalide", () => {
         const result = dépôtSchema.safeParse({
           ...minimumValues,
-          numéroImmatriculation: { siren: '1234567891234' },
+          numéroIdentification: { siren: '1234567891234' },
         });
 
         assert(result.error);
         assertError(
           result,
-          ['numéroImmatriculation', 'siren'],
+          ['numéroIdentification', 'siren'],
           'Le numéro SIREN doit être composé de 9 chiffres',
         );
       });

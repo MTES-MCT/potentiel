@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-import { DocumentProducteur, NuméroImmatriculation } from '../index.js';
+import { DocumentProducteur, NuméroIdentification } from '../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 
 import { ModifierProducteurCommand } from './modifierProducteur.command.js';
@@ -15,7 +15,7 @@ export type ModifierProducteurUseCase = Message<
     identifiantUtilisateurValue: string;
     producteurValue: string;
     dateModificationValue: string;
-    numéroImmatriculationValue?: {
+    numéroIdentificationValue?: {
       siren?: string;
       siret?: string;
     };
@@ -35,7 +35,7 @@ export const registerModifierProducteurUseCase = () => {
     dateModificationValue,
     raisonValue,
     pièceJustificativeValue,
-    numéroImmatriculationValue,
+    numéroIdentificationValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProducteur.pièceJustificative({
@@ -64,8 +64,8 @@ export const registerModifierProducteurUseCase = () => {
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
         raison: raisonValue,
         pièceJustificative,
-        numéroImmatriculation: numéroImmatriculationValue
-          ? NuméroImmatriculation.convertirEnValueType(numéroImmatriculationValue)
+        numéroIdentification: numéroIdentificationValue
+          ? NuméroIdentification.convertirEnValueType(numéroIdentificationValue)
           : undefined,
       },
     });

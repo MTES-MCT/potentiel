@@ -5,7 +5,7 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToProducteurImportéTimelineItemProps = (
   event: Lauréat.Producteur.ProducteurImportéEvent,
 ): TimelineItemProps => {
-  const { importéLe, producteur, numéroImmatriculation } = event.payload;
+  const { importéLe, producteur, numéroIdentification } = event.payload;
   return {
     date: importéLe,
     title: (
@@ -16,8 +16,8 @@ export const mapToProducteurImportéTimelineItemProps = (
             Nom du producteur : <span className="font-semibold">{producteur}</span>
           </div>
           <div className="flex flex-col">
-            <span>Numéro SIRET : {numéroImmatriculation?.siret || 'Non renseigné'}</span>
-            <span>Numéro SIREN : {numéroImmatriculation?.siren || 'Non renseigné'}</span>
+            <span>Numéro SIRET : {numéroIdentification?.siret || 'Non renseigné'}</span>
+            <span>Numéro SIREN : {numéroIdentification?.siren || 'Non renseigné'}</span>
           </div>
         </div>
       </>

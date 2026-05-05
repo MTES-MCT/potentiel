@@ -13,7 +13,7 @@ export const mapToProducteurModifiéTimelineItemsProps = (
     pièceJustificative,
     raison,
     identifiantProjet,
-    numéroImmatriculation,
+    numéroIdentification,
   } = event.payload;
 
   return {
@@ -34,7 +34,7 @@ export const mapToProducteurModifiéTimelineItemsProps = (
           Nouveau producteur : <span className="font-semibold">{producteur}</span>
         </div>
         <div>
-          <span>Numéro SIRET : {numéroImmatriculation?.siret || 'Non renseigné'}</span>
+          <span>Numéro SIRET : {numéroIdentification?.siret || 'Non renseigné'}</span>
         </div>
       </div>
     ),

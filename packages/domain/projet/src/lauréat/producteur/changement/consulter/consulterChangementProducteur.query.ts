@@ -71,11 +71,11 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
       ancien: {
         producteur: result.changement.ancien.producteur,
-        siret: result.changement.ancien.numéroImmatriculation?.siret,
+        siret: result.changement.ancien.numéroIdentification?.siret,
       },
       nouveau: {
         producteur: result.changement.nouveau.producteur,
-        siret: result.changement.nouveau.numéroImmatriculation?.siret,
+        siret: result.changement.nouveau.numéroIdentification?.siret,
       },
       raison: result.changement.raison,
       pièceJustificative: DocumentProducteur.pièceJustificative({

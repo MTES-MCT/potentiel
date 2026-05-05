@@ -24,8 +24,8 @@ export class ProducteurWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     producteurÀLaCandidature: string,
-    numéroImmatriculationÀLaCandidature:
-      | Lauréat.Producteur.NuméroImmatriculation.RawType
+    numéroIdentificationÀLaCandidature:
+      | Lauréat.Producteur.NuméroIdentification.RawType
       | undefined,
   ) {
     const référencielFixture = this.#modifierProducteurFixture.aÉtéCréé
@@ -36,13 +36,13 @@ export class ProducteurWorld {
 
     const numéro = référencielFixture
       ? { siret: référencielFixture.siret }
-      : numéroImmatriculationÀLaCandidature;
+      : numéroIdentificationÀLaCandidature;
 
     const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
       producteur: référencielFixture ? référencielFixture.producteur : producteurÀLaCandidature,
-      numéroImmatriculation: numéro
-        ? Lauréat.Producteur.NuméroImmatriculation.convertirEnValueType(numéro)
+      numéroIdentification: numéro
+        ? Lauréat.Producteur.NuméroIdentification.convertirEnValueType(numéro)
         : undefined,
     };
 

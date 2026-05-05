@@ -38,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
         producteurValue: producteur,
         raisonValue: raison,
         pièceJustificativeValue: piecesJustificatives,
-        numéroImmatriculationValue: siret
+        numéroIdentificationValue: siret
           ? {
               siret,
             }

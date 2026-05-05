@@ -33,7 +33,7 @@ const schema = dépôtSchema
     historiqueAbandon: true,
     raccordements: true,
     coordonnées: true,
-    numéroImmatriculation: true,
+    numéroIdentification: true,
   })
   .extend({
     identifiantProjet: identifiantProjetSchema,
@@ -151,9 +151,9 @@ const mapBodyToUseCaseData = (
         dateQualification: r.dateQualification.formatter(),
         référence: r.référence.formatter(),
       })),
-      numéroImmatriculation: data.siret
+      numéroIdentification: data.siret
         ? { siret: data.siret, siren: data.siret.slice(0, 9) }
-        : previous.dépôt.numéroImmatriculation,
+        : previous.dépôt.numéroIdentification,
     },
 
     détailsValue: undefined,

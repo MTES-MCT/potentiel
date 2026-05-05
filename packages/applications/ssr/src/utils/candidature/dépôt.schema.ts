@@ -185,7 +185,7 @@ export const sirenSchema = optionalStringSchema
     message: `Le numéro SIREN doit être composé de 9 chiffres`,
   });
 
-const numéroImmatriculationSchema = z
+const numéroIdentificationSchema = z
   .object({
     siren: sirenSchema,
     siret: siretSchema,
@@ -235,8 +235,13 @@ export const dépôtSchema = z
     ),
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
+<<<<<<< HEAD
     puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
     numéroImmatriculation: numéroImmatriculationSchema,
+=======
+    puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
+    numéroIdentification: numéroIdentificationSchema,
+>>>>>>> renaming
     raccordements: z
       .array(
         z.object({

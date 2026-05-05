@@ -9,14 +9,14 @@ export type ModifierProducteurPageProps = ModifierProducteurFormProps;
 export const ModifierProducteurPage: FC<ModifierProducteurPageProps> = ({
   identifiantProjet,
   producteur,
-  numéroImmatriculation,
+  numéroIdentification,
 }) => (
   <>
     <Heading1>Changer le producteur</Heading1>
     <ModifierProducteurForm
       identifiantProjet={identifiantProjet}
       producteur={producteur}
-      numéroImmatriculation={numéroImmatriculation}
+      numéroIdentification={numéroIdentification}
     />
   </>
 );

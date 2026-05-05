@@ -53,7 +53,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     pièceJustificative,
     raison,
-    numéroImmatriculation,
+    numéroIdentification,
   }: EnregistrerChangementProducteurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
@@ -70,7 +70,7 @@ export class ProducteurAggregate extends AbstractAggregate<
         enregistréPar: identifiantUtilisateur.formatter(),
         raison,
         pièceJustificative,
-        numéroImmatriculation: numéroImmatriculation?.formatter(),
+        numéroIdentification: numéroIdentification?.formatter(),
       },
     };
 
@@ -107,7 +107,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     raison,
     pièceJustificative,
-    numéroImmatriculation,
+    numéroIdentification,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
@@ -124,7 +124,7 @@ export class ProducteurAggregate extends AbstractAggregate<
         modifiéPar: identifiantUtilisateur.formatter(),
         raison,
         pièceJustificative,
-        numéroImmatriculation: numéroImmatriculation?.formatter(),
+        numéroIdentification: numéroIdentification?.formatter(),
       },
     };
 
@@ -135,7 +135,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     producteur,
     dateImport,
     identifiantUtilisateur,
-    numéroImmatriculation,
+    numéroIdentification,
   }: ImporterOptions) {
     if (this.producteur) {
       throw new ProducteurDéjàTransmisError();
@@ -148,7 +148,7 @@ export class ProducteurAggregate extends AbstractAggregate<
         producteur,
         importéLe: dateImport.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
-        numéroImmatriculation: numéroImmatriculation?.formatter(),
+        numéroIdentification: numéroIdentification?.formatter(),
       },
     };
 

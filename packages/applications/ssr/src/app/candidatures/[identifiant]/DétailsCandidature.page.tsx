@@ -219,9 +219,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
             </FieldGroup>
             <FieldGroup name="Contact">
               <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>
-              <Field name="Numéro d'immatriculation">
-                <span>Numéro SIRET : {dépôt.numéroImmatriculation?.siret || 'Non renseigné'}</span>
-                <span>Numéro SIREN : {dépôt.numéroImmatriculation?.siren || 'Non renseigné'}</span>
+              <Field name="Numéro d'identification">
+                <span>Numéro SIRET : {dépôt.numéroIdentification?.siret || 'Non renseigné'}</span>
+                <span>Numéro SIREN : {dépôt.numéroIdentification?.siren || 'Non renseigné'}</span>
               </Field>
               <Field name="Nom du représentant légal">{dépôt.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">

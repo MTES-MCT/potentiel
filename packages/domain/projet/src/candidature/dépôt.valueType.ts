@@ -54,7 +54,7 @@ export type RawType = {
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.RawType> | undefined;
-  numéroImmatriculation: Producteur.NuméroImmatriculation.RawType | undefined;
+  numéroIdentification: Producteur.NuméroIdentification.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -91,7 +91,7 @@ export type ValueType = ReadonlyValueType<{
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.ValueType> | undefined;
-  numéroImmatriculation: Producteur.NuméroImmatriculation.ValueType | undefined;
+  numéroIdentification: Producteur.NuméroIdentification.ValueType | undefined;
 
   formatter(): RawType;
 }>;
@@ -144,8 +144,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
-  numéroImmatriculation: plain.numéroImmatriculation
-    ? Producteur.NuméroImmatriculation.bind(plain.numéroImmatriculation)
+  numéroIdentification: plain.numéroIdentification
+    ? Producteur.NuméroIdentification.bind(plain.numéroIdentification)
     : undefined,
 
   estÉgaleÀ(valueType) {
@@ -185,7 +185,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         this.natureDeLExploitation?.typeNatureDeLExploitation,
       ) &&
       areEqualArrays(valueType.raccordements, this.raccordements) &&
-      areEqual(valueType.numéroImmatriculation, this.numéroImmatriculation)
+      areEqual(valueType.numéroIdentification, this.numéroIdentification)
     );
   },
   formatter() {
@@ -238,8 +238,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       raccordements: this.raccordements?.map((r) => r.formatter()),
-      numéroImmatriculation: this.numéroImmatriculation
-        ? this.numéroImmatriculation.formatter()
+      numéroIdentification: this.numéroIdentification
+        ? this.numéroIdentification.formatter()
         : undefined,
     };
   },
@@ -322,9 +322,9 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         dateQualification: DateTime.convertirEnValueType(raccordement.dateQualification),
       }),
     ),
-    numéroImmatriculation: bindOptional(
-      Producteur.NuméroImmatriculation.convertirEnValueType,
-      raw.numéroImmatriculation,
+    numéroIdentification: bindOptional(
+      Producteur.NuméroIdentification.convertirEnValueType,
+      raw.numéroIdentification,
     ),
   });
 

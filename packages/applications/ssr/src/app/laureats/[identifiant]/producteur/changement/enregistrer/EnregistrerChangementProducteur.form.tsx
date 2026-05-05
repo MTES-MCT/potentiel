@@ -20,7 +20,7 @@ export type EnregistrerChangementProducteurFormProps = EnregistrerChangementProd
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,
   producteur,
-  numéroImmatriculation,
+  numéroIdentification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementProducteurFormKeys>
@@ -63,7 +63,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           label="Numéro SIRET"
           nativeInputProps={{
             name: 'siret',
-            defaultValue: numéroImmatriculation?.siret,
+            defaultValue: numéroIdentification?.siret,
             required: false,
             'aria-required': false,
           }}

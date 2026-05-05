@@ -52,9 +52,9 @@ export default async function Page(props: IdentifiantParameter) {
         <EnregistrerChangementProducteurPage
           identifiantProjet={mapToPlainObject(producteurActuel.identifiantProjet)}
           producteur={producteurActuel.producteur}
-          numéroImmatriculation={
-            producteurActuel.numéroImmatriculation
-              ? mapToPlainObject(producteurActuel.numéroImmatriculation)
+          numéroIdentification={
+            producteurActuel.numéroIdentification
+              ? mapToPlainObject(producteurActuel.numéroIdentification)
               : undefined
           }
         />

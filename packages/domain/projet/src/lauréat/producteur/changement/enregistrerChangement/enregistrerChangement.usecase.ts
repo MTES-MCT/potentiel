@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-import { DocumentProducteur, NuméroImmatriculation } from '../../index.js';
+import { DocumentProducteur, NuméroIdentification } from '../../index.js';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command.js';
 
@@ -15,7 +15,7 @@ export type EnregistrerChangementProducteurUseCase = Message<
     identifiantUtilisateurValue: string;
     producteurValue: string;
     dateChangementValue: string;
-    numéroImmatriculationValue?: { siren?: string; siret?: string };
+    numéroIdentificationValue?: { siren?: string; siret?: string };
     raisonValue?: string;
     pièceJustificativeValue: {
       content: ReadableStream;
@@ -32,13 +32,13 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     dateChangementValue,
     pièceJustificativeValue,
     raisonValue,
-    numéroImmatriculationValue,
+    numéroIdentificationValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
-    const numéroImmatriculation = numéroImmatriculationValue
-      ? NuméroImmatriculation.convertirEnValueType(numéroImmatriculationValue)
+    const numéroIdentification = numéroIdentificationValue
+      ? NuméroIdentification.convertirEnValueType(numéroIdentificationValue)
       : undefined;
 
     const pièceJustificative = DocumentProducteur.pièceJustificative({
@@ -56,7 +56,7 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
         dateChangement,
         pièceJustificative,
         raison: raisonValue,
-        numéroImmatriculation,
+        numéroIdentification,
       },
     });
 

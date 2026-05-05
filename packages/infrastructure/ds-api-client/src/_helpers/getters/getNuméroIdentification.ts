@@ -2,23 +2,23 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DossierAccessor } from '../../graphql/index.js';
 
-type GetNuméroImmatriculationProps<TDossier extends Record<string, string>> = {
+type GetNuméroIdentificationProps<TDossier extends Record<string, string>> = {
   accessor: DossierAccessor<TDossier>;
   nomChampsNuméroSIREN: keyof TDossier;
   nomChampsNuméroSIRET: keyof TDossier;
 };
 
-export const getNuméroImmatriculation = <TDossier extends Record<string, string>>({
+export const getNuméroIdentification = <TDossier extends Record<string, string>>({
   accessor,
   nomChampsNuméroSIREN,
   nomChampsNuméroSIRET,
-}: GetNuméroImmatriculationProps<TDossier>) => {
+}: GetNuméroIdentificationProps<TDossier>) => {
   const siren = accessor.getStringValue(nomChampsNuméroSIREN);
   const siret = accessor.getSIRETValue(nomChampsNuméroSIRET);
 
   if (!siren && !siret) return undefined;
 
-  return Lauréat.Producteur.NuméroImmatriculation.convertirEnValueType({
+  return Lauréat.Producteur.NuméroIdentification.convertirEnValueType({
     siret,
     siren,
   });

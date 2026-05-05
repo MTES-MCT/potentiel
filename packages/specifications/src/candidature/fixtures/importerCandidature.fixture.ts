@@ -203,7 +203,7 @@ const créerDépôt = (
     ],
     installateur: undefined,
     ...dépôt,
-    numéroImmatriculation: {
+    numéroIdentification: {
       siren: faker.string.numeric({ length: 9 }),
     },
     localité,

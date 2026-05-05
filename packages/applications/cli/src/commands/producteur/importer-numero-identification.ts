@@ -30,14 +30,14 @@ export class ImporterSirenEtSiretCommand extends Command {
 
         if (!isSiret && !isSiren) {
           console.warn(
-            `Le numéro d'immatriculation ${donnée.value} pour le projet ${donnée.identifiantProjet} n'est pas valide et ne sera pas importé.`,
+            `Le numéro d'identification ${donnée.value} pour le projet ${donnée.identifiantProjet} n'est pas valide et ne sera pas importé.`,
           );
           return null;
         }
 
         return {
           identifiantProjet: donnée.identifiantProjet,
-          numéroImmatriculation: {
+          numéroIdentification: {
             siret: isSiret ? numéroAValider : undefined,
             siren: isSiren ? numéroAValider : undefined,
           },

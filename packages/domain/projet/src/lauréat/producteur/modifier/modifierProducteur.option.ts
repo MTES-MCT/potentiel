@@ -2,7 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DocumentProjet } from '#document-projet';
 
-import { NuméroImmatriculation } from '../index.js';
+import { NuméroIdentification } from '../index.js';
 
 export type ModifierOptions = {
   identifiantUtilisateur: Email.ValueType;
@@ -10,5 +10,5 @@ export type ModifierOptions = {
   dateModification: DateTime.ValueType;
   raison: string;
   pièceJustificative?: DocumentProjet.ValueType;
-  numéroImmatriculation?: NuméroImmatriculation.ValueType;
+  numéroIdentification?: NuméroIdentification.ValueType;
 };

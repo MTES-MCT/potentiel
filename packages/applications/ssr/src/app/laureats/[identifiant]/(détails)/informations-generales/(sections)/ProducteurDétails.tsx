@@ -16,15 +16,15 @@ export const ProducteurDétails = ({ value, action }: ProducteurDétailsProps) =
         <Heading6>Nom du producteur</Heading6>
         <span>{value.producteur || 'Champ non renseigné'}</span>
       </div>
-      {value.numéroImmatriculation !== undefined && (
+      {value.numéroIdentification !== undefined && (
         <div>
           <Heading6>Numéro d'immmatriculation</Heading6>
           <div className="flex flex-col">
-            {value.numéroImmatriculation.siret && (
-              <span>Numéro SIRET : {value.numéroImmatriculation.siret}</span>
+            {value.numéroIdentification.siret && (
+              <span>Numéro SIRET : {value.numéroIdentification.siret}</span>
             )}
-            {value.numéroImmatriculation.siren && (
-              <span>Numéro SIREN : {value.numéroImmatriculation.siren}</span>
+            {value.numéroIdentification.siren && (
+              <span>Numéro SIREN : {value.numéroIdentification.siren}</span>
             )}
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { NuméroImmatriculation } from '../index.js';
+import { NuméroIdentification } from '../index.js';
 
 export type ChangementProducteurEntity = Entity<
   'changement-producteur',
@@ -12,11 +12,11 @@ export type ChangementProducteurEntity = Entity<
       enregistréLe: DateTime.RawType;
       ancien: {
         producteur: string;
-        numéroImmatriculation?: NuméroImmatriculation.RawType;
+        numéroIdentification?: NuméroIdentification.RawType;
       };
       nouveau: {
         producteur: string;
-        numéroImmatriculation?: NuméroImmatriculation.RawType;
+        numéroIdentification?: NuméroIdentification.RawType;
       };
       raison?: string;
       pièceJustificative: {
