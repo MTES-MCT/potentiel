@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../fixture.js';
+import { GestionnaireRéseauWorld } from '../gestionnaireRéseau.world.js';
 
 interface AjouterGestionnaireRéseau {
   readonly codeEIC: string;
@@ -17,6 +18,17 @@ export class AjouterGestionnaireRéseauFixture
   extends AbstractFixture<AjouterGestionnaireRéseau>
   implements AjouterGestionnaireRéseau
 {
+  #gestionnaireRéseauWorld: GestionnaireRéseauWorld;
+
+  constructor(gestionnaireRéseauWorld: GestionnaireRéseauWorld) {
+    super();
+    this.#gestionnaireRéseauWorld = gestionnaireRéseauWorld;
+  }
+
+  get gestionnaireRéseauWorld(): GestionnaireRéseauWorld {
+    return this.#gestionnaireRéseauWorld;
+  }
+
   #codeEIC!: string;
 
   get codeEIC(): string {
@@ -72,6 +84,17 @@ export class AjouterGestionnaireRéseauFixture
     this.#légende = fixture.légende;
 
     this.aÉtéCréé = true;
+
+    this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(fixture.raisonSociale, {
+      codeEIC: fixture.codeEIC,
+      raisonSociale: fixture.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        expressionReguliere: fixture.expressionReguliere,
+        format: fixture.format,
+        légende: fixture.légende,
+      },
+      contactEmail: fixture.contactEmail,
+    });
 
     return fixture;
   }

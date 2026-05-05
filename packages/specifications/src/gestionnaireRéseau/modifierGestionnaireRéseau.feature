@@ -3,7 +3,7 @@
 Fonctionnalité: Modifier un gestionnaire de réseau
 
     Contexte:
-        Etant donné un gestionnaire de réseau
+        Etant donné le gestionnaire de réseau "Enedix"
 
     Scénario: Modifier un gestionnaire de réseau
         Quand le DGEC validateur modifie le gestionnaire de réseau

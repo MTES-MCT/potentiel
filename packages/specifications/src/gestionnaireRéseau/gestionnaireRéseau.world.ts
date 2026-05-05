@@ -49,7 +49,7 @@ export class GestionnaireRéseauWorld {
   }
 
   constructor() {
-    this.#ajouterGestionnaireRéseauFixture = new AjouterGestionnaireRéseauFixture();
+    this.#ajouterGestionnaireRéseauFixture = new AjouterGestionnaireRéseauFixture(this);
     this.#modifierGestionnaireRéseauFixture = new ModifierGestionnaireRéseauFixture();
   }
 

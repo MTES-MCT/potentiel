@@ -8,7 +8,7 @@ import { PotentielWorld } from '../../potentiel.world.js';
 import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
 
 EtantDonné(
-  'un gestionnaire de réseau avec :',
+  'le gestionnaire de réseau avec :',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const partialFixture = this.gestionnaireRéseauWorld.mapExempleToFixtureValues(exemple);
@@ -29,49 +29,8 @@ EtantDonné(
         contactEmailValue: contactEmail,
       },
     });
-
-    this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        expressionReguliere,
-        format,
-        légende,
-      },
-      contactEmail,
-    });
   },
 );
-
-EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld) {
-  const { codeEIC, raisonSociale, expressionReguliere, format, légende, contactEmail } =
-    this.gestionnaireRéseauWorld.ajouterGestionnaireRéseauFixture.créer();
-
-  await mediator.send<GestionnaireRéseau.AjouterGestionnaireRéseauUseCase>({
-    type: 'Réseau.Gestionnaire.UseCase.AjouterGestionnaireRéseau',
-    data: {
-      identifiantGestionnaireRéseauValue: codeEIC,
-      raisonSocialeValue: raisonSociale,
-      aideSaisieRéférenceDossierRaccordementValue: {
-        expressionReguliereValue: expressionReguliere,
-        formatValue: format,
-        légendeValue: légende,
-      },
-      contactEmailValue: contactEmail,
-    },
-  });
-
-  this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
-    codeEIC,
-    raisonSociale,
-    aideSaisieRéférenceDossierRaccordement: {
-      expressionReguliere,
-      format,
-      légende,
-    },
-    contactEmail,
-  });
-});
 
 EtantDonné(
   'le gestionnaire de réseau {string}',
@@ -98,17 +57,6 @@ EtantDonné(
     });
 
     this.utilisateurWorld.grdFixture.créer({ nom: raisonSociale });
-
-    this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
-      codeEIC,
-      raisonSociale,
-      contactEmail,
-      aideSaisieRéférenceDossierRaccordement: {
-        expressionReguliere,
-        format,
-        légende,
-      },
-    });
   },
 );
 

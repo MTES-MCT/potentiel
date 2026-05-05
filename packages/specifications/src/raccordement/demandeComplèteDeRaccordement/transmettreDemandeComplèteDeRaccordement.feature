@@ -44,7 +44,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le porteur devrait être informé que "Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet"
 
     Scénario: Impossible de transmettre une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
-        Etant donné un gestionnaire de réseau avec :
+        Etant donné le gestionnaire de réseau avec :
             | Code EIC             | 17X0000009352859 |
             | Raison sociale       | RTE              |
             | Expression régulière | ^[a-zA-Z]{3}$    |
