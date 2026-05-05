@@ -25,6 +25,10 @@ export type LauréatEntity = Entity<
       région: string;
       département: string;
     };
+    coordonnées?: {
+      latitude: number;
+      longitude: number;
+    };
     cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.RawType;
   }
 >;

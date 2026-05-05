@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Localité } from '../../candidature/index.js';
+import { Coordonnées, Localité } from '../../candidature/index.js';
 import { IdentifiantProjet } from '../../index.js';
 import { DocumentSiteDeProduction } from '../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../document-projet/index.js';
@@ -16,6 +16,10 @@ export type ModifierSiteDeProductionUseCase = Message<
     modifiéLeValue: string;
     modifiéParValue: string;
     localitéValue: Localité.RawType;
+    coordonnéesValue?: {
+      latitude: number;
+      longitude: number;
+    };
     raisonValue: string;
     pièceJustificativeValue?: {
       content: ReadableStream;
@@ -30,6 +34,7 @@ export const registerModifierSiteDeProductionUseCase = () => {
     modifiéLeValue,
     modifiéParValue,
     localitéValue,
+    coordonnéesValue,
     raisonValue,
     pièceJustificativeValue,
   }) => {
@@ -57,6 +62,7 @@ export const registerModifierSiteDeProductionUseCase = () => {
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
         localité: Localité.bind(localitéValue),
+        coordonnées: coordonnéesValue ? Coordonnées.bind(coordonnéesValue) : undefined,
         raison: raisonValue,
         pièceJustificative,
       },

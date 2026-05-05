@@ -77,6 +77,13 @@ export const localitéExempleMap: FieldToExempleMapper<Candidature.Localité.Raw
   département: ['département'],
 };
 
+export const coordonnéesExempleMap: FieldToExempleMapper<
+  PlainType<Candidature.Coordonnées.ValueType>
+> = {
+  latitude: ['latitude', mapNumber],
+  longitude: ['longitude', mapNumber],
+};
+
 export const autorisationExempleMap: FieldToExempleMapper<{
   numéro: string;
   date: DateTime.RawType;

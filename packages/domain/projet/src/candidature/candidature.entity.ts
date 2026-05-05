@@ -8,6 +8,7 @@ import { Fournisseur } from '../lauréat/fournisseur/index.js';
 import { DispositifDeStockage } from '../lauréat/installation/index.js';
 
 import {
+  Coordonnées,
   HistoriqueAbandon,
   Localité,
   RaccordementDépôt,
@@ -49,6 +50,7 @@ export type CandidatureEntity = Entity<
     typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
     localité: PlainType<Localité.ValueType>;
+    coordonnées?: Coordonnées.RawType;
     nomCandidat: string;
     nomReprésentantLégal: string;
     emailContact: string;

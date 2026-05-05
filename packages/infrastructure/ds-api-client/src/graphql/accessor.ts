@@ -59,7 +59,7 @@ export const createDossierAccessor = <
         (val?.__typename === 'IntegerNumberChamp' ? val.integerNumber : val?.decimalNumber) ??
         undefined;
 
-      return num ? Number(num) : undefined;
+      return num !== undefined ? Number(num) : undefined;
     },
 
     getDateValue: (nom) => {

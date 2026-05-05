@@ -7,6 +7,7 @@ import { Lauréat } from '../index.js';
 import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
 
 import {
+  Coordonnées,
   HistoriqueAbandon,
   Localité,
   RaccordementDépôt,
@@ -24,6 +25,7 @@ export type RawType = {
   nomReprésentantLégal: string;
   prixReference: number;
   localité: Localité.RawType;
+  coordonnées: Coordonnées.RawType | undefined;
   historiqueAbandon: HistoriqueAbandon.RawType;
   puissance: number;
   puissanceALaPointe: boolean;
@@ -62,6 +64,7 @@ export type ValueType = ReadonlyValueType<{
   nomReprésentantLégal: string;
   prixReference: number;
   localité: Localité.ValueType;
+  coordonnées: Coordonnées.ValueType | undefined;
   historiqueAbandon: HistoriqueAbandon.ValueType;
   puissance: number;
   puissanceALaPointe: boolean;
@@ -107,6 +110,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
 
   emailContact: Email.bind(plain.emailContact),
   localité: Localité.bind(plain.localité),
+  coordonnées: bindOptional(Coordonnées.bind, plain.coordonnées),
   historiqueAbandon: HistoriqueAbandon.bind(plain.historiqueAbandon),
   technologie: TypeTechnologie.bind(plain.technologie),
 
@@ -164,6 +168,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.autorisation?.date, this.autorisation?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
+      areEqual(valueType.coordonnées, this.coordonnées) &&
       areEqual(valueType.historiqueAbandon, this.historiqueAbandon) &&
       areEqual(valueType.technologie, this.technologie) &&
       areEqual(valueType.actionnariat, this.actionnariat) &&
@@ -194,6 +199,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       obligationDeSolarisation: this.obligationDeSolarisation,
       emailContact: this.emailContact.formatter(),
       localité: this.localité.formatter(),
+      coordonnées: this.coordonnées?.formatterDecimal(),
       historiqueAbandon: this.historiqueAbandon.formatter(),
       technologie: this.technologie.formatter(),
       actionnariat: this.actionnariat?.formatter(),
@@ -252,6 +258,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     obligationDeSolarisation: raw.obligationDeSolarisation,
     emailContact: Email.convertirEnValueType(raw.emailContact),
     localité: Localité.bind(raw.localité),
+    coordonnées: bindOptional(Coordonnées.bind, raw.coordonnées),
     historiqueAbandon: HistoriqueAbandon.convertirEnValueType(raw.historiqueAbandon),
     technologie: TypeTechnologie.convertirEnValueType(raw.technologie),
     actionnariat: bindOptional(TypeActionnariat.convertirEnValueType, raw.actionnariat),

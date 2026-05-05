@@ -31,7 +31,7 @@ export const lauréatNotifiéV1Projector = async ({
 };
 
 export const lauréatNotifiéProjector = async ({
-  payload: { identifiantProjet, notifiéLe, notifiéPar, nomProjet, localité },
+  payload: { identifiantProjet, notifiéLe, notifiéPar, nomProjet, localité, coordonnées },
 }: Lauréat.LauréatNotifiéEvent) => {
   const { appelOffre, période, famille } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -44,6 +44,7 @@ export const lauréatNotifiéProjector = async ({
     notifiéPar,
     nomProjet,
     localité,
+    coordonnées,
     cahierDesCharges: 'initial',
     statut: Lauréat.StatutLauréat.actif.statut,
   });

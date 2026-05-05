@@ -264,6 +264,7 @@ const mapBodyToCandidatureUsecaseData = (
         dateQualification: r.dateQualification.formatter(),
         référence: r.référence.formatter(),
       })),
+      coordonnées: previous.coordonnées,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

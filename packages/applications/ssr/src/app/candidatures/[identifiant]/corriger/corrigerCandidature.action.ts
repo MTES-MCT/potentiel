@@ -17,6 +17,7 @@ import {
   doitRegenererAttestationSchema,
 } from '@/utils/candidature';
 import {
+  coordonnéesSchema,
   dateDAutorisationSchema,
   numéroDAutorisationSchema,
 } from '@/utils/candidature/dépôt.schema';
@@ -30,6 +31,7 @@ const schema = dépôtSchema
     typologieInstallation: true,
     historiqueAbandon: true,
     raccordements: true,
+    coordonnées: true,
   })
   .extend({
     identifiantProjet: identifiantProjetSchema,
@@ -39,6 +41,10 @@ const schema = dépôtSchema
     noteTotale: instructionSchema.shape.noteTotale,
     dateDAutorisation: dateDAutorisationSchema,
     numéroDAutorisation: numéroDAutorisationSchema,
+    coordonnées: zod
+      .object({ latitude: zod.coerce.number(), longitude: zod.coerce.number() })
+      .pipe(coordonnéesSchema)
+      .optional(),
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -118,6 +124,7 @@ const mapBodyToUseCaseData = (
           : undefined,
       installateur: data.installateur,
       puissanceProjetInitial: data.puissanceProjetInitial,
+      coordonnées: data.coordonnées,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,
