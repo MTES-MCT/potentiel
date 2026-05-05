@@ -1,5 +1,7 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+import { applyLuhnCheck } from './utils/applyLuhnCheck.js';
+
 export type RawType = { siret?: string; siren?: string };
 
 export type ValueType = ReadonlyValueType<{
@@ -26,11 +28,11 @@ const regexSIRET = /^\d{14}$/;
 const regexSIREN = /^\d{9}$/;
 
 export const estValideSiret = (value: string): boolean => {
-  return regexSIRET.test(value.replace(/ /g, ''));
+  return regexSIRET.test(value) && applyLuhnCheck(value);
 };
 
 export const estValideSiren = (value: string): boolean => {
-  return regexSIREN.test(value.replace(/ /g, ''));
+  return regexSIREN.test(value) && applyLuhnCheck(value);
 };
 
 type ConvertirEnValueTypeProps = {
@@ -48,11 +50,11 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
     throw new NuméroIdentificationInvalideError();
   }
 
-  if (value.siret && !estValideSiret(value.siret)) {
+  if (value.siret && !estValideSiret(sanitize(value.siret))) {
     throw new SiretInvalideError(value.siret);
   }
 
-  if (value.siren && !estValideSiren(value.siren)) {
+  if (value.siren && !estValideSiren(sanitize(value.siren))) {
     throw new SirenInvalideError(value.siren);
   }
 }
