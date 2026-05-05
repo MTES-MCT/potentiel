@@ -23,7 +23,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liste des changements de représentant légal - Potentiel',
+  title: 'Liste des changements de représentant légal',
   description: 'Liste des changements de représentant légaux de projet',
 };
 

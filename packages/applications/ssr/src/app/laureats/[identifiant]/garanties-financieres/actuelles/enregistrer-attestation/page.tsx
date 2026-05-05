@@ -16,8 +16,7 @@ import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/réc
 import { EnregistrerAttestationGarantiesFinancièresPage } from './EnregistrerAttestationGarantiesFinancières.page';
 
 export const metadata: Metadata = {
-  title: `Enregistrer l'attestation des garanties financières actuelles - Potentiel`,
-  description: `Formulaire pour Enregistrer l'attestation des garanties financières actuelles`,
+  title: `Enregistrer l'attestation des garanties financières actuelles`,
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {

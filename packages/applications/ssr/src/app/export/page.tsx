@@ -21,7 +21,7 @@ import {
 import { ExportPage, ExportPageProps } from './export.page';
 
 export const metadata: Metadata = {
-  title: 'Export de données - Potentiel',
+  title: 'Export de données',
   description: `Page d'export des données au format CSV`,
 };
 

@@ -14,10 +14,7 @@ import { mapToFournisseurTimelineItemProps } from '../../(historique)/mapToFourn
 
 import { DétailsChangementFournisseurPage } from './DétailsChangementFournisseur.page';
 
-export const metadata: Metadata = {
-  title: 'Détail du changement de fournisseur du projet - Potentiel',
-  description: 'Détail du changement de fournisseur du projet',
-};
+export const metadata: Metadata = { title: 'Détail du changement de fournisseur' };
 
 type PageProps = {
   params: {

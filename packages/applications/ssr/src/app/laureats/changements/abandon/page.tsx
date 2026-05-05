@@ -20,7 +20,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Abandons - Potentiel',
+  title: 'Abandons',
   description: 'Liste des abandons de projet',
 };
 

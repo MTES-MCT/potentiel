@@ -25,7 +25,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Candidatures - Potentiel',
+  title: 'Candidatures',
   description: 'Liste des candidatures',
 };
 

@@ -33,7 +33,7 @@ const searchParamsSchema = z.object({
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 export const metadata: Metadata = {
-  title: 'Garanties financières en attente de validation - Potentiel',
+  title: 'Garanties financières en attente de validation',
   description: 'Liste des garanties financières en attente de validation',
 };
 

@@ -16,10 +16,7 @@ import {
 
 import { DétailsNomProjetPage } from './DétailsChangementNomProjet.page';
 
-export const metadata: Metadata = {
-  title: 'Détail du changement de nom du projet - Potentiel',
-  description: 'Détail du changement de nom du projet',
-};
+export const metadata: Metadata = { title: 'Détail du changement de nom' };
 
 type PageProps = {
   params: {

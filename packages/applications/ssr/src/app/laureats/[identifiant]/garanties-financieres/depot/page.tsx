@@ -16,10 +16,7 @@ import {
   DétailsDépôtGarantiesFinancièresPage,
 } from './DétailsDépôtGarantiesFinancièresPage';
 
-export const metadata: Metadata = {
-  title: 'Détail du dépôt des garanties financières - Potentiel',
-  description: 'Page de détails des garanties financières',
-};
+export const metadata: Metadata = { title: 'Détail du dépôt des garanties financières' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

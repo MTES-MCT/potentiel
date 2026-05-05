@@ -22,7 +22,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liste des changements de dispositif de stockage - Potentiel',
+  title: 'Liste des changements de dispositif de stockage',
   description: 'Liste des changements de dispositif de stockage',
 };
 

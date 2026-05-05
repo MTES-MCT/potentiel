@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { match, P } from 'ts-pattern';
 
@@ -13,7 +13,6 @@ import {
   DétailsAbandonPageProps,
 } from '@/app/laureats/[identifiant]/abandon/[date]/DétailsAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -21,16 +20,9 @@ import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimel
 
 type PageProps = { params: { identifiant: string; date: string } };
 
-export async function generateMetadata(
-  _: IdentifiantParameter,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const { other } = await parent;
-  return {
-    title: `Détail abandon du projet ${other?.nomProjet} - Potentiel`,
-    description: "Détail de la demande d'abandon d'un projet",
-  };
-}
+export const metadata: Metadata = {
+  title: 'Abandon',
+};
 
 export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>

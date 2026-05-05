@@ -22,7 +22,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liste des demandes de délai - Potentiel',
+  title: 'Liste des demandes de délai',
   description: 'Liste des demandes de délai',
 };
 

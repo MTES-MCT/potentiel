@@ -12,10 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierAttestationConformitéPage } from './ModifierAttestationConformité.page';
 
-export const metadata: Metadata = {
-  title: `Transmettre l'attestation de conformité - Potentiel`,
-  description: `Formulaire de transmission de l'attestation de conformité du projet et de la preuve de sa transmission au Cocontractant`,
-};
+export const metadata: Metadata = { title: `Transmettre l'attestation de conformité` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

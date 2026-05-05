@@ -20,10 +20,7 @@ import {
   DétailsChangementReprésentantLégalPage,
 } from './DétailsChangementReprésentantLégal.page';
 
-export const metadata: Metadata = {
-  title: 'Détail du représentant légal du projet - Potentiel',
-  description: "Détail du représentant légal d'un projet",
-};
+export const metadata: Metadata = { title: 'Détail du représentant légal' };
 
 type PageProps = {
   params: {

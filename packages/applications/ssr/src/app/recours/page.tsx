@@ -20,7 +20,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Recours - Potentiel',
+  title: 'Recours',
   description: 'Liste des recours de projet',
 };
 

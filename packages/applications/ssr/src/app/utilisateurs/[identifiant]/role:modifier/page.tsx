@@ -22,7 +22,7 @@ import { getZoneLabel } from '../../_helpers/getZoneLabel';
 import { ModifierRôleUtilisateurPage } from './ModifierRôleUtilisateur.page';
 
 export const metadata: Metadata = {
-  title: 'Modifier le rôle - Potentiel',
+  title: 'Modifier le rôle',
   description: "Modifier le rôle d'un utilisateur",
 };
 

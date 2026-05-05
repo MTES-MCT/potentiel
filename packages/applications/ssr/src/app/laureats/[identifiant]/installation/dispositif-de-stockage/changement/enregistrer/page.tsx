@@ -13,10 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementDispositifDeStockagePage } from './EnregistrerChangementDispositifDeStockage.page';
 
-export const metadata: Metadata = {
-  title: 'Changer le dispositif de stockage du projet - Potentiel',
-  description: 'Formulaire de changement du dispositif de stockage du projet',
-};
+export const metadata: Metadata = { title: 'Changer le dispositif de stockage' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

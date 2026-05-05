@@ -1,4 +1,3 @@
-import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -15,23 +14,6 @@ import { getCandidature } from '@/app/_helpers';
 import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 
 type PageProps = IdentifiantParameter;
-
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const identifiantProjet = decodeParameter(params.identifiant);
-    const candidature = await getCandidature(identifiantProjet);
-
-    return {
-      title: `Candidature ${candidature.dépôt.nomProjet} - Potentiel`,
-      description: 'Détails de la candidature',
-    };
-  } catch {
-    return {};
-  }
-}
 
 export default async function Page({ params }: PageProps) {
   return PageWithErrorHandling(async () =>

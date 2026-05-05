@@ -15,10 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { TransmettreDemandeComplèteRaccordementPage } from './TransmettreDemandeComplèteRaccordement.page';
 
-export const metadata: Metadata = {
-  title: 'Ajouter un dossier de raccordement - Potentiel',
-  description: 'Formulaire de transmission de dossier de raccordement',
-};
+export const metadata: Metadata = { title: 'Ajouter un dossier de raccordement' };
 
 type PageProps = IdentifiantParameter;
 

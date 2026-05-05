@@ -16,10 +16,7 @@ import { mapToActionnaireTimelineItemProps } from '../../(historique)/mapToActio
 
 import { ChangementActionnaireActions, DétailsActionnairePage } from './DétailsActionnaire.page';
 
-export const metadata: Metadata = {
-  title: "Détail de l'actionnariat du projet - Potentiel",
-  description: "Détail de l'actionnariat du projet",
-};
+export const metadata: Metadata = { title: 'Détail de(s) actionnaire(s)' };
 
 type PageProps = {
   params: {

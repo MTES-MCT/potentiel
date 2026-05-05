@@ -16,10 +16,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderChangementActionnairePage } from './DemanderChangementActionnaire.page';
 
-export const metadata: Metadata = {
-  title: "Demander un changement d'actionnaire(s) d'un projet - Potentiel",
-  description: "Formulaire de demande de changement d'actionnaire(s) d'un projet",
-};
+export const metadata: Metadata = { title: "Demander un changement d'actionnaire(s)" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

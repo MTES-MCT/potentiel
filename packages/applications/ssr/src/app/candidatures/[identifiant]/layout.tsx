@@ -27,7 +27,10 @@ export async function generateMetadata(
     const candidature = await getCandidature(identifiantProjet);
 
     return {
-      title: `${candidature.dépôt.nomProjet} - Potentiel`,
+      title: {
+        template: `%s - ${candidature.dépôt.nomProjet} | Potentiel`,
+        default: candidature.dépôt.nomProjet,
+      },
       description: 'Détail de la candidature',
       other: {
         nomProjet: candidature.dépôt.nomProjet,

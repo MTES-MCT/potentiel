@@ -22,8 +22,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Liste des changements de nature de l'exploitation - Potentiel",
-  description: "Liste des changements de nature de l'exploitation ",
+  title: "Liste des changements de nature de l'exploitation",
 };
 
 const paramsSchema = z.object({

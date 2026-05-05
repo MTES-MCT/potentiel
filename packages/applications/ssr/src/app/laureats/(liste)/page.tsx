@@ -26,7 +26,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Projets lauréats - Potentiel',
+  title: 'Projets lauréats',
   description: 'Liste des projets lauréats',
 };
 

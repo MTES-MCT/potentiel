@@ -11,10 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getFournisseurInfos } from '../../_helpers/getLauréat';
 import { MettreÀJourFournisseurPage } from '../changement/(mettre-à-jour)/MettreÀJourFournisseur.page';
 
-export const metadata: Metadata = {
-  title: 'Changer le fournisseur du projet - Potentiel',
-  description: 'Formulaire de modification du fournisseur du projet',
-};
+export const metadata: Metadata = { title: 'Modifier le fournisseur' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

@@ -6,7 +6,7 @@ import { StatistiquesPubliquesPage } from '@/app/statistiques-publiques/Statisti
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export const metadata: Metadata = {
-  title: 'Statistiques - Potentiel',
+  title: 'Statistiques',
 };
 
 const schema = z.object({

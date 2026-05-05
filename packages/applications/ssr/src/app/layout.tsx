@@ -14,7 +14,10 @@ import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
 import Providers from './Providers';
 
 export const metadata: Metadata = {
-  title: 'Potentiel',
+  title: {
+    template: '%s | Potentiel',
+    default: 'Potentiel',
+  },
   description: "Facilite le parcours des producteurs d'énergies renouvelables électriques",
 };
 

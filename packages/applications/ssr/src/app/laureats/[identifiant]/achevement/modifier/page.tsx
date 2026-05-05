@@ -14,10 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierAchèvementPage, ModifierAchèvementPageProps } from './ModifierAchèvement.page';
 
-export const metadata: Metadata = {
-  title: `Modifier l'attestation de conformité - Potentiel`,
-  description: `Formulaire de modification de l'attestation de conformité du projet et de la preuve de sa transmission au Cocontractant`,
-};
+export const metadata: Metadata = { title: `Modifier l'attestation de conformité` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

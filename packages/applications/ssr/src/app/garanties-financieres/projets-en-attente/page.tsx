@@ -39,7 +39,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Projets en attente de garanties financières - Potentiel',
+  title: 'Projets en attente de garanties financières',
   description: 'Liste des projets pour lesquels de nouvelles garanties financières sont attendues',
 };
 

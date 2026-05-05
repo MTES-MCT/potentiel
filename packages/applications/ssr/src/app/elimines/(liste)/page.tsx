@@ -24,7 +24,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Projets éliminés - Potentiel',
+  title: 'Projets éliminés',
   description: 'Liste des projets éliminés',
 };
 

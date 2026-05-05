@@ -23,7 +23,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liste des demandes de changement de puissance - Potentiel',
+  title: 'Liste des demandes de changement de puissance',
   description: 'Liste des demandes de changement de puissance',
 };
 

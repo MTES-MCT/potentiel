@@ -12,10 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerDemandeDélaiPage } from './CorrigerDemandeDélai.page';
 
-export const metadata: Metadata = {
-  title: 'Corriger la demande de délai du projet - Potentiel',
-  description: "Correction de la demande de délai d'un projet",
-};
+export const metadata: Metadata = { title: 'Corriger la demande de délai' };
 
 type PageProps = {
   params: {

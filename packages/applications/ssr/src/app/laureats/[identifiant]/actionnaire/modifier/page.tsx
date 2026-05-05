@@ -16,10 +16,7 @@ import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page'
 
 import { ModifierActionnairePage } from './ModifierActionnaire.page';
 
-export const metadata: Metadata = {
-  title: "Changement d'actionnaire(s) du projet - Potentiel",
-  description: "Formulaire de changement d'actionnaire(s) d'un projet",
-};
+export const metadata: Metadata = { title: "Changement d'actionnaire(s)" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

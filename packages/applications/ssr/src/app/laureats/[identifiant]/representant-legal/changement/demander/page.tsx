@@ -15,8 +15,7 @@ import { getReprésentantLégalInfos } from '../../../_helpers';
 import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
-  title: 'Demander le changement de représentant légal du projet - Potentiel',
-  description: "Formulaire de demande de changement de représentant légal d'un projet",
+  title: 'Demander le changement de représentant légal',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {

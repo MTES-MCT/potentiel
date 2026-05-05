@@ -22,7 +22,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Liste des changements de producteur - Potentiel',
+  title: 'Liste des changements de producteur',
   description: 'Liste des changements de producteur',
 };
 

@@ -29,10 +29,7 @@ import {
 
 type PageProps = IdentifiantParameter;
 
-export const metadata: Metadata = {
-  title: 'Raccordement du projet - Potentiel',
-  description: 'Raccordement du projet',
-};
+export const metadata: Metadata = { title: 'Raccordement du projet' };
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>

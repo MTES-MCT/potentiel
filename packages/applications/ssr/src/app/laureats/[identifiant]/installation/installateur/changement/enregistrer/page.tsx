@@ -13,10 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementInstallateurPage } from './EnregistrerChangementInstallateur.page';
 
-export const metadata: Metadata = {
-  title: "Changer l'installateur du projet - Potentiel",
-  description: "Formulaire de changement d'installateur du projet",
-};
+export const metadata: Metadata = { title: "Changer l'installateur du projet" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

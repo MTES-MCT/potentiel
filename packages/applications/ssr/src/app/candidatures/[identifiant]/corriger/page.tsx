@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
@@ -15,22 +15,7 @@ import { CorrigerCandidaturePage, CorrigerCandidaturePageProps } from './Corrige
 
 type PageProps = IdentifiantParameter;
 
-export async function generateMetadata(
-  { params }: IdentifiantParameter,
-  _: ResolvingMetadata,
-): Promise<Metadata> {
-  try {
-    const identifiantProjet = decodeParameter(params.identifiant);
-    const candidature = await getCandidature(identifiantProjet);
-
-    return {
-      title: `Candidature ${candidature.dépôt.nomProjet} - Potentiel`,
-      description: 'Corriger la candidature',
-    };
-  } catch {
-    return {};
-  }
-}
+export const metadata: Metadata = { title: 'Corriger la candidature' };
 
 export default async function Page({ params }: PageProps) {
   return PageWithErrorHandling(async () =>

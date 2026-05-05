@@ -29,7 +29,10 @@ export async function generateMetadata(
     }
 
     return {
-      title: `${projet.nomProjet} - Potentiel`,
+      title: {
+        template: `%s - ${projet.nomProjet} | Potentiel`,
+        default: projet.nomProjet,
+      },
       description: 'Détails du projet éliminé',
       other: {
         nomProjet: projet.nomProjet,

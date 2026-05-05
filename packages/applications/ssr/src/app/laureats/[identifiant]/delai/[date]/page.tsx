@@ -18,10 +18,7 @@ import { mapToDélaiTimelineItemProps } from '../(historique)/mapToDélaiTimelin
 
 import { DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
-export const metadata: Metadata = {
-  title: 'Détail de la demande de délai - Potentiel',
-  description: 'Détail de la demande de délai',
-};
+export const metadata: Metadata = { title: 'Demande de délai' };
 
 type PageProps = { params: { identifiant: string; date: string } };
 

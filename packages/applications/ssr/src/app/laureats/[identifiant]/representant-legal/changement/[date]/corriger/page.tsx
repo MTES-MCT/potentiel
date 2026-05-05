@@ -14,8 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { CorrigerChangementReprésentantLégalPage } from './CorrigerChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
-  title: 'Corriger la demande de changement du représentant légal du projet - Potentiel',
-  description: "Correction de la demande de changement du représentant légal d'un projet",
+  title: 'Corriger la demande de changement du représentant légal',
 };
 
 type PageProps = {

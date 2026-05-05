@@ -12,7 +12,7 @@ import { getZoneLabel } from '../_helpers/getZoneLabel';
 import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
 export const metadata: Metadata = {
-  title: 'Inviter - Potentiel',
+  title: 'Inviter',
   description: 'Inviter un utilisateur',
 };
 

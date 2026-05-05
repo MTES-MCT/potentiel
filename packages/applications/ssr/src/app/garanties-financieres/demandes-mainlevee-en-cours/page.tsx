@@ -24,7 +24,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Demande de mainlevée des garanties financières - Potentiel',
+  title: 'Demande de mainlevée des garanties financières',
   description: 'Liste des demandes de mainlevée des garanties financières',
 };
 

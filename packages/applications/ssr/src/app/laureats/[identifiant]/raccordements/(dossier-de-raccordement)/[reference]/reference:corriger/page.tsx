@@ -15,10 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CorrigerRéférenceDossierPage } from './CorrigerRéférenceDossier.page';
 
-export const metadata: Metadata = {
-  title: 'Corriger une référence de dossier de raccordement - Potentiel',
-  description: `Formulaire de modification d'une référence dossier de raccordement`,
-};
+export const metadata: Metadata = { title: 'Corriger une référence de dossier de raccordement' };
 
 type PageProps = IdentifiantParameter & {
   params: {

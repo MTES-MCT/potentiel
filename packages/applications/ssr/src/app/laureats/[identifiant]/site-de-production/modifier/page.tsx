@@ -12,10 +12,7 @@ import { getLauréatInfos } from '../../_helpers';
 
 import { ModifierSiteDeProductionPage } from './ModifierSiteDeProduction.page';
 
-export const metadata: Metadata = {
-  title: `Modification de l'adresse du projet - Potentiel`,
-  description: `Modification de l'adresse du projet`,
-};
+export const metadata: Metadata = { title: `Modification de l'adresse` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

@@ -30,7 +30,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Réclamer un ou plusieurs projets - Potentiel',
+  title: 'Réclamer un ou plusieurs projets',
   description: 'Liste des projets à réclamer',
 };
 

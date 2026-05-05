@@ -18,10 +18,7 @@ import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
 
-export const metadata: Metadata = {
-  title: 'Demander le changement de puissance du projet - Potentiel',
-  description: 'Formulaire de demande de changement de puissance du projet',
-};
+export const metadata: Metadata = { title: 'Demander le changement de puissance' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

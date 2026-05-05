@@ -18,10 +18,7 @@ import {
 import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
 
-export const metadata: Metadata = {
-  title: 'Détail des garanties financières - Potentiel',
-  description: 'Page de détails des garanties financières',
-};
+export const metadata: Metadata = { title: 'Détail des garanties financières' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

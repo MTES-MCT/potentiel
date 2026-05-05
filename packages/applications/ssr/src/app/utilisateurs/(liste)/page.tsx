@@ -28,7 +28,7 @@ import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList
 import { UtilisateurListItemProps } from './UtilisateurListItem';
 
 export const metadata: Metadata = {
-  title: 'Utilisateurs - Potentiel',
+  title: 'Utilisateurs',
   description: 'Liste des utilisateurs ayant accès à Potentiel',
 };
 
