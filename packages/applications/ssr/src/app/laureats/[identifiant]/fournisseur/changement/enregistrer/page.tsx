@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
 import { MettreÀJourFournisseurPage } from '../(mettre-à-jour)/MettreÀJourFournisseur.page';
 
-export const metadata: Metadata = { title: 'Changer le fournisseur ' };
+export const metadata: Metadata = { title: 'Changer le fournisseur' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
