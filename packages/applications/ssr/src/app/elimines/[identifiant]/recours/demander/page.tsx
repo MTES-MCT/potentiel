@@ -12,10 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderRecoursPage } from './DemanderRecours.page';
 
-export const metadata: Metadata = {
-  title: 'Demander un recours',
-  description: 'Formulaire de recours',
-};
+export const metadata: Metadata = { title: 'Demander un recours' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

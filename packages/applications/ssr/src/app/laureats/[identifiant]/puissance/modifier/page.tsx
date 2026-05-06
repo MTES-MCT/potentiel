@@ -17,7 +17,7 @@ import {
 
 import { ModifierPuissancePage } from './ModifierPuissance.page';
 
-export const metadata: Metadata = { title: 'Changement de puissance ' };
+export const metadata: Metadata = { title: 'Modifier la puissance' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

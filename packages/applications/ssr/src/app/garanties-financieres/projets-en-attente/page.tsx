@@ -38,10 +38,7 @@ type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
 };
 
-export const metadata: Metadata = {
-  title: 'Projets en attente de garanties financières',
-  description: 'Liste des projets pour lesquels de nouvelles garanties financières sont attendues',
-};
+export const metadata: Metadata = { title: 'Projets en attente de garanties financières' };
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>

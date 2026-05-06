@@ -33,10 +33,6 @@ export async function generateMetadata(
         template: `%s - ${projet.nomProjet} | Potentiel`,
         default: projet.nomProjet,
       },
-      description: 'Détails du projet éliminé',
-      other: {
-        nomProjet: projet.nomProjet,
-      },
     };
   } catch {
     return {};

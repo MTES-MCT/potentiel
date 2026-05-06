@@ -42,10 +42,7 @@ type PageProps = IdentifiantParameter & {
   searchParams?: Record<string, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Historique du projet',
-  description: 'Historique du projet',
-};
+export const metadata: Metadata = { title: 'Historique du projet' };
 
 const paramsSchema = z.object({
   categorie: z.enum(categoriesDisponibles).optional(),

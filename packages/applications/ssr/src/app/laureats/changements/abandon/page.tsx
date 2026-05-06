@@ -19,10 +19,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Abandons',
-  description: 'Liste des abandons de projet',
-};
+export const metadata: Metadata = { title: "Demandes d'abandon" };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

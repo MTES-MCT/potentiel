@@ -11,10 +11,7 @@ import { getZoneLabel } from '../_helpers/getZoneLabel';
 
 import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
-export const metadata: Metadata = {
-  title: 'Inviter',
-  description: 'Inviter un utilisateur',
-};
+export const metadata: Metadata = { title: 'Inviter un utilisateur' };
 
 export default async function Page({ searchParams }: { searchParams: { role?: string } }) {
   return PageWithErrorHandling(async () =>

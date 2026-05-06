@@ -27,10 +27,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Périodes',
-  description: 'Périodes',
-};
+export const metadata: Metadata = { title: 'Périodes' };
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>

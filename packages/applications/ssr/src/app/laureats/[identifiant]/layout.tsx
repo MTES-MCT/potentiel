@@ -31,10 +31,6 @@ export async function generateMetadata(
         template: `%s - ${lauréat.nomProjet} | Potentiel`,
         default: lauréat.nomProjet,
       },
-      description: "Détail de la page d'un projet",
-      other: {
-        nomProjet: lauréat.nomProjet,
-      },
     };
   } catch {
     return {};

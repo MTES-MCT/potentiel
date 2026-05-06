@@ -30,8 +30,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Réclamer un ou plusieurs projets',
-  description: 'Liste des projets à réclamer',
+  title: 'Projets à réclamer',
 };
 
 export default async function Page({ searchParams }: PageProps) {

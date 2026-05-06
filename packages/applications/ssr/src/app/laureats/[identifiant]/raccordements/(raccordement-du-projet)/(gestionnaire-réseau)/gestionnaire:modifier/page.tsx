@@ -14,7 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierGestionnaireRéseauRaccordementPage } from './ModifierGestionnaireRéseauRaccordement.page';
 
-export const metadata: Metadata = { title: 'Modifier gestionnaire réseau' };
+export const metadata: Metadata = { title: 'Modifier le gestionnaire réseau' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

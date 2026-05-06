@@ -21,10 +21,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Liste des changements de dispositif de stockage',
-  description: 'Liste des changements de dispositif de stockage',
-};
+export const metadata: Metadata = { title: 'Changements de dispositif de stockage' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

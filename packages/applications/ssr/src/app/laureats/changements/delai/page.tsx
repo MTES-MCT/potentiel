@@ -21,10 +21,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Liste des demandes de délai',
-  description: 'Liste des demandes de délai',
-};
+export const metadata: Metadata = { title: 'Demandes de délai' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

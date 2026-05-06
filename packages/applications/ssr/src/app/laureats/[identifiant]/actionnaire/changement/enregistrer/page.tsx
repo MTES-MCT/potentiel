@@ -15,7 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementActionnairePage } from './EnregistrerChangementActionnaire.page';
 
-export const metadata: Metadata = { title: "Changement d'actionnaire(s)" };
+export const metadata: Metadata = { title: "Enregistrer un changement d'actionnaire(s)" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

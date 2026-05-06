@@ -24,10 +24,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Candidatures',
-  description: 'Liste des candidatures',
-};
+export const metadata: Metadata = { title: 'Candidatures' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
