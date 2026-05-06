@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "diff": "8.0.2",
+    "diff": "8.0.4",
     "oclif": "4.23.0",
     "tsx": "4.20.4"
   }

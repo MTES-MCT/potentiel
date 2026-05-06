@@ -59,7 +59,7 @@
     "@faker-js/faker": "9.6.0",
     "@types/chai": "4.3.20",
     "chai": "4.5.0",
-    "eslint": "^9.39.3",
+    "eslint": "9.39.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-monorepo-cop": "1.0.2",
@@ -76,7 +76,7 @@
     "turbo": "2.6.1",
     "typescript": "5.9.3",
     "typescript-eslint": "8.59.2",
-    "update-ts-references": "^4.0.0",
+    "update-ts-references": "4.0.0",
     "wait-for-expect": "3.0.2"
   },
   "engines": {
