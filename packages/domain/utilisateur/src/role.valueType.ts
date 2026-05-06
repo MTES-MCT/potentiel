@@ -29,6 +29,7 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
+  estAdmin(): boolean;
   estPorteur(): boolean;
   estGrd(): boolean;
   estCocontractant(): boolean;
@@ -61,6 +62,9 @@ export const bind = <TRole extends RawType = RawType>({
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
+    },
+    estAdmin() {
+      return this.nom === 'admin';
     },
     estDGEC() {
       return this.nom === 'dgec' || this.nom === 'dgec-validateur';

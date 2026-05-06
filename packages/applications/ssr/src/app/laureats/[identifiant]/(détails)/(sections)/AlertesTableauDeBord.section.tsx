@@ -56,7 +56,7 @@ const mapToAbandonAlert = ({
     };
   }
 
-  if (rôle.estDGEC() || rôle.estDreal()) {
+  if (rôle.estDGEC() || rôle.estDreal() || rôle.estAdmin()) {
     return {
       label: "Une demande d'abandon est en cours pour ce projet.",
       url: Routes.Abandon.détail(identifiantProjet.formatter(), abandon.demandéLe.formatter()),

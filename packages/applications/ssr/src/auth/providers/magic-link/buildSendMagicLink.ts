@@ -29,7 +29,8 @@ export const buildSendMagicLink: BuildSendVerificationRequest = ({
     }
 
     const isAgentPublic =
-      Option.isSome(utilisateur) && (utilisateur.rôle.estDreal() || utilisateur.rôle.estDGEC());
+      Option.isSome(utilisateur) &&
+      (utilisateur.rôle.estDreal() || utilisateur.rôle.estDGEC() || utilisateur.rôle.estAdmin());
 
     if (isAgentPublic && !isActifAgentsPublics) {
       await sendEmail({
