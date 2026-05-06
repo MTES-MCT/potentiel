@@ -19,7 +19,10 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, powerPurchaseAgreementRebuildTriggeredProjector)
       .with({ type: 'PowerPurchaseAgreementSignalé-V1' }, powerPurchaseAgreementSignaléProjector)
-      .with({ type: 'PowerPurchaseAgreementAnnulé-V1' }, powerPurchaseAgreementAnnuléProjector)
+      .with(
+        { type: 'SignalementPowerPurchaseAgreementAnnulé-V1' },
+        powerPurchaseAgreementAnnuléProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.PowerPurchaseAgreement', handler);

@@ -6,7 +6,7 @@ import { sendEmail } from '#sendEmail';
 
 export const handleSignalementPowerPurchaseAgreementAnnulé = async ({
   payload: { identifiantProjet },
-}: Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementAnnuléEvent) => {
+}: Lauréat.PowerPurchaseAgreement.SignalementPowerPurchaseAgreementAnnuléEvent) => {
   const projet = await getLauréat(identifiantProjet);
 
   const dreals = await listerDrealsRecipients(projet.région);

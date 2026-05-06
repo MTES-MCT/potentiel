@@ -1,7 +1,7 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
 
-import { registerAnnulerPowerPurchaseAgreementCommand } from './annuler/annulerPowerPurchaseAgreement.command.js';
-import { registerAnnulerPowerPurchaseAgreementUseCase } from './annuler/annulerPowerPurchaseAgreement.usecase.js';
+import { registerAnnulerSignalementPowerPurchaseAgreementCommand } from './annulerSignalement/annulerPowerPurchaseAgreement.command.js';
+import { registerAnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerPowerPurchaseAgreement.usecase.js';
 import {
   ConsulterPowerPurchaseAgreementDependencies,
   registerConsulterPowerPurchaseAgreementQuery,
@@ -26,8 +26,8 @@ export const registerPowerPurchaseAgreementUseCases = (
   registerSignalerPowerPurchaseAgreementCommand(dependencies.getProjetAggregateRoot);
   registerSignalerPowerPurchaseAgreementUseCase();
 
-  registerAnnulerPowerPurchaseAgreementCommand(dependencies.getProjetAggregateRoot);
-  registerAnnulerPowerPurchaseAgreementUseCase();
+  registerAnnulerSignalementPowerPurchaseAgreementCommand(dependencies.getProjetAggregateRoot);
+  registerAnnulerSignalementPowerPurchaseAgreementUseCase();
 };
 
 export const registerPowerPurchaseAgreementQueries = (

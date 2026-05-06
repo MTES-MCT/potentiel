@@ -1,4 +1,4 @@
-import { AnnulerPowerPurchaseAgreementUseCase } from './annuler/annulerPowerPurchaseAgreement.usecase.js';
+import { AnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerPowerPurchaseAgreement.usecase.js';
 import {
   ConsulterPowerPurchaseAgreementQuery,
   ConsulterPowerPurchaseAgreementReadModel,
@@ -29,13 +29,16 @@ export type {
 // UseCases
 export type PowerPurchaseAgreementUseCase =
   | SignalerPowerPurchaseAgreementUseCase
-  | AnnulerPowerPurchaseAgreementUseCase;
-export type { SignalerPowerPurchaseAgreementUseCase, AnnulerPowerPurchaseAgreementUseCase };
+  | AnnulerSignalementPowerPurchaseAgreementUseCase;
+export type {
+  SignalerPowerPurchaseAgreementUseCase,
+  AnnulerSignalementPowerPurchaseAgreementUseCase,
+};
 
 // Event
 export type { PowerPurchaseAgreementEvents } from './PowerPurchaseAgreement.events.js';
 export type { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
-export type { PowerPurchaseAgreementAnnuléEvent } from './annuler/PowerPurchaseAgreementAnnulé.event.js';
+export type { SignalementPowerPurchaseAgreementAnnuléEvent } from './annulerSignalement/SignalementPowerPurchaseAgreementAnnulé.event.ts';
 
 // Register
 export { registerPowerPurchaseAgreementUseCases } from './PowerPurchaseAgreement.register.js';

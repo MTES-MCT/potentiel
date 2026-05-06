@@ -13,12 +13,12 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
 });
 
-export type AnnulerPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof schema>;
+export type AnnulerSignalementPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementUseCase>({
-      type: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
+      type: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       data: {
         identifiantProjetValue: identifiantProjet,
         annuléLeValue: new Date().toISOString(),
@@ -35,4 +35,4 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     };
   });
 
-export const annulerPowerPurchaseAgreementAction = formAction(action, schema);
+export const annulerSignalementPowerPurchaseAgreementAction = formAction(action, schema);

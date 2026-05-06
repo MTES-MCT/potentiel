@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import { mapToPowerPurchaseAgreementSignaléTimelineItemProps } from './events';
-import { mapToPowerPurchaseAgreementAnnuléTimelineItemProps } from './events/mapToPowerPurchaseAgreementAnnuléTimelineItemProps';
+import { mapToSignalementPowerPurchaseAgreementAnnuléTimelineItemProps } from './events';
 
 type MapToPowerPurchaseAgreementTimelineItemProps = (
   readmodel: Lauréat.PowerPurchaseAgreement.HistoriquePowerPurchaseAgreementProjetListItemReadModel,
@@ -17,7 +17,7 @@ export const mapToPowerPurchaseAgreementTimelineItemProps: MapToPowerPurchaseAgr
       .with({ type: 'PowerPurchaseAgreementSignalé-V1' }, (readmodel) =>
         mapToPowerPurchaseAgreementSignaléTimelineItemProps(readmodel),
       )
-      .with({ type: 'PowerPurchaseAgreementAnnulé-V1' }, (readmodel) =>
-        mapToPowerPurchaseAgreementAnnuléTimelineItemProps(readmodel),
+      .with({ type: 'SignalementPowerPurchaseAgreementAnnulé-V1' }, (readmodel) =>
+        mapToSignalementPowerPurchaseAgreementAnnuléTimelineItemProps(readmodel),
       )
       .exhaustive();

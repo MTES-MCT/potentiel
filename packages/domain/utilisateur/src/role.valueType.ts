@@ -516,11 +516,11 @@ const référencielPermissions = {
       },
       usecase: {
         signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
-        annuler: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
+        annuler: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       },
       command: {
         signaler: 'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
-        annuler: 'Lauréat.PowerPurchaseAgreement.Command.AnnulerPowerPurchaseAgreement',
+        annuler: 'Lauréat.PowerPurchaseAgreement.Command.AnnulerSignalementPowerPurchaseAgreement',
       },
     },
     usecase: {

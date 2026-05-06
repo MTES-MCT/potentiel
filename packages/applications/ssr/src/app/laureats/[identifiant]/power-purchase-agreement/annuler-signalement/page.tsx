@@ -14,7 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLauréatInfos } from '../../_helpers';
 
-import { AnnulerPowerPurchaseAgreementPage } from './AnnulerPowerPurchaseAgreement.page';
+import { AnnulerSignalementPowerPurchaseAgreementPage } from './AnnulerSignalementPowerPurchaseAgreement.page';
 
 export const metadata: Metadata = {
   title: 'Annuler un PPA - Potentiel',
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.AnnulerPowerPurchaseAgreementUseCase>(
-        'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
+      utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.AnnulerSignalementPowerPurchaseAgreementUseCase>(
+        'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       );
 
       const { features } = getContext() ?? {};
@@ -52,7 +52,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      return <AnnulerPowerPurchaseAgreementPage PPA={mapToPlainObject(PPA)} />;
+      return <AnnulerSignalementPowerPurchaseAgreementPage PPA={mapToPlainObject(PPA)} />;
     }),
   );
 }

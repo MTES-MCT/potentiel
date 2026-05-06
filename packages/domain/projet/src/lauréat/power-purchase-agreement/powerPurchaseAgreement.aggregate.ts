@@ -4,6 +4,8 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 
+import { SignalementPowerPurchaseAgreementAnnuléEvent } from './index.js';
+
 import { PowerPurchaseAgreementEvents } from './PowerPurchaseAgreement.events.js';
 import { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
 import { SignalerPowerPurchaseAgreementOptions } from './signaler/signalerPowerPurchaseAgreement.option.js';
@@ -11,8 +13,7 @@ import {
   PowerPurchaseAgreementDéjàSignaléError,
   PowerPurchaseAgreementNonSignaléError,
 } from './PowerPurchaseAgreement.errors.js';
-import { AnnulerPowerPurchaseAgreementOptions } from './annuler/annulerPowerPurchaseAgreement.option.js';
-import { PowerPurchaseAgreementAnnuléEvent } from './annuler/PowerPurchaseAgreementAnnulé.event.js';
+import { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerPowerPurchaseAgreement.option.js';
 
 export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   PowerPurchaseAgreementEvents,
@@ -51,18 +52,18 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async annulerPowerPurchaseAgreement({
+  async annulerSignalementPowerPurchaseAgreement({
     annuléLe,
     annuléPar,
-  }: AnnulerPowerPurchaseAgreementOptions) {
+  }: AnnulerSignalementPowerPurchaseAgreementOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (!this.#estPartiEnPPA) {
       throw new PowerPurchaseAgreementNonSignaléError();
     }
 
-    const event: PowerPurchaseAgreementAnnuléEvent = {
-      type: 'PowerPurchaseAgreementAnnulé-V1',
+    const event: SignalementPowerPurchaseAgreementAnnuléEvent = {
+      type: 'SignalementPowerPurchaseAgreementAnnulé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: annuléLe.formatter(),
@@ -83,9 +84,9 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
       )
       .with(
         {
-          type: 'PowerPurchaseAgreementAnnulé-V1',
+          type: 'SignalementPowerPurchaseAgreementAnnulé-V1',
         },
-        () => this.applyPowerPurchaseAgreementAnnulé(),
+        () => this.applySignalementPowerPurchaseAgreementAnnulé(),
       )
       .exhaustive();
   }
@@ -94,7 +95,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     this.#estPartiEnPPA = true;
   }
 
-  private applyPowerPurchaseAgreementAnnulé() {
+  private applySignalementPowerPurchaseAgreementAnnulé() {
     this.#estPartiEnPPA = false;
   }
 }

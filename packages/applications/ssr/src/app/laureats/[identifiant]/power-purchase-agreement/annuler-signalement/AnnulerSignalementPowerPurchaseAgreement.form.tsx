@@ -9,15 +9,15 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { annulerPowerPurchaseAgreementAction } from './annulerPowerPurchaseAgreement.action';
+import { annulerSignalementPowerPurchaseAgreementAction } from './annulerSignalementPowerPurchaseAgreement.action';
 
-export type AnnulerPowerPurchaseAgreementFormProps = {
+export type AnnulerSignalementPowerPurchaseAgreementFormProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
 };
 
-export const AnnulerPowerPurchaseAgreementForm: FC<AnnulerPowerPurchaseAgreementFormProps> = ({
-  identifiantProjet,
-}) => {
+export const AnnulerSignalementPowerPurchaseAgreementForm: FC<
+  AnnulerSignalementPowerPurchaseAgreementFormProps
+> = ({ identifiantProjet }) => {
   const [isOpen, setIsOpen] = useState(false);
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
@@ -41,7 +41,7 @@ export const AnnulerPowerPurchaseAgreementForm: FC<AnnulerPowerPurchaseAgreement
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: annulerPowerPurchaseAgreementAction,
+          action: annulerSignalementPowerPurchaseAgreementAction,
           id: 'annuler-ppa-form',
           omitMandatoryFieldsLegend: true,
           children: (

@@ -15,7 +15,7 @@ export const setupPowerPurchaseAgreement = async () => {
     eventType: [
       'RebuildTriggered',
       'PowerPurchaseAgreementSignalé-V1',
-      'PowerPurchaseAgreementAnnulé-V1',
+      'SignalementPowerPurchaseAgreementAnnulé-V1',
     ],
     messageType: 'System.Projector.Lauréat.PowerPurchaseAgreement',
   });
@@ -26,7 +26,7 @@ export const setupPowerPurchaseAgreement = async () => {
     PowerPurchaseAgreementNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['PowerPurchaseAgreementAnnulé-V1', 'PowerPurchaseAgreementSignalé-V1'],
+    eventType: ['SignalementPowerPurchaseAgreementAnnulé-V1', 'PowerPurchaseAgreementSignalé-V1'],
     messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
   });
 

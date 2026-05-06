@@ -3,10 +3,8 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  handlePowerPurchaseAgreementSignalé,
-  handleSignalementPowerPurchaseAgreementAnnulé,
-} from './handlers/index.js';
+import { handlePowerPurchaseAgreementSignalé } from './handlers/index.js';
+import { handleSignalementPowerPurchaseAgreementAnnulé } from './handlers/signalementPowerPurchaseAgreementAnnulé.handler.js';
 
 export type SubscriptionEvent = Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementEvents;
 
@@ -20,7 +18,7 @@ export const register = () => {
     return match(event)
       .with({ type: 'PowerPurchaseAgreementSignalé-V1' }, handlePowerPurchaseAgreementSignalé)
       .with(
-        { type: 'PowerPurchaseAgreementAnnulé-V1' },
+        { type: 'SignalementPowerPurchaseAgreementAnnulé-V1' },
         handleSignalementPowerPurchaseAgreementAnnulé,
       )
       .exhaustive();

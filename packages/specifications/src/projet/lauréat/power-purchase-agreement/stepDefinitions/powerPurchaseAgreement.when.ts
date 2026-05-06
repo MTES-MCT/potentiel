@@ -50,17 +50,19 @@ Quand(
         throw new Error(`Rôle utilisateur inconnu : ${rôle}`);
       }
 
-      await mediator.send<Lauréat.PowerPurchaseAgreement.AnnulerPowerPurchaseAgreementUseCase>({
-        type: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerPowerPurchaseAgreement',
-        data: {
-          identifiantProjetValue:
-            statutProjet === 'lauréat'
-              ? this.lauréatWorld.identifiantProjet.formatter()
-              : this.éliminéWorld.identifiantProjet.formatter(),
-          annuléLeValue: new Date().toISOString(),
-          annuléParValue: utilisateur,
+      await mediator.send<Lauréat.PowerPurchaseAgreement.AnnulerSignalementPowerPurchaseAgreementUseCase>(
+        {
+          type: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
+          data: {
+            identifiantProjetValue:
+              statutProjet === 'lauréat'
+                ? this.lauréatWorld.identifiantProjet.formatter()
+                : this.éliminéWorld.identifiantProjet.formatter(),
+            annuléLeValue: new Date().toISOString(),
+            annuléParValue: utilisateur,
+          },
         },
-      });
+      );
     } catch (e) {
       this.error = e as Error;
     }

@@ -8,7 +8,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
         Et la dreal "Dreal de Corse" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
-    Plan du scénario: La DGEC/DREAL signale un état PPA pour un projet lauréat actif
+    Plan du scénario: La DGEC/DREAL annule le signament du PPA pour un projet lauréat actif
         Etant donné le projet lauréat avec un état PPA signalé
         Quand un utilisateur "<Rôle>" annule un état PPA pour le projet lauréat
         Alors l'état PPA ne devrait plus être consultable pour le projet lauréat
@@ -28,7 +28,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
         Quand un utilisateur "dgec" annule un état PPA pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet n'a pas été signalé comme étant parti en PPA"
 
-    Scénario: Impossible d'annuler' un état PPA pour un projet non lauréat
+    Scénario: Impossible d'annuler un état PPA pour un projet non lauréat
         Etant donné le projet éliminé "Du boulodrome de Bordeaux"
         Quand un utilisateur "dgec" annule un état PPA pour le projet éliminé
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
