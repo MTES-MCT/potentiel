@@ -1,4 +1,4 @@
-import { AnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerPowerPurchaseAgreement.usecase.js';
+import { AnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.usecase.js';
 import {
   ConsulterPowerPurchaseAgreementQuery,
   ConsulterPowerPurchaseAgreementReadModel,

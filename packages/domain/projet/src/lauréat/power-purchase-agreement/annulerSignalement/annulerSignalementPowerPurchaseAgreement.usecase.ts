@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
 
-import { AnnulerSignalementPowerPurchaseAgreementCommand } from './annulerPowerPurchaseAgreement.command.js';
+import { AnnulerSignalementPowerPurchaseAgreementCommand } from './annulerSignalementPowerPurchaseAgreement.command.js';
 
 export type AnnulerSignalementPowerPurchaseAgreementUseCase = Message<
   'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',

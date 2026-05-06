@@ -13,7 +13,7 @@ import {
   PowerPurchaseAgreementDéjàSignaléError,
   PowerPurchaseAgreementNonSignaléError,
 } from './PowerPurchaseAgreement.errors.js';
-import { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerPowerPurchaseAgreement.option.js';
+import { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.option.js';
 
 export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   PowerPurchaseAgreementEvents,
