@@ -1,5 +1,4 @@
 import { match, P } from 'ts-pattern';
-// eslint-disable-next-line no-restricted-imports
 
 import {
   AggregateNotFoundError,
