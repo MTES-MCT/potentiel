@@ -17,8 +17,8 @@ import { getLauréatInfos } from '../../_helpers';
 import { AnnulerSignalementPowerPurchaseAgreementPage } from './AnnulerSignalementPowerPurchaseAgreement.page';
 
 export const metadata: Metadata = {
-  title: 'Annuler un PPA - Potentiel',
-  description: "Formulaire de signalement d'un PPA pour un projet lauréat",
+  title: 'Annuler un signalement PPA - Potentiel',
+  description: "Formulaire d'annulation de signalement PPA pour un projet lauréat",
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -52,7 +52,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      return <AnnulerSignalementPowerPurchaseAgreementPage PPA={mapToPlainObject(PPA)} />;
+      return (
+        <AnnulerSignalementPowerPurchaseAgreementPage
+          powerPurchaseAgreement={mapToPlainObject(PPA)}
+        />
+      );
     }),
   );
 }

@@ -10,12 +10,14 @@ export type AnnulerSignalementPowerPurchaseAgreementPageProps = DétailsPowerPur
 
 export const AnnulerSignalementPowerPurchaseAgreementPage: React.FC<
   AnnulerSignalementPowerPurchaseAgreementPageProps
-> = ({ PPA }) => {
+> = ({ powerPurchaseAgreement }) => {
   return (
     <>
       <Heading1>Annuler le signalement du contrat de vente de gré à gré (PPA)</Heading1>
-      <DétailsPowerPurchaseAgreement PPA={PPA} />
-      <AnnulerSignalementPowerPurchaseAgreementForm identifiantProjet={PPA.identifiantProjet} />
+      <DétailsPowerPurchaseAgreement powerPurchaseAgreement={powerPurchaseAgreement} />
+      <AnnulerSignalementPowerPurchaseAgreementForm
+        identifiantProjet={powerPurchaseAgreement.identifiantProjet}
+      />
     </>
   );
 };
