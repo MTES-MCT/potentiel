@@ -1,4 +1,5 @@
 import { PowerPurchaseAgreementProjector } from '@potentiel-applications/projectors';
+import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
@@ -19,17 +20,23 @@ export const setupPowerPurchaseAgreement = async () => {
     messageType: 'System.Projector.Lauréat.PowerPurchaseAgreement',
   });
 
-  // TODO: notification, dans une autre carte
-  // PowerPurchaseAgreementNotification.register();
-  // await powerPurchaseAgreement.setupSubscription<
-  //   PowerPurchaseAgreementNotification.SubscriptionEvent,
-  //   PowerPurchaseAgreementNotification.Execute
+  PowerPurchaseAgreementNotification.register();
+  await powerPurchaseAgreement.setupSubscription<
+    PowerPurchaseAgreementNotification.SubscriptionEvent,
+    PowerPurchaseAgreementNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['PowerPurchaseAgreementAnnulé-V1', 'PowerPurchaseAgreementSignalé-V1'],
+    messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
+  });
+
+  // await producteur.setupSubscription<
+  //   HistoriqueProjector.SubscriptionEvent,
+  //   HistoriqueProjector.Execute
   // >({
-  //   name: 'notifications',
-  //   eventType: [
-  //     'PowerPurchaseAgreementSignalé-V1',
-  //   ],
-  //   messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
+  //   name: 'history',
+  //   eventType: 'all',
+  //   messageType: 'System.Projector.Historique',
   // });
 
   return powerPurchaseAgreement.clearSubscriptions;
