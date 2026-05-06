@@ -33,7 +33,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Tâches',
+  title: 'Liste des tâches',
   description: 'Liste des tâches en attente',
 };
 
