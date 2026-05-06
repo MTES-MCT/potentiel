@@ -105,7 +105,8 @@ export const getLauréatMenuItems = async ({
     ? undefined
     : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
       ? linkToSection('PPA', 'power-purchase-agreement/signaler')
-      : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.annuler') && lauréat.estPartiEnPPA
+      : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.annulerSignalement') &&
+          lauréat.estPartiEnPPA
         ? linkToSection('PPA', 'power-purchase-agreement/annuler-signalement')
         : undefined;
 
