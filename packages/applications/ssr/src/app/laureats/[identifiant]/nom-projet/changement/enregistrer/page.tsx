@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementNomProjetPage } from './EnregistrerChangementNomProjet.page';
 
-export const metadata: Metadata = { title: 'Changement de nom du projet' };
+export const metadata: Metadata = { title: 'Changer le nom du projet' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
