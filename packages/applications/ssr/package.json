@@ -41,6 +41,7 @@
     "@potentiel-infrastructure/geo-api-client": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
+    "@potentiel-libraries/csrf": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pdf": "*",

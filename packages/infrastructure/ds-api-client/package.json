@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/ds-api-client",
-  "version": "0.0.0",
   "description": "Query Démarches Simplifiées GraphQL API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
