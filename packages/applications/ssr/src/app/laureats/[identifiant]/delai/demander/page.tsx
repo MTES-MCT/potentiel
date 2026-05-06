@@ -19,10 +19,7 @@ import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page'
 
 import { DemanderDélaiPage } from './DemanderDélai.page';
 
-export const metadata: Metadata = {
-  title: 'Demander un délai de force majeure - Potentiel',
-  description: 'Formulaire de demande de délai',
-};
+export const metadata: Metadata = { title: 'Demander un délai de force majeure' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

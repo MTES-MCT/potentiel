@@ -22,10 +22,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Liste des demandes de changement de puissance - Potentiel',
-  description: 'Liste des demandes de changement de puissance',
-};
+export const metadata: Metadata = { title: 'Changements de puissance' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

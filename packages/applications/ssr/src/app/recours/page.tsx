@@ -19,10 +19,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Recours - Potentiel',
-  description: 'Liste des recours de projet',
-};
+export const metadata: Metadata = { title: 'Demandes de recours' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

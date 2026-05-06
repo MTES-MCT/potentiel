@@ -21,10 +21,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: "Liste des changements d'installateur - Potentiel",
-  description: "Liste des changements d'installateur",
-};
+export const metadata: Metadata = { title: "Changements d'installateur" };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

@@ -21,10 +21,7 @@ import {
   ModifierDemandeComplèteRaccordementPageProps,
 } from './ModifierDemandeComplèteRaccordement.page';
 
-export const metadata: Metadata = {
-  title: 'Modifier un dossier de raccordement - Potentiel',
-  description: `Formulaire de modification d'un dossier de raccordement`,
-};
+export const metadata: Metadata = { title: 'Modifier un dossier de raccordement' };
 
 type PageProps = {
   params: {

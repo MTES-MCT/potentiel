@@ -12,10 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DétailsChangementDispositifDeStockagePage } from './DétailsChangementDispositifDeStockage.page';
 import { mapToDispositifDeStockageTimelineItemProps } from './(historique)/mapToDispositifDeStockageTimelineItemProps';
 
-export const metadata: Metadata = {
-  title: 'Détail du changement du dispositif de stockage du projet - Potentiel',
-  description: 'Détail du changement du dispositif de stockage du projet',
-};
+export const metadata: Metadata = { title: 'Détail du changement du dispositif de stockage' };
 
 type PageProps = {
   params: {

@@ -14,10 +14,7 @@ import { getLauréatInfos } from '../../_helpers';
 
 import { SignalerPowerPurchaseAgreementPage } from './SignalerPowerPurchaseAgreement.page';
 
-export const metadata: Metadata = {
-  title: 'Signaler un PPA - Potentiel',
-  description: "Formulaire de signalement d'un PPA pour un projet lauréat",
-};
+export const metadata: Metadata = { title: 'Signaler un PPA' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

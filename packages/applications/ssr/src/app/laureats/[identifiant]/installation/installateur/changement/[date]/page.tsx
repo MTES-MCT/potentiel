@@ -12,10 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DétailsChangementInstallateurPage } from './DétailsChangementInstallateur.page';
 import { mapToInstallateurTimelineItemProps } from './(historique)/mapToInstallateurTimelineItemProps';
 
-export const metadata: Metadata = {
-  title: "Détail du changement de l'installateur du projet - Potentiel",
-  description: "Détail du changement de l'installateur du projet",
-};
+export const metadata: Metadata = { title: "Détail du changement de l'installateur" };
 
 type PageProps = {
   params: {

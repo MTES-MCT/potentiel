@@ -21,10 +21,7 @@ import {
   ModifierDépôtGarantiesFinancièresPageProps,
 } from './ModifierDépôtGarantiesFinancières.page';
 
-export const metadata: Metadata = {
-  title: 'Modifier dépôt des garanties financières en cours - Potentiel',
-  description: `Formulaire de modification d'un dépôt de garanties financières en cours de traitement`,
-};
+export const metadata: Metadata = { title: 'Modifier le dépôt de garanties financières' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

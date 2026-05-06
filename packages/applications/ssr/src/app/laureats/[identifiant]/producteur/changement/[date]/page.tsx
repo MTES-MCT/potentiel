@@ -13,10 +13,7 @@ import { mapToProducteurTimelineItemProps } from '../../(historique)/mapToProduc
 
 import { DétailsProducteurPage } from './DétailsChangementProducteur.page';
 
-export const metadata: Metadata = {
-  title: 'Détail du changement de producteur du projet - Potentiel',
-  description: 'Détail du changement de producteur du projet',
-};
+export const metadata: Metadata = { title: 'Détail du changement de producteur' };
 
 type PageProps = {
   params: {

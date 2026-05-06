@@ -10,10 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { TransmettreDateAchèvementPage } from './TransmettreDateAchèvement.page';
 
-export const metadata: Metadata = {
-  title: `Transmettre la date d'achèvement - Potentiel`,
-  description: `Formulaire de transmission de la date d'achèvement du projet`,
-};
+export const metadata: Metadata = { title: `Transmettre la date d'achèvement` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

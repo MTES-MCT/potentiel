@@ -10,10 +10,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderAbandonPage } from './DemanderAbandon.page';
 
-export const metadata: Metadata = {
-  title: "Demander l'abandon du projet - Potentiel",
-  description: "Formulaire d'abandon",
-};
+export const metadata: Metadata = { title: "Demander l'abandon" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

@@ -33,8 +33,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Tâches - Potentiel',
-  description: 'Liste des tâches en attente',
+  title: 'Liste des tâches',
 };
 
 const catégoriesTâchesFilters = {

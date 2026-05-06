@@ -16,10 +16,7 @@ import { mapToPuissanceTimelineItemProps } from '../../(historique)/mapToPuissan
 
 import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 
-export const metadata: Metadata = {
-  title: 'Détail de la puissance du projet - Potentiel',
-  description: 'Détail de la puissance du projet',
-};
+export const metadata: Metadata = { title: 'Détail de la puissance' };
 
 type PageProps = {
   params: {

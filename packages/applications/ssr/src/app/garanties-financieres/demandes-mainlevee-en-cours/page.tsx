@@ -23,10 +23,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Demande de mainlevée des garanties financières - Potentiel',
-  description: 'Liste des demandes de mainlevée des garanties financières',
-};
+export const metadata: Metadata = { title: 'Demande de mainlevée des garanties financières' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

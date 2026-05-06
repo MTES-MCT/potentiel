@@ -14,10 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierTypologieInstallationPage } from './ModifierTypologieInstallation.page';
 
-export const metadata: Metadata = {
-  title: 'Modification de la typologie du projet - Potentiel',
-  description: 'Formulaire de modification de la typologie du projet',
-};
+export const metadata: Metadata = { title: 'Modification de la typologie' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

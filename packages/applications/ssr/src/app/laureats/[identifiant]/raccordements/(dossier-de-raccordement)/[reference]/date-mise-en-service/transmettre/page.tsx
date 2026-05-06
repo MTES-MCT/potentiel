@@ -27,10 +27,7 @@ type PageProps = {
   };
 };
 
-export const metadata: Metadata = {
-  title: 'Transmettre la date de mise en service - Potentiel',
-  description: 'Transmettre la date de mise en service',
-};
+export const metadata: Metadata = { title: 'Transmettre la date de mise en service' };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>

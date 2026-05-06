@@ -21,10 +21,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Dossiers de raccordement - Potentiel',
-  description: 'Liste des dossiers de raccordement',
-};
+export const metadata: Metadata = { title: 'Dossiers de raccordement' };
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

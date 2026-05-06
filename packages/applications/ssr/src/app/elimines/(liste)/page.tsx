@@ -23,10 +23,7 @@ type PageProps = {
   searchParams?: Record<SearchParams, string>;
 };
 
-export const metadata: Metadata = {
-  title: 'Projets éliminés - Potentiel',
-  description: 'Liste des projets éliminés',
-};
+export const metadata: Metadata = { title: 'Projets éliminés' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

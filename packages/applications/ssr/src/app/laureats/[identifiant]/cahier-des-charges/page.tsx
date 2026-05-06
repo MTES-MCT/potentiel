@@ -14,10 +14,7 @@ import { getAchèvement } from '../_helpers';
 
 import { ChoisirCahierDesChargesPage } from './ChoisirCahierDesCharges.page';
 
-export const metadata: Metadata = {
-  title: 'Choix du Cahier des Charges - Potentiel',
-  description: 'Choix du Cahier des Charges',
-};
+export const metadata: Metadata = { title: 'Choix du Cahier des Charges' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

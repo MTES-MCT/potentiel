@@ -15,10 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
-export const metadata: Metadata = {
-  title: `Enregistrer des garanties financières actuelles - Potentiel`,
-  description: `Formulaire pour enregistrer des garanties financières actuelles`,
-};
+export const metadata: Metadata = { title: `Enregistrer des garanties financières actuelles` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

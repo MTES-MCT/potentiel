@@ -13,10 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierDispositifDeStockagePage } from './ModifierDispositifDeStockage.page';
 
-export const metadata: Metadata = {
-  title: "Changement du couplage de l'installation à un dispositif de stockage - Potentiel",
-  description: "Formulaire de changement du couplage de l'installation à un dispositif de stockage",
-};
+export const metadata: Metadata = { title: 'Modifier le dispositif de stockage' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

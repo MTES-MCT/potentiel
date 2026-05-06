@@ -17,10 +17,7 @@ import { vérifierProjetNonExemptDeGarantiesFinancières } from '../../_helpers/
 
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
 
-export const metadata: Metadata = {
-  title: 'Soumettre des garanties financières - Potentiel',
-  description: 'Formulaire de transmission des garanties financières',
-};
+export const metadata: Metadata = { title: 'Soumettre des garanties financières' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

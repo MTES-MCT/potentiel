@@ -12,10 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerAttestationConformitéPage } from './EnregistrerAttestationConformité.page';
 
-export const metadata: Metadata = {
-  title: `Enregistrer l'attestation de conformité - Potentiel`,
-  description: `Formulaire de transmission de l'attestation de conformité d'un projet achevé`,
-};
+export const metadata: Metadata = { title: `Enregistrer l'attestation de conformité` };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

@@ -11,10 +11,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 type PageProps = { params: { identifiant: string } };
 
-export const metadata: Metadata = {
-  title: `Recours du projet - Potentiel`,
-  description: "Recours d'un projet",
-};
+export const metadata: Metadata = { title: `Recours` };
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {

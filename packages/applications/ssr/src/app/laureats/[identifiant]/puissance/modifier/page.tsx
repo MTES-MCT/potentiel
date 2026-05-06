@@ -17,10 +17,7 @@ import {
 
 import { ModifierPuissancePage } from './ModifierPuissance.page';
 
-export const metadata: Metadata = {
-  title: 'Changement de puissance du projet - Potentiel',
-  description: "Formulaire de changement de puissance d'un projet",
-};
+export const metadata: Metadata = { title: 'Modifier la puissance' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

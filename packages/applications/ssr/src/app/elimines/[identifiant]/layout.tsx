@@ -29,10 +29,9 @@ export async function generateMetadata(
     }
 
     return {
-      title: `${projet.nomProjet} - Potentiel`,
-      description: 'Détails du projet éliminé',
-      other: {
-        nomProjet: projet.nomProjet,
+      title: {
+        template: `%s - ${projet.nomProjet} | Potentiel`,
+        default: projet.nomProjet,
       },
     };
   } catch {

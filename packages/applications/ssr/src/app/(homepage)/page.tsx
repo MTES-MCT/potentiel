@@ -6,9 +6,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { HomePage } from './Home.page';
 
-export const metadata: Metadata = {
-  title: 'Accueil - Potentiel',
-};
+export const metadata: Metadata = { title: 'Accueil' };
 
 export default async function Page() {
   return PageWithErrorHandling(async () => {

@@ -14,10 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerChangementProducteurPage } from './EnregistrerChangementProducteur.page';
 
-export const metadata: Metadata = {
-  title: 'Changer le producteur du projet - Potentiel',
-  description: 'Formulaire de changement de producteur du projet',
-};
+export const metadata: Metadata = { title: 'Changer le producteur' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

@@ -20,10 +20,7 @@ import {
   ModifierGarantiesFinancièresActuellesPageProps,
 } from './ModifierGarantiesFinancièresActuelles.page';
 
-export const metadata: Metadata = {
-  title: 'Modifier les garanties financières actuelles - Potentiel',
-  description: `Formulaire de modification des garanties financières actuelles`,
-};
+export const metadata: Metadata = { title: 'Modifier les garanties financières actuelles' };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>

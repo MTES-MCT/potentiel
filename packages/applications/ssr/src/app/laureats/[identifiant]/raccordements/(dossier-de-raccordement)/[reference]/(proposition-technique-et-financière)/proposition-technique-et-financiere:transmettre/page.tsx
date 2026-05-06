@@ -21,10 +21,7 @@ type PageProps = {
   };
 };
 
-export const metadata: Metadata = {
-  title: 'Transmettre la proposition technique et financière - Potentiel',
-  description: 'Transmettre la proposition technique et financière',
-};
+export const metadata: Metadata = { title: 'Transmettre la proposition technique et financière' };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
