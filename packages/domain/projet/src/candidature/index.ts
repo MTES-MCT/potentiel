@@ -96,6 +96,7 @@ export * from './candidature.register.js';
 // Entities
 export type * from './candidature.entity.js';
 export type * from './détail/détailCandidature.entity.js';
+export type * from './détail/détailFournisseursCandidature.entity.js';
 
 // ValueType
 export * as TypeTechnologie from './typeTechnologie.valueType.js';
@@ -114,6 +115,6 @@ export * as RaccordementDépôt from './raccordementDépôt.valueType.js';
 
 // Type
 export type * from './détail/détailCandidature.valueType.js';
-export { type DétailFournisseur } from './lister/listerDétailsFournisseur.query.js';
+export type * from './lister/listerDétailsFournisseur.query.js';
 
 export * as DocumentCandidature from './documentCandidature.valueType.js';

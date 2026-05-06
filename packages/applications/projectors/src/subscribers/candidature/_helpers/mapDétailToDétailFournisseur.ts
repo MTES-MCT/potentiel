@@ -1,4 +1,4 @@
-import { Candidature } from '../../../../../index.js';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { splitDétailsIntoTypeFieldIndex } from './mapDétailsToFournisseur.js';
 
@@ -54,7 +54,7 @@ const labelToTypeFournisseur: Record<string, string> = {
  */
 export const mapDétailToDétailFournisseur = (
   payload: Record<string, string>,
-): Candidature.DétailFournisseur[] => {
+): Candidature.DétailFournisseursCandidatureEntity['fournisseurs'] => {
   // on récupère le type de fournisseur (cellules), la propriété (Nom du fabricant...), l'index (1,2,3...) et la valeur (AAA)
   const fieldsArray = Object.entries(payload)
     .map(([key, valeur]) => {
@@ -101,7 +101,7 @@ export const mapDétailToDétailFournisseur = (
           puissanceCrêteWc: undefined,
           rendementNominal: undefined, // TODO : à voir si on le garde ou pas
           référenceCommerciale: undefined, // TODO : à voir si on le garde ou pas
-        } as Candidature.DétailFournisseur,
+        } as Candidature.DétailFournisseursCandidatureEntity['fournisseurs'][number],
       ),
     )
     .filter((fournisseur) => fournisseur.typeFournisseur)
@@ -112,5 +112,5 @@ export const mapDétailToDétailFournisseur = (
     })
     .filter(
       (fournisseur) => Object.keys(fournisseur).length > 1,
-    ) as Candidature.DétailFournisseur[];
+    ) as Candidature.DétailFournisseursCandidatureEntity['fournisseurs'];
 };

@@ -5,21 +5,12 @@ import { Email } from '@potentiel-domain/common';
 
 import { CandidatureEntity } from '../candidature.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
-import { Dépôt, DétailCandidatureEntity, Localité, TypeActionnariat } from '../index.js';
-import { mapDétailToDétailFournisseur } from '../détail/csv/fournisseurs/_helpers/mapDétailToDétailFournisseur.js';
-
-export type DétailFournisseur = {
-  typeFournisseur: string;
-  nomDuFabricant?: string;
-  lieuDeFabrication?: string;
-  coûtTotalLot?: string;
-  contenuLocalFrançais?: string;
-  contenuLocalEuropéen?: string;
-  technologie?: string;
-  puissanceCrêteWc?: string;
-  rendementNominal?: string; // TODO : à voir si on le garde ou pas
-  référenceCommerciale?: string; // TODO : à voir si on le garde ou pas
-};
+import {
+  Dépôt,
+  DétailFournisseursCandidatureEntity,
+  Localité,
+  TypeActionnariat,
+} from '../index.js';
 
 export type DétailsFournisseurListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -28,7 +19,7 @@ export type DétailsFournisseurListItemReadModel = {
   région: Localité.ValueType['région'];
   sociétéMère: Dépôt.ValueType['sociétéMère'];
   typeActionnariat?: TypeActionnariat.ValueType;
-  fournisseurs: Array<DétailFournisseur>;
+  fournisseurs: DétailFournisseursCandidatureEntity['fournisseurs'];
 };
 
 export type ListerDétailsFournisseurReadModel = Readonly<{
@@ -71,9 +62,9 @@ export const registerListerDétailsFournisseurQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<CandidatureEntity, DétailCandidatureEntity>('candidature', {
+    } = await list<CandidatureEntity, DétailFournisseursCandidatureEntity>('candidature', {
       join: {
-        entity: 'détail-candidature',
+        entity: 'détail-fournisseurs-candidature',
         on: 'identifiantProjet',
       },
       where: {
@@ -109,7 +100,7 @@ export const registerListerDétailsFournisseurQuery = ({
 };
 
 type MapToReadModel = (
-  candidature: CandidatureEntity & Joined<DétailCandidatureEntity>,
+  candidature: CandidatureEntity & Joined<DétailFournisseursCandidatureEntity>,
 ) => DétailsFournisseurListItemReadModel;
 
 export const mapToReadModel: MapToReadModel = ({
@@ -119,7 +110,7 @@ export const mapToReadModel: MapToReadModel = ({
   statut,
   sociétéMère,
   actionnariat,
-  'détail-candidature': { détail },
+  'détail-fournisseurs-candidature': { fournisseurs },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -129,5 +120,5 @@ export const mapToReadModel: MapToReadModel = ({
   typeActionnariat: actionnariat
     ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
     : undefined,
-  fournisseurs: mapDétailToDétailFournisseur(détail),
+  fournisseurs,
 });

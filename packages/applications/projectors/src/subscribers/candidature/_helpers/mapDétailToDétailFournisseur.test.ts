@@ -2,7 +2,7 @@ import test from 'node:test';
 
 import { expect } from 'chai';
 
-import { Candidature } from '../../../../../index.js';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { mapDétailToDétailFournisseur } from './mapDétailToDétailFournisseur.js';
 
@@ -40,7 +40,7 @@ test('mapDétailToDétailFournisseur - Mélange de fournisseur avec des données
     'Rendement nominal (Modules ou films)': '15%',
   };
 
-  const expected: Array<Candidature.DétailFournisseur> = [
+  const expected: Candidature.DétailFournisseursCandidatureEntity['fournisseurs'] = [
     {
       typeFournisseur: 'autres-technologies',
       nomDuFabricant: 'CCC',
@@ -107,7 +107,7 @@ test('mapDétailCSVToDétailFournisseur - Mélange de fournisseur avec des donn�
     'Contenu local Fabrication de composants et assemblage : Total coût du lot': '42',
   };
 
-  const expected: Array<Candidature.DétailFournisseur> = [
+  const expected: Candidature.DétailFournisseursCandidatureEntity['fournisseurs'] = [
     {
       typeFournisseur: 'autres-technologies',
       contenuLocalFrançais: '60',
