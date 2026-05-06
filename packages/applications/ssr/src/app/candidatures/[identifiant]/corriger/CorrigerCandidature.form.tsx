@@ -138,7 +138,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         state={validationErrors['siret'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['siret']}
-        label="Numéro SIRET"
+        label="Numéro SIRET (optionnel)"
         hintText="Constitué de 14 chiffres"
         nativeInputProps={{
           name: 'siret',

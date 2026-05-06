@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { applyLuhnCheck } from './applyLuhnCheck.js';
+import { applyLuhnCheck } from './numéroIdentification.valueType.js';
 
 describe('Appliquer la vérification de Luhn sur des numéro SIRET et SIREN', () => {
   describe('SIREN (9 chiffres)', () => {

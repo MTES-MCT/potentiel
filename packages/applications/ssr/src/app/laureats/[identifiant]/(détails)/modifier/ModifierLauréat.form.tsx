@@ -37,8 +37,6 @@ type ModifierLauréatFormEntries = {
   };
 };
 
-// TODO: à décider avec le métier selon les besoins, ajouter le numéro SIREN / SIRET - pour le moment pas besoin car impact producteur sauf si événement indépendant Corriger le SIREN / SIRET
-
 export type ModifierLauréatFormProps = {
   candidature: ModifierCandidatureNotifiéeFormEntries;
   lauréat: ModifierLauréatFormEntries & {

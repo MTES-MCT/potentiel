@@ -144,9 +144,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
-  numéroIdentification: plain.numéroIdentification
-    ? Producteur.NuméroIdentification.bind(plain.numéroIdentification)
-    : undefined,
+  numéroIdentification: bindOptional(
+    Producteur.NuméroIdentification.bind,
+    plain.numéroIdentification,
+  ),
 
   estÉgaleÀ(valueType) {
     return (
