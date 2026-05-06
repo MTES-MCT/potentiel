@@ -18,7 +18,8 @@ export const getNuméroIdentification = <TDossier extends Record<string, string>
 
   if (!siren && !siret) return undefined;
 
-  return Lauréat.Producteur.NuméroIdentification.convertirEnValueType({
+  // VIOVIO: supprimer ici
+  return Lauréat.Producteur.NuméroIdentification.bind({
     siret,
     siren,
   });

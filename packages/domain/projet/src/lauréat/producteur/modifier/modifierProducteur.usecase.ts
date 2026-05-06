@@ -65,7 +65,7 @@ export const registerModifierProducteurUseCase = () => {
         raison: raisonValue,
         pièceJustificative,
         numéroIdentification: numéroIdentificationValue
-          ? NuméroIdentification.convertirEnValueType(numéroIdentificationValue)
+          ? NuméroIdentification.bind(numéroIdentificationValue)
           : undefined,
       },
     });

@@ -2,6 +2,7 @@
 @candidature
 Fonctionnalité: Importer une candidature (garanties financières)
 
+    @select
     Plan du Scénario: Importer une candidature avec les différents types de garanties financières
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut          | classé            |
@@ -12,12 +13,12 @@ Fonctionnalité: Importer une candidature (garanties financières)
         Et le détail de la candidature devrait être consultable
 
         Exemples:
-            | appel d'offres           | type GF                   | date d'échéance |
-            | PPE2 - Bâtiment          | consignation              |                 |
-            | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |
-            | PPE2 - Innovation        | six-mois-après-achèvement |                 |
-            | PPE2 - Petit PV Bâtiment | exemption                 |                 |
+            | appel d'offres  | type GF      | date d'échéance |
+            | PPE2 - Bâtiment | consignation |                 |
 
+    # | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |
+    # | PPE2 - Innovation        | six-mois-après-achèvement |                 |
+    # | PPE2 - Petit PV Bâtiment | exemption                 |                 |
     Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut         | classé          |

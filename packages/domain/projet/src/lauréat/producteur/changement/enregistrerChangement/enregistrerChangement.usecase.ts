@@ -38,7 +38,7 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const dateChangement = DateTime.convertirEnValueType(dateChangementValue);
     const numéroIdentification = numéroIdentificationValue
-      ? NuméroIdentification.convertirEnValueType(numéroIdentificationValue)
+      ? NuméroIdentification.bind(numéroIdentificationValue)
       : undefined;
 
     const pièceJustificative = DocumentProducteur.pièceJustificative({

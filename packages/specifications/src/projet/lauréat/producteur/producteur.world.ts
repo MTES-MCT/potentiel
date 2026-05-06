@@ -40,7 +40,7 @@ export class ProducteurWorld {
       identifiantProjet,
       producteur: référencielFixture ? référencielFixture.producteur : producteurÀLaCandidature,
       numéroIdentification: numéro
-        ? Lauréat.Producteur.NuméroIdentification.convertirEnValueType(numéro)
+        ? Lauréat.Producteur.NuméroIdentification.bind(numéro)
         : undefined,
     };
 
@@ -67,11 +67,17 @@ export class ProducteurWorld {
         ),
         nouveau: {
           producteur: this.#enregistrerChangementProducteurFixture.producteur,
-          siret: this.#enregistrerChangementProducteurFixture.siret,
+          siret: Lauréat.Producteur.NuméroIdentification.bind({
+            siret: this.#enregistrerChangementProducteurFixture.siret,
+          }).siret,
         },
         ancien: {
           producteur: ancienProducteur,
-          siret: ancienSIRET,
+          siret: ancienSIRET
+            ? Lauréat.Producteur.NuméroIdentification.bind({
+                siret: ancienSIRET,
+              }).siret
+            : undefined,
         },
         pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),

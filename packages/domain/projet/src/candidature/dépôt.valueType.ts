@@ -324,7 +324,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       }),
     ),
     numéroIdentification: bindOptional(
-      Producteur.NuméroIdentification.convertirEnValueType,
+      Producteur.NuméroIdentification.bind,
       raw.numéroIdentification,
     ),
   });
