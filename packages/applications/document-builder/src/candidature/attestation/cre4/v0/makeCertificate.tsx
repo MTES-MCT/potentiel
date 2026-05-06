@@ -1,5 +1,5 @@
 import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
-import React from 'react';
+import React, { JSX } from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 

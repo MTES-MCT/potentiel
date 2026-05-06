@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import z from 'zod';
+import { JSX } from 'react';
 
 import {
   AggregateNotFoundError,

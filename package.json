@@ -95,5 +95,13 @@
     "messagePrompt": false,
     "capitalizeTitle": true,
     "gitmojisUrl": "https://gitmoji.dev/api/gitmojis"
+  },
+  "overrides": {
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "ajv": "8.18.0",
+    "ajv-formats": "3.0.1"
   }
 }
