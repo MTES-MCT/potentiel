@@ -516,11 +516,13 @@ const référencielPermissions = {
       },
       usecase: {
         signaler: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
-        annuler: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
+        annulerSignalement:
+          'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       },
       command: {
         signaler: 'Lauréat.PowerPurchaseAgreement.Command.SignalerPowerPurchaseAgreement',
-        annuler: 'Lauréat.PowerPurchaseAgreement.Command.AnnulerSignalementPowerPurchaseAgreement',
+        annulerSignalement:
+          'Lauréat.PowerPurchaseAgreement.Command.AnnulerSignalementPowerPurchaseAgreement',
       },
     },
     usecase: {
@@ -1401,11 +1403,11 @@ const policies = {
       référencielPermissions.lauréat.powerPurchaseAgreement.command.signaler,
       référencielPermissions.lauréat.powerPurchaseAgreement.usecase.signaler,
     ],
-    annuler: [
+    annulerSignalement: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.powerPurchaseAgreement.query.consulter,
-      référencielPermissions.lauréat.powerPurchaseAgreement.command.annuler,
-      référencielPermissions.lauréat.powerPurchaseAgreement.usecase.annuler,
+      référencielPermissions.lauréat.powerPurchaseAgreement.command.annulerSignalement,
+      référencielPermissions.lauréat.powerPurchaseAgreement.usecase.annulerSignalement,
     ],
   },
   lauréat: {
@@ -1826,7 +1828,7 @@ const dgecPolicies: ReadonlyArray<Policy> = [
 
   // PPA
   'powerPurchaseAgreement.signaler',
-  'powerPurchaseAgreement.annuler',
+  'powerPurchaseAgreement.annulerSignalement',
 
   // Candidature
   'candidature.importer',
@@ -2054,7 +2056,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // PPA
   'powerPurchaseAgreement.signaler',
-  'powerPurchaseAgreement.annuler',
 
   // Tâche
   'tâche.consulter',
