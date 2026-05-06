@@ -22,7 +22,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Dossiers de raccordement',
+  title: 'Liste des dossiers de raccordement',
   description: 'Liste des dossiers de raccordement',
 };
 
