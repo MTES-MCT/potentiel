@@ -13,7 +13,7 @@ export const AnnulerPowerPurchaseAgreementPage: React.FC<
 > = ({ PPA }) => {
   return (
     <>
-      <Heading1>Annuler un contrat de vente de gré à gré (PPA)</Heading1>
+      <Heading1>Annuler le signalement du contrat de vente de gré à gré (PPA)</Heading1>
       <DétailsPowerPurchaseAgreement PPA={PPA} />
       <AnnulerPowerPurchaseAgreementForm identifiantProjet={PPA.identifiantProjet} />
     </>

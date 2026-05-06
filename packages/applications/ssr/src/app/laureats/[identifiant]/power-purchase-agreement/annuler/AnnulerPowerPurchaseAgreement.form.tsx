@@ -31,13 +31,13 @@ export const AnnulerPowerPurchaseAgreementForm: FC<AnnulerPowerPurchaseAgreement
           Retour
         </Button>
         <Button priority="primary" onClick={() => setIsOpen(true)} className="block text-center">
-          Annuler le PPA
+          Confirmer
         </Button>
       </div>
 
       <ModalWithForm
         id="annuler-ppa-modal"
-        title="Annuler que le projet est parti en PPA"
+        title="Annuler le signalement PPA pour ce projet"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
@@ -46,7 +46,9 @@ export const AnnulerPowerPurchaseAgreementForm: FC<AnnulerPowerPurchaseAgreement
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir annuler le PPA pour ce projet ?</p>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir annuler le signalement PPA pour ce projet ?
+              </p>
               <input type={'hidden'} value={idProjet} name="identifiantProjet" />
             </>
           ),
