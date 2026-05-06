@@ -9,7 +9,7 @@ export const mapToSignalementPowerPurchaseAgreementAnnuléTimelineItemProps = (
 
   return {
     date: annuléLe,
-    title: 'Signalement PPA Annulé',
+    title: 'Signalement PPA annulé',
     actor: annuléPar,
 
     details: (
