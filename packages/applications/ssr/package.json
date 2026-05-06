@@ -44,6 +44,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pdf": "*",
+    "@scalar/nextjs-api-reference": "^0.10.14",
     "@sentry/core": "10.41.0",
     "@sentry/nextjs": "10.41.0",
     "better-auth": "1.4.18",
