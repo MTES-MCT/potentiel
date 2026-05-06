@@ -87,7 +87,7 @@
     "prettier-plugin-gherkin": "2.4.1",
     "ts-pattern": "5.7.0"
   },
-  "packageManager": "npm@10.7.0",
+  "packageManager": "npm@11.11.0",
   "gitmoji": {
     "autoAdd": false,
     "emojiFormat": "emoji",
