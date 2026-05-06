@@ -30,6 +30,8 @@ export const setCspHeader = (request: IncomingMessage, response: ServerResponse)
       "'sha256-UEZfoO3SfsYbnIIAoHHUiIGOhT+nhTDv2gd4I5588HQ='",
       'https://metabase.potentiel.beta.gouv.fr',
       'https://client.crisp.chat',
+      // whitelist scalar
+      "'sha256-RG6G8sfmsknwGzYCV+Cc56LE1j6++Gv3RE1sevFccm8='",
       'https://cdn.jsdelivr.net/npm/@scalar/api-reference',
       // https://nextjs.org/docs/app/guides/content-security-policy#development-environment
       ...(isDev ? ["'unsafe-eval'"] : []),
