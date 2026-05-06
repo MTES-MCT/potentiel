@@ -13,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierInstallateurPage } from './ModifierInstallateur.page';
 
-export const metadata: Metadata = { title: "Changement d'installateur" };
+export const metadata: Metadata = { title: "Modifier l'installateur" };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
