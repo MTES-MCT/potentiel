@@ -29,6 +29,7 @@ export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
+  estAdmin(): boolean;
   estPorteur(): boolean;
   estGrd(): boolean;
   estCocontractant(): boolean;
@@ -61,6 +62,9 @@ export const bind = <TRole extends RawType = RawType>({
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
+    },
+    estAdmin() {
+      return this.nom === 'admin';
     },
     estDGEC() {
       return this.nom === 'dgec' || this.nom === 'dgec-validateur';
@@ -1538,6 +1542,7 @@ const policies = {
     accèsDonnées: {
       prix: [],
     },
+    copierIdentifiant: [],
   },
   appelOffre: {
     consulter: [référencielPermissions.appelOffre.query.consulter],
@@ -1624,6 +1629,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
 
   'projet.accèsDonnées.prix',
+  'projet.copierIdentifiant',
 
   // Historique
   'historique.imprimer',
@@ -1827,6 +1833,7 @@ const dgecValidateurPolicies: ReadonlyArray<Policy> = [
 const crePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
   'lauréat.listerLauréatEnrichi',
 
   'projet.accèsDonnées.prix',
@@ -1906,6 +1913,9 @@ const crePolicies: ReadonlyArray<Policy> = [
 const drealPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
+  'projet.copierIdentifiant',
+
   'projet.accèsDonnées.prix',
 
   // Historique
@@ -2183,6 +2193,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
+
   'projet.accèsDonnées.prix',
   'lauréat.listerLauréatEnrichi',
 
