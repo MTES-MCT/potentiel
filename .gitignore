@@ -147,3 +147,7 @@ packages/applications/api-documentation/src/generated/
 
 # Generated Email templates
 packages/applications/notifications/src/templates/**/index.d.ts
+
+# Claude
+CLAUDE.md
+.claude/
