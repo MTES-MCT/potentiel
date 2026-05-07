@@ -235,13 +235,8 @@ export const dépôtSchema = z
     ),
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
-<<<<<<< HEAD
     puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
-    numéroImmatriculation: numéroImmatriculationSchema,
-=======
-    puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
     numéroIdentification: numéroIdentificationSchema,
->>>>>>> renaming
     raccordements: z
       .array(
         z.object({
