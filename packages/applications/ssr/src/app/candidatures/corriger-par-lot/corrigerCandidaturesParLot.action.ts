@@ -19,6 +19,7 @@ import {
   récupérerChampsSupplémentaires,
 } from '@/utils/candidature';
 import { mapCsvRowToCoordonnées } from '@/utils/candidature/csv/coordonnéesCsv';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -83,13 +84,15 @@ const action: FormAction<FormState, typeof schema> = async (
 
         success++;
       } catch (error) {
-        if (error instanceof DomainError) {
+        if (DomainError.isDomainError(error)) {
           errors.push({
             key: line.nomProjet,
             reason: error.message,
           });
           continue;
         }
+
+        getLogger().error(error as Error);
         errors.push({
           key: line.nomProjet,
           reason: `Une erreur inconnue empêche la correction des candidatures`,

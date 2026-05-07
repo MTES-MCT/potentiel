@@ -13,6 +13,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string(),
@@ -180,12 +181,13 @@ const transmettreDateDeMiseEnService = async (
         },
       });
     } catch (error) {
-      if (error instanceof DomainError) {
+      if (DomainError.isDomainError(error)) {
         return {
           key: référenceDossierRaccordement,
           reason: error.message,
         };
       }
+      getLogger().error(error as Error);
       return {
         key: référenceDossierRaccordement,
         reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',

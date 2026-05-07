@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   turbopack: {},
   serverExternalPackages: [
+    '@potentiel-domain/common',
+    '@potentiel-domain/core',
+    '@potentiel-domain/periode',
     '@potentiel-applications/api',
     '@potentiel-applications/api-documentation',
     '@potentiel-applications/bootstrap',

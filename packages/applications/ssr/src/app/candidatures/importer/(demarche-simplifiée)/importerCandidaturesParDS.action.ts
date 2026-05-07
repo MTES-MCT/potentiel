@@ -21,6 +21,7 @@ import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 import { cleanDétailsKeys } from '@/utils/candidature';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   appelOffre: zod.string(),
@@ -209,24 +210,29 @@ const action: FormAction<FormState, typeof schema> = async (
         });
         success++;
       } catch (error) {
-        if (error instanceof DomainError) {
+        if (DomainError.isDomainError(error)) {
           errors.push({
             key: identifiantProjetValue,
             reason: error.message,
           });
-        } else if (error instanceof zod.ZodError) {
+          continue;
+        }
+
+        if (error instanceof zod.ZodError) {
           error.issues.forEach((error) => {
             errors.push({
               key: identifiantProjetValue,
               reason: `${error.path.join('.')} : ${error.message}`,
             });
           });
-        } else {
-          errors.push({
-            key: identifiantProjetValue,
-            reason: `Une erreur inconnue empêche l'import de la candidature`,
-          });
+          continue;
         }
+
+        getLogger().error(error as Error);
+        errors.push({
+          key: identifiantProjetValue,
+          reason: `Une erreur inconnue empêche l'import de la candidature`,
+        });
       }
     }
 
