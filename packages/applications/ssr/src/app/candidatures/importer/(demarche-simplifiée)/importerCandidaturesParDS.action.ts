@@ -162,6 +162,7 @@ const action: FormAction<FormState, typeof schema> = async (
             });
           });
         } else {
+          getLogger(importerCandidaturesParDSAction.name).error(error as Error);
           errors.push({
             key,
             reason: `Une erreur inconnue empêche l'import de la candidature`,
