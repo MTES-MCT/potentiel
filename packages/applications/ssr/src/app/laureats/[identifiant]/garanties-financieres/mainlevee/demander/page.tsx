@@ -37,7 +37,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           identifiantProjet={identifiantProjet}
           motif={lauréat.statut.estAchevé() ? 'projet-achevé' : 'projet-abandonné'}
           prérequis={prérequis}
-          prérequisComplétés={Object.values(prérequis).every((prérequis) => prérequis)}
+          prérequisComplétés={Object.values(prérequis).every(
+            (prérequis) => prérequis === undefined || prérequis === true,
+          )}
         />
       );
     }),
