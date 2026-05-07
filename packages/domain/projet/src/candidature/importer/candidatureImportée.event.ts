@@ -38,7 +38,7 @@ type CandidatureImportéeEventPayload = {
   };
   motifÉlimination?: string;
   puissanceALaPointe: boolean;
-  puissanceProjetInitial?: number;
+  puissanceDuProjetInitial?: number;
   evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.RawType;
   actionnariat?: TypeActionnariat.RawType;

@@ -100,7 +100,7 @@ describe('Schéma dépôt', () => {
     for (const champ of [
       'puissance',
       'puissanceDeSite',
-      'puissanceProjetInitial',
+      'puissanceDuProjetInitial',
       'prixReference',
       'evaluationCarboneSimplifiée',
     ]) {
@@ -348,7 +348,7 @@ describe('Schéma dépôt', () => {
           capacitéDuDispositifDeStockageEnKWh: 1,
           puissanceDuDispositifDeStockageEnKW: 1,
         },
-        puissanceProjetInitial: '100',
+        puissanceDuProjetInitial: '100',
         obligationDeSolarisation: 'true',
       };
 
@@ -363,7 +363,7 @@ describe('Schéma dépôt', () => {
         ...champsSupplémentaires,
         coefficientKChoisi: true,
         puissanceDeSite: 200,
-        puissanceProjetInitial: 100,
+        puissanceDuProjetInitial: 100,
         autorisation: {
           numéro: 'URB-01',
           date: new Date(champsSupplémentaires.autorisation.date).toISOString(),

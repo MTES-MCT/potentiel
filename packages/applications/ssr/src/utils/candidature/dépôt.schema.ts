@@ -205,7 +205,7 @@ export const dépôtSchema = z
     ),
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
-    puissanceProjetInitial: optionalStrictlyPositiveNumberSchema,
+    puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
     raccordements: z
       .array(
         z.object({

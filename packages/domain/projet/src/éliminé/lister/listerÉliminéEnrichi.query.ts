@@ -64,11 +64,13 @@ export type ÉliminéEnrichiListItemReadModel = {
     | undefined;
   typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
   tauxPrévisionnelACI: NatureDeLExploitationEntity['tauxPrévisionnelACI'] | undefined;
+  tauxPrévisionnelACC: NatureDeLExploitationEntity['tauxPrévisionnelACC'] | undefined;
 
   technologieÉolien: string | undefined;
   diamètreRotorEnMètres: string | undefined;
   hauteurBoutDePâleEnMètres: string | undefined;
-  installationRenouvellée: string | undefined;
+  installationRenouvelée: string | undefined;
+  puissanceDuProjetInitial: number | undefined;
   nombreDAérogénérateurs: string | undefined;
   puissanceUnitaireDesAérogénérateurs: string | undefined;
 };
@@ -169,6 +171,7 @@ const mapToReadModel: MapToReadModelProps = ({
   typologieInstallation,
   natureDeLExploitation,
   coordonnées,
+  puissanceDuProjetInitial,
 
   'détail-candidature': détailCandidature,
 }) => {
@@ -201,6 +204,7 @@ const mapToReadModel: MapToReadModelProps = ({
     puissance,
     puissanceDeSite,
     unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+    puissanceDuProjetInitial,
 
     installateur,
     installationAvecDispositifDeStockage:
@@ -216,13 +220,29 @@ const mapToReadModel: MapToReadModelProps = ({
         )
       : undefined,
     tauxPrévisionnelACI: natureDeLExploitation?.tauxPrévisionnelACI,
+    tauxPrévisionnelACC: natureDeLExploitation?.tauxPrévisionnelACC,
 
-    technologieÉolien: détailCandidature.détail['Technologie (AO éolien)'],
-    diamètreRotorEnMètres: détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'],
-    hauteurBoutDePâleEnMètres: détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'],
-    installationRenouvellée: détailCandidature.détail['Installation renouvellée (AO éolien)'],
-    nombreDAérogénérateurs: détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"],
+    technologieÉolien:
+      détailCandidature.détail['Technologie (AO éolien)'] ??
+      détailCandidature.détail['Technologie'],
+    diamètreRotorEnMètres:
+      détailCandidature.détail['Diamètre du rotor (m) (AO éolien)'] ??
+      détailCandidature.détail['Diamètre du rotor'],
+    hauteurBoutDePâleEnMètres:
+      détailCandidature.détail['Hauteur bout de pâle (m) (AO éolien)'] ??
+      détailCandidature.détail['Hauteur en bout de pale'],
+    installationRenouvelée: détailCandidature.détail['Installation renouvellée (AO éolien)']
+      ? détailCandidature.détail['Installation renouvellée (AO éolien)']
+      : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'true'
+        ? 'Oui'
+        : détailCandidature.détail["L'installation est-elle renouvelée ?"] === 'false'
+          ? 'Non'
+          : undefined,
+    nombreDAérogénérateurs:
+      détailCandidature.détail["Nb d'aérogénérateurs (AO éolien)"] ??
+      détailCandidature.détail["Nombre d'aérogénérateurs"],
     puissanceUnitaireDesAérogénérateurs:
-      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'],
+      détailCandidature.détail['Puissance unitaire des aérogénérateurs (AO éolien)'] ??
+      détailCandidature.détail['Puissance unitaire des aérogénérateurs'],
   };
 };

@@ -259,7 +259,7 @@ const mapBodyToCandidatureUsecaseData = (
             tauxPrévisionnelACC: previous.natureDeLExploitation.tauxPrévisionnelACC,
           }
         : undefined,
-      puissanceProjetInitial: previous.puissanceProjetInitial,
+      puissanceDuProjetInitial: previous.puissanceDuProjetInitial,
       raccordements: previous.raccordements?.map((r) => ({
         dateQualification: r.dateQualification.formatter(),
         référence: r.référence.formatter(),
