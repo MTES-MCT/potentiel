@@ -94,6 +94,8 @@ export const mapApiResponseToDépôt = ({
     dateÉchéanceGarantiesFinancières: accessor.getDateValue('dateÉchéanceGf'),
   });
 
+  const nomProjet = accessor.getStringValue('nomProjet');
+
   return {
     //  1. Renseignements administratifs
     nomCandidat: accessor.getStringValue('nomCandidat'),
@@ -102,7 +104,7 @@ export const mapApiResponseToDépôt = ({
     emailContact: accessor.getStringValue('emailContact'),
 
     //  2. Identification du projet
-    nomProjet: accessor.getStringValue('nomProjet'),
+    nomProjet,
     puissance: accessor.getNumberValue('puissance'),
     puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
     puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
@@ -162,6 +164,7 @@ export const mapApiResponseToDépôt = ({
       accessor: accessorNuméroIdentification,
       nomChampsNuméroSIREN: 'numéroSIREN',
       nomChampsNuméroSIRET: 'numéroSIRET',
+      nomProjet,
     }),
 
     // Non disponibles sur Démarches simplifiées

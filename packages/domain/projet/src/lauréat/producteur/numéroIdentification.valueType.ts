@@ -39,15 +39,31 @@ export const bind = ({ siret, siren }: PlainType<ValueType>): ValueType => {
   };
 };
 
-const regexSIRET = /^\d{14}$/;
-const regexSIREN = /^\d{9}$/;
+const regexSiret = /^\d{14}$/;
+const regexSiren = /^\d{9}$/;
 
 export const estValideSiret = (value: string): boolean => {
-  return regexSIRET.test(value) && applyLuhnCheck(value);
+  if (!regexSiret.test(value)) {
+    throw new ChaîneSiretInvalideError(value);
+  }
+
+  if (!applyLuhnCheck(value)) {
+    throw new SiretInvalideError(value);
+  }
+
+  return true;
 };
 
 export const estValideSiren = (value: string): boolean => {
-  return regexSIREN.test(value) && applyLuhnCheck(value);
+  if (!regexSiren.test(value)) {
+    throw new ChaîneSirenInvalideError(value);
+  }
+
+  if (!applyLuhnCheck(value)) {
+    throw new SirenInvalideError(value);
+  }
+
+  return true;
 };
 
 type ConvertirEnValueTypeProps = {
@@ -74,7 +90,7 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
   }
 }
 
-const sanitize = (value: string) => value.replace(/ /g, '');
+const sanitize = (value: string) => value.replace(/\s/g, '');
 
 class NuméroIdentificationInvalideError extends InvalidOperationError {
   constructor() {
@@ -84,9 +100,25 @@ class NuméroIdentificationInvalideError extends InvalidOperationError {
   }
 }
 
+class ChaîneSiretInvalideError extends InvalidOperationError {
+  constructor(value: string) {
+    super(`Le numéro SIRET n'est pas composé de 14 chiffres`, {
+      value,
+    });
+  }
+}
+
 class SiretInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le numéro de SIRET n'est pas valide`, {
+      value,
+    });
+  }
+}
+
+class ChaîneSirenInvalideError extends InvalidOperationError {
+  constructor(value: string) {
+    super(`Le numéro SIREN n'est pas composé de 9 chiffres`, {
       value,
     });
   }
