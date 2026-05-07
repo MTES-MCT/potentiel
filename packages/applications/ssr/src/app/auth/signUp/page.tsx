@@ -12,7 +12,7 @@ import { callbackURLSchema } from '@/utils/zod/auth';
 import SignUpPage from './SignUp.page';
 
 type PageProps = {
-  searchParams: Record<string, string>;
+  searchParams: Promise<Record<string, string>>;
 };
 
 const searchParamsSchema = z.object({
@@ -20,7 +20,8 @@ const searchParamsSchema = z.object({
   error: z.string().optional(),
 });
 
-export default function SignUp({ searchParams }: PageProps) {
+export default async function SignUp(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () => {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), error } =
       searchParamsSchema.parse(searchParams);

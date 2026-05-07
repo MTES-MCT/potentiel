@@ -65,7 +65,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     !state.typeReprésentantLégal ||
     !state.nomReprésentantLégal ||
     !state.piècesJustificatives.length ||
-    Object.keys(validationErrors).length > 0;
+    Object.values(validationErrors).filter(Boolean).length > 0;
 
   const conditionDésactivationÉtape1 =
     !state.typeReprésentantLégal ||
@@ -74,6 +74,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
     if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {
@@ -102,13 +103,18 @@ export const CorrigerChangementReprésentantLégalForm: FC<
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
             validationErrors={validationErrors}
-            onChange={({ typeReprésentantLégal, typeSociété }) =>
+            onChange={({ typeReprésentantLégal, typeSociété }) => {
+              setValidationErrors((validationErrors) => ({
+                ...validationErrors,
+                typeRepresentantLegal: undefined,
+              }));
+
               setState((state) => ({
                 ...state,
                 typeReprésentantLégal,
                 typeSociété,
-              }))
-            }
+              }));
+            }}
           />
         </div>
       ),
@@ -139,12 +145,16 @@ export const CorrigerChangementReprésentantLégalForm: FC<
             typeSociété={state.typeSociété}
             pièceJustificative={state.piècesJustificatives}
             validationErrors={validationErrors}
-            onChange={(nouvellesPiècesJustificatives) =>
+            onChange={(nouvellesPiècesJustificatives) => {
+              setValidationErrors((validationErrors) => ({
+                ...validationErrors,
+                piecesJustificatives: undefined,
+              }));
               setState((state) => ({
                 ...state,
                 piècesJustificatives: [...nouvellesPiècesJustificatives],
-              }))
-            }
+              }));
+            }}
           />
         </>
       ),

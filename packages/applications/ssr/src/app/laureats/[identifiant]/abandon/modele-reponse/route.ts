@@ -10,7 +10,6 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -19,9 +18,13 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 
 import { getLauréat } from '../../_helpers/getLauréat';
 
-export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  _: Request,
+  ctx: RouteContext<'/laureats/[identifiant]/abandon/modele-reponse'>,
+) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
 
       const {

@@ -8,10 +8,14 @@ import { getLauréatMenuItems } from './_helpers/getLauréatMenuItems';
 
 type LayoutProps = {
   children: React.ReactNode;
-  params: { identifiant: string };
+  params: Promise<{ identifiant: string }>;
 };
 
-export default async function LauréatDétailsLayout({ children, params }: LayoutProps) {
+export default async function LauréatDétailsLayout(props: LayoutProps) {
+  const params = await props.params;
+
+  const { children } = props;
+
   return withUtilisateur(async (utilisateur) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       decodeParameter(params.identifiant),

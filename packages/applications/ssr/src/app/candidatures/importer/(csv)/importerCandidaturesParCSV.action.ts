@@ -118,7 +118,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
         success++;
       } catch (error) {
-        if (error instanceof DomainError) {
+        if (DomainError.isDomainError(error)) {
           errors.push({
             key: `${line.numéroCRE} - ${line.nomProjet}`,
             reason: error.message,

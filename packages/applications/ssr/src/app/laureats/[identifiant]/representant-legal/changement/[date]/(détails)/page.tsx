@@ -23,13 +23,17 @@ import {
 export const metadata: Metadata = { title: 'Détail du représentant légal' };
 
 type PageProps = {
-  params: {
+  params: Promise<{
     identifiant: string;
     date: string;
-  };
+  }>;
 };
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, date } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

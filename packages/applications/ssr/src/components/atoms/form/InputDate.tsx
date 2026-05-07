@@ -1,10 +1,10 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 type InputDateProps = {
-  label: ReactNode;
+  label: InputProps['label'];
   name: string;
   id?: string;
   required?: true;

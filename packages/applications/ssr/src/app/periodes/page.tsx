@@ -24,12 +24,13 @@ const paramsSchema = z.object({
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Liste des périodes' };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props0: PageProps) {
+  const searchParams = await props0.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Période.ListerPériodesQuery>(

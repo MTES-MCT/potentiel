@@ -21,7 +21,7 @@ import {
 } from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 const searchParamsSchema = z.object({
@@ -34,7 +34,8 @@ type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 export const metadata: Metadata = { title: 'Garanties financières en attente de validation' };
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle } = searchParamsSchema.parse(searchParams);

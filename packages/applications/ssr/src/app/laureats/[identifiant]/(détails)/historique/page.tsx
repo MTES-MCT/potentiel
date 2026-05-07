@@ -39,7 +39,7 @@ import {
 } from './_helpers/catégories';
 
 type PageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
+  searchParams?: Promise<Record<string, string>>;
 };
 
 export const metadata: Metadata = { title: 'Historique' };
@@ -48,7 +48,12 @@ const paramsSchema = z.object({
   categorie: z.enum(categoriesDisponibles).optional(),
 });
 
-export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);

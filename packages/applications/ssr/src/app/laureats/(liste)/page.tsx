@@ -22,7 +22,7 @@ import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { LauréatListPage } from './LauréatList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Projets lauréats' };
@@ -40,7 +40,8 @@ const paramsSchema = z.object({
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, periode, famille, statut, typeActionnariat, PPA } =

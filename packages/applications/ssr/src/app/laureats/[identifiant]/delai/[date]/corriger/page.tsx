@@ -15,13 +15,17 @@ import { CorrigerDemandeDélaiPage } from './CorrigerDemandeDélai.page';
 export const metadata: Metadata = { title: 'Corriger la demande de délai' };
 
 type PageProps = {
-  params: {
+  params: Promise<{
     identifiant: string;
     date: string;
-  };
+  }>;
 };
 
-export default async function Page({ params: { identifiant, date } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant, date } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Délai.CorrigerDemandeDélaiUseCase>(

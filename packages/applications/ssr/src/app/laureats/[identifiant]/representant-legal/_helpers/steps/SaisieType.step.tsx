@@ -132,7 +132,6 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
         typeReprésentantLégalActuel={state.typeReprésentantLégal}
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
-          delete validationErrors.typeRepresentantLegal;
           if (onChange) {
             onChange({
               typeReprésentantLégal,

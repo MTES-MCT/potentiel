@@ -11,7 +11,11 @@ import { getActionnaireInfos } from '../../../_helpers';
 type ProjetPageProps = IdentifiantParameter;
 
 // Page de redirection vers la dernière demande d'actionnaire (demandée, annulée, accordée ou rejetée) du projet
-export default async function ProjetPage({ params: { identifiant } }: ProjetPageProps) {
+export default async function ProjetPage(props: ProjetPageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   const identifiantProjet = decodeParameter(identifiant);
 
   const actionnaire = await getActionnaireInfos(

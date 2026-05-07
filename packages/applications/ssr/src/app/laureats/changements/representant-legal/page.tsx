@@ -19,7 +19,7 @@ import {
 } from './ChangementReprésentantLégalList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Changements de représentant légal' };
@@ -35,7 +35,8 @@ const paramsSchema = z.object({
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);

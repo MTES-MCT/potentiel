@@ -11,12 +11,6 @@ import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
-type ExporterRaccordementParameter = {
-  params: {
-    identifiant: string;
-  };
-};
-
 type DossierRaccordementEnAttenteMiseEnServiceCSV = {
   identifiantProjet: IdentifiantProjet.RawType;
   appelOffre: IdentifiantProjet.ValueType['appelOffre'];
@@ -37,9 +31,13 @@ type DossierRaccordementEnAttenteMiseEnServiceCSV = {
   dateNotification: DateTime.RawType;
 };
 
-export const GET = async (_: Request, { params: { identifiant } }: ExporterRaccordementParameter) =>
+export const GET = async (
+  _: Request,
+  ctx: RouteContext<'/reseaux/gestionnaires/[identifiant]/raccordements/mise-en-service-en-attente:exporter'>,
+) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await ctx.params;
       const identifiantGestionnaireRéseau = decodeParameter(identifiant);
       if (
         utilisateur.estGrd() &&

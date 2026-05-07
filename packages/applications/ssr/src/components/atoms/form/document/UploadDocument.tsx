@@ -2,13 +2,13 @@ import React, { FC, useState } from 'react';
 import { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 import Button from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { fr } from '@codegouvfr/react-dsfr';
 
 import { fileSizeLimitInBytes, fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 
 import { Icon } from '../../Icon';
+import { Link } from '../../LinkNoPrefetch';
 
 export type UploadDocumentProps = {
   className?: string;

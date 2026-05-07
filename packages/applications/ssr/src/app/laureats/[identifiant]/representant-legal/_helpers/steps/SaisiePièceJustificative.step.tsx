@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -67,7 +67,6 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['piecesJustificatives']}
         onChange={(piècesJustificatives) => {
-          delete validationErrors['piecesJustificatives'];
           if (onChange) {
             onChange(piècesJustificatives);
           }

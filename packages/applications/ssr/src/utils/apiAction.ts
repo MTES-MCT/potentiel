@@ -13,13 +13,13 @@ export const apiAction = async (action: () => Promise<Response>) =>
   withErrorHandling(action, mapDomainError, mapTo401, mapTo400, mapTo500);
 
 const mapDomainError = (e: DomainError) => {
-  if (e instanceof InvalidOperationError) {
+  if (InvalidOperationError.isInvalidOperationError(e)) {
     return mapTo400(e);
   }
-  if (e instanceof OperationRejectedError) {
+  if (OperationRejectedError.isOperationRejectedError(e)) {
     return mapTo403(e);
   }
-  if (e instanceof AggregateNotFoundError) {
+  if (AggregateNotFoundError.isAggregateNotFoundError(e)) {
     return mapTo404(e);
   }
 

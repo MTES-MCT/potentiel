@@ -57,16 +57,15 @@
     "@eslint/compat": "1.1.0",
     "@eslint/js": "8.57.0",
     "@faker-js/faker": "9.6.0",
-    "@next/eslint-plugin-next": "16.0.3",
     "@types/chai": "4.3.20",
     "chai": "4.5.0",
-    "eslint": "8.57.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "2.31.0",
+    "eslint": "9.39.3",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import": "2.32.0",
     "eslint-plugin-monorepo-cop": "1.0.2",
-    "eslint-plugin-prettier": "5.2.6",
+    "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-react": "7.37.5",
-    "eslint-plugin-unused-imports": "4.3.0",
+    "eslint-plugin-unused-imports": "4.4.1",
     "foreman": "3.0.1",
     "gitmoji-cli": "9.7.0",
     "globals": "15.15.0",
@@ -76,19 +75,19 @@
     "tsx": "4.20.4",
     "turbo": "2.6.1",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.3",
-    "update-ts-references": "^4.0.0",
+    "typescript-eslint": "8.59.2",
+    "update-ts-references": "4.0.0",
     "wait-for-expect": "3.0.2"
   },
   "engines": {
-    "node": "^24.10.0"
+    "node": "^24.14.0"
   },
   "dependencies": {
     "isomorphic-dompurify": "2.23.0",
     "prettier-plugin-gherkin": "2.4.1",
     "ts-pattern": "5.7.0"
   },
-  "packageManager": "npm@10.7.0",
+  "packageManager": "npm@11.11.0",
   "gitmoji": {
     "autoAdd": false,
     "emojiFormat": "emoji",

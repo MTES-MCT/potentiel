@@ -18,7 +18,8 @@ import {
 
 export const metadata: Metadata = { title: 'Détail du dépôt des garanties financières' };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

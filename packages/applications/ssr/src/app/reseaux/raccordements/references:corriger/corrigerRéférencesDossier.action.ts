@@ -12,6 +12,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   fichierCorrections: singleDocument({ acceptedFileTypes: ['text/csv'] }),
@@ -71,13 +72,15 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
         });
         success++;
       } catch (error) {
-        if (error instanceof DomainError) {
+        if (DomainError.isDomainError(error)) {
           errors.push({
             key: referenceDossier,
             reason: error.message,
           });
           continue;
         }
+
+        getLogger().error(error as Error);
         errors.push({
           key: identifiantProjet,
           reason:

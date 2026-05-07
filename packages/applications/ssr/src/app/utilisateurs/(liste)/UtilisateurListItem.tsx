@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Link from 'next/link';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { useSearchParams } from 'next/navigation';
@@ -24,6 +23,7 @@ import { getZoneLabel } from '../_helpers/getZoneLabel';
 import { RoleBadge } from './RoleBadge';
 import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type UtilisateurActions = {
   actions: ('désactiver' | 'réactiver' | 'modifier')[];

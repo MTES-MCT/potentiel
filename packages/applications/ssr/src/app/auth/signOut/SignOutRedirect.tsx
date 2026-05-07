@@ -20,6 +20,6 @@ export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
     } else {
       window.location.href = callbackUrl ?? '/';
     }
-  }, [isPending, data]);
+  }, [isPending, data, callbackUrl]);
   return null;
 };

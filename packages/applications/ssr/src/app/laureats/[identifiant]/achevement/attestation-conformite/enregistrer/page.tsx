@@ -14,7 +14,8 @@ import { EnregistrerAttestationConformitéPage } from './EnregistrerAttestationC
 
 export const metadata: Metadata = { title: `Enregistrer l'attestation de conformité` };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
+  const { identifiant } = await params;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Achèvement.EnregistrerAttestationConformitéUseCase>(

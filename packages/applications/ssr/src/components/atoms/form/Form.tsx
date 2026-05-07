@@ -1,8 +1,7 @@
 'use client';
 
-import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { FC, FormHTMLAttributes, ReactNode, useActionState, useEffect, useState } from 'react';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
 
@@ -59,7 +58,7 @@ export const Form: FC<FormProps> = ({
     fetchCSRFToken();
   }, []);
 
-  const [state, formAction] = useFormState(action, {
+  const [state, formAction] = useActionState(action, {
     status: undefined,
   });
 
@@ -71,10 +70,9 @@ export const Form: FC<FormProps> = ({
     if (onValidationError && state.status === 'validation-error') {
       onValidationError(state.errors);
     }
-  }, [state.status]);
+  }, [state.status, onValidationError, state]);
 
   return (
-    // eslint-disable-next-line react/no-unknown-property
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
       <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {retourUrl && (

@@ -11,7 +11,6 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
@@ -19,9 +18,13 @@ import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/ma
 
 import { getLauréat } from '../../../_helpers/getLauréat';
 
-export const GET = async (_: NextRequest, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  _: NextRequest,
+  ctx: RouteContext<'/laureats/[identifiant]/garanties-financieres/mainlevee/modele-mise-en-demeure'>,
+) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await ctx.params;
       const identifiantProjetValue = decodeParameter(identifiant);
 
       const { lauréat, puissance, représentantLégal } = await getLauréat(

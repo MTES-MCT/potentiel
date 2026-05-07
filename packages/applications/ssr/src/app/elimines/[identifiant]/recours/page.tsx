@@ -9,11 +9,15 @@ import { Routes } from '@potentiel-applications/routes';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-type PageProps = { params: { identifiant: string } };
+type PageProps = { params: Promise<{ identifiant: string }> };
 
 export const metadata: Metadata = { title: `Recours` };
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       decodeParameter(identifiant),

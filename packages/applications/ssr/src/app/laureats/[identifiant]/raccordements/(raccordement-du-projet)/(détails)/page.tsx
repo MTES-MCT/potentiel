@@ -31,7 +31,11 @@ type PageProps = IdentifiantParameter;
 
 export const metadata: Metadata = { title: 'Raccordement du projet' };
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

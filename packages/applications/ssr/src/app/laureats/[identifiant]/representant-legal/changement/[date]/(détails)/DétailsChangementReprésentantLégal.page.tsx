@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -46,7 +44,16 @@ export const DétailsChangementReprésentantLégalPage: FC<
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <DétailsChangementReprésentantLégal {...demande} />
+            <DétailsChangementReprésentantLégal
+              demandéeLe={demande.demandéeLe}
+              demandéePar={demande.demandéePar}
+              nomReprésentantLégal={demande.nomReprésentantLégal}
+              typeReprésentantLégal={demande.typeReprésentantLégal}
+              pièceJustificative={demande.pièceJustificative}
+              statut={demande.statut}
+              accord={demande.accord}
+              rejet={demande.rejet}
+            />
             <div>
               <Heading2>Historique</Heading2>
               <Timeline items={historique} />

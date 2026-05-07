@@ -38,7 +38,7 @@ const TâchesList = ({ tâches, utilisateurEstPorteur }: Props) => {
                     <ListItem
                       miseÀJourLe={miseÀJourLe.date}
                       heading={<Heading3>{titre}</Heading3>}
-                      actions={<></>}
+                      actions={null}
                     >
                       <div className="lex flex flex-col gap-2">
                         <p>{description}</p>

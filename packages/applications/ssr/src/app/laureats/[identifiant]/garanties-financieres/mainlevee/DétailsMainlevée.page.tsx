@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import clsx from 'clsx';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';

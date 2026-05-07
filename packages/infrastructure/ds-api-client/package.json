@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/ds-api-client",
-  "version": "0.0.0",
   "description": "Query Démarches Simplifiées GraphQL API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,13 +18,13 @@
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-libraries/pdf": "*",
     "graphql-request": "7.4.0",
-    "pizzip": "3.1.8",
-    "mime-types": "3.0.2"
+    "mime-types": "3.0.2",
+    "pizzip": "3.1.8"
   },
   "devDependencies": {
     "@graphql-codegen/add": "6.0.0",
     "@graphql-codegen/cli": "6.1.2",
-    "@graphql-codegen/typescript-graphql-request": "6.4.0",
+    "@graphql-codegen/typescript-graphql-request": "7.0.1",
     "@potentiel-config/tsconfig": "*"
   }
 }

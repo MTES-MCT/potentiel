@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import ReactPDF, { Font } from '@react-pdf/renderer';
+import { Font, renderToStream } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
@@ -70,7 +70,7 @@ export const buildCertificate = async ({
     imagesFolderPath,
   });
 
-  return await mapToReadableStream(await ReactPDF.renderToStream(content));
+  return await mapToReadableStream(await renderToStream(content));
 };
 
 type CertificateData = {

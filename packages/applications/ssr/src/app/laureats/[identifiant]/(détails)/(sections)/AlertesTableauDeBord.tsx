@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import Notice from '@codegouvfr/react-dsfr/Notice';
 
 export type Alerte = {
@@ -26,6 +24,7 @@ export const AlertesTableauDeBord = ({ achèvement, abandon }: AlertesTableauDeB
           description={abandon.label}
           title="Abandon"
           severity="info"
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...(abandon.url && {
             link: {
               linkProps: {

@@ -4,9 +4,7 @@ import importPlugin from 'eslint-plugin-import';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
 import monorepoPlugin from 'eslint-plugin-monorepo-cop';
-import react from 'eslint-plugin-react';
 import eslintJs from '@eslint/js';
-import next from '@next/eslint-plugin-next';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 export default eslintTs.config(
@@ -14,15 +12,16 @@ export default eslintTs.config(
   prettierConfig,
   prettierPlugin,
   ...eslintTs.configs.recommended,
-  { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   {
     ignores: [
       '**/dist/',
       '**/.storybook',
-      '**/.next',
       '**/potentiel-keycloak',
       '**/*.config.js',
       '**/scripts/*.ts',
+      '**/generated',
+      '**/*.d.ts',
+      'packages/applications/ssr',
     ],
   },
   {
@@ -66,6 +65,7 @@ export default eslintTs.config(
     rules: {
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-case-declarations': 'off',
       'no-empty': ['error', { allowEmptyCatch: true }],
@@ -108,29 +108,6 @@ export default eslintTs.config(
         },
       ],
       'unused-imports/no-unused-imports': 'error',
-    },
-  },
-  {
-    files: ['**/applications/ssr/src/**/*.{ts,tsx}'],
-    extends: eslintTs.configs.recommended,
-    plugins: {
-      ...react.configs.flat.recommended.plugins,
-      '@next/next': next,
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
-    rules: {
-      ...next.configs.recommended.rules,
-      ...react.configs.flat.recommended.rules,
-      '@next/next/no-html-link-for-pages': 'off',
-      '@typescript-eslint/ban-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/no-unescaped-entities': 'off',
-      'react/prop-types': 'off',
-      'react/jsx-props-no-spreading': 2,
     },
   },
   // support for chai

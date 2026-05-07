@@ -12,15 +12,18 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
-export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  _: Request,
+  ctx: RouteContext<'/candidatures/[identifiant]/previsualiser-attestation'>,
+) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const logger = getLogger();
 
+      const { identifiant } = await ctx.params;
       const identifiantProjet = decodeParameter(identifiant);
 
       const rôleUtilisateur = utilisateur.rôle;

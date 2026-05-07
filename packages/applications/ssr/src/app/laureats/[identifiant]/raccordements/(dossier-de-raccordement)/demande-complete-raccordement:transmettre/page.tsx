@@ -19,7 +19,11 @@ export const metadata: Metadata = { title: 'Ajouter un dossier de raccordement' 
 
 type PageProps = IdentifiantParameter;
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+
+  const { identifiant } = params;
+
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       utilisateur.rôle.peutExécuterMessage<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>(

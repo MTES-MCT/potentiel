@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { captureException } from '@sentry/core';
 
@@ -19,7 +20,7 @@ export const SectionWithErrorHandling = async (
       captureException(e, { data: { location: 'section-page-projet', title } });
     } catch {}
 
-    if (e instanceof OperationRejectedError) {
+    if (OperationRejectedError.isOperationRejectedError(e as Error)) {
       return (
         <Section title={title ?? 'Erreur'}>
           <Notice

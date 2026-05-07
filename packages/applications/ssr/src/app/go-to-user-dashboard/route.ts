@@ -1,14 +1,15 @@
 import { redirect } from 'next/navigation';
+import { NextRequest } from 'next/server';
 
 import { Routes } from '@potentiel-applications/routes';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { apiAction } from '@/utils/apiAction';
 import { getDashboardRoute } from '@/utils/getDashboardRoute';
+import { getSessionUser } from '@/auth/getSessionUser';
 
-export const GET = async () =>
-  apiAction(() => {
-    const utilisateur = getContext()?.utilisateur;
+export const GET = async ({ headers }: NextRequest) =>
+  apiAction(async () => {
+    const utilisateur = await getSessionUser({ headers });
 
     if (utilisateur) {
       redirect(getDashboardRoute(utilisateur.rôle).lien);

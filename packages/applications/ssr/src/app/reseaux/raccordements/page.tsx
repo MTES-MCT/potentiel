@@ -18,7 +18,7 @@ import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
 type PageProps = {
-  searchParams?: Record<SearchParams, string>;
+  searchParams?: Promise<Record<SearchParams, string>>;
 };
 
 export const metadata: Metadata = { title: 'Dossiers de raccordement' };
@@ -35,7 +35,8 @@ const searchParamsSchema = z.object({
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
-export default async function Page({ searchParams }: PageProps) {
+export default async function Page(props: PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const {

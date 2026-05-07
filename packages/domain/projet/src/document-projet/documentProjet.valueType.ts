@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { extension } from 'mime-types';
 
@@ -7,7 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 
-import { DossierProjet } from './index.js';
+import * as DossierProjet from './dossierProjet.valueType.js';
 
 type Extension = string;
 export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}` | ``;
@@ -44,7 +44,10 @@ export const bind = ({
        * @todo Ici le valueType ne devrait pas savoir que l'enregistrement du document doit se faire dans un file system qui demande de créer un chemin de fichier (à l'aide du join)
        * cf upload.ts
        */
-      return join(dossierProjet.formatter(), `${dateCréation}.${extensionFichier}`) as RawType;
+      return join(
+        /*turbopackIgnore: true*/ dossierProjet.formatter(),
+        `${dateCréation}.${extensionFichier}`,
+      ) as RawType;
     },
   };
 };
@@ -107,8 +110,12 @@ export const documentFactory =
     bind({
       identifiantProjet: payload.identifiantProjet,
       typeDocument: nomCléDocument
-        ? join(domaine, payload[nomCléDocument as keyof typeof payload], typeDocument)
-        : join(domaine, typeDocument),
+        ? join(
+            /*turbopackIgnore: true*/ domaine,
+            payload[nomCléDocument as keyof typeof payload],
+            typeDocument,
+          )
+        : join(/*turbopackIgnore: true*/ domaine, typeDocument),
       dateCréation: payload[nomChampDate],
       format: payload[nomChampDocument].format,
     });

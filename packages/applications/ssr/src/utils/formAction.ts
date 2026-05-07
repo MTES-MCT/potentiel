@@ -1,10 +1,6 @@
 import * as zod from 'zod';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-// eslint-disable-next-line no-restricted-imports
-import { isRedirectError } from 'next/dist/client/components/redirect';
-// eslint-disable-next-line no-restricted-imports
-import { isNotFoundError } from 'next/dist/client/components/not-found';
+import { redirect, unstable_rethrow } from 'next/navigation';
 import { unflatten } from 'flat';
 
 import { DomainError } from '@potentiel-domain/core';
@@ -16,14 +12,6 @@ import { applySearchParams } from '@/app/_helpers';
 import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
 import { callbackURLSchema } from './zod/auth';
-
-const normalizeFormKeys = <T extends Record<string, unknown>>(data: T): T =>
-  Object.fromEntries(
-    Object.entries(data).map(([key, value]) => {
-      const decodedKey = decodeURIComponent(escape(key));
-      return [decodedKey, value];
-    }),
-  ) as T;
 
 export type ActionResult = {
   successMessage: string;
@@ -125,17 +113,13 @@ export const formAction =
         };
       }, {});
 
-      const dataReducedNormalized = normalizeFormKeys(dataReduced);
-
       const data = schema
-        ? await schema.parseAsync(unflatten(dataReducedNormalized))
-        : unflatten(dataReducedNormalized);
+        ? await schema.parseAsync(unflatten(dataReduced))
+        : unflatten(dataReduced);
       const result = await action(previousState, data as zod.infer<TSchema>);
 
       // Si le formulaire contient un champ "retour" valide, on redirige vers cette url en priorité.
-      const parsedRetour = zod
-        .object({ retour: callbackURLSchema })
-        .safeParse(dataReducedNormalized);
+      const parsedRetour = zod.object({ retour: callbackURLSchema }).safeParse(dataReduced);
 
       if (result.status === 'success' && parsedRetour.success) {
         result.redirection = {
@@ -171,9 +155,7 @@ export const formAction =
 
       return result;
     } catch (e) {
-      if (isRedirectError(e) || isNotFoundError(e)) {
-        throw e;
-      }
+      unstable_rethrow(e);
       if (e instanceof ImportCSV.CsvLineValidationError) {
         return {
           status: 'csv-line-error' as const,
@@ -213,7 +195,7 @@ export const formAction =
         };
       }
 
-      if (e instanceof DomainError) {
+      if (DomainError.isDomainError(e)) {
         return {
           status: 'domain-error' as const,
           message: e.message,

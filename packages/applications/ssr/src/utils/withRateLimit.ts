@@ -19,7 +19,7 @@ export function withRateLimit<TResult, TArgs extends unknown[]>(
 
   return async (...args: TArgs) => {
     const utilisateur = getContext()?.utilisateur;
-    const ip = headers().get('x-forwarded-for');
+    const ip = (await headers()).get('x-forwarded-for');
     try {
       const consume = async (key: string | null | undefined) => {
         if (!key) return;

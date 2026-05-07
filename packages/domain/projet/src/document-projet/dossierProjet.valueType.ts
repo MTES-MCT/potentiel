@@ -1,8 +1,8 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../index.js';
+import * as IdentifiantProjet from '../identifiantProjet.valueType.js';
 
 type TypeDocument = string;
 export type RawType = `${IdentifiantProjet.RawType}/${TypeDocument}`;
@@ -26,7 +26,10 @@ export const convertirEnValueType = ({
 
   return {
     formatter() {
-      return join(identifiantProjet.formatter(), typeDocumentValue) as RawType;
+      return join(
+        /*turbopackIgnore: true*/ identifiantProjet.formatter(),
+        typeDocumentValue,
+      ) as RawType;
     },
     estÉgaleÀ(valueType: ValueType) {
       return this.formatter() === valueType.formatter();

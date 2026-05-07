@@ -1,4 +1,4 @@
-import { createCsrfProtect, CsrfError } from '@edge-csrf/nextjs';
+import { createCsrfProtect, CsrfError } from '@potentiel-libraries/csrf';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 import { CustomMiddleware } from './middleware';
@@ -19,7 +19,8 @@ export function withCSRF(middleware: CustomMiddleware) {
     const response = NextResponse.next();
 
     try {
-      await csrfProtect(request, response);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await csrfProtect(request as any, response as any);
     } catch (err) {
       if (err instanceof CsrfError) {
         const isAction = request.method === 'POST' && request.headers.has('Next-Action');

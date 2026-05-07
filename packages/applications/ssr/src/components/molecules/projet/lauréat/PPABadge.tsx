@@ -1,16 +1,14 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { getContext } from '@potentiel-applications/request-context';
+// import { getContext } from '@potentiel-applications/request-context';
 
 export const PPABadge: FC = () => {
-  const { features } = getContext() ?? {};
+  // const { features } = getContext() ?? {};
 
-  return features?.includes('PPA') ? (
+  return (
     <Badge small noIcon severity="new">
       PPA
     </Badge>
-  ) : (
-    <></>
   );
 };

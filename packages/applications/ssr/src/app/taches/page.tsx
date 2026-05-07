@@ -29,7 +29,7 @@ const searchParamsSchema = z.object({
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
-  searchParams?: Partial<Record<SearchParams, string>>;
+  searchParams?: Promise<Partial<Record<SearchParams, string>>>;
 };
 
 export const metadata: Metadata = {
@@ -42,7 +42,8 @@ const catégoriesTâchesFilters = {
   raccordement: 'Raccordements',
 };
 
-export default async function Page({ searchParams }: IdentifiantParameter & PageProps) {
+export default async function Page(props: IdentifiantParameter & PageProps) {
+  const searchParams = await props.searchParams;
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle, catégorieTâche, nomProjet } =
