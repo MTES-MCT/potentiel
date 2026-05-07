@@ -44,7 +44,7 @@ test('Convertir les détails du projet en fournisseurs pour un projet Eolien', (
       référenceCommerciale: 'ref2',
     },
     {
-      typeFournisseur: 'dispositif-de-stockage',
+      typeFournisseur: 'stockage',
       nomDuFabricant: 'FAB-S',
       lieuDeFabrication: 'ARGENTINE',
     },
@@ -108,7 +108,7 @@ test('Convertir les détails du projet en fournisseurs pour un projet PV', () =>
       référenceCommerciale: 'ref2',
     },
     {
-      typeFournisseur: 'dispositif-de-stockage',
+      typeFournisseur: 'stockage',
       nomDuFabricant: 'FAB-S',
       lieuDeFabrication: 'ARGENTINE',
     },

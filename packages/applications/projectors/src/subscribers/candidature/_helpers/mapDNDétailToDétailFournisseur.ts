@@ -1,5 +1,7 @@
 import { Candidature } from '@potentiel-domain/projet';
 
+type DétailFournisseur = Candidature.DétailFournisseursCandidatureEntity['fournisseurs'][number];
+
 const CHAMPS = [
   { label: 'Nom du fabricant', property: 'nomDuFabricant' },
   { label: 'Pays de fabrication', property: 'lieuDeFabrication' },
@@ -13,7 +15,7 @@ const CHAMPS = [
 const TYPES_FOURNISSEURS = [
   { label: 'Poste de conversion', type: 'poste-conversion' },
   { label: 'Dispositif de production', type: 'dispositif-de-production' },
-  { label: 'Stockage', type: 'dispositif-de-stockage' },
+  { label: 'Stockage', type: 'stockage' },
   { label: 'Turbine', type: 'turbine' },
   { label: 'Développement', type: 'développement' },
   { label: 'Génie civil', type: 'génie-civil' },
@@ -23,7 +25,7 @@ const TYPES_FOURNISSEURS = [
   { label: 'Plaquettes de silicium (wafers)', type: 'plaquettes-silicium' },
   { label: 'Polysilicium', type: 'polysilicium' },
   { label: 'Structure', type: 'structure' },
-  { label: 'Composants photovoltaïques', type: 'composants-photovoltaïques' },
+  { label: 'Composants photovoltaïques', type: 'module-ou-films' },
   { label: 'Wafers', type: 'plaquettes-silicium' },
   { label: 'Onduleurs', type: 'onduleurs' },
   { label: "Stockage de l'énergie", type: 'stockage' },
@@ -34,8 +36,6 @@ const TYPES_FOURNISSEURS = [
 ] as const;
 
 type TypeFournisseur = (typeof TYPES_FOURNISSEURS)[number]['type'];
-
-type DétailFournisseur = Candidature.DétailFournisseursCandidatureEntity['fournisseurs'][number];
 
 export const mapDNDétailToDétailFournisseur = (
   détail: Record<string, string>,
