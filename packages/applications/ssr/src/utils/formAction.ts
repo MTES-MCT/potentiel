@@ -195,7 +195,7 @@ export const formAction =
         };
       }
 
-      if (e instanceof DomainError) {
+      if (DomainError.isDomainError(e)) {
         return {
           status: 'domain-error' as const,
           message: e.message,

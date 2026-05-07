@@ -26,7 +26,7 @@ export async function withErrorHandling<TResult>(
       return onValidationError(e);
     }
 
-    if (e instanceof DomainError) {
+    if (DomainError.isDomainError(e)) {
       getLogger().warn(e.message);
       return onDomainError(e);
     }

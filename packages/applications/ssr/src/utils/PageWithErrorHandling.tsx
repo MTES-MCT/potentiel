@@ -29,13 +29,13 @@ export const PageWithErrorHandling = async (
   );
 
 const renderDomainError = (e: DomainError) => {
-  if (e instanceof AggregateNotFoundError) {
+  if (AggregateNotFoundError.isAggregateNotFoundError(e)) {
     return <CustomErrorPage statusCode="404" type="NotFoundError" />;
   }
-  if (e instanceof OperationRejectedError) {
+  if (OperationRejectedError.isOperationRejectedError(e)) {
     return <CustomErrorPage statusCode="403" type="OperationRejectedError" />;
   }
-  if (e instanceof InvalidOperationError) {
+  if (InvalidOperationError.isInvalidOperationError(e)) {
     return <CustomErrorPage statusCode="400" type="InvalidOperationError" message={e.message} />;
   }
 
