@@ -4,11 +4,15 @@ import { registerProjetUseCases } from '@potentiel-domain/projet';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 
+import { dsSchema } from '#helpers';
+
 export class ImporterDossierCandidatureCommand extends Command {
   static args = {
     numéroDossier: Args.integer({ required: true }),
   };
   async init() {
+    dsSchema.parse(process.env);
+
     registerProjetUseCases({
       getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       enregistrerDocumentSubstitut: () => {
@@ -19,6 +23,7 @@ export class ImporterDossierCandidatureCommand extends Command {
 
   async run() {
     const { args } = await this.parse(ImporterDossierCandidatureCommand);
+
     try {
       const dépôt = await getDossier(args.numéroDossier);
       console.log(JSON.stringify(dépôt, null, 2));

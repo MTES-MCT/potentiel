@@ -9,6 +9,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { dbSchema } from '#helpers';
+
 import { parseCsvFile } from '#helpers/files';
 
 const csvSchema = z.object({
@@ -37,6 +39,8 @@ const identifiantEnedis =
 
 export default class TransmettreRéférences extends Command {
   async init() {
+    dbSchema.parse(process.env);
+
     Document.registerDocumentProjetCommand({
       enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
       déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,

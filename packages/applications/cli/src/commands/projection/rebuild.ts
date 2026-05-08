@@ -2,6 +2,8 @@ import { Args, Command, getLogger } from '@oclif/core';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
+import { dbSchema } from '#helpers';
+
 export class RebuildProjectionCommand extends Command {
   description = 'Déclencher le rebuild des projections';
   static args = {
@@ -10,6 +12,10 @@ export class RebuildProjectionCommand extends Command {
       required: true,
     }),
   };
+
+  async init() {
+    dbSchema.parse(process.env);
+  }
 
   async run() {
     const { args } = await this.parse(RebuildProjectionCommand);

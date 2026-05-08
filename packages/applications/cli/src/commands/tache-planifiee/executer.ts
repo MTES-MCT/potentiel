@@ -32,6 +32,7 @@ export class Executer extends Command {
   };
 
   async init() {
+    dbSchema.parse(process.env);
     registerProjetQueries({
       list: listProjection,
       find: findProjection,

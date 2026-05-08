@@ -3,11 +3,17 @@ import { Command, Flags } from '@oclif/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
+import { dbSchema } from '#helpers';
+
 export class AcheverTâche extends Command {
   static flags = {
     projet: Flags.string({ char: 'p', description: 'identifiant du projet', required: true }),
     type: Flags.string({ char: 't', description: 'type de tâche', required: true }),
   };
+
+  async init() {
+    dbSchema.parse(process.env);
+  }
 
   async run() {
     const { flags } = await this.parse(AcheverTâche);

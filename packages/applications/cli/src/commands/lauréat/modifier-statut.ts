@@ -5,6 +5,8 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { dbSchema } from '#helpers';
+
 type Projet = {
   id: IdentifiantProjet.RawType;
   date: DateTime.RawType;
@@ -23,6 +25,8 @@ WHERE type = 'AttestationConformitéTransmise-V1';
 
 export class EmettreModifierStatutLauréatEvent extends Command {
   async run() {
+    dbSchema.parse(process.env);
+
     const projetAbandonné = await executeSelect<Projet>(queryAbandon);
     const projetAchevé = await executeSelect<Projet>(queryAchèvement);
 

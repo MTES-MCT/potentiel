@@ -15,3 +15,8 @@ export const s3Schema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_REGION: z.string(),
 });
+
+export const dsSchema = z.object({
+  DS_API_URL: z.url(),
+  DS_API_TOKEN: z.string(),
+});
