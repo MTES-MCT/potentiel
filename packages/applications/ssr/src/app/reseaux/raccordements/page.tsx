@@ -4,9 +4,9 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { featureFlag } from '@potentiel-applications/feature-flag';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -79,8 +79,6 @@ export default async function Page(props: PageProps) {
             })
           ).items;
 
-      const { features } = getContext() ?? {};
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -127,7 +125,7 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      if (features?.includes('PPA')) {
+      if (featureFlag.includes('PPA')) {
         filters.push({
           label: 'PPA',
           searchParamKey: 'PPA',

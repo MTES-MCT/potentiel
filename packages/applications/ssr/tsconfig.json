@@ -66,6 +66,9 @@
       "path": "../../infrastructure/geo-api-client"
     },
     {
+      "path": "../../libraries/csrf"
+    },
+    {
       "path": "../../libraries/csv"
     },
     {
@@ -91,6 +94,9 @@
     },
     {
       "path": "../document-builder"
+    },
+    {
+      "path": "../feature-flag"
     },
     {
       "path": "../notifications"

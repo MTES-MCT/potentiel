@@ -7,7 +7,7 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { getContext } from '@potentiel-applications/request-context';
+import { featureFlag } from '@potentiel-applications/feature-flag';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -84,8 +84,6 @@ export default async function Page(props: PageProps) {
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
-      const { features } = getContext() ?? {};
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -125,7 +123,7 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      if (features?.includes('PPA')) {
+      if (featureFlag.includes('PPA')) {
         filters.push({
           label: 'PPA',
           searchParamKey: 'PPA',

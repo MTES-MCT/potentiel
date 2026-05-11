@@ -5,7 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { getContext } from '@potentiel-applications/request-context';
+import { featureFlag } from '@potentiel-applications/feature-flag';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
@@ -101,12 +101,10 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const { features } = getContext() ?? {};
-
   const powerPurchaseAgreementOnglet =
     utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') &&
     !lauréat.estPartiEnPPA &&
-    features?.includes('PPA')
+    featureFlag.includes('PPA')
       ? linkToSection('Signaler un PPA', 'power-purchase-agreement/signaler')
       : undefined;
 
