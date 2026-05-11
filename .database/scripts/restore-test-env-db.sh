@@ -10,7 +10,7 @@ if [[ "$APPLICATION_NAME" == *"production"* ]]; then
   exit 1
 fi
 
-dbclient-fetcher pgsql
+dbclient-fetcher pgsql 16
 
 if [ -f "./.database/potentiel-dev.dump" ]; then
   if [[ "${IS_REVIEW_APP:-}" == "true" ]]; then
