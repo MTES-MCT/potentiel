@@ -20,10 +20,11 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { getZoneLabel } from '../../_helpers/getZoneLabel';
 
 import { ModifierRôleUtilisateurPage } from './ModifierRôleUtilisateur.page';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 export const metadata: Metadata = { title: 'Modifier le rôle' };
 
-export default async function Page(props: { params: Promise<{ identifiant: string }> }) {
+export default async function Page(props: IdentifiantParameter) {
   const params = await props.params;
 
   const { identifiant } = params;

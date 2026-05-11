@@ -5,10 +5,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Menu } from '@/components/atoms/menu/Menu';
 
 import { getÉliminéMenuItems } from './_helpers/getÉliminéMenuItems';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
-type LayoutProps = {
+type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
-  params: Promise<{ identifiant: string }>;
 };
 
 export default async function ÉliminéDétailsLayout(props: LayoutProps) {

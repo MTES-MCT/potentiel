@@ -11,9 +11,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { getLauréatInfos } from './_helpers/getLauréat';
 
-type LayoutProps = {
+type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
-  params: Promise<{ identifiant: string }>;
 };
 
 export async function generateMetadata(
