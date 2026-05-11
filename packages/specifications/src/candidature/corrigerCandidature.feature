@@ -214,6 +214,7 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Sol |
+            | période        | 1          |
         Quand le DGEC validateur corrige la candidature avec :
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |
         Alors la dgec devrait être informé que "Le champ nature de l'exploitation ne peut être renseigné pour cet appel d'offres"
