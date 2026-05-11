@@ -20,9 +20,11 @@ import { Période } from '@potentiel-domain/periode';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { registerUtilisateurUseCases } from '@potentiel-domain/utilisateur';
 
+import { appSchema, dbSchema } from '#helpers';
+
 const envSchema = zod.object({
-  APPLICATION_STAGE: zod.string(),
-  DATABASE_CONNECTION_STRING: zod.url(),
+  ...appSchema.shape,
+  ...dbSchema.shape,
 });
 
 export class NotifierCandidatures extends Command {

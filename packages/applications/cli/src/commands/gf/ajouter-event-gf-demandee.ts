@@ -1,5 +1,4 @@
 import { Command } from '@oclif/core';
-import z from 'zod';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -8,15 +7,13 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { dbSchema } from '#helpers';
 
-const envSchema = z.object({
-  ...dbSchema.shape,
-});
-
 export class AjouterEventGfDemandee extends Command {
   static override description = `Ajout d'un événement GF demandée pour les projets pour les projets n'ent ayant pas et étant concernés, afin d'initier un stream gf`;
-  async run() {
-    envSchema.parse(process.env);
+  async init() {
+    dbSchema.parse(process.env);
+  }
 
+  async run() {
     const projetAvecUnDépôtSoumisEnPremierEvent = `
       select 
         stream_id as "streamId", 

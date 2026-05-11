@@ -14,11 +14,12 @@ import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain
 import { DateTime, Email } from '@potentiel-domain/common';
 import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 
+import { appSchema, dbSchema, dsSchema } from '#helpers';
+
 const envSchema = zod.object({
-  APPLICATION_STAGE: zod.string(),
-  DATABASE_CONNECTION_STRING: zod.url(),
-  DS_API_URL: zod.url(),
-  DS_API_TOKEN: zod.string(),
+  ...appSchema.shape,
+  ...dbSchema.shape,
+  ...dsSchema.shape,
 });
 
 export class ImporterCandidatures extends Command {

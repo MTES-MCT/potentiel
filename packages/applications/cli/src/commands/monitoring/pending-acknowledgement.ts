@@ -5,12 +5,16 @@ import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
+import { dbSchema } from '#helpers';
+
 import { MattermostTransport, reportCronStatus } from '#helpers/monitoring';
 
 export class PendingAcknowlegement extends Command {
   static description = 'Checks that there are no overdue pending_acknowledgement in the database';
 
   async init() {
+    dbSchema.parse(process.env);
+
     resetLogger();
     const logger = createLogger({
       transports: [

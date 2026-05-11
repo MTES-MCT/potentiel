@@ -5,7 +5,11 @@ import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { ExportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 
+import { dbSchema } from '#helpers';
+
 const envSchema = zod.object({
+  ...dbSchema.shape,
+  // Datagouv env variables
   DATAGOUV_API_URL: zod.url(),
   DATAGOUV_API_KEY: zod.string(),
   DATAGOUV_DATASET_ID: zod.string(),

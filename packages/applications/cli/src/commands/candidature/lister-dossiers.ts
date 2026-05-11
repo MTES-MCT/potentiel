@@ -7,6 +7,8 @@ import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/ds-api-clien
 import { Option } from '@potentiel-libraries/monads';
 import { ExportCSV } from '@potentiel-libraries/csv';
 
+import { dsSchema } from '#helpers';
+
 export class ListerDossiersCandidatureCommand extends Command {
   static args = {
     démarche: Args.integer({ required: true }),
@@ -16,6 +18,10 @@ export class ListerDossiersCandidatureCommand extends Command {
       description: "Génère un fichier CSV d'instruction avec les dossiers de la démarche",
     }),
   };
+
+  async init() {
+    dsSchema.parse(process.env);
+  }
 
   async run() {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);

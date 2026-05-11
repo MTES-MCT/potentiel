@@ -5,10 +5,16 @@ import {
   computeStatistiquesPubliques,
 } from '@potentiel-statistiques/statistiques-publiques';
 
+import { dbSchema } from '#helpers';
+
 export default class ExtraireStats extends Command {
   static monitoringSlug = 'extraire-donnees-statistiques-publiques';
 
   static override description = 'Extrait les données des statistiques publiques';
+
+  async init() {
+    dbSchema.parse(process.env);
+  }
 
   public async run(): Promise<void> {
     console.info('Lancement du script...');
