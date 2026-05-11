@@ -11,7 +11,7 @@ export class ImporterCoordonneesCommand extends Command {
   };
   async run() {
     // à exécuter manuellement en production
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       await executeQuery(
         `DROP RULE IF EXISTS prevent_update_on_event_stream on event_store.event_stream;`,
       );
@@ -97,7 +97,15 @@ export class ImporterCoordonneesCommand extends Command {
               `update event_store.event_stream
              set payload=jsonb_set(payload, '{coordonnées}', $2::jsonb)
              where stream_id in ('candidature|' || $1, 'lauréat|' || $1)
-             and type in ('CandidatureImportée-V1','CandidatureImportée-V2','CandidatureCorrigée-V1','CandidatureCorrigée-V2', 'LauréatNotifié-V1', 'LauréatNotifié-V2')`,
+             and type in (
+             'CandidatureImportée-V1',
+             'CandidatureImportée-V2',
+             'CandidatureCorrigée-V1',
+             'CandidatureCorrigée-V2',
+             'LauréatNotifié-V1',
+             'LauréatNotifié-V2',
+             'SiteDeProductionModifié-V1'
+             )`,
               identifiantProjet,
               JSON.stringify(vt.formatterDecimal()),
             );
