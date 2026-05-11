@@ -21,9 +21,11 @@ export const metadata: Metadata = {
   description: "Formulaire d'annulation de signalement PPA pour un projet lauréat",
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+export default async function Page({ params }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      const { identifiant } = await params;
+
       utilisateur.rôle.peutExécuterMessage<Lauréat.PowerPurchaseAgreement.AnnulerSignalementPowerPurchaseAgreementUseCase>(
         'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       );
@@ -40,7 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const lauréat = await getLauréatInfos(identifiantProjet.formatter());
 
-      const PPA =
+      const powerPurchaseAgreement =
         await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({
           type: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
           data: {
@@ -48,13 +50,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      if (Option.isNone(PPA)) {
+      if (Option.isNone(powerPurchaseAgreement)) {
         return notFound();
       }
 
       return (
         <AnnulerSignalementPowerPurchaseAgreementPage
-          powerPurchaseAgreement={mapToPlainObject(PPA)}
+          powerPurchaseAgreement={mapToPlainObject(powerPurchaseAgreement)}
         />
       );
     }),
