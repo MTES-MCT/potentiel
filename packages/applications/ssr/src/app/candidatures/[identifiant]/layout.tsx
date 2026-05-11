@@ -13,9 +13,8 @@ import { NotificationBadge } from '@/components/molecules/candidature/Notificati
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-type LayoutProps = {
+type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;
-  params: Promise<{ identifiant: string }>;
 };
 
 export async function generateMetadata(

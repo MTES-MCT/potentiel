@@ -8,8 +8,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
-type PageProps = { params: Promise<{ identifiant: string }> };
+type PageProps = IdentifiantParameter;
 
 export const metadata: Metadata = { title: `Recours` };
 
