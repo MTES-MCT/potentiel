@@ -203,6 +203,7 @@ const créerDépôt = (
     ],
     installateur: undefined,
     ...dépôt,
+    numéroIdentification: faker.potentiel.numéroIdentification(),
     localité,
     autorisation: getAutorisationFixture(
       dépôt.autorisation,

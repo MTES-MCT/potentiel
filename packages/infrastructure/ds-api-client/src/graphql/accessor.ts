@@ -17,6 +17,7 @@ export type DossierAccessor<
   getRepetitionChamps: (
     nom: TKey,
   ) => Extract<ChampFragmentFragment, { __typename: 'RepetitionChamp' }>['rows'] | undefined;
+  getSIRETValue: (nom: TKey) => string | undefined;
 };
 
 /**
@@ -85,6 +86,7 @@ export const createDossierAccessor = <
 
     getAdresse: (nom) => getChampValue(nom, ['AddressChamp'])?.address ?? undefined,
     getRepetitionChamps: (nom) => getChampValue(nom, ['RepetitionChamp'])?.rows,
+    getSIRETValue: (nom) => getChampValue(nom, ['SiretChamp'])?.stringValue ?? undefined,
   };
 };
 

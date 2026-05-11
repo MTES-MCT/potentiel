@@ -38,6 +38,7 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     // on compare donc aussi les valeurs des champs du dépôt
     // cas particulier du coefficientKChoisi, dont la valeur est déterminé dans le projecteur
     const coefficientKChoisi = actual.dépôt.coefficientKChoisi;
+
     shallowCompareObject(
       { ...expectedDépôtValue, coefficientKChoisi },
       candidature.dépôt.formatter(),

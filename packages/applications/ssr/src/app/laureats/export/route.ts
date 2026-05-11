@@ -66,6 +66,8 @@ export const GET = async (request: Request) =>
           { value: 'région', label: 'Région' },
           { value: 'latitude', label: 'Latitude' },
           { value: 'longitude', label: 'Longitude' },
+          { value: 'siren', label: 'Numéro SIREN' },
+          { value: 'siret', label: 'Numéro SIRET' },
           { value: 'actionnaire', label: 'Actionnaire' },
           { value: 'typeActionnariat', label: "Type d'actionnariat" },
           { value: 'raisonSocialeGestionnaireRéseau', label: 'Gestionnaire réseau' },
@@ -133,6 +135,7 @@ export const GET = async (request: Request) =>
             label: 'Puissance unitaire des aérogénérateurs',
           },
         ],
+
         data: lauréatEnrichiList.items.map((item) => ({
           latitude: '',
           longitude: '',

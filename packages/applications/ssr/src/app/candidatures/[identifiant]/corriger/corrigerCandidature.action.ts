@@ -20,6 +20,7 @@ import {
   coordonnéesSchema,
   dateDAutorisationSchema,
   numéroDAutorisationSchema,
+  siretSchema,
 } from '@/utils/candidature/dépôt.schema';
 
 export type CorrigerCandidaturesState = FormState;
@@ -32,6 +33,7 @@ const schema = dépôtSchema
     historiqueAbandon: true,
     raccordements: true,
     coordonnées: true,
+    numéroIdentification: true,
   })
   .extend({
     identifiantProjet: identifiantProjetSchema,
@@ -45,6 +47,7 @@ const schema = dépôtSchema
       .object({ latitude: zod.coerce.number(), longitude: zod.coerce.number() })
       .pipe(coordonnéesSchema)
       .optional(),
+    siret: siretSchema,
   })
   .extend(dépôtSchema.shape.localité.shape);
 
@@ -148,6 +151,9 @@ const mapBodyToUseCaseData = (
         dateQualification: r.dateQualification.formatter(),
         référence: r.référence.formatter(),
       })),
+      numéroIdentification: data.siret
+        ? { siret: data.siret, siren: data.siret.slice(0, 9) }
+        : previous.dépôt.numéroIdentification,
     },
 
     détailsValue: undefined,

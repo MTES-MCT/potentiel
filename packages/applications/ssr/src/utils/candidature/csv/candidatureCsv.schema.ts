@@ -37,6 +37,7 @@ import {
   évaluationCarboneSimplifiéeCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   territoireProjetSchema,
+  numéroIdentificationCSVSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
 
@@ -117,6 +118,7 @@ export const candidatureCsvHeadersMapping = {
   dateDAutorisation: "Date d'obtention de l'autorisation",
   numéroDAutorisation: "Numéro de l'autorisation",
   puissanceDeSite: 'Puissance de site',
+  numéroIdentification: 'Numéro SIREN ou SIRET*',
 } as const;
 
 export type CsvHeaders = ReadonlyArray<
@@ -172,6 +174,7 @@ const candidatureCsvRowSchema = z
     [candidatureCsvHeadersMapping.natureDeLExploitation]: natureDeLExploitationCsvSchema,
     [candidatureCsvHeadersMapping.tauxPrévisionnelACI]: optionalPercentageSchema,
     [candidatureCsvHeadersMapping.tauxPrévisionnelACC]: optionalPercentageSchema,
+    [candidatureCsvHeadersMapping.numéroIdentification]: numéroIdentificationCSVSchema,
     [candidatureCsvHeadersMapping.motifÉlimination]: instructionSchema.shape.motifÉlimination, // see refine below
     [candidatureCsvHeadersMapping.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [candidatureCsvHeadersMapping.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
@@ -318,57 +321,65 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       tauxPrévisionnelACI,
       tauxPrévisionnelACC,
       natureDeLExploitation,
+      numéroIdentification,
       ...val
-    }) => {
-      return {
-        ...val,
-        localité: getLocalité({
-          adresse1,
-          adresse2: adresse2 ?? '',
-          codePostal,
-          commune,
-        }),
-        typeGarantiesFinancières: typeGarantiesFinancières
-          ? typeGf[Number(typeGarantiesFinancières) - 1]
+    }) => ({
+      ...val,
+      localité: getLocalité({
+        adresse1,
+        adresse2: adresse2 ?? '',
+        codePostal,
+        commune,
+      }),
+      typeGarantiesFinancières: typeGarantiesFinancières
+        ? typeGf[Number(typeGarantiesFinancières) - 1]
+        : undefined,
+      historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
+      technologie: technologie[val.technologie],
+      dateÉchéanceGf: val.dateÉchéanceGf,
+      actionnariat: financementCollectif
+        ? Candidature.TypeActionnariat.financementCollectif.formatter()
+        : gouvernancePartagée
+          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
           : undefined,
-        historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
-        technologie: technologie[val.technologie],
-        dateÉchéanceGf: val.dateÉchéanceGf,
-        actionnariat: financementCollectif
-          ? Candidature.TypeActionnariat.financementCollectif.formatter()
-          : gouvernancePartagée
-            ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
-            : undefined,
-        autorisation:
-          dateDAutorisation && numéroDAutorisation
-            ? {
-                date: dateDAutorisation,
-                numéro: numéroDAutorisation,
-              }
-            : undefined,
-        natureDeLExploitation:
-          natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
-            ? {
-                typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
-                tauxPrévisionnelACI,
-                tauxPrévisionnelACC,
-              }
-            : undefined,
-        typologieInstallation: mapCsvToTypologieInstallation({
-          typologieDeBâtiment,
-          typeInstallationsAgrivoltaïques,
-          élémentsSousOmbrière,
-        }),
-        dispositifDeStockage:
-          installationAvecDispositifDeStockage !== undefined
-            ? {
-                installationAvecDispositifDeStockage,
-                capacitéDuDispositifDeStockageEnKWh,
-                puissanceDuDispositifDeStockageEnKW,
-              }
-            : undefined,
-      };
-    },
+      autorisation:
+        dateDAutorisation && numéroDAutorisation
+          ? {
+              date: dateDAutorisation,
+              numéro: numéroDAutorisation,
+            }
+          : undefined,
+      natureDeLExploitation:
+        natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
+          ? {
+              typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
+              tauxPrévisionnelACI,
+              tauxPrévisionnelACC,
+            }
+          : undefined,
+      typologieInstallation: mapCsvToTypologieInstallation({
+        typologieDeBâtiment,
+        typeInstallationsAgrivoltaïques,
+        élémentsSousOmbrière,
+      }),
+      dispositifDeStockage:
+        installationAvecDispositifDeStockage !== undefined
+          ? {
+              installationAvecDispositifDeStockage,
+              capacitéDuDispositifDeStockageEnKWh,
+              puissanceDuDispositifDeStockageEnKW,
+            }
+          : undefined,
+      numéroIdentification: numéroIdentification
+        ? numéroIdentification.length === 14
+          ? {
+              siret: numéroIdentification,
+            }
+          : {
+              siren: numéroIdentification,
+            }
+        : undefined,
+    }),
   );
 
 export type CandidatureCsvRowShape = z.infer<typeof candidatureCsvRowSchema>;

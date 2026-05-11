@@ -2,7 +2,7 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { DossierAccessor } from '../../graphql/index.js';
 
-type GetNatureDeLExploitationProps<TDossier extends Record<string, string>> = {
+type GetTypeActionnariatProps<TDossier extends Record<string, string>> = {
   accessor: DossierAccessor<TDossier>;
   nomChampFinancementCollectif: keyof TDossier;
   nomChampGouvernancePartagée: keyof TDossier;
@@ -12,7 +12,7 @@ export const getTypeActionnariat = <TDossier extends Record<string, string>>({
   accessor,
   nomChampFinancementCollectif,
   nomChampGouvernancePartagée,
-}: GetNatureDeLExploitationProps<TDossier>) => {
+}: GetTypeActionnariatProps<TDossier>) => {
   const estFinancementCollectif = accessor.getBooleanValue(nomChampFinancementCollectif);
   const estGouvernancePartagée = accessor.getBooleanValue(nomChampGouvernancePartagée);
 

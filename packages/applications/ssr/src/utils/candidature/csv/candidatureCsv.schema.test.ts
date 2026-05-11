@@ -28,6 +28,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Technologie\n(dispositif de production)': '',
   "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO":
     '1',
+  'Numéro SIREN ou SIRET*': '542 051 180 00096',
 };
 
 const minimumValuesEliminé: typeof minimumValues = {
@@ -90,6 +91,7 @@ describe('Schema candidature CSV', () => {
       },
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: undefined,
+      numéroIdentification: { siret: '54205118000096' },
     };
 
     deepEqualWithRichDiff(result.data, expected);
@@ -138,6 +140,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
       puissanceDuProjetInitial: 1,
+      numéroIdentification: { siret: '54205118000096' },
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -160,7 +163,9 @@ describe('Schema candidature CSV', () => {
       "Nature de l'exploitation": 'Vente avec injection du surplus',
       "Taux d'autoconsommation individuelle (ACI) prévisionnel": '32',
     });
+
     assertNoError(result);
+
     const expected: CandidatureShape = {
       appelOffre: "appel d'offre",
       période: 'période',
@@ -177,6 +182,7 @@ describe('Schema candidature CSV', () => {
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
+      numéroIdentification: { siret: '54205118000096' },
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
@@ -367,6 +373,19 @@ describe('Schema candidature CSV', () => {
         message: 'La date a une valeur invalide',
         path: ["Date d'échéance au format JJ/MM/AAAA"],
       });
+    });
+
+    test('Siren ou siret invalide', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        'Numéro SIREN ou SIRET*': '7v8 467 e51',
+      });
+      assert(!result.success);
+      assertError(
+        result,
+        ['Numéro SIREN ou SIRET*'],
+        'Le champ doit contenir un nombre de caractères valide (14 pour un SIRET, 9 pour un SIREN)',
+      );
     });
   });
 

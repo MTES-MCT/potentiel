@@ -2,7 +2,7 @@ import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domai
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur/index.js';
-import { GarantiesFinancières } from '../lauréat/index.js';
+import { GarantiesFinancières, Producteur } from '../lauréat/index.js';
 import { Lauréat } from '../index.js';
 import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
 
@@ -54,6 +54,7 @@ export type RawType = {
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.RawType> | undefined;
+  numéroIdentification: Producteur.NuméroIdentification.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -90,6 +91,7 @@ export type ValueType = ReadonlyValueType<{
       }
     | undefined;
   raccordements: Array<RaccordementDépôt.ValueType> | undefined;
+  numéroIdentification: Producteur.NuméroIdentification.ValueType | undefined;
 
   formatter(): RawType;
 }>;
@@ -142,6 +144,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   raccordements: plain.raccordements?.map(RaccordementDépôt.bind),
+  numéroIdentification: bindOptional(
+    Producteur.NuméroIdentification.bind,
+    plain.numéroIdentification,
+  ),
 
   estÉgaleÀ(valueType) {
     return (
@@ -179,7 +185,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
       ) &&
-      areEqualArrays(valueType.raccordements, this.raccordements)
+      areEqualArrays(valueType.raccordements, this.raccordements) &&
+      areEqual(valueType.numéroIdentification, this.numéroIdentification)
     );
   },
   formatter() {
@@ -232,6 +239,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       raccordements: this.raccordements?.map((r) => r.formatter()),
+      numéroIdentification: this.numéroIdentification
+        ? this.numéroIdentification.formatter()
+        : undefined,
     };
   },
 });
@@ -312,6 +322,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         ),
         dateQualification: DateTime.convertirEnValueType(raccordement.dateQualification),
       }),
+    ),
+    numéroIdentification: bindOptional(
+      Producteur.NuméroIdentification.bind,
+      raw.numéroIdentification,
     ),
   });
 

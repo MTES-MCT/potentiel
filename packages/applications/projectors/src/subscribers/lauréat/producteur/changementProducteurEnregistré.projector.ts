@@ -16,6 +16,7 @@ export const changementProducteurEnregistréProjector = async ({
     enregistréPar,
     raison,
     pièceJustificative,
+    numéroIdentification,
   },
 }: Lauréat.Producteur.ChangementProducteurEnregistréEvent) => {
   const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
@@ -35,11 +36,16 @@ export const changementProducteurEnregistréProjector = async ({
     .some((producteur) => producteur.producteur)
     .none(() => 'Aucun');
 
+  const ancienNuméroIdentification = Option.match(producteurActuel)
+    .some((producteur) => producteur.numéroIdentification)
+    .none(() => undefined);
+
   await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
     `producteur|${identifiantProjet}`,
     {
       nom: producteur,
       miseÀJourLe: enregistréLe,
+      numéroIdentification,
     },
   );
 
@@ -48,8 +54,18 @@ export const changementProducteurEnregistréProjector = async ({
     {
       identifiantProjet,
       changement: {
-        ancienProducteur,
-        nouveauProducteur: producteur,
+        ancien: {
+          producteur: ancienProducteur,
+          numéroIdentification: ancienNuméroIdentification,
+        },
+        nouveau: {
+          producteur,
+          numéroIdentification: numéroIdentification?.siret
+            ? Lauréat.Producteur.NuméroIdentification.bind({
+                siret: numéroIdentification.siret,
+              })
+            : undefined,
+        },
         enregistréPar,
         enregistréLe,
         raison,

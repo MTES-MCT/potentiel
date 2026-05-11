@@ -21,14 +21,27 @@ export class ProducteurWorld {
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, producteurÀLaCandidature: string) {
+  mapToExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    producteurÀLaCandidature: string,
+    numéroIdentificationÀLaCandidature: Lauréat.Producteur.NuméroIdentification.RawType | undefined,
+  ) {
+    const référencielFixture = this.#modifierProducteurFixture.aÉtéCréé
+      ? this.#modifierProducteurFixture
+      : this.#enregistrerChangementProducteurFixture.aÉtéCréé
+        ? this.#enregistrerChangementProducteurFixture
+        : undefined;
+
+    const numéro = référencielFixture
+      ? { siret: référencielFixture.siret }
+      : numéroIdentificationÀLaCandidature;
+
     const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
-      producteur: this.#modifierProducteurFixture.aÉtéCréé
-        ? this.#modifierProducteurFixture.producteur
-        : this.#enregistrerChangementProducteurFixture.aÉtéCréé
-          ? this.#enregistrerChangementProducteurFixture.producteur
-          : producteurÀLaCandidature,
+      producteur: référencielFixture ? référencielFixture.producteur : producteurÀLaCandidature,
+      numéroIdentification: numéro
+        ? Lauréat.Producteur.NuméroIdentification.bind(numéro)
+        : undefined,
     };
 
     return expected;
@@ -37,6 +50,7 @@ export class ProducteurWorld {
   mapChangementToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     ancienProducteur: string,
+    ancienSIRET?: string,
   ) {
     if (!this.#enregistrerChangementProducteurFixture.aÉtéCréé) {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
@@ -51,8 +65,20 @@ export class ProducteurWorld {
         enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
-        nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
-        ancienProducteur,
+        nouveau: {
+          producteur: this.#enregistrerChangementProducteurFixture.producteur,
+          siret: Lauréat.Producteur.NuméroIdentification.bind({
+            siret: this.#enregistrerChangementProducteurFixture.siret,
+          }).siret,
+        },
+        ancien: {
+          producteur: ancienProducteur,
+          siret: ancienSIRET
+            ? Lauréat.Producteur.NuméroIdentification.bind({
+                siret: ancienSIRET,
+              }).siret
+            : undefined,
+        },
         pièceJustificative: Lauréat.Producteur.DocumentProducteur.pièceJustificative({
           identifiantProjet: identifiantProjet.formatter(),
           enregistréLe: this.#enregistrerChangementProducteurFixture.enregistréLe,

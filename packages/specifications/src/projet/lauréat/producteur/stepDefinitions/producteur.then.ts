@@ -38,7 +38,8 @@ Alors(
       const expected = mapToPlainObject(
         this.lauréatWorld.producteurWorld.mapToExpected(
           identifiantProjet,
-          this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+          this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+          this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification,
         ),
       );
 
@@ -66,7 +67,8 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
     const expected = mapToPlainObject(
       this.lauréatWorld.producteurWorld.mapChangementToExpected(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+        this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+        this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
       ),
     );
 

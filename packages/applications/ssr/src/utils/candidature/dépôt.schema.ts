@@ -173,6 +173,36 @@ const autorisationSchema = z
       : undefined,
   );
 
+export const siretSchema = optionalStringSchema
+  .transform((value) => value?.replace(/ /g, ''))
+  .refine((val) => !val || val.length === 14, {
+    message: `Le numéro SIRET doit être composé de 14 chiffres`,
+  });
+
+export const sirenSchema = optionalStringSchema
+  .transform((value) => value?.replace(/ /g, ''))
+  .refine((val) => !val || val.length === 9, {
+    message: `Le numéro SIREN doit être composé de 9 chiffres`,
+  });
+
+const numéroIdentificationSchema = z
+  .object({
+    siren: sirenSchema,
+    siret: siretSchema,
+  })
+  .optional()
+  .transform((val) =>
+    val?.siret
+      ? {
+          siret: val.siret,
+        }
+      : val?.siren
+        ? {
+            siren: val.siren,
+          }
+        : undefined,
+  );
+
 export const dépôtSchema = z
   .object({
     nomProjet: requiredStringSchema,
@@ -206,6 +236,7 @@ export const dépôtSchema = z
     dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
     puissanceDuProjetInitial: optionalStrictlyPositiveNumberSchema,
+    numéroIdentification: numéroIdentificationSchema,
     raccordements: z
       .array(
         z.object({

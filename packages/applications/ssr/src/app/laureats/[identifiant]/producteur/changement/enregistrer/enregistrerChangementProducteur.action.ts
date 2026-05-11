@@ -9,11 +9,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { dépôtSchema } from '@/utils/candidature';
+import { dépôtSchema, siretSchema } from '@/utils/candidature';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   producteur: dépôtSchema.shape.nomCandidat,
+  siret: siretSchema,
   raison: zod.string().optional(),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
@@ -24,7 +25,7 @@ export type EnregistrerChangementProducteurFormKeys = keyof zod.infer<typeof sch
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, producteur, piecesJustificatives, raison },
+  { identifiantProjet, producteur, piecesJustificatives, raison, siret },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
@@ -38,6 +39,11 @@ const action: FormAction<FormState, typeof schema> = async (
         pièceJustificativeValue: piecesJustificatives,
         producteurValue: producteur,
         raisonValue: raison,
+        numéroIdentificationValue: siret
+          ? {
+              siret,
+            }
+          : undefined,
       },
     });
 

@@ -14,8 +14,14 @@ export type ConsulterChangementProducteurReadModel = {
   changement: {
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
-    ancienProducteur: string;
-    nouveauProducteur: string;
+    ancien: {
+      producteur: string;
+      siret?: string;
+    };
+    nouveau: {
+      producteur: string;
+      siret?: string;
+    };
     raison?: string;
     pièceJustificative: DocumentProjet.ValueType;
   };
@@ -63,8 +69,14 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
-      ancienProducteur: result.changement.ancienProducteur,
-      nouveauProducteur: result.changement.nouveauProducteur,
+      ancien: {
+        producteur: result.changement.ancien.producteur,
+        siret: result.changement.ancien.numéroIdentification?.siret,
+      },
+      nouveau: {
+        producteur: result.changement.nouveau.producteur,
+        siret: result.changement.nouveau.numéroIdentification?.siret,
+      },
       raison: result.changement.raison,
       pièceJustificative: DocumentProducteur.pièceJustificative({
         identifiantProjet: result.identifiantProjet,

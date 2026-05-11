@@ -20,6 +20,7 @@ export type EnregistrerChangementProducteurFormProps = EnregistrerChangementProd
 export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProducteurFormProps> = ({
   identifiantProjet,
   producteur,
+  numéroIdentification,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementProducteurFormKeys>
@@ -43,20 +44,30 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
       />
 
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <Input
-            state={validationErrors['producteur'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['producteur']}
-            label="Producteur"
-            className="lg:w-1/2"
-            nativeInputProps={{
-              name: 'producteur',
-              defaultValue: producteur,
-              required: true,
-              'aria-required': true,
-            }}
-          />
-        </div>
+        <Input
+          state={validationErrors['producteur'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['producteur']}
+          label="Producteur"
+          className="lg:w-1/2"
+          nativeInputProps={{
+            name: 'producteur',
+            defaultValue: producteur,
+            required: true,
+            'aria-required': true,
+          }}
+        />
+        <Input
+          state={validationErrors['siret'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['siret']}
+          hintText="Constitué de 14 chiffres"
+          label="Numéro SIRET (optionnel)"
+          nativeInputProps={{
+            name: 'siret',
+            defaultValue: numéroIdentification?.siret,
+            required: false,
+            'aria-required': false,
+          }}
+        />
         <Input
           textArea
           label="Raison (optionnel)"

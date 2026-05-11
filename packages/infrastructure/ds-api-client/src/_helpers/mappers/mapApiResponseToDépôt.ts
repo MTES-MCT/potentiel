@@ -17,6 +17,7 @@ import {
 import { DeepPartial } from '../types.js';
 import { getDateÉchéanceGarantiesFinancières } from '../getters/getDateÉchéanceGarantiesFinancières.js';
 import { getCoordonnées } from '../getters/getCoordonnées.js';
+import { getNuméroIdentification } from '../getters/getNuméroIdentification.js';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -72,6 +73,11 @@ export const mapApiResponseToDépôt = ({
     financementCollectif: "Le projet fait-il l'objet d'un engagement au financement collectif ?",
   } satisfies Record<string, string>);
 
+  const accessorNuméroIdentification = createDossierAccessor(champs, {
+    numéroSIREN: 'Numéro SIREN du candidat',
+    numéroSIRET: 'Numéro SIRET du candidat',
+  }) satisfies Record<keyof Candidature.Dépôt.RawType['numéroIdentification'], string>;
+
   const typeGarantiesFinancières = getTypeGarantiesFinancières(
     accessor,
     'typeGarantiesFinancières',
@@ -88,6 +94,8 @@ export const mapApiResponseToDépôt = ({
     dateÉchéanceGarantiesFinancières: accessor.getDateValue('dateÉchéanceGf'),
   });
 
+  const nomProjet = accessor.getStringValue('nomProjet');
+
   return {
     //  1. Renseignements administratifs
     nomCandidat: accessor.getStringValue('nomCandidat'),
@@ -96,7 +104,7 @@ export const mapApiResponseToDépôt = ({
     emailContact: accessor.getStringValue('emailContact'),
 
     //  2. Identification du projet
-    nomProjet: accessor.getStringValue('nomProjet'),
+    nomProjet,
     puissance: accessor.getNumberValue('puissance'),
     puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
     puissanceDuProjetInitial: accessor.getNumberValue('puissanceDuProjetInitial'),
@@ -151,6 +159,13 @@ export const mapApiResponseToDépôt = ({
     raccordements: getRaccordements(champs),
 
     coordonnées: getCoordonnées(champs),
+
+    numéroIdentification: getNuméroIdentification({
+      accessor: accessorNuméroIdentification,
+      nomChampsNuméroSIREN: 'numéroSIREN',
+      nomChampsNuméroSIRET: 'numéroSIRET',
+      nomProjet,
+    }),
 
     // Non disponibles sur Démarches simplifiées
     puissanceALaPointe: undefined,

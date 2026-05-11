@@ -44,6 +44,9 @@ const minimumValues = {
       lieuDeFabrication: 'Allemagne',
     },
   ],
+  numéroIdentification: {
+    siret: '31340109300155',
+  },
 };
 
 const expectedMinimumValues = {
@@ -281,6 +284,36 @@ describe('Schéma dépôt', () => {
           result,
           ['coordonnées', 'longitude'],
           'La longitude doit être comprise entre -180 et 180',
+        );
+      });
+    });
+
+    describe('numéro SIRET ou SIREN', () => {
+      test("n'accepte pas un numéro SIRET invalide", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          numéroIdentification: { siret: 'e1234d56f' },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['numéroIdentification', 'siret'],
+          'Le numéro SIRET doit être composé de 14 chiffres',
+        );
+      });
+
+      test("n'accepte pas un numéro SIREN invalide", () => {
+        const result = dépôtSchema.safeParse({
+          ...minimumValues,
+          numéroIdentification: { siren: '1234567891234' },
+        });
+
+        assert(result.error);
+        assertError(
+          result,
+          ['numéroIdentification', 'siren'],
+          'Le numéro SIREN doit être composé de 9 chiffres',
         );
       });
     });
