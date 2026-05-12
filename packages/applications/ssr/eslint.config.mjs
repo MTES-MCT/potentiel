@@ -20,6 +20,12 @@ const eslintConfig = [
               name: 'next/link',
               message: 'Importer Link depuis @/components/atoms/LinkNoPrefetch',
             },
+            {
+              name: '@potentiel-applications/request-context',
+              importNames: ['getContext'],
+              message: `Le contexte n'est pas propagé dans les composants React. Merci d'utiliser les helpers SSR dédiés (getSessionUser, getFeatureFlag)
+                `,
+            },
           ],
         },
       ],
