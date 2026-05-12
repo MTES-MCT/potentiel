@@ -2056,6 +2056,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // PPA
   'powerPurchaseAgreement.signaler',
+  'powerPurchaseAgreement.annulerSignalement',
 
   // Tâche
   'tâche.consulter',
