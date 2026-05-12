@@ -35,10 +35,8 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        /**
-         * TODO Route détailPourRedirection ?
-         */
-        url: Routes.Lauréat.détails.informationGénérales(identifiantProjet),
+        url: Routes.Actionnaire.changement.détailsPourRedirection(identifiantProjet),
+        message: "La demande de changement d'actionnaire(s) a bien été rejetée",
       },
     };
   });
