@@ -19,7 +19,7 @@ export type DemanderAbandonUseCase = Message<
       format: string;
     };
     raisonValue: string;
-    PPASignaléValue?: boolean;
+    PPASignaléValue?: true;
   }
 >;
 

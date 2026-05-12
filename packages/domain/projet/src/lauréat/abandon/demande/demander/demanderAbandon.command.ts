@@ -12,7 +12,7 @@ export type DemanderAbandonCommand = Message<
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
-    PPASignalé?: boolean;
+    PPASignalé?: true;
   }
 >;
 

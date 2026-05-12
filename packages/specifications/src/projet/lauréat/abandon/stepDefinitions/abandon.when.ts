@@ -12,7 +12,7 @@ Quand(`le porteur demande l'abandon pour le projet lauréat`, async function (th
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { demandéLe, demandéPar, pièceJustificative, raison, estPPA } =
+    const { demandéLe, demandéPar, pièceJustificative, raison } =
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
         identifiantProjet,
         demandéPar: this.utilisateurWorld.porteurFixture.email,
@@ -28,7 +28,6 @@ Quand(`le porteur demande l'abandon pour le projet lauréat`, async function (th
           pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
-          PPASignaléValue: estPPA,
         },
       });
     }
@@ -43,7 +42,7 @@ Quand(
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const { demandéLe, demandéPar, pièceJustificative, raison, estPPA } =
+      const { demandéLe, demandéPar, pièceJustificative, raison } =
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
           identifiantProjet,
           demandéPar: this.utilisateurWorld.porteurFixture.email,
@@ -60,7 +59,7 @@ Quand(
             pièceJustificativeValue: convertFixtureFileToReadableStream(pièceJustificative),
             dateDemandeValue: demandéLe,
             identifiantUtilisateurValue: demandéPar,
-            PPASignaléValue: estPPA,
+            PPASignaléValue: true,
           },
         });
       }
