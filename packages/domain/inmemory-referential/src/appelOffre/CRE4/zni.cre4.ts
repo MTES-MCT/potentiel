@@ -736,7 +736,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           puissanceMax: 5,
         },
       ],
-      cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
+      cahiersDesChargesModifiésDisponibles: [],
       typeImport: 'csv',
     },
   ],
