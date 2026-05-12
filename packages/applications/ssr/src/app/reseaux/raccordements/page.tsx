@@ -6,7 +6,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -16,6 +15,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
@@ -79,8 +79,6 @@ export default async function Page(props: PageProps) {
             })
           ).items;
 
-      const { features } = getContext() ?? {};
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -127,7 +125,7 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      if (features?.includes('PPA')) {
+      if (featureFlag.includes('PPA')) {
         filters.push({
           label: 'PPA',
           searchParamKey: 'PPA',
