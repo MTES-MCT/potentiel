@@ -14,6 +14,9 @@ import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevée
 import { getAbandonInfos, getAchèvement, getGarantiesFinancières } from '../../_helpers';
 
 import { DétailsMainlevéePage, DétailsMainlevéePageProps } from './DétailsMainlevée.page';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = { title: 'Mainlevée des garanties financières' };
 
 export default async function Page({ params }: IdentifiantParameter) {
   const { identifiant } = await params;

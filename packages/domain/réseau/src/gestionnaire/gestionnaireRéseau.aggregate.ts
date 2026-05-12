@@ -19,8 +19,7 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,
   'gestionnaire-réseau'
 > {
-  raisonSociale!: string;
-
+  #raisonSociale!: string;
   #référenceDossierRaccordementExpressionRegulière = ExpressionRegulière.accepteTout;
   #format?: string;
   #légende?: string;
@@ -105,8 +104,8 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     contactEmail,
   }: ModifierOptions) {
     if (
-      this.raisonSociale === raisonSociale &&
-      ((!contactEmail && !this.#contactEmail) ||
+      raisonSociale === this.#raisonSociale &&
+      ((contactEmail && !this.#contactEmail) ||
         (contactEmail && this.#contactEmail && contactEmail.estÉgaleÀ(this.#contactEmail))) &&
       format === this.#format &&
       légende === this.#légende &&
@@ -127,9 +126,10 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     },
   }: GestionnaireRéseauEvent): void {
     this.#contactEmail = contactEmail ? Email.convertirEnValueType(contactEmail) : undefined;
-    this.#format = format;
-    this.#légende = légende;
-    this.raisonSociale = raisonSociale;
+    // the event stores an empty string when the format or légende is not defined
+    this.#format = format || undefined;
+    this.#légende = légende || undefined;
+    this.#raisonSociale = raisonSociale;
     this.#référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
       .with('', () => ExpressionRegulière.accepteTout)
       .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
