@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import * as z from 'zod';
 import { mediator } from 'mediateur';
 
-import { getContext, PotentielUtilisateur } from '@potentiel-applications/request-context';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
@@ -19,6 +19,7 @@ import {
 } from '../_helpers';
 
 import { ExportPage, ExportPageProps } from './export.page';
+import { featureFlag } from '../_helpers/getFeatureFlag';
 
 export const metadata: Metadata = { title: 'Export de données' };
 
@@ -61,8 +62,6 @@ export default async function Page(props: PageProps) {
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
-      const { features } = getContext() ?? {};
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
@@ -102,7 +101,7 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      if (features?.includes('PPA')) {
+      if (featureFlag.includes('PPA')) {
         filters.push({
           label: 'PPA',
           searchParamKey: 'PPA',

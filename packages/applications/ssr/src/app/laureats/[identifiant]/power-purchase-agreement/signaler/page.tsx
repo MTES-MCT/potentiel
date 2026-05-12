@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -13,6 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatInfos } from '../../_helpers';
 
 import { SignalerPowerPurchaseAgreementPage } from './SignalerPowerPurchaseAgreement.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 export const metadata: Metadata = { title: 'Signaler un PPA' };
 
@@ -27,9 +27,7 @@ export default async function Page(props: IdentifiantParameter) {
         'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
       );
 
-      const { features } = getContext() ?? {};
-
-      if (!features?.includes('PPA')) {
+      if (!featureFlag.includes('PPA')) {
         return notFound();
       }
 

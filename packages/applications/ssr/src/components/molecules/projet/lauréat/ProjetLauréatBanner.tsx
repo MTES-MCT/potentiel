@@ -21,34 +21,30 @@ export type ProjetLauréatBannerProps = {
 export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
   identifiantProjet,
   noLink,
-  projet,
+  projet: { nomProjet, localité, notifiéLe, statut, estPartiEnPPA },
 }) =>
-  withUtilisateur(async ({ rôle }) => {
-    const { nomProjet, localité, notifiéLe, statut, estPartiEnPPA } = projet;
-
-    return (
-      <ProjetBannerTemplate
-        statutBadge={
-          <div>
-            <StatutLauréatBadge statut={statut.statut} />
-            {estPartiEnPPA && <PPABadge />}
-          </div>
-        }
-        localité={localité}
-        dateDésignation={Option.match(notifiéLe)
-          .some((date) => date.date)
-          .none()}
-        /***
-         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
-         */
-        href={
-          noLink || rôle.estGrd()
-            ? undefined
-            : Routes.Lauréat.détails.tableauDeBord(identifiantProjet)
-        }
-        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-        nom={nomProjet}
-        utilisateurPeutCopier={rôle.aLaPermission('projet.copierIdentifiant')}
-      />
-    );
-  });
+  withUtilisateur(async ({ rôle }) => (
+    <ProjetBannerTemplate
+      statutBadge={
+        <div>
+          <StatutLauréatBadge statut={statut.statut} />
+          {estPartiEnPPA && <PPABadge />}
+        </div>
+      }
+      localité={localité}
+      dateDésignation={Option.match(notifiéLe)
+        .some((date) => date.date)
+        .none()}
+      /***
+       * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser rôle.aLaPermissionDe)
+       */
+      href={
+        noLink || rôle.estGrd()
+          ? undefined
+          : Routes.Lauréat.détails.tableauDeBord(identifiantProjet)
+      }
+      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+      nom={nomProjet}
+      utilisateurPeutCopier={rôle.aLaPermission('projet.copierIdentifiant')}
+    />
+  ));
