@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { getContext } from '@potentiel-applications/request-context';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -15,6 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatInfos } from '../../_helpers';
 
 import { AnnulerSignalementPowerPurchaseAgreementPage } from './AnnulerSignalementPowerPurchaseAgreement.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 export const metadata: Metadata = {
   title: 'Annuler un signalement PPA - Potentiel',
@@ -30,9 +30,7 @@ export default async function Page({ params }: IdentifiantParameter) {
         'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       );
 
-      const { features } = getContext() ?? {};
-
-      if (!features?.includes('PPA')) {
+      if (!featureFlag.includes('PPA')) {
         return notFound();
       }
 

@@ -26,7 +26,7 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = ({
   withUtilisateur(async ({ rôle }) => (
     <ProjetBannerTemplate
       statutBadge={
-        <div>
+        <div className="flex gap-2">
           <StatutLauréatBadge statut={statut.statut} />
           {estPartiEnPPA && <PPABadge />}
         </div>

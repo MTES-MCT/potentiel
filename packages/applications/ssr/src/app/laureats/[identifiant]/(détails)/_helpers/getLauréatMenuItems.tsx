@@ -101,7 +101,7 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const powerPurchaseAgreementOnglet = featureFlag.includes('PPA')
+  const powerPurchaseAgreementOnglet = !featureFlag.includes('PPA')
     ? undefined
     : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
       ? linkToSection('PPA', 'power-purchase-agreement/signaler')
