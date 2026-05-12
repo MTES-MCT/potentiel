@@ -30,7 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        message: "L'annulation du signalement PPA a été pris en compte",
+        message: "L'annulation du signalement PPA a été prise en compte",
       },
     };
   });

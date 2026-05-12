@@ -37,7 +37,7 @@ export const AnnulerSignalementPowerPurchaseAgreementForm: FC<
 
       <ModalWithForm
         id="annuler-ppa-modal"
-        title="Annuler le signalement PPA pour ce projet"
+        title="Annuler le signalement d'un PPA pour ce projet"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
@@ -47,7 +47,7 @@ export const AnnulerSignalementPowerPurchaseAgreementForm: FC<
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir annuler le signalement PPA pour ce projet ?
+                Êtes-vous sûr de vouloir annuler le signalement d'un PPA pour ce projet ?
               </p>
               <input type={'hidden'} value={idProjet} name="identifiantProjet" />
             </>
