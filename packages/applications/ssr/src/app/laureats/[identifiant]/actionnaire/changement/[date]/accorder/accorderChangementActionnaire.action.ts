@@ -6,7 +6,6 @@ import * as zod from 'zod';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -34,12 +33,10 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    const { url } = getContext() ?? {};
-
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Lauréat.détails.informationGénérales(identifiantProjet),
+        url: Routes.Lauréat.détails.informationGénérales(identifiantProjet),
         message: "Le changement d'actionnaire(s) a bien été accordé",
       },
     };

@@ -5,7 +5,6 @@ import * as zod from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -36,12 +35,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    const { url } = getContext() ?? {};
-
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
+        /**
+         * TODO Route détailPourRedirection ?
+         */
+        url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
         message: `La demande de délai a bien été accordée`,
       },
     };
