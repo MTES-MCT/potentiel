@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
@@ -6,7 +6,8 @@ import { formatDateToText } from '@/app/_helpers';
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
   event: Lauréat.SiteDeProductionModifiéEvent,
 ): TimelineItemProps => {
-  const { localité, modifiéLe, modifiéPar, raison, pièceJustificative } = event.payload;
+  const { localité, coordonnées, modifiéLe, modifiéPar, raison, pièceJustificative } =
+    event.payload;
 
   return {
     date: modifiéLe,
@@ -28,6 +29,9 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
           <span>
             {localité.département} {localité.région}
           </span>
+          {coordonnées && (
+            <span>Coordonnées : {Candidature.Coordonnées.bind(coordonnées).formatter()}</span>
+          )}
         </div>
       </>
     ),

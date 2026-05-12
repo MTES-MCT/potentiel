@@ -32,7 +32,7 @@ const searchParamsSchema = z.object({
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
-export const metadata: Metadata = { title: 'Garanties financières en attente de validation' };
+export const metadata: Metadata = { title: 'Garanties financières à traiter' };
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
