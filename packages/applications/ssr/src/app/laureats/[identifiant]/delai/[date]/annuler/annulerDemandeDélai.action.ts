@@ -27,11 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     return {
       status: 'success',
       redirection: {
-        /**
-         * TODO Route détailPourRedirection ?
-         */
-        url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        type: 'success',
+        url: Routes.Délai.détailsPourRedirection(identifiantProjet),
         message: 'La demande de délai a bien été annulée',
       },
     };

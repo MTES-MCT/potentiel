@@ -5,7 +5,7 @@ import { cache } from 'react';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
@@ -216,4 +216,28 @@ export const getDemandeDélaiEnCoursInfos = async (
   });
 
   return demandeDélai.items.length ? demandeDélai.items[0] : undefined;
+};
+
+type GetDateDernièreDemandeDélai = (args: {
+  identifiantProjet: IdentifiantProjet.RawType;
+  emailUtilisateur: Email.RawType;
+}) => Promise<DateTime.RawType | undefined>;
+
+export const getDateDernièreDemandeDélai: GetDateDernièreDemandeDélai = async ({
+  identifiantProjet,
+  emailUtilisateur,
+}) => {
+  const demandesDélai = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
+    type: 'Lauréat.Délai.Query.ListerDemandeDélai',
+    data: {
+      utilisateur: emailUtilisateur,
+      identifiantProjet,
+    },
+  });
+
+  if (demandesDélai.total === 0) {
+    return undefined;
+  }
+
+  return demandesDélai.items[0].demandéLe.formatter();
 };
