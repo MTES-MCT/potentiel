@@ -6,6 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { powerPurchaseAgreementRebuildTriggeredProjector } from './powerPurchaseAgreementRebuildTrigerred.projector.js';
 import { powerPurchaseAgreementSignaléProjector } from './powerPurchaseAgreementSignalé.projector.js';
+import { signalementPowerPurchaseAgreementAnnuléProjector } from './signalementPowerPurchaseAgreementAnnulé.projector.js';
 
 export type SubscriptionEvent =
   | Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementEvents
@@ -18,6 +19,10 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, powerPurchaseAgreementRebuildTriggeredProjector)
       .with({ type: 'PowerPurchaseAgreementSignalé-V1' }, powerPurchaseAgreementSignaléProjector)
+      .with(
+        { type: 'SignalementPowerPurchaseAgreementAnnulé-V1' },
+        signalementPowerPurchaseAgreementAnnuléProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.PowerPurchaseAgreement', handler);

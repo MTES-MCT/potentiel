@@ -25,3 +25,20 @@ Alors(
     });
   },
 );
+
+Alors(
+  `l'état PPA ne devrait plus être consultable pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const powerPurchaseAgreement =
+        await mediator.send<Lauréat.PowerPurchaseAgreement.ConsulterPowerPurchaseAgreementQuery>({
+          type: 'Lauréat.PowerPurchaseAgreement.Query.ConsulterPowerPurchaseAgreement',
+          data: {
+            identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          },
+        });
+
+      assert(Option.isNone(powerPurchaseAgreement), 'Le PPA existe');
+    });
+  },
+);

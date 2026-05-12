@@ -18,6 +18,7 @@ export * as FournisseurNotification from './subscribers/lauréat/fournisseur/fou
 export * as DélaiNotification from './subscribers/lauréat/délai/délai.notifications.js';
 export * as InstallationNotification from './subscribers/lauréat/installation/installation.notifications.js';
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation/nature-de-l-exploitation.notifications.js';
+export * as PowerPurchaseAgreementNotification from './subscribers/lauréat/power-purchase-agreement/powerPurchaseAgreement.notifications.js';
 
 // Éliminé
 export * as ÉliminéNotification from './subscribers/éliminé/éliminé/éliminé.notifications.js';

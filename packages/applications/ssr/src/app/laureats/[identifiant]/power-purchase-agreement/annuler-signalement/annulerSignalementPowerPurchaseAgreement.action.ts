@@ -12,16 +12,17 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
 });
-export type SignalerPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof schema>;
+
+export type AnnulerSignalementPowerPurchaseAgreementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.PowerPurchaseAgreement.PowerPurchaseAgreementUseCase>({
-      type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
+      type: 'Lauréat.PowerPurchaseAgreement.UseCase.AnnulerSignalementPowerPurchaseAgreement',
       data: {
         identifiantProjetValue: identifiantProjet,
-        signaléLeValue: new Date().toISOString(),
-        signaléParValue: utilisateur.identifiantUtilisateur.formatter(),
+        annuléLeValue: new Date().toISOString(),
+        annuléParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 
@@ -29,10 +30,9 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       status: 'success',
       redirection: {
         url: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
-        message:
-          "Le projet a bien été signalé comme étant signataire d'un PPA (contrat de vente de gré à gré)",
+        message: "L'annulation du signalement PPA a été prise en compte",
       },
     };
   });
 
-export const signalerPowerPurchaseAgreementAction = formAction(action, schema);
+export const annulerSignalementPowerPurchaseAgreementAction = formAction(action, schema);

@@ -1,5 +1,4 @@
 import { SideMenuProps } from '@codegouvfr/react-dsfr/SideMenu';
-import Badge from '@mui/material/Badge';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
@@ -11,8 +10,9 @@ import { getCahierDesCharges } from '@/app/_helpers';
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
-import { getTâches } from '../taches/_helpers/getTâches';
 import { featureFlag } from '@/app/_helpers/getFeatureFlag';
+
+import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 
 export type MenuItem = SideMenuProps.Item;
 
@@ -101,12 +101,14 @@ export const getLauréatMenuItems = async ({
     ? linkToSection('Modifier le projet', 'modifier')
     : undefined;
 
-  const powerPurchaseAgreementOnglet =
-    utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') &&
-    !lauréat.estPartiEnPPA &&
-    featureFlag.includes('PPA')
-      ? linkToSection('Signaler un PPA', 'power-purchase-agreement/signaler')
-      : undefined;
+  const powerPurchaseAgreementOnglet = !featureFlag.includes('PPA')
+    ? undefined
+    : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.signaler') && !lauréat.estPartiEnPPA
+      ? linkToSection('PPA', 'power-purchase-agreement/signaler')
+      : utilisateur.rôle.aLaPermission('powerPurchaseAgreement.annulerSignalement') &&
+          lauréat.estPartiEnPPA
+        ? linkToSection('PPA', 'power-purchase-agreement/annuler-signalement')
+        : undefined;
 
   const demandesEnCours = await getDemandesEnCours({ identifiantProjet, utilisateur });
 
@@ -170,44 +172,4 @@ export const getLauréatMenuItems = async ({
     linkToSection('Documents', 'documents'),
     linkToSection('Imprimer la page', 'imprimer'),
   ].filter((item) => !!item);
-};
-
-type BadgeDemandesEnCoursProps = {
-  nombreDemandes: number;
-};
-
-const BadgeDemandesEnCours: React.FC<BadgeDemandesEnCoursProps> = async ({ nombreDemandes }) => {
-  return (
-    <Badge badgeContent={nombreDemandes} max={99} color="primary" overlap="circular">
-      <div className="mr-10">Demandes en cours</div>
-    </Badge>
-  );
-};
-
-type BadgeTâchesProps = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  utilisateur: Utilisateur.ValueType;
-};
-
-const BadgeTâches: React.FC<BadgeTâchesProps> = async ({ identifiantProjet, utilisateur }) => {
-  const tâches = await getTâches(
-    identifiantProjet.formatter(),
-    utilisateur.identifiantUtilisateur.email,
-  );
-
-  const utilisateurEstPorteur = utilisateur.rôle.estPorteur();
-
-  return (
-    <Badge
-      badgeContent={tâches.total}
-      max={99}
-      color="primary"
-      overlap="circular"
-      invisible={tâches.total === 0}
-    >
-      <div className={utilisateurEstPorteur ? 'mr-6' : 'mr-9'}>
-        {utilisateurEstPorteur ? 'Tâches' : 'Tâches porteur'}
-      </div>
-    </Badge>
-  );
 };

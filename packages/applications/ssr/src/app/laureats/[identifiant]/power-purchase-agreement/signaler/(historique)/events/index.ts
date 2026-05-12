@@ -1,1 +1,0 @@
-export { mapToPowerPurchaseAgreementSignaléTimelineItemProps } from './mapToPowerPurchaseAgreementSignaléTimelineItemProps';

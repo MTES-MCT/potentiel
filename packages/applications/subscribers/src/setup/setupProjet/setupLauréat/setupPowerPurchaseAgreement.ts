@@ -1,4 +1,8 @@
-import { PowerPurchaseAgreementProjector } from '@potentiel-applications/projectors';
+import {
+  HistoriqueProjector,
+  PowerPurchaseAgreementProjector,
+} from '@potentiel-applications/projectors';
+import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
@@ -11,32 +15,32 @@ export const setupPowerPurchaseAgreement = async () => {
     PowerPurchaseAgreementProjector.Execute
   >({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'PowerPurchaseAgreementSignalé-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'PowerPurchaseAgreementSignalé-V1',
+      'SignalementPowerPurchaseAgreementAnnulé-V1',
+    ],
     messageType: 'System.Projector.Lauréat.PowerPurchaseAgreement',
   });
 
-  // TODO: notification, dans une autre carte
-  // PowerPurchaseAgreementNotification.register();
-  // await powerPurchaseAgreement.setupSubscription<
-  //   PowerPurchaseAgreementNotification.SubscriptionEvent,
-  //   PowerPurchaseAgreementNotification.Execute
-  // >({
-  //   name: 'notifications',
-  //   eventType: [
-  //     'PowerPurchaseAgreementSignalé-V1',
-  //   ],
-  //   messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
-  // });
+  PowerPurchaseAgreementNotification.register();
+  await powerPurchaseAgreement.setupSubscription<
+    PowerPurchaseAgreementNotification.SubscriptionEvent,
+    PowerPurchaseAgreementNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['SignalementPowerPurchaseAgreementAnnulé-V1', 'PowerPurchaseAgreementSignalé-V1'],
+    messageType: 'System.Notification.Lauréat.PowerPurchaseAgreement',
+  });
 
-  // TODO: historique, dans une autre carte
-  // await powerPurchaseAgreement.setupSubscription<
-  //   HistoriqueProjector.SubscriptionEvent,
-  //   HistoriqueProjector.Execute
-  // >({
-  //   name: 'history',
-  //   eventType: 'all',
-  //   messageType: 'System.Projector.Historique',
-  // });
+  await powerPurchaseAgreement.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
+  });
 
   return powerPurchaseAgreement.clearSubscriptions;
 };
