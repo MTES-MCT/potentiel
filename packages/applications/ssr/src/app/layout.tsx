@@ -11,7 +11,7 @@ import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
 import './global.css';
 
 import Providers from './Providers';
-import { featureFlag } from '@potentiel-applications/feature-flag';
+import { featureFlag } from './_helpers/getFeatureFlag';
 
 export const metadata: Metadata = {
   title: {

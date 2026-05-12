@@ -19,7 +19,7 @@ import {
 } from '../_helpers';
 
 import { ExportPage, ExportPageProps } from './export.page';
-import { featureFlag } from '@potentiel-applications/feature-flag';
+import { featureFlag } from '../_helpers/getFeatureFlag';
 
 export const metadata: Metadata = { title: 'Export de données' };
 

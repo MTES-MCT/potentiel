@@ -7,7 +7,6 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { featureFlag } from '@potentiel-applications/feature-flag';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,6 +19,7 @@ import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { LauréatListPage } from './LauréatList.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

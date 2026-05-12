@@ -5,7 +5,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { featureFlag } from '@potentiel-applications/feature-flag';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
@@ -13,6 +12,7 @@ import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
 import { getTâches } from '../taches/_helpers/getTâches';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 export type MenuItem = SideMenuProps.Item;
 

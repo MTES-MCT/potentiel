@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { featureFlag } from '@potentiel-applications/feature-flag';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -16,6 +15,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

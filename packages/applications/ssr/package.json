@@ -29,7 +29,6 @@
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/notifications": "*",
     "@potentiel-applications/request-context": "*",
-    "@potentiel-applications/feature-flag": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/entity": "*",

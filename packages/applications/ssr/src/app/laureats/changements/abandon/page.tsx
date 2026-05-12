@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
-import { featureFlag } from '@potentiel-applications/feature-flag';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,6 +13,7 @@ import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/ap
 import { optionalStringArray } from '@/app/_helpers';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
