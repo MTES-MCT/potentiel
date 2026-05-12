@@ -40,10 +40,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        /**
-         * TODO Route détailPourRedirection ?
-         */
-        url: Routes.Lauréat.détails.informationGénérales(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détailsPourRedirection(identifiantProjet),
         message: 'Le changement de représentant légal a bien été accordé',
       },
     };
