@@ -15,6 +15,9 @@ export const demander = (identifiantProjet: string) =>
 export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}`;
 
+export const détailsPourRedirection = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/delai`;
+
 export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/corriger`;
 
