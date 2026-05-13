@@ -33,6 +33,10 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     return this.parent;
   }
 
+  get estPartiEnPPA() {
+    return this.#estPartiEnPPA;
+  }
+
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
   }

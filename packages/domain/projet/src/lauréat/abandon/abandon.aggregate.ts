@@ -168,7 +168,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       identifiantUtilisateur,
     });
 
-    await this.lauréat.raccordement.supprimerRaccordement();
+    if (!this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
+      await this.lauréat.raccordement.supprimerRaccordement();
+    }
+
     await this.lauréat.garantiesFinancières.annulerTâchePorteurDemanderGarantiesFinancières();
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
     await this.lauréat.modifierStatut({
