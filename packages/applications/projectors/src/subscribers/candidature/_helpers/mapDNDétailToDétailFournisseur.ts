@@ -42,9 +42,9 @@ export const mapDNDétailToDétailFournisseur = (
 ): DétailFournisseur[] => {
   const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-  const labelToType = Object.fromEntries(
+  const labelToType: Record<string, TypeFournisseur> = Object.fromEntries(
     TYPES_FOURNISSEURS.map(({ label, type }) => [label, type]),
-  ) as Record<string, TypeFournisseur>;
+  );
 
   const fournisseursPattern = TYPES_FOURNISSEURS.map(({ label }) => escapeRegex(label)).join('|');
   const champsPattern = CHAMPS.map(({ label }) => escapeRegex(label)).join('|');
