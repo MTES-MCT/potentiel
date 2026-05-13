@@ -124,7 +124,6 @@ export type ListerLauréatEnrichiDependencies = {
 };
 
 type LauréatEnrichiJoins = [
-  AppelOffre.AppelOffreEntity,
   CandidatureEntity,
   PuissanceEntity,
   ActionnaireEntity,
@@ -154,6 +153,8 @@ export const registerListerLauréatEnrichiQuery = ({
       identifiantProjets: identifiantProjet && [identifiantProjet],
     });
 
+    const appelsOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre');
+
     const lauréats = await list<LauréatEntity, LauréatEnrichiJoins>('lauréat', {
       orderBy: {
         identifiantProjet: 'ascending',
@@ -167,10 +168,6 @@ export const registerListerLauréatEnrichiQuery = ({
         localité: { région: Where.matchAny(scope.régions) },
       },
       join: [
-        {
-          entity: 'appel-offre',
-          on: 'appelOffre',
-        },
         {
           entity: 'candidature',
           on: 'identifiantProjet',
@@ -239,6 +236,7 @@ export const registerListerLauréatEnrichiQuery = ({
           gestionnaireRéseau: lauréat.raccordement
             ? gestionnaireRéseauMap.get(lauréat.raccordement.identifiantGestionnaireRéseau)
             : undefined,
+          appelOffre: appelsOffres.items.find((ao) => ao.id === lauréat.appelOffre)!,
         }),
       ),
     };
@@ -250,6 +248,7 @@ export const registerListerLauréatEnrichiQuery = ({
 type MapToReadModelProps = (args: {
   gestionnaireRéseau?: GestionnaireRéseau.GestionnaireRéseauEntity['raisonSociale'];
   lauréat: LauréatEntity & Joined<LauréatEnrichiJoins>;
+  appelOffre: AppelOffre.AppelOffreEntity;
 }) => LauréatEnrichiListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
@@ -277,9 +276,9 @@ const mapToReadModel: MapToReadModelProps = ({
     'nature-de-l-exploitation': natureDeLExploitation,
     raccordement,
     cahierDesCharges,
-    'appel-offre': appelOffre,
   },
   gestionnaireRéseau,
+  appelOffre,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const statutValueType = StatutLauréat.convertirEnValueType(statut);
