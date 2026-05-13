@@ -5,8 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getDateDernièreDemandeDélai } from '../_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getDateDernièreDemandeDélai } from '../_helpers/getDélai';
 
 type ProjetPageProps = IdentifiantParameter;
 
