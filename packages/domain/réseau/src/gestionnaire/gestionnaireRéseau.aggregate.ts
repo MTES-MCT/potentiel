@@ -105,7 +105,7 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
   }: ModifierOptions) {
     if (
       raisonSociale === this.#raisonSociale &&
-      ((contactEmail && !this.#contactEmail) ||
+      ((!contactEmail && !this.#contactEmail) ||
         (contactEmail && this.#contactEmail && contactEmail.estÉgaleÀ(this.#contactEmail))) &&
       format === this.#format &&
       légende === this.#légende &&
