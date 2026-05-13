@@ -5,7 +5,6 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -22,8 +21,6 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, preuveRecandidature },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const { url } = getContext() ?? {};
-
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
       data: {
@@ -36,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: url ?? Routes.Abandon.détailRedirection(identifiantProjet) },
+      redirection: { url: Routes.Abandon.détailRedirection(identifiantProjet) },
     };
   });
 

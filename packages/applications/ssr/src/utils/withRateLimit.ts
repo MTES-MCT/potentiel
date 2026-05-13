@@ -1,8 +1,8 @@
 import { IRateLimiterOptions, RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { headers } from 'next/headers';
 
-import { getContext } from '@potentiel-applications/request-context';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { getSessionUser } from '@/auth/getSessionUser';
 
 /** Permet de limiter le nombre de requêtes par utilisateur et IP */
 export function withRateLimit<TResult, TArgs extends unknown[]>(
@@ -18,7 +18,7 @@ export function withRateLimit<TResult, TArgs extends unknown[]>(
   const logger = getLogger(`RateLimit.${rateLimiterOptions.keyPrefix}`);
 
   return async (...args: TArgs) => {
-    const utilisateur = getContext()?.utilisateur;
+    const utilisateur = await getSessionUser({ headers: await headers() });
     const ip = (await headers()).get('x-forwarded-for');
     try {
       const consume = async (key: string | null | undefined) => {

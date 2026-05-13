@@ -1,20 +1,17 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { redirectAvecSearchParams, PageDeRedirectionProps } from '@/utils/redirectAvecSearchParams';
 
 import { getAbandonInfos } from '../_helpers/getLauréat';
 
-type ProjetPageProps = IdentifiantParameter;
-
-// Page de redirection vers l'abandon en cours du projet
-export default async function ProjetPage(props: ProjetPageProps) {
-  const params = await props.params;
-
-  const { identifiant } = params;
+// Page de redirection vers la dernière d'abandon du projet
+export default async function Page(props: PageDeRedirectionProps) {
+  const { identifiant } = await props.params;
+  const searchParams = await props.searchParams;
 
   const identifiantProjet = decodeParameter(identifiant);
   const abandon = await getAbandonInfos(
@@ -24,5 +21,8 @@ export default async function ProjetPage(props: ProjetPageProps) {
     return notFound();
   }
 
-  return redirect(Routes.Abandon.détail(identifiantProjet, abandon.demandéLe.formatter()));
+  return redirectAvecSearchParams(
+    Routes.Abandon.détail(identifiantProjet, abandon.demandéLe.formatter()),
+    searchParams,
+  );
 }
