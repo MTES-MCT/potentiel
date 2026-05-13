@@ -6,7 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { GarantiesFinancières } from '../index.js';
 
-import { DocumentProducteur } from './index.js';
+import { DocumentProducteur, NuméroIdentification } from './index.js';
 
 import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option.js';
 import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event.js';
@@ -22,7 +22,8 @@ export class ProducteurAggregate extends AbstractAggregate<
   'producteur',
   LauréatAggregate
 > {
-  producteur!: string;
+  #producteur!: string;
+  #numéroIdentification: NuméroIdentification.ValueType | undefined;
 
   changements: Map<
     DateTime.RawType,
@@ -57,7 +58,7 @@ export class ProducteurAggregate extends AbstractAggregate<
   }: EnregistrerChangementProducteurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
 
-    if (this.producteur === producteur) {
+    if (this.#producteur === producteur) {
       throw new ProducteurIdentiqueError();
     }
 
@@ -111,7 +112,13 @@ export class ProducteurAggregate extends AbstractAggregate<
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.producteur === producteur) {
+    if (
+      this.#producteur === producteur &&
+      ((!numéroIdentification && !this.#numéroIdentification) ||
+        (numéroIdentification &&
+          this.#numéroIdentification &&
+          numéroIdentification.estÉgaleÀ(this.#numéroIdentification)))
+    ) {
       throw new ProducteurIdentiqueError();
     }
 
@@ -137,7 +144,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     identifiantUtilisateur,
     numéroIdentification,
   }: ImporterOptions) {
-    if (this.producteur) {
+    if (this.#producteur) {
       throw new ProducteurDéjàTransmisError();
     }
 
@@ -186,9 +193,10 @@ export class ProducteurAggregate extends AbstractAggregate<
       producteur: nouveauProducteur,
       raison,
       pièceJustificative,
+      numéroIdentification,
     },
   }: ChangementProducteurEnregistréEvent) {
-    const ancienProducteur = this.producteur;
+    const ancienProducteur = this.#producteur;
     const dateChangement = DateTime.convertirEnValueType(enregistréLe);
 
     this.changements.set(dateChangement.formatter(), {
@@ -204,16 +212,27 @@ export class ProducteurAggregate extends AbstractAggregate<
       }),
     });
 
-    this.producteur = nouveauProducteur;
+    this.#producteur = nouveauProducteur;
+    this.#numéroIdentification = numéroIdentification
+      ? NuméroIdentification.convertirEnValueType(numéroIdentification)
+      : undefined;
   }
 
   private applyProducteurModifiéV1({
-    payload: { producteur: nouveauProducteur },
+    payload: { producteur: nouveauProducteur, numéroIdentification },
   }: ProducteurModifiéEvent) {
-    this.producteur = nouveauProducteur;
+    this.#producteur = nouveauProducteur;
+    this.#numéroIdentification = numéroIdentification
+      ? NuméroIdentification.convertirEnValueType(numéroIdentification)
+      : undefined;
   }
 
-  private applyProducteurImportéV1({ payload: { producteur } }: ProducteurImportéEvent) {
-    this.producteur = producteur;
+  private applyProducteurImportéV1({
+    payload: { producteur, numéroIdentification },
+  }: ProducteurImportéEvent) {
+    this.#producteur = producteur;
+    this.#numéroIdentification = numéroIdentification
+      ? NuméroIdentification.convertirEnValueType(numéroIdentification)
+      : undefined;
   }
 }
