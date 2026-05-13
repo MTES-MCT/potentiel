@@ -1398,6 +1398,7 @@ const policies = {
     ],
   },
   powerPurchaseAgreement: {
+    consulter: [référencielPermissions.lauréat.powerPurchaseAgreement.query.consulter],
     signaler: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.powerPurchaseAgreement.command.signaler,
@@ -1592,6 +1593,7 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'lauréat.consulter',
   'éliminé.consulter',
   'abandon.consulter.enCours',
+  'powerPurchaseAgreement.consulter',
 
   'lauréat.lister',
   'éliminé.lister',

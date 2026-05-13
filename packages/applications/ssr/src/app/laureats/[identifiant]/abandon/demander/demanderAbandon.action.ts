@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   raison: zod.string().min(1),
   pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  estPPA: zod.stringbool(),
+  estPPA: zod.stringbool().optional(),
 });
 
 export type DemanderAbandonFormKeys = keyof zod.infer<typeof schema>;

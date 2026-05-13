@@ -15,6 +15,7 @@ export type DemanderAbandonPageProps = DemanderAbandonFormProps & {
 export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
   identifiantProjet,
   autoritéCompétente,
+  estDéjàSignaléPPA,
 }) => {
   const autoritéCompétenteText =
     autoritéCompétente === 'dgec'
@@ -25,7 +26,12 @@ export const DemanderAbandonPage: FC<DemanderAbandonPageProps> = ({
     <ColumnPageTemplate
       heading={<Heading1>Demander l'abandon du projet</Heading1>}
       leftColumn={{
-        children: <DemanderAbandonForm identifiantProjet={identifiantProjet} />,
+        children: (
+          <DemanderAbandonForm
+            identifiantProjet={identifiantProjet}
+            estDéjàSignaléPPA={estDéjàSignaléPPA}
+          />
+        ),
       }}
       rightColumn={{
         children: (

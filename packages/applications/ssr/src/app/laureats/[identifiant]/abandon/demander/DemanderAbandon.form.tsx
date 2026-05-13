@@ -12,9 +12,13 @@ import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbando
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
+  estDéjàSignaléPPA: boolean;
 };
 
-export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantProjet }) => {
+export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
+  identifiantProjet,
+  estDéjàSignaléPPA,
+}) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderAbandonFormKeys>
   >({});
@@ -28,21 +32,23 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-      <Select
-        state={validationErrors['estPPA'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['estPPA']}
-        id="estPPA"
-        label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
-        nativeSelectProps={{
-          name: 'estPPA',
-          required: true,
-          'aria-required': true,
-        }}
-        options={[
-          { label: 'Oui', value: 'true' },
-          { label: 'Non', value: 'false' },
-        ]}
-      />
+      {!estDéjàSignaléPPA && (
+        <Select
+          state={validationErrors['estPPA'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['estPPA']}
+          id="estPPA"
+          label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
+          nativeSelectProps={{
+            name: 'estPPA',
+            required: true,
+            'aria-required': true,
+          }}
+          options={[
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ]}
+        />
+      )}
 
       <Input
         textArea
