@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,6 +13,7 @@ import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/ap
 import { optionalStringArray } from '@/app/_helpers';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
@@ -77,8 +77,6 @@ export default async function Page(props: PageProps) {
         data: {},
       });
 
-      const { features } = getContext() ?? {};
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut',
@@ -137,7 +135,7 @@ export default async function Page(props: PageProps) {
         },
       ];
 
-      if (features?.includes('PPA')) {
+      if (featureFlag.includes('PPA')) {
         filters.push({
           label: 'PPA',
           searchParamKey: 'PPA',

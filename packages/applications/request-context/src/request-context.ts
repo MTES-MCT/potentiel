@@ -10,7 +10,6 @@ export type PotentielUtilisateur = Utilisateur.ValueType & {
 export type RequestContext = {
   correlationId: string;
   app?: 'web' | 'subscribers' | 'cli' | 'api';
-  features: Array<string>;
   utilisateur?: PotentielUtilisateur;
   url?: string;
 };

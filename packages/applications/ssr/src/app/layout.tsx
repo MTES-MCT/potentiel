@@ -2,8 +2,6 @@ import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
 
-import { getContext } from '@potentiel-applications/request-context';
-
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
 import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
@@ -13,6 +11,7 @@ import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
 import './global.css';
 
 import Providers from './Providers';
+import { featureFlag } from './_helpers/getFeatureFlag';
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +26,6 @@ export const dynamic = 'force-dynamic';
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
-  const features = getContext()?.features ?? [];
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -48,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
         */}
         <StartDsfrOnHydration />
 
-        <Providers features={features}>
+        <Providers features={featureFlag}>
           <SkipLinks
             links={[
               {

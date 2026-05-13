@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
@@ -8,15 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
-type PageProps = { params: Promise<{ identifiant: string }> };
+import { redirectAvecSearchParams, PageDeRedirectionProps } from '@/utils/redirectAvecSearchParams';
 
 export const metadata: Metadata = { title: `Recours` };
 
-export default async function Page(props: PageProps) {
-  const params = await props.params;
-
-  const { identifiant } = params;
+// Page de redirection vers la dernière de recours du projet
+export default async function Page(props: PageDeRedirectionProps) {
+  const { identifiant } = await props.params;
+  const searchParams = await props.searchParams;
 
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
@@ -46,8 +45,9 @@ export default async function Page(props: PageProps) {
       return notFound();
     }
 
-    return redirect(
+    return redirectAvecSearchParams(
       Routes.Recours.détail(identifiantProjet, détailDemande.demande.demandéLe.formatter()),
+      searchParams,
     );
   });
 }
