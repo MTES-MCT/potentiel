@@ -2,10 +2,10 @@
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 

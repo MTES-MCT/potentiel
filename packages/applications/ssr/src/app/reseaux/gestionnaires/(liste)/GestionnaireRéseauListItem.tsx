@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
+
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { GestionnaireAvecNombreDeRaccordement } from './GestionnaireRéseauList.page';

@@ -1,5 +1,6 @@
 import z from 'zod';
 import { redirect } from 'next/navigation';
+import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -8,10 +9,9 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
 import { ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { callbackURLSchema } from '@/utils/zod/auth';
+import { getSessionUser } from '@/auth/getSessionUser';
 
 import SignInPage from './SignIn.page';
-import { getSessionUser } from '@/auth/getSessionUser';
-import { headers } from 'next/headers';
 
 type PageProps = {
   searchParams: Promise<Record<string, string>>;

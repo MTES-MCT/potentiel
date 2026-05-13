@@ -16,11 +16,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import { getZoneLabel } from '../../_helpers/getZoneLabel';
 
 import { ModifierRôleUtilisateurPage } from './ModifierRôleUtilisateur.page';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 export const metadata: Metadata = { title: 'Modifier le rôle' };
 

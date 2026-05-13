@@ -11,9 +11,9 @@ import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/app/_helpers';
 import { optionalStringArray } from '@/app/_helpers';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

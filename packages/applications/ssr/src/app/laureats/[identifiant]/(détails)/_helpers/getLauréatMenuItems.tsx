@@ -6,11 +6,11 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { getCahierDesCharges } from '@/app/_helpers';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { getAction, getLauréatInfos } from '../../_helpers';
 import { changementActionnaireNécessiteInstruction } from '../../../../_helpers/changementActionnaireNécessiteInstruction';
 import { getDemandesEnCours } from '../../_helpers/getDemandesEnCours';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { BadgeDemandesEnCours, BadgeTâches } from './Badges';
 

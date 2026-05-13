@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -14,7 +15,6 @@ import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevée
 import { getAbandonInfos, getAchèvement, getGarantiesFinancières } from '../../_helpers';
 
 import { DétailsMainlevéePage, DétailsMainlevéePageProps } from './DétailsMainlevée.page';
-import { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Mainlevée des garanties financières' };
 

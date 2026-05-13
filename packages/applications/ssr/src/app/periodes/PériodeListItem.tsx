@@ -1,13 +1,13 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { Icon, IconProps } from '@/components/atoms/Icon';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { FormattedDate } from '@/components/atoms/FormattedDate';

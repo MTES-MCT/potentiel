@@ -2,6 +2,7 @@ import { IRateLimiterOptions, RateLimiterMemory, RateLimiterRes } from 'rate-lim
 import { headers } from 'next/headers';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { getSessionUser } from '@/auth/getSessionUser';
 
 /** Permet de limiter le nombre de requêtes par utilisateur et IP */

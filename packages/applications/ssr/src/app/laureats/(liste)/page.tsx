@@ -17,9 +17,9 @@ import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getType
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { LauréatListPage } from './LauréatList.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

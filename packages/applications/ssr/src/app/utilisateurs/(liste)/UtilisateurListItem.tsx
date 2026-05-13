@@ -17,13 +17,13 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { getZoneLabel } from '../_helpers/getZoneLabel';
 
 import { RoleBadge } from './RoleBadge';
 import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type UtilisateurActions = {
   actions: ('désactiver' | 'réactiver' | 'modifier')[];

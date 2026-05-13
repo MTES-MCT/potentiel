@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getÉliminé } from '@/app/_helpers/getÉliminé';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type ProjetPageProps = IdentifiantParameter & {
   searchParams?: Promise<Record<string, string>>;

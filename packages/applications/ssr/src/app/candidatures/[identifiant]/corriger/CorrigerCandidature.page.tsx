@@ -4,9 +4,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;

@@ -1,4 +1,3 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -7,6 +6,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';

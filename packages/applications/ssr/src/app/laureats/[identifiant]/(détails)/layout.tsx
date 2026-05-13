@@ -3,9 +3,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Menu } from '@/components/atoms/menu/Menu';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 import { getLauréatMenuItems } from './_helpers/getLauréatMenuItems';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;

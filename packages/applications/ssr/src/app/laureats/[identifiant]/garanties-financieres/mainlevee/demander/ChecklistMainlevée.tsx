@@ -1,12 +1,13 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { fr } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
 import Success from '@codegouvfr/react-dsfr/picto/Success';
 import Error from '@codegouvfr/react-dsfr/picto/Error';
 
 import { Routes } from '@potentiel-applications/routes';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 const prérequisMainlevée = {
   garantiesFinancièresValidées: {

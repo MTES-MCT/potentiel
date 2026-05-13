@@ -8,9 +8,9 @@ import { AuthProvider, getProviders } from '@/auth/providers/authProvider';
 import { ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { callbackURLSchema } from '@/utils/zod/auth';
+import { getSessionUser } from '@/auth/getSessionUser';
 
 import SignUpPage from './SignUp.page';
-import { getSessionUser } from '@/auth/getSessionUser';
 
 type PageProps = {
   searchParams: Promise<Record<string, string>>;

@@ -13,9 +13,9 @@ import { mapToRangeOptions } from '@/utils/pagination';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

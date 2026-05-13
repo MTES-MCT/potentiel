@@ -10,11 +10,11 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 import { LinkAction } from '@/components/molecules/LinkAction';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from './components/StatutGarantiesFinancièresBadge';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 const actionsGarantiesFinancières = [
   'garantiesFinancières.actuelles.enregistrer',

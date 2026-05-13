@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
+import { headers } from 'next/headers';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getSessionUser } from '@/auth/getSessionUser';
 
 import { HomePage } from './Home.page';
-import { getSessionUser } from '@/auth/getSessionUser';
-import { headers } from 'next/headers';
 
 export const metadata: Metadata = { title: 'Accueil' };
 

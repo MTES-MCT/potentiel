@@ -10,11 +10,11 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 import { getLauréatInfos } from '../../_helpers';
 
 import { AnnulerSignalementPowerPurchaseAgreementPage } from './AnnulerSignalementPowerPurchaseAgreement.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 export const metadata: Metadata = {
   title: 'Annuler un signalement PPA - Potentiel',

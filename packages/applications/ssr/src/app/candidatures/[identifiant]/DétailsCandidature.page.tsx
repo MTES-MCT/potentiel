@@ -14,9 +14,9 @@ import { ActionsList } from '@/components/templates/ActionsList.template';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',

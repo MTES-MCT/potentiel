@@ -17,9 +17,9 @@ import {
   optionalStringArray,
   transformToOptionalEnumArray,
 } from '../_helpers';
+import { featureFlag } from '../_helpers/getFeatureFlag';
 
 import { ExportPage, ExportPageProps } from './export.page';
-import { featureFlag } from '../_helpers/getFeatureFlag';
 
 export const metadata: Metadata = { title: 'Export de données' };
 

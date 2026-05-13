@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import clsx from 'clsx';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';
@@ -10,6 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';

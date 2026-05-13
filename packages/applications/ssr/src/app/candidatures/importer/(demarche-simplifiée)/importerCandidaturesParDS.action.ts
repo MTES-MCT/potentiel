@@ -13,6 +13,7 @@ import { ImportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -21,7 +22,6 @@ import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 import { cleanDétailsKeys } from '@/utils/candidature';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   appelOffre: zod.string(),

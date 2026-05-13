@@ -1,4 +1,5 @@
 import { mediator } from 'mediateur';
+
 import { Email, DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 

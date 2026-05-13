@@ -7,6 +7,7 @@ import { DomainError } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ImportCSV } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -19,7 +20,6 @@ import {
   récupérerChampsSupplémentaires,
 } from '@/utils/candidature';
 import { mapCsvRowToCoordonnées } from '@/utils/candidature/csv/coordonnéesCsv';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),

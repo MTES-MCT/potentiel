@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
+
 import { Link } from '../LinkNoPrefetch';
 
 type Props = React.ComponentProps<typeof Link>;

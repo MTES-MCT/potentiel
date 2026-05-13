@@ -8,7 +8,6 @@ import {
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from './getLauréat';
-
 import { getDemandeDélaiEnCoursInfos } from './getDélai';
 
 type Props = {

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { applySearchParams } from '@/app/_helpers';
+
 import { IdentifiantParameter } from './identifiantParameter';
 
 export const redirectAvecSearchParams = (url: string, searchParams: Record<string, string>) =>

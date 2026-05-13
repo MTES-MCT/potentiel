@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-config/eslint",
+  "name": "@potentiel-config/eslint-common",
   "private": true,
   "type": "module",
   "main": "index.mjs",
