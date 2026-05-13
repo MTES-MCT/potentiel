@@ -6,6 +6,7 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le projet lauréat
 
@@ -80,3 +81,13 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
+
+    Scénario: Impossible de supprimer un dossier de raccordement si le projet a une demande d'abandon en cours
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec supprime le dossier de raccordement pour le projet lauréat
+        Alors la dgec devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de supprimer un dossier de raccordement si le projet est abandonné
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec supprime le dossier de raccordement pour le projet lauréat
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

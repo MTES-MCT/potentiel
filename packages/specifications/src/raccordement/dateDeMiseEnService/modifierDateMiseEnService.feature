@@ -7,6 +7,7 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille" avec :
             | date notification | 2021-01-01 |
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
     # 1 seul dossier
@@ -104,3 +105,27 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
         Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors le gestionnaire de réseau devrait être informé que "Aucune modification n'a été apportée à la date de mise en service de ce dossier de raccordement"
+
+    Scénario: Impossible de modifier une date de mise en service si le projet a une demande d'abandon en cours
+        Etant donné une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2025-01-01         |
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+        Alors la dgec devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de modifier une date de mise en service si le projet est abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2025-01-01         |
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

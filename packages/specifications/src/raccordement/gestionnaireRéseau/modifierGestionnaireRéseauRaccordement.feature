@@ -6,6 +6,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et le gestionnaire de réseau "Arc Energies Maurienne"
         Et la dreal "Dreal du sud" associée à la région du projet
@@ -96,3 +97,15 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | role       |
             | le porteur |
             | la dreal   |
+
+    Scénario: Impossible de modifier le gestionnaire de réseau d'un raccordement si le projet a une demande d'abandon en cours
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur modifie le gestionnaire de réseau du projet avec :
+            | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
+        Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de modifier le gestionnaire de réseau d'un raccordement si le projet est abandonné
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec :
+            | raison sociale du gestionnaire réseau | Arc Energies Maurienne |
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"

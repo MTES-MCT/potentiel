@@ -101,3 +101,10 @@ Fonctionnalité: Modifier une proposition technique et financière
             | role       |
             | le porteur |
             | la dreal   |
+
+    Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la proposition technique et financière
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

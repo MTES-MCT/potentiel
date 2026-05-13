@@ -6,6 +6,7 @@ Fonctionnalité: Modifier une DCR
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -117,3 +118,17 @@ Fonctionnalité: Modifier une DCR
             | role       |
             | le porteur |
             | la dreal   |
+
+    Scénario: Impossible de modifier une DCR si le projet a une demande d'abandon en cours
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec modifie la demande complète de raccordement
+        Alors la dgec devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de modifier une DCR si le projet est abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la demande complète de raccordement
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"
