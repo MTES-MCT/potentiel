@@ -9,6 +9,7 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { ValidationErrors } from '@/utils/formAction';
 
 import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbandon.action';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
@@ -22,6 +23,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderAbandonFormKeys>
   >({});
+
+  const [afficherAideÀLaSaisiePPA, setAfficherAideÀLaSaisiePPA] = useState(estDéjàSignaléPPA);
+
   return (
     <Form
       action={demanderAbandonAction}
@@ -32,7 +36,13 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-      {!estDéjàSignaléPPA && (
+      {estDéjàSignaléPPA ? (
+        <Notice
+          title={
+            "Ce projet a été signalé comme étant signataire d'un contrat de vente de gré à gré (PPA)"
+          }
+        />
+      ) : (
         <Select
           state={validationErrors['estPPA'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['estPPA']}
@@ -42,6 +52,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
             name: 'estPPA',
             required: true,
             'aria-required': true,
+            onChange: (e) => {
+              setAfficherAideÀLaSaisiePPA(e.target.value === 'true');
+            },
           }}
           options={[
             { label: 'Oui', value: 'true' },
@@ -54,7 +67,11 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         textArea
         label="Raison"
         id="raison"
-        hintText="Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)"
+        hintText={
+          afficherAideÀLaSaisiePPA
+            ? 'Veuillez donner des éléments explicatifs et de preuve sur la situation économique du projet'
+            : 'Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)'
+        }
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
         state={validationErrors['raison'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['raison']}
@@ -62,7 +79,11 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
 
       <UploadNewOrModifyExistingDocument
         label="Pièce justificative"
-        hintText="Veuillez joindre vos justificatifs"
+        hintText={
+          afficherAideÀLaSaisiePPA
+            ? 'Veuillez joindre la première et la dernière page du PPA ainsi que tout autre document justifiant de la situation économique du projet'
+            : 'Veuillez joindre vos justificatifs'
+        }
         name="pieceJustificative"
         formats={['pdf']}
         required
