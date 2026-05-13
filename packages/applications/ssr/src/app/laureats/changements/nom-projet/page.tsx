@@ -21,7 +21,7 @@ type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
 };
 
-export const metadata: Metadata = { title: 'Changements de nom' };
+export const metadata: Metadata = { title: 'Changements de nom projet' };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

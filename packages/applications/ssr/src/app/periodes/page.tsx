@@ -27,7 +27,7 @@ type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
 };
 
-export const metadata: Metadata = { title: 'Liste des périodes' };
+export const metadata: Metadata = { title: 'Candidats à notifier' };
 
 export default async function Page(props0: PageProps) {
   const searchParams = await props0.searchParams;

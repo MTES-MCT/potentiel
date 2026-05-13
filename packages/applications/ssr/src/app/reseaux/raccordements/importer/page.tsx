@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -7,6 +8,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLesGestionnairesParUtilisateur } from '../_helpers/récupérerLesGestionnairesParUtilisateur';
 
 import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnService.page';
+
+export const metadata: Metadata = { title: 'Importer des dates de mise en service' };
 
 export default async function Page() {
   return PageWithErrorHandling(async () =>
