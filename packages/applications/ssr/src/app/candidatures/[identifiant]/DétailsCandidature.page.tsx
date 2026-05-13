@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
@@ -17,6 +16,7 @@ import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/
 import { getNatureDeLExploitationTypeLabel } from '@/app/_helpers/getNatureDeLExploitationTypeLabel';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',

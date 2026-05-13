@@ -9,7 +9,6 @@ import { buildDocument, DonnéesDocument } from '@potentiel-applications/documen
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -29,8 +28,6 @@ const action: FormAction<FormState, typeof schema> = async (
     if (!utilisateur.estValidateur()) {
       throw new Error('Utilisateur non autorisé à accorder un abandon.');
     }
-
-    const { url } = getContext() ?? {};
 
     const réponseSignéeValue = await buildReponseSignee({
       utilisateur,
@@ -52,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Abandon.détailRedirection(identifiantProjet),
+        url: Routes.Abandon.détailRedirection(identifiantProjet),
       },
     };
   });

@@ -6,7 +6,6 @@ import * as zod from 'zod';
 import { DateTime } from '@potentiel-domain/common';
 import { Accès } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { formAction, FormAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -31,12 +30,10 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    const { url } = getContext() ?? {};
-
     return {
       status: 'success',
       redirection: {
-        url: url ?? Routes.Accès.lister(identifiantProjet, 'classé'),
+        url: Routes.Accès.lister(identifiantProjet, 'classé'),
         message: "L'accès au projet a été retiré avec succès",
       },
     };

@@ -1,9 +1,7 @@
 import z from 'zod';
 import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
 
 import { Routes } from '@potentiel-applications/routes';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { getLastUsedProvider } from '@/auth/providers/getLastUsedProvider';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -12,6 +10,8 @@ import { ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { callbackURLSchema } from '@/utils/zod/auth';
 
 import SignInPage from './SignIn.page';
+import { getSessionUser } from '@/auth/getSessionUser';
+import { headers } from 'next/headers';
 
 type PageProps = {
   searchParams: Promise<Record<string, string>>;
@@ -28,14 +28,17 @@ export default async function SignIn(props: PageProps) {
     const { callbackUrl = Routes.Auth.redirectToDashboard(), forceProConnect } =
       searchParamsSchema.parse(searchParams);
 
-    const context = getContext();
-    if (context?.utilisateur) {
+    const h = await headers();
+
+    const utilisateur = await getSessionUser({ headers: h });
+
+    if (utilisateur) {
       redirect(callbackUrl);
     }
 
     const providers: Partial<Record<AuthProvider, ProviderProps>> = getProviders();
 
-    const lastUsed = getLastUsedProvider({ headers: await headers() });
+    const lastUsed = getLastUsedProvider({ headers: h });
     if (lastUsed && providers[lastUsed]) {
       providers[lastUsed].isLastUsed = true;
     }

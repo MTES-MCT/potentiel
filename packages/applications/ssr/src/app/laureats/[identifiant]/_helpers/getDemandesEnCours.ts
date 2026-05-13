@@ -5,10 +5,11 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import {
   getAbandonInfos,
   getActionnaireInfos,
-  getDemandeDélaiEnCoursInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from './getLauréat';
+
+import { getDemandeDélaiEnCoursInfos } from './getDélai';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;

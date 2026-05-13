@@ -1,20 +1,17 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { redirectAvecSearchParams, PageDeRedirectionProps } from '@/utils/redirectAvecSearchParams';
 
 import { getActionnaireInfos } from '../../../_helpers';
 
-type ProjetPageProps = IdentifiantParameter;
-
-// Page de redirection vers la dernière demande d'actionnaire (demandée, annulée, accordée ou rejetée) du projet
-export default async function ProjetPage(props: ProjetPageProps) {
-  const params = await props.params;
-
-  const { identifiant } = params;
+// Page de redirection vers la dernière demande de changement d'actionnaire du projet
+export default async function Page(props: PageDeRedirectionProps) {
+  const { identifiant } = await props.params;
+  const searchParams = await props.searchParams;
 
   const identifiantProjet = decodeParameter(identifiant);
 
@@ -26,10 +23,11 @@ export default async function ProjetPage(props: ProjetPageProps) {
     return notFound();
   }
 
-  return redirect(
+  return redirectAvecSearchParams(
     Routes.Actionnaire.changement.détails(
       identifiantProjet,
       actionnaire.dateDernièreDemande.formatter(),
     ),
+    searchParams,
   );
 }

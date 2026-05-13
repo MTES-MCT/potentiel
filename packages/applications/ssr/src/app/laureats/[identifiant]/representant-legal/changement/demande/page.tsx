@@ -1,16 +1,18 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { redirectAvecSearchParams, PageDeRedirectionProps } from '@/utils/redirectAvecSearchParams';
 
 import { getReprésentantLégalInfos } from '../../../_helpers';
 
-// Page de redirection vers la dernière demande d'actionnaire (demandée, annulée, accordée ou rejetée) du projet
-export default async function Page({ params }: IdentifiantParameter) {
-  const { identifiant } = await params;
+// Page de redirection vers la dernière demande de changement de RL du projet
+export default async function Page(props: PageDeRedirectionProps) {
+  const { identifiant } = await props.params;
+  const searchParams = await props.searchParams;
+
   const identifiantProjet = decodeParameter(identifiant);
 
   const représentantLégal = await getReprésentantLégalInfos(
@@ -21,10 +23,11 @@ export default async function Page({ params }: IdentifiantParameter) {
     return notFound();
   }
 
-  return redirect(
+  return redirectAvecSearchParams(
     Routes.ReprésentantLégal.changement.détails(
       identifiantProjet,
       représentantLégal.dateDernièreDemande.formatter(),
     ),
+    searchParams,
   );
 }
