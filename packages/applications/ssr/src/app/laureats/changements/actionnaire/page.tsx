@@ -22,7 +22,7 @@ type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;
 };
 
-export const metadata: Metadata = { title: "Liste des demandes de changement d'actionnaire" };
+export const metadata: Metadata = { title: "Changements d'actionnaire" };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

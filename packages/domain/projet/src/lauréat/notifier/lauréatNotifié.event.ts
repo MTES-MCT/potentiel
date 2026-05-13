@@ -37,6 +37,10 @@ export type NomEtLocalitéLauréatImportésEvent = DomainEvent<
       région: string;
       département: string;
     };
+    coordonnées?: {
+      latitude: number;
+      longitude: number;
+    };
   }
 >;
 

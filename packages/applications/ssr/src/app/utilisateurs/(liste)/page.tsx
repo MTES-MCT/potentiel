@@ -28,7 +28,7 @@ import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList
 import { UtilisateurListItemProps } from './UtilisateurListItem';
 
 export const metadata: Metadata = {
-  title: 'Liste des utilisateurs',
+  title: 'Utilisateurs',
 };
 
 type PageProps = {

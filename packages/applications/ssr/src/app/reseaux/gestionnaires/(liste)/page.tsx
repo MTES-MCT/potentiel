@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -18,6 +19,8 @@ type PageProps = {
     page?: string;
   }>;
 };
+
+export const metadata: Metadata = { title: 'Gestionnaires réseaux' };
 
 export default async function Page(props0: PageProps) {
   const searchParams = await props0.searchParams;

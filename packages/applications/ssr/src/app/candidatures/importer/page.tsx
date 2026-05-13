@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
 import { Candidature } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
@@ -17,6 +18,8 @@ const paramsSchema = z.object({
 type PageProps = {
   searchParams?: Promise<Record<string, string>>;
 };
+
+export const metadata: Metadata = { title: 'Importer des candidats' };
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;

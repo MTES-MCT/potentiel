@@ -66,7 +66,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       />
 
       <Input
-        label="Courriel de contact"
+        label="Courriel de contact (optionnel)"
         id="contactEmail"
         nativeInputProps={{
           name: 'contactEmail',
