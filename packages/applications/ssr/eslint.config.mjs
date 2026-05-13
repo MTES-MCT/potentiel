@@ -1,20 +1,28 @@
 import nextCoreWebVitals from 'eslint-config-next/core-web-vitals';
 import nextTypescript from 'eslint-config-next/typescript';
 
+import {
+  potentielPluginsConfig,
+  potentielBaseRules,
+  noRestrictedImportsPatterns,
+} from '@potentiel-config/eslint-common';
+
 const eslintConfig = [
   {
     ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'dist/**', 'next-env.d.ts'],
   },
   ...nextCoreWebVitals,
   ...nextTypescript,
+  potentielPluginsConfig,
   {
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      ...potentielBaseRules,
       'react/no-unescaped-entities': 'off',
       'react/jsx-props-no-spreading': 'error',
       'no-restricted-imports': [
         'error',
         {
+          patterns: noRestrictedImportsPatterns,
           paths: [
             {
               name: 'next/link',

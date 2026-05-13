@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel-config/eslint",
+  "private": true,
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "dependencies": {
+    "eslint-plugin-import": "*",
+    "eslint-plugin-monorepo-cop": "*",
+    "eslint-plugin-unused-imports": "*"
+  }
+}

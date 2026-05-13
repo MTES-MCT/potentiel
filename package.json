@@ -54,6 +54,7 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "devDependencies": {
+    "@potentiel-config/eslint-common": "*",
     "@eslint/compat": "1.1.0",
     "@eslint/js": "8.57.0",
     "@faker-js/faker": "9.6.0",

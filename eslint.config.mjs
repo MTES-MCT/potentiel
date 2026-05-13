@@ -1,11 +1,10 @@
 import globals from 'globals';
 import eslintTs from 'typescript-eslint';
-import importPlugin from 'eslint-plugin-import';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
-import monorepoPlugin from 'eslint-plugin-monorepo-cop';
 import eslintJs from '@eslint/js';
-import unusedImports from 'eslint-plugin-unused-imports';
+
+import { potentielPluginsConfig, potentielBaseRules } from '@potentiel-config/eslint-common';
 
 export default eslintTs.config(
   eslintJs.configs.recommended,
@@ -25,17 +24,8 @@ export default eslintTs.config(
     ],
   },
   {
+    ...potentielPluginsConfig,
     languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
-    plugins: {
-      import: importPlugin,
-      'monorepo-cop': monorepoPlugin,
-      'unused-imports': unusedImports,
-    },
-    settings: {
-      'import/parsers': {
-        espree: ['.js', '.cjs', '.mjs', '.jsx'],
-      },
-    },
   },
 
   {
@@ -61,55 +51,7 @@ export default eslintTs.config(
 
   { files: ['**/*.js'], languageOptions: { sourceType: 'script' } },
   { languageOptions: { globals: globals.browser } },
-  {
-    rules: {
-      '@typescript-eslint/ban-types': 'off',
-      '@typescript-eslint/no-empty-object-type': 'off',
-      '@typescript-eslint/no-namespace': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'no-case-declarations': 'off',
-      'no-empty': ['error', { allowEmptyCatch: true }],
-      'monorepo-cop/no-relative-import-outside-package': 'error',
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            { group: ['@potentiel*/**/src/*'], message: 'Use exposed properties' },
-            {
-              group: ['*dist*'],
-              message: 'Do not import from dist; import from source files',
-            },
-          ],
-        },
-      ],
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          pathGroupsExcludedImportTypes: ['builtin'],
-          groups: ['builtin', 'external', 'internal', 'parent', 'index'],
-          pathGroups: [
-            {
-              pattern: '@potentiel*/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '@/**',
-              group: 'parent',
-              position: 'before',
-            },
-            {
-              pattern: '#**',
-              group: 'parent',
-              position: 'before',
-            },
-          ],
-        },
-      ],
-      'unused-imports/no-unused-imports': 'error',
-    },
-  },
+  { rules: potentielBaseRules },
   // support for chai
   {
     files: ['**/specifications/src/**/*.ts'],
