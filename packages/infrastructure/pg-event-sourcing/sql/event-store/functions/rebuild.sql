@@ -46,6 +46,6 @@ begin
   end loop;
   exception
   when others then
-    perform pg_notify('error_notifications', json_build_object('error_message', sqlerrm)::text);
+    raise warning 'rebuild: failed for category=%, id=%, error=%', p_category, p_id, sqlerrm;
 end;
 $$ language plpgsql;
