@@ -54,6 +54,14 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
 
   async listen() {
     this.#client.on('notification', (notification) => {
+      /*
+        Le client pg est partagé entre tous les EventStreamEmitters.
+        Chacun reçoit toutes les notifications, on filtre donc sur le channel propre à ce subscriber
+      */
+      if (notification.channel !== `${this.#subscriber.streamCategory}|${this.#subscriber.name}`) {
+        return;
+      }
+
       try {
         const event = JSON.parse(notification.payload || '{}');
 
@@ -65,11 +73,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           return;
         }
 
-        if (
-          notification.channel === `${this.#subscriber.streamCategory}|${this.#subscriber.name}`
-        ) {
-          this.emit(this.#getChannelName(event.type), event);
-        }
+        this.emit(this.#getChannelName(event.type), event);
       } catch (error) {
         this.#logger.error(new NotificationPayloadParseError(error));
       }

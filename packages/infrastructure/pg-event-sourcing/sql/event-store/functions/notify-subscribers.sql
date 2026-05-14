@@ -4,6 +4,7 @@ $$
 declare
   v_type varchar;
   v_subscriber event_store.subscriber;
+  v_error_msg jsonb;
 begin
   v_type := new.type;
 
@@ -22,21 +23,21 @@ begin
       from event_store.subscriber
       where (filter is null or v_type in (select jsonb_array_elements_text(filter))) and stream_category = split_part(new.stream_id, '|', 1)
     loop
-      begin
         insert into event_store.pending_acknowledgement
         values (v_subscriber.stream_category, v_subscriber.subscriber_name, new.stream_id, new.created_at, new.version);
-      exception
-        when others then
-          raise warning 'notify_subscribers: pending_acknowledgement insert failed for stream_id=%, type=%, subscriber=%, error=%',
-            new.stream_id, new.type, v_subscriber.subscriber_name, sqlerrm;
-      end;
+
 
       begin
         perform pg_notify(v_subscriber.stream_category || '|' || v_subscriber.subscriber_name, row_to_json(new)::text);
       exception
         when others then
+          -- Afficher l'erreur dans les logs postgres
           raise warning 'notify_subscribers: pg_notify failed for stream_id=%, type=%, subscriber=%, error=%',
             new.stream_id, new.type, v_subscriber.subscriber_name, sqlerrm;
+
+          -- Notifier l'erreur
+          v_error_msg := json_build_object('error_message', sqlerrm);
+          perform pg_notify('error_notifications', v_error_msg::text);
       end;
     end loop;
   end if;
