@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleFournisseurModifié = async ({
@@ -14,9 +15,9 @@ export const handleFournisseurModifié = async ({
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    url: projet.url,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
+    url: `${getBaseUrl()}${Routes.Lauréat.détails.évaluationCarbone(projet.identifiantProjet.formatter())}`,
   };
 
   await sendEmail({

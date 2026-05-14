@@ -29,6 +29,6 @@ export const getLauréat = async (identifiantProjet: string) => {
     nom: lauréat.nomProjet,
     région: lauréat.localité.région,
     département: lauréat.localité.département,
-    url: getBaseUrl() + Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
+    url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}`,
   };
 };

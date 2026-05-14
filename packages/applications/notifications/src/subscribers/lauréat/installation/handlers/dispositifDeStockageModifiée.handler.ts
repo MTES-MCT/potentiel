@@ -17,7 +17,7 @@ export const handleDispositifDeStockageModifié = async ({
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())}`,
+    url: `${getBaseUrl()}${Routes.Lauréat.détails.installation(projet.identifiantProjet.formatter())}`,
   };
 
   await sendEmail({
