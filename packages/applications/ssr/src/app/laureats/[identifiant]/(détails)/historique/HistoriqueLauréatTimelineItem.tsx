@@ -13,17 +13,15 @@ export const HistoriqueLauréatTimelineItem: FC<TimelineItemProps> = ({
   link,
   reason,
   ...props
-}) => {
-  return (
-    <TimelineItemBase {...props}>
-      {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
-      {reason && !link && <DisplayRaisonChangement raison={reason} />}
-      {file && !link && <TimelineItemFile {...file} />}
-      {link && (
-        <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2 font-normal">
-          {link.label}
-        </TertiaryLink>
-      )}
-    </TimelineItemBase>
-  );
-};
+}) => (
+  <TimelineItemBase {...props}>
+    {details && <div className={clsx(props.title && 'mt-2')}>{details}</div>}
+    {reason && !link && <DisplayRaisonChangement raison={reason} />}
+    {file && !link && <TimelineItemFile {...file} />}
+    {link && (
+      <TertiaryLink href={link.url} aria-label={link.ariaLabel} className="mt-2 font-normal">
+        {link.label}
+      </TertiaryLink>
+    )}
+  </TimelineItemBase>
+);
