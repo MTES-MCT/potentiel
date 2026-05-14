@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, getBaseUrl } from '#helpers';
+import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, buildUrl } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
@@ -25,7 +25,7 @@ export const handleGarantiesFinancièresRappelEnAttente = async ({
     recipients: porteursRecipients,
     values: {
       ...commonValues,
-      url: `${getBaseUrl()}${Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())}`,
+      url: buildUrl(Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())),
     },
   });
 

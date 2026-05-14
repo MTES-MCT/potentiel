@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleSiteDeProductionModifié = async ({
@@ -20,7 +20,9 @@ export const handleSiteDeProductionModifié = async ({
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: `${getBaseUrl()}${Routes.Lauréat.détails.informationGénérales(projet.identifiantProjet.formatter())}`,
+    url: buildUrl(
+      Routes.Lauréat.détails.informationGénérales(projet.identifiantProjet.formatter()),
+    ),
   };
 
   for (const recipients of [dreals, porteurs]) {

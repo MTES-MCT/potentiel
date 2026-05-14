@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handlePowerPurchaseAgreementSignalé = async ({
@@ -19,7 +19,7 @@ export const handlePowerPurchaseAgreementSignalé = async ({
       values: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())}`,
+        url: buildUrl(Routes.Lauréat.détails.tableauDeBord(projet.identifiantProjet.formatter())),
         appel_offre: projet.identifiantProjet.appelOffre,
         période: projet.identifiantProjet.période,
       },

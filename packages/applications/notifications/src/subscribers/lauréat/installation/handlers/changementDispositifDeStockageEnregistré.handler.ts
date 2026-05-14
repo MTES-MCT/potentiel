@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleChangementDispositifDeStockageEnregistré = async ({
@@ -15,7 +15,12 @@ export const handleChangementDispositifDeStockageEnregistré = async ({
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    url: `${getBaseUrl()}${Routes.Installation.changement.dispositifDeStockage.détails(projet.identifiantProjet.formatter(), enregistréLe)}`,
+    url: buildUrl(
+      Routes.Installation.changement.dispositifDeStockage.détails(
+        projet.identifiantProjet.formatter(),
+        enregistréLe,
+      ),
+    ),
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
   };

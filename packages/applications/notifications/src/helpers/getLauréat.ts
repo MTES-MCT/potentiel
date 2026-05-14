@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl } from './getBaseUrl.js';
+import { buildUrl } from './buildUrl.js';
 
 export class ProjetNonTrouvéError extends Error {
   constructor() {
@@ -29,6 +29,6 @@ export const getLauréat = async (identifiantProjet: string) => {
     nom: lauréat.nomProjet,
     région: lauréat.localité.région,
     département: lauréat.localité.département,
-    url: `${getBaseUrl()}${Routes.Lauréat.détails.tableauDeBord(identifiantProjet)}`,
+    url: buildUrl(Routes.Lauréat.détails.tableauDeBord(identifiantProjet)),
   };
 };

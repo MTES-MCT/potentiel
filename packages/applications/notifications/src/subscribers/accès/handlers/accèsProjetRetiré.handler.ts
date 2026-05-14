@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getProjet } from '#helpers';
+import { buildUrl, getProjet } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export async function handleAccèsProjetRetiré({ payload }: Accès.AccèsProjetRetiréEvent) {
@@ -18,7 +18,7 @@ export async function handleAccèsProjetRetiré({ payload }: Accès.AccèsProjet
         payload.cause === 'changement-producteur'
           ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'
           : '',
-      url: `${getBaseUrl()}${Routes.Lauréat.lister()}`,
+      url: buildUrl(Routes.Lauréat.lister()),
     },
     recipients: payload.identifiantsUtilisateur,
   });

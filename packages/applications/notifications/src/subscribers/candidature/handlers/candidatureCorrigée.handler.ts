@@ -1,7 +1,7 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { buildUrl, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleCandidatureCorrigée = async ({
@@ -23,7 +23,7 @@ export const handleCandidatureCorrigée = async ({
       departement_projet: localité.département,
       appel_offre: identifiantProjet,
       période: identifiantProjetValue.période,
-      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
+      url: buildUrl(Routes.Projet.details(identifiantProjet)),
     },
   });
 };

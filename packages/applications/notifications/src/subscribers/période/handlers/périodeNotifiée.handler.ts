@@ -4,7 +4,7 @@ import { Période } from '@potentiel-domain/periode';
 import { Role, Zone } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerCocontractantRecipients } from '#helpers';
+import { buildUrl, listerCocontractantRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 import { listerRecipients } from '#helpers';
 
@@ -49,7 +49,7 @@ export const handlePériodeNotifiée = async ({
         appel_offre: identifiantPériodeValueType.appelOffre,
         période: identifiantPériodeValueType.période,
         date_notification: new Date(notifiéeLe).toLocaleDateString('fr-FR'),
-        url: getBaseUrl(),
+        url: buildUrl(''),
       },
     });
   }

@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat, listerDrealsRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleChangementReprésentantLégalDemandé = async ({
@@ -19,7 +19,12 @@ export const handleChangementReprésentantLégalDemandé = async ({
       departement_projet: projet.département,
       appel_offre: projet.identifiantProjet.appelOffre,
       période: projet.identifiantProjet.période,
-      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détails(projet.identifiantProjet.formatter(), payload.demandéLe)}`,
+      url: buildUrl(
+        Routes.ReprésentantLégal.changement.détails(
+          projet.identifiantProjet.formatter(),
+          payload.demandéLe,
+        ),
+      ),
     },
   });
 };

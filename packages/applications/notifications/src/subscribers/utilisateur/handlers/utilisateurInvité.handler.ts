@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getBaseUrl, listerDgecEtValidateursRecipients } from '#helpers';
+import { buildUrl, listerDgecEtValidateursRecipients } from '#helpers';
 import { EmailPayload, sendEmail } from '#sendEmail';
 
 import { listerTeamRecipients } from '../../../helpers/listerTeamRecipients.js';
@@ -23,7 +23,7 @@ export async function handleUtilisateurInvité({
     throw new Error("Le rôle 'visiteur' ne peut pas être invité");
   }
 
-  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
+  const urlPageProjets = buildUrl(Routes.Lauréat.lister());
 
   const payload = match(rôle)
     .returnType<EmailPayload>()
@@ -51,7 +51,7 @@ export async function handleUtilisateurInvité({
     .with('grd', () => ({
       key: 'utilisateur/inviter_partenaire',
       recipients: [identifiantUtilisateur],
-      values: { url: `${getBaseUrl()}${Routes.Raccordement.lister}` },
+      values: { url: buildUrl(Routes.Raccordement.lister) },
     }))
     .exhaustive();
 
@@ -69,7 +69,7 @@ export async function handleUtilisateurInvité({
         key: 'utilisateur/informer_dgec_validateur_invité',
         recipients: [recipient],
         values: {
-          url: `${getBaseUrl()}${Routes.Utilisateur.lister()}`,
+          url: buildUrl(Routes.Utilisateur.lister()),
           email: identifiantUtilisateur,
         },
       });

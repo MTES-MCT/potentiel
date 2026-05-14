@@ -4,7 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { getAppelOffre, getBaseUrl } from '#helpers';
+import { getAppelOffre, buildUrl } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleÉliminéNotifié = async ({
@@ -38,7 +38,7 @@ export const handleÉliminéNotifié = async ({
       departement_projet: candidature.dépôt.localité.département,
       appel_offre: appelOffre.id,
       période: période.title,
-      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
+      url: buildUrl(Routes.Projet.details(identifiantProjet)),
     },
   });
 };

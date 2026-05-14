@@ -1,4 +1,6 @@
-export const getBaseUrl = () => {
+export const buildUrl = (route: string) => `${getBaseUrl()}${route}`;
+
+const getBaseUrl = () => {
   const { BASE_URL: baseUrl } = process.env;
 
   if (!baseUrl) {

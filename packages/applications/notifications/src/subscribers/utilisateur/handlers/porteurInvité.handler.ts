@@ -3,7 +3,7 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature } from '#helpers';
+import { buildUrl, getCandidature } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handlePorteurInvité = async ({
@@ -15,7 +15,7 @@ export const handlePorteurInvité = async ({
     ),
   );
 
-  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
+  const urlPageProjets = buildUrl(Routes.Lauréat.lister());
 
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,

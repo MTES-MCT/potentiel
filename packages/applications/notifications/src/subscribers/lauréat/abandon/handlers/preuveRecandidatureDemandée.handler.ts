@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handlePreuveRecandidatureDemandée = async ({
@@ -18,7 +18,7 @@ export const handlePreuveRecandidatureDemandée = async ({
       appel_offre: projet.identifiantProjet.appelOffre,
       période: projet.identifiantProjet.période,
       departement_projet: projet.département,
-      url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(projet.identifiantProjet.formatter())}/`,
+      url: buildUrl(Routes.Abandon.détailRedirection(projet.identifiantProjet.formatter())),
     },
   });
 };

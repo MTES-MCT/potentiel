@@ -1,6 +1,6 @@
 export * from './formatDateForEmail.js';
 export * from './getAppelOffre.js';
-export * from './getBaseUrl.js';
+export * from './buildUrl.js';
 export * from './getCahierDesChargesLauréat.js';
 export * from './getCandidature.js';
 export * from './getLauréat.js';

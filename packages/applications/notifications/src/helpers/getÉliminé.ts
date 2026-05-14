@@ -4,8 +4,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl } from './getBaseUrl.js';
 import { ProjetNonTrouvéError } from './getLauréat.js';
+import { buildUrl } from './buildUrl.js';
 
 export const getÉliminé = async (identifiantProjet: string) => {
   const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
@@ -22,6 +22,6 @@ export const getÉliminé = async (identifiantProjet: string) => {
     nom: éliminé.nomProjet,
     région: éliminé.localité.région,
     département: éliminé.localité.département,
-    url: `${getBaseUrl()}${Routes.Éliminé.détails.tableauDeBord(identifiantProjet)}`,
+    url: buildUrl(Routes.Éliminé.détails.tableauDeBord(identifiantProjet)),
   };
 };
