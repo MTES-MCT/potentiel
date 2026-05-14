@@ -8,6 +8,7 @@ declare
   v_row event_store.event_stream%ROWTYPE;
   v_chanel varchar;
   v_streamId varchar;
+  v_error_msg jsonb;
 begin
   for v_chanel in
     select stream_category || '|' || subscriber_name
@@ -46,6 +47,11 @@ begin
   end loop;
   exception
   when others then
+     -- Afficher l'erreur dans les logs postgres
     raise warning 'rebuild: failed for category=%, id=%, error=%', p_category, p_id, sqlerrm;
+
+    -- Notifier l'erreur
+    v_error_msg := json_build_object('error_message', sqlerrm);
+    perform pg_notify('error_notifications', v_error_msg::text);
 end;
 $$ language plpgsql;
