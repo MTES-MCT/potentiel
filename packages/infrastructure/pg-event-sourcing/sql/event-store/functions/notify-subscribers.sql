@@ -5,6 +5,7 @@ declare
   v_type varchar;
   v_subscriber event_store.subscriber;
   v_error_msg jsonb;
+  v_notification_payload text;
 begin
   v_type := new.type;
 
@@ -26,9 +27,20 @@ begin
         insert into event_store.pending_acknowledgement
         values (v_subscriber.stream_category, v_subscriber.subscriber_name, new.stream_id, new.created_at, new.version);
 
-
       begin
-        perform pg_notify(v_subscriber.stream_category || '|' || v_subscriber.subscriber_name, row_to_json(new)::text);
+        v_notification_payload := row_to_json(new)::text;
+
+        -- pg_notify est limité à ~8000 octets ; si le payload dépasse, on envoie un sentinel
+        -- pour que le subscriber aille chercher l'event directement en base.
+        if pg_column_size(v_notification_payload) > 7800 then
+          v_notification_payload := json_build_object(
+            'payload_too_large', true,
+            'stream_id', new.stream_id,
+            'version', new.version
+          )::text;
+        end if;
+
+        perform pg_notify(v_subscriber.stream_category || '|' || v_subscriber.subscriber_name, v_notification_payload);
       exception
         when others then
           -- Afficher l'erreur dans les logs postgres

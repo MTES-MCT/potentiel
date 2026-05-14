@@ -9,6 +9,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { isEvent, Event } from '../event.js';
 
 import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge.js';
+import { getEventByStreamIdAndVersion } from './acknowledgement/getEventByStreamIdAndVersion.js';
 import { rebuild } from './rebuild/rebuild.js';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error.js';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error.js';
@@ -53,7 +54,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   }
 
   async listen() {
-    this.#client.on('notification', (notification) => {
+    this.#client.on('notification', async (notification) => {
       /*
         Le client pg est partagé entre tous les EventStreamEmitters.
         Chacun reçoit toutes les notifications, on filtre donc sur le channel propre à ce subscriber
@@ -63,9 +64,24 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
       }
 
       try {
-        const event = JSON.parse(notification.payload || '{}');
+        const parsedEvent = JSON.parse(notification.payload || '{}');
 
-        if (!isEvent(event)) {
+        /**
+         * Si l'event est flaggé comme ayant un payload trop large alors on va le chercher en db
+         * et c'est cet event (contenant le bon payload), qui est emit
+         */
+        if (parsedEvent.payload_too_large) {
+          const event = await getEventByStreamIdAndVersion<TEvent>({
+            streamId: parsedEvent.stream_id,
+            version: parsedEvent.version,
+          });
+          if (event) {
+            this.emit(this.#getChannelName(event.type), event);
+          }
+          return;
+        }
+
+        if (!isEvent(parsedEvent)) {
           this.#logger.error(new NotificationPayloadNotAnEventError(), {
             notification,
             subscriber: this.#subscriber,
@@ -73,7 +89,7 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
           return;
         }
 
-        this.emit(this.#getChannelName(event.type), event);
+        this.emit(this.#getChannelName(parsedEvent.type), parsedEvent);
       } catch (error) {
         this.#logger.error(new NotificationPayloadParseError(error));
       }
