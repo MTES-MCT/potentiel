@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Role, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
+import { Role, Région, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
@@ -17,6 +17,24 @@ EtantDonné(
     const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
       région,
+    });
+
+    await inviterUtilisateur.call(this, {
+      rôle: dreal.role,
+      région: dreal.région,
+      email: dreal.email,
+    });
+  },
+);
+
+EtantDonné(
+  'la dreal {string} de la région {string}',
+  async function (this: PotentielWorld, drealNom: string, drealRégion: string) {
+    const région = Région.convertirEnValueType(drealRégion);
+
+    const dreal = this.utilisateurWorld.drealFixture.créer({
+      nom: drealNom,
+      région: région.formatter(),
     });
 
     await inviterUtilisateur.call(this, {

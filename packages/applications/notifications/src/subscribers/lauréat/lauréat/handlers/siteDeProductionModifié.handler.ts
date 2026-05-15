@@ -4,11 +4,14 @@ import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#
 import { sendEmail } from '#sendEmail';
 
 export const handleSiteDeProductionModifié = async ({
-  payload: { identifiantProjet },
+  payload: {
+    identifiantProjet,
+    localité: { région },
+  },
 }: Lauréat.SiteDeProductionModifiéEvent) => {
   const projet = await getLauréat(identifiantProjet);
 
-  const dreals = await listerDrealsRecipients(projet.région);
+  const dreals = await listerDrealsRecipients(région);
   const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
 
   const values = {
