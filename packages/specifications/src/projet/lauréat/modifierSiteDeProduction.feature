@@ -8,15 +8,37 @@ Fonctionnalité: Modifier le site de production d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal de la sardine" associée à la région du projet
 
-    Scénario: Modifier le site de production d'un projet lauréat
-        Quand la dgec modifie le site de production du projet
+    Scénario: Modifier le site de production d'un projet lauréat dans la même région
+        Etant donné le projet lauréat "Moulerie de Concarneau" avec :
+            | région | Bretagne |
+        Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal Bretagne" associée à la région du projet
+        Quand la dgec modifie le site de production du projet avec :
+            | adresse 1 | 34 impasse des huîtres |
+            | région    | Bretagne               |
         Alors le projet lauréat devrait être consultable
         Et un email a été envoyé au porteur avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Modification du site de production |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
+            | sujet | Potentiel - Moulerie de Concarneau - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
         Et un email a été envoyé à la dreal avec :
-            | sujet | Potentiel - Du boulodrome de Marseille - Modification du site de production |
-            | url   | https://potentiel.beta.gouv.fr/laureats/.*                                  |
+            | sujet | Potentiel - Moulerie de Concarneau - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                              |
+
+    Scénario: Modifier le site de production d'un projet lauréat dans une région différente
+        Etant donné le projet lauréat "Moulerie de Brest" avec :
+            | région | Bretagne |
+        Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal Bretagne" associée à la région du projet
+        Et la dreal "Dreal Cancoillotte" de la région "Bourgogne-Franche-Comté"
+        Quand la dgec modifie le site de production du projet avec :
+            | région | Bourgogne-Franche-Comté |
+        Alors le projet lauréat devrait être consultable
+        Et un email a été envoyé au porteur avec :
+            | sujet | Potentiel - Moulerie de Brest - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                         |
+        Et un email a été envoyé à la dreal avec :
+            | sujet | Potentiel - Moulerie de Brest - Modification du site de production |
+            | url   | https://potentiel.beta.gouv.fr/laureats/.*                         |
 
     Scénario: Modifier le site de production d'un projet lauréat avec des coordonnées géodésiques
         Quand la dgec modifie le site de production du projet avec :

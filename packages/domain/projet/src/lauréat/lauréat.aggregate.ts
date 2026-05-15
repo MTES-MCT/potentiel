@@ -376,6 +376,7 @@ export class LauréatAggregate extends AbstractAggregate<
     ) {
       throw new LauréatNonModifiéError();
     }
+
     const event: SiteDeProductionModifiéEvent = {
       type: 'SiteDeProductionModifié-V1',
       payload: {
