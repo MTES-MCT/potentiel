@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { mapToExemple } from '#helpers';
+
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture.js';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture.js';
 
@@ -19,6 +21,13 @@ export class ProducteurWorld {
   constructor() {
     this.#enregistrerChangementProducteurFixture = new EnregistrerChangementProducteurFixture();
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
+  }
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    return mapToExemple<{ producteur: string; siret: string }>(exemple, {
+      producteur: ['producteur'],
+      siret: ['siret'],
+    });
   }
 
   mapToExpected(

@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { convertFixtureFileToReadableStream, mapToExemple } from '#helpers';
+import { convertFixtureFileToReadableStream } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 
@@ -56,10 +56,7 @@ Quand(
       await modifierProducteur.call(this, identifiantProjet, {
         producteur: this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
         siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
-        ...mapToExemple<ModifierProducteurProps>(exemple, {
-          producteur: ['producteur'],
-          siret: ['siret'],
-        }),
+        ...this.lauréatWorld.producteurWorld.mapExempleToFixtureValues(exemple),
       });
     } catch (error) {
       this.error = error as Error;
