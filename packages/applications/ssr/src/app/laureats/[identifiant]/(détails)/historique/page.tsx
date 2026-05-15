@@ -234,6 +234,7 @@ const mapToTimelineItemProps = ({
     )
     .with({ category: 'power-purchase-agreement' }, mapToPowerPurchaseAgreementTimelineItemProps)
     .exhaustive(() => undefined);
+
   if (props) {
     return {
       ...props,
