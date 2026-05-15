@@ -126,6 +126,49 @@ describe(`subscribe`, () => {
 
   it(`
     Étant donné un event handler en attente du traitement d'un type d'événement
+    Lorsqu'on émet un événement contenant un payload trop large (> 8000 octets) correspondant au type
+    Alors l'event handler est exécuté
+    Et il reçoit l'événement en paramétre
+    Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const stream_id = `${streamCategory}|${id}`;
+    let eventHandlerHasBeenCalled = false;
+
+    const event = {
+      type: eventType,
+      payload: {
+        propriété: 'propriété1'.repeat(11000),
+      },
+    };
+
+    const unsubscribe = await subscribe({
+      name: subscriberName,
+      eventType,
+      eventHandler: async (e) => {
+        expect(e.payload).to.deep.equal(event.payload);
+        eventHandlerHasBeenCalled = e.type === eventType;
+        return Promise.resolve();
+      },
+      streamCategory,
+    });
+    unsubscribes.push(unsubscribe);
+
+    // Act
+    await publish(stream_id, event);
+
+    await waitForExpect(async () => {
+      // Assert
+      eventHandlerHasBeenCalled.should.be.true;
+
+      const pending = await getPendingAcknowledgements(streamCategory, subscriberName);
+      pending.length.should.be.equal(0);
+    });
+  });
+
+  it(`
+    Étant donné un event handler en attente du traitement d'un type d'événement
     Lorsqu'on émet un événement correspondant au type
     Et que l'event handler levé une exception
     Alors l'événement est en attente d'acknowledgement
@@ -421,7 +464,7 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       expect(logMock.mock.callCount()).to.eq(1);
-      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload is not an event');
+      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload parse error');
     });
   });
 

@@ -17,6 +17,8 @@ let client: Client | undefined;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const eventStreamEmitters = new Map<string, EventStreamEmitter<any>>();
 
+const maxListeners = eventStreamEmitters.size + 2;
+
 export const subscribe = async <TEvent extends DomainEvent = DomainEvent>(
   subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {
@@ -24,7 +26,7 @@ export const subscribe = async <TEvent extends DomainEvent = DomainEvent>(
     client = await connect();
   }
 
-  client.setMaxListeners(eventStreamEmitters.size + 1);
+  client.setMaxListeners(maxListeners);
 
   await registerSubscriber(subscriber);
 
@@ -87,14 +89,12 @@ const connect = async () => {
     application_name: 'potentiel_subscribers',
   });
   await client.connect();
+
   client.on('error', handleClientError);
+  client.on('notification', handleNotificationError);
+  await client.query('LISTEN "error_notifications"');
 
   return client;
-};
-
-const disconnect = async () => {
-  await client?.end();
-  client = undefined;
 };
 
 const handleClientError = async (error: Error) => {
@@ -117,7 +117,8 @@ const handleClientError = async (error: Error) => {
 
     await retryPolicy.execute(async () => {
       client = await connect();
-      client.setMaxListeners(eventStreamEmitters.size + 1);
+
+      client.setMaxListeners(maxListeners);
 
       logger.info(`Subscribe Postgresql client reconnection succeeds !`);
     });
@@ -134,11 +135,28 @@ const handleClientError = async (error: Error) => {
   }
 };
 
+const handleNotificationError = (notification: { channel: string; payload?: string }) => {
+  if (notification.channel !== 'error_notifications') return;
+
+  const logger = getLogger('EventSourcing.ErrorNotification');
+  const details = JSON.parse(notification.payload ?? '{}');
+  logger.error(new PostgresNotificationError(details));
+};
+
+const disconnect = async () => {
+  await client?.end();
+  client = undefined;
+};
+
 class SubscribeClientReconnectionError extends Error {
-  /**
-   *
-   */
   constructor(public failureReason: FailureReason<unknown>) {
     super(`Subscribe Postrgesql client failed to reconnect after 10 retries`);
+  }
+}
+
+class PostgresNotificationError extends Error {
+  constructor(public details: Record<string, unknown>) {
+    super((details.error_message as string) ?? 'Unknown PostgreSQL notification error');
+    this.name = 'PostgresNotificationError';
   }
 }

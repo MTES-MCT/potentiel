@@ -9,6 +9,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { isEvent, Event } from '../event.js';
 
 import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge.js';
+import { getPayloadTooLarge, isPayloadTooLargeEvent } from './subscriber/getPayloadTooLarge.js';
 import { rebuild } from './rebuild/rebuild.js';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error.js';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error.js';
@@ -53,25 +54,24 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
   }
 
   async listen() {
-    this.#client.on('notification', (notification) => {
+    this.#client.on('notification', async (notification) => {
+      /*
+        Le client pg est partagé entre tous les EventStreamEmitters.
+        Chacun reçoit toutes les notifications, on filtre donc sur le channel propre à ce subscriber
+      */
+      if (notification.channel !== `${this.#subscriber.streamCategory}|${this.#subscriber.name}`) {
+        return;
+      }
+
       try {
-        const event = JSON.parse(notification.payload || '{}');
-
-        if (!isEvent(event)) {
-          this.#logger.error(new NotificationPayloadNotAnEventError(), {
-            notification,
-            subscriber: this.#subscriber,
-          });
-          return;
-        }
-
-        if (
-          notification.channel === `${this.#subscriber.streamCategory}|${this.#subscriber.name}`
-        ) {
-          this.emit(this.#getChannelName(event.type), event);
-        }
+        const event = await this.#parseEvent(notification.payload ?? '{}');
+        this.emit(this.#getChannelName(event.type), event);
       } catch (error) {
-        this.#logger.error(new NotificationPayloadParseError(error));
+        this.#logger.error(new NotificationPayloadParseError(error), {
+          notification,
+          subscriberName: this.#subscriber.name,
+          streamCategory: this.#subscriber.streamCategory,
+        });
       }
     });
 
@@ -200,5 +200,26 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
         });
       }
     });
+  }
+
+  async #parseEvent(rawEvent: string): Promise<Event> {
+    const parsedEvent = JSON.parse(rawEvent);
+
+    if (!isEvent(parsedEvent)) {
+      throw new NotificationPayloadNotAnEventError();
+    }
+
+    /**
+     * Si l'event est flaggé comme ayant un payload trop large alors on va le chercher en db
+     * et c'est cet event (contenant le bon payload), qui est emit
+     */
+    if (isPayloadTooLargeEvent(parsedEvent)) {
+      return {
+        ...parsedEvent,
+        payload: await getPayloadTooLarge<TEvent>(parsedEvent),
+      };
+    }
+
+    return parsedEvent;
   }
 }
