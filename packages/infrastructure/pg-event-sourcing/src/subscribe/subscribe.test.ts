@@ -124,7 +124,7 @@ describe(`subscribe`, () => {
     });
   });
 
-  it.only(`
+  it(`
     Étant donné un event handler en attente du traitement d'un type d'événement
     Lorsqu'on émet un événement contenant un payload trop large (> 8000 octets) correspondant au type
     Alors l'event handler est exécuté
@@ -147,10 +147,8 @@ describe(`subscribe`, () => {
       name: subscriberName,
       eventType,
       eventHandler: async (e) => {
+        expect(e.payload).to.deep.equal(event.payload);
         eventHandlerHasBeenCalled = e.type === eventType;
-        await waitForExpect(async () => {
-          expect(e.payload).to.deep.equal(event.payload);
-        });
         return Promise.resolve();
       },
       streamCategory,
