@@ -421,7 +421,56 @@ describe(`subscribe`, () => {
 
     await waitForExpect(async () => {
       expect(logMock.mock.callCount()).to.eq(1);
-      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload is not an event');
+      expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload parse error');
+    });
+  });
+
+  it(`
+    Quand une notification est publiée
+    Mais que le payload est flaggé comme trop large
+    Alors le payload complet est récupéré depuis la base de données
+    Et l'event handler est exécuté avec le payload complet
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const fullPayload = { propriété: `payload original et complet de l'event` };
+    const created_at = new Date().toISOString();
+    const version = 1;
+    const stream_id = `${streamCategory}|${id}`;
+
+    // Insère l'event en DB sans subscriber (trigger va en dead-letter-queue)
+    await publish(stream_id, { type: eventType, payload: fullPayload, created_at, version });
+
+    let eventPayload: DomainEvent['payload'];
+
+    const unsubscribe = await subscribe({
+      name: subscriberName,
+      eventType,
+      eventHandler: async (event) => {
+        eventPayload = event.payload;
+      },
+      streamCategory,
+    });
+    unsubscribes.push(unsubscribe);
+
+    // Act : notification avec payload_too_large (> 7999 octets)
+    const eventAvecPayloadTooLarge: Event = {
+      type: eventType,
+      payload: { payload_too_large: true },
+      stream_id,
+      version,
+      created_at,
+    };
+
+    await executeSelect(
+      'select pg_notify($1, $2)',
+      `${streamCategory}|${subscriberName}`,
+      eventAvecPayloadTooLarge,
+    );
+
+    await waitForExpect(async () => {
+      // Assert
+      expect(eventPayload).to.deep.equal(fullPayload);
     });
   });
 
