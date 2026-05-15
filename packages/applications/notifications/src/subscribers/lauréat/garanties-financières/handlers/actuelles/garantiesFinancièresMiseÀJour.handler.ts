@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getLauréat, getBaseUrl, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { getLauréat, buildUrl, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleGarantiesFinancièresMiseÀJour = async ({
@@ -18,7 +18,7 @@ export const handleGarantiesFinancièresMiseÀJour = async ({
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
+    url: buildUrl(Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())),
   };
 
   await sendEmail({

@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
-  getBaseUrl,
+  buildUrl,
   getLauréat,
   listerPorteursRecipients,
   listerRecipientsAutoritéInstructrice,
@@ -24,7 +24,7 @@ export const handleAbandonAnnulé = async ({ payload }: Lauréat.Abandon.Abandon
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
+    url: buildUrl(Routes.Abandon.détailRedirection(payload.identifiantProjet)),
   };
 
   await sendEmail({

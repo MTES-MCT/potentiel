@@ -3,7 +3,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import {
   getLauréat,
-  getBaseUrl,
+  buildUrl,
   listerDrealsRecipients,
   listerPorteursRecipients,
   formatDateForEmail,
@@ -23,7 +23,7 @@ export const handleGarantiesFinancièresÉchues = async ({
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
     date_echeance: formatDateForEmail(new Date(payload.dateÉchéance)),
-    url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
+    url: buildUrl(Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())),
   };
 
   await sendEmail({

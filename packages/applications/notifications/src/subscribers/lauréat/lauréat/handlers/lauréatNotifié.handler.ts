@@ -5,7 +5,7 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getAppelOffre, getBaseUrl } from '#helpers';
+import { getAppelOffre, buildUrl } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleLauréatNotifié = async ({
@@ -47,7 +47,7 @@ export const handleLauréatNotifié = async ({
       departement_projet: candidature.dépôt.localité.département,
       appel_offre: appelOffre.id,
       période: période.title,
-      url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
+      url: buildUrl(Routes.Projet.details(identifiantProjet)),
     },
   });
 };

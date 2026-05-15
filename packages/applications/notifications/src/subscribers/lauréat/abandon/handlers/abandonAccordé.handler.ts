@@ -3,7 +3,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Zone } from '@potentiel-domain/utilisateur';
 
 import {
-  getBaseUrl,
+  buildUrl,
   getLauréat,
   listerCocontractantRecipients,
   listerCreRecipients,
@@ -25,7 +25,7 @@ export const handleAbandonAccordé = async ({ payload }: Lauréat.Abandon.Abando
   const values = {
     nom_projet: projet.nom,
     departement_projet: projet.département,
-    url: `${getBaseUrl()}${Routes.Abandon.détailRedirection(payload.identifiantProjet)}`,
+    url: buildUrl(Routes.Abandon.détailRedirection(payload.identifiantProjet)),
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
   };

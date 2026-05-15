@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
-  getBaseUrl,
+  buildUrl,
   getLauréat,
   listerPorteursRecipients,
   listerRecipientsAutoritéInstructrice,
@@ -26,7 +26,7 @@ export const handleAbandonDemandé = async ({
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: `${getBaseUrl()}${Routes.Abandon.détail(payload.identifiantProjet, payload.demandéLe)}`,
+    url: buildUrl(Routes.Abandon.détail(payload.identifiantProjet, payload.demandéLe)),
   };
 
   await sendEmail({

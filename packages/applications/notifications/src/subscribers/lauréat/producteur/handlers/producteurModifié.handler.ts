@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 
 import { sendEmail } from '../../../../sendEmail.js';
 
@@ -17,7 +18,9 @@ export const handleProducteurModifié = async ({
     departement_projet: projet.département,
     appel_offre: projet.identifiantProjet.appelOffre,
     période: projet.identifiantProjet.période,
-    url: projet.url,
+    url: buildUrl(
+      Routes.Lauréat.détails.informationGénérales(projet.identifiantProjet.formatter()),
+    ),
   };
 
   await sendEmail({

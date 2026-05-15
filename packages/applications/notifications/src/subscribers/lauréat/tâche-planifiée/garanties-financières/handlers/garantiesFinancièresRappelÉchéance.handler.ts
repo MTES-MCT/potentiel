@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, getBaseUrl } from '#helpers';
+import { listerPorteursRecipients, listerDrealsRecipients, getLauréat, buildUrl } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '../tâche-planifiée.garantiesFinancières.notifications.js';
@@ -32,7 +32,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
     recipients: porteursRecipients,
     values: {
       ...commonValues,
-      url: `${getBaseUrl()}${Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())}`,
+      url: buildUrl(Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet.formatter())),
     },
   });
 
@@ -41,7 +41,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
     recipients: drealsRecipients,
     values: {
       ...commonValues,
-      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      url: buildUrl(Routes.GarantiesFinancières.détail(identifiantProjet.formatter())),
     },
   });
 };

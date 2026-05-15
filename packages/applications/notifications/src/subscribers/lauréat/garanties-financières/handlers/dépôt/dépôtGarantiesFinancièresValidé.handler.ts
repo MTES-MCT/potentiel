@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '#helpers';
+import { buildUrl, listerPorteursRecipients } from '#helpers';
 import { getLauréat } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
@@ -20,7 +20,7 @@ export const handleDépôtGarantiesFinancièresValidé = async ({
       departement_projet: projet.département,
       appel_offre: projet.identifiantProjet.appelOffre,
       période: projet.identifiantProjet.période,
-      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
+      url: buildUrl(Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())),
     },
   });
 };

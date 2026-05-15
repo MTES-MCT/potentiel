@@ -2,7 +2,7 @@ import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import {
-  getBaseUrl,
+  buildUrl,
   getÉliminé,
   listerCreRecipients,
   listerDgecRecipients,
@@ -29,7 +29,7 @@ export const handleRecoursRejeté = async ({ payload }: Éliminé.Recours.Recour
         departement_projet: projet.département,
         appelOffre,
         période,
-        url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(projet.identifiantProjet.formatter())}`,
+        url: buildUrl(Routes.Recours.détailPourRedirection(projet.identifiantProjet.formatter())),
       },
       recipients,
     });

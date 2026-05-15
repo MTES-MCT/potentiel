@@ -1,7 +1,7 @@
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, getÉliminé, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getÉliminé, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleRecoursPasséEnInstruction = async ({
@@ -19,7 +19,7 @@ export const handleRecoursPasséEnInstruction = async ({
       departement_projet: projet.département,
       appelOffre,
       période,
-      url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
+      url: buildUrl(Routes.Recours.détailPourRedirection(payload.identifiantProjet)),
     },
   });
 };

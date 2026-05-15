@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, getLauréat, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeRaccordementNotificationProps } from '../tâche-planifiée.raccordement.notifications.js';
@@ -20,7 +20,9 @@ export const handleDemandeComplèteRaccordementAttendueRelance = async ({
       appel_offre: lauréat.identifiantProjet.appelOffre,
       période: lauréat.identifiantProjet.période,
       departement_projet: lauréat.département,
-      url: `${getBaseUrl()}${Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter())}`,
+      url: buildUrl(
+        Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter()),
+      ),
     },
   });
 };

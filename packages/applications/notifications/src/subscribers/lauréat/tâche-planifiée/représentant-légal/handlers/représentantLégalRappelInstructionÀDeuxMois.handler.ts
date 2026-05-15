@@ -5,12 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import {
-  listerDrealsRecipients,
-  getCahierDesChargesLauréat,
-  getLauréat,
-  getBaseUrl,
-} from '#helpers';
+import { listerDrealsRecipients, getCahierDesChargesLauréat, getLauréat, buildUrl } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';
@@ -65,7 +60,12 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       departement_projet: lauréat.département,
       type_instruction_automatique:
         règlesChangement.instructionAutomatique === 'accord' ? 'acceptation' : 'refus',
-      url: `${getBaseUrl()}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
+      url: buildUrl(
+        Routes.ReprésentantLégal.changement.détails(
+          identifiantProjet.formatter(),
+          changementEnCours.demandéLe.formatter(),
+        ),
+      ),
     },
   });
 };

@@ -1,7 +1,7 @@
 import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, getÉliminé, listerDgecRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getÉliminé, listerDgecRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.RecoursDemandéEvent) => {
@@ -16,7 +16,7 @@ export const handleRecoursDemandé = async ({ payload }: Éliminé.Recours.Recou
     departement_projet: projet.département,
     appelOffre,
     période,
-    url: `${getBaseUrl()}${Routes.Recours.détailPourRedirection(payload.identifiantProjet)}`,
+    url: buildUrl(Routes.Recours.détailPourRedirection(payload.identifiantProjet)),
   };
 
   for (const recipients of [porteursRecipients, dgecRecipients]) {

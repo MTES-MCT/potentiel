@@ -6,7 +6,7 @@ import {
   listerDrealsRecipients,
   getRôleFromEmail,
   listerPorteursRecipients,
-  getBaseUrl,
+  buildUrl,
 } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
@@ -30,7 +30,7 @@ export const handleDépôtGarantiesFinancièresModifié = async ({
         departement_projet: projet.département,
         appel_offre: projet.identifiantProjet.appelOffre,
         période: projet.identifiantProjet.période,
-        url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())}`,
+        url: buildUrl(Routes.GarantiesFinancières.détail(projet.identifiantProjet.formatter())),
       },
     });
   }

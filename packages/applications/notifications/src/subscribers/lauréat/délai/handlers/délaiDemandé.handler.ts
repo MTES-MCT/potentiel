@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
+import { buildUrl, getLauréat, listerRecipientsAutoritéInstructrice } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleDélaiDemandé = async ({ payload }: Lauréat.Délai.DélaiDemandéEvent) => {
@@ -23,7 +23,7 @@ export const handleDélaiDemandé = async ({ payload }: Lauréat.Délai.DélaiDe
       departement_projet: projet.département,
       appel_offre: appelOffre,
       période,
-      url: `${getBaseUrl()}${Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.demandéLe)}`,
+      url: buildUrl(Routes.Délai.détail(projet.identifiantProjet.formatter(), payload.demandéLe)),
     },
   });
 };
