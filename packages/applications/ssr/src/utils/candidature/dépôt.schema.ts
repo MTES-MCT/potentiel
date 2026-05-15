@@ -191,7 +191,7 @@ const numéroIdentificationSchema = z
     siret: siretSchema,
   })
   .optional()
-  .transform((val) =>
+  .transform((val): Lauréat.Producteur.NuméroIdentification.RawType | undefined =>
     val?.siret
       ? {
           siret: val.siret,

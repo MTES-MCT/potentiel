@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -22,10 +22,10 @@ Quand(
   'le porteur enregistre un changement de producteur avec une valeur identique pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
-      await enregistrerChangementProducteur.call(
-        this,
-        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
-      );
+      await enregistrerChangementProducteur.call(this, {
+        producteur: this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+        siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
+      });
     } catch (error) {
       this.error = error as Error;
     }
@@ -33,7 +33,7 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie le producteur du projet {lauréat-éliminé}',
+  'la DGEC modifie le producteur du projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
       const { identifiantProjet } =
@@ -47,30 +47,49 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'la DGEC modifie le producteur avec :',
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
     try {
-      await modifierProducteur.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
-      );
+      const { identifiantProjet } = this.lauréatWorld;
+
+      await modifierProducteur.call(this, identifiantProjet, {
+        producteur: this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+        siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
+        ...this.lauréatWorld.producteurWorld.mapExempleToFixtureValues(exemple),
+      });
     } catch (error) {
       this.error = error as Error;
     }
   },
 );
 
-export async function enregistrerChangementProducteur(
+Quand(
+  'la DGEC modifie le producteur avec des valeurs identiques pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await modifierProducteur.call(this, this.lauréatWorld.identifiantProjet, {
+        producteur: this.candidatureWorld.importerCandidature.dépôtValue.nomCandidat,
+        siret: this.candidatureWorld.importerCandidature.dépôtValue.numéroIdentification?.siret,
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+type ModifierProducteurProps = { producteur: string; siret: string };
+
+async function enregistrerChangementProducteur(
   this: PotentielWorld,
-  producteurValue?: string,
+  data?: Partial<ModifierProducteurProps>,
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
   const { pièceJustificative, enregistréLe, enregistréPar, producteur, siret } =
     this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
       enregistréPar: this.utilisateurWorld.porteurFixture.email,
-      ...(producteurValue && { producteur: producteurValue }),
+      ...data,
     });
 
   await mediator.send<Lauréat.Producteur.EnregistrerChangementProducteurUseCase>({
@@ -86,15 +105,15 @@ export async function enregistrerChangementProducteur(
   });
 }
 
-export async function modifierProducteur(
+async function modifierProducteur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  producteurValue?: string,
+  data?: Partial<ModifierProducteurProps>,
 ) {
   const { modifiéLe, modifiéPar, producteur, raison, siret } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
       modifiéPar: this.utilisateurWorld.dgecFixture.email,
-      ...(producteurValue && { producteur: producteurValue }),
+      ...data,
     });
 
   await mediator.send<Lauréat.Producteur.ModifierProducteurUseCase>({

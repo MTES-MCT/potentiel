@@ -65,6 +65,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
 
   return (
     <Form
+      omitMandatoryFieldsLegend
       action={modifierLauréatAction}
       heading="Modifier le projet lauréat"
       onValidationError={setValidationErrors}
