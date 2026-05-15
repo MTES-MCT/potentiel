@@ -9,16 +9,15 @@ jobs:
     outputs:
       cache-key: ${{ steps.cache-key.outputs.key }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
-          cache: 'npm'
       - id: cache-key
         run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache node modules
         id: cache-node-modules
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             node_modules
@@ -33,13 +32,13 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:dev
       - name: Cache turbo build setup
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v5
         with:
           path: |
             .turbo
@@ -52,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -68,7 +67,7 @@ jobs:
       NODE_ENV: production
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -79,8 +78,8 @@ jobs:
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - id: get-tags
@@ -101,7 +100,7 @@ jobs:
         tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -128,7 +127,7 @@ jobs:
       APPLICATION_STAGE: test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -142,7 +141,7 @@ jobs:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
       APPLICATION_STAGE: production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}

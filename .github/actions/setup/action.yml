@@ -11,12 +11,11 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
         node-version-file: package.json
-        cache: 'npm'
     - name: Restore node modules cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: |
           node_modules
@@ -24,7 +23,7 @@ runs:
           packages/*/*/node_modules
         key: ${{ inputs.cache-key }}
     - name: Restore turbo build cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       with:
         path: |
           .turbo

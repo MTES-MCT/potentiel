@@ -19,7 +19,7 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: scalingo-community/setup-scalingo@v0.1.1
         with:
           region: ${{ secrets.SCALINGO_REGION }}
@@ -35,10 +35,10 @@ jobs:
     outputs:
       applicationVersion: ${{ steps.app_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: '0'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version-file: package.json
       - name: Set application version
@@ -56,7 +56,7 @@ jobs:
     steps:
       - name: Push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
