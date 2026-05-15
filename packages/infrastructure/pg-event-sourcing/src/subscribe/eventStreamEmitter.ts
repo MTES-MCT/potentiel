@@ -9,7 +9,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { isEvent, Event } from '../event.js';
 
 import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge.js';
-import { getEventByStreamIdAndVersion } from './acknowledgement/getEventByStreamIdAndVersion.js';
+import { getPayloadTooLarge, isPayloadTooLargeEvent } from './subscriber/getPayloadTooLarge.js';
 import { rebuild } from './rebuild/rebuild.js';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error.js';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error.js';
@@ -64,34 +64,14 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
       }
 
       try {
-        const parsedEvent = JSON.parse(notification.payload || '{}');
-
-        /**
-         * Si l'event est flaggé comme ayant un payload trop large alors on va le chercher en db
-         * et c'est cet event (contenant le bon payload), qui est emit
-         */
-        if (parsedEvent.payload_too_large) {
-          const event = await getEventByStreamIdAndVersion<TEvent>({
-            streamId: parsedEvent.stream_id,
-            version: parsedEvent.version,
-          });
-          if (event) {
-            this.emit(this.#getChannelName(event.type), event);
-          }
-          return;
-        }
-
-        if (!isEvent(parsedEvent)) {
-          this.#logger.error(new NotificationPayloadNotAnEventError(), {
-            notification,
-            subscriber: this.#subscriber,
-          });
-          return;
-        }
-
-        this.emit(this.#getChannelName(parsedEvent.type), parsedEvent);
+        const event = await this.#parseEvent(notification.payload ?? '{}');
+        this.emit(this.#getChannelName(event.type), event);
       } catch (error) {
-        this.#logger.error(new NotificationPayloadParseError(error));
+        this.#logger.error(new NotificationPayloadParseError(error), {
+          notification,
+          subscriberName: this.#subscriber.name,
+          streamCategory: this.#subscriber.streamCategory,
+        });
       }
     });
 
@@ -220,5 +200,26 @@ export class EventStreamEmitter<TEvent extends DomainEvent = DomainEvent> extend
         });
       }
     });
+  }
+
+  async #parseEvent(rawEvent: string): Promise<Event> {
+    const parsedEvent = JSON.parse(rawEvent);
+
+    if (!isEvent(parsedEvent)) {
+      throw new NotificationPayloadNotAnEventError();
+    }
+
+    /**
+     * Si l'event est flaggé comme ayant un payload trop large alors on va le chercher en db
+     * et c'est cet event (contenant le bon payload), qui est emit
+     */
+    if (isPayloadTooLargeEvent(parsedEvent)) {
+      return {
+        ...parsedEvent,
+        payload: await getPayloadTooLarge<TEvent>(parsedEvent),
+      };
+    }
+
+    return parsedEvent;
   }
 }

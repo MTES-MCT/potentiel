@@ -34,9 +34,11 @@ begin
         -- pour que le subscriber aille chercher l'event directement en base.
         if pg_column_size(v_notification_payload) > 7800 then
           v_notification_payload := json_build_object(
-            'payload_too_large', true,
             'stream_id', new.stream_id,
-            'version', new.version
+            'version', new.version,
+            'created_at', new.created_at,
+            'type', new.type,
+            'payload', json_build_object('payload_too_large', true)
           )::text;
         end if;
 
