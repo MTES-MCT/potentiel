@@ -146,8 +146,11 @@ describe(`subscribe`, () => {
     const unsubscribe = await subscribe({
       name: subscriberName,
       eventType,
-      eventHandler: async (event) => {
-        eventHandlerHasBeenCalled = event.type === eventType;
+      eventHandler: async (e) => {
+        eventHandlerHasBeenCalled = e.type === eventType;
+        await waitForExpect(async () => {
+          expect(e.payload).to.deep.equal(event.payload);
+        });
         return Promise.resolve();
       },
       streamCategory,
