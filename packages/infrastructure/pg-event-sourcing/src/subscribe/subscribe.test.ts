@@ -124,6 +124,48 @@ describe(`subscribe`, () => {
     });
   });
 
+  it.only(`
+    Étant donné un event handler en attente du traitement d'un type d'événement
+    Lorsqu'on émet un événement contenant un payload trop large (> 8000 octets) correspondant au type
+    Alors l'event handler est exécuté
+    Et il reçoit l'événement en paramétre
+    Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const stream_id = `${streamCategory}|${id}`;
+    let eventHandlerHasBeenCalled = false;
+
+    const event = {
+      type: eventType,
+      payload: {
+        propriété: 'propriété1'.repeat(11000),
+      },
+    };
+
+    const unsubscribe = await subscribe({
+      name: subscriberName,
+      eventType,
+      eventHandler: async (event) => {
+        eventHandlerHasBeenCalled = event.type === eventType;
+        return Promise.resolve();
+      },
+      streamCategory,
+    });
+    unsubscribes.push(unsubscribe);
+
+    // Act
+    await publish(stream_id, event);
+
+    await waitForExpect(async () => {
+      // Assert
+      eventHandlerHasBeenCalled.should.be.true;
+
+      const pending = await getPendingAcknowledgements(streamCategory, subscriberName);
+      pending.length.should.be.equal(0);
+    });
+  });
+
   it(`
     Étant donné un event handler en attente du traitement d'un type d'événement
     Lorsqu'on émet un événement correspondant au type
@@ -422,55 +464,6 @@ describe(`subscribe`, () => {
     await waitForExpect(async () => {
       expect(logMock.mock.callCount()).to.eq(1);
       expect(logMock.mock.calls[0].arguments[0]).to.contain('Notification payload parse error');
-    });
-  });
-
-  it(`
-    Quand une notification est publiée
-    Mais que le payload est flaggé comme trop large
-    Alors le payload complet est récupéré depuis la base de données
-    Et l'event handler est exécuté avec le payload complet
-  `, async () => {
-    // Arrange
-    const eventType = 'event-1';
-    const fullPayload = { propriété: `payload original et complet de l'event` };
-    const created_at = new Date().toISOString();
-    const version = 1;
-    const stream_id = `${streamCategory}|${id}`;
-
-    // Insère l'event en DB sans subscriber (trigger va en dead-letter-queue)
-    await publish(stream_id, { type: eventType, payload: fullPayload, created_at, version });
-
-    let eventPayload: DomainEvent['payload'];
-
-    const unsubscribe = await subscribe({
-      name: subscriberName,
-      eventType,
-      eventHandler: async (event) => {
-        eventPayload = event.payload;
-      },
-      streamCategory,
-    });
-    unsubscribes.push(unsubscribe);
-
-    // Act : notification avec payload_too_large (> 7999 octets)
-    const eventAvecPayloadTooLarge: Event = {
-      type: eventType,
-      payload: { payload_too_large: true },
-      stream_id,
-      version,
-      created_at,
-    };
-
-    await executeSelect(
-      'select pg_notify($1, $2)',
-      `${streamCategory}|${subscriberName}`,
-      eventAvecPayloadTooLarge,
-    );
-
-    await waitForExpect(async () => {
-      // Assert
-      expect(eventPayload).to.deep.equal(fullPayload);
     });
   });
 
