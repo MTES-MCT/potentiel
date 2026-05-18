@@ -6,15 +6,18 @@ import type { Lauréat } from '@potentiel-domain/projet';
 import { waitForExpect } from '#helpers';
 import type { PotentielWorld } from '../../../../potentiel.world.js';
 
-EtantDonné(`le projet lauréat avec un état PPA signalé`, async function (this: PotentielWorld) {
-  await waitForExpect(async () => {
-    await mediator.send<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>({
-      type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
-      data: {
-        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-        signaléLeValue: new Date().toISOString(),
-        signaléParValue: this.utilisateurWorld.dgecFixture.email,
-      },
+EtantDonné(
+  `le signalement par l'administration d'un PPA pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      await mediator.send<Lauréat.PowerPurchaseAgreement.SignalerPowerPurchaseAgreementUseCase>({
+        type: 'Lauréat.PowerPurchaseAgreement.UseCase.SignalerPowerPurchaseAgreement',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          signaléLeValue: new Date().toISOString(),
+          signaléParValue: this.utilisateurWorld.dgecFixture.email,
+        },
+      });
     });
-  });
-});
+  },
+);

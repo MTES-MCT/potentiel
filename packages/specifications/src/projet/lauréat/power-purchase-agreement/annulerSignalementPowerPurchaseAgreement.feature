@@ -9,7 +9,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL annule le signalement d'un power
         Et un cahier des charges permettant la modification du projet
 
     Plan du scénario: La DGEC/DREAL annule le signament du PPA pour un projet lauréat actif
-        Etant donné le projet lauréat avec un état PPA signalé
+        Etant donné le signalement par l'administration d'un PPA pour le projet lauréat
         Quand un utilisateur "<Rôle>" annule un état PPA pour le projet lauréat
         Alors l'état PPA ne devrait plus être consultable pour le projet lauréat
         Et un email a été envoyé au porteur avec :

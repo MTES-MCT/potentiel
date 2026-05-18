@@ -1,5 +1,6 @@
 # language: fr
 @abandon
+@annuler-abandon
 Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
 
     Contexte:
@@ -42,6 +43,27 @@ Fonctionnalité: Annuler la demande d'abandon d'un projet lauréat
         Et une tâche "rappel échéance achèvement à trois mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à deux mois" est planifiée pour le projet lauréat
         Et une tâche "rappel échéance achèvement à un mois" est planifiée pour le projet lauréat
+
+    Scénario: Un porteur annule la demande d'abandon d'un projet lauréat en ayant déclarer un PPA
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 8          |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et une demande d'abandon avec déclaration de PPA en cours pour le projet lauréat
+        Quand le porteur annule la demande d'abandon pour le projet lauréat
+        Alors l'état PPA ne devrait plus être consultable pour le projet lauréat
+        Et la demande d'abandon du projet lauréat devrait être annulée
+
+    Scénario: Un porteur annule la demande d'abandon d'un projet lauréat déclaré en PPA par l'administration
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Sol |
+            | période        | 8          |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et le signalement par l'administration d'un PPA pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur annule la demande d'abandon pour le projet lauréat
+        Alors l'état PPA devrait être consultable pour le projet lauréat
+        Et la demande d'abandon du projet lauréat devrait être annulée
 
     Scénario: Un porteur annule la demande d'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat

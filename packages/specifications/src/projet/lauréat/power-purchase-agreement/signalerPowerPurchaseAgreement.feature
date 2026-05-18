@@ -56,7 +56,7 @@ Fonctionnalité: L'Administration DGEC ou DREAL signale un power purchase agreem
             | dreal |
 
     Scénario: Impossible de signaler un état PPA pour un projet lauréat actif déjà signalé comme PPA
-        Etant donné le projet lauréat avec un état PPA signalé
+        Etant donné le signalement par l'administration d'un PPA pour le projet lauréat
         Quand un utilisateur "dgec" signale un état PPA pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet est déjà signalé comme étant parti en PPA"
 
