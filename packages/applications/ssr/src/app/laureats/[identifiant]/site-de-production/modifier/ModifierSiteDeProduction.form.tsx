@@ -43,7 +43,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
   const originalRegion = localité.région;
 
   const nécessiteLaConfirmationPourChangementDeRégion =
-    Role.bind(rôle).estDreal() && originalRegion != commune.région;
+    Role.bind(rôle).estDreal() && originalRegion !== commune.région;
 
   return (
     <Form

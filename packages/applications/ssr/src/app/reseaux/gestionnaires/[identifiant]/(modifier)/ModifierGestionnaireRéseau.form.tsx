@@ -1,4 +1,5 @@
 'use client';
+
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
 
@@ -45,7 +46,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       }}
     >
       <div className="mb-6">
-        <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
+        Code EIC ou Gestionnaire: <b>{identifiantGestionnaireReseauValue}</b>
       </div>
 
       <input

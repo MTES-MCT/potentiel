@@ -132,12 +132,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       const siteDeProductionModifié =
-        laureat.adresse1 != undefined ||
-        laureat.adresse2 != undefined ||
-        laureat.codePostal != undefined ||
-        laureat.commune != undefined ||
-        laureat.département != undefined ||
-        laureat.région != undefined;
+        laureat.adresse1 !== undefined ||
+        laureat.adresse2 !== undefined ||
+        laureat.codePostal !== undefined ||
+        laureat.commune !== undefined ||
+        laureat.département !== undefined ||
+        laureat.région !== undefined;
 
       if (siteDeProductionModifié) {
         const lauréatAModifier = await getLauréatInfos(rawIdentifiantProjet);

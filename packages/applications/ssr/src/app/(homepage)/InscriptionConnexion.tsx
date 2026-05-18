@@ -15,16 +15,12 @@ export const InscriptionConnexion = () => (
           </h3>
           <div>
             <div className="fr-tabs shadow-none before:shadow-none">
-              <ul
-                className="fr-tabs__list px-0 flex justify-center text-theme-blueFrance"
-                role="tablist"
-              >
+              <ul className="fr-tabs__list px-0 flex justify-center text-theme-blueFrance">
                 <li role="presentation">
                   <button
                     type="button"
                     id="tabpanel-404"
                     className="fr-tabs__tab"
-                    tabIndex={0}
                     role="tab"
                     aria-selected="true"
                     aria-controls="tabpanel-404-panel"
@@ -51,7 +47,6 @@ export const InscriptionConnexion = () => (
                 className="fr-tabs__panel fr-tabs__panel--selected"
                 role="tabpanel"
                 aria-labelledby="tabpanel-404"
-                tabIndex={0}
               >
                 <Button
                   linkProps={{ href: Routes.Auth.signUp() }}
@@ -67,7 +62,6 @@ export const InscriptionConnexion = () => (
                 className="fr-tabs__panel"
                 role="tabpanel"
                 aria-labelledby="tabpanel-405"
-                tabIndex={0}
               >
                 <p className="m-0 p-0 font-semibold text-lg">
                   Contactez-nous <Link href="mailto:contact@potentiel.beta.gouv.fr">par email</Link>{' '}

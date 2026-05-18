@@ -40,7 +40,7 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
 
   return (
     <>
-      <label className="mb-1 fr-label">Fournisseurs</label>
+      <div className="mb-1 fr-label">Fournisseurs</div>
       <div className="flex flex-col gap-2 ">
         {fournisseurs.map(({ typeFournisseur, nomDuFabricant, lieuDeFabrication }, index) => {
           const typeFournisseurFieldKey = `fournisseurs.${index}.typeFournisseur`;

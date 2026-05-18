@@ -1,10 +1,11 @@
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { initLogger } from '@potentiel-libraries/monitoring';
 import { createLogger } from '@potentiel-libraries/monitoring/winston';
 
+// biome-ignore lint/style/noRestrictedImports: bin folder, out of main code base
 import { createApiServer } from '../src/server.js';
 
 /** @param req {Request} */

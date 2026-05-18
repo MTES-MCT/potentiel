@@ -12,38 +12,38 @@ import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';
 
 import { buildSendMagicLink } from './buildSendMagicLink';
 
-type Utilisateur = PlainType<TrouverUtilisateurReadModel>;
+type UtilisateurItem = PlainType<TrouverUtilisateurReadModel>;
 
-const porteurDeProjet: Utilisateur = {
+const porteurDeProjet: UtilisateurItem = {
   rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
 };
 
-const porteurDeProjetDésactivé: Utilisateur = {
+const porteurDeProjetDésactivé: UtilisateurItem = {
   rôle: { nom: 'porteur-projet' },
   identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
   désactivé: true,
 };
 
-const dgecValidateur: Utilisateur = {
+const dgecValidateur: UtilisateurItem = {
   rôle: { nom: 'dgec-validateur' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
   nomComplet: '',
   fonction: '',
 };
 
-const dgec: Utilisateur = {
+const dgec: UtilisateurItem = {
   rôle: { nom: 'dgec' },
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
 };
 
-const dreal: Utilisateur = {
+const dreal: UtilisateurItem = {
   rôle: { nom: 'dreal' },
   identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
   région: { nom: 'Corse' },
 };
 
-const utilisateursExistants: ReadonlyArray<Utilisateur> = [
+const utilisateursExistants: ReadonlyArray<UtilisateurItem> = [
   porteurDeProjet,
   porteurDeProjetDésactivé,
   dgec,
@@ -79,7 +79,7 @@ describe(`Envoyer un email avec un lien de connexion`, () => {
     },
   ];
 
-  utilisateursPouvantSeConnecterParMagicLink.map(({ email, typeUtilisateur }) => {
+  utilisateursPouvantSeConnecterParMagicLink.forEach(({ email, typeUtilisateur }) => {
     test(`
         Étant donné ${typeUtilisateur}
         Lorsque le système envoie un email de vérification
@@ -133,7 +133,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
     { email: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
   ];
 
-  utilisateursNePouvantPasSeConnecterParEmail.map(({ email, typeUtilisateur }) => {
+  utilisateursNePouvantPasSeConnecterParEmail.forEach(({ email, typeUtilisateur }) => {
     test(`
             Étant donné ${typeUtilisateur}
             Lorsque le système envoie un email de vérification

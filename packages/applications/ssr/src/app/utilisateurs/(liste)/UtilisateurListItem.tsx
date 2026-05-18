@@ -218,7 +218,7 @@ const OptionalElement = <TType,>({
 }) =>
   Option.match(value)
     .some((value) => (
-      <li>
+      <li key={label}>
         <span>
           {label} : {render(value)}
         </span>

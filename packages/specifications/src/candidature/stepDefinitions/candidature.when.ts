@@ -152,7 +152,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
             : undefined,
         coordonnées:
           changedValues.dépôt.coordonnées?.latitude !== undefined &&
-          changedValues.dépôt.coordonnées?.longitude != undefined
+          changedValues.dépôt.coordonnées?.longitude !== undefined
             ? {
                 latitude: changedValues.dépôt.coordonnées.latitude,
                 longitude: changedValues.dépôt.coordonnées.longitude,

@@ -109,7 +109,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
             `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
 
           return (
-            <div className="flex flex-row gap-2" key={`${typologie}-${index}`}>
+            <div className="flex flex-row gap-2" key={typologie}>
               <Select
                 state={validationErrors[typologieFieldKey] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors[typologieFieldKey]}

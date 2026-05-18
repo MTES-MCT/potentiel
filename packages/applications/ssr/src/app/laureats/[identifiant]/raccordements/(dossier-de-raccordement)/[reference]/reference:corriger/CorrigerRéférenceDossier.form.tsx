@@ -56,12 +56,20 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
         hintText={
           <>
             {Option.match(aideSaisieRéférenceDossierRaccordement.format)
-              .some((format) => <div className="m-0">Format attendu : {format}</div>)
+              .some((format) => (
+                <div key={format} className="m-0">
+                  Format attendu : {format}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}
             {Option.match(aideSaisieRéférenceDossierRaccordement.légende)
-              .some((légende) => <div className="m-0 italic">Exemple : {légende}</div>)
+              .some((légende) => (
+                <div key={légende} className="m-0 italic">
+                  Exemple : {légende}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}

@@ -28,6 +28,9 @@
           "level": "error",
           "options": {}
         }
+      },
+      "complexity": {
+        "useLiteralKeys": "off"
       }
     },
     "domains": {

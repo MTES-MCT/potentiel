@@ -111,12 +111,16 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         hintText={
           <div>
             {Option.match(légende)
-              .some((légende) => <div>Format attendu : {légende}</div>)
+              .some((légende) => <div key={légende}>Format attendu : {légende}</div>)
               .none(() => (
                 <></>
               ))}
             {Option.match(format)
-              .some((format) => <div className="italic">Exemple : {format}</div>)
+              .some((format) => (
+                <div key={format} className="italic">
+                  Exemple : {format}
+                </div>
+              ))
               .none(() => (
                 <></>
               ))}
