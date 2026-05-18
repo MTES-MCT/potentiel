@@ -22,6 +22,7 @@ export type ModifierAchèvementUseCase = Message<
     };
     dateValue: string;
     utilisateurValue: string;
+    raisonValue: string;
   }
 >;
 
@@ -33,6 +34,7 @@ export const registerModifierAchèvementUseCase = () => {
     preuveTransmissionAuCocontractantValue,
     dateTransmissionAuCocontractantValue,
     utilisateurValue,
+    raisonValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = attestationValue
@@ -86,6 +88,7 @@ export const registerModifierAchèvementUseCase = () => {
         preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
         identifiantUtilisateur,
+        raison: raisonValue,
       },
     });
   };

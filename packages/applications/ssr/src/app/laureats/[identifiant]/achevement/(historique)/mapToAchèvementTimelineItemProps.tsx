@@ -12,6 +12,7 @@ import {
 } from './events';
 import { mapToAttestationConformitéEnregistréeTimelineItemProps } from './events/mapToAttestationConformitéEnregistréeTimelineItemProps';
 import { mapToAttestationConformitéModifiéeTimelineItemProps } from './events/mapToAttestationConformitéModifiéeTimelineItemProps';
+import { mapToAchèvementModifiéV1TimelineItemProps } from './events/mapToAchèvementModifiéV1TimelineItemProps';
 
 type MapToAchèvementTimelineItemProps = (
   readmodel: Lauréat.HistoriqueAchèvementProjetListItemReadModel,
@@ -32,7 +33,9 @@ export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProp
       { type: 'AttestationConformitéEnregistrée-V1' },
       mapToAttestationConformitéEnregistréeTimelineItemProps,
     )
-    .with({ type: 'AchèvementModifié-V1' }, mapToAchèvementModifiéTimelineItemProps)
+    .with({ type: 'AchèvementModifié-V1' }, mapToAchèvementModifiéV1TimelineItemProps)
+    .with({ type: 'AchèvementModifié-V2' }, mapToAchèvementModifiéTimelineItemProps)
+
     .with(
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',

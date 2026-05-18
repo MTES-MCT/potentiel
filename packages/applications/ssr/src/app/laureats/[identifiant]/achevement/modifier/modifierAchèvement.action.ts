@@ -23,6 +23,7 @@ const schema = zod.object({
   attestationDocumentSelection: documentSelectionSchema.optional(),
   preuveTransmissionAuCocontractantDocumentSelection: documentSelectionSchema.optional(),
   dateTransmissionAuCocontractant: zod.string().min(1),
+  raison: zod.string().min(1),
 });
 
 export type ModifierAchèvementFormKeys = keyof zod.infer<typeof schema>;
@@ -36,6 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
     preuveTransmissionAuCocontractant,
     attestationDocumentSelection,
     preuveTransmissionAuCocontractantDocumentSelection,
+    raison,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -54,6 +56,7 @@ const action: FormAction<FormState, typeof schema> = async (
         ).toISOString(),
         dateValue: new Date().toISOString(),
         utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        raisonValue: raison,
       },
     });
 

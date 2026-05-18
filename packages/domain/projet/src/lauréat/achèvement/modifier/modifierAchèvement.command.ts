@@ -13,6 +13,7 @@ export type ModifierAchèvementCommand = Message<
     attestation?: DocumentProjet.ValueType;
     preuveTransmissionAuCocontractant?: DocumentProjet.ValueType;
     date: DateTime.ValueType;
+    raison: string;
   }
 >;
 

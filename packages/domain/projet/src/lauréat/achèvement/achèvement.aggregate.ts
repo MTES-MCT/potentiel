@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
@@ -218,6 +218,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     date,
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant,
+    raison,
   }: ModifierAchèvementOptions) {
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();
@@ -239,7 +240,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     }
 
     const event: AchèvementModifiéEvent = {
-      type: 'AchèvementModifié-V1',
+      type: 'AchèvementModifié-V2',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         attestation: attestation ? { format: attestation.format } : undefined,
@@ -249,6 +250,7 @@ export class AchèvementAggregate extends AbstractAggregate<
           : undefined,
         date: date.formatter(),
         utilisateur: identifiantUtilisateur.formatter(),
+        raison,
       },
     };
 
@@ -364,7 +366,10 @@ export class AchèvementAggregate extends AbstractAggregate<
         { type: 'AttestationConformitéTransmise-V1' },
         this.applyAttestationConformitéTransmiseV1.bind(this),
       )
-      .with({ type: 'AchèvementModifié-V1' }, this.applyAchèvementModifiéV1.bind(this))
+      .with(
+        { type: P.union('AchèvementModifié-V1', 'AchèvementModifié-V2') },
+        this.applyAchèvementModifié.bind(this),
+      )
       .with(
         { type: 'DateAchèvementPrévisionnelCalculée-V1' },
         this.applyDateAchèvementPrévisionnelCalculéeV1.bind(this),
@@ -390,7 +395,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.#attestationConformitéTransmise = true;
   }
 
-  private applyAchèvementModifiéV1({
+  private applyAchèvementModifié({
     payload: { dateTransmissionAuCocontractant, attestation },
   }: AchèvementModifiéEvent) {
     this.#dateAchèvementRéel = DateTime.convertirEnValueType(dateTransmissionAuCocontractant);

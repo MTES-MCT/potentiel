@@ -1,11 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { formatDateToText } from '@/app/_helpers';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemFile, type TimelineItemProps } from '@/components/organisms/timeline';
+import { TimelineItemFile, TimelineItemProps } from '@/components/organisms/timeline';
+import { formatDateToText } from '@/app/_helpers';
 
-export const mapToAchèvementModifiéTimelineItemProps = (
-  event: Lauréat.Achèvement.AchèvementModifiéEvent,
+export const mapToAchèvementModifiéV1TimelineItemProps = (
+  event: Lauréat.Achèvement.AchèvementModifiéEventV1,
 ): TimelineItemProps => {
   const {
     identifiantProjet,
@@ -14,7 +14,6 @@ export const mapToAchèvementModifiéTimelineItemProps = (
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
-    raison,
   } = event.payload;
 
   const attestationConformité = attestation
@@ -61,6 +60,5 @@ export const mapToAchèvementModifiéTimelineItemProps = (
         </div>
       </div>
     ),
-    reason: raison,
   };
 };
