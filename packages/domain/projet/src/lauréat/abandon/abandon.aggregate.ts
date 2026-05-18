@@ -90,6 +90,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     dateDemande,
     pièceJustificative,
     raison,
+    PPASignalé,
   }: DemanderOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAchevé();
@@ -119,6 +120,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
 
     await this.publish(event);
     await this.lauréat.achèvement.annulerTâchesPlanifiéesRappelsÉchéance();
+
+    if (PPASignalé) {
+      await this.lauréat.powerPurchaseAgreement.signaler({
+        signaléLe: dateDemande,
+        signaléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async accorder({

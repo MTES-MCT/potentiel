@@ -30,10 +30,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async signalerPowerPurchaseAgreement({
-    signaléLe,
-    signaléPar,
-  }: SignalerPowerPurchaseAgreementOptions) {
+  async signaler({ signaléLe, signaléPar }: SignalerPowerPurchaseAgreementOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.#estPartiEnPPA) {
