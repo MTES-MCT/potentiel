@@ -28,7 +28,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <html {...getHtmlAttributes({ lang: 'fr' })}>
       <head>
         <DsfrHead
@@ -68,7 +67,6 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
             {children}
           </main>
           <Footer />
-          {/* eslint-disable-next-line react-hooks/static-components */}
           {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
         </Providers>
       </body>

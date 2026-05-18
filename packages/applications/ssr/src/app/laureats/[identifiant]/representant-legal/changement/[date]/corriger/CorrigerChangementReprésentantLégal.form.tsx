@@ -72,7 +72,6 @@ export const CorrigerChangementReprésentantLégalForm: FC<
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
     if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {

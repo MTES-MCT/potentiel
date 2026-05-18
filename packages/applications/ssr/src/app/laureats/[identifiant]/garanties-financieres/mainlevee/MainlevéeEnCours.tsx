@@ -8,7 +8,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const actions = [
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.démarrerInstruction',

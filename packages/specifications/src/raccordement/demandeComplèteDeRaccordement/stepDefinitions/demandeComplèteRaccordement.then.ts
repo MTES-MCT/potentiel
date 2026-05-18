@@ -68,7 +68,6 @@ function vérifierRaccordement(
   //  on ne peut pas calculer cette date de manière exacte dans les tests
   if (Option.isSome(actualRaccordement)) {
     for (const doss of actualRaccordement.dossiers) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (doss as any).miseÀJourLe;
     }
   }

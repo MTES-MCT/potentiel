@@ -24,7 +24,6 @@ const actionsGarantiesFinancières = [
   'garantiesFinancières.dépôt.soumettre',
 ] satisfies Role.Policy[];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const alertesGarantiesFinancières = [
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -53,21 +52,27 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
       <LinkAction
         label="Soumettre de nouvelles garanties financières"
         buttonProps={{ title: 'Soumettre un dépôt de garanties financières' }}
-        linkProps={{ href: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.dépôt.soumettre(identifiantProjet),
+        }}
       />
     ),
     'garantiesFinancières.actuelles.enregistrer': () => (
       <LinkAction
         label="Enregistrer"
         buttonProps={{ title: 'Enregistrer des garanties financières' }}
-        linkProps={{ href: Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.actuelles.enregistrer(identifiantProjet),
+        }}
       />
     ),
     ['garantiesFinancières.actuelles.modifier']: () => (
       <LinkAction
         label="Modifier"
         buttonProps={{ title: 'Modifier les garanties financières actuelles' }}
-        linkProps={{ href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet) }}
+        linkProps={{
+          href: Routes.GarantiesFinancières.actuelles.modifier(identifiantProjet),
+        }}
       />
     ),
     ['garantiesFinancières.actuelles.enregistrerAttestation']: () => (
@@ -84,7 +89,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
     ['garantiesFinancières.mainlevée.demander']: () => (
       <LinkAction
         label="Demander la mainlevée"
-        buttonProps={{ title: 'Demander la mainlevée des garanties financières' }}
+        buttonProps={{
+          title: 'Demander la mainlevée des garanties financières',
+        }}
         linkProps={{
           href: Routes.GarantiesFinancières.demandeMainlevée.demander(identifiantProjet),
         }}
@@ -178,7 +185,9 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         )}
 
         <Button
-          linkProps={{ href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet) }}
+          linkProps={{
+            href: Routes.Lauréat.détails.tableauDeBord(identifiantProjet),
+          }}
           priority="secondary"
           iconId="fr-icon-arrow-left-line"
         >

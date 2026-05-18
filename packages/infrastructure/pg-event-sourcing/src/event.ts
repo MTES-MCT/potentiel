@@ -7,7 +7,7 @@ export type Event = DomainEvent & {
 };
 
 export const isEvent = (value: unknown): value is Event => {
-  if (typeof value !== 'object' || value === undefined) {
+  if (typeof value !== 'object' || value === null) {
     return false;
   }
 

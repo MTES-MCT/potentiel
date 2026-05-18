@@ -17,7 +17,6 @@ export type Ratios = {
   max: number;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emailsDGEC = [
   'aoeolien@developpement-durable.gouv.fr',
   'aopv.dgec@developpement-durable.gouv.fr',

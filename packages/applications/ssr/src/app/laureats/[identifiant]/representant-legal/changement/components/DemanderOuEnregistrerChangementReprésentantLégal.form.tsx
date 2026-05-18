@@ -61,7 +61,6 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
 

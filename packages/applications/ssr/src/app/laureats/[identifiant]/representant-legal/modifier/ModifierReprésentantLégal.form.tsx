@@ -76,7 +76,11 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
                 ...validationErrors,
                 typeRepresentantLegal: undefined,
               }));
-              setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }));
+              setState((state) => ({
+                ...state,
+                typeReprésentantLégal,
+                typeSociété,
+              }));
             }}
             validationErrors={validationErrors}
           />
@@ -157,7 +161,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState((state) => ({ ...state, step: 1 }));
     }
 
