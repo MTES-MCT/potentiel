@@ -60,7 +60,7 @@ export const Form: FC<FormProps> = ({
       setCsrfToken(tokenFromHeader ?? 'empty_token');
     };
 
-    fetchCSRFToken();
+    void fetchCSRFToken();
   }, []);
 
   const [state, formAction] = useActionState(action, {
