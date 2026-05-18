@@ -302,7 +302,12 @@
     },
     { "includes": ["**/*.js"], "javascript": { "globals": [] } },
     {
-      "includes": ["**/specifications/src/**/*.ts", "**/*.spec.ts", "**/*.test.ts", "**/*.integration.ts"],
+      "includes": [
+        "**/specifications/src/**/*.ts",
+        "**/*.spec.ts",
+        "**/*.test.ts",
+        "**/*.integration.ts"
+      ],
       "linter": {
         "rules": {
           "suspicious": {
@@ -315,6 +320,25 @@
   ],
   "assist": {
     "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":NODE:",
+              ":BLANK_LINE:",
+              [":PACKAGE:", "!@potentiel*/**"],
+              ":BLANK_LINE:",
+              "@potentiel*/**",
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              ":PATH:"
+            ]
+          }
+        }
+      }
+    }
   }
 }
