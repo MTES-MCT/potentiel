@@ -1,18 +1,19 @@
 import { Routes } from '@potentiel-applications/routes';
 import type { Lauréat } from '@potentiel-domain/projet';
 
-import { buildUrl, getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
+import { buildUrl, getLauréat } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
+import { getRecipients } from '../_helper/getRecipients.js';
+
 export const handleSignalementPowerPurchaseAgreementAnnulé = async ({
-  payload: { identifiantProjet },
+  payload: { identifiantProjet, annuléPar },
 }: Lauréat.PowerPurchaseAgreement.SignalementPowerPurchaseAgreementAnnuléEvent) => {
   const projet = await getLauréat(identifiantProjet);
 
-  const dreals = await listerDrealsRecipients(projet.région);
-  const porteurs = await listerPorteursRecipients(projet.identifiantProjet);
+  const recipients = await getRecipients(projet.identifiantProjet, annuléPar, projet.région);
 
-  for (const recipients of [dreals, porteurs]) {
+  if (recipients) {
     await sendEmail({
       key: 'lauréat/power-purchase-agreement/annuler_signalement',
       recipients,
