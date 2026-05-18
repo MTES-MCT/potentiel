@@ -238,7 +238,7 @@ const map: DocumentRecord = {
     }),
     Lauréat.Achèvement.DocumentAchèvement.preuveTransmissionAttestationConformité(event),
   ],
-  'AchèvementModifié-V1': (event) => [
+  'AchèvementModifié-V2': (event) => [
     Lauréat.Achèvement.DocumentAchèvement.attestationConformité({
       ...event,
       enregistréLe: event.date,

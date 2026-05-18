@@ -13,6 +13,7 @@ interface ModifierAchèvement {
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
   readonly utilisateur: string;
+  readonly raison: string;
 }
 
 export class ModifierAchèvementFixture
@@ -48,6 +49,12 @@ export class ModifierAchèvementFixture
     return this.#utilisateur;
   }
 
+  #raison!: string;
+
+  get raison(): string {
+    return this.#raison;
+  }
+
   constructor(public readonly lauréatWorld: LauréatWorld) {
     super();
   }
@@ -66,6 +73,7 @@ export class ModifierAchèvementFixture
       preuve: faker.potentiel.document(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
+      raison: faker.lorem.sentence(),
       ...partialFixture,
     };
 
@@ -74,6 +82,7 @@ export class ModifierAchèvementFixture
     this.#utilisateur = fixture.utilisateur;
     this.#attestation = fixture.attestation;
     this.#preuve = fixture.preuve;
+    this.#raison = fixture.raison;
 
     this.aÉtéCréé = true;
 

@@ -55,7 +55,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { attestation, date, dateTransmissionAuCocontractant, utilisateur, preuve } =
+    const { attestation, date, dateTransmissionAuCocontractant, utilisateur, preuve, raison } =
       this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({});
 
     await mediator.send<Lauréat.Achèvement.ModifierAchèvementUseCase>({
@@ -68,6 +68,7 @@ EtantDonné(
           preuve && convertFixtureFileToReadableStream(preuve),
         dateValue: date,
         utilisateurValue: utilisateur,
+        raisonValue: raison,
       },
     });
   },

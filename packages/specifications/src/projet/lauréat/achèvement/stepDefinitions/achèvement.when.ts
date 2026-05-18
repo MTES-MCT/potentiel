@@ -100,7 +100,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { attestation, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, dateTransmissionAuCocontractant, date, utilisateur, raison } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.dgecFixture.email,
           attestation: undefined,
@@ -115,6 +115,7 @@ Quand(
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           utilisateurValue: utilisateur,
+          raisonValue: raison,
         },
       });
     } catch (error) {
@@ -127,7 +128,7 @@ Quand("l'admin modifie l'achèvement réel du projet", async function (this: Pot
   try {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
+    const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur, raison } =
       this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
         utilisateur: this.utilisateurWorld.dgecFixture.email,
       });
@@ -142,6 +143,7 @@ Quand("l'admin modifie l'achèvement réel du projet", async function (this: Pot
         preuveTransmissionAuCocontractantValue:
           preuve && convertFixtureFileToReadableStream(preuve),
         utilisateurValue: utilisateur,
+        raisonValue: raison,
       },
     });
   } catch (error) {
@@ -157,7 +159,7 @@ Quand(
 
       const achèvement = this.lauréatWorld.achèvementWorld.mapToExpected();
       assert(achèvement.estAchevé, 'impossible de mofidier si non achevé');
-      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur, raison } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.dgecFixture.email,
           // Quand un document n'est pas changé, on transmet undefined au usecase
@@ -176,6 +178,7 @@ Quand(
           preuveTransmissionAuCocontractantValue:
             preuve && convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
+          raisonValue: raison,
         },
       });
     } catch (error) {
@@ -191,7 +194,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur, raison } =
         this.lauréatWorld.achèvementWorld.modifierAchèvementFixture.créer({
           utilisateur: this.utilisateurWorld.dgecFixture.email,
           ...(exemple['date transmission au Cocontractant'] && {
@@ -211,6 +214,7 @@ Quand(
           preuveTransmissionAuCocontractantValue:
             preuve && convertFixtureFileToReadableStream(preuve),
           utilisateurValue: utilisateur,
+          raisonValue: raison,
         },
       });
     } catch (error) {
