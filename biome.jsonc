@@ -3,7 +3,11 @@
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!**/legacy", "!**/.next", "!**/potentiel-keycloak"]
+    "includes": [
+      "**",
+      "!**/potentiel-keycloak",
+      "!packages/applications/notifications/src/templates/layouts/email.layout.html"
+    ]
   },
   "formatter": {
     "enabled": true,
