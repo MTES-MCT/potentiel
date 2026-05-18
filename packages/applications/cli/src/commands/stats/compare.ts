@@ -37,7 +37,7 @@ export default class CompareStats extends Command {
     const formattedDiff = diff
       .map((part) => {
         const color = part.added ? '\x1b[32m' : part.removed ? '\x1b[31m' : '\x1b[0m';
-        return color + part.value + '\x1b[0m';
+        return `${color + part.value}\x1b[0m`;
       })
       .join('');
 

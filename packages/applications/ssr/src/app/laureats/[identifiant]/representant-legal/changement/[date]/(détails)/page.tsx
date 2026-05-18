@@ -77,8 +77,7 @@ export default async function Page(props: PageProps) {
 
       const dateDemandeEnCoursSiDifférente =
         Option.isSome(représentantLégal) &&
-        représentantLégal.dateDernièreDemande &&
-        représentantLégal.dateDernièreDemande.estÉgaleÀ(DateTime.convertirEnValueType(demandéLe))
+        représentantLégal.dateDernièreDemande?.estÉgaleÀ(DateTime.convertirEnValueType(demandéLe))
           ? représentantLégal.dateDernièreDemande
           : undefined;
 

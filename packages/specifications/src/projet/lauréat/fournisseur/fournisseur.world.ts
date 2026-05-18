@@ -7,7 +7,6 @@ import { MettreÀJourFournisseurFixture } from './fixtures/mettreÀJourFournisse
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture.js';
 
 export class FournisseurWorld {
-  constructor() {}
   readonly modifierÉvaluationCarbone = new ModifierÉvaluationCarboneFixture();
   readonly mettreÀJourFournisseur = new MettreÀJourFournisseurFixture();
 

@@ -24,6 +24,10 @@
           "options": {
             "patterns": [{ "group": "**/dist/**" }, { "group": "**/src/**" }]
           }
+        },
+        "noNonNullAssertion": {
+          "level": "warn",
+          "fix": "none"
         }
       },
       "correctness": {

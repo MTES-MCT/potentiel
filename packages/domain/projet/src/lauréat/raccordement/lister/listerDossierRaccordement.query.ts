@@ -219,14 +219,12 @@ export const mapToReadModel: MapToReadModelProps = ({
   nomProjet,
   localité: Localité.bind(localité),
   référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-  dateDemandeComplèteRaccordement:
-    demandeComplèteRaccordement && demandeComplèteRaccordement.dateQualification
-      ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
-      : undefined,
-  dateMiseEnService:
-    miseEnService && miseEnService.dateMiseEnService
-      ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
-      : undefined,
+  dateDemandeComplèteRaccordement: demandeComplèteRaccordement?.dateQualification
+    ? DateTime.convertirEnValueType(demandeComplèteRaccordement.dateQualification)
+    : undefined,
+  dateMiseEnService: miseEnService?.dateMiseEnService
+    ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
+    : undefined,
   identifiantGestionnaireRéseau:
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseau,

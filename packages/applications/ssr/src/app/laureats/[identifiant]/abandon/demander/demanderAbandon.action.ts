@@ -20,7 +20,7 @@ const schema = zod.object({
 export type DemanderAbandonFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _previousState,
   { identifiantProjet, raison, pieceJustificative, estPPA },
 ) => {
   return withUtilisateur(async (utilisateur) => {

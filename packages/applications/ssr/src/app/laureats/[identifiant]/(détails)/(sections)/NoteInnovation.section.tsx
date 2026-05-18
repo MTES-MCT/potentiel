@@ -102,7 +102,7 @@ const formatterNote = (note?: string) => {
   if (note) {
     const noteParsée = parseFloat(note.replace(',', '.'));
 
-    return isNaN(noteParsée) ? 'N/A' : (Math.round(noteParsée * 100) / 100).toString();
+    return Number.isNaN(noteParsée) ? 'N/A' : (Math.round(noteParsée * 100) / 100).toString();
   }
   return 'N/A';
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';

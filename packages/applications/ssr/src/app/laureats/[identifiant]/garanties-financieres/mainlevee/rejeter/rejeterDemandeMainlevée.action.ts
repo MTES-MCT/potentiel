@@ -18,7 +18,7 @@ const schema = zod.object({
 export type RejeterDemandeMainlevéeGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _previousState,
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {

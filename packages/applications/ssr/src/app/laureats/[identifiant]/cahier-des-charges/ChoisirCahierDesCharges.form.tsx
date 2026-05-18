@@ -79,7 +79,7 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
             },
             hintText: cdc.descriptions ? (
               <ul>
-                {cdc.descriptions.map((text, i) => (
+                {cdc.descriptions.map((text) => (
                   <li key={text}>{text}</li>
                 ))}
               </ul>

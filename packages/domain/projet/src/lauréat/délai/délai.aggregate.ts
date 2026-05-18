@@ -316,7 +316,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     pièceJustificative,
     raison,
   }: Pick<CorrigerDemandeDélaiOptions, 'nombreDeMois' | 'pièceJustificative' | 'raison'>) {
-    if (!this.#demande || !this.#demande.statut.estEnCours()) {
+    if (!this.#demande?.statut.estEnCours()) {
       throw new DemandeDeDélaiInexistanteError();
     }
 

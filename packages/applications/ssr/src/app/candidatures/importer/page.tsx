@@ -33,7 +33,7 @@ export default async function Page(props: PageProps) {
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
         data: {
-          estNotifiée: estUnReimport ? true : false,
+          estNotifiée: !!estUnReimport,
         },
       });
 

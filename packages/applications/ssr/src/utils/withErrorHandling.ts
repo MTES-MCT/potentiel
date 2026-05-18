@@ -22,7 +22,7 @@ export async function withErrorHandling<TResult>(
     }
 
     if (e instanceof z.ZodError) {
-      getLogger().warn('Validation error: ' + e.message);
+      getLogger().warn(`Validation error: ${e.message}`);
       return onValidationError(e);
     }
 

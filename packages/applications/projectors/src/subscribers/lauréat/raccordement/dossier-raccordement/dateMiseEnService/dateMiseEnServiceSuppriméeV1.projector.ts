@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';

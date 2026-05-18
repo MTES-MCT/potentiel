@@ -25,7 +25,6 @@ const getIconId = (colorVariant: CallOutProps['colorVariant'], iconId: CallOutPr
       return 'fr-icon-error-line';
     case 'warning':
       return 'fr-icon-warning-line';
-    case 'info':
     default:
       return iconId ?? 'ri-information-line';
   }

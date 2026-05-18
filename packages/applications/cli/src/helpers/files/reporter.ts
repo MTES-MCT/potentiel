@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 
 import { Flags } from '@oclif/core';
 
@@ -33,7 +33,7 @@ const makeFileReporter = async (filePath: string) => {
   await fs.writeFile(filePath, '');
   const resultsFile = await fs.open(filePath, 'a');
   return {
-    report: (content: string) => resultsFile.appendFile(content + '\n'),
+    report: (content: string) => resultsFile.appendFile(`${content}\n`),
     close: () => resultsFile.close(),
   };
 };

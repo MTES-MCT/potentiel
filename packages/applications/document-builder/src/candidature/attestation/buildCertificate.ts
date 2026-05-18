@@ -51,7 +51,7 @@ export const buildCertificate = async ({
   validateur,
   candidature,
   notifiéLe,
-}: BuildCertificateProps): Promise<ReadableStream | void> => {
+}: BuildCertificateProps): Promise<ReadableStream | undefined> => {
   const { data } = mapToCertificateData({
     appelOffre,
     période,

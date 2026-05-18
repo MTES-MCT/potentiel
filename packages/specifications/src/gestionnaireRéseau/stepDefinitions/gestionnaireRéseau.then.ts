@@ -48,6 +48,6 @@ Alors(
       );
     }
 
-    actual.should.equal(résultat === 'valide' ? true : false);
+    actual.should.equal(résultat === 'valide');
   },
 );

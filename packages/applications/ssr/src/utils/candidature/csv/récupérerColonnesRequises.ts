@@ -38,10 +38,9 @@ export const récupérerColonnesRequises: RécupérerColonnesRequisesProps = ({
     [K in AppelOffre.ChampCandidature]: CandidatureHeaders;
   };
 
-  const colonnesChampsSupplémentaires: CandidatureHeaders =
-    champsSupplémentaires && champsSupplémentaires.length
-      ? champsSupplémentaires.flatMap((champ) => mappingChampSupplémentairesColonnes[champ])
-      : [];
+  const colonnesChampsSupplémentaires: CandidatureHeaders = champsSupplémentaires?.length
+    ? champsSupplémentaires.flatMap((champ) => mappingChampSupplémentairesColonnes[champ])
+    : [];
 
   const toutesColonnesCorrespondantÀUnChampSupplémentaire: CandidatureHeaders = Object.values(
     mappingChampSupplémentairesColonnes,

@@ -1,4 +1,4 @@
-import { parse } from 'url';
+import { parse } from 'node:url';
 
 import { getSessionCookie } from 'better-auth/cookies';
 import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';

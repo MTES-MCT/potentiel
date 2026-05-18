@@ -47,9 +47,9 @@ export const mapToReadModel = ({
 }: InstallationEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   installateur,
-  typologieInstallation:
-    typologieInstallation &&
-    typologieInstallation.map((typologie) => TypologieInstallation.convertirEnValueType(typologie)),
+  typologieInstallation: typologieInstallation?.map((typologie) =>
+    TypologieInstallation.convertirEnValueType(typologie),
+  ),
   dispositifDeStockage:
     dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
 });

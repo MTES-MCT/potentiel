@@ -24,7 +24,7 @@ export const metadata: Metadata = { title: 'Gestionnaires réseaux' };
 export default async function Page(props0: PageProps) {
   const searchParams = await props0.searchParams;
   return PageWithErrorHandling(async () => {
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
     const raisonSocialeSearch = searchParams?.raisonSociale;
 
     const gestionnairesRéseau =

@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
 import { Where } from '@potentiel-domain/entity';
 import type { Lauréat } from '@potentiel-domain/projet';

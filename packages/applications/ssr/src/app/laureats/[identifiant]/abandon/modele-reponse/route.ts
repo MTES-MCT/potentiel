@@ -72,7 +72,7 @@ export const GET = async (
           ...data,
           dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
           justificationDemande: abandon.demande.raison,
-          aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
+          aprèsConfirmation: !!abandon.demande.confirmation?.confirméLe,
           contenuParagrapheAbandon: dispositionCDC.dispositions,
           dateConfirmation: formatDateForDocument(abandon.demande.confirmation?.confirméLe?.date),
           dateDemandeConfirmation: formatDateForDocument(

@@ -81,7 +81,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   };
 
   const handleFileRemove = (index: number) => {
-    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+    if (!hiddenFileInput.current?.files) {
       return;
     }
 
@@ -103,7 +103,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   };
 
   const handleRemoveAllFiles = () => {
-    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+    if (!hiddenFileInput.current?.files) {
       return;
     }
 

@@ -11,7 +11,7 @@ export const loadStreamList = async ({
   category,
   eventTypes,
 }: LoadStreamListOptions): Promise<ReadonlyArray<{ stream_id: string }>> => {
-  const hasEventTypes = eventTypes && eventTypes.length;
+  const hasEventTypes = eventTypes?.length;
 
   const baseQuery = `select distinct stream_id from event_store.event_stream where stream_id like $1 || '|%'`;
   const whereEventTypeCondition = hasEventTypes ? 'and type = any($2)' : '';

@@ -9,7 +9,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 let globalPolicy: IPolicy | undefined;
 const getGlobalPolicy = () => {
   if (!globalPolicy) {
-    const maxConcurrentSubscribers = parseInt(process.env.MAX_CONCURRENT_SUBSCRIBERS ?? '-1');
+    const maxConcurrentSubscribers = parseInt(process.env.MAX_CONCURRENT_SUBSCRIBERS ?? '-1', 10);
     if (maxConcurrentSubscribers > 0) {
       globalPolicy = bulkhead(maxConcurrentSubscribers, Infinity);
     } else {

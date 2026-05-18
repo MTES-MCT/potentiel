@@ -93,7 +93,7 @@ export const GarantiesFinancièresDétails = ({
           </>
         ))}
 
-      {dépôt && dépôt.garantiesFinancières.constitution && (
+      {dépôt?.garantiesFinancières.constitution && (
         <div>
           De nouvelles garanties financières{' '}
           {getGarantiesFinancièresLabel(dépôt.garantiesFinancières.type.type)}, constituées le{' '}

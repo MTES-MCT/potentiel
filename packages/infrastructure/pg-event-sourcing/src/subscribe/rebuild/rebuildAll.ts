@@ -62,7 +62,7 @@ export const rebuildAll = async <TEvent extends DomainEvent>(
   clearInterval(interval);
 
   if (errors > 0) {
-    logger.error('Rebuild completed with errors: ' + errors + ' errors encountered.', {
+    logger.error(`Rebuild completed with errors: ${errors} errors encountered.`, {
       durationMs: Date.now() - startTime,
     });
   } else {

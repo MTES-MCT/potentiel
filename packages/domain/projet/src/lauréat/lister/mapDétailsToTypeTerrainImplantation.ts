@@ -20,5 +20,5 @@ export const mapDétailsToTypeTerrainImplantation = (input: string): string => {
 
   if (tokens.length === 0) return '';
 
-  return 'cas ' + tokens.join(' et ');
+  return `cas ${tokens.join(' et ')}`;
 };

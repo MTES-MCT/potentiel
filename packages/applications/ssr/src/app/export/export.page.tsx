@@ -130,7 +130,7 @@ const getFileName = (headerValue: string | null) => {
 
   const contentDisposition = headerValue;
   const match = contentDisposition.match(/filename="?([^"]+)"?/);
-  const fileName = match && match[1] ? match[1] : 'export.csv';
+  const fileName = match?.[1] ? match[1] : 'export.csv';
 
   return fileName;
 };

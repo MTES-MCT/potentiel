@@ -14,7 +14,7 @@ export const loadFromStream = async <TEvent extends DomainEvent>({
   streamId,
   eventTypes,
 }: LoadFromStreamOptions): Promise<ReadonlyArray<TEvent & Event>> => {
-  const hasEventTypes = eventTypes && eventTypes.length;
+  const hasEventTypes = eventTypes?.length;
 
   const baseQuery = `select stream_id, created_at, type, payload, version from event_store.event_stream where stream_id = $1 and type <> 'RebuildTriggered'`;
   const orderByClause = 'order by created_at, version';

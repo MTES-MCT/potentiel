@@ -119,7 +119,7 @@ function estValideString(value: string): asserts value is RawType {
 }
 
 function estValideDate(value: Date) {
-  if (isNaN(value.getTime())) {
+  if (Number.isNaN(value.getTime())) {
     throw new ValeurDateTimeInvalideError();
   }
 }

@@ -1,4 +1,4 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
 import { DateTime } from '@potentiel-domain/common';
 import type { Lauréat } from '@potentiel-domain/projet';

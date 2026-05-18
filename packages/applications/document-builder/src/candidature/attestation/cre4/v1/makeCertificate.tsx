@@ -320,7 +320,7 @@ const Certificate = ({
             left: 63,
           }}
         >
-          <Image style={{ width: 165, height: 118 }} src={imagesRootPath + '/logo_MTE.png'} />
+          <Image style={{ width: 165, height: 118 }} src={`${imagesRootPath}/logo_MTE.png`} />
         </View>
         <View
           style={{

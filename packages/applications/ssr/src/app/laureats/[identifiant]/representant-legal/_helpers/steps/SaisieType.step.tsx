@@ -109,11 +109,9 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         nom="Un organisme ou autre"
         informationÀRemplir="le nom de l'organisme"
         piècesJustificatives={
-          <>
-            <li>
-              Tout document officiel permettant d'attester de l'existence juridique de l'organisme
-            </li>
-          </>
+          <li>
+            Tout document officiel permettant d'attester de l'existence juridique de l'organisme
+          </li>
         }
       />
     ))

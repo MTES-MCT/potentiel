@@ -34,16 +34,12 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
 }) => (
   <ListItem
     miseÀJourLe={miseÀJourLe}
-    heading={
-      <>
-        <ProjectListItemHeading
-          nomProjet={nomProjet}
-          identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
-          prefix="Abandon du projet"
-          estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
-        />
-      </>
-    }
+    heading=<ProjectListItemHeading
+      nomProjet={nomProjet}
+      identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+      prefix="Abandon du projet"
+      estPartiEnPPA={estPartiEnPPA === true ? true : undefined}
+    />
     actions={
       <Button
         linkProps={{

@@ -100,8 +100,6 @@ function getDescription(type: ErrorType, message?: CustomErrorProps['message']) 
 
     case 'InvalidOperationError':
       return message ? <p className={fr.cx('fr-text--lead')}>{message}</p> : <DefaultError />;
-
-    case 'ServerError':
     default:
       return <DefaultError />;
   }

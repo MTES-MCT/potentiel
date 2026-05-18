@@ -17,7 +17,7 @@ const schema = zod.object({
 export type ModifierGestionnaireRéseauRaccordementFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _previousState,
   { identifiantProjet, identifiantGestionnaireReseau },
 ) =>
   withUtilisateur(async (utilisateur) => {
