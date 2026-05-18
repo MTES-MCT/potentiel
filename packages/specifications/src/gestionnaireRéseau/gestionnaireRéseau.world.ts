@@ -4,7 +4,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { AjouterGestionnaireRéseauFixture } from './fixture/ajouterGestionnaireRéseau.fixture.js';
 import { ModifierGestionnaireRéseauFixture } from './fixture/modifierGestionnaireRéseau.fixture.js';
 
-type GestionnaireRéseau = {
+type GestionnaireRéseauItem = {
   codeEIC: string;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
@@ -33,7 +33,7 @@ export class GestionnaireRéseauWorld {
     return this.#modifierGestionnaireRéseauFixture;
   }
 
-  #gestionnairesRéseauFixtures: Map<string, GestionnaireRéseau> = new Map();
+  #gestionnairesRéseauFixtures: Map<string, GestionnaireRéseauItem> = new Map();
   get gestionnairesRéseauFixtures() {
     return this.#gestionnairesRéseauFixtures;
   }
@@ -85,7 +85,7 @@ export class GestionnaireRéseauWorld {
     return expected;
   }
 
-  getGestionnaire(codeEIC: string): GestionnaireRéseau {
+  getGestionnaire(codeEIC: string): GestionnaireRéseauItem {
     const gestionnaireRéseau = [...this.#gestionnairesRéseauFixtures.values()].find(
       (x) => x.codeEIC === codeEIC,
     );
@@ -99,7 +99,7 @@ export class GestionnaireRéseauWorld {
     return gestionnaireRéseau;
   }
 
-  rechercherGestionnaireRéseauFixture(raisonSociale: string): GestionnaireRéseau {
+  rechercherGestionnaireRéseauFixture(raisonSociale: string): GestionnaireRéseauItem {
     const gestionnaireRéseau = this.#gestionnairesRéseauFixtures.get(raisonSociale);
 
     if (!gestionnaireRéseau) {

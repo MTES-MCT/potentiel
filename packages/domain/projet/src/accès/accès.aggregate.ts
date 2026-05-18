@@ -202,9 +202,9 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', Pr
   private applyAccèsProjetRetiréV1({
     payload: { identifiantsUtilisateur },
   }: AccèsProjetRetiréEvent) {
-    identifiantsUtilisateur.map((identifiantUtilisateurValue) => {
+    for (const identifiantUtilisateurValue of identifiantsUtilisateur) {
       this.identifiantsUtilisateurAyantAccès.delete(identifiantUtilisateurValue);
-    });
+    }
   }
 
   private aDéjàAccès(identifiantUtilisateur: Email.RawType): boolean {

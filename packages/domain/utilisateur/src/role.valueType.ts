@@ -2348,7 +2348,9 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
         policies as any,
       ) as unknown as string[];
 
-      permissionsForPolicy.forEach((p) => prev[role].add(p));
+      for (const permission of permissionsForPolicy) {
+        prev[role].add(permission);
+      }
     }
 
     return prev;
