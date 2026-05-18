@@ -16,6 +16,7 @@ EtantDonné(
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           signaléLeValue: new Date().toISOString(),
           signaléParValue: this.utilisateurWorld.dgecFixture.email,
+          rôleUtilisateurValue: this.utilisateurWorld.dgecFixture.role,
         },
       });
     });

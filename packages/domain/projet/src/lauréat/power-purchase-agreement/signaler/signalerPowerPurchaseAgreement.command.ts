@@ -1,6 +1,7 @@
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import type { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../index.js';
 
@@ -10,6 +11,7 @@ export type SignalerPowerPurchaseAgreementCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     signaléLe: DateTime.ValueType;
     signaléPar: Email.ValueType;
+    rôleUtilisateur: Role.ValueType;
   }
 >;
 

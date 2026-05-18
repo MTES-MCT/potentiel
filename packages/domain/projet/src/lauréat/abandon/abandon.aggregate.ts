@@ -47,6 +47,7 @@ import {
   StatutAbandon,
 } from './index.js';
 import type { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option.js';
+import { Role } from '@potentiel-domain/utilisateur';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;
@@ -123,6 +124,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       await this.lauréat.powerPurchaseAgreement.signaler({
         signaléLe: dateDemande,
         signaléPar: identifiantUtilisateur,
+        rôleUtilisateur: Role.porteur,
       });
     }
   }
@@ -344,6 +346,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
       this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
     );
+
+    if (this.lauréat.powerPurchaseAgreement.aÉtéSignaléParLePorteur) {
+      await this.lauréat.powerPurchaseAgreement.annulerSignalementPowerPurchaseAgreement({
+        annuléLe: dateAnnulation,
+        annuléPar: identifiantUtilisateur,
+      });
+    }
   }
 
   async rejeter({
@@ -465,7 +474,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       };
     }
   }
-  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
+  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) { }
 
   private applyPreuveRecandidatureTransmiseV1({
     payload: { preuveRecandidature },

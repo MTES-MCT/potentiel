@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import type { LauréatAggregate } from '../lauréat.aggregate.js';
 import type { AnnulerSignalementPowerPurchaseAgreementOptions } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.option.js';
@@ -18,9 +19,17 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   'power-purchase-agreement',
   LauréatAggregate
 > {
-  #estPartiEnPPA: boolean = false;
+  #PPA:
+    | {
+        rôleUtilisateur: Role.RawType;
+      }
+    | undefined = undefined;
 
-  get lauréat() {
+  get aÉtéSignaléParLePorteur() {
+    return this.#PPA?.rôleUtilisateur === 'porteur-projet';
+  }
+
+  private get lauréat() {
     return this.parent;
   }
 
@@ -28,10 +37,14 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async signaler({ signaléLe, signaléPar }: SignalerPowerPurchaseAgreementOptions) {
+  async signaler({
+    signaléLe,
+    signaléPar,
+    rôleUtilisateur,
+  }: SignalerPowerPurchaseAgreementOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.#estPartiEnPPA) {
+    if (this.#PPA) {
       throw new PowerPurchaseAgreementDéjàSignaléError();
     }
 
@@ -41,6 +54,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         signaléLe: signaléLe.formatter(),
         signaléPar: signaléPar.formatter(),
+        rôleUtilisateur: rôleUtilisateur.nom,
       },
     };
 
@@ -53,7 +67,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
   }: AnnulerSignalementPowerPurchaseAgreementOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (!this.#estPartiEnPPA) {
+    if (!this.#PPA) {
       throw new PowerPurchaseAgreementNonSignaléError();
     }
 
@@ -75,7 +89,7 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
         {
           type: 'PowerPurchaseAgreementSignalé-V1',
         },
-        () => this.applyPowerPurchaseAgreementSignalé(),
+        this.applyPowerPurchaseAgreementSignalé.bind(this),
       )
       .with(
         {
@@ -86,11 +100,13 @@ export class PowerPurchaseAgreementAggregate extends AbstractAggregate<
       .exhaustive();
   }
 
-  private applyPowerPurchaseAgreementSignalé() {
-    this.#estPartiEnPPA = true;
+  private applyPowerPurchaseAgreementSignalé({ payload }: PowerPurchaseAgreementSignaléEvent) {
+    this.#PPA = {
+      rôleUtilisateur: payload.rôleUtilisateur,
+    };
   }
 
   private applySignalementPowerPurchaseAgreementAnnulé() {
-    this.#estPartiEnPPA = false;
+    this.#PPA = undefined;
   }
 }
