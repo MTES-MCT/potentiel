@@ -1,5 +1,6 @@
 import { unflatten } from 'flat';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import { redirect, unstable_rethrow } from 'next/navigation';
 import * as zod from 'zod';
 
@@ -12,6 +13,7 @@ import { applySearchParams } from '@/app/_helpers';
 import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
 import { callbackURLSchema } from './zod/auth';
+import { CsrfError, verifyCsrfToken } from './csrf';
 
 export type ActionResult = {
   successMessage: string;
@@ -67,6 +69,10 @@ export type FormStateCsvDuplicateColumnError = {
   columns: Array<ImportCSV.CsvDuplicateHeaderError>;
 };
 
+export type FromStateCsrfError = {
+  status: 'csrf-error';
+};
+
 type FormStateUnknownError = {
   status: 'unknown-error';
 };
@@ -79,7 +85,8 @@ export type FormState =
   | FormStateCsvLineError
   | FormStateCsvMissingColumnError
   | FormStateUnknownError
-  | FormStateCsvDuplicateColumnError;
+  | FormStateCsvDuplicateColumnError
+  | FromStateCsrfError;
 
 export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
@@ -91,8 +98,9 @@ export const formAction =
     action: FormAction<TState, TSchema>,
     schema?: TSchema,
   ) =>
-  async (previousState: TState, formData: FormData) => {
+  async (previousState: TState, formData: FormData): Promise<FormState> => {
     try {
+      await verifyCsrfToken(await cookies(), formData);
       const allKeys = Array.from(formData.keys());
 
       const dataReduced = allKeys.reduce((acc, formKey) => {
@@ -156,21 +164,22 @@ export const formAction =
       return result;
     } catch (e) {
       unstable_rethrow(e);
+
       if (e instanceof ImportCSV.CsvLineValidationError) {
         return {
-          status: 'csv-line-error' as const,
+          status: 'csv-line-error',
           errors: e.errors,
         };
       }
       if (e instanceof ImportCSV.MissingRequiredColumnError) {
         return {
-          status: 'csv-missing-column-error' as const,
+          status: 'csv-missing-column-error',
           columns: e.missingColumns,
         };
       }
       if (e instanceof ImportCSV.DuplicateHeaderError) {
         return {
-          status: 'csv-duplicate-header-error' as const,
+          status: 'csv-duplicate-header-error',
           columns: e.duplicateHeaders,
         };
       }
@@ -183,21 +192,28 @@ export const formAction =
         }, {} as ValidationErrors);
 
         return {
-          status: 'validation-error' as const,
+          status: 'validation-error',
           errors,
         };
       }
 
       if (e instanceof TooManyRequestsError) {
         return {
-          status: 'rate-limit-error' as const,
+          status: 'rate-limit-error',
           message: e.message,
+        };
+      }
+
+      if (e instanceof CsrfError) {
+        getLogger().warn('CSRF token verification failed', { error: e.message });
+        return {
+          status: 'csrf-error',
         };
       }
 
       if (DomainError.isDomainError(e)) {
         return {
-          status: 'domain-error' as const,
+          status: 'domain-error',
           message: e.message,
         };
       }
@@ -205,7 +221,7 @@ export const formAction =
       getLogger().error(e as Error);
 
       return {
-        status: 'unknown-error' as const,
+        status: 'unknown-error',
       };
     }
   };

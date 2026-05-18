@@ -1,22 +1,26 @@
-'use client';
+"use client";
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 import {
-  type FC,
-  type FormHTMLAttributes,
-  type ReactNode,
+  FC,
+  FormHTMLAttributes,
+  ReactNode,
   useActionState,
   useEffect,
-  useState,
-} from 'react';
+} from "react";
 
-import type { formAction, ValidationErrors } from '@/utils/formAction';
-import { Heading2 } from '../headings';
-import { FormActionButtons, type FormActionButtonsProps } from './FormActionButtons';
-import { FormFeedback } from './FormFeedback';
-import { FormFeedbackCsvColumnErrors } from './FormFeedbackCsvColumnErrors';
+import type { formAction, ValidationErrors } from "@/utils/formAction";
+import { Heading2 } from "../headings";
+import {
+  FormActionButtons,
+  type FormActionButtonsProps,
+} from "./FormActionButtons";
+import { FormFeedback } from "./FormFeedback";
+import { FormFeedbackCsvColumnErrors } from "./FormFeedbackCsvColumnErrors";
+import { FormCsrfInput } from "./FormCsrfInput";
 import { FormFeedbackCsvLineErrors } from './FormFeedbackCsvErrors';
 import { FormPendingModal, type FormPendingModalProps } from './FormPendingModal';
+
 
 export type FormProps = {
   id?: string;
@@ -27,8 +31,8 @@ export type FormProps = {
   pendingModal?: FormPendingModalProps;
   actionButtons?: FormActionButtonsProps;
   onValidationError?: (validationErrors: ValidationErrors) => void;
-  onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
-  onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
+  onError?: FormHTMLAttributes<HTMLFormElement>["onError"];
+  onInvalid?: FormHTMLAttributes<HTMLFormElement>["onInvalid"];
   className?: string;
 };
 
@@ -45,41 +49,33 @@ export const Form: FC<FormProps> = ({
   onInvalid,
   className,
 }) => {
-  const [csrfToken, setCsrfToken] = useState('');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const retourUrl = searchParams.get('retour');
-
-  useEffect(() => {
-    const fetchCSRFToken = async () => {
-      const response = await fetch('/csrf', {
-        method: 'HEAD',
-      });
-
-      const tokenFromHeader = response.headers.get('csrf_token');
-      setCsrfToken(tokenFromHeader ?? 'empty_token');
-    };
-
-    void fetchCSRFToken();
-  }, []);
+  const retourUrl = searchParams.get("retour");
 
   const [state, formAction] = useActionState(action, {
     status: undefined,
   });
 
   if (!state) {
-    router.push('/error');
+    router.push("/error");
   }
 
   useEffect(() => {
-    if (onValidationError && state.status === 'validation-error') {
+    if (onValidationError && state.status === "validation-error") {
       onValidationError(state.errors);
     }
   }, [state.status, onValidationError, state]);
 
   return (
-    <form id={id} action={formAction} onInvalid={onInvalid} onError={onError} className={className}>
-      <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
+    <form
+      id={id}
+      action={formAction}
+      onInvalid={onInvalid}
+      onError={onError}
+      className={className}
+    >
+      <FormCsrfInput />
       {retourUrl && (
         <input
           type="hidden"
@@ -97,7 +93,8 @@ export const Form: FC<FormProps> = ({
       )}
       {!omitMandatoryFieldsLegend && (
         <div className="text-sm italic my-4">
-          Sauf mention contraire "(optionnel)" dans le label, tous les champs sont obligatoires
+          Sauf mention contraire "(optionnel)" dans le label, tous les champs
+          sont obligatoires
         </div>
       )}
       <div className="flex flex-col gap-5">
@@ -112,9 +109,11 @@ export const Form: FC<FormProps> = ({
           </div>
         )}
       </div>
-      {state.status === 'csv-line-error' && <FormFeedbackCsvLineErrors formState={state} />}
-      {(state.status === 'csv-missing-column-error' ||
-        state.status === 'csv-duplicate-header-error') && (
+      {state.status === "csv-line-error" && (
+        <FormFeedbackCsvLineErrors formState={state} />
+      )}
+      {(state.status === "csv-missing-column-error" ||
+        state.status === "csv-duplicate-header-error") && (
         <FormFeedbackCsvColumnErrors formState={state} />
       )}
     </form>

@@ -1,46 +1,42 @@
-import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import {
+  createCsrfToken,
+  CSRF_SECRET_COOKIE,
+  CSRF_TOKEN_COOKIE,
+  generateCsrfSecret,
+} from '@/utils/csrf';
 
-import { CsrfError, createCsrfProtect } from '@potentiel-libraries/csrf';
+function getOrCreateCsrfSessionToken(req: NextRequest, res: NextResponse) {
+  const existing = req.cookies.get(CSRF_SECRET_COOKIE)?.value;
+  if (existing) return existing;
 
-import type { CustomMiddleware } from './middleware';
-
-const csrfProtect = createCsrfProtect({
-  cookie: {
-    sameSite: true,
-    secure: true,
+  const newToken = generateCsrfSecret();
+  res.cookies.set({
+    name: CSRF_SECRET_COOKIE,
+    value: newToken,
     httpOnly: true,
-  },
-  token: {
-    responseHeader: 'csrf_token',
-  },
-});
+    secure: true,
+    sameSite: 'strict',
+  });
+  return newToken;
+}
 
-export function withCSRF(middleware: CustomMiddleware) {
-  return async (request: NextRequest, event: NextFetchEvent) => {
-    const response = NextResponse.next();
+export function withCSRF() {
+  return async (req: NextRequest) => {
+    const method = req.method.toUpperCase();
+    const res = NextResponse.next();
 
-    try {
-      // biome-ignore lint/suspicious/noExplicitAny: explicit any allowed here
-      await csrfProtect(request as any, response as any);
-    } catch (err) {
-      if (err instanceof CsrfError) {
-        const isAction = request.method === 'POST' && request.headers.has('Next-Action');
-        if (isAction) {
-          return NextResponse.json(
-            {
-              status: 'failed',
-            },
-            {
-              status: 403,
-              statusText: 'Invalid CSRF token',
-            },
-          );
-        }
-        return NextResponse.redirect(new URL('/error', request.url));
-      }
-      throw err;
+    if (method !== 'GET') {
+      return res;
     }
 
-    return middleware(request, event, response);
+    const sessionToken = getOrCreateCsrfSessionToken(req, res);
+    const token = createCsrfToken(sessionToken);
+    res.cookies.set({
+      name: CSRF_TOKEN_COOKIE,
+      value: token,
+      httpOnly: false,
+    });
+    return res;
   };
 }

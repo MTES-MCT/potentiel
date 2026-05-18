@@ -53,9 +53,6 @@
       "path": "../../infrastructure/geo-api-client"
     },
     {
-      "path": "../../libraries/csrf"
-    },
-    {
       "path": "../../libraries/csv"
     },
     {

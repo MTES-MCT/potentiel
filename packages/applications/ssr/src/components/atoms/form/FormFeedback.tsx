@@ -82,6 +82,11 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
         <FormAlertError description="Erreur lors de la validation des données du formulaire" />
       );
 
+    case 'csrf-error':
+      return (
+        <FormAlertError description="L'intégrité des données n'a pas pu être vérifiée. Veuillez recharger la page et réessayer." />
+      );
+
     default:
       return null;
   }
