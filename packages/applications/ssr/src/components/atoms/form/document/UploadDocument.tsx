@@ -128,7 +128,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   return (
     <div className={clsx('fr-input-group', className)}>
       {label && (
-        <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+        <div className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</div>
       )}
       <div className="fr-hint-text">
         Taille maximale : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>,
@@ -141,7 +141,6 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         <input
           name={name}
           required={required}
-          aria-required={required}
           ref={hiddenFileInput}
           type="file"
           multiple={multiple}
