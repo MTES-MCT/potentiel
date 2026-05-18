@@ -25,6 +25,38 @@ Fonctionnalité: Modifier une date de mise en service pour un dossier de raccord
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
             | La date de mise en service              | 2024-10-10         |
 
+    Scénario: Modifier une date de mise en service pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2025-01-01         |
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le raccordement du projet lauréat devrait être en service avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+
+    Scénario: Modifier une date de mise en service pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2025-01-01         |
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec modifie la date de mise en service pour le dossier de raccordement du projet lauréat avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le raccordement du projet lauréat devrait être en service avec :
+            | La référence du dossier de raccordement | OUE-RP-2022-000031 |
+            | La date de mise en service              | 2024-10-10         |
+
     # Plusieurs dossiers
     Scénario: Modifier une date d'un dossier (initialement la date la plus tardive) avec une date moins tardive que celle des autres dossiers doit recalculer la mise en service du raccordement du projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :

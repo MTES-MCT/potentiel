@@ -22,6 +22,22 @@ Fonctionnalité: Modifier une DCR
             | la dreal   |
             | la dgec    |
 
+    Scénario: Modifier une DCR pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec modifie la demande complète de raccordement
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Modifier une DCR pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand la dgec modifie la demande complète de raccordement
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: la dgec modifie une DCR pour un projet en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat

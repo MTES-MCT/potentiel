@@ -68,6 +68,18 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Quand la dgec supprime le dossier de raccordement pour le projet lauréat
         Alors il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
 
+    Scénario: Supprimer le dossier de raccordement d'un projet abandonné avec PPA
+        Etant donné le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec supprime le dossier de raccordement pour le projet lauréat
+        Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
+
+    Scénario: Supprimer le dossier de raccordement d'un projet en cours d'abandon avec PPA
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand la dgec supprime le dossier de raccordement pour le projet lauréat
+        Alors le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet
+
     Scénario: Impossible de supprimer un dossier non référencé dans le raccordement du projet
         Quand le porteur supprime un dossier de raccordement non référencé pour le projet lauréat
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"

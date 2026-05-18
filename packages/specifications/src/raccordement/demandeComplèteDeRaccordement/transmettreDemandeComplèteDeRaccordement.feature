@@ -36,6 +36,24 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le projet lauréat devrait avoir 2 dossiers de raccordement
 
+    Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet abandonné avec PPA
+        Etant donné le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
+        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
+
+    Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet en cours d'abandon avec PPA
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
+        Et aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet lauréat
+
     Scénario: Impossible de transmettre plusieurs demandes complètes de raccordement ayant la même référence
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |

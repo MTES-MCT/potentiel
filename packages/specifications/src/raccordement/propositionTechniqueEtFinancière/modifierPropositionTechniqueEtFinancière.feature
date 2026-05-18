@@ -45,6 +45,22 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
+    Plan du scénario: Modifier une PTF pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur modifie la proposition technique et financière
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Plan du scénario: Modifier une PTF pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand le porteur modifie la proposition technique et financière
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: Impossible de modifier une proposition technique et financière pour un projet sans dossier de raccordement
         Quand le porteur modifie la proposition technique et financière avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |

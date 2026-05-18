@@ -16,6 +16,26 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Alors la mise en service du dossier de raccordement devrait être supprimée
         Et il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
 
+    Scénario: la dgec supprime la mise en service du dossier de raccordement pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand la dgec supprime la mise en service du dossier de raccordement
+        Alors la mise en service du dossier de raccordement devrait être supprimée
+        Et il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
+
+    Scénario: la dgec supprime la mise en service du dossier de raccordement pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec supprime la mise en service du dossier de raccordement
+        Alors la mise en service du dossier de raccordement devrait être supprimée
+        Et il ne devrait pas y avoir de mise en service dans le raccordement du projet lauréat
+
     Scénario: la dgec supprime la mise en service d'un dossier de raccordement alors que le projet dispose de plusieurs dossiers en service
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000031 |
@@ -39,3 +59,19 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand la dgec supprime la mise en service du dossier de raccordement
         Alors l'utilisateur devrait être informé que "Le dossier de raccordement n'est pas en service"
+
+    Scénario: Impossible de supprimer une date de mise en service si le projet a une demande d'abandon en cours
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la dgec supprime la mise en service du dossier de raccordement
+        Alors la dgec devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
+
+    Scénario: Impossible de supprimer une date de mise en service si le projet est abandonné
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec supprime la mise en service du dossier de raccordement
+        Alors la dgec devrait être informé que "Impossible de faire un changement pour un projet abandonné"

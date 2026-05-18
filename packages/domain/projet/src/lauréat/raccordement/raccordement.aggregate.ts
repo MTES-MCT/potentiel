@@ -158,6 +158,12 @@ export class RaccordementAggregate extends AbstractAggregate<
     return dossier;
   }
 
+  private vérifierStatutDuLauréat() {
+    if (!this.lauréat.powerPurchaseAgreement.estPartiEnPPA) {
+      this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    }
+  }
+
   public aUneDateDeMiseEnServiceDansIntervalle(intervalle: { min: string; max: string }): boolean {
     for (const [, dossier] of this.#dossiers.entries()) {
       if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
@@ -278,7 +284,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierGestionnaireRéseauOptions) {
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
     if (
       this.aUneDateDeMiseEnService() &&
       !rôle.aLaPermission('raccordement.gestionnaire.modifier-après-mise-en-service')
@@ -355,7 +361,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéePar,
     rôle,
   }: ModifierRéférenceDossierRaccordementOptions) {
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
     if (nouvelleRéférenceDossierRaccordement.estÉgaleÀ(référenceDossierRaccordementActuelle)) {
       throw new RéférencesDossierRaccordementIdentiquesError();
     }
@@ -417,7 +423,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     suppriméPar,
     rôle,
   }: SupprimerDossierDuRaccordementOptions) {
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     const dossierActuel = this.récupérerDossier(référenceDossier.formatter());
 
@@ -499,7 +505,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmisePar,
   }: TransmettrePropositionTechniqueEtFinancièreOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
@@ -598,7 +604,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéeLe,
     modifiéePar,
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     if (!rôle.estDGEC()) {
       this.lauréat.vérifierNonAchevé();
@@ -690,7 +696,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmiseLe,
   }: TransmettreDemandeOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
@@ -834,7 +840,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     accuséRéception: { format },
     estUnNouveauDocument,
   }: ModifierDemandeComplèteOptions) {
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     const dossier = this.récupérerDossier(référenceDossierRaccordement.formatter());
 
@@ -939,7 +945,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmisePar,
   }: TransmettreDateMiseEnServiceOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();
@@ -1007,7 +1013,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     modifiéePar,
   }: ModifierDateMiseEnServiceOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierStatutDuLauréat();
 
     const dossier = this.récupérerDossier(référenceDossier.formatter());
 
@@ -1071,6 +1077,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     suppriméeLe,
     suppriméePar,
   }: SupprimerDateMiseEnServiceOptions) {
+    this.vérifierStatutDuLauréat();
     const { miseEnService } = this.récupérerDossier(référenceDossier.formatter());
 
     if (Option.isNone(miseEnService.dateMiseEnService)) {

@@ -48,6 +48,22 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
         Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
+    Scénario: Modifier la référence d'une demande complète de raccordement pour un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
+    Scénario: Modifier la référence d'une demande complète de raccordement pour un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat
+        Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
+        Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
+
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
         Etant donné le gestionnaire de réseau avec :
             | Code EIC             | 17X0000009352859 |

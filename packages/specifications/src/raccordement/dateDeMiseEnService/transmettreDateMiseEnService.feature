@@ -1,6 +1,7 @@
 # language: fr
 @raccordement
 @date-mise-en-service
+@select
 Fonctionnalité: Transmettre une date de mise en service pour une demande complète de raccordement
 
     Contexte:
@@ -20,6 +21,22 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
             | role                      |
             | le gestionnaire de réseau |
             | la dgec                   |
+
+    Scénario: Transmettre une date de mise en service pour un dossier de raccordement d'un projet en cours d'abandon avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Quand la dgec transmet la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le raccordement du projet lauréat devrait être en service pour le projet lauréat
+
+    Scénario: Transmettre une date de mise en service pour un dossier de raccordement d'un projet abandonné avec PPA
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et le projet lauréat avec un état PPA signalé
+        Et une demande d'abandon accordée pour le projet lauréat "Du boulodrome de Marseille"
+        Quand la dgec transmet la date de mise en service pour le dossier de raccordement du projet lauréat
+        Alors la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat
+        Et le raccordement du projet lauréat devrait être en service pour le projet lauréat
 
     Scénario: Transmettre une date de mise en service moins tardive que celles des autres dossiers en service d'un projet lauréat
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
