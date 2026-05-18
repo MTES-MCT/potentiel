@@ -21,6 +21,7 @@ function getOrCreateCsrfSessionToken(req: NextRequest, res: NextResponse) {
   return newToken;
 }
 
+/** Middleware that populates a CSRF token for each incoming request */
 export function withCSRF() {
   return async (req: NextRequest) => {
     const method = req.method.toUpperCase();
