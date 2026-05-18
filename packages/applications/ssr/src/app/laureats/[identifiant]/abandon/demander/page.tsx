@@ -1,6 +1,8 @@
+import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -9,8 +11,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderAbandonPage } from './DemanderAbandon.page';
-import { mediator } from 'mediateur';
-import { Option } from '@potentiel-libraries/monads';
 
 export const metadata: Metadata = { title: "Demander l'abandon" };
 

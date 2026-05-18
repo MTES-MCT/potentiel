@@ -1,7 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
-  "files": { "ignoreUnknown": false },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!packages/applications/notifications/src/templates/layouts/email.layout.html"
+    ]
+  },
   "formatter": {
     "enabled": true,
     "formatWithErrors": false,
@@ -316,6 +322,11 @@
           }
         }
       }
+    },
+    {
+      "includes": ["packages/applications/notifications/src/templates/layouts/email.layout.html"],
+      "formatter": { "enabled": false },
+      "linter": { "enabled": false }
     }
   ],
   "assist": {

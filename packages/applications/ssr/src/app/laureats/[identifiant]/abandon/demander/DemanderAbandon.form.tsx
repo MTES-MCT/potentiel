@@ -1,18 +1,15 @@
-"use client";
+'use client';
 
-import Input from "@codegouvfr/react-dsfr/Input";
-import Notice from "@codegouvfr/react-dsfr/Notice";
-import Select from "@codegouvfr/react-dsfr/SelectNext";
-import { FC, useState } from "react";
+import Input from '@codegouvfr/react-dsfr/Input';
+import Notice from '@codegouvfr/react-dsfr/Notice';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { FC, useState } from 'react';
 
-import { UploadNewOrModifyExistingDocument } from "@/components/atoms/form/document/UploadNewOrModifyExistingDocument";
-import { Form } from "@/components/atoms/form/Form";
-import { ValidationErrors } from "@/utils/formAction";
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import { ValidationErrors } from '@/utils/formAction';
 
-import {
-  DemanderAbandonFormKeys,
-  demanderAbandonAction,
-} from "./demanderAbandon.action";
+import { DemanderAbandonFormKeys, demanderAbandonAction } from './demanderAbandon.action';
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
@@ -27,24 +24,17 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
     ValidationErrors<DemanderAbandonFormKeys>
   >({});
 
-  const [afficherAideÀLaSaisiePPA, setAfficherAideÀLaSaisiePPA] =
-    useState(estDéjàSignaléPPA);
+  const [afficherAideÀLaSaisiePPA, setAfficherAideÀLaSaisiePPA] = useState(estDéjàSignaléPPA);
 
   return (
     <Form
       action={demanderAbandonAction}
-      onValidationError={(validationErrors) =>
-        setValidationErrors(validationErrors)
-      }
+      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitLabel: "Demander",
+        submitLabel: 'Demander',
       }}
     >
-      <input
-        type={"hidden"}
-        value={identifiantProjet}
-        name="identifiantProjet"
-      />
+      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
       {estDéjàSignaléPPA ? (
         <Notice
@@ -54,21 +44,21 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         />
       ) : (
         <Select
-          state={validationErrors["estPPA"] ? "error" : "default"}
-          stateRelatedMessage={validationErrors["estPPA"]}
+          state={validationErrors['estPPA'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['estPPA']}
           id="estPPA"
           label="Cet abandon est-il consécutif à la signature d'un contrat de vente de gré à gré (PPA) ?"
           nativeSelectProps={{
-            name: "estPPA",
+            name: 'estPPA',
             required: true,
-            "aria-required": true,
+            'aria-required': true,
             onChange: (e) => {
-              setAfficherAideÀLaSaisiePPA(e.target.value === "true");
+              setAfficherAideÀLaSaisiePPA(e.target.value === 'true');
             },
           }}
           options={[
-            { label: "Oui", value: "true" },
-            { label: "Non", value: "false" },
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
           ]}
         />
       )}
@@ -79,30 +69,30 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         id="raison"
         hintText={
           afficherAideÀLaSaisiePPA
-            ? "Veuillez donner des éléments explicatifs et de preuve sur la situation économique du projet"
-            : "Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)"
+            ? 'Veuillez donner des éléments explicatifs et de preuve sur la situation économique du projet'
+            : 'Veuillez détailler les raisons de cet abandon (contexte, facteurs extérieurs, etc.)'
         }
         nativeTextAreaProps={{
-          name: "raison",
+          name: 'raison',
           required: true,
-          "aria-required": true,
+          'aria-required': true,
         }}
-        state={validationErrors["raison"] ? "error" : "default"}
-        stateRelatedMessage={validationErrors["raison"]}
+        state={validationErrors['raison'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['raison']}
       />
 
       <UploadNewOrModifyExistingDocument
         label="Pièce justificative"
         hintText={
           afficherAideÀLaSaisiePPA
-            ? "Veuillez joindre la première et la dernière page du PPA ainsi que tout autre document justifiant de la situation économique du projet"
-            : "Veuillez joindre vos justificatifs"
+            ? 'Veuillez joindre la première et la dernière page du PPA ainsi que tout autre document justifiant de la situation économique du projet'
+            : 'Veuillez joindre vos justificatifs'
         }
         name="pieceJustificative"
-        formats={["pdf"]}
+        formats={['pdf']}
         required
-        state={validationErrors["pieceJustificative"] ? "error" : "default"}
-        stateRelatedMessage={validationErrors["pieceJustificative"]}
+        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['pieceJustificative']}
       />
     </Form>
   );

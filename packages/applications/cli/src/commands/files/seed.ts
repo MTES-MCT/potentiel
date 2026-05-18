@@ -254,10 +254,16 @@ const map: DocumentRecord = {
   // Raccordement
   'DemandeComplèteDeRaccordementTransmise-V2': ({ dateQualification, ...event }) =>
     dateQualification &&
-    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+      ...event,
+      dateQualification,
+    }),
   'DemandeComplèteDeRaccordementTransmise-V3': ({ dateQualification, ...event }) =>
     dateQualification &&
-    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({ ...event, dateQualification }),
+    Lauréat.Raccordement.DocumentRaccordement.accuséRéception({
+      ...event,
+      dateQualification,
+    }),
   'DemandeComplèteRaccordementModifiée-V3':
     Lauréat.Raccordement.DocumentRaccordement.accuséRéception,
   'DemandeComplèteRaccordementModifiée-V4':
@@ -327,8 +333,12 @@ const map: DocumentRecord = {
 
 const isEventWithDocument = (event: Event): event is EventWithDocument & Event => event.type in map;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapToDocumentProjet = (event: EventWithDocument) => map[event.type](event.payload as any);
+const mapToDocumentProjet = <T extends EventWithDocument>(event: T) =>
+  (
+    map[event.type] as (
+      payload: T['payload'],
+    ) => DocumentProjet.ValueType | DocumentProjet.ValueType[] | undefined
+  )(event.payload);
 
 export const générerDocumentPdf = async (event: Event, typeDocument: string) => {
   const pdfDoc = await PDFDocument.create();
@@ -345,7 +355,11 @@ export const générerDocumentPdf = async (event: Event, typeDocument: string) =
   // Start drawing from the top with margin
   let startY = page.getHeight() - marginTop;
 
-  type DrawProps = { font?: PDFFont; size?: number; position?: 'left' | 'center' };
+  type DrawProps = {
+    font?: PDFFont;
+    size?: number;
+    position?: 'left' | 'center';
+  };
   const drawText = (
     text: string,
     { font = helveticaFont, size = textSize, position = 'left' }: DrawProps = {},
@@ -379,5 +393,7 @@ export const générerDocumentPdf = async (event: Event, typeDocument: string) =
   content.split('\n').forEach((l) => drawText(l));
 
   const pdfBytes = await pdfDoc.save();
-  return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' }).stream();
+  return new Blob([new Uint8Array(pdfBytes)], {
+    type: 'application/pdf',
+  }).stream();
 };

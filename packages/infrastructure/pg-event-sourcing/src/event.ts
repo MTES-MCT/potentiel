@@ -6,13 +6,18 @@ export type Event = DomainEvent & {
   stream_id: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isEvent = (value: any): value is Event => {
+export const isEvent = (value: unknown): value is Event => {
+  if (typeof value !== 'object' || value === undefined) {
+    return false;
+  }
+
+  const val = value as Record<string, unknown>;
+
   return (
-    typeof value?.payload === 'object' &&
-    typeof value?.type === 'string' &&
-    typeof value?.version === 'number' &&
-    typeof value?.created_at === 'string' &&
-    typeof value?.stream_id === 'string'
+    typeof val.payload === 'object' &&
+    typeof val.type === 'string' &&
+    typeof val.version === 'number' &&
+    typeof val.created_at === 'string' &&
+    typeof val.stream_id === 'string'
   );
 };

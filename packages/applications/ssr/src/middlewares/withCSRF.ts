@@ -20,7 +20,7 @@ export function withCSRF(middleware: CustomMiddleware) {
     const response = NextResponse.next();
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: explicit any allowed here
       await csrfProtect(request as any, response as any);
     } catch (err) {
       if (err instanceof CsrfError) {

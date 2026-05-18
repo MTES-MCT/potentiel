@@ -1,7 +1,7 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Error from '@codegouvfr/react-dsfr/picto/Error';
-import Success from '@codegouvfr/react-dsfr/picto/Success';
+import ErrorPicto from '@codegouvfr/react-dsfr/picto/Error';
+import SuccessPicto from '@codegouvfr/react-dsfr/picto/Success';
 import clsx from 'clsx';
 import { FC } from 'react';
 
@@ -75,9 +75,9 @@ export const ChecklistMainlevée: FC<ChecklistMainlevéeProps> = ({
               >
                 <span aria-hidden>
                   {complété ? (
-                    <Success fontSize="medium" color="green-emeraude" />
+                    <SuccessPicto fontSize="medium" color="green-emeraude" />
                   ) : (
-                    <Error fontSize="medium" color="blue-ecume" />
+                    <ErrorPicto fontSize="medium" color="blue-ecume" />
                   )}
                 </span>
                 <span className={clsx({ 'line-through': complété })}>{label}</span>

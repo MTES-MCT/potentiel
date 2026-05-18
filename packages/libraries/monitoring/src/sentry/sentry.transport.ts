@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // CREDITS: largely inspired by https://github.com/aandrewww/winston-transport-sentry-node
 
 import * as Sentry from '@sentry/node';
@@ -14,6 +13,7 @@ const LEVELS_MAP: Record<string, Sentry.SeverityLevel> = {
 };
 
 class ExtendedError extends Error {
+  // biome-ignore lint/suspicious/noExplicitAny: info unkown
   constructor(info: any) {
     super(info.message);
 
@@ -35,6 +35,7 @@ export class SentryTransport extends TransportStream {
     }
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: info unkown
   public log(info: any, callback: () => void) {
     setImmediate(() => {
       this.emit('logged', info);
@@ -63,6 +64,7 @@ export class SentryTransport extends TransportStream {
     return callback();
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: args unknown
   end(...args: any[]) {
     void Sentry.flush().then(() => {
       super.end(...args);

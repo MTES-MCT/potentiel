@@ -2344,7 +2344,7 @@ const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(poli
       const props = policy.split('.');
       const permissionsForPolicy = props.reduce(
         (result, prop) => (typeof result === 'object' && result[prop] ? result[prop] : undefined),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: Policies est redéfini dans cette constante droitsMessagesMediator
         policies as any,
       ) as unknown as string[];
 

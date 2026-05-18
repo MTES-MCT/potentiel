@@ -14,7 +14,7 @@ import { Subscriber, Unsubscribe } from './subscriber/subscriber.js';
 let isReconnecting = false;
 let client: Client | undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: EventStreamEmitter type unkown
 const eventStreamEmitters = new Map<string, EventStreamEmitter<any>>();
 
 const maxListeners = eventStreamEmitters.size + 2;
@@ -101,7 +101,9 @@ const handleClientError = async (error: Error) => {
   if (!isReconnecting) {
     const logger = getLogger('EventSourcing Subscribe');
 
-    logger.warn(`An error occurred from subscribe Postgresql client`, { error });
+    logger.warn(`An error occurred from subscribe Postgresql client`, {
+      error,
+    });
     logger.info(`Trying to reconnect subscribe Postgresql client...`);
 
     isReconnecting = true;

@@ -56,7 +56,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     zni,
     actif,
   }) => {
-    const roleWhereCondition: WhereOptions<UtilisateurEntity> =
+    const roleWhereCondition = (
       région !== undefined || zni !== undefined
         ? {
             rôle: Where.equal('dreal'),
@@ -79,15 +79,14 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
                 zone: Where.matchAny(zones?.map((z) => Zone.convertirEnValueType(z).nom)),
               }
             : {
-                rôle: (roles
+                rôle: roles
                   ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
-                  : // Typescript is lost with the union type :/
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    undefined) as any,
+                  : undefined,
                 identifiantUtilisateur: identifiantsUtilisateur
                   ? Where.matchAny(identifiantsUtilisateur)
                   : Where.like(identifiantUtilisateur),
-              };
+              }
+    ) as WhereOptions<UtilisateurEntity>;
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {

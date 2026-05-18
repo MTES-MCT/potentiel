@@ -9,9 +9,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import {
   buildUrl,
   getLauréat,
+  listerDgecRecipients,
   listerDrealsRecipients,
   listerPorteursRecipients,
-  listerDgecRecipients,
 } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
