@@ -1,6 +1,6 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';

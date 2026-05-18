@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocument';
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';

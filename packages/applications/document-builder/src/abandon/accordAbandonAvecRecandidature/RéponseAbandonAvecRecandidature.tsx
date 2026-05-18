@@ -1,5 +1,4 @@
 import { Document, Page, Text, View } from '@react-pdf/renderer';
-import React from 'react';
 
 import { Header } from './Header.js';
 import { Introduction } from './Introduction.js';

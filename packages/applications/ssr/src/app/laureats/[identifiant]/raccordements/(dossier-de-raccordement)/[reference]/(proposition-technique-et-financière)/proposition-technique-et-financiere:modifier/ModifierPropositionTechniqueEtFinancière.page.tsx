@@ -1,5 +1,5 @@
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 

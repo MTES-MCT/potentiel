@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type Heading3Props = {
   children: ReactNode;

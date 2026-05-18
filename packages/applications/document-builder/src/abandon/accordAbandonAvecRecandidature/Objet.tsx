@@ -1,5 +1,5 @@
 import { Text } from '@react-pdf/renderer';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 type ObjetProps = {
   appelOffre: {

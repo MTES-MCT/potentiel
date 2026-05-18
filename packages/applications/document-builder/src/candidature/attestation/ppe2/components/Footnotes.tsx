@@ -1,5 +1,4 @@
 import { View } from '@react-pdf/renderer';
-import React from 'react';
 
 import { Footnote as FootnoteType } from '../../helpers/makeAddFootnotes.js';
 import { Footnote } from './Footnote.js';

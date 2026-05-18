@@ -1,5 +1,5 @@
 import { Image, Text, View } from '@react-pdf/renderer';
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 import { formatDateForDocument } from '../../_utils/index.js';
 
