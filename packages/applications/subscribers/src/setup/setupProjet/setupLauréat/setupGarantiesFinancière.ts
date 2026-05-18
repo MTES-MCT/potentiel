@@ -1,8 +1,8 @@
+import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import {
   GarantiesFinancièreProjector,
   HistoriqueProjector,
 } from '@potentiel-applications/projectors';
-import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

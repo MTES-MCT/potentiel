@@ -1,13 +1,12 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { LauréatWorld } from '../projet/lauréat/lauréat.world.js';
-
-import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
-import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
-import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
 import { DateMiseEnServiceWorld } from './dateDeMiseEnService/dateMiseEnService.world.js';
+import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world.js';
+import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
+import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière/propositionTechniqueEtFinancière.world.js';
 
 export class RaccordementWorld {
   readonly modifierRéférenceDossierRaccordementFixture =
@@ -50,16 +49,18 @@ export class RaccordementWorld {
     const dossier = {
       identifiantProjet: this.lauréatWorld.identifiantProjet,
       identifiantGestionnaireRéseau,
-      demandeComplèteRaccordement:
-        this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
+      demandeComplèteRaccordement: this.demandeComplèteDeRaccordement.mapToExpected(
+        nouvelleRéférenceDossier,
+      ),
       référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
       miseEnService: this.dateMiseEnService.modifierFixture.aÉtéCréé
         ? this.dateMiseEnService.modifierFixture.mapToExpected()
         : this.dateMiseEnService.transmettreFixture.mapToExpected(),
-      propositionTechniqueEtFinancière:
-        this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
+      propositionTechniqueEtFinancière: this.propositionTechniqueEtFinancière.mapToExpected(
+        nouvelleRéférenceDossier,
+      ),
     };
 
     const gestionnaireRéseau = identifiantGestionnaireRéseau.estInconnu()

@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { DéplacerDossierProjetCommand } from '../../../../document-projet/index.js';
-import { DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-
+import { DocumentGarantiesFinancières } from '../../index.js';
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancières.command.js';
 
 export type ValiderDépôtGarantiesFinancièresEnCoursUseCase = Message<

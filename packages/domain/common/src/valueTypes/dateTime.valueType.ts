@@ -1,7 +1,7 @@
-import { differenceInDays, addMonths, subMonths, addHours } from 'date-fns';
 import { UTCDate } from '@date-fns/utc';
+import { addHours, addMonths, differenceInDays, subMonths } from 'date-fns';
 
-import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Iso8601DateTime, regexDateISO8601 } from '@potentiel-libraries/iso8601-datetime';
 
 export type RawType = Iso8601DateTime;

@@ -1,6 +1,6 @@
-import { UtilisateurEntity, RôleUtilisateurModifiéEvent } from '@potentiel-domain/utilisateur';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { RôleUtilisateurModifiéEvent, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 import { mapToUtilisateurPayload } from './utilisateurInvité.projector.js';

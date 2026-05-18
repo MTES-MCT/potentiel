@@ -1,7 +1,7 @@
 import * as zod from 'zod';
 
+import { acceptOnlyFileTypes, FileTypes } from './acceptOnlyFileTypes';
 import { cannotExceedSize } from './cannotExceedSize';
-import { FileTypes, acceptOnlyFileTypes } from './acceptOnlyFileTypes';
 
 export type OptionalBlob = typeof optionalBlob;
 export const optionalBlob = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>

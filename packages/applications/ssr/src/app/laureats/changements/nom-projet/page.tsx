@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ChangementNomProjetListPage,

@@ -1,8 +1,8 @@
 import { Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-import { mapDétailToDétailFournisseur } from './_helpers/mapDétailToDétailFournisseur.js';
 import { mapDNDétailToDétailFournisseur } from './_helpers/mapDNDétailToDétailFournisseur.js';
+import { mapDétailToDétailFournisseur } from './_helpers/mapDétailToDétailFournisseur.js';
 
 export const détailCandidatureImportéProjector = async ({
   payload: { identifiantProjet, détail },

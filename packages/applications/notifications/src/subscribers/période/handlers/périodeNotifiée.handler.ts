@@ -1,12 +1,11 @@
 import { mediator } from 'mediateur';
 
 import { Période } from '@potentiel-domain/periode';
-import { Role, Zone } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
+import { Role, Zone } from '@potentiel-domain/utilisateur';
 
-import { buildUrl, listerCocontractantRecipients } from '#helpers';
+import { buildUrl, listerCocontractantRecipients, listerRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
-import { listerRecipients } from '#helpers';
 
 export const handlePériodeNotifiée = async ({
   payload: { identifiantPériode, notifiéeLe },

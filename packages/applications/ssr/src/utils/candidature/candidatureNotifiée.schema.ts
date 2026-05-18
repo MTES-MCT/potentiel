@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { identifiantProjetSchema } from './identifiantProjet.schema';
-import { NestedKeysForSchema } from './nestedKeysForSchema';
 import { dateDAutorisationSchema, dépôtSchema, numéroDAutorisationSchema } from './dépôt.schema';
+import { identifiantProjetSchema } from './identifiantProjet.schema';
 import { instructionSchema } from './instruction.schema';
+import { NestedKeysForSchema } from './nestedKeysForSchema';
 import { booleanSchema, optionalEnumForCorrection } from './schemaBase';
 
 export const doitRegenererAttestationSchema = booleanSchema.optional();

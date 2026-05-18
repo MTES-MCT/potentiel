@@ -1,5 +1,6 @@
-import { createCsrfProtect, CsrfError } from '@potentiel-libraries/csrf';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+
+import { CsrfError, createCsrfProtect } from '@potentiel-libraries/csrf';
 
 import { CustomMiddleware } from './middleware';
 

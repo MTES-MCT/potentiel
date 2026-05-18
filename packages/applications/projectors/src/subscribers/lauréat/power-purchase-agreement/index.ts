@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { powerPurchaseAgreementRebuildTriggeredProjector } from './powerPurchaseAgreementRebuildTrigerred.projector.js';
 import { powerPurchaseAgreementSignaléProjector } from './powerPurchaseAgreementSignalé.projector.js';

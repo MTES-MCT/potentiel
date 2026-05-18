@@ -4,14 +4,14 @@ import dynamicImport from 'next/dynamic';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
-import { getHtmlAttributes, DsfrHead } from '@/dsfr-bootstrap/server-only-index';
 import { StartDsfrOnHydration } from '@/dsfr-bootstrap';
+import { DsfrHead, getHtmlAttributes } from '@/dsfr-bootstrap/server-only-index';
 
 // Tailwind import must happen after DSFR import.
 import './global.css';
 
-import Providers from './Providers';
 import { featureFlag } from './_helpers/getFeatureFlag';
+import Providers from './Providers';
 
 export const metadata: Metadata = {
   title: {

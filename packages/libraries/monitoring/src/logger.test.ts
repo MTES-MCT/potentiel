@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import winston from 'winston';
 
 import { getLogger } from './getLogger.js';
-import { consoleTransport } from './winston/console.transport.js';
 import { initLogger, resetLogger } from './logger.js';
+import { consoleTransport } from './winston/console.transport.js';
 import { createLogger } from './winston/createLogger.js';
 
 const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();

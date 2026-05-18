@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
 import Leaf from '@codegouvfr/react-dsfr/picto/Leaf';
+import React, { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 

@@ -1,17 +1,16 @@
 import { Metadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { récuperérerGarantiesFinancièresActuelles } from '../../../garanties-financieres/_helpers/récupérerGarantiesFinancièresActuelles';
-
 import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,

@@ -1,6 +1,6 @@
 import {
-  registerEnvoyerNotificationCommand,
   RegisterEnvoyerNotificationCommandDependencies,
+  registerEnvoyerNotificationCommand,
 } from './envoyerNotification.command.js';
 
 export type RegisterNotificationDependencies = RegisterEnvoyerNotificationCommandDependencies;

@@ -9,10 +9,10 @@ import {
   registerDispositifDeStockageUseCase,
 } from './dispositif-de-stockage/dispositifDeStockage.register.js';
 import {
-  InstallateurUseCaseDependencies,
   InstallateurQueryDependencies,
-  registerInstallateurUseCases,
+  InstallateurUseCaseDependencies,
   registerInstallateurQueries,
+  registerInstallateurUseCases,
 } from './installateur/installateur.register.js';
 import {
   ListerHistoriqueInstallationProjetDependencies,

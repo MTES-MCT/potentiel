@@ -1,5 +1,5 @@
-import { cache } from 'react';
 import { mediator } from 'mediateur';
+import { cache } from 'react';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';

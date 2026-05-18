@@ -1,12 +1,12 @@
-import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
+import { test } from 'node:test';
 
-import { z } from 'zod';
 import { expect } from 'chai';
+import { z } from 'zod';
 
+import { DuplicateHeaderError } from './checkDuplicateHeaders.js';
 import { MissingRequiredColumnError } from './checkRequiredColumns.js';
 import { fromCSV } from './fromCSV.js';
-import { DuplicateHeaderError } from './checkDuplicateHeaders.js';
 
 const schema = z.object({
   identifiantProjet: z.string(),

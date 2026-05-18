@@ -1,6 +1,5 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { convertStringToReadableStream } from '../helpers/convertStringToReadableStream.js';
 import { PotentielWorld } from '../potentiel.world.js';

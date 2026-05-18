@@ -1,4 +1,4 @@
-import { UtilisateurEntity, UtilisateurDésactivéEvent } from '@potentiel-domain/utilisateur';
+import { UtilisateurDésactivéEvent, UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const utilisateurDésactivéProjector = async ({

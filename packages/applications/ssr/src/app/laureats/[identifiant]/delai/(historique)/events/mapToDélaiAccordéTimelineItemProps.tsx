@@ -1,9 +1,9 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import { formatDateToText } from '@/app/_helpers';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { formatDateToText } from '@/app/_helpers';
 
 export const mapToDélaiAccordéTimelineItemProps = (
   event: Lauréat.Délai.DélaiAccordéEvent,

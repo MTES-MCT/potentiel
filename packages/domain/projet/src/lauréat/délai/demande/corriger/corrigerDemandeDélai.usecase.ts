@@ -2,10 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../../../index.js';
 import { CorrigerDocumentProjetCommand } from '../../../../document-projet/index.js';
+import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentDélai } from '../../index.js';
-
 import { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command.js';
 
 export type CorrigerDemandeDélaiUseCase = Message<

@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 import { TypologieInstallation } from '../../../../candidature/index.js';
+import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
 
 export type ModifierTypologieInstallationCommand = Message<
   'Lauréat.Installation.Command.ModifierTypologieInstallation',

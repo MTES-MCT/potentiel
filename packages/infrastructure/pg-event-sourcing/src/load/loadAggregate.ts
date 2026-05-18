@@ -7,7 +7,6 @@ import {
 } from '@potentiel-domain/core';
 
 import { publish } from '../publish/publish.js';
-
 import { loadFromStream } from './loadFromStream.js';
 
 export const loadAggregate: LoadAggregate = async <

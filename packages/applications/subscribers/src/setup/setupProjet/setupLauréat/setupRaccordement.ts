@@ -1,5 +1,4 @@
-import { RaccordementProjector } from '@potentiel-applications/projectors';
-import { HistoriqueProjector } from '@potentiel-applications/projectors';
+import { HistoriqueProjector, RaccordementProjector } from '@potentiel-applications/projectors';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

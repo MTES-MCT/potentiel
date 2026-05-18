@@ -3,15 +3,14 @@ import React from 'react';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { Certificate } from '../components/Certificate.js';
 import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions.js';
+import { Certificate } from '../components/Certificate.js';
 import { Objet } from '../components/Objet.js';
 import { Signature } from '../components/Signature.js';
-
-import { Header } from './Header.js';
-import { buildLauréat } from './Laureat.js';
 import { buildElimine } from './Elimine.js';
+import { Header } from './Header.js';
 import { Introduction } from './Introduction.js';
+import { buildLauréat } from './Laureat.js';
 import { Logo } from './Logo/index.js';
 
 const makeCertificate = (

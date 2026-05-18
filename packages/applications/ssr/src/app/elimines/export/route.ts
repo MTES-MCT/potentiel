@@ -1,13 +1,13 @@
 import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { ExportCSV } from '@potentiel-libraries/csv';
 import { AjouterStatistiqueUtilisationCommand } from '@potentiel-domain/statistiques-utilisation';
+import { ExportCSV } from '@potentiel-libraries/csv';
 
+import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
+import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getFiltresActifs } from '@/app/_helpers/getFiltresActifs';
-import { getNatureDeLExploitationTypeLabel, getTypologieInstallationLabel } from '@/app/_helpers';
 
 export const GET = async (request: Request) =>
   apiAction(async () =>

@@ -1,24 +1,23 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
-import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { FC, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { CommunePicker } from '@/components/molecules/CommunePicker';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import { CommunePicker } from '@/components/molecules/CommunePicker';
+import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  modifierSiteDeProductionAction,
   ModifierSiteDeProductionFormKeys,
+  modifierSiteDeProductionAction,
 } from './modifierSiteDeProduction.action';
 
 export type ModifierSiteDeProductionFormProps = {

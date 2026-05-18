@@ -1,15 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
-import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
-import { AchèvementEntity } from '../../achèvement/index.js';
 import { Localité, TypeActionnariat, UnitéPuissance } from '../../../candidature/index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import { AchèvementEntity } from '../../achèvement/index.js';
+import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../../index.js';
 import { PowerPurchaseAgreementEntity } from '../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
 
 type DossierRaccordement = {
   nomProjet: string;

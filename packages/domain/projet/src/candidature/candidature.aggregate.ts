@@ -1,28 +1,17 @@
 import { match, P } from 'ts-pattern';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import { FournisseurImportéEvent } from '../lauréat/fournisseur/index.js';
-import { Puissance } from '../lauréat/index.js';
-import { GarantiesFinancières } from '../lauréat/garanties-financières/index.js';
 import {
   GarantiesFinancièresRequisesPourAppelOffreError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from '../lauréat/garanties-financières/garantiesFinancières.error.js';
-
-import { Dépôt, Instruction } from './index.js';
-
-import { CandidatureEvent } from './candidature.event.js';
-import {
-  CandidatureImportéeEvent,
-  CandidatureImportéeEventV1,
-  DétailsFournisseursCandidatureImportésEvent,
-} from './importer/candidatureImportée.event.js';
-import { ImporterCandidatureOptions } from './importer/importerCandidature.options.js';
-import * as TypeTechnologie from './typeTechnologie.valueType.js';
+import { GarantiesFinancières } from '../lauréat/garanties-financières/index.js';
+import { Puissance } from '../lauréat/index.js';
+import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import {
   AttestationNonGénéréeError,
   AutorisationRequiseError,
@@ -42,19 +31,28 @@ import {
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
 } from './candidature.error.js';
-import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
+import { CandidatureEvent } from './candidature.event.js';
 import {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event.js';
-import { NotifierOptions } from './notifier/notifierCandidature.options.js';
+import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options.js';
+import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
+import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options.js';
+import {
+  CandidatureImportéeEvent,
+  CandidatureImportéeEventV1,
+  DétailsFournisseursCandidatureImportésEvent,
+} from './importer/candidatureImportée.event.js';
+import { ImporterCandidatureOptions } from './importer/importerCandidature.options.js';
+import { Dépôt, Instruction } from './index.js';
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
   CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event.js';
-import { DétailCandidatureImportéEvent } from './détail/importer/détailCandidatureImporté.event.js';
-import { ImporterDétailCandidatureOptions } from './détail/importer/importerDétailCandidature.options.js';
+import { NotifierOptions } from './notifier/notifierCandidature.options.js';
+import * as TypeTechnologie from './typeTechnologie.valueType.js';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -395,7 +393,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new ChampRequisError('installateur');
     }
 
-    if (!cdcActuel.estChampRequisOuOptionnel('installateur') && !!dépôt.installateur) {
+    if (!cdcActuel.estChampRequisOuOptionnel('installateur') && dépôt.installateur) {
       throw new ChampNonAttenduError('installateur');
     }
 
@@ -419,7 +417,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (
       !cdcActuel.estChampRequisOuOptionnel('natureDeLExploitation') &&
-      !!dépôt.natureDeLExploitation
+      dépôt.natureDeLExploitation
     ) {
       throw new ChampNonAttenduError("nature de l'exploitation");
     }

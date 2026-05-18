@@ -1,51 +1,49 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 
 import { DocumentProjet, IdentifiantProjet } from '../../index.js';
 import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { DemandeCorrigéeSansModificationError } from '../lauréat.error.js';
-
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
+import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options.js';
+import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options.js';
+import {
+  ChangementDéjàAccordéError,
+  ChangementDéjàRejetéError,
+  DemandeChangementInexistanteError,
+} from './changement/changementReprésentantLégal.error.js';
+import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options.js';
+import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options.js';
+import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options.js';
+import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options.js';
+import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
+import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options.js';
+import type { ImporterOptions } from './importer/importerReprésentantLégal.options.js';
 import {
   DocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
   TypeTâchePlanifiéeChangementReprésentantLégal,
 } from './index.js';
-
-import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType.js';
-import type {
-  ReprésentantLégalImportéEvent,
-  ReprésentantLégalModifiéEvent,
-  ChangementReprésentantLégalDemandéEvent,
-  ChangementReprésentantLégalCorrigéEvent,
-  ChangementReprésentantLégalAccordéEvent,
-  ChangementReprésentantLégalRejetéEvent,
-  ChangementReprésentantLégalAnnuléEvent,
-  ChangementReprésentantLégalSuppriméEvent,
-  ChangementReprésentantLégalEnregistréEvent,
-} from './représentantLégal.event.js';
-import type { ImporterOptions } from './importer/importerReprésentantLégal.options.js';
 import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options.js';
-import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options.js';
-import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options.js';
-import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options.js';
-import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options.js';
-import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options.js';
-import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options.js';
 import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
   ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors.js';
-import {
-  ChangementDéjàAccordéError,
-  ChangementDéjàRejetéError,
-  DemandeChangementInexistanteError,
-} from './changement/changementReprésentantLégal.error.js';
-import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options.js';
+import type {
+  ChangementReprésentantLégalAccordéEvent,
+  ChangementReprésentantLégalAnnuléEvent,
+  ChangementReprésentantLégalCorrigéEvent,
+  ChangementReprésentantLégalDemandéEvent,
+  ChangementReprésentantLégalEnregistréEvent,
+  ChangementReprésentantLégalRejetéEvent,
+  ChangementReprésentantLégalSuppriméEvent,
+  ReprésentantLégalImportéEvent,
+  ReprésentantLégalModifiéEvent,
+} from './représentantLégal.event.js';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent

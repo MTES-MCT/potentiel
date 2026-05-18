@@ -1,14 +1,14 @@
 'use server';
 
 import { mediator } from 'mediateur';
-import * as zod from 'zod';
 import { notFound } from 'next/navigation';
+import * as zod from 'zod';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 

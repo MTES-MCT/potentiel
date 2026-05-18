@@ -1,8 +1,8 @@
 'use client';
 
 import { InputProps } from '@codegouvfr/react-dsfr/Input';
-import { useState } from 'react';
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
+import { useState } from 'react';
 
 import { ModifierLauréatValueFormEntries } from '@/utils/candidature';
 

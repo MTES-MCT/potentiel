@@ -1,5 +1,5 @@
-import { Période } from '@potentiel-domain/periode';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Période } from '@potentiel-domain/periode';
 
 import { NotifierPériodeFixture } from './fixtures/notifierPériode.fixture.js';
 

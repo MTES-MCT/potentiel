@@ -1,12 +1,12 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
+import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 
 export type LauréatListItemProps = PlainType<Lauréat.ListerLauréatReadModel['items'][number]>;
 

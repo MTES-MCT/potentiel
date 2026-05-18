@@ -2,13 +2,13 @@
 
 import { FC } from 'react';
 
+import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/projet';
 import { now } from '@potentiel-libraries/iso8601-datetime';
-import { DateTime } from '@potentiel-domain/common';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { ValidationErrors } from '@/utils/formAction';
 
 export type AttestationConformitéFormInputProps = {
   attestationConformité?: DocumentProjet.RawType;

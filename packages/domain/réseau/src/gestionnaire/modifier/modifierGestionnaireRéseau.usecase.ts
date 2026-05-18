@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 
 import { IdentifiantGestionnaireRéseau } from '../index.js';
-
 import { ModifierGestionnaireRéseauCommand } from './modifierGestionnaireRéseau.command.js';
 
 export type ModifierGestionnaireRéseauUseCase = Message<

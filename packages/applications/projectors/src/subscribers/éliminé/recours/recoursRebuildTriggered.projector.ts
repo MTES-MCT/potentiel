@@ -1,7 +1,7 @@
+import { Where } from '@potentiel-domain/entity';
 import { Éliminé } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { removeProjectionWhere } from '@potentiel-infrastructure/pg-projection-write';
-import { Where } from '@potentiel-domain/entity';
 
 import { clearProjection } from '../../../helpers/index.js';
 

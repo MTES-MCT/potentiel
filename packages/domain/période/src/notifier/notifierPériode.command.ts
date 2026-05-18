@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Accès, GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DateTime, Email } from '@potentiel-domain/common';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType.js';
 import { PériodeAggregate } from '../période.aggregate.js';

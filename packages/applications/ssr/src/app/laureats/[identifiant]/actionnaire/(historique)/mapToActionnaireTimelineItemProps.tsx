@@ -7,11 +7,11 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import {
   mapToActionnaireImportéTimelineItemProps,
   mapToActionnaireModifiéTimelineItemProps,
-  mapToChangementActionnaireEnregistréTimelineItemProps,
-  mapToChangementActionnaireDemandéTimelineItemProps,
   mapToChangementActionnaireAccordéTimelineItemProps,
-  mapToChangementActionnaireRejetéTimelineItemProps,
   mapToChangementActionnaireAnnuléTimelineItemProps,
+  mapToChangementActionnaireDemandéTimelineItemProps,
+  mapToChangementActionnaireEnregistréTimelineItemProps,
+  mapToChangementActionnaireRejetéTimelineItemProps,
 } from './events';
 import { mapToChangementActionnaireSuppriméTimelineItemProps } from './events/mapToChangementActionnaireSuppriméTimelineItemProps';
 

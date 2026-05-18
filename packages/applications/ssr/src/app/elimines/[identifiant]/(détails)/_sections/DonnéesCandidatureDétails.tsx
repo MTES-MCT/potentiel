@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { Éliminé } from '@potentiel-domain/projet';
 
-import { CopyButton } from '@/components/molecules/CopyButton';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { getActionnariatTypeLabel } from '@/app/_helpers';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { CopyButton } from '@/components/molecules/CopyButton';
 
 export type DonnéesCandidatureDétailProps = {
   éliminé: PlainType<

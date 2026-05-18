@@ -1,13 +1,13 @@
 'use client';
 
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
 import { FormState } from '@/utils/formAction';
 
-import { FormAlertError } from './FormAlertError';
 import { Link } from '../LinkNoPrefetch';
+import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;

@@ -1,6 +1,6 @@
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { DossierAccessor } from '../../graphql/index.js';
 

@@ -1,12 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { LauréatEntity } from '../lauréat.entity.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import {
   CandidatureEntity,
   Coordonnées,
@@ -17,20 +15,21 @@ import {
   TypologieInstallation,
   UnitéPuissance,
 } from '../../candidature/index.js';
-import { PuissanceEntity } from '../puissance/index.js';
-import { Actionnaire, Producteur, StatutLauréat } from '../index.js';
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 import { AchèvementEntity } from '../achèvement/index.js';
 import { ActionnaireEntity } from '../actionnaire/index.js';
-import { RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
+import { Actionnaire, Producteur, StatutLauréat } from '../index.js';
 import { DispositifDeStockage, InstallationEntity } from '../installation/index.js';
+import { LauréatEntity } from '../lauréat.entity.js';
 import {
   NatureDeLExploitationEntity,
   TypeDeNatureDeLExploitation,
 } from '../nature-de-l-exploitation/index.js';
-import { getCoefficientKLauréat } from '../_helpers/getCoefficientKLauréat.js';
 import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import { ProducteurEntity } from '../producteur/producteur.entity.js';
-
+import { PuissanceEntity } from '../puissance/index.js';
+import { RaccordementEntity, RéférenceDossierRaccordement } from '../raccordement/index.js';
 import { mapDétailsToTypeTerrainImplantation } from './mapDétailsToTypeTerrainImplantation.js';
 
 export type LauréatEnrichiListItemReadModel = {

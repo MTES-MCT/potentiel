@@ -1,8 +1,8 @@
 'use client';
 
 import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
-import React, { useState } from 'react';
 import clsx from 'clsx';
+import React, { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import type { formAction } from '@/utils/formAction';

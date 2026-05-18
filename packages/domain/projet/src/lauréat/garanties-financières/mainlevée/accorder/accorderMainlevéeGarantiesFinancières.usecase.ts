@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentMainlevée } from '../../index.js';
-
 import { AccorderMainlevéeGarantiesFinancièresCommand } from './accorderMainlevéeGarantiesFinancières.command.js';
 
 export type AccorderMainlevéeGarantiesFinancièresUseCase = Message<

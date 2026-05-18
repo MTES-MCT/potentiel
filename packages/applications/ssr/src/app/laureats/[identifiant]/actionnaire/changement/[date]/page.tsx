@@ -2,18 +2,16 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { mapToActionnaireTimelineItemProps } from '../../(historique)/mapToActionnaireTimelineItemProps';
-
 import { ChangementActionnaireActions, DétailsActionnairePage } from './DétailsActionnaire.page';
 
 export const metadata: Metadata = { title: 'Détail de(s) actionnaire(s)' };

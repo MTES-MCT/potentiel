@@ -1,12 +1,11 @@
 import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { getAbandonInfos, getAchèvement, getLauréatInfos, getRaccordement } from '../../_helpers';
 import { getRecours } from '../../../../_helpers/getRecours';
-
+import { getAbandonInfos, getAchèvement, getLauréatInfos, getRaccordement } from '../../_helpers';
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {

@@ -1,17 +1,17 @@
 import { Middleware, mediator } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { sendEmail } from '@potentiel-infrastructure/email';
 import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { sendEmail } from '@potentiel-infrastructure/email';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { setupDocumentProjet } from './setupDocumentProjet.js';
 import { setupAppelOffre } from './setupAppelOffre.js';
-import { setupUtilisateur } from './setupUtilisateur.js';
-import { setupRéseau } from './setupRéseau.js';
+import { setupDocumentProjet } from './setupDocumentProjet.js';
+import { setupNotifications } from './setupNotifications.js';
 import { setupProjet } from './setupProjet.js';
 import { setupPériode } from './setupPériode.js';
+import { setupRéseau } from './setupRéseau.js';
 import { setupStatistiqueUtilisation } from './setupStatistiqueUtilisation.js';
-import { setupNotifications } from './setupNotifications.js';
+import { setupUtilisateur } from './setupUtilisateur.js';
 
 const defaultDependencies = {
   sendEmail,

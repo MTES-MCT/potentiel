@@ -4,9 +4,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { mapToDispositifDeStockageModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageModifiéTimelineItemsProps';
 import { mapToDispositifDeStockageEnregistréTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageEnregistréTimelineItemsProps';
-
+import { mapToDispositifDeStockageModifiéTimelineItemsProps } from '../../../../(historique)/events/mapToDispositifDeStockageModifiéTimelineItemsProps';
 import { mapToDispositifDeStockageImportéTimelineItemProps } from './events/mapToDispositifDeStockageImportéTimelineItemProps';
 
 type MapToInstallationTimelineItemProps = (

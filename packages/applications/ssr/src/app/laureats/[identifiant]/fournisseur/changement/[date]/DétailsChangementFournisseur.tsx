@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 
-import { ListeFournisseurs } from '../ListeFournisseurs';
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
+import { ListeFournisseurs } from '../ListeFournisseurs';
 
 export type DétailsChangementFournisseurProps = {
   changement: PlainType<Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel['changement']>;

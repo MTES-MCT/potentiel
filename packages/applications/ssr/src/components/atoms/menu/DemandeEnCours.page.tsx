@@ -1,5 +1,5 @@
-import Button from '@codegouvfr/react-dsfr/Button';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Heading2 } from '../headings';
 

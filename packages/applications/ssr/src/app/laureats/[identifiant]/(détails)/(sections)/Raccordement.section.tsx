@@ -1,15 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getAbandonInfos, getLauréat, getRaccordement } from '../../_helpers';
-
 import { RaccordementDétails, RaccordementDétailsProps } from './RaccordementDétails';
 
 type RaccordementSectionProps = {

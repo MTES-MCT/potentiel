@@ -4,11 +4,11 @@ import { match } from 'ts-pattern';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import {
-  handleRecoursDemandé,
-  handleRecoursAnnulé,
   handleRecoursAccordé,
-  handleRecoursRejeté,
+  handleRecoursAnnulé,
+  handleRecoursDemandé,
   handleRecoursPasséEnInstruction,
+  handleRecoursRejeté,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent;

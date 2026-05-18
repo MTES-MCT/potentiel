@@ -2,10 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DocumentActionnaire } from '../../index.js';
-import { IdentifiantProjet } from '../../../../index.js';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-
+import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentActionnaire } from '../../index.js';
 import { AccorderChangementActionnaireCommand } from './accorderChangementActionnairet.command.js';
 
 export type AccorderChangementActionnaireUseCase = Message<

@@ -1,7 +1,7 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { FC, useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -9,11 +9,11 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
-import {
-  demanderChangementActionnaireAction,
-  DemanderChangementActionnaireFormKeys,
-} from './demanderChangementActionnaire.action';
 import { DemanderChangementActionnairePageProps } from './DemanderChangementActionnaire.page';
+import {
+  DemanderChangementActionnaireFormKeys,
+  demanderChangementActionnaireAction,
+} from './demanderChangementActionnaire.action';
 
 export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 

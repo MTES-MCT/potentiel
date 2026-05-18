@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../index.js';
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',

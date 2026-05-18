@@ -5,14 +5,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
+  mapToChangementReprésentantLégalAccordéTimelineItemProps,
+  mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+  mapToChangementReprésentantLégalCorrigéTimelineItemProps,
+  mapToChangementReprésentantLégalDemandéTimelineItemProps,
+  mapToChangementReprésentantLégalEnregistréTimelineItemProps,
+  mapToChangementReprésentantLégalRejetéTimelineItemProps,
   mapToReprésentantLégalImportéTimelineItemProps,
   mapToReprésentantLégalModifiéTimelineItemProps,
-  mapToChangementReprésentantLégalDemandéTimelineItemProps,
-  mapToChangementReprésentantLégalCorrigéTimelineItemProps,
-  mapToChangementReprésentantLégalAccordéTimelineItemProps,
-  mapToChangementReprésentantLégalRejetéTimelineItemProps,
-  mapToChangementReprésentantLégalAnnuléTimelineItemProps,
-  mapToChangementReprésentantLégalEnregistréTimelineItemProps,
 } from './events';
 import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './events/mapToChangementReprésentantLégalSuppriméTimelineItemProps';
 

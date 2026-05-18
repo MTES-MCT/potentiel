@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
-
 import { RemplacerAccèsProjetCommand } from './remplacerAccèsProjet.command.js';
 
 export type RemplacerAccèsProjetUseCase = Message<

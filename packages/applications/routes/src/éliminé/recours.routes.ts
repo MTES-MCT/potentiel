@@ -1,8 +1,8 @@
-import type { Éliminé } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { encodeParameter } from '../encodeParameter.js';
 import { withFilters } from '../_helpers/withFilters.js';
+import { encodeParameter } from '../encodeParameter.js';
 
 type ListerFilters = {
   statut?: Array<Éliminé.Recours.StatutRecours.RawType>;

@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { installationRebuildTriggeredProjector } from './installationRebuildTrigerred.projector.js';
-import { installationImportéeProjector } from './installationImportée.projector.js';
-import { installateurModifiéProjector } from './installateur/installateurModifié.projector.js';
-import { typologieInstallationModifiéeProjector } from './typologie-de-installation/typologieInstallationModifiée.projector.js';
 import { changementDispositifDeStockageEnregistréProjector } from './dispositif-de-stockage/changementDispositifDeStockageEnregistré.projector.js';
-import { changementInstallateurEnregistréProjector } from './installateur/changementInstallateurEnregistré.projector.js';
 import { dispositifDeStockageModifiéProjector } from './dispositif-de-stockage/dispositifDeStockageModifié.projector.js';
+import { changementInstallateurEnregistréProjector } from './installateur/changementInstallateurEnregistré.projector.js';
+import { installateurModifiéProjector } from './installateur/installateurModifié.projector.js';
+import { installationImportéeProjector } from './installationImportée.projector.js';
+import { installationRebuildTriggeredProjector } from './installationRebuildTrigerred.projector.js';
+import { typologieInstallationModifiéeProjector } from './typologie-de-installation/typologieInstallationModifiée.projector.js';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent | RebuildTriggered;
 

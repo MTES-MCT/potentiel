@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
 import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
+import { Candidature } from '@potentiel-domain/projet';
 
 import {
   optionalEnum,
@@ -11,7 +11,6 @@ import {
   strictlyPositiveNumberSchema,
   stringToArray,
 } from '../schemaBase';
-
 import { optionalCsvDateSchema, optionalOuiNonVideSchema } from './commonCsv.schema';
 
 export const puissanceALaPointeCsvSchema = optionalOuiNonVideSchema.default(false);

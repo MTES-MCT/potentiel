@@ -1,12 +1,12 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { getAction, getInstallationInfos } from '@/app/laureats/[identifiant]/_helpers';
-import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { Section } from '@/components/atoms/menu/Section';
+import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DétailTypologieInstallation } from '../../../installation/(historique)/events/DétailTypologieInstallation';
 

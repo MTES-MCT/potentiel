@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, getCahierDesChargesLauréat, getLauréat, buildUrl } from '#helpers';
+import { buildUrl, getCahierDesChargesLauréat, getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeReprésentantLégalNotificationProps } from '../tâche-planifiée.représentantLégal.notifications.js';

@@ -1,8 +1,8 @@
-import Notice from '@codegouvfr/react-dsfr/Notice';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Notice from '@codegouvfr/react-dsfr/Notice';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';

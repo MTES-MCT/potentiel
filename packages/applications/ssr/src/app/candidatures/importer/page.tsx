@@ -1,10 +1,10 @@
-import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
-import { Période } from '@potentiel-domain/periode';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Période } from '@potentiel-domain/periode';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';

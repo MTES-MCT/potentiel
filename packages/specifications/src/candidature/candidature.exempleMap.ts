@@ -1,6 +1,6 @@
+import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import {
   FieldToExempleMapper,

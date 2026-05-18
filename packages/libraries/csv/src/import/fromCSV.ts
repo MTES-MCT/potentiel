@@ -1,11 +1,11 @@
-import iconv from 'iconv-lite';
 import { parse } from 'csv-parse';
+import iconv from 'iconv-lite';
 import * as zod from 'zod';
 
-import { streamToArrayBuffer } from './streamToArrayBuffer.js';
-import { getEncoding } from './getEncoding.js';
-import { checkRequiredColumns } from './checkRequiredColumns.js';
 import { checkDuplicateHeaders } from './checkDuplicateHeaders.js';
+import { checkRequiredColumns } from './checkRequiredColumns.js';
+import { getEncoding } from './getEncoding.js';
+import { streamToArrayBuffer } from './streamToArrayBuffer.js';
 
 export type CsvLineError = {
   line: string;

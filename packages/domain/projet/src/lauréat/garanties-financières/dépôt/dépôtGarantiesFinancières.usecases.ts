@@ -11,8 +11,8 @@ export type DépôtGarantiesFinancièresUseCases =
   | SupprimerDépôtGarantiesFinancièresUseCase;
 
 export type {
-  SoumettreDépôtGarantiesFinancièresUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
-  ValiderDépôtGarantiesFinancièresEnCoursUseCase,
+  SoumettreDépôtGarantiesFinancièresUseCase,
   SupprimerDépôtGarantiesFinancièresUseCase,
+  ValiderDépôtGarantiesFinancièresEnCoursUseCase,
 };

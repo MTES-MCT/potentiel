@@ -2,17 +2,15 @@ import { z } from 'zod';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { conditionalRequiredError, optionalPercentageSchema } from '../schemaBase';
+import { dépôtSchema, numéroDAutorisationSchema } from '../dépôt.schema';
 import {
   appelOffreSchema,
   familleSchema,
   numéroCRESchema,
   périodeSchema,
 } from '../identifiantProjet.schema';
-import { dépôtSchema, numéroDAutorisationSchema } from '../dépôt.schema';
 import { instructionSchema } from '../instruction.schema';
-
-import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
+import { conditionalRequiredError, optionalPercentageSchema } from '../schemaBase';
 import {
   adresse1CsvSchema,
   capacitéDuDispositifDeStockageSchema,
@@ -23,23 +21,24 @@ import {
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
+  installationAvecDispositifDeStockageCsvSchema,
   installationsAgrivoltaïquesCsvSchema,
   natureDeLExploitationCsvSchema,
   notifiedOnCsvSchema,
+  numéroIdentificationCSVSchema,
   obligationDeSolarisationCsvSchema,
   puissanceALaPointeCsvSchema,
   puissanceDuDispositifDeStockageSchema,
   statutCsvSchema,
   technologieCsvSchema,
+  territoireProjetSchema,
   typeGarantiesFinancieresCsvSchema,
   typologieDeBâtimentCsvSchema,
   élémentsSousOmbrièreCsvSchema,
   évaluationCarboneSimplifiéeCsvSchema,
-  installationAvecDispositifDeStockageCsvSchema,
-  territoireProjetSchema,
-  numéroIdentificationCSVSchema,
 } from './candidatureCsvFields.schema';
 import { getLocalité } from './getLocalité';
+import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [

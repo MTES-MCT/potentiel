@@ -1,7 +1,7 @@
-import { FC } from 'react';
 import { Download } from '@codegouvfr/react-dsfr/Download';
-import { extension } from 'mime-types';
 import clsx from 'clsx';
+import { extension } from 'mime-types';
+import { FC } from 'react';
 export type DownloadDocumentProps = {
   className?: string;
   label: string;

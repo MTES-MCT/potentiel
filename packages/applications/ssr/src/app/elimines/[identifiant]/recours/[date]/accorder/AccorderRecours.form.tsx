@@ -7,12 +7,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { accorderRecoursAction, AccorderRecoursFormKeys } from './accorderRecours.action';
+import { AccorderRecoursFormKeys, accorderRecoursAction } from './accorderRecours.action';
 
 type AccorderRecoursFormProps = {
   identifiantProjet: string;

@@ -4,12 +4,12 @@ import { match } from 'ts-pattern';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
+import { IdentifiantProjet, Lauréat } from '../../../../index.js';
+import { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 import {
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
 } from '../../index.js';
-import { IdentifiantProjet, Lauréat } from '../../../../index.js';
-import { SupprimerDocumentProjetSensibleCommand } from '../../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
 
 export const handleTâchePlanifiéeReprésentantLégalExecutée = async (
   event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent,

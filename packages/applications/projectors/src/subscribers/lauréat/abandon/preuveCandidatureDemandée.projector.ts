@@ -1,6 +1,6 @@
-import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/projet';
+import { updateManyProjections } from '@potentiel-infrastructure/pg-projection-write';
 
 export const preuveCandidatureDemandéeProjector = async ({
   payload: { identifiantProjet, demandéeLe },

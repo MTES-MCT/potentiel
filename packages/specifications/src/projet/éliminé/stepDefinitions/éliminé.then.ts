@@ -2,8 +2,8 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';

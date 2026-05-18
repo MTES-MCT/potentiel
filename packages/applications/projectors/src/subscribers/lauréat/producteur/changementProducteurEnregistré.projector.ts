@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Lauréat } from '@potentiel-domain/projet';
 
 export const changementProducteurEnregistréProjector = async ({
   payload: {

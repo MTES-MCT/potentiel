@@ -1,6 +1,6 @@
-import { FC } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
+import { FC } from 'react';
 
 import { TimelineItem, TimelineItemProps } from './';
 

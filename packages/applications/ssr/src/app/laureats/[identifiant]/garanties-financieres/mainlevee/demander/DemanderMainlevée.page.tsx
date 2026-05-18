@@ -1,7 +1,7 @@
 import { Heading1 } from '@/components/atoms/headings';
 
-import { DemanderMainlevéeForm, DemanderMainlevéeFormProps } from './DemanderMainlevée.form';
 import { ChecklistMainlevée, ChecklistMainlevéeProps } from './ChecklistMainlevée';
+import { DemanderMainlevéeForm, DemanderMainlevéeFormProps } from './DemanderMainlevée.form';
 
 export type DemanderMainlevéePageProps = DemanderMainlevéeFormProps & ChecklistMainlevéeProps;
 export const DemanderMainlevéePage = ({

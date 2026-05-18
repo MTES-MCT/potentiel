@@ -6,12 +6,11 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { transformToOptionalEnumArray } from '@/app/_helpers';
+import { optionalStringArray, transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { optionalStringArray } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ChangementActionnaireListPage,

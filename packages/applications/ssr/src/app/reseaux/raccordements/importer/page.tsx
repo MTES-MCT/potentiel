@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
+
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { récupérerLesGestionnairesParUtilisateur } from '../_helpers/récupérerLesGestionnairesParUtilisateur';
-
 import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnService.page';
 
 export const metadata: Metadata = { title: 'Importer des dates de mise en service' };

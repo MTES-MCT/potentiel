@@ -1,24 +1,24 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
+import { FC, useEffect, useState } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
+import { ValidationErrors } from '@/utils/formAction';
 
+import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
 import {
-  TypeSociété,
-  SaisieTypeStep,
   SaisieNomStep,
   SaisiePièceJustificativeStep,
+  SaisieTypeStep,
+  TypeSociété,
   ValidationStep,
 } from '../../_helpers/steps';
-import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
-import { enregistrerChangementReprésentantLégalAction } from '../enregistrer/enregistrerChangementReprésentantLégal.action';
 import { demanderChangementReprésentantLégalAction } from '../demander/demanderChangementReprésentantLégal.action';
+import { enregistrerChangementReprésentantLégalAction } from '../enregistrer/enregistrerChangementReprésentantLégal.action';
 
 type DemanderOuEnregistrerChangementReprésentantLégalFormProps = {
   identifiantProjet: string;

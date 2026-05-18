@@ -1,9 +1,9 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { FC } from 'react';
 
+import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { Heading1 } from '@/components/atoms/headings';
 
 import { InviterUtilisateurForm, InviterUtilisateurFormProps } from './InviterUtilisateur.form';
 

@@ -5,15 +5,18 @@ import { z } from 'zod';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import {
+  getAutoritéCompétenteLabel,
+  optionalStringArray,
+  transformToOptionalEnumArray,
+} from '@/app/_helpers';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/app/_helpers';
-import { optionalStringArray } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

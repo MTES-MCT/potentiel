@@ -1,5 +1,5 @@
-import { match } from 'ts-pattern';
 import { KeycloakOptions } from 'better-auth/plugins';
+import { match } from 'ts-pattern';
 
 import { ProconnectOptions } from './proconnect.provider';
 

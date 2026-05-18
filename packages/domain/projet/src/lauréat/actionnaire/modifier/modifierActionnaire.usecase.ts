@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
-import { DocumentActionnaire } from '../index.js';
 import { IdentifiantProjet } from '../../../index.js';
-
+import { DocumentActionnaire } from '../index.js';
 import { ModifierActionnaireCommand } from './modifierActionnaire.command.js';
 
 export type ModifierActionnaireUseCase = Message<

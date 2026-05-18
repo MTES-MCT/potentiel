@@ -1,9 +1,9 @@
-import { expect } from 'chai';
 import { Then as Alors } from '@cucumber/cucumber';
+import { expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { waitForExpect } from '#helpers';
 

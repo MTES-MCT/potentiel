@@ -6,7 +6,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentDélai } from '../../index.js';
-
 import { RejeterDemandeDélaiCommand } from './rejeterDemandeDélai.command.js';
 
 export type RejeterDemandeDélaiUseCase = Message<

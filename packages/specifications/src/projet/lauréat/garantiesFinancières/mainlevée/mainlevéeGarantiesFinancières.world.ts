@@ -2,13 +2,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapDateTime, mapToExemple } from '../../../../helpers/mapToExemple.js';
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world.js';
-
+import { AccorderMainlevéeFixture } from './fixtures/accorderMainlevée.fixture.js';
 import {
   CréerDemanderMainlevéeFixtureProps,
   DemanderMainlevéeFixture,
 } from './fixtures/demanderMainlevée.fixture.js';
 import { PasserMainlevéeEnInstructionFixture } from './fixtures/passerMainlevéeEnInstruction.fixture.js';
-import { AccorderMainlevéeFixture } from './fixtures/accorderMainlevée.fixture.js';
 import { RejeterMainlevéeFixture } from './fixtures/rejeterMainlevée.fixture.js';
 
 export class MainlevéeGarantiesFinancièresWorld {

@@ -1,12 +1,12 @@
 'use client';
 
-import React, { Ref, useState } from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
+import Autocomplete from '@mui/material/Autocomplete';
 import { debounce } from '@mui/material/utils';
+import React, { Ref, useState } from 'react';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { GeoApiClient } from '@potentiel-infrastructure/geo-api-client';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 type Commune = {
   commune: string;

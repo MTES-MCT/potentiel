@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getCahierDesCharges, récupérerLauréatSansAbandon } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DemanderAbandonPage } from './DemanderAbandon.page';

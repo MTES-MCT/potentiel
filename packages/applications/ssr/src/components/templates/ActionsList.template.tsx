@@ -1,7 +1,7 @@
 'use client';
 
-import { FC } from 'react';
 import clsx from 'clsx';
+import { FC } from 'react';
 
 import { Heading2 } from '../atoms/headings';
 

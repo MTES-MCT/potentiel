@@ -2,12 +2,11 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Role, Région, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../potentiel.world.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-
+import { PotentielWorld } from '../../potentiel.world.js';
 import { désactiverUtilisateur, inviterPorteur, inviterUtilisateur } from './utilisateur.when.js';
 
 EtantDonné(

@@ -9,7 +9,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import { DateMiseEnServiceForm, DateMiseEnServiceFormProps } from '../DateMiseEnService.form';
 import { SupprimerDateMiseEnService } from '../supprimer-date-mise-en-service/SupprimerDateMiseEnService.form';
-
 import { modifierDateMiseEnServiceAction } from './modifierDateMiseEnService.action';
 
 export type ModifierDateMiseEnServicePageProps = {

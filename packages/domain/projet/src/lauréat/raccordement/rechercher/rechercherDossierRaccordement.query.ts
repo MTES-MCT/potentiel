@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
 import { IdentifiantProjet, Lauréat } from '../../../index.js';
+import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType.js';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

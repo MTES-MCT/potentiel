@@ -1,20 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { FC, useState } from 'react';
 
-import { Role, ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { PlainType } from '@potentiel-domain/core';
+import { ConsulterUtilisateurReadModel, Role } from '@potentiel-domain/utilisateur';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { listeDesRolesSaufPorteur } from '@/utils/utilisateur/format-role';
 
 import { SpécificitésRoleInput } from '../../_components/SpécifitéRoleInput';
-
 import {
-  modifierRôleUtilisateurAction,
   ModifierRôleUtilisateurFormKeys,
+  modifierRôleUtilisateurAction,
 } from './modifierRôleUtilisateur.action';
 
 export type ModifierRôleUtilisateurFormProps = {

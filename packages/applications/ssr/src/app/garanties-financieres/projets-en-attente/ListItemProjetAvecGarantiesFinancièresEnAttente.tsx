@@ -1,16 +1,16 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteActions = 'mise-en-demeure'[];
 export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = PlainType<

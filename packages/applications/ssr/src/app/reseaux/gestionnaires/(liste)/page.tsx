@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 
 import {
-  GestionnaireRéseauListPage,
   GestionnaireAvecNombreDeRaccordement,
+  GestionnaireRéseauListPage,
 } from './GestionnaireRéseauList.page';
 
 type PageProps = {

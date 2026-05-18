@@ -1,4 +1,4 @@
-export { mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps } from './mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps';
 export { mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps } from './mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps';
-export { mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps } from './mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps';
 export { mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps } from './mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps';
+export { mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps } from './mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps';
+export { mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps } from './mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps';

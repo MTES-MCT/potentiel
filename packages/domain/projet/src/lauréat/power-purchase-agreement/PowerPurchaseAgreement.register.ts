@@ -1,5 +1,4 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
-
 import { registerAnnulerSignalementPowerPurchaseAgreementCommand } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.command.js';
 import { registerAnnulerSignalementPowerPurchaseAgreementUseCase } from './annulerSignalement/annulerSignalementPowerPurchaseAgreement.usecase.js';
 import {

@@ -1,8 +1,8 @@
+import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications';
 import {
   HistoriqueProjector,
   PowerPurchaseAgreementProjector,
 } from '@potentiel-applications/projectors';
-import { PowerPurchaseAgreementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 

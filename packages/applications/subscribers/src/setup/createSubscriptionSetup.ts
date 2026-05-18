@@ -1,10 +1,10 @@
+import { bulkhead, IPolicy, noop, wrap } from 'cockatiel';
 import { Message, mediator } from 'mediateur';
-import { bulkhead, noop, IPolicy, wrap } from 'cockatiel';
 
-import { Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { runWorkerWithContext } from '@potentiel-applications/request-context';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
+import { Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 let globalPolicy: IPolicy | undefined = undefined;
 const getGlobalPolicy = () => {

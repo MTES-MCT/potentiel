@@ -1,5 +1,5 @@
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const powerPurchaseAgreementSignaléProjector = async ({
   payload: { identifiantProjet, signaléLe, signaléPar },

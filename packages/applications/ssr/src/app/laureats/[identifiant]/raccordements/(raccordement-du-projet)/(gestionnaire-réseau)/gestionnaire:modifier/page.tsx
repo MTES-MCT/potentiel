@@ -1,15 +1,14 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ModifierGestionnaireRéseauRaccordementPage } from './ModifierGestionnaireRéseauRaccordement.page';

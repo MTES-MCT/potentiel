@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 
-import { templates, type TemplateDefinitions } from './index.js';
+import { type TemplateDefinitions, templates } from './index.js';
 
 export function renderHelper({ key, values }: TemplateDefinitions) {
   const spec = templates[key];

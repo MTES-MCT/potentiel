@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import { Candidature } from '@potentiel-domain/projet';
 
 import type { Champs } from '../../graphql/accessor.js';
-
 import { getFournisseurs } from './getFournisseurs.js';
 
 describe(`Projet avec fournisseurs`, () => {

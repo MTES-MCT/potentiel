@@ -1,8 +1,8 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { sendEmail } from '#sendEmail';
 import { getLauréat, listerPorteursRecipients } from '#helpers';
+import { sendEmail } from '#sendEmail';
 
 export const handleCahierDesChargesChoisi = async ({
   payload: { identifiantProjet, cahierDesCharges },

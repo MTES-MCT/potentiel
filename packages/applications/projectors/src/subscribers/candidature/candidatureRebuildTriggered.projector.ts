@@ -1,5 +1,5 @@
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { clearProjection } from '../../helpers/index.js';
 

@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { Champs } from '../../graphql/index.js';
-
 import { getTypologieInstallation } from './getTypologieInstallation.js';
 
 describe(`Projet avec typologie "Bâtiment"`, () => {

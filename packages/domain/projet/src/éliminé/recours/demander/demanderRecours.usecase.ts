@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../index.js';
 import { DocumentRecours } from '../index.js';
-
 import { DemanderRecoursCommand } from './demanderRecours.command.js';
 
 export type DemanderRecoursUseCase = Message<

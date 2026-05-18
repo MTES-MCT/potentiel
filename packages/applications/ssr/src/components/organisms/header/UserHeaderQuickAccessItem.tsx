@@ -1,11 +1,11 @@
-import { mediator } from 'mediateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import Badge from '@mui/material/Badge';
+import { mediator } from 'mediateur';
 import { headers } from 'next/headers';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getSessionUser } from '@/auth/getSessionUser';
 

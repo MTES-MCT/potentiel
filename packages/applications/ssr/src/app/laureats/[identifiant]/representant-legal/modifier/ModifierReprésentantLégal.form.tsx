@@ -1,23 +1,21 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
-import Stepper from '@codegouvfr/react-dsfr/Stepper';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Stepper from '@codegouvfr/react-dsfr/Stepper';
+import { FC, useEffect, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { SaisieNomStep, SaisieTypeStep, TypeSociété, ValidationStep } from '../_helpers/steps';
-
-import {
-  modifierReprésentantLégalAction,
-  ModifierReprésentantLégalFormKeys,
-} from './modifierReprésentantLégal.action';
 import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
+import {
+  ModifierReprésentantLégalFormKeys,
+  modifierReprésentantLégalAction,
+} from './modifierReprésentantLégal.action';
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
 

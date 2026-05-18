@@ -1,8 +1,8 @@
-import { Candidature } from '@potentiel-domain/projet';
 import {
   DépartementRégion,
   récupérerDépartementRégionParCodePostal,
 } from '@potentiel-domain/inmemory-referential';
+import { Candidature } from '@potentiel-domain/projet';
 
 type GetLocalité = (
   args: Record<'codePostal' | 'adresse1' | 'adresse2' | 'commune', string>,

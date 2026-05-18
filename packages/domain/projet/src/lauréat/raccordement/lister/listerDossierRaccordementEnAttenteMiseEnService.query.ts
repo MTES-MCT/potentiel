@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { Candidature, IdentifiantProjet } from '../../../index.js';
-import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
-import { LauréatEntity } from '../../lauréat.entity.js';
 import { Puissance, StatutLauréat } from '../../index.js';
+import { LauréatEntity } from '../../lauréat.entity.js';
+import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '../index.js';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;

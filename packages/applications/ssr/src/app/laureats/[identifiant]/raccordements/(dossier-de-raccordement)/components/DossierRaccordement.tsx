@@ -5,20 +5,19 @@ import { FC } from 'react';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
 import {
   ÉtapeDemandeComplèteRaccordement,
   ÉtapeDemandeComplèteRaccordementProps,
 } from '../[reference]/(demande-complète-raccordement)/ÉtapeDemandeComplèteRaccordement';
 import {
-  ÉtapeDateMiseEnService,
-  ÉtapeMiseEnServiceProps,
-} from '../[reference]/date-mise-en-service/ÉtapeDateMiseEnService';
-import {
   ÉtapePropositionTechniqueEtFinancière,
   ÉtapePropositionTechniqueEtFinancièreProps,
 } from '../[reference]/(proposition-technique-et-financière)/ÉtapePropositionTechniqueEtFinancière';
-import { SupprimerDossierDuRaccordement } from '../(supprimer)/SupprimerDossierDuRaccordement';
-
+import {
+  ÉtapeDateMiseEnService,
+  ÉtapeMiseEnServiceProps,
+} from '../[reference]/date-mise-en-service/ÉtapeDateMiseEnService';
 import { Separateur } from './Separateur';
 
 export type DossierRaccordementProps = {

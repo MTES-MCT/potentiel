@@ -3,7 +3,6 @@ import { headers } from 'next/headers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { auth } from '.';
-
 import { getProviderConfiguration } from './providers/getProviderConfiguration';
 import { getOpenIdConfiguration } from './providers/openid';
 

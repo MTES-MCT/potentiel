@@ -4,7 +4,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
 import { MotifDemandeMainlevéeGarantiesFinancières } from '../../index.js';
-
 import { DemanderMainlevéeGarantiesFinancièresCommand } from './demanderMainlevéeGarantiesFinancières.command.js';
 
 export type DemanderMainlevéeGarantiesFinancièresUseCase = Message<

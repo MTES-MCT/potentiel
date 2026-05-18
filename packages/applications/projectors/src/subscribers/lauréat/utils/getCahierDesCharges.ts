@@ -1,5 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 

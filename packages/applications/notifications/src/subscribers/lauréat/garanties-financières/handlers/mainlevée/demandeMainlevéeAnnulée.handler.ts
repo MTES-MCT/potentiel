@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { listerDrealsRecipients } from '#helpers';
-import { getLauréat } from '#helpers';
+import { getLauréat, listerDrealsRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleDemandeMainlevéeAnnulée = async ({

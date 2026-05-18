@@ -7,12 +7,12 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterRecoursAction, RejeterRecoursFormKeys } from './rejeterRecours.action';
+import { RejeterRecoursFormKeys, rejeterRecoursAction } from './rejeterRecours.action';
 
 type RejeterRecoursFormProps = {
   identifiantProjet: string;

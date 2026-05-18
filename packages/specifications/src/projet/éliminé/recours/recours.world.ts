@@ -1,11 +1,11 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Éliminé, IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture.js';
 import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture.js';
 import { DemanderRecoursFixture } from './fixtures/demanderRecours.fixture.js';
-import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture.js';
 import { PasserRecoursEnInstructionFixture } from './fixtures/passerRecoursEnInstruction.fixture.js';
+import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture.js';
 
 export class RecoursWord {
   #accorderRecoursFixture: AccorderRecoursFixture;

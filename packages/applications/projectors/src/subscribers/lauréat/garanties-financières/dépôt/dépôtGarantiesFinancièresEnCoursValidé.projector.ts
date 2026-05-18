@@ -1,10 +1,10 @@
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const dépôtGarantiesFinancièresEnCoursValidéProjector = async (
   event:

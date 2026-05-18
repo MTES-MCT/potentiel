@@ -1,10 +1,9 @@
-import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import React, { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
-
 import {
   TransmettrePropositionTechniqueEtFinancièreForm,
   TransmettrePropositionTechniqueEtFinancièreFormProps,

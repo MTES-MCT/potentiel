@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector.js';
 import { achèvementModifiéProjector } from './achèvementModifié.projector.js';
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector.js';
-import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector.js';
-import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector.js';
 import { attestationConformitéEnregistréeProjector } from './attestationConformité/attestationConformitéEnregistrée.projector.js';
 import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector.js';
+import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector.js';
+import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector.js';
+import { dateAchèvementTransmiseProjector } from './dateAchèvementTransmise.projector.js';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent | RebuildTriggered;
 

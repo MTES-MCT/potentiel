@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   createHistoryProjection,
   removeHistoryProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type SubscriptionEvent =
   | (Lauréat.Abandon.AbandonEvent & Event)

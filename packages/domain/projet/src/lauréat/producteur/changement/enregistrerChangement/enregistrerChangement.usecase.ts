@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentProducteur, NuméroIdentification } from '../../index.js';
-
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command.js';
 
 export type EnregistrerChangementProducteurUseCase = Message<

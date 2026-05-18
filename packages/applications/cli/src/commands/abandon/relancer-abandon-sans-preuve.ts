@@ -1,10 +1,10 @@
-import { mediator } from 'mediateur';
 import { Command } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { appSchema, dbSchema } from '#helpers';
 

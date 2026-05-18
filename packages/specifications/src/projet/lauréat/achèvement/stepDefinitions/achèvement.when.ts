@@ -1,11 +1,11 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world.js';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 Quand(
   'le porteur transmet une attestation de conformité pour le projet {lauréat-éliminé}',

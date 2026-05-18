@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { EnvoyerNotificationCommand, SendEmail } from '@potentiel-applications/notifications';
 
 import { getUtilisateurFromEmail } from '../../getUtilisateurFromEmail';
-
 import { buildSendMagicLink } from './buildSendMagicLink';
 
 type Props = {

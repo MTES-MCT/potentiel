@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { listerPorteursRecipients, listerDrealsRecipients, getLauréat } from '#helpers';
+import { getLauréat, listerDrealsRecipients, listerPorteursRecipients } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 import { TâchePlanifiéeAchèvementNotificationProps } from '../tâche-planifiée.achèvement.notifications.js';

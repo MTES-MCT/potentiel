@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { StatistiqueUtilisation } from '../statistiqueUtilisation.type.js';
-
 import { AjouterStatistiqueUtilisationPort } from './ajouterStatistiqueUtilisation.port.js';
 
 export type AjouterStatistiqueUtilisationCommand = Message<

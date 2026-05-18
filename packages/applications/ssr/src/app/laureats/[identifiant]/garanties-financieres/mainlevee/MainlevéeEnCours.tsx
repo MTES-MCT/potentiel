@@ -1,9 +1,8 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/projet';
+import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';

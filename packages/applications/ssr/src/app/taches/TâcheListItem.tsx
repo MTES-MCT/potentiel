@@ -1,14 +1,14 @@
+import Button from '@codegouvfr/react-dsfr/Button';
 import { FC } from 'react';
 import { match } from 'ts-pattern';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type TâcheListItemProps = PlainType<Lauréat.Tâche.ListerTâchesReadModel['items'][number]>;
 

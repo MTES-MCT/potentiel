@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { gestionnaireRéseauAjoutéV1Projector } from './gestionnaireRéseauAjoutéV1.projector.js';
 import { gestionnaireRéseauAjoutéProjector } from './gestionnaireRéseauAjouté.projector.js';
+import { gestionnaireRéseauAjoutéV1Projector } from './gestionnaireRéseauAjoutéV1.projector.js';
 import { gestionnaireRéseauRebuildTriggeredProjector } from './gestionnaireRéseauRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = GestionnaireRéseau.GestionnaireRéseauEvent | RebuildTriggered;

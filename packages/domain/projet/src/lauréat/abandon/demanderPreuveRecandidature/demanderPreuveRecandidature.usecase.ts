@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-
 import { DemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature.command.js';
 
 export type DemanderPreuveRecandidatureAbandonUseCase = Message<

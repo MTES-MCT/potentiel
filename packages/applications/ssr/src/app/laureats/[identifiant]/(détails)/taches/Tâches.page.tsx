@@ -1,12 +1,12 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { getDescriptionTâche } from '@/app/taches/TâcheListItem';
-import { Tile } from '@/components/organisms/Tile';
-import { ListItem } from '@/components/molecules/ListItem';
-import { Heading3 } from '@/components/atoms/headings';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Heading3 } from '@/components/atoms/headings';
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
+import { ListItem } from '@/components/molecules/ListItem';
+import { Tile } from '@/components/organisms/Tile';
 
 type Props = {
   tâches: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;

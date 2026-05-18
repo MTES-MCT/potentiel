@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentRaccordement } from '../../index.js';
-
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType.js';
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command.js';
 
 export type TransmettreDemandeComplèteRaccordementUseCase = Message<

@@ -1,10 +1,9 @@
 import { match } from 'ts-pattern';
 
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
+import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { Région, Zone } from './index.js';
-
 import * as Role from './role.valueType.js';
 import {
   FonctionManquanteError,

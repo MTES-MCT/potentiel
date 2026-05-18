@@ -3,11 +3,11 @@ import { assert } from 'chai';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, sleep } from '#helpers';
+import { sleep, waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 

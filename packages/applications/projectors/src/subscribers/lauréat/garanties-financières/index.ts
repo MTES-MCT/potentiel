@@ -1,24 +1,25 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import {
-  dépôtGarantiesFinancièresSoumisProjector,
+  attestationGarantiesFinancièresEnregistréeProjector,
+  garantiesFinancièresDemandéesProjector,
+  garantiesFinancièresEnregistréesProjector,
+  garantiesFinancièresImportéesProjector,
+  garantiesFinancièresModifiéesProjector,
+  garantiesFinancièresÉchuesProjector,
+  typeGarantiesFinancièresImportéProjector,
+} from './actuelles/index.js';
+import {
   dépôtGarantiesFinancièresEnCoursModifiéProjector,
   dépôtGarantiesFinancièresEnCoursSuppriméProjector,
   dépôtGarantiesFinancièresEnCoursValidéProjector,
+  dépôtGarantiesFinancièresSoumisProjector,
 } from './dépôt/index.js';
-import {
-  garantiesFinancièresDemandéesProjector,
-  typeGarantiesFinancièresImportéProjector,
-  attestationGarantiesFinancièresEnregistréeProjector,
-  garantiesFinancièresEnregistréesProjector,
-  garantiesFinancièresModifiéesProjector,
-  garantiesFinancièresÉchuesProjector,
-  garantiesFinancièresImportéesProjector,
-} from './actuelles/index.js';
+import { garantiesFinancièresRebuildTriggeredProjector } from './garantiesFinancièresRebuildTriggered.projector.js';
 import { historiqueGarantiesFinancièresEffacéProjector } from './historiqueGarantiesFinancièresEffacé.projector.js';
 import {
   demandeMainlevéeGarantiesFinancièresAccordéeProjector,
@@ -27,7 +28,6 @@ import {
   instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjector,
   mainlevéeGarantiesFinancièresDemandéeProjector,
 } from './mainlevée/index.js';
-import { garantiesFinancièresRebuildTriggeredProjector } from './garantiesFinancièresRebuildTriggered.projector.js';
 
 export type SubscriptionEvent =
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEvent

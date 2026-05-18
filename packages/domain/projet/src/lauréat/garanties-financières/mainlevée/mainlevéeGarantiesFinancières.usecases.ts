@@ -13,9 +13,9 @@ export type MainlevéeGarantiesFinancièresUseCases =
   | RejeterMainlevéeGarantiesFinancièresUseCase;
 
 export type {
-  DemanderMainlevéeGarantiesFinancièresUseCase,
-  AnnulerMainlevéeGarantiesFinancièresUseCase,
-  DémarrerInstructionMainlevéeGarantiesFinancièresUseCase,
   AccorderMainlevéeGarantiesFinancièresUseCase,
+  AnnulerMainlevéeGarantiesFinancièresUseCase,
+  DemanderMainlevéeGarantiesFinancièresUseCase,
+  DémarrerInstructionMainlevéeGarantiesFinancièresUseCase,
   RejeterMainlevéeGarantiesFinancièresUseCase,
 };

@@ -55,12 +55,12 @@ export const projectListLegendSymbols = [
 ];
 
 export {
+  email,
   localité,
   nomProducteur,
-  représentantLégal,
-  email,
-  puissance,
   prix,
-  évaluationCarbone,
+  puissance,
+  représentantLégal,
   typeActionnariat,
+  évaluationCarbone,
 };

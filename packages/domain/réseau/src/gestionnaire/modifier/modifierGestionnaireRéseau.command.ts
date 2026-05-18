@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate.js';
+import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType.js';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',

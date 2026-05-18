@@ -5,9 +5,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
 
+import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple.js';
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { AccorderChangementPuissance } from '../fixture/accorderChangementPuissance.fixture.js';
-import { mapBoolean, mapToExemple } from '../../../../../helpers/mapToExemple.js';
 import { RejeterChangementPuissance } from '../fixture/rejeterChangementPuissance.fixture.js';
 
 Quand(

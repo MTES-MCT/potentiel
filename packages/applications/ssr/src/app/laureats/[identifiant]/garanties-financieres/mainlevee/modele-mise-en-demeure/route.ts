@@ -1,20 +1,20 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 import {
-  ModèleRéponseSignée,
   formatDateForDocument,
+  ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres } from '@/app/_helpers';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLauréat } from '../../../_helpers/getLauréat';
 

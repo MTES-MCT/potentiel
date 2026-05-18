@@ -1,17 +1,17 @@
 'use client';
 
-import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Button from '@codegouvfr/react-dsfr/Button';
+import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import { useRouter } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { PageTemplate } from '@/components/templates/Page.template';
+import { authClient } from '@/auth/client';
+import { AuthProvider } from '@/auth/providers/authProvider';
 import { Heading1 } from '@/components/atoms/headings';
 import { AuthTile, ProviderProps } from '@/components/organisms/auth/AuthTile';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
-import { authClient } from '@/auth/client';
-import { AuthProvider } from '@/auth/providers/authProvider';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 type SignInPageProps = {
   providers: Partial<Record<AuthProvider, ProviderProps>>;

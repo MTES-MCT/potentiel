@@ -1,23 +1,22 @@
-import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import React, { FC } from 'react';
 
+import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
 
+import { ConfirmationAction } from '@/components/molecules/ConfirmationAction';
+import { LinkAction } from '@/components/molecules/LinkAction';
 import {
   ActionMap,
   Actions,
   ActionsPageTemplate,
 } from '@/components/templates/ActionsPage.template';
-import { ConfirmationAction } from '@/components/molecules/ConfirmationAction';
-import { LinkAction } from '@/components/molecules/LinkAction';
 
 import { GarantiesFinancières } from '../components/GarantiesFinancières';
-
-import { validerDépôtGarantiesFinancièresAction } from './valider/validerDépôtGarantiesFinancières.action';
 import { supprimerDépôtGarantiesFinancièresAction } from './supprimer/supprimerDépôtGarantiesFinancières.action';
+import { validerDépôtGarantiesFinancièresAction } from './valider/validerDépôtGarantiesFinancières.action';
 
 export type ActionDépôtGarantiesFinancières = Actions<
   | 'garantiesFinancières.dépôt.valider'

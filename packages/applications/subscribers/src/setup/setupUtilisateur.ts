@@ -1,5 +1,5 @@
-import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { UtilisateurNotification } from '@potentiel-applications/notifications';
+import { UtilisateurProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 

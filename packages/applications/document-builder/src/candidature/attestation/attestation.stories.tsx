@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions.js';

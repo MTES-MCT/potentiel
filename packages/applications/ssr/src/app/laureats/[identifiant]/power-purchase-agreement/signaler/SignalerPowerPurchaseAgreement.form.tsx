@@ -1,11 +1,11 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 

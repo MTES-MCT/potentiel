@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
-import { should } from 'chai';
 import { faker } from '@faker-js/faker';
+import { should } from 'chai';
 
 import { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';

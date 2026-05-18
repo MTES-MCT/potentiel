@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { PièceJustificative } from '#helpers';

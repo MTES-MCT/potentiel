@@ -1,11 +1,10 @@
-import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+import { Lauréat } from '../index.js';
 import { Fournisseur } from '../lauréat/fournisseur/index.js';
 import { GarantiesFinancières, Producteur } from '../lauréat/index.js';
-import { Lauréat } from '../index.js';
 import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation/index.js';
-
 import {
   Coordonnées,
   HistoriqueAbandon,

@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentDélai } from '../../index.js';
-
 import { DemanderDélaiCommand } from './demanderDélai.command.js';
 
 export type DemanderDélaiUseCase = Message<

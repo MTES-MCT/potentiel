@@ -1,10 +1,9 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
+import { describe, it } from 'node:test';
 
-import { Either } from './index.js';
-
-import { Right, right } from './either/right.js';
 import { Left, left } from './either/left.js';
+import { Right, right } from './either/right.js';
+import { Either } from './index.js';
 
 describe(`Either`, () => {
   it(`Lorsque qu'une valeur est définie

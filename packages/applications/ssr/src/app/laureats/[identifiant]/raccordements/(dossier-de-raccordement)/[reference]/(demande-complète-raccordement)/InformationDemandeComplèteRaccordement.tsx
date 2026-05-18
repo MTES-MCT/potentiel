@@ -1,5 +1,6 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import React, { FC } from 'react';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type InformationDemandeComplèteRaccordementProps = {
   delaiDemandeDeRaccordementEnMois: { texte: string; valeur: number };

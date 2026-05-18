@@ -1,27 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import React, { useState } from 'react';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { InputDate } from '@/components/atoms/form/InputDate';
-import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 import { CoordonnéesInput } from '@/components/atoms/form/CoordonnéesInput';
+import { Form } from '@/components/atoms/form/Form';
+import { InputDate } from '@/components/atoms/form/InputDate';
+import { CommunePicker } from '@/components/molecules/CommunePicker';
+import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  corrigerCandidatureAction,
   CorrigerCandidatureFormEntries,
+  corrigerCandidatureAction,
 } from './corrigerCandidature.action';
 
 export type CorrigerCandidatureFormProps = {

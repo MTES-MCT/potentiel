@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
+import { FC, useState } from 'react';
 
 type MagicLinkFormProps = {
   onSubmit: (email: string) => void;

@@ -3,14 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../lauréat.entity.js';
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
-import { PuissanceEntity } from '../puissance/index.js';
-import { ProducteurEntity } from '../producteur/index.js';
-import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '../index.js';
+import { LauréatEntity } from '../lauréat.entity.js';
 import { PowerPurchaseAgreementEntity } from '../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { ProducteurEntity } from '../producteur/index.js';
+import { PuissanceEntity } from '../puissance/index.js';
+import { ReprésentantLégalEntity } from '../représentantLégal/index.js';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

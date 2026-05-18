@@ -1,6 +1,6 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -8,8 +8,8 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { convertFixtureFileToReadableStream } from '#helpers';
 
-import { PotentielWorld } from '../../../../potentiel.world.js';
 import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given.js';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 import { notifierLauréat } from '../../stepDefinitions/lauréat.given.js';
 
 EtantDonné(

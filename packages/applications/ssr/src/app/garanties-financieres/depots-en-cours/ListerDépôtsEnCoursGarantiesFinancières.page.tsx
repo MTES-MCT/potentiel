@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { Role } from '@potentiel-domain/utilisateur';
 import { PlainType } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 

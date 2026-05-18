@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 import { StepNavigation } from './StepNavigation';
 

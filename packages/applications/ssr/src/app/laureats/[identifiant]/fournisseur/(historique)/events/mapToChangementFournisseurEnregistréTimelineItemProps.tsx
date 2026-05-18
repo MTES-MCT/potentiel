@@ -1,9 +1,9 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
+import { formatDateToText } from '@/app/_helpers';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { TimelineItemProps } from '@/components/organisms/timeline';
-import { formatDateToText } from '@/app/_helpers';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   event: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,

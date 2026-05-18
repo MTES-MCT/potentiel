@@ -2,12 +2,12 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../potentiel.world.js';
 import { convertStringToReadableStream, getRôle, RôleUtilisateur } from '../../../helpers/index.js';
+import { PotentielWorld } from '../../../potentiel.world.js';
 import { ModifierRéférenceDossierRaccordementFixture } from '../../dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture.js';
 import { ModifierDemandeComplèteRaccordement } from '../fixtures/modifierDemandeComplèteDeRaccordement.fixture.js';
 

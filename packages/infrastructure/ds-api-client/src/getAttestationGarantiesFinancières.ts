@@ -1,9 +1,9 @@
 import { extension } from 'mime-types';
 import PizZip from 'pizzip';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { mergeDocuments } from '@potentiel-libraries/pdf';
 
 import { getDossier } from './getDossier.js';

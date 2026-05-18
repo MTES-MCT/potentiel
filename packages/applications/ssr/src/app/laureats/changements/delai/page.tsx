@@ -3,19 +3,22 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import {
+  getAutoritéCompétenteLabel,
+  optionalStringArray,
+  transformToOptionalEnumArray,
+} from '@/app/_helpers';
 import {
   DemandeDélaiListPage,
   DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
-import { getAutoritéCompétenteLabel, transformToOptionalEnumArray } from '@/app/_helpers';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { optionalStringArray } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

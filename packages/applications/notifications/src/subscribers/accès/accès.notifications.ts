@@ -4,8 +4,8 @@ import { match } from 'ts-pattern';
 import { Accès } from '@potentiel-domain/projet';
 
 import {
-  handleAccèsProjetRetiré,
   handleAccèsProjetAutoriséSuiteÀRéclamation,
+  handleAccèsProjetRetiré,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Accès.AccèsEvent;

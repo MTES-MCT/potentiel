@@ -1,6 +1,6 @@
 import {
-  ConsulterDocumentProjetReadModel,
   ConsulterDocumentProjetQuery,
+  ConsulterDocumentProjetReadModel,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query.js';
 import {
@@ -22,10 +22,9 @@ import {
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
-export type { ConsulterDocumentProjetQuery };
 
 // Read model
-export type { ConsulterDocumentProjetReadModel };
+export type { ConsulterDocumentProjetQuery, ConsulterDocumentProjetReadModel };
 
 // Command
 export type DocumentProjetCommand =
@@ -34,25 +33,20 @@ export type DocumentProjetCommand =
   | CorrigerDocumentProjetCommand
   | EnregistrerDocumentSubstitutCommand;
 
-export type {
-  EnregistrerDocumentProjetCommand,
-  DéplacerDossierProjetCommand,
-  CorrigerDocumentProjetCommand,
-  EnregistrerDocumentSubstitutCommand,
-};
-
 // Register
 export * from './documentProjet.register.js';
-
 // ValueType
 export * as DocumentProjet from './documentProjet.valueType.js';
 export * as DossierProjet from './dossierProjet.valueType.js';
-
 // Port
 export type {
-  RécupérerDocumentProjetPort,
-  EnregistrerDocumentProjetPort,
-  DéplacerDossierProjetPort,
   ArchiverDocumentProjetPort,
+  CorrigerDocumentProjetCommand,
+  DéplacerDossierProjetCommand,
+  DéplacerDossierProjetPort,
+  EnregistrerDocumentProjetCommand,
+  EnregistrerDocumentProjetPort,
+  EnregistrerDocumentSubstitutCommand,
   EnregistrerDocumentSubstitutPort,
+  RécupérerDocumentProjetPort,
 };

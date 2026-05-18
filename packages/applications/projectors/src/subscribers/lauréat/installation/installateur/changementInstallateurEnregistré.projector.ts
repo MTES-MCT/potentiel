@@ -1,6 +1,6 @@
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const changementInstallateurEnregistréProjector = async ({

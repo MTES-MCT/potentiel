@@ -3,7 +3,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../index.js';
-
 import { StatutLauréat } from './index.js';
 
 export type LauréatEntity = Entity<

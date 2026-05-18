@@ -4,13 +4,13 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { lauréatRebuildTriggeredProjector } from './lauréatRebuildTriggered.projector.js';
-import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector.js';
-import { siteDeProductionModifiéProjector } from './siteDeProductionModifié.projector.js';
-import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector.js';
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector.js';
-import { nomProjetModifiéProjector } from './nomProjetModifié.projector.js';
 import { changementNomProjetEnregistréProjector } from './changementNomProjetEnregistré.projector.js';
+import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector.js';
+import { lauréatRebuildTriggeredProjector } from './lauréatRebuildTriggered.projector.js';
+import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector.js';
+import { nomProjetModifiéProjector } from './nomProjetModifié.projector.js';
+import { siteDeProductionModifiéProjector } from './siteDeProductionModifié.projector.js';
 import { StatutLauréatModifiéProjector } from './statutLauréatModifié.projector.js';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent | RebuildTriggered;

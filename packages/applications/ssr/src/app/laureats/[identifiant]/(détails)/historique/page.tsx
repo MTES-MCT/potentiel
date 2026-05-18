@@ -1,42 +1,41 @@
-import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { match, P } from 'ts-pattern';
+import { z } from 'zod';
 
-import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { HistoryRecord } from '@potentiel-domain/entity';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
+import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
+import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { TimelineItemProps } from '@/components/organisms/timeline';
-import { mapToÉliminéTimelineItemProps } from '@/app/elimines/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
-import { mapToRecoursTimelineItemProps } from '@/app/elimines/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 
 import { getLauréatInfos } from '../../_helpers/getLauréat';
+import { mapToLauréatTimelineItemProps } from '../../(historique)/mapToLauréatTimelineItemProps';
+import { mapToAbandonTimelineItemProps } from '../../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '../../achevement/(historique)/mapToAchèvementTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from '../../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
-import { mapToReprésentantLégalTimelineItemProps } from '../../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
-import { mapToLauréatTimelineItemProps } from '../../(historique)/mapToLauréatTimelineItemProps';
-import { mapToGarantiesFinancièresTimelineItemProps } from '../../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
-import { mapToProducteurTimelineItemProps } from '../../producteur/(historique)/mapToProducteurTimelineItemProps';
-import { mapToPuissanceTimelineItemProps } from '../../puissance/(historique)/mapToPuissanceTimelineItemProps';
-import { mapToAbandonTimelineItemProps } from '../../abandon/(historique)/mapToAbandonTimelineItemProps';
-import { mapToRaccordementTimelineItemProps } from '../../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../../delai/(historique)/mapToDélaiTimelineItemProps';
+import { mapToFournisseurTimelineItemProps } from '../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
+import { mapToGarantiesFinancièresTimelineItemProps } from '../../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToInstallationTimelineItemProps } from '../../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
-import { mapToFournisseurTimelineItemProps } from '../../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 import { mapToPowerPurchaseAgreementTimelineItemProps } from '../../power-purchase-agreement/(historique)/mapToPowerPurchaseAgreementTimelineItemProps';
-
-import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
+import { mapToProducteurTimelineItemProps } from '../../producteur/(historique)/mapToProducteurTimelineItemProps';
+import { mapToPuissanceTimelineItemProps } from '../../puissance/(historique)/mapToPuissanceTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from '../../raccordements/(historique)/mapToRaccordementTimelineItemProps';
+import { mapToReprésentantLégalTimelineItemProps } from '../../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
 import {
   categoriesDisponibles,
   mapCatégorieToIcon,
   mapCatégorieToLabel,
 } from './_helpers/catégories';
+import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
 type PageProps = IdentifiantParameter & {
   searchParams?: Promise<Record<string, string>>;

@@ -1,8 +1,7 @@
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Période } from '@potentiel-domain/periode';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { clearProjection } from '../../helpers/index.js';
-
 import { seedPériodes } from './seed.js';
 
 export const périodeRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {

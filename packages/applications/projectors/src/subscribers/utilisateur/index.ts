@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector.js';
 import { porteurInvitéProjector } from './porteurInvité.projector.js';
-import { utilisateurInvitéProjector } from './utilisateurInvité.projector.js';
-import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector.js';
-import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector.js';
-import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector.js';
 import { rôleUtilisateurModifiéProjector } from './rôleUtilisateurModifié.projector.js';
+import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector.js';
+import { utilisateurInvitéProjector } from './utilisateurInvité.projector.js';
+import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector.js';
+import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector.js';
+import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector.js';
 
 export type SubscriptionEvent = UtilisateurEvent | RebuildTriggered;
 

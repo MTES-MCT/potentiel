@@ -2,8 +2,8 @@ import { AbandonAccordéEvent } from './demande/accorder/accorderAbandon.event.j
 import { AbandonAnnuléEvent } from './demande/annuler/annulerAbandon.event.js';
 import { AbandonConfirméEvent } from './demande/confirmer/confirmerAbandon.event.js';
 import {
-  AbandonDemandéEventV1,
   AbandonDemandéEvent,
+  AbandonDemandéEventV1,
 } from './demande/demander/demanderAbandon.event.js';
 import { ConfirmationAbandonDemandéeEvent } from './demande/demanderConfirmation/demanderConfirmation.event.js';
 import { AbandonPasséEnInstructionEvent } from './demande/instruire/instruireAbandon.event.js';

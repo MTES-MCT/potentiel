@@ -1,8 +1,8 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type CandidatureListItemActionsProps = {

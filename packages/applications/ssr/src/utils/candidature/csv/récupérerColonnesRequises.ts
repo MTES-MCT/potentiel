@@ -1,9 +1,9 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
-  candidatureCsvHeadersMapping,
   CandidatureHeaders,
   CsvHeaders,
+  candidatureCsvHeadersMapping,
 } from './candidatureCsv.schema';
 
 type RécupérerColonnesRequisesProps = ({

@@ -1,11 +1,11 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getCahierDesCharges } from '@/app/_helpers';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { CahierDesChargesDétails } from './CahierDesChargesDétails';
 

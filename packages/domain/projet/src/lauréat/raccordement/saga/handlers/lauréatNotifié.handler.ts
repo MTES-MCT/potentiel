@@ -1,15 +1,15 @@
 import { mediator } from 'mediateur';
 
+import { Email } from '@potentiel-domain/common';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Email } from '@potentiel-domain/common';
 
 import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../../../index.js';
 import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event.js';
 import { AttribuerGestionnaireRéseauCommand } from '../../attribuer/attribuerGestionnaireRéseau.command.js';
-import { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../../errors.js';
+import { TransmettreDemandeComplèteRaccordementCommand } from '../../transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.command.js';
 
 type HandlerLauréatNotifiéProps = {
   event: LauréatNotifiéEvent;

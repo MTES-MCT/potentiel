@@ -1,17 +1,17 @@
-import { mediator } from 'mediateur';
 import { Command, Flags } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
-import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { appSchema, dbSchema } from '#helpers';
 

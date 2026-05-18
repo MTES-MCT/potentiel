@@ -1,6 +1,6 @@
+import { fr } from '@codegouvfr/react-dsfr';
 import Image from 'next/image';
 import { FC } from 'react';
-import { fr } from '@codegouvfr/react-dsfr';
 
 import { Heading1 } from '@/components/atoms/headings';
 

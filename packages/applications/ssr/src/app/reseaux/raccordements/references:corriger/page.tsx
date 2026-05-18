@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

@@ -1,12 +1,12 @@
-import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { seedAppelOffre, seedPériodes } from '@potentiel-applications/projectors';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
-import { setupProjet } from './setupProjet/index.js';
 import { setupHistorique } from './setupHistorique.js';
-import { setupUtilisateur } from './setupUtilisateur.js';
+import { setupProjet } from './setupProjet/index.js';
 import { setupPériode } from './setupPériode.js';
 import { setupRéseau } from './setupRéseau.js';
+import { setupUtilisateur } from './setupUtilisateur.js';
 
 const defaultDependencies = {
   récupérerGRDParVille,

@@ -1,9 +1,8 @@
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
-
 import { RéférenceDossierRaccordement } from './index.js';
 
 //#region Raccordement projet

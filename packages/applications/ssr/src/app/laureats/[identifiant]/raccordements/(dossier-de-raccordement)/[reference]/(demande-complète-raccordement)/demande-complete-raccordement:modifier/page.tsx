@@ -3,17 +3,16 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ModifierDemandeComplèteRaccordementPage,

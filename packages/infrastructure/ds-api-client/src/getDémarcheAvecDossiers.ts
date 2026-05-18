@@ -1,8 +1,8 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getDSApiClient } from './graphql/index.js';
 import { mapApiResponseToDépôt, mapApiResponseToDétails } from './_helpers/index.js';
+import { getDSApiClient } from './graphql/index.js';
 
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];

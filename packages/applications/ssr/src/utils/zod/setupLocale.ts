@@ -1,5 +1,6 @@
 import z from 'zod';
 import { fr as zodFr } from 'zod/locales';
+
 z.config(zodFr());
 
 z.config({

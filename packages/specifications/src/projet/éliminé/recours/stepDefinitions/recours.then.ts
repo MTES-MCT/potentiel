@@ -1,12 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, expectFileContent } from '#helpers';
+import { expectFileContent, waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../../../potentiel.world.js';
 

@@ -1,5 +1,5 @@
-import { PériodeProjector } from '@potentiel-applications/projectors';
 import { PériodeNotification } from '@potentiel-applications/notifications';
+import { PériodeProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 

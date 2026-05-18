@@ -1,7 +1,7 @@
-import { FC } from 'react';
 import { fr } from '@codegouvfr/react-dsfr';
-import { match } from 'ts-pattern';
 import clsx from 'clsx';
+import { FC } from 'react';
+import { match } from 'ts-pattern';
 
 import { Icon } from '@/components/atoms/Icon';
 

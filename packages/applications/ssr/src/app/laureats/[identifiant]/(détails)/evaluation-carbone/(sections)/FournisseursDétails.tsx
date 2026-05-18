@@ -3,8 +3,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 
-import { ListeFournisseurs } from '../../../fournisseur/changement/ListeFournisseurs';
 import { ChampObligatoireAvecAction } from '../../../_helpers';
+import { ListeFournisseurs } from '../../../fournisseur/changement/ListeFournisseurs';
 
 type Props = {
   fournisseurs: ChampObligatoireAvecAction<

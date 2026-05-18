@@ -1,9 +1,9 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { Heading6 } from '@/components/atoms/headings';
-import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
 import { ChampObligatoireAvecAction } from '@/app/laureats/[identifiant]/_helpers';
+import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';
+import { Heading6 } from '@/components/atoms/headings';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type CandidatDétailsProps = {

@@ -1,10 +1,10 @@
 import { match } from 'ts-pattern';
 
-import { Éliminé } from '@potentiel-domain/projet';
 import { HistoryRecord } from '@potentiel-domain/entity';
+import { Éliminé } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '@/app/laureats/[identifiant]/(détails)/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import { mapToÉliminéNotifiéTimelineItemProps } from './events';
 

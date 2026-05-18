@@ -1,16 +1,15 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getGarantiesFinancières } from '../../_helpers';
-
 import {
   ActionDépôtGarantiesFinancières,
   DétailsDépôtGarantiesFinancièresPage,

@@ -1,13 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../potentiel.world.js';
 import { convertStringToReadableStream, getRôle, RôleUtilisateur } from '../../../helpers/index.js';
+import { PotentielWorld } from '../../../potentiel.world.js';
 import { ModifierPropositionTechniqueEtFinancière } from '../fixtures/modifierPropositionTechniqueEtFinancière.fixture.js';
 import { TransmettrePropositionTechniqueEtFinancière } from '../fixtures/transmettrePropositionTechniqueEtFinancière.fixture.js';
 

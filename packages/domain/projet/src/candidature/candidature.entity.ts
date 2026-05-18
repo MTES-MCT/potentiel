@@ -1,12 +1,11 @@
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Entity } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet, Lauréat } from '../index.js';
 import { Fournisseur } from '../lauréat/fournisseur/index.js';
 import { DispositifDeStockage } from '../lauréat/installation/index.js';
-
 import {
   Coordonnées,
   HistoriqueAbandon,

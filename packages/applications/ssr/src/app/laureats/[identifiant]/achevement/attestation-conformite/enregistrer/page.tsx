@@ -1,13 +1,13 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { EnregistrerAttestationConformitéPage } from './EnregistrerAttestationConformité.page';

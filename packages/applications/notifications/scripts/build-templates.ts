@@ -13,10 +13,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { sync as globSync } from 'glob';
+import matter from 'gray-matter';
 import Handlebars from 'handlebars';
 import juice from 'juice';
 import MarkdownIt from 'markdown-it';
-import matter from 'gray-matter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcDirRoot = path.join(__dirname, '../src/templates');

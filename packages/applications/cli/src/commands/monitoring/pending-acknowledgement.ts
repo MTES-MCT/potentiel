@@ -1,12 +1,11 @@
 import { Command } from '@oclif/core';
 
 import { getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
-import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
+import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { dbSchema } from '#helpers';
-
 import { MattermostTransport, reportCronStatus } from '#helpers/monitoring';
 
 export class PendingAcknowlegement extends Command {

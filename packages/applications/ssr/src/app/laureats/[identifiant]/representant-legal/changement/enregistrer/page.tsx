@@ -1,17 +1,16 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { DemandeEnCoursPage } from '@/components/atoms/menu/DemandeEnCours.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
 import { getReprésentantLégalInfos } from '../../../_helpers';
-
 import { EnregistrerChangementReprésentantLégalPage } from './EnregistrerChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {

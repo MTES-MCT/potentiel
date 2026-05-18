@@ -3,9 +3,9 @@ import React, { JSX } from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { formatDateForPdf } from '../../helpers/formatDateForPdf.js';
 import { formatNumber } from '../../helpers/index.js';
-import { AttestationCRE4Options } from '../../AttestationCandidatureOptions.js';
 import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes.js';
 
 const Laureat = (project: AttestationCRE4Options) => {

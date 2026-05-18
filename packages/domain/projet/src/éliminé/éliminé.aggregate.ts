@@ -3,13 +3,12 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
-
-import { ÉliminéEvent } from './éliminé.event.js';
+import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options.js';
 import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event.js';
 import { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option.js';
-import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options.js';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event.js';
 import { RecoursAggregate } from './recours/recours.aggregate.js';
+import { ÉliminéEvent } from './éliminé.event.js';
 
 export class ÉliminéAggregate extends AbstractAggregate<
   ÉliminéEvent,

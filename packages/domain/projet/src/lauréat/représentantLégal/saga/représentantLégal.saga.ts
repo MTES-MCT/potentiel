@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Abandon } from '../../index.js';
 import { Lauréat } from '../../../index.js';
-
+import { Abandon } from '../../index.js';
 import {
   handleAbandonAccordé,
   handleTâchePlanifiéeReprésentantLégalExecutée,

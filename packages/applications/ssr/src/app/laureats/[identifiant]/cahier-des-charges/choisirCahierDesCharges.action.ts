@@ -1,13 +1,13 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

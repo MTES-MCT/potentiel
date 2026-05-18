@@ -1,21 +1,20 @@
 'use client';
 import { FC, useState } from 'react';
 
-import { now } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { now } from '@potentiel-libraries/iso8601-datetime';
 
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { getGarantiesFinancièresDateLabel } from '../../_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresAttestationLabel } from '../../_helpers/getGarantiesFinancièresAttestationLabel';
-
+import { getGarantiesFinancièresDateLabel } from '../../_helpers/getGarantiesFinancièresDateLabel';
 import {
-  enregistrerAttestationGarantiesFinancièresAction,
   EnregistrerAttestationGarantiesFinancièresFormKeys,
+  enregistrerAttestationGarantiesFinancièresAction,
 } from './enregistrerAttestationGarantiesFinancières.action';
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {

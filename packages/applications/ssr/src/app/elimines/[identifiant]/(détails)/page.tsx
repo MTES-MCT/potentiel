@@ -1,8 +1,8 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { DétailsÉliminéPage } from './DétailsÉliminé';
 

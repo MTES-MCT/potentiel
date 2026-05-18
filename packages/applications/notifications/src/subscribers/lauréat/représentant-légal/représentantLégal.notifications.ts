@@ -5,12 +5,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleChangementReprésentantLégalAccordé,
-  handleChangementReprésentantLégalDemandé,
   handleChangementReprésentantLégalAnnulé,
+  handleChangementReprésentantLégalCorrigé,
+  handleChangementReprésentantLégalDemandé,
   handleChangementReprésentantLégalEnregistré,
   handleChangementReprésentantLégalRejeté,
   handleReprésentantLégalModifié,
-  handleChangementReprésentantLégalCorrigé,
 } from './handlers/index.js';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent;

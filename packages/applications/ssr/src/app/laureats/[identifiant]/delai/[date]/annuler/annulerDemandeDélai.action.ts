@@ -3,10 +3,10 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({

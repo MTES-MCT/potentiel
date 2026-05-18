@@ -1,19 +1,22 @@
 import fs from 'fs';
 import path from 'path';
 
-import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
 
 import { assets } from '../assets.js';
-
 import {
   ModèleRéponseAbandon,
   modèleRéponseAbandonFileName,
 } from './abandon/modèleRéponseSignéeAbandon.js';
 import {
-  ModèleRéponseRecours,
-  modèleRéponseRecoursFileName,
-} from './recours/modèleRéponseSignéeRecours.js';
+  ModèleRéponseActionnaire,
+  modèleRéponseActionnaireFileName,
+} from './actionnaire/modèleRéponseSignéeActionnaire.js';
+import {
+  ModèleRéponseDélai,
+  modèleRéponseDélaiFileName,
+} from './délai/modèleRéponseSignéeDélai.js';
 import {
   ModèleRéponseMainlevée,
   modèleRéponseMainlevéeFileName,
@@ -23,17 +26,13 @@ import {
   modèleRéponseMiseEnDemeureFileName,
 } from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure.js';
 import {
-  ModèleRéponseActionnaire,
-  modèleRéponseActionnaireFileName,
-} from './actionnaire/modèleRéponseSignéeActionnaire.js';
-import {
   ModèleRéponsePuissance,
   modèleRéponsePuissanceFileName,
 } from './puissance/modèleRéponseSignéePuissance.js';
 import {
-  ModèleRéponseDélai,
-  modèleRéponseDélaiFileName,
-} from './délai/modèleRéponseSignéeDélai.js';
+  ModèleRéponseRecours,
+  modèleRéponseRecoursFileName,
+} from './recours/modèleRéponseSignéeRecours.js';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon

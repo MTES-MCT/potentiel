@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -8,13 +8,12 @@ import { Accès } from '@potentiel-domain/projet';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
-import { withUtilisateur } from '../../utils/withUtilisateur';
 import { mapToRangeOptions } from '../../utils/pagination';
+import { withUtilisateur } from '../../utils/withUtilisateur';
 import { optionalStringArray } from '../_helpers/optionalStringArray';
-
-import { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
-import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
 import { chiffrerIdentifiantProjet, generateIV } from './_helpers/chiffrement';
+import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
+import { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),

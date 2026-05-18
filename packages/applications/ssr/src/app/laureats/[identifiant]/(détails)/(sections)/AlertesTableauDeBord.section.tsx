@@ -5,7 +5,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getAbandonInfos, getAchèvement } from '../../_helpers';
-
 import { Alerte, AlertesTableauDeBord } from './AlertesTableauDeBord';
 
 type AlertesTableauDeBordSectionProps = {

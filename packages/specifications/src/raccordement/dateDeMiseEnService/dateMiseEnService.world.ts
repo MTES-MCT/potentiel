@@ -1,5 +1,4 @@
 import { RaccordementWorld } from '../raccordement.world.js';
-
 import { ModifierDateMiseEnServiceFixture } from './fixtures/modifierDateDeMiseEnService.fixture.js';
 import { TransmettreDateMiseEnServiceFixture } from './fixtures/transmettreDateDeMiseEnService.fixture.js';
 

@@ -1,35 +1,34 @@
-import { FC } from 'react';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
-import clsx from 'clsx';
-import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import { fr } from '@codegouvfr/react-dsfr';
+import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import Button from '@codegouvfr/react-dsfr/Button';
+import clsx from 'clsx';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ConfirmationAction } from '@/components/molecules/ConfirmationAction';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 
-import { GarantiesFinancières } from '../components/GarantiesFinancières';
 import { getStatutMainlevéeLabel } from '../_helpers/statutMainlevéeLabels';
-
+import { GarantiesFinancières } from '../components/GarantiesFinancières';
+import { AccorderDemandeMainlevée } from './accorder/AccorderDemandeMainlevée.form';
+import { annulerDemandeMainlevéeGarantiesFinancièresAction } from './annuler/annulerDemandeMainlevée.action';
+import { HistoriqueMainlevéeRejetée } from './HistoriqueMainlevéeRejetée';
 import {
   ActionMainlevée,
   ActionsMainlevéeProps,
   MainlevéeEnCours,
   MainlevéeEnCoursProps,
 } from './MainlevéeEnCours';
-import { HistoriqueMainlevéeRejetée } from './HistoriqueMainlevéeRejetée';
-import { annulerDemandeMainlevéeGarantiesFinancièresAction } from './annuler/annulerDemandeMainlevée.action';
 import { passerDemandeMainlevéeEnInstructionAction } from './passerEnInstruction/passerDemandeMainlevéeEnInstruction.action';
 import { RejeterDemandeMainlevéeForm } from './rejeter/RejeterDemandeMainlevée.form';
-import { AccorderDemandeMainlevée } from './accorder/AccorderDemandeMainlevée.form';
 
 export type DétailsMainlevéePageProps = MainlevéeEnCoursProps &
   ActionsMainlevéeProps & {

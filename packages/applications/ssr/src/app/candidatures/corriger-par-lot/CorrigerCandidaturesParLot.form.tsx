@@ -1,19 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { useSearchParams } from 'next/navigation';
+import { FC, useState } from 'react';
 
-import { Période } from '@potentiel-domain/periode';
 import { PlainType } from '@potentiel-domain/core';
+import { Période } from '@potentiel-domain/periode';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  corrigerCandidaturesParLotAction,
   CorrigerCandidaturesParLotFormKeys,
+  corrigerCandidaturesParLotAction,
 } from './corrigerCandidaturesParLot.action';
 
 export type CorrigerCandidaturesParLotFormProps = {

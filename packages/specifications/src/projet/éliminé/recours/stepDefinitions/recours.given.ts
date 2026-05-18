@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world.js';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
+import { PotentielWorld } from '../../../../potentiel.world.js';
 
 EtantDonné(
   /une demande de recours en cours pour le projet éliminé/,

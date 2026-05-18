@@ -1,5 +1,4 @@
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port.js';
-
 import {
   ConsulterChangementDispositifDeStockageDependencies,
   registerConsulterChangementDispositifDeStockageQuery,

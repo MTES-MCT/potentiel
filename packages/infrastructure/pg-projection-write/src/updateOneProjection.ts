@@ -1,10 +1,10 @@
-import format from 'pg-format';
 import { flatten } from 'flat';
+import format from 'pg-format';
 
 import { Entity } from '@potentiel-domain/entity';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 

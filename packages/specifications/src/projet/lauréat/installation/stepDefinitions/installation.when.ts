@@ -3,11 +3,11 @@ import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world.js';
-import { ModifierDispositifDeStockage } from '../fixture/modifierDispositifDeStockage.fixture.js';
-import { mapToExemple } from '../../../../helpers/mapToExemple.js';
 import { dispositifDeStockageExempleMap } from '../../../../candidature/candidature.exempleMap.js';
 import { convertFixtureFileToReadableStream } from '../../../../helpers/convertFixtureFileToReadable.js';
+import { mapToExemple } from '../../../../helpers/mapToExemple.js';
+import { PotentielWorld } from '../../../../potentiel.world.js';
+import { ModifierDispositifDeStockage } from '../fixture/modifierDispositifDeStockage.fixture.js';
 
 Quand(
   "le DGEC validateur modifie l'installateur du projet lauréat",

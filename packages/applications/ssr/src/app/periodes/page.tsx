@@ -2,15 +2,15 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import z from 'zod';
 
-import { Période } from '@potentiel-domain/periode';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Période } from '@potentiel-domain/periode';
 import { Candidature } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { PériodeListPage } from './PériodeList.page';
 import { PériodeListItemProps } from './PériodeListItem';

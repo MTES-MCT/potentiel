@@ -1,17 +1,17 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 
-import next from 'next';
 import * as Sentry from '@sentry/nextjs';
+import next from 'next';
 
+import { createApiServer } from '@potentiel-applications/api';
 import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { runWebWithContext } from '@potentiel-applications/request-context';
-import { createApiServer } from '@potentiel-applications/api';
 
+import { getApiUser } from './auth/getApiUser';
+import { getSessionUser } from './auth/getSessionUser';
 import { setupLogger } from './setupLogger';
 import { setCspHeader } from './utils/csp';
-import { getSessionUser } from './auth/getSessionUser';
-import { getApiUser } from './auth/getApiUser';
 
 async function main() {
   setupLogger();

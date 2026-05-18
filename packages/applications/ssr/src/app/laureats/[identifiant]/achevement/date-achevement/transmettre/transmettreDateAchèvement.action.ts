@@ -1,7 +1,7 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';

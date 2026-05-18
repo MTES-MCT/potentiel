@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../../getScopeProjetUtilisateur.port.js';
 import { IdentifiantProjet, Lauréat } from '../../../../index.js';
+import { ChangementProducteurEntity } from '../changementProducteur.entity.js';
 
 type ChangementProducteurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

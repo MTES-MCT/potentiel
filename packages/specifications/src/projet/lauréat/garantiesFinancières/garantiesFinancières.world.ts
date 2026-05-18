@@ -1,5 +1,4 @@
 import { LauréatWorld } from '../lauréat.world.js';
-
 import { GarantiesFinancièresActuellesWorld } from './actuelles/garantiesFinancièresActuelles.world.js';
 import { DépôtGarantiesFinancièresWorld } from './dépôt/dépôtGarantiesFinancières.world.js';
 import { MainlevéeGarantiesFinancièresWorld } from './mainlevée/mainlevéeGarantiesFinancières.world.js';

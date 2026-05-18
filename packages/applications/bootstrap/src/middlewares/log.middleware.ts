@@ -1,8 +1,8 @@
 import { Middleware } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { DomainError } from '@potentiel-domain/core';
 import { getContext } from '@potentiel-applications/request-context';
+import { DomainError } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();

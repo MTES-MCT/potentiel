@@ -4,8 +4,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { DocumentProjet, GetProjetAggregateRoot, IdentifiantProjet } from '../../../../../index.js';
-import { Fournisseur } from '../../../index.js';
 import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.error.js';
+import { Fournisseur } from '../../../index.js';
 import { ModifierFournisseurOptions } from '../modifierFournisseur.option.js';
 
 export type MettreÀJourFournisseurCommand = Message<

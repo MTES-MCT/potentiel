@@ -1,20 +1,19 @@
-import { notFound } from 'next/navigation';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 
-import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevéeGarantiesFinancières';
 import { getAbandonInfos, getAchèvement, getGarantiesFinancières } from '../../_helpers';
-
+import { getMainlevéeGarantiesFinancières } from '../../_helpers/getMainlevéeGarantiesFinancières';
 import { DétailsMainlevéePage, DétailsMainlevéePageProps } from './DétailsMainlevée.page';
-import { Metadata } from 'next';
 
 export const metadata: Metadata = { title: 'Mainlevée des garanties financières' };
 

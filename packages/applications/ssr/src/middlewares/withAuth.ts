@@ -1,7 +1,7 @@
 import { parse } from 'url';
 
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { getSessionCookie } from 'better-auth/cookies';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 import { CustomMiddleware } from './middleware';
 

@@ -21,10 +21,7 @@
     "hooks": {
       "init": "./dist/hooks/init",
       "prerun": "./dist/hooks/healthcheck/prerun",
-      "finally": [
-        "./dist/hooks/finally",
-        "./dist/hooks/healthcheck/finally"
-      ]
+      "finally": ["./dist/hooks/finally", "./dist/hooks/healthcheck/finally"]
     }
   },
   "dependencies": {

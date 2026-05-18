@@ -5,11 +5,11 @@ import { Éliminé } from '@potentiel-domain/projet';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
-  mapToRecoursAnnuléTimelineItemProps,
   mapToRecoursAccordéTimelineItemProps,
-  mapToRecoursRejetéTimelineItemProps,
-  mapToRecoursPasséEnInstructionTimelineItemProp,
+  mapToRecoursAnnuléTimelineItemProps,
   mapToRecoursDemandéTimelineItemProps,
+  mapToRecoursPasséEnInstructionTimelineItemProp,
+  mapToRecoursRejetéTimelineItemProps,
 } from './events';
 
 export const mapToRecoursTimelineItemProps = (

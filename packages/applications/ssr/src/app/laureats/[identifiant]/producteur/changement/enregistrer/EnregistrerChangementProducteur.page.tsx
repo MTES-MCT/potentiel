@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading1 } from '@/components/atoms/headings';
 

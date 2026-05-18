@@ -1,17 +1,17 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command.js';
-import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command.js';
 import { registerAjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase.js';
-import { registerModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase.js';
-import {
-  ListerGestionnaireRéseauQueryDependencies,
-  registerListerGestionnaireRéseauQuery,
-} from './lister/listerGestionnaireRéseau.query.js';
 import {
   ConsulterGestionnaireRéseauQueryDependencies,
   registerConsulterGestionnaireRéseauQuery,
 } from './consulter/consulterGestionnaireRéseau.query.js';
+import {
+  ListerGestionnaireRéseauQueryDependencies,
+  registerListerGestionnaireRéseauQuery,
+} from './lister/listerGestionnaireRéseau.query.js';
+import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command.js';
+import { registerModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase.js';
 
 export type GestionnaireRéseauQueryDependencies = ListerGestionnaireRéseauQueryDependencies &
   ConsulterGestionnaireRéseauQueryDependencies;

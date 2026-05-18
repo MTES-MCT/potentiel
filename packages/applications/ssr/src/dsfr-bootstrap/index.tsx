@@ -5,8 +5,9 @@ import {
   StartDsfrOnHydration,
 } from '@codegouvfr/react-dsfr/next-app-router';
 
-import { defaultColorScheme } from './defaultColorScheme';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+
+import { defaultColorScheme } from './defaultColorScheme';
 
 declare module '@codegouvfr/react-dsfr/next-app-router' {
   interface RegisterLink {

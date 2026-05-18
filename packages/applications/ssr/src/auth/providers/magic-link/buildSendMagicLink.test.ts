@@ -1,11 +1,11 @@
-import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
+import { before, describe, test } from 'node:test';
 
 import { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
+import { Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { TrouverUtilisateurReadModel, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import { GetUtilisateurFromEmail } from '@/auth/getUtilisateurFromEmail';

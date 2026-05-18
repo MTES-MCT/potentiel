@@ -1,10 +1,9 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { LauréatWorld } from '../lauréat.world.js';
-
-import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture.js';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world.js';
+import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture.js';
 
 type Expected = Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
   demande?: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande'];

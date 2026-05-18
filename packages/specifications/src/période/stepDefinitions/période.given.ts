@@ -1,10 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../potentiel.world.js';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given.js';
-import { Candidat } from '../fixtures/notifierPériode.fixture.js';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
-
+import { PotentielWorld } from '../../potentiel.world.js';
+import { Candidat } from '../fixtures/notifierPériode.fixture.js';
 import { notifierPériode } from './période.when.js';
 
 const candidats = [

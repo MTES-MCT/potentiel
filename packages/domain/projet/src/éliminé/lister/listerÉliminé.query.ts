@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { CandidatureEntity, Localité } from '../../candidature/index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
 import { ÉliminéEntity } from '../éliminé.entity.js';
 
 type ÉliminéListItemReadModel = {

@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { RecoursListItem } from '@/app/recours/RecoursListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';

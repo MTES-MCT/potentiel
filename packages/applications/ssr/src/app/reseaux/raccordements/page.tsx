@@ -3,19 +3,19 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions } from '@/utils/pagination';
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 type PageProps = {
   searchParams?: Promise<Record<SearchParams, string>>;

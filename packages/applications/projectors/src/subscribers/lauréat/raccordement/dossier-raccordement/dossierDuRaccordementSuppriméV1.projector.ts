@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
@@ -8,7 +9,6 @@ import {
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-import { Where } from '@potentiel-domain/entity';
 
 export const dossierDuRaccordementSuppriméV1Projector = async ({
   payload: { identifiantProjet, référenceDossier },

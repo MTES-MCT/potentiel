@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';

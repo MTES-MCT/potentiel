@@ -1,15 +1,14 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
+import { getDemandeDélaiEnCoursInfos } from './getDélai';
 import {
   getAbandonInfos,
   getActionnaireInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from './getLauréat';
-
-import { getDemandeDélaiEnCoursInfos } from './getDélai';
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;

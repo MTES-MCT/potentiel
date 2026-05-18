@@ -1,4 +1,4 @@
-import { QueryResult, Pool, PoolClient } from 'pg';
+import { Pool, PoolClient, QueryResult } from 'pg';
 
 import { getConnectionString } from './getConnectionString.js';
 

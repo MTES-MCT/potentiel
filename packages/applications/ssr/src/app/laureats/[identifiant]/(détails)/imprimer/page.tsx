@@ -5,7 +5,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { getCahierDesCharges } from '../../../../_helpers';
-
 import { ImprimerPage } from './Imprimer.page';
 
 export default async function Page(props: IdentifiantParameter) {

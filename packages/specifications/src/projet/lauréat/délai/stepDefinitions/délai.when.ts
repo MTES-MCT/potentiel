@@ -1,6 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';

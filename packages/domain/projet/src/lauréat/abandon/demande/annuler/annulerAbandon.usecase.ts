@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
 import { AnnulerAbandonCommand } from './annulerAbandon.command.js';
 
 export type AnnulerAbandonUseCase = Message<

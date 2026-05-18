@@ -14,34 +14,30 @@ import { SignalerPowerPurchaseAgreementUseCase } from './signaler/signalerPowerP
 export type PowerPurchaseAgreementQuery =
   | ConsulterPowerPurchaseAgreementQuery
   | ListerHistoriquePowerPurchaseAgreementProjetQuery;
-export type {
-  ConsulterPowerPurchaseAgreementQuery,
-  ListerHistoriquePowerPurchaseAgreementProjetQuery,
-};
 
 // ReadModel
 export type {
+  ConsulterPowerPurchaseAgreementQuery,
   ConsulterPowerPurchaseAgreementReadModel,
-  ListerHistoriquePowerPurchaseAgreementProjetReadModel,
   HistoriquePowerPurchaseAgreementProjetListItemReadModel,
+  ListerHistoriquePowerPurchaseAgreementProjetQuery,
+  ListerHistoriquePowerPurchaseAgreementProjetReadModel,
 };
 
 // UseCases
 export type PowerPurchaseAgreementUseCase =
   | SignalerPowerPurchaseAgreementUseCase
   | AnnulerSignalementPowerPurchaseAgreementUseCase;
-export type {
-  SignalerPowerPurchaseAgreementUseCase,
-  AnnulerSignalementPowerPurchaseAgreementUseCase,
-};
 
+export type { SignalementPowerPurchaseAgreementAnnuléEvent } from './annulerSignalement/SignalementPowerPurchaseAgreementAnnulé.event.ts';
 // Event
 export type { PowerPurchaseAgreementEvents } from './PowerPurchaseAgreement.events.js';
-export type { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
-export type { SignalementPowerPurchaseAgreementAnnuléEvent } from './annulerSignalement/SignalementPowerPurchaseAgreementAnnulé.event.ts';
-
 // Register
 export { registerPowerPurchaseAgreementUseCases } from './PowerPurchaseAgreement.register.js';
-
 // Entities
 export type * from './powerPurchaseAgreement.entity.js';
+export type { PowerPurchaseAgreementSignaléEvent } from './signaler/PowerPurchaseAgreementSignalé.event.js';
+export type {
+  AnnulerSignalementPowerPurchaseAgreementUseCase,
+  SignalerPowerPurchaseAgreementUseCase,
+};

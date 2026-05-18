@@ -2,10 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../index.js';
 import { DocumentAchèvement } from '../index.js';
-import { EnregistrerDocumentProjetCommand } from '../../../document-projet/index.js';
-
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command.js';
 
 export type TransmettreAttestationConformitéUseCase = Message<

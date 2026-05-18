@@ -1,17 +1,16 @@
-import { FC, PropsWithChildren } from 'react';
-import clsx from 'clsx';
-import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import clsx from 'clsx';
+import { FC, PropsWithChildren } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon, IconProps } from '../../atoms/Icon';
 import { FormattedDate } from '../../atoms/FormattedDate';
-
+import { Icon, IconProps } from '../../atoms/Icon';
 import { TimelineItemTitle, TimelineItemTitleProps } from './TimelineItemTitle';
 
 export type TimelineItemBaseProps = {

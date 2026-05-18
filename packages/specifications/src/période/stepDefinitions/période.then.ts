@@ -2,16 +2,21 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
+import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
-import { Accès, IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
-import { Document } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
+import {
+  Accès,
+  Candidature,
+  Document,
+  IdentifiantProjet,
+  Lauréat,
+  Éliminé,
+} from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, convertReadableStreamToString } from '#helpers';
+import { convertReadableStreamToString, waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 

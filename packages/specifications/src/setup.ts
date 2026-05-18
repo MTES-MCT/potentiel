@@ -1,34 +1,34 @@
 import { EventEmitter } from 'events';
 
 import {
-  Before,
-  setWorldConstructor,
   After,
-  BeforeAll,
-  setDefaultTimeout,
   AfterAll,
   AfterStep,
+  Before,
+  BeforeAll,
+  setDefaultTimeout,
+  setWorldConstructor,
 } from '@cucumber/cucumber';
 import { should } from 'chai';
 import { clear } from 'mediateur';
 
-import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
+import { startSubscribers } from '@potentiel-applications/subscribers';
 import { initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { createLogger } from '@potentiel-libraries/monitoring/winston';
-import { startSubscribers } from '@potentiel-applications/subscribers';
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { waitForExpect } from '#helpers';
 
-import { PotentielWorld } from './potentiel.world.js';
-import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given.js';
-import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
 import {
   createSendEmailTestAdapter,
   mockRécupererGarantiesFinancières,
   mockRécupérerGRDParVilleAdapter,
 } from './_mocks/index.js';
 import { resetBucket } from './helpers/resetBucket.js';
+import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish.js';
+import { PotentielWorld } from './potentiel.world.js';
+import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given.js';
 
 should();
 setWorldConstructor(PotentielWorld);

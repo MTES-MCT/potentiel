@@ -1,8 +1,8 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
 import { getContext } from '@potentiel-applications/request-context';
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { AuthenticationError } from '../errors.js';

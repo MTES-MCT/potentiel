@@ -1,12 +1,12 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;

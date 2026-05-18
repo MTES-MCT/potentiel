@@ -1,12 +1,12 @@
-import { FC } from 'react';
 import Tag from '@codegouvfr/react-dsfr/Tag';
+import { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { ListItem } from '@/components/molecules/ListItem';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading3 } from '@/components/atoms/headings';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { ListItem } from '@/components/molecules/ListItem';
 
 export type DocumentItem = {
   type: string;

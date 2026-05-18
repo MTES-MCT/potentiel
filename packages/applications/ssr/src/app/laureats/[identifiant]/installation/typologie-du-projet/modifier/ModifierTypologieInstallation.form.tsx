@@ -1,22 +1,21 @@
 'use client';
 
-import { FC, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { FC, useState } from 'react';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { getTypologieInstallationLabel } from '@/app/_helpers';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { getTypologieInstallationLabel } from '@/app/_helpers';
 
 import {
-  modifierTypologieInstallationAction,
   ModifierTypologieInstallationFormKeys,
+  modifierTypologieInstallationAction,
 } from './modifierTypologieInstallation.action';
 
 export type ModifierTypologieInstallationFormProps =

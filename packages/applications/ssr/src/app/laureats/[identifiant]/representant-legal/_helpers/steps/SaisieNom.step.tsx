@@ -1,6 +1,6 @@
 'use client';
-import { FC } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';

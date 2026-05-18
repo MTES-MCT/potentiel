@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../index.js';
-
 import { RetirerAccèsProjetCommand } from './retirerAccèsProjet.command.js';
 
 export type RetirerAccèsProjetUseCase = Message<

@@ -1,5 +1,5 @@
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const gestionnaireRéseauAjoutéProjector = async ({
   payload,

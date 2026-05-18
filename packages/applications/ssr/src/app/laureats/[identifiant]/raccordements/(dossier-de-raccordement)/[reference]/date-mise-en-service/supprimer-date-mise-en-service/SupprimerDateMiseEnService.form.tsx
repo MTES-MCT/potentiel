@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useState } from 'react';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { formatDateToText } from '@/app/_helpers';
 import { Icon } from '@/components/atoms/Icon';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { supprimerDateMiseEnServiceAction } from './supprimerDateMiseEnService.action';
 

@@ -1,15 +1,15 @@
-import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
+import { registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
+import {
+  DocumentAdapter,
+  getScopeProjetUtilisateurAdapter,
+  ProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  ProjetAdapter,
-  DocumentAdapter,
-  getScopeProjetUtilisateurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
 
 export const setupProjet = () => {
   registerProjetUseCases({

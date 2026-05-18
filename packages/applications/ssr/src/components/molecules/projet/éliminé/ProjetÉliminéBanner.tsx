@@ -1,14 +1,13 @@
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { PlainType } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { ProjetBannerTemplate } from '../ProjetBanner.template';
-
 import { StatutÉliminéBadge } from './StatutÉliminéBadge';
 
 export type ProjetÉliminéBannerProps = {

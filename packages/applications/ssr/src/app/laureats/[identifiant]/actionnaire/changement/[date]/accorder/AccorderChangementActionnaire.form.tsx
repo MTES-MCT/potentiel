@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import {
-  accorderChangementActionnaireAction,
   AccorderChangementActionnaireFormKeys,
+  accorderChangementActionnaireAction,
 } from './accorderChangementActionnaire.action';
 
 type AccorderChangementActionnaireFormProps = {

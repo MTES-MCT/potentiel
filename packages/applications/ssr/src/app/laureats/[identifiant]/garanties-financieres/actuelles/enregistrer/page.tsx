@@ -1,19 +1,19 @@
 import { Metadata } from 'next';
 
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { EnregistrerGarantiesFinancièresPage } from '@/app/laureats/[identifiant]/garanties-financieres/actuelles/enregistrer/EnregistrerGarantiesFinancières.page';
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = { title: `Enregistrer des garanties financières actuelles` };
 

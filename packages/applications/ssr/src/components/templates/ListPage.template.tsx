@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import clsx from 'clsx';
+import { FC } from 'react';
 
 import { Heading1 } from '../atoms/headings';
-import { Search, SearchProps } from '../molecules/Search';
-import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../molecules/ListFilters';
-import { ListHeader } from '../organisms/ListHeader';
 import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
 import { ListPageActions, ListPageActionsProps } from '../molecules/ListPageActions';
-
+import { Search, SearchProps } from '../molecules/Search';
+import { List } from '../organisms/List';
+import { ListHeader } from '../organisms/ListHeader';
 import { PageTemplate } from './Page.template';
 
 export type ListPageTemplateProps<TItem> = {

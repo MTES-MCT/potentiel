@@ -2,12 +2,12 @@
 
 import { FC, useState } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { ValidationErrors, formAction } from '@/utils/formAction';
+import { formAction, ValidationErrors } from '@/utils/formAction';
 
 import { TransmettreDateMiseEnServiceStateFormKeys } from './transmettre/transmettreDateMiseEnService.action';
 

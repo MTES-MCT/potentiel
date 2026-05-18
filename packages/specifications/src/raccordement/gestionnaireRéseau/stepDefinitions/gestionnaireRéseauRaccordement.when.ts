@@ -1,11 +1,11 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator, Message } from 'mediateur';
+import { Message, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
+import { Email } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Email } from '@potentiel-domain/common';
 
 import { RôleUtilisateur } from '#helpers';
 

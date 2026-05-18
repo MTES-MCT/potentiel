@@ -8,34 +8,34 @@ import {
   ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query.js';
 import {
-  ListerHistoriqueProjetQuery,
-  ListerHistoriqueProjetReadModel,
-  HistoriqueListItemReadModels,
-  HistoriqueLauréatProjetListItemReadModel,
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueListItemReadModels,
+  ListerHistoriqueProjetQuery,
+  ListerHistoriqueProjetReadModel,
 } from './historique/lister/listerHistoriqueProjet.query.js';
-import { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query.js';
-import { EnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
-import {
-  ConsulterChangementNomProjetQuery,
-  ConsulterChangementNomProjetReadModel,
-} from './nom-projet/changement/consulter/consulterChangementNomProjet.js';
-import {
-  ListerChangementNomProjetQuery,
-  ListerChangementNomProjetReadModel,
-} from './nom-projet/changement/lister/listerChangementNomProjet.js';
-import { ModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
-import {
-  ListerHistoriqueLauréatQuery,
-  ListerHistoriqueLauréatReadModel,
-} from './listerHistorique/listerHistoriqueLauréat.query.js';
 import {
   LauréatEnrichiListItemReadModel,
   ListerLauréatEnrichiQuery,
   ListerLauréatEnrichiReadModel,
 } from './lister/listerLauréatEnrichi.query.js';
+import {
+  ListerHistoriqueLauréatQuery,
+  ListerHistoriqueLauréatReadModel,
+} from './listerHistorique/listerHistoriqueLauréat.query.js';
+import {
+  ConsulterChangementNomProjetQuery,
+  ConsulterChangementNomProjetReadModel,
+} from './nom-projet/changement/consulter/consulterChangementNomProjet.js';
+import { EnregistrerChangementNomProjetUseCase } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.usecase.js';
+import {
+  ListerChangementNomProjetQuery,
+  ListerChangementNomProjetReadModel,
+} from './nom-projet/changement/lister/listerChangementNomProjet.js';
+import { ModifierNomProjetUseCase } from './nom-projet/modifier/modifierNomProjet.usecase.js';
+import { ModifierSiteDeProductionUseCase } from './site-de-production/modifierSiteDeProduction.usecase.js';
 
 // Query
 export type LauréatQuery =
@@ -48,36 +48,32 @@ export type LauréatQuery =
   | ListerHistoriqueLauréatQuery
   | ListerLauréatEnrichiQuery;
 
-export type {
-  ConsulterLauréatQuery,
-  ListerLauréatQuery,
-  ConsulterCahierDesChargesQuery,
-  ListerHistoriqueProjetQuery,
-  ConsulterChangementNomProjetQuery,
-  ListerChangementNomProjetQuery,
-  ListerHistoriqueLauréatQuery,
-  ListerLauréatEnrichiQuery,
-};
-
-// ReadModel
-export type {
-  ConsulterLauréatReadModel,
-  ListerLauréatReadModel,
-  ConsulterCahierDesChargesReadModel,
-  ListerHistoriqueProjetReadModel,
-  HistoriqueListItemReadModels,
-  HistoriqueLauréatProjetListItemReadModel,
-  HistoriqueGarantiesFinancièresProjetListItemReadModel,
-  HistoriqueAchèvementProjetListItemReadModel,
-  ConsulterChangementNomProjetReadModel,
-  ListerChangementNomProjetReadModel,
-  ListerHistoriqueLauréatReadModel,
-  ListerLauréatEnrichiReadModel,
-  LauréatEnrichiListItemReadModel,
-};
-
 // Port
 export type { ConsulterCahierDesChargesPort } from './cahierDesCharges/consulter/consulterCahierDesCharges.query.js';
+// ReadModel
+export type {
+  ConsulterCahierDesChargesQuery,
+  ConsulterCahierDesChargesReadModel,
+  ConsulterChangementNomProjetQuery,
+  ConsulterChangementNomProjetReadModel,
+  ConsulterLauréatQuery,
+  ConsulterLauréatReadModel,
+  HistoriqueAchèvementProjetListItemReadModel,
+  HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueListItemReadModels,
+  LauréatEnrichiListItemReadModel,
+  ListerChangementNomProjetQuery,
+  ListerChangementNomProjetReadModel,
+  ListerHistoriqueLauréatQuery,
+  ListerHistoriqueLauréatReadModel,
+  ListerHistoriqueProjetQuery,
+  ListerHistoriqueProjetReadModel,
+  ListerLauréatEnrichiQuery,
+  ListerLauréatEnrichiReadModel,
+  ListerLauréatQuery,
+  ListerLauréatReadModel,
+};
 
 // UseCases
 export type LauréatUseCase =
@@ -85,50 +81,46 @@ export type LauréatUseCase =
   | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase
   | EnregistrerChangementNomProjetUseCase;
-export type {
-  ModifierSiteDeProductionUseCase,
-  ModifierNomProjetUseCase,
-  ChoisirCahierDesChargesUseCase,
-  EnregistrerChangementNomProjetUseCase,
-};
 
+export * as Abandon from './abandon/index.js';
+export * as Achèvement from './achèvement/index.js';
+export * as Actionnaire from './actionnaire/index.js';
+export type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
+export * as DocumentSiteDeProduction from './documentModificationSiteDeProduction.valueType.js';
+export * as Délai from './délai/index.js';
+export * as Fournisseur from './fournisseur/index.js';
+export * as GarantiesFinancières from './garanties-financières/index.js';
+export * as Installation from './installation/index.js';
+// Entities
+export type { LauréatEntity } from './lauréat.entity.js';
 // Events
 export type { LauréatEvent } from './lauréat.event.js';
+// Register
+export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register.js';
+export * as NatureDeLExploitation from './nature-de-l-exploitation/index.js';
+export type { ChangementNomProjetEntity } from './nom-projet/changement/changementNomProjet.entity.js';
+export * as DocumentNomProjet from './nom-projet/changement/documentNomProjet.valueType.js';
+export type { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+export type { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
 export type {
   LauréatNotifiéEvent,
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event.js';
-export type { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
-export type { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
-export type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
-export type { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
-export type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
-
-// Register
-export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register.js';
-
-// Entities
-export type { LauréatEntity } from './lauréat.entity.js';
-export type { ChangementNomProjetEntity } from './nom-projet/changement/changementNomProjet.entity.js';
-
-// ValueType
-export * as StatutLauréat from './statutLauréat.valueType.js';
-export * as DocumentNomProjet from './nom-projet/changement/documentNomProjet.valueType.js';
-export * as DocumentSiteDeProduction from './documentModificationSiteDeProduction.valueType.js';
-
-export * as Abandon from './abandon/index.js';
-export * as Actionnaire from './actionnaire/index.js';
-export * as Achèvement from './achèvement/index.js';
-export * as Délai from './délai/index.js';
-export * as GarantiesFinancières from './garanties-financières/index.js';
+export * as PowerPurchaseAgreement from './power-purchase-agreement/index.js';
 export * as Producteur from './producteur/index.js';
 export * as Puissance from './puissance/index.js';
-export * as Fournisseur from './fournisseur/index.js';
-export * as ReprésentantLégal from './représentantLégal/index.js';
 export * as Raccordement from './raccordement/index.js';
-export * as TâchePlanifiée from './tâche-planifiée/index.js';
+export * as ReprésentantLégal from './représentantLégal/index.js';
+export type { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
+export type { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
+// ValueType
+export * as StatutLauréat from './statutLauréat.valueType.js';
 export * as Tâche from './tâche/index.js';
-export * as Installation from './installation/index.js';
-export * as NatureDeLExploitation from './nature-de-l-exploitation/index.js';
-export * as PowerPurchaseAgreement from './power-purchase-agreement/index.js';
+export * as TâchePlanifiée from './tâche-planifiée/index.js';
+export type {
+  ChoisirCahierDesChargesUseCase,
+  EnregistrerChangementNomProjetUseCase,
+  ModifierNomProjetUseCase,
+  ModifierSiteDeProductionUseCase,
+};

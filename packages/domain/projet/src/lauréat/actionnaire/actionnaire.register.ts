@@ -1,7 +1,7 @@
 import { GetProjetAggregateRoot } from '../../index.js';
-
 import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase.js';
 import { registerAccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command.js';
+import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command.js';
 import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase.js';
 import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query.js';
 import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command.js';
@@ -25,7 +25,6 @@ import {
 } from './listerHistorique/listerHistoriqueActionnaireProjet.query.js';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command.js';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase.js';
-import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command.js';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies &

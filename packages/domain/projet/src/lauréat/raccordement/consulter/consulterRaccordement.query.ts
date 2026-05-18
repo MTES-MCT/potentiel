@@ -1,15 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Joined, LeftJoin, List, Where } from '@potentiel-domain/entity';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
-import { RaccordementEntity } from '../raccordement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
 import { RéférenceDossierRaccordement } from '../index.js';
-
+import { RaccordementEntity } from '../raccordement.entity.js';
 import {
   ConsulterDossierRaccordementReadModel,
   mapToReadModel as mapToDossierRaccordementReadModel,

@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
+import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 

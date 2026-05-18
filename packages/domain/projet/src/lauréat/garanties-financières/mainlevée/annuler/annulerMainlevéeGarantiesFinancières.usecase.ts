@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../../index.js';
-
 import { AnnulerMainlevéeGarantiesFinancièresCommand } from './annulerDemandeMainlevéeGarantiesFinancières.command.js';
 
 export type AnnulerMainlevéeGarantiesFinancièresUseCase = Message<

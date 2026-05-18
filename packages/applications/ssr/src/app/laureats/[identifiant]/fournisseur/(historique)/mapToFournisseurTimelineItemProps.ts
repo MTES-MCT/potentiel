@@ -5,10 +5,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
-  mapToFournisseurImportéTimelineItemProps,
   mapToChangementFournisseurEnregistréTimelineItemProps,
-  mapToÉvaluationCarboneModifiéeTimelineItemsProps,
+  mapToFournisseurImportéTimelineItemProps,
   mapToFournisseurModifiéTimelineItemProps,
+  mapToÉvaluationCarboneModifiéeTimelineItemsProps,
 } from './events';
 
 type MapToFournisseurTimelineItemProps = (

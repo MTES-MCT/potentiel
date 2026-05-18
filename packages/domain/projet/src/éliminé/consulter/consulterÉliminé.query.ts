@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ÉliminéEntity } from '../éliminé.entity.js';
-import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
-import { CandidatureEntity, UnitéPuissance } from '../../candidature/index.js';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query.js';
+import { CandidatureEntity, UnitéPuissance } from '../../candidature/index.js';
+import { Candidature, DocumentProjet, IdentifiantProjet } from '../../index.js';
+import { ÉliminéEntity } from '../éliminé.entity.js';
 
 export type ConsulterÉliminéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

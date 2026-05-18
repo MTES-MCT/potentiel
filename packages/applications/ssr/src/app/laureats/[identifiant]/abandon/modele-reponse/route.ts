@@ -1,20 +1,20 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges } from '@/app/_helpers';
-import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
-import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLauréat } from '../../_helpers/getLauréat';
 

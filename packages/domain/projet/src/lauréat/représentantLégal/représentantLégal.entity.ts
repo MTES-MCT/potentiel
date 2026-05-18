@@ -1,8 +1,7 @@
-import { Entity } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
+import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../index.js';
-
 import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from './index.js';
 
 export type ReprésentantLégalEntity = Entity<

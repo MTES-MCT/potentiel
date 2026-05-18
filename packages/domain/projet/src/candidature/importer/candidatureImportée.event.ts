@@ -1,15 +1,15 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { DomainEvent } from '@potentiel-domain/core';
 
-import * as StatutCandidature from '../statutCandidature.valueType.js';
-import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType.js';
-import * as TypeTechnologie from '../typeTechnologie.valueType.js';
-import * as TypeActionnariat from '../typeActionnariat.valueType.js';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType.js';
 import { IdentifiantProjet, Lauréat } from '../../index.js';
 import { Fournisseur } from '../../lauréat/fournisseur/index.js';
-import { TypologieInstallation } from '../index.js';
 import { Raccordement } from '../../lauréat/index.js';
+import * as HistoriqueAbandon from '../historiqueAbandon.valueType.js';
+import { TypologieInstallation } from '../index.js';
+import * as StatutCandidature from '../statutCandidature.valueType.js';
+import * as TypeActionnariat from '../typeActionnariat.valueType.js';
+import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType.js';
+import * as TypeTechnologie from '../typeTechnologie.valueType.js';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;

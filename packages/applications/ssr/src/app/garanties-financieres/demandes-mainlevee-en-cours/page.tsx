@@ -5,14 +5,14 @@ import z from 'zod';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { transformToOptionalEnumArray } from '@/app/_helpers';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
-import { getStatutMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/statutMainlevéeLabels';
 import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
+import { getStatutMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/statutMainlevéeLabels';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ListeDemandeMainlevéePage,

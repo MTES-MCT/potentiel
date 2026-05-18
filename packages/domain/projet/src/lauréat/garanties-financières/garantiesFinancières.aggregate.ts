@@ -1,24 +1,48 @@
 import { match, P } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate.js';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { TypeGarantiesFinancières } from '../../candidature/index.js';
-import { TâcheAggregate } from '../tâche/tâche.aggregate.js';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { TypeTâche } from '../tâche/index.js';
-
-import {
-  GarantiesFinancières,
-  MotifDemandeGarantiesFinancières,
-  StatutMainlevéeGarantiesFinancières,
-  TypeTâchePlanifiéeGarantiesFinancières,
-} from './index.js';
-
-import { GarantiesFinancièresEvent } from './garantiesFinancières.event.js';
+import { TâcheAggregate } from '../tâche/tâche.aggregate.js';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate.js';
 import { DemanderOptions } from './actuelles/demander/demanderGarantiesFinancières.options.js';
 import { EffacerHistoriqueOptions } from './actuelles/effacer/efffacerHistoriqueGarantiesFinancières.js';
+import { EnregistrerOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options.js';
+import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options.js';
+import {
+  AttestationGarantiesFinancièresEnregistréeEvent,
+  GarantiesFinancièresDemandéesEvent,
+  GarantiesFinancièresEnregistréesEvent,
+  GarantiesFinancièresImportéesEvent,
+  GarantiesFinancièresModifiéesEvent,
+  GarantiesFinancièresÉchuesEvent,
+  HistoriqueGarantiesFinancièresEffacéEvent,
+  TypeGarantiesFinancièresImportéEvent,
+} from './actuelles/garantiesFinancièresActuelles.event.js';
+import { ImporterOptions } from './actuelles/importer/importerGarantiesFinancières.option.js';
+import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options.js';
+import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options.js';
+import {
+  AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError,
+  DemandeMainlevéeDemandéeError,
+  DemandeMainlevéeEnInstructionError,
+  DépôtGarantiesFinancièresDéjàSoumisError,
+} from './dépôt/depôtGarantiesFinancières.error.js';
+import {
+  DépôtGarantiesFinancièresEnCoursModifiéEvent,
+  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
+  DépôtGarantiesFinancièresEnCoursValidéEvent,
+  DépôtGarantiesFinancièresEnCoursValidéEventV1,
+  DépôtGarantiesFinancièresSoumisEvent,
+} from './dépôt/depôtGarantiesFinancières.event.js';
+import { ModifierDépôtOptions } from './dépôt/modifier/modifierDépôtGarantiesFinancières.option.js';
+import { SoumettreDépôtOptions } from './dépôt/soumettre/soumettreDépôtGarantiesFinancières.options.js';
+import { SupprimerDépôtOptions } from './dépôt/supprimer/supprimerDépôtGarantiesFinancières.option.js';
+import { ValiderDépôtOptions } from './dépôt/valider/validerDépôtGarantiesFinancières.option.js';
 import {
   AttestationDeConformitéError,
   AttestationEtDateGarantiesFinancièresRequisesError,
@@ -36,46 +60,17 @@ import {
   ProjetExemptDeGarantiesFinancièresError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error.js';
-import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options.js';
-import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options.js';
-import { EnregistrerOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options.js';
-import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options.js';
-import { SoumettreDépôtOptions } from './dépôt/soumettre/soumettreDépôtGarantiesFinancières.options.js';
+import { GarantiesFinancièresEvent } from './garantiesFinancières.event.js';
 import {
-  AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError,
-  DemandeMainlevéeDemandéeError,
-  DemandeMainlevéeEnInstructionError,
-  DépôtGarantiesFinancièresDéjàSoumisError,
-} from './dépôt/depôtGarantiesFinancières.error.js';
-import {
-  TypeGarantiesFinancièresImportéEvent,
-  GarantiesFinancièresDemandéesEvent,
-  GarantiesFinancièresModifiéesEvent,
-  AttestationGarantiesFinancièresEnregistréeEvent,
-  GarantiesFinancièresEnregistréesEvent,
-  GarantiesFinancièresÉchuesEvent,
-  HistoriqueGarantiesFinancièresEffacéEvent,
-  GarantiesFinancièresImportéesEvent,
-} from './actuelles/garantiesFinancièresActuelles.event.js';
-import {
-  DépôtGarantiesFinancièresSoumisEvent,
-  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
-  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
-  DépôtGarantiesFinancièresEnCoursModifiéEvent,
-  DépôtGarantiesFinancièresEnCoursValidéEventV1,
-  DépôtGarantiesFinancièresEnCoursValidéEvent,
-} from './dépôt/depôtGarantiesFinancières.event.js';
-import {
-  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
-  MainlevéeGarantiesFinancièresDemandéeEvent,
-  InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
-  DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
-  DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
-} from './mainlevée/mainlevéeGarantiesFinancières.event.js';
-import { ValiderDépôtOptions } from './dépôt/valider/validerDépôtGarantiesFinancières.option.js';
-import { ModifierDépôtOptions } from './dépôt/modifier/modifierDépôtGarantiesFinancières.option.js';
-import { SupprimerDépôtOptions } from './dépôt/supprimer/supprimerDépôtGarantiesFinancières.option.js';
+  GarantiesFinancières,
+  MotifDemandeGarantiesFinancières,
+  StatutMainlevéeGarantiesFinancières,
+  TypeTâchePlanifiéeGarantiesFinancières,
+} from './index.js';
+import { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options.js';
+import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options.js';
 import { DemanderMainlevéeOptions } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.options.js';
+import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options.js';
 import {
   AttestationConformitéManquanteError,
   DépôtDeGarantiesFinancièresÀSupprimerError,
@@ -85,11 +80,14 @@ import {
   ProjetNonAbandonnéError,
   ProjetNonAchevéError,
 } from './mainlevée/mainlevéeGarantiesFinancières.error.js';
-import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options.js';
-import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options.js';
-import { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options.js';
+import {
+  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
+  DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
+  InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+  MainlevéeGarantiesFinancièresDemandéeEvent,
+} from './mainlevée/mainlevéeGarantiesFinancières.event.js';
 import { RejeterMainlevéeOptions } from './mainlevée/rejeter/rejeterMainlevéeGarantiesFinancières.options.js';
-import { ImporterOptions } from './actuelles/importer/importerGarantiesFinancières.option.js';
 
 type GarantiesFinancièresActuelles = {
   garantiesFinancières: GarantiesFinancières.ValueType;

@@ -1,9 +1,9 @@
 import { createServer } from 'http';
 
-import { initLogger } from '@potentiel-libraries/monitoring';
-import { createLogger } from '@potentiel-libraries/monitoring/winston';
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { initLogger } from '@potentiel-libraries/monitoring';
+import { createLogger } from '@potentiel-libraries/monitoring/winston';
 
 import { createApiServer } from '../src/server.js';
 

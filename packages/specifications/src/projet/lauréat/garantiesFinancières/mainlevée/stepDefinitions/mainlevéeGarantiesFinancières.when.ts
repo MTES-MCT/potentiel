@@ -3,9 +3,9 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture.js';
-import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable.js';
 
 Quand(
   'le porteur demande la mainlevée des garanties financières',

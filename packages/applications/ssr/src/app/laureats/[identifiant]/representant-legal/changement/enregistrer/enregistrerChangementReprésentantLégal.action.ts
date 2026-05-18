@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { demanderOuEnregistrerChangementSchema } from '../../_helpers/schema';

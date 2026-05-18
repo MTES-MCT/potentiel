@@ -2,22 +2,22 @@
 
 import { mediator } from 'mediateur';
 
-import { Accès, Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
+import { Accès, Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/_helpers';
-import {
-  modifierLauréatEtCandidatureSchéma,
-  PartialModifierCandidatureNotifiéeFormEntries,
-} from '@/utils/candidature';
 import {
   getLauréatInfos,
   getPuissanceInfos,
   getReprésentantLégalInfos,
 } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+import {
+  modifierLauréatEtCandidatureSchéma,
+  PartialModifierCandidatureNotifiéeFormEntries,
+} from '@/utils/candidature';
+import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerCandidaturesState = FormState;
 

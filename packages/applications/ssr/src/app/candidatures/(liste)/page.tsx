@@ -1,23 +1,22 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import z from 'zod';
 import { redirect } from 'next/navigation';
+import z from 'zod';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Routes } from '@potentiel-applications/routes';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
-import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 
 import { instructionSchema } from '../../../utils/candidature';
-
 import { CandidatureListPage } from './CandidatureList.page';
 
 type PageProps = {

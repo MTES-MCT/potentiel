@@ -1,12 +1,12 @@
 import assert from 'assert';
 
 import { DateTime } from '@potentiel-domain/common';
+import { Where } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-import { Where } from '@potentiel-domain/entity';
 
 type DateMiseEnServiceModifiéeProps = (
   | Lauréat.Raccordement.DateMiseEnServiceModifiéeEventV1

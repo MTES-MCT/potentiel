@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../index.js';
-
 import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command.js';
 
 export type ExécuterTâchePlanifiéeUseCase = Message<

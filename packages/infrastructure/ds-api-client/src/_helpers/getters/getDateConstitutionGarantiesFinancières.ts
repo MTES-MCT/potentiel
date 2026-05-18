@@ -1,5 +1,4 @@
 import { createDossierAccessor, GetDossierQuery } from '../../graphql/index.js';
-
 import { getTypeGarantiesFinancières } from './getTypeGarantiesFinancières.js';
 
 const gfDateLabels = {

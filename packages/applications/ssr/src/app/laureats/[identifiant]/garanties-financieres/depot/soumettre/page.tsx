@@ -1,20 +1,19 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { vérifierProjetNonExemptDeGarantiesFinancières } from '../../_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
-
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
 
 export const metadata: Metadata = { title: 'Soumettre des garanties financières' };

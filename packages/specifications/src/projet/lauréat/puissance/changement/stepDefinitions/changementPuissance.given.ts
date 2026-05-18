@@ -1,11 +1,10 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
-
 import {
-  demanderChangementPuissance,
   accorderChangementPuissance,
   annulerChangementPuissance,
+  demanderChangementPuissance,
   rejeterChangementPuissance,
 } from './changementPuissance.when.js';
 

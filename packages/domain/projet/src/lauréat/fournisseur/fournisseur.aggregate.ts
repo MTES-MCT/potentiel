@@ -2,16 +2,11 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate.js';
 import { Lauréat } from '../../index.js';
-
-import { ChangementFournisseurEnregistréEvent, Fournisseur } from './index.js';
-
-import { FournisseurEvent } from './fournisseur.event.js';
-import { ImporterOptions } from './importer/importerFournisseur.option.js';
-import { FournisseurImportéEvent } from './importer/importerFournisseur.event.js';
-import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options.js';
-import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event.js';
+import { LauréatAggregate } from '../lauréat.aggregate.js';
+import { EnregistrerChangementFournisseurOptions } from './changement/miseAJour/enregistrerChangement.option.js';
+import { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event.js';
+import { ModifierFournisseurOptions } from './changement/miseAJour/modifierFournisseur.option.js';
 import {
   ChangementFournisseurValeurIdentiqueError,
   FournisseursIdentiqueError,
@@ -19,9 +14,12 @@ import {
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
 } from './fournisseur.error.js';
-import { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event.js';
-import { ModifierFournisseurOptions } from './changement/miseAJour/modifierFournisseur.option.js';
-import { EnregistrerChangementFournisseurOptions } from './changement/miseAJour/enregistrerChangement.option.js';
+import { FournisseurEvent } from './fournisseur.event.js';
+import { FournisseurImportéEvent } from './importer/importerFournisseur.event.js';
+import { ImporterOptions } from './importer/importerFournisseur.option.js';
+import { ChangementFournisseurEnregistréEvent, Fournisseur } from './index.js';
+import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event.js';
+import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options.js';
 
 export class FournisseurAggregate extends AbstractAggregate<
   FournisseurEvent,

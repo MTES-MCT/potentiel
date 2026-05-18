@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { RaccordementEntity } from '../raccordement.entity.js';
-import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
-import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { Localité, UnitéPuissance } from '../../../candidature/index.js';
+import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
+import { LauréatEntity, Puissance, StatutLauréat } from '../../index.js';
 import { DossierRaccordementEntity } from '../dossierRaccordement.entity.js';
+import { RaccordementEntity } from '../raccordement.entity.js';
 
 type DossierRaccordementManquant = {
   nomProjet: string;

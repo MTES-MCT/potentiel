@@ -1,18 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { FC, useState } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  corrigerRéférenceDossierAction,
   CorrigerRéférenceDossierFormKeys,
+  corrigerRéférenceDossierAction,
 } from './corrigerRéférenceDossier.action';
 
 export type CorrigerRéférenceDossierFormProps = {

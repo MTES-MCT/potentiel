@@ -1,7 +1,8 @@
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 export const InscriptionConnexion = () => (
   <section className="lg:p-8 bg-[linear-gradient(180deg,_var(--text-label-blue-france)_50%,_var(--background-default-grey)_50%)]">

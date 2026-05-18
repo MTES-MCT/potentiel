@@ -3,13 +3,13 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getCandidature } from '@/app/_helpers';
+import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getCandidature } from '@/app/_helpers';
-import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
-import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 

@@ -1,13 +1,12 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given.js';
 import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given.js';
-
 import { importerCandidature } from './candidature.given.js';
 
 Quand(

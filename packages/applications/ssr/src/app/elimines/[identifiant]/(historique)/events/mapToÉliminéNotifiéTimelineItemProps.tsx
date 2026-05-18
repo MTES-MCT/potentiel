@@ -1,7 +1,7 @@
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
 import { formatDateToText } from '@/app/_helpers';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToÉliminéNotifiéTimelineItemProps = (
   event: Éliminé.ÉliminéNotifiéEvent,

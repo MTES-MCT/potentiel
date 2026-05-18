@@ -1,17 +1,17 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 
+import { getÉliminé } from '@/app/_helpers/getÉliminé';
+import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getÉliminé } from '@/app/_helpers/getÉliminé';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 type LayoutProps = IdentifiantParameter & {
   children: React.ReactNode;

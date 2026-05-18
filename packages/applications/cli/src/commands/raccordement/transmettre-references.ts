@@ -1,16 +1,15 @@
 import { Args, Command } from '@oclif/core';
-import z from 'zod';
 import { mediator } from 'mediateur';
+import z from 'zod';
 
-import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import { Document, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { dbSchema } from '#helpers';
-
 import { parseCsvFile } from '#helpers/files';
 
 const csvSchema = z.object({

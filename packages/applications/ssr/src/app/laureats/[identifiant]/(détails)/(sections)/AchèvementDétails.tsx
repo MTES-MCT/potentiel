@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { TertiaryLink } from '@/components/atoms/form/TertiaryLink';

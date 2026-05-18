@@ -3,7 +3,6 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { getTypeGarantiesFinancières } from '../index.js';
-
 import { getDateConstitutionGarantiesFinancières } from './getDateConstitutionGarantiesFinancières.js';
 
 export const getDateÉchéanceGarantiesFinancières = ({

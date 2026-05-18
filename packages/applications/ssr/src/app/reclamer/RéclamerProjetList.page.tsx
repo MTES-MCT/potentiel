@@ -5,7 +5,7 @@ import { RangeOptions } from '@potentiel-domain/entity';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
-import { RéclamerProjetsListItemProps, RéclamerProjetsListItem } from './RéclamerProjetsListItem';
+import { RéclamerProjetsListItem, RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
 
 export type RéclamerProjetsListPageProps = {
   filters: ListPageTemplateProps<RéclamerProjetsListItemProps>['filters'];

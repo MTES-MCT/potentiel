@@ -5,12 +5,11 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { Heading3 } from '@/components/atoms/headings';
+import { ValidationErrors } from '@/utils/formAction';
 
 import { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
 import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
-
 import { SaisieTypeSociétéStep, TypeSociété } from './SaisieTypeSociété.step';
 
 type Contexte = 'demander' | 'modifier' | 'corriger';

@@ -2,11 +2,11 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { waitForExpect, expectFileContent } from '#helpers';
+import { expectFileContent, waitForExpect } from '#helpers';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';
 

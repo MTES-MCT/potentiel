@@ -5,10 +5,9 @@ export * from './convertReadableToString.js';
 export * from './convertStringToReadableStream.js';
 export * from './createS3ClientWithMD5.js';
 export * from './expectFileContent.js';
-
 export * from './getRôle.js';
 export * from './mapToExemple.js';
-export * from './sleep.js';
-export * from './waitForSagasNotificationsAndProjectionsToFinish.js';
-export * from './waitForExpect.js';
 export type * from './PièceJustificative.js';
+export * from './sleep.js';
+export * from './waitForExpect.js';
+export * from './waitForSagasNotificationsAndProjectionsToFinish.js';

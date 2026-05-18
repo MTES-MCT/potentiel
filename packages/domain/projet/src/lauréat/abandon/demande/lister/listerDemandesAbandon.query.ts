@@ -3,15 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { LauréatEntity } from '../../../lauréat.entity.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import {
   AutoritéCompétente,
   DemandeAbandonEntity,
   StatutAbandon,
   StatutPreuveRecandidature,
 } from '../../index.js';
-import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 type DemandeAbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

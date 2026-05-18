@@ -1,11 +1,11 @@
-import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { getCahierDesCharges } from '@/app/_helpers';
 
-import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 import { mapChangements } from './mapChangements';
+import { peutEffectuerUnChangement } from './peutEffectuerUnChangement';
 
 type Props<TDomain extends AppelOffre.DomainesConcernésParMiseÀJour> = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -36,7 +36,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
     return;
   }
 
-  if (!!modifier && rôle.aLaPermission(modifier.permission) && règlesModification) {
+  if (modifier && rôle.aLaPermission(modifier.permission) && règlesModification) {
     return {
       url: modifier.url(identifiantProjet.formatter()),
       label: modifier.label,
@@ -50,7 +50,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
   }
 
   if (
-    !!enregistrerChangement &&
+    enregistrerChangement &&
     !nécessiteInstruction &&
     rôle.aLaPermission(enregistrerChangement.permission) &&
     règlesChangement.informationEnregistrée
@@ -63,7 +63,7 @@ export const getAction = async <TDomain extends AppelOffre.DomainesConcernésPar
   }
 
   if (
-    !!demanderChangement &&
+    demanderChangement &&
     nécessiteInstruction !== false &&
     rôle.aLaPermission(demanderChangement.permission) &&
     règlesChangement.demande

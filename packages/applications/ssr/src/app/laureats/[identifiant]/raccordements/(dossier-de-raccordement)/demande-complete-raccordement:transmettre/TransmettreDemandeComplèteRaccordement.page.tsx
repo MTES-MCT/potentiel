@@ -7,11 +7,10 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
-  InformationDemandeComplèteRaccordementProps,
   InformationDemandeComplèteRaccordement,
+  InformationDemandeComplèteRaccordementProps,
 } from '../[reference]/(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
 import { AucunDossierDeRaccordementAlert } from '../components/AucunDossierDeRaccordementAlert';
-
 import {
   TransmettreDemandeComplèteRaccordementForm,
   TransmettreDemandeComplèteRaccordementFormProps,

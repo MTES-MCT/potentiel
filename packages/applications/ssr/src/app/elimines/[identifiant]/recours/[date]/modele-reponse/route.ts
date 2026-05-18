@@ -1,21 +1,21 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
-import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const GET = async (
   _: Request,

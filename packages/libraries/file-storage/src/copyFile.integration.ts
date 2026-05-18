@@ -2,10 +2,10 @@ import { before, beforeEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
 
-import { download } from './download.js';
-import { upload } from './upload.js';
 import { copyFile } from './copyFile.js';
+import { download } from './download.js';
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration.js';
+import { upload } from './upload.js';
 
 describe(`copy file`, () => {
   const bucketName = 'potentiel';

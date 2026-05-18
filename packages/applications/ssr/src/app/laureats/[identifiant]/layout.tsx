@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { PageTemplate } from '@/components/templates/Page.template';

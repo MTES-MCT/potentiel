@@ -1,4 +1,4 @@
-import { describe, it, after, before, beforeEach } from 'node:test';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { expect, should } from 'chai';
 
@@ -7,7 +7,6 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../../publish/publish.js';
 import { registerSubscriber } from '../subscriber/registerSubscriber.js';
-
 import { acknowledge, acknowledgeError } from './acknowledge.js';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements.js';
 

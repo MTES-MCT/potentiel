@@ -1,5 +1,4 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
-
 import { registerAccorderRecoursCommand } from './accorder/accorderRecours.command.js';
 import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.usecase.js';
 import { registerAnnulerRecoursCommand } from './annuler/annulerRecours.command.js';
@@ -8,8 +7,14 @@ import {
   ConsulterDemandeRecoursDependencies,
   registerConsulterDemandeRecoursQuery,
 } from './consulter/consulterDemandeRecours.query.js';
+import {
+  ConsulterRecoursDependencies,
+  registerConsulterRecoursQuery,
+} from './consulter/consulterRecours.query.js';
 import { registerDemanderRecoursCommand } from './demander/demanderRecours.command.js';
 import { registerDemanderRecoursUseCase } from './demander/demanderRecours.usecase.js';
+import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command.js';
+import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
 import {
   ListerDemandeRecoursDependencies,
   registerListerDemandeRecoursQuery,
@@ -20,12 +25,6 @@ import {
 } from './listerHistorique/listerHistoriqueRecoursProjet.query.js';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command.js';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase.js';
-import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase.js';
-import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command.js';
-import {
-  ConsulterRecoursDependencies,
-  registerConsulterRecoursQuery,
-} from './consulter/consulterRecours.query.js';
 
 export type RecoursQueryDependencies = ConsulterDemandeRecoursDependencies &
   ConsulterRecoursDependencies &

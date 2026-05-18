@@ -1,4 +1,4 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';

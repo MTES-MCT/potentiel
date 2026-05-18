@@ -1,19 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Candidature } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector.js';
 import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector.js';
-import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector.js';
-import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector.js';
+import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector.js';
 import { candidatureImportéeProjector } from './candidatureImportée.projector.js';
 import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector.js';
-import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector.js';
-import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector.js';
+import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector.js';
+import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector.js';
 import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector.js';
+import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector.js';
 import { détailCandidatureImportéProjector } from './détailCandidatureImporté.projector.js';
+import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector.js';
 
 export type SubscriptionEvent = Candidature.CandidatureEvent | RebuildTriggered;
 

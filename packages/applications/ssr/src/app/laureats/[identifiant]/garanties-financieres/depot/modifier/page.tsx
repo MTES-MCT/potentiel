@@ -1,21 +1,20 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { getCahierDesCharges } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges } from '@/app/_helpers';
 
 import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
-
 import {
   ModifierDépôtGarantiesFinancièresPage,
   ModifierDépôtGarantiesFinancièresPageProps,

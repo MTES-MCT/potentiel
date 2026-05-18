@@ -12,10 +12,15 @@ import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecas
 
 // Query
 export type PériodeQuery = ConsulterPériodeQuery | ListerPériodesQuery;
-export type { ConsulterPériodeQuery, ListerPériodesQuery };
 
 // Read Models
-export type { ConsulterPériodeReadModel, ListerPériodesReadModel, ListerPériodeItemReadModel };
+export type {
+  ConsulterPériodeQuery,
+  ConsulterPériodeReadModel,
+  ListerPériodeItemReadModel,
+  ListerPériodesQuery,
+  ListerPériodesReadModel,
+};
 
 // UseCases
 export type PériodeUseCase = NotifierPériodeUseCase;
@@ -23,13 +28,11 @@ export type { NotifierPériodeUseCase };
 
 // Events
 export type PériodeEvent = PériodeNotifiéeEvent;
-export type { PériodeNotifiéeEvent };
-
-// Register
-export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
-
-// Entity
-export type * from './période.entity.js';
 
 // Value types
 export * as IdentifiantPériode from './identifiantPériode.valueType.js';
+// Entity
+export type * from './période.entity.js';
+// Register
+export { registerPériodeQueries, registerPériodeUseCases } from './register.js';
+export type { PériodeNotifiéeEvent };

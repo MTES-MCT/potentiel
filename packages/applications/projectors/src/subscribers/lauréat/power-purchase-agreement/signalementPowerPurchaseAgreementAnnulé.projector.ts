@@ -1,5 +1,5 @@
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const signalementPowerPurchaseAgreementAnnuléProjector = async ({
   payload: { identifiantProjet },

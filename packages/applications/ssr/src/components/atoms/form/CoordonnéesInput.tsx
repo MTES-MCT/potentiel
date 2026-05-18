@@ -1,10 +1,9 @@
 'use client';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import InputLabel from '@mui/material/InputLabel';
-import React, { useMemo } from 'react';
-import { useState } from 'react';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import InputLabel from '@mui/material/InputLabel';
+import React, { useMemo, useState } from 'react';
 
 import { Candidature } from '@potentiel-domain/projet';
 

@@ -1,5 +1,5 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getDSApiClient } from './graphql/index.js';
 

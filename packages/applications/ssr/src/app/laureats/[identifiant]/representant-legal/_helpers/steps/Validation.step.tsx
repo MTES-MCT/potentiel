@@ -1,11 +1,10 @@
 'use client';
-import { FC } from 'react';
 import { Notice } from '@codegouvfr/react-dsfr/Notice';
+import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { getTypeReprésentantLégalLabel } from '../getTypeReprésentantLégalLabel';
-
 import { TypeSociété } from './SaisieTypeSociété.step';
 
 type ValidationStepProps = {

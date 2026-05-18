@@ -2,12 +2,12 @@ import { mediator } from 'mediateur';
 import { extension } from 'mime-types';
 import { notFound } from 'next/navigation';
 
+import { Document, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Lauréat, Éliminé, Document } from '@potentiel-domain/projet';
 
-import { decodeParameter } from '@/utils/decodeParameter';
 import { apiAction } from '@/utils/apiAction';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet

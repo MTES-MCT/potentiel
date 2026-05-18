@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { CorrigerDocumentProjetCommand } from '../../../../document-projet/index.js';
 import { IdentifiantProjet } from '../../../../index.js';
 import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
-
 import { CorrigerChangementReprésentantLégalCommand } from './corrigerChangementReprésentantLégal.command.js';
 
 export type CorrigerChangementReprésentantLégalUseCase = Message<

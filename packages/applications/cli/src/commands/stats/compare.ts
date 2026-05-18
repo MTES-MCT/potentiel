@@ -11,7 +11,8 @@ import { dbSchema } from '#helpers';
 export default class CompareStats extends Command {
   static monitoringSlug = 'extraire-donnees-statistiques-publiques';
 
-  static override description = `Extrait les données des statistiques publiques et compare les données générées aux précédentes (camembert / scalar seulement).
+  static override description =
+    `Extrait les données des statistiques publiques et compare les données générées aux précédentes (camembert / scalar seulement).
   
   Cette commande effectue réellement la mise à jour, donc il faut penser à remettre la DB à l'état initial entre deux essais`;
 

@@ -4,7 +4,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '../../candidature/index.js';
-
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,

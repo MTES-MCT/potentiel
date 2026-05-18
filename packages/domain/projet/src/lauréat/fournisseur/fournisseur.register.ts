@@ -1,25 +1,24 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port.js';
-
 import {
   ConsulterChangementFournisseurDependencies,
   registerConsulterChangementFournisseurQuery,
 } from './changement/consulter/consulterChangementFournisseur.query.js';
 import {
+  ListerChangementFournisseurDependencies,
+  registerListerChangementFournisseurQuery,
+} from './changement/lister/listerChangementFournisseur.query.js';
+import { registerMettreÀJourFournisseurCommand } from './changement/miseAJour/common/mettreÀJourFournisseur.command.js';
+import { registerMettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
+import {
   ConsulterFournisseurDependencies,
   registerConsulterFournisseurQuery,
 } from './consulter/consulterFournisseur.query.js';
 import {
-  ListerChangementFournisseurDependencies,
-  registerListerChangementFournisseurQuery,
-} from './changement/lister/listerChangementFournisseur.query.js';
-import { registerModifierÉvaluationCarboneCommand } from './modifier/modifierÉvaluationCarbone.command.js';
-import { registerModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase.js';
-import {
   ListerHistoriqueFournisseurProjetDependencies,
   registerListerHistoriqueFournisseurProjetQuery,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query.js';
-import { registerMettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase.js';
-import { registerMettreÀJourFournisseurCommand } from './changement/miseAJour/common/mettreÀJourFournisseur.command.js';
+import { registerModifierÉvaluationCarboneCommand } from './modifier/modifierÉvaluationCarbone.command.js';
+import { registerModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase.js';
 
 export type FournisseurQueryDependencies = ConsulterFournisseurDependencies &
   ConsulterChangementFournisseurDependencies &

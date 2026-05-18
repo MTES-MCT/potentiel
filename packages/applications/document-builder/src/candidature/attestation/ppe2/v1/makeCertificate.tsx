@@ -3,16 +3,15 @@ import React from 'react';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
+import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { Certificate } from '../components/Certificate.js';
 import { Footnotes } from '../components/Footnotes.js';
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions.js';
 import { Objet } from '../components/Objet.js';
 import { Signature } from '../components/Signature.js';
-
-import { Header } from './Header.js';
-import { buildLauréat } from './Laureat.js';
 import { buildElimine } from './Elimine.js';
+import { Header } from './Header.js';
 import { Introduction } from './Introduction.js';
+import { buildLauréat } from './Laureat.js';
 
 const makeCertificate = (
   project: AttestationPPE2Options,

@@ -1,17 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Where, List, RangeOptions, Joined, LeftJoin } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
+import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { StatutLauréat } from '../../../index.js';
+import { LauréatEntity } from '../../../lauréat.entity.js';
+import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 import {
   GarantiesFinancièresEntity,
   MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
 } from '../../index.js';
-import { LauréatEntity } from '../../../lauréat.entity.js';
-import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
-import { StatutLauréat } from '../../../index.js';
-import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
 
 export type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,6 +1,6 @@
-import { match } from 'ts-pattern';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { match } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 

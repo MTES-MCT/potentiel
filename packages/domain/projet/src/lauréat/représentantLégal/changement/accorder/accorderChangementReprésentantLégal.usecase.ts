@@ -3,10 +3,9 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { IdentifiantProjet } from '../../../../index.js';
 import { TypeReprésentantLégal } from '../../index.js';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
-import { IdentifiantProjet } from '../../../../index.js';
-
 import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command.js';
 
 export type AccorderChangementReprésentantLégalUseCase = Message<

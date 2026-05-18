@@ -1,5 +1,5 @@
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DomainEvent } from '@potentiel-domain/core';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { Event } from '../../event.js';
 

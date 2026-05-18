@@ -1,16 +1,16 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { FC, useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { inviterPorteurAction, InviterPorteurFormKeys } from './inviterPorteur.action';
+import { InviterPorteurFormKeys, inviterPorteurAction } from './inviterPorteur.action';
 
 export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;

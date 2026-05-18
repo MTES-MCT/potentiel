@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Email, DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Utilisateur } from '../index.js';
-
 import { ModifierRôleUtilisateurCommand } from './modifierRôleUtilisateur.command.js';
 
 export type ModifierRôleUtilisateurUseCase = Message<

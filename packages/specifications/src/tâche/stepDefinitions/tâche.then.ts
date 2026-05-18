@@ -1,6 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { expect } from 'chai';
+import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 

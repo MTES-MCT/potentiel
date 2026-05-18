@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import { RaccordementEntity } from '../raccordement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { RaccordementEntity } from '../raccordement.entity.js';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel =
   GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel;

@@ -1,18 +1,17 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getLauréatInfos } from '../../_helpers';
-
 import { SignalerPowerPurchaseAgreementPage } from './SignalerPowerPurchaseAgreement.page';
-import { featureFlag } from '@/app/_helpers/getFeatureFlag';
 
 export const metadata: Metadata = { title: 'Signaler un PPA' };
 

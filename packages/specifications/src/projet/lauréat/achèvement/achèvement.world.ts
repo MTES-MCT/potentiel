@@ -5,13 +5,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PièceJustificative } from '#helpers';
 
 import { LauréatWorld } from '../lauréat.world.js';
-
-import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
 import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture.js';
-import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
-import { ModifierAchèvementFixture } from './fixture/modifierAchèvement.fixture.js';
 import { EnregistrerAttestationConformitéFixture } from './fixture/enregistrerAttestationConformité.fixture.js';
+import { ModifierAchèvementFixture } from './fixture/modifierAchèvement.fixture.js';
 import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture.js';
+import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture.js';
+import { TransmettreDateAchèvementFixture } from './fixture/transmettreDateAchèvement.fixture.js';
 
 export class AchèvementWorld {
   #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;

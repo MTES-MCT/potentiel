@@ -1,9 +1,9 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
 import { StatutÉliminéBadge } from '@/components/molecules/projet/éliminé/StatutÉliminéBadge';

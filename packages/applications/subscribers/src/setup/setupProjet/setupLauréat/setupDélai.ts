@@ -1,5 +1,5 @@
-import { HistoriqueProjector, DélaiProjector } from '@potentiel-applications/projectors';
 import { DélaiNotification } from '@potentiel-applications/notifications';
+import { DélaiProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 

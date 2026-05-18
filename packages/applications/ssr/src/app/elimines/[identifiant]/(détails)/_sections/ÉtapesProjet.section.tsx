@@ -2,13 +2,12 @@ import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { getÉliminé } from '../../../../_helpers/getÉliminé';
 import { getRecours } from '../../../../_helpers/getRecours';
-
+import { getÉliminé } from '../../../../_helpers/getÉliminé';
 import { EtapesProjet, ÉtapeProjet } from './ÉtapesProjet';
 
 type ÉtapesProjetSectionProps = {

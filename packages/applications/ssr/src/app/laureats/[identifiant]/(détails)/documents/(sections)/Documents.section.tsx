@@ -1,10 +1,10 @@
+import Notice from '@codegouvfr/react-dsfr/Notice';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
-import Notice from '@codegouvfr/react-dsfr/Notice';
 
+import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Routes } from '@potentiel-applications/routes';
 
 import {
   getAbandonInfos,
@@ -12,10 +12,10 @@ import {
   getGarantiesFinancières,
   getLauréatInfos,
 } from '@/app/laureats/[identifiant]/_helpers';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
 import { DocumentItem } from '@/components/organisms/document/DocumentListItem';
 import { DocumentsList } from '@/components/organisms/document/DocumentsList';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type DocumentsSectionProps = {
   identifiantProjet: IdentifiantProjet.RawType;

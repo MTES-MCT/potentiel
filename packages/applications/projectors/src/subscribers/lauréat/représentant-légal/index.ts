@@ -1,19 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
+import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { représentantLégalRebuildTriggeredProjector } from './représentantLégalRebuildTriggered.projector.js';
-import { représentantLégalImportéProjector } from './représentantLégalImporté.projector.js';
-import { représentantLégalModifiéProjector } from './représentantLégalModifié.projector.js';
-import { changementReprésentantLégalDemandéProjector } from './changement/changementReprésentantLégalDemandé.projector.js';
 import { changementReprésentantLégalAccordéProjector } from './changement/changementReprésentantLégalAccordé.projector.js';
-import { changementReprésentantLégalRejetéProjector } from './changement/changementReprésentantLégalRejeté.projector.js';
-import { changementReprésentantLégalSuppriméProjector } from './changement/changementReprésentantLégalSupprimé.projector.js';
 import { changementReprésentantLégalAnnuléProjector } from './changement/changementReprésentantLégalAnnulé.projector.js';
 import { changementReprésentantLégalCorrigéProjector } from './changement/changementReprésentantLégalCorrigé.projector.js';
+import { changementReprésentantLégalDemandéProjector } from './changement/changementReprésentantLégalDemandé.projector.js';
 import { changementReprésentantLégalEnregistréProjector } from './changement/changementReprésentantLégalEnregistré.projector.js';
+import { changementReprésentantLégalRejetéProjector } from './changement/changementReprésentantLégalRejeté.projector.js';
+import { changementReprésentantLégalSuppriméProjector } from './changement/changementReprésentantLégalSupprimé.projector.js';
+import { représentantLégalImportéProjector } from './représentantLégalImporté.projector.js';
+import { représentantLégalModifiéProjector } from './représentantLégalModifié.projector.js';
+import { représentantLégalRebuildTriggeredProjector } from './représentantLégalRebuildTriggered.projector.js';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent | RebuildTriggered;
 

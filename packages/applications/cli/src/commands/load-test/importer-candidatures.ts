@@ -1,18 +1,18 @@
 import { Command, Flags } from '@oclif/core';
-import zod from 'zod';
 import { mediator } from 'mediateur';
+import zod from 'zod';
 
+import { DateTime, Email } from '@potentiel-domain/common';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import {
   Candidature,
   Document,
   IdentifiantProjet,
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { DateTime, Email } from '@potentiel-domain/common';
 import { getDossier } from '@potentiel-infrastructure/ds-api-client';
+import { Option } from '@potentiel-libraries/monads';
 
 import { appSchema, dbSchema, dsSchema } from '#helpers';
 

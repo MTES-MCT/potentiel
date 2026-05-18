@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../../lauréat.entity.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../../index.js';
+import { LauréatEntity } from '../../../lauréat.entity.js';
 import { AutoritéCompétente, StatutDemandeDélai } from '../../index.js';
 import { DemandeDélaiEntity } from '../demandeDélai.entity.js';
 

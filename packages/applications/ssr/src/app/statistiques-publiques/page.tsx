@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
 import { SignJWT } from 'jose';
+import { Metadata } from 'next';
 import { z } from 'zod';
 
 import { StatistiquesPubliquesPage } from '@/app/statistiques-publiques/StatistiquesPubliques.page';

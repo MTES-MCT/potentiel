@@ -3,6 +3,8 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { handleDépôtGarantiesFinancièresModifié } from './handlers/dépôt/dépôtGarantiesFinancièresModifié.handler.js';
+import { handleDépôtGarantiesFinancièresSupprimé } from './handlers/dépôt/dépôtGarantiesFinancièresSupprimé.handler.js';
 import {
   handleAttestationGarantiesFinancièresEnregistrée,
   handleDemandeMainlevéeAccordée,
@@ -14,9 +16,7 @@ import {
   handleGarantiesFinancièresÉchues,
   handleMainlevéeDemandée,
 } from './handlers/index.js';
-import { handleDépôtGarantiesFinancièresSupprimé } from './handlers/dépôt/dépôtGarantiesFinancièresSupprimé.handler.js';
 import { handleDemandeMainlevéeAnnulée } from './handlers/mainlevée/demandeMainlevéeAnnulée.handler.js';
-import { handleDépôtGarantiesFinancièresModifié } from './handlers/dépôt/dépôtGarantiesFinancièresModifié.handler.js';
 
 export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent;
 

@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { CandidatureEntity } from '../candidature.entity.js';
 import { Candidature, GetScopeProjetUtilisateur, IdentifiantProjet } from '../../index.js';
+import { CandidatureEntity } from '../candidature.entity.js';
 import {
   Dépôt,
   DétailFournisseursCandidatureEntity,

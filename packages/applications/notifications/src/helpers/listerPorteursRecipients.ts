@@ -1,9 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Accès } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
+import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Recipient } from '#sendEmail';
 

@@ -9,7 +9,7 @@ export type GarantiesFinancièresUseCases =
   | EnregistrerGarantiesFinancièresUseCase;
 
 export type {
-  ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
+  ModifierGarantiesFinancièresUseCase,
 };

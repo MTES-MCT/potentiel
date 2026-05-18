@@ -1,6 +1,6 @@
-import React from 'react';
 import { Font, PDFViewer } from '@react-pdf/renderer';
 import type { Preview } from '@storybook/react';
+import React from 'react';
 
 Font.register({
   family: 'Arimo',

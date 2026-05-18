@@ -1,11 +1,11 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { PotentielWorld } from '../../potentiel.world.js';
 import { fakeLocations } from '../../helpers/faker/getFakeLocation.js';
+import { PotentielWorld } from '../../potentiel.world.js';
 
 EtantDonné(
   'le gestionnaire de réseau avec :',

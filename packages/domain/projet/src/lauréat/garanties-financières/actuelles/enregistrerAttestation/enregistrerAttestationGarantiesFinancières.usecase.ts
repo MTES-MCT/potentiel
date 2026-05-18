@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { DocumentGarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-
+import { DocumentGarantiesFinancières } from '../../index.js';
 import { EnregistrerAttestationGarantiesFinancièresCommand } from './enregistrerAttestationGarantiesFinancières.command.js';
 
 export type EnregistrerAttestationGarantiesFinancièresUseCase = Message<

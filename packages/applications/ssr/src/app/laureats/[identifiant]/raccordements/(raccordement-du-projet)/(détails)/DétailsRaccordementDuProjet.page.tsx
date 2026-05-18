@@ -1,21 +1,19 @@
-import Button from '@codegouvfr/react-dsfr/Button';
-import { FC } from 'react';
 import { fr } from '@codegouvfr/react-dsfr';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
   DossierRaccordement,
   DossierRaccordementProps,
 } from '../../(dossier-de-raccordement)/components/DossierRaccordement';
-
+import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
   ModifierGestionnaireRéseauDuRaccordement,
   ModifierGestionnaireRéseauDuRaccordementProps,

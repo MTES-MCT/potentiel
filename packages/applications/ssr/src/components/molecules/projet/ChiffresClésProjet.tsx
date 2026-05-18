@@ -5,7 +5,6 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Icon } from '@/components/atoms/Icon';
 
 import { SymbolProps } from '../ListLegend';
-
 import * as symbols from './liste/ProjectListLegendAndSymbols';
 
 type ChiffreCléProps = {

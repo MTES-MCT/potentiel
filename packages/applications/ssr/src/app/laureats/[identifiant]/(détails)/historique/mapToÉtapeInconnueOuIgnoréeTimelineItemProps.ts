@@ -1,5 +1,5 @@
-import { HistoryRecord } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
+import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 

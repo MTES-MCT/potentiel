@@ -1,9 +1,9 @@
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 export type GestionnaireRéseauSelectProps = {
   id: string;

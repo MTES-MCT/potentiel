@@ -3,15 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../../lauréat.entity.js';
 import {
   Candidature,
   DocumentProjet,
   GetScopeProjetUtilisateur,
   IdentifiantProjet,
 } from '../../../../index.js';
-import { DocumentGarantiesFinancières, GarantiesFinancièresEntity } from '../../index.js';
+import { LauréatEntity } from '../../../lauréat.entity.js';
 import { PowerPurchaseAgreementEntity } from '../../../power-purchase-agreement/powerPurchaseAgreement.entity.js';
+import { DocumentGarantiesFinancières, GarantiesFinancièresEntity } from '../../index.js';
 
 type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

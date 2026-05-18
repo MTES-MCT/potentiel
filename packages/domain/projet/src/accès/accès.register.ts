@@ -1,5 +1,4 @@
 import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port.js';
-
 import { registerAutoriserAccèsProjetCommand } from './autoriser/autoriserAccèsProjet.command.js';
 import { registerAutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase.js';
 import {

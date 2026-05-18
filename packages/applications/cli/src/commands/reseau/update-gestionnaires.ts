@@ -1,5 +1,5 @@
-import { mediator } from 'mediateur';
 import { Command } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
 import {
@@ -13,7 +13,6 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { dbSchema } from '#helpers';
-
 import { addGRDs, mapToRéférencielGRD, updateGRDs } from '#helpers/réseau';
 
 const envSchema = z.object({

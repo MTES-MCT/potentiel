@@ -1,11 +1,11 @@
 import { writeFile } from 'node:fs/promises';
 
-import { Args, Command, Flags } from '@oclif/core';
 import type { Faker } from '@faker-js/faker';
+import { Args, Command, Flags } from '@oclif/core';
 
 import { getDémarcheAvecDossiers } from '@potentiel-infrastructure/ds-api-client';
-import { Option } from '@potentiel-libraries/monads';
 import { ExportCSV } from '@potentiel-libraries/csv';
+import { Option } from '@potentiel-libraries/monads';
 
 import { dsSchema } from '#helpers';
 

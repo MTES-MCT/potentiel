@@ -1,59 +1,57 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
 import { Candidature } from '../index.js';
-
+import { ProjetAggregateRoot } from '../projet.aggregateRoot.js';
+import { AbandonAggregate } from './abandon/abandon.aggregate.js';
+import { AchèvementAggregate } from './achèvement/achèvement.aggregate.js';
+import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate.js';
+import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
+import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
+import { DélaiAggregate } from './délai/délai.aggregate.js';
+import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate.js';
+import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate.js';
 import { StatutLauréat } from './index.js';
-
+import { InstallationAggregate } from './installation/installation.aggregate.js';
+import {
+  CahierDesChargesIndisponibleError,
+  CahierDesChargesNonModifiéError,
+  ChangementImpossibleCarProjetAbandonnéError,
+  ChangementImpossibleCarProjetAchevéError,
+  LauréatDéjàNotifiéError,
+  LauréatNonModifiéError,
+  LauréatNonNotifiéError,
+  LauréatNonTrouvéError,
+  ProjetAvecDemandeAbandonEnCoursError,
+  RetourAuCahierDesChargesInitialImpossibleError,
+  StatutLauréatNonModifiéError,
+} from './lauréat.error.js';
 import { LauréatEvent } from './lauréat.event.js';
+import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
+import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
+import { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
+import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
 import {
   LauréatNotifiéEvent,
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event.js';
-import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
-import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option.js';
-import {
-  CahierDesChargesIndisponibleError,
-  CahierDesChargesNonModifiéError,
-  LauréatDéjàNotifiéError,
-  LauréatNonModifiéError,
-  LauréatNonNotifiéError,
-  LauréatNonTrouvéError,
-  ChangementImpossibleCarProjetAbandonnéError,
-  ChangementImpossibleCarProjetAchevéError,
-  ProjetAvecDemandeAbandonEnCoursError,
-  RetourAuCahierDesChargesInitialImpossibleError,
-  StatutLauréatNonModifiéError,
-} from './lauréat.error.js';
-import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event.js';
-import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option.js';
-import { AbandonAggregate } from './abandon/abandon.aggregate.js';
-import { AchèvementAggregate } from './achèvement/achèvement.aggregate.js';
-import { ProducteurAggregate } from './producteur/producteur.aggregate.js';
-import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate.js';
-import { PuissanceAggregate } from './puissance/puissance.aggregate.js';
-import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate.js';
-import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate.js';
-import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate.js';
-import { RaccordementAggregate } from './raccordement/raccordement.aggregate.js';
-import { DélaiAggregate } from './délai/délai.aggregate.js';
-import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate.js';
-import { TâcheAggregate } from './tâche/tâche.aggregate.js';
 import { NotifierOptions } from './notifier/notifierLauréat.option.js';
-import { InstallationAggregate } from './installation/installation.aggregate.js';
-import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate.js';
-import { NomProjetModifiéEvent } from './nom-projet/modifier/nomProjetModifié.event.js';
-import { ModifierNomProjetOptions } from './nom-projet/modifier/modifierNomProjet.option.js';
-import { EnregistrerChangementNomProjetOptions } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.options.js';
-import { ChangementNomProjetEnregistréEvent } from './nom-projet/changement/enregistrerChangementNomProjet/enregistrerChangementNomProjet.event.js';
+import { PowerPurchaseAgreementAggregate } from './power-purchase-agreement/powerPurchaseAgreement.aggregate.js';
+import { ProducteurAggregate } from './producteur/producteur.aggregate.js';
+import { PuissanceAggregate } from './puissance/puissance.aggregate.js';
+import { RaccordementAggregate } from './raccordement/raccordement.aggregate.js';
+import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate.js';
+import { ModifierSiteDeProductionOptions } from './site-de-production/modifierSiteDeProduction.option.js';
+import { SiteDeProductionModifiéEvent } from './site-de-production/siteDeProductionModifié.event.js';
 import { ModifierStatutLauréatOptions } from './statut/modifierStatutLauréat.option.js';
 import { StatutLauréatModifiéEvent } from './statut/statutModifié.event.js';
-import { PowerPurchaseAgreementAggregate } from './power-purchase-agreement/powerPurchaseAgreement.aggregate.js';
+import { TâcheAggregate } from './tâche/tâche.aggregate.js';
+import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate.js';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,

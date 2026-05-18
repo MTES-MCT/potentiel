@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const addGRDs = async (gestionnairesORE: ReadonlyArray<OreGestionnaire>) => {
   if (gestionnairesORE.length === 0) {

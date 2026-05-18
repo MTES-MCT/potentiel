@@ -5,8 +5,8 @@ import {
   prix,
   puissance,
   représentantLégal,
-  évaluationCarbone,
   typeActionnariat,
+  évaluationCarbone,
 } from '../projet/liste/ProjectListLegendAndSymbols';
 
 export const candidatureListLegendSymbols = [

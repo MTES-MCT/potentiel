@@ -2,8 +2,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
-import { ÉvaluationCarboneSimplifiéeSection } from './(sections)/ÉvaluationCarboneSimplifiée.section';
 import { FournisseursSection } from './(sections)/Fournisseurs.section';
+import { ÉvaluationCarboneSimplifiéeSection } from './(sections)/ÉvaluationCarboneSimplifiée.section';
 
 type ÉvaluationCarbonePageProps = {
   identifiantProjet: IdentifiantProjet.RawType;

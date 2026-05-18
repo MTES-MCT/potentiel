@@ -5,7 +5,7 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getAppelOffre, buildUrl } from '#helpers';
+import { buildUrl, getAppelOffre } from '#helpers';
 import { sendEmail } from '#sendEmail';
 
 export const handleLauréatNotifié = async ({

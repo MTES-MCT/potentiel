@@ -1,15 +1,15 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
 import { getMotifMainlevéeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getMotifMainlevéeLabel';
+import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/mainlevee/StatutMainlevéeBadge';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;

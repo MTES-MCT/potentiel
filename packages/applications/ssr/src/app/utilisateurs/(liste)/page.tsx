@@ -1,7 +1,10 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 import { z } from 'zod';
 
+import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import {
   ConsulterUtilisateurReadModel,
   ListerUtilisateursQuery,
@@ -12,18 +15,14 @@ import {
   Zone,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { Routes } from '@potentiel-applications/routes';
 
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getZoneLabel } from '../_helpers/getZoneLabel';
-
 import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList.page';
 import { UtilisateurListItemProps } from './UtilisateurListItem';
 

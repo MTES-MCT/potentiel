@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Count, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
+import { Count, Where } from '@potentiel-domain/entity';
 
-import { TâcheEntity } from '../tâche.entity.js';
 import { GetScopeProjetUtilisateur } from '../../../index.js';
+import { TâcheEntity } from '../tâche.entity.js';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;

@@ -1,22 +1,22 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
-import { redirect, RedirectType } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Role } from '@potentiel-domain/utilisateur';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
 import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 import { optionalStringArray } from '@/app/_helpers/optionalStringArray';
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,

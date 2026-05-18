@@ -1,6 +1,6 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { DomainEvent } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../../../index.js';
 

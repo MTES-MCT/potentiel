@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
-import { Ajv2020, ValidationError, ValidateFunction } from 'ajv/dist/2020.js';
+import { Ajv2020, ValidateFunction, ValidationError } from 'ajv/dist/2020.js';
 // eslint-disable-next-line no-restricted-imports
 import type { JTDDataType } from 'ajv/dist/core.js';
 import addFormats from 'ajv-formats';

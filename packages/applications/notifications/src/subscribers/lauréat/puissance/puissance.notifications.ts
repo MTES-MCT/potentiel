@@ -5,8 +5,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   handleChangementPuissanceAccordé,
-  handleChangementPuissanceDemandé,
   handleChangementPuissanceAnnulé,
+  handleChangementPuissanceDemandé,
   handleChangementPuissanceEnregistré,
   handleChangementPuissanceRejeté,
   handlePuissanceModifié,

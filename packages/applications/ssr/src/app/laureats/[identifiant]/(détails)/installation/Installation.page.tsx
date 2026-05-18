@@ -3,10 +3,10 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { SectionPage } from '@/components/atoms/menu/SectionPage';
 
 import { AutorisationSection } from './(sections)/Autorisation.section';
+import { DispositifDeStockageSection } from './(sections)/DispositifDeStockage.section';
+import { InstallateurSection } from './(sections)/Installateur.section';
 import { NatureDeLExploitationSection } from './(sections)/NatureDeLExploitation.section';
 import { TypologieInstallationSection } from './(sections)/TypologieInstallation.section';
-import { InstallateurSection } from './(sections)/Installateur.section';
-import { DispositifDeStockageSection } from './(sections)/DispositifDeStockage.section';
 
 type Props = { identifiantProjet: IdentifiantProjet.RawType };
 

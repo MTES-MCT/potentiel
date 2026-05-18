@@ -1,7 +1,7 @@
 import {
+  GarantiesFinancièresActuellesQueryDependencies,
   GarantiesFinancièresActuellesUseCasesDependencies,
   registerGarantiesFinancièresActuellesQueries,
-  GarantiesFinancièresActuellesQueryDependencies,
   registerGarantiesFinancièresActuellesUseCases,
 } from './actuelles/garantiesFinancièresActuelles.register.js';
 import {

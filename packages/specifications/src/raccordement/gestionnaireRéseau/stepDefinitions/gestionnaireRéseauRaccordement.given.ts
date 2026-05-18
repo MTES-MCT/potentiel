@@ -1,9 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { expect } from 'chai';
+import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { waitForExpect } from '#helpers';
 

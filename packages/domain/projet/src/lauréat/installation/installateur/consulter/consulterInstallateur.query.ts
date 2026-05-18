@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantProjet } from '../../../../index.js';
 import { InstallationEntity } from '../../installation.entity.js';

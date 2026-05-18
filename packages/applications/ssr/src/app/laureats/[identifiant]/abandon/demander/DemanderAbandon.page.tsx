@@ -3,8 +3,8 @@ import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { DemanderAbandonForm, DemanderAbandonFormProps } from './DemanderAbandon.form';
 

@@ -1,8 +1,8 @@
 import { match } from 'ts-pattern';
 
 import {
-  UtilisateurEntity,
   Utilisateur,
+  UtilisateurEntity,
   UtilisateurInvitéEvent,
 } from '@potentiel-domain/utilisateur';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';

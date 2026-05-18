@@ -1,9 +1,8 @@
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { loadFromStream } from '../../load/loadFromStream.js';
-import { Subscriber } from '../subscriber/subscriber.js';
 import { RebuildFailedError } from '../errors/RebuildFailed.error.js';
-
+import { Subscriber } from '../subscriber/subscriber.js';
 import { RebuildTriggered } from './rebuildTriggered.event.js';
 
 export const rebuild = async <TEvent extends DomainEvent = DomainEvent>(

@@ -1,7 +1,7 @@
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 
-import { DocumentProjet, Document } from '@potentiel-domain/projet';
+import { Document, DocumentProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from './convertReadableToString.js';

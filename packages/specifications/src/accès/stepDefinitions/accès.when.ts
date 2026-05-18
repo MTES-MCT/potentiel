@@ -1,6 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Accès } from '@potentiel-domain/projet';

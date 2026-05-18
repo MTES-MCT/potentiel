@@ -1,14 +1,13 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import { Metadata } from 'next';
 
-import { InviterUtilisateurUseCase, Role, Région, Zone } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { InviterUtilisateurUseCase, Role, Région, Zone } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getZoneLabel } from '../_helpers/getZoneLabel';
-
 import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
 export const metadata: Metadata = { title: 'Inviter un utilisateur' };

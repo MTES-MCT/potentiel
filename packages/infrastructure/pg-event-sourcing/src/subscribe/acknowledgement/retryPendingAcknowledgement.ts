@@ -1,8 +1,7 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { Subscriber } from '../subscriber/subscriber.js';
-
 import { acknowledge } from './acknowledge.js';
 import { getEventsWithPendingAcknowledgement } from './getEventsWithPendingAcknowledgement.js';
 

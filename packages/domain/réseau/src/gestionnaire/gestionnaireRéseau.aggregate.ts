@@ -1,19 +1,19 @@
 import { match, Pattern } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event.js';
-import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
-import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event.js';
 import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options.js';
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event.js';
-import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options.js';
 import {
   GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauNonModifiéError,
 } from './gestionnaireRéseau.errors.js';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event.js';
+import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType.js';
+import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event.js';
+import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options.js';
 
 export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,

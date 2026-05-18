@@ -1,6 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import {

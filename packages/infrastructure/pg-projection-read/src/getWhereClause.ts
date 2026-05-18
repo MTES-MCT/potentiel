@@ -1,6 +1,6 @@
+import { flatten } from 'flat';
 import format from 'pg-format';
 import { match } from 'ts-pattern';
-import { flatten } from 'flat';
 
 import {
   Entity,

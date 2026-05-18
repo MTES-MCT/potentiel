@@ -4,12 +4,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getAchèvement, getGarantiesFinancières, getLauréatInfos } from '../../_helpers';
-
 import { AchèvementDétails } from './AchèvementDétails';
 
 type AchèvementSectionProps = {

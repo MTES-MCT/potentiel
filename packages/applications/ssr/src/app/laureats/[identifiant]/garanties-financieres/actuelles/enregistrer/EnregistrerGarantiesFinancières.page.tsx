@@ -6,7 +6,6 @@ import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
 } from '../../depot/soumettre/SoumettreDépôtGarantiesFinancières.form';
-
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
 export type EnregistrerGarantiesFinancièresPageProps = Pick<

@@ -1,9 +1,9 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../potentiel.world.js';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world.js';

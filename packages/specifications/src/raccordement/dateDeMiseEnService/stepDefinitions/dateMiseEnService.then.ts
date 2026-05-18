@@ -1,9 +1,9 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
+import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { waitForExpect } from '#helpers';
 

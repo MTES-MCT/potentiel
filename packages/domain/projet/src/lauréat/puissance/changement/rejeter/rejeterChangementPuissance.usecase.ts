@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { DocumentPuissance } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
-
+import { DocumentPuissance } from '../../index.js';
 import { RejeterChangementPuissanceCommand } from './rejeterChangementPuissance.command.js';
 
 export type RejeterChangementPuissanceUseCase = Message<

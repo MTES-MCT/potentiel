@@ -1,6 +1,6 @@
-import { JSX } from 'react';
 import Notice from '@codegouvfr/react-dsfr/Notice';
 import { captureException } from '@sentry/core';
+import { JSX } from 'react';
 
 import { OperationRejectedError } from '@potentiel-domain/core';
 

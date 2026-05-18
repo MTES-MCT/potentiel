@@ -1,10 +1,10 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { Heading1 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1 } from '@/components/atoms/headings';
 
 import {
   CorrigerDemandeDélaiForm,

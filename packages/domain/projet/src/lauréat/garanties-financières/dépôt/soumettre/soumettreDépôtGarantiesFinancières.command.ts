@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port.js';
-import { GarantiesFinancières } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { GarantiesFinancières } from '../../index.js';
 
 export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',

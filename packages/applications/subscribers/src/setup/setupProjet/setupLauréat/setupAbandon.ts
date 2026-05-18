@@ -1,5 +1,5 @@
-import { AbandonProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AbandonNotification } from '@potentiel-applications/notifications';
+import { AbandonProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';

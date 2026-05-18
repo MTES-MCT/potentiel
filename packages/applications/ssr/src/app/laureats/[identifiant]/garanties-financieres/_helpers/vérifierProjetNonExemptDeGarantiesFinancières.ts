@@ -1,6 +1,6 @@
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { récuperérerGarantiesFinancièresActuelles } from './récupérerGarantiesFinancièresActuelles';
 

@@ -1,20 +1,20 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Notice from '@codegouvfr/react-dsfr/Notice';
+import { FC } from 'react';
 
+import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { LinkAction } from '@/components/molecules/LinkAction';
+import { ActionMap, ActionsPageTemplate } from '@/components/templates/ActionsPage.template';
 
 import { ArchivesGarantiesFinancières } from './components/ArchivesGarantiesFinancières';
 import { GarantiesFinancières } from './components/GarantiesFinancières';
 import { StatutGarantiesFinancièresBadge } from './components/StatutGarantiesFinancièresBadge';
-import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 const actionsGarantiesFinancières = [
   'garantiesFinancières.actuelles.enregistrer',

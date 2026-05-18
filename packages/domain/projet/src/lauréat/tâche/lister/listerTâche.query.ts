@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { TâcheEntity } from '../tâche.entity.js';
-import * as TypeTâche from '../typeTâche.valueType.js';
 import { GetScopeProjetUtilisateur, IdentifiantProjet } from '../../../index.js';
 import { LauréatEntity } from '../../index.js';
+import * as TypeTâche from '../typeTâche.valueType.js';
+import { TâcheEntity } from '../tâche.entity.js';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;

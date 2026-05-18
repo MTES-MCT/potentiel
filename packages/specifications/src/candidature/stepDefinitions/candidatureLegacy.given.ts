@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../potentiel.world.js';

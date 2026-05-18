@@ -1,19 +1,19 @@
-import { notFound } from 'next/navigation';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
+import { buildCertificate } from '@potentiel-applications/document-builder';
+import { DateTime } from '@potentiel-domain/common';
 import {
   AccèsFonctionnalitéRefuséError,
   ConsulterUtilisateurQuery,
 } from '@potentiel-domain/utilisateur';
-import { buildCertificate } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DateTime } from '@potentiel-domain/common';
 
+import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const GET = async (
   _: Request,

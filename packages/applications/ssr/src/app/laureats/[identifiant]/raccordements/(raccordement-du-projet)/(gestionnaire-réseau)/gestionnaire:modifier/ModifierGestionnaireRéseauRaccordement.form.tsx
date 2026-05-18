@@ -2,8 +2,8 @@
 
 import { FC, useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -12,10 +12,9 @@ import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
 } from '../GestionnaireRéseauSelect';
-
 import {
-  modifierGestionnaireRéseauRaccordementAction,
   ModifierGestionnaireRéseauRaccordementFormKeys,
+  modifierGestionnaireRéseauRaccordementAction,
 } from './modifierGestionnaireRéseauRaccordement.action';
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {

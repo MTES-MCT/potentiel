@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { EnregistrerDocumentProjetCommand } from '../../../../document-projet/index.js';
-import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
 import { IdentifiantProjet } from '../../../../index.js';
+import { DocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../../index.js';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command.js';
-
 import { EnregistrerChangementReprésentantLégalCommand } from './enregistrerChangementReprésentantLégal.command.js';
 
 export type EnregistrerChangementReprésentantLégalUseCase = Message<

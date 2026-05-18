@@ -1,7 +1,6 @@
 import { LastLoginMethodOptions } from 'better-auth/plugins';
 
 import { auth } from '..';
-
 import { AuthProvider } from './authProvider';
 
 export const getLastUsedProvider = ({ headers }: { headers: Headers }) => {

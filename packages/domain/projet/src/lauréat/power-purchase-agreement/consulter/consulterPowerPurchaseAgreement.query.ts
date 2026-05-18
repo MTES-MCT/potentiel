@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PowerPurchaseAgreementEntity } from '../powerPurchaseAgreement.entity.js';
 import { IdentifiantProjet } from '../../../index.js';
+import { PowerPurchaseAgreementEntity } from '../powerPurchaseAgreement.entity.js';
 
 export type ConsulterPowerPurchaseAgreementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
+import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { Heading1 } from '@/components/atoms/headings';
 
 import {
   ModifierRôleUtilisateurForm,

@@ -9,21 +9,20 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
+  EnregistrerGarantiesFinancièresFormKeys,
+  enregistrerGarantiesFinancièresAction,
+} from '../../actuelles/enregistrer/enregistrerGarantiesFinancières.action';
+import {
   GarantiesFinancièresFormInputs,
   GarantiesFinancièresFormInputsProps,
 } from '../../components/GarantiesFinancièresFormInputs';
 import {
-  enregistrerGarantiesFinancièresAction,
-  EnregistrerGarantiesFinancièresFormKeys,
-} from '../../actuelles/enregistrer/enregistrerGarantiesFinancières.action';
-import {
-  modifierDépôtGarantiesFinancièresAction,
   ModifierDépôtGarantiesFinancièresFormKeys,
+  modifierDépôtGarantiesFinancièresAction,
 } from '../modifier/modifierDépôtGarantiesFinancières.action';
-
 import {
-  soumettreDépôtGarantiesFinancièresAction,
   SoumettreDépôtGarantiesFinancièresFormKeys,
+  soumettreDépôtGarantiesFinancièresAction,
 } from './soumettreDépôtGarantiesFinancières.action';
 
 type Action =

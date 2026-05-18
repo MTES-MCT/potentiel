@@ -1,14 +1,14 @@
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { auth } from '@/auth';
+import { getSessionUser } from '@/auth/getSessionUser';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { auth } from '@/auth';
-import { getSessionUser } from '@/auth/getSessionUser';
 
 export default function VerifyRequest() {
   return PageWithErrorHandling(async () => {

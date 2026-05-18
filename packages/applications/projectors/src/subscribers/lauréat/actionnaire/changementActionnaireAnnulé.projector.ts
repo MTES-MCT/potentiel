@@ -1,9 +1,9 @@
+import { Where } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateManyProjections,
   updateOneProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Where } from '@potentiel-domain/entity';
 
 export const changementActionnaireAnnuléProjector = async ({
   payload: { identifiantProjet, annuléLe },

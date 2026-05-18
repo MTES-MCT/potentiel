@@ -1,8 +1,8 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ChiffresClésProjet } from '@/components/molecules/projet/ChiffresClésProjet';
 import { Section } from '@/components/atoms/menu/Section';
 import { SectionWithErrorHandling } from '@/components/atoms/menu/SectionWithErrorHandling';
+import { ChiffresClésProjet } from '@/components/molecules/projet/ChiffresClésProjet';
 
 import { getLauréat } from '../../_helpers';
 

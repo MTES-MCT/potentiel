@@ -1,8 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../../index.js';
 import { TypologieInstallation } from '../../../candidature/index.js';
+import { IdentifiantProjet } from '../../../index.js';
 import { DispositifDeStockage } from '../index.js';
 
 export type InstallationImportéeEvent = DomainEvent<

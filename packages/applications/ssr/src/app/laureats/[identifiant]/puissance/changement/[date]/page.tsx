@@ -2,10 +2,10 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -13,7 +13,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 import { mapToPuissanceTimelineItemProps } from '../../(historique)/mapToPuissanceTimelineItemProps';
-
 import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 
 export const metadata: Metadata = { title: 'Détail de la puissance' };

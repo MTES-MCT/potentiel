@@ -20,7 +20,7 @@ export type GarantiesFinancièresActuellesReadModel =
   | ArchiveGarantiesFinancièresListItemReadModel;
 
 export type {
+  ArchiveGarantiesFinancièresListItemReadModel,
   ConsulterGarantiesFinancièresReadModel,
   ListerArchivesGarantiesFinancièresReadModel,
-  ArchiveGarantiesFinancièresListItemReadModel,
 };

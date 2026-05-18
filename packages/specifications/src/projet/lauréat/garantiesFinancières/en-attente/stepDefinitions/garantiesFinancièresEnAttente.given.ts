@@ -1,7 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PotentielWorld } from '../../../../../potentiel.world.js';

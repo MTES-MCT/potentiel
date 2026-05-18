@@ -7,7 +7,6 @@ import { DétailsChangement } from '@/components/organisms/demande/DétailsChang
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
 
 import { getTypeReprésentantLégalLabel } from '../../../_helpers/getTypeReprésentantLégalLabel';
-
 import { DétailsChangementReprésentantLégalPageProps } from './DétailsChangementReprésentantLégal.page';
 
 type DétailsChangementReprésentantLégalProps =

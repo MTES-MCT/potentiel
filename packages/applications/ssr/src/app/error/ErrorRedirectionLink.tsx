@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { decodeParameter } from '@/utils/decodeParameter';
 import { Link } from '@/components/atoms/LinkNoPrefetch';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 export const ErrorRedirectionLink = () => {
   const pathname = usePathname();
