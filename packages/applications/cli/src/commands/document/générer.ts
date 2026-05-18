@@ -1,6 +1,6 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import { Stream } from 'stream';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { Stream } from 'node:stream';
 
 import type { Faker } from '@faker-js/faker';
 import { Command, Flags } from '@oclif/core';

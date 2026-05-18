@@ -390,7 +390,9 @@ export const générerDocumentPdf = async (event: Event, typeDocument: string) =
   });
 
   const content = JSON.stringify(event, null, 2);
-  content.split('\n').forEach((l) => drawText(l));
+  for (const line of content.split('\n')) {
+    drawText(line);
+  }
 
   const pdfBytes = await pdfDoc.save();
   return new Blob([new Uint8Array(pdfBytes)], {

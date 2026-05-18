@@ -48,7 +48,7 @@ describe('DateTime', () => {
         expected: '2027-02-21T00:00:00.000Z',
       },
     ];
-    fixtures.map((fixture) => {
+    fixtures.forEach((fixture) => {
       it('should add correctly months to a date', () => {
         const date = DateTime.convertirEnValueType(fixture.date);
 

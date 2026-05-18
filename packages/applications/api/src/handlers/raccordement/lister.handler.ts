@@ -7,7 +7,7 @@ import { getUtilisateur, mapToRangeOptions } from '#helpers';
 
 import { ForbiddenError } from '../../errors.js';
 
-export const listerHandler: Raccordement<HttpContext>['lister'] = async (ctx, options) => {
+export const listerHandler: Raccordement<HttpContext>['lister'] = async (_ctx, options) => {
   const utilisateur = getUtilisateur();
   if (!utilisateur.estGrd()) {
     throw new ForbiddenError(

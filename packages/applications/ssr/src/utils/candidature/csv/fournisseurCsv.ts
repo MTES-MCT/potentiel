@@ -72,6 +72,7 @@ export const mapCsvRowToFournisseurs = (
       if (fournisseur) {
         return { ...fournisseur, valeur: value };
       }
+      return undefined;
     })
     .filter((item) => item !== undefined);
 

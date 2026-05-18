@@ -49,19 +49,19 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
   message.type.startsWith('System.');
 
 const getIdentifiantProjetValues = (message: Message<string, Record<string, unknown>, void>) => {
-  if (message.data['identifiantProjetValue']) {
-    return [toIdentifiantProjet(message.data['identifiantProjetValue'])];
+  if (message.data.identifiantProjetValue) {
+    return [toIdentifiantProjet(message.data.identifiantProjetValue)];
   }
 
-  if (message.data['identifiantProjet']) {
-    return [toIdentifiantProjet(message.data['identifiantProjet'])];
+  if (message.data.identifiantProjet) {
+    return [toIdentifiantProjet(message.data.identifiantProjet)];
   }
 
-  if (message.data['identifiantsProjet']) {
-    if (!Array.isArray(message.data['identifiantsProjet'])) {
+  if (message.data.identifiantsProjet) {
+    if (!Array.isArray(message.data.identifiantsProjet)) {
       throw new InvalidOperationError('Le paramètre identifiantsProjet devrait être un array');
     }
-    return message.data['identifiantsProjet'].map(toIdentifiantProjet);
+    return message.data.identifiantsProjet.map(toIdentifiantProjet);
   }
   return [];
 };
